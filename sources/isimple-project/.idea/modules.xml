@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/HoloEverywhere/library/HoloEverywhere Library.iml" filepath="$USER_HOME$/HoloEverywhere/library/HoloEverywhere Library.iml" />
+      <module fileurl="file://$USER_HOME$/HoloEverywhere/contrib/ActionBarSherlock/library/Sherlock.iml" filepath="$USER_HOME$/HoloEverywhere/contrib/ActionBarSherlock/library/Sherlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iSimple.iml" filepath="$PROJECT_DIR$/iSimple.iml" />
+    </modules>
+  </component>
+</project>
+

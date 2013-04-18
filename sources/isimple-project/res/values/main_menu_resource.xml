@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_item_catalog">Каталог</string>
+    <string name="menu_item_shops">Магазины</string>
+    <string name="menu_item_favorites">Избранное</string>
+    <string name="menu_item_chif">Корзина</string>
+    <string name="menu_item_scan">Штрих-код</string>
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="90dip" android:background="#FBFBFB">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="7dip"
+            android:layout_height="match_parent" android:background="#F587D8">
+    </LinearLayout>
+    <ImageView
+            android:layout_width="75dip"
+            android:contentDescription="@string/app_name"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_image" android:scaleType="fitCenter"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_marginLeft="20dip">
+        <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_name" android:textColor="@android:color/black" android:textStyle="bold"/>
+        <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_loc_name" android:textColor="#807F7F"/>
+        <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_drink_type" android:textColor="#807F7F"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_gravity="center_vertical">
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/item_volume" android:textColor="#555555"
+                    android:gravity="center_vertical"/>
+            <org.holoeverywhere.internal._View
+                    android:layout_height="match_parent"
+                    android:layout_width="1dip" android:background="#555555" android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip" android:layout_marginTop="3dip"
+                    android:layout_marginBottom="3dip"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/item_price" android:textColor="#EA148C"
+                    android:gravity="center_vertical"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

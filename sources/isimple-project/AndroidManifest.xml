@@ -15,6 +15,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.CatalogByCategoryActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ProductInfoActivity"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
 </manifest>

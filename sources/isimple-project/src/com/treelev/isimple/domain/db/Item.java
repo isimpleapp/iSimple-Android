@@ -7,6 +7,7 @@ import com.treelev.isimple.enumerable.item.Sweetness;
 
 public class Item implements Comparable<Item> {
 
+    public final static String UI_TAG_ID = "id";
     private String itemID;
     private String drinkID;
     public final static String UI_TAG_NAME = "name";

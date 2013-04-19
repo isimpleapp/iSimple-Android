@@ -13,6 +13,10 @@ public enum DrinkCategory {
         this.description = description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public static DrinkCategory getDrinkCategory(String drinkCategoryId) {
         for (DrinkCategory drinkCategory : values()) {
             if (drinkCategory.description != null && drinkCategory.description.equals(drinkCategoryId)) {

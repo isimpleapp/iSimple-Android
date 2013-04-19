@@ -15,6 +15,10 @@ public class ProxyManager {
         this.context = context;
     }
 
+    public Item getItemById(String itemId) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemById(itemId);
+    }
+
     public List<Map<String, ?>> getRandomItems() {
         List<Item> itemList = ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRandomItems();
         return convertItemsToUI(itemList);
@@ -30,6 +34,7 @@ public class ProxyManager {
         List<Map<String, ?>> uiDataList = new ArrayList<Map<String, ?>>();
         for (Item item : itemList) {
             Map<String, Object> uiDataItem = new HashMap<String, Object>();
+            uiDataItem.put(Item.UI_TAG_ID, item.getItemID());
             uiDataItem.put(Item.UI_TAG_IMAGE, R.drawable.image_not_found);
             uiDataItem.put(Item.UI_TAG_NAME, item.getName());
             uiDataItem.put(Item.UI_TAG_LOCALIZATION_NAME, item.getLocalizedName());

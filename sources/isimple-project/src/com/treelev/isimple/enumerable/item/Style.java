@@ -13,6 +13,10 @@ public enum Style {
         this.description = description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public static Style getStyle(String styleId) {
         for (Style style : values()) {
             if (style.description != null && style.description.equals(styleId)) {

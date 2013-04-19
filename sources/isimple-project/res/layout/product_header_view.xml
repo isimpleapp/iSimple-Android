@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:background="#FFFFFF">
+    <org.holoeverywhere.widget.TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dip"
+            android:text="Розовое вино"
+            android:id="@+id/textView" android:background="#F388A7" android:gravity="center"
+            android:textColor="#ffffff" android:height="30dip" android:textStyle="bold" android:textSize="13dip"/>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="265dip">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dip" android:layout_marginLeft="20dip">
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_name" android:textColor="#B0B0B0"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_manufacturer" android:textColor="#000000"
+                    android:textStyle="bold" android:textSize="18dip" android:layout_marginTop="5dip"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_localizated_name"
+                    android:textColor="#807F7F" android:layout_marginTop="5dip"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_drink_id"
+                    android:textColor="#DADADA"
+                    android:layout_marginTop="5dip" android:layout_marginBottom="5dip"/>
+            <View
+                android:layout_height="1dip"
+                android:layout_width="match_parent"
+                    android:background="@android:color/black"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dip"
+                    android:id="@+id/product_region"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
+                    android:id="@+id/product_sweetness"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
+                    android:id="@+id/product_style"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
+                    android:id="@+id/product_grapes"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
+                    android:id="@+id/product_alcohol"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
+                    android:id="@+id/product_volume"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
+                    android:id="@+id/product_year"/>
+        </LinearLayout>
+        <ImageView
+                android:contentDescription="@string/app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/product_image" android:layout_alignParentRight="true"
+                android:src="@drawable/product_image_test" android:scaleType="fitCenter"/>
+    </RelativeLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="70dip" android:gravity="center" android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip">
+        <org.holoeverywhere.widget.Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:text="В корзину"
+                android:id="@+id/button" android:layout_weight="4"/>
+        <org.holoeverywhere.widget.Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:text="Где купить?"
+                android:id="@+id/button1" android:layout_weight="3"/>
+    </LinearLayout>
+</LinearLayout>

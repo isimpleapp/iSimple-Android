@@ -18,6 +18,7 @@ import org.holoeverywhere.widget.ListView;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 
 public class CatalogListActivity extends ListActivity {
 
@@ -36,6 +37,15 @@ public class CatalogListActivity extends ListActivity {
                 R.id.item_volume, R.id.item_price});
         //simpleAdapter.setViewBinder(new ImageBinder(this));
         listView.setAdapter(simpleAdapter);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        HashMap product = (HashMap) l.getAdapter().getItem(position);
+        Intent startIntent = new Intent(this, ProductInfoActivity.class);
+        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
+        startActivity(startIntent);
     }
 
     public void onClickCategoryButt(View v) {

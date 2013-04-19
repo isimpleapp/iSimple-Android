@@ -13,6 +13,10 @@ public enum Sweetness {
         this.description = description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public static Sweetness getSweetness(String sweetnessId) {
         for (Sweetness sweetness : values()) {
             if (sweetness.description != null && sweetness.description.equals(sweetnessId)) {

@@ -21,6 +21,7 @@ public class ProductInfoActivity extends ExpandableListActivity {
 
     public final static String ITEM_ID_TAG = "id";
     private final static String FIELD_TAG = "field_tag";
+    private final static String FORMAT_FIELDS = "- %s";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,12 +81,12 @@ public class ProductInfoActivity extends ExpandableListActivity {
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
         ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product.getLocalizedName());
         ((TextView) formView.findViewById(R.id.product_drink_id)).setText(product.getDrinkID());
-        ((TextView) formView.findViewById(R.id.product_region)).setText(product.getRegion());
-        ((TextView) formView.findViewById(R.id.product_sweetness)).setText(product.getSweetness().getDescription());
-        ((TextView) formView.findViewById(R.id.product_style)).setText(product.getStyle().getDescription());
-        ((TextView) formView.findViewById(R.id.product_grapes)).setText(product.getGrapesUsed());
-        ((TextView) formView.findViewById(R.id.product_alcohol)).setText(product.getAlcohol());
-        ((TextView) formView.findViewById(R.id.product_volume)).setText(product.getVolume());
-        ((TextView) formView.findViewById(R.id.product_year)).setText(product.getYear());
+        ((TextView) formView.findViewById(R.id.product_region)).setText(String.format(FORMAT_FIELDS, product.getRegion()));
+        ((TextView) formView.findViewById(R.id.product_sweetness)).setText(String.format(FORMAT_FIELDS, product.getSweetness().getDescription()));
+        ((TextView) formView.findViewById(R.id.product_style)).setText(String.format(FORMAT_FIELDS, product.getStyle().getDescription()));
+        ((TextView) formView.findViewById(R.id.product_grapes)).setText(String.format(FORMAT_FIELDS, product.getGrapesUsed()));
+        ((TextView) formView.findViewById(R.id.product_alcohol)).setText(String.format(FORMAT_FIELDS, product.getAlcohol()));
+        ((TextView) formView.findViewById(R.id.product_volume)).setText(String.format(FORMAT_FIELDS, product.getVolume()));
+        ((TextView) formView.findViewById(R.id.product_year)).setText(String.format(FORMAT_FIELDS, product.getYear()));
     }
 }

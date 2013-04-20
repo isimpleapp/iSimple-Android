@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array  name="locations">
+        <item>Каталог</item>
+        <item>Магазины</item>
+        <item>Избранное</item>
+        <item>Корзина</item>
+        <item>Штрих-код</item>
+    </string-array>
+    <array name="location_icon">
+        <item>@drawable/menu_ico_catalog</item>
+        <item>@drawable/menu_ico_shop</item>
+        <item>@drawable/menu_ico_fav</item>
+        <item>@drawable/menu_ico_basket</item>
+        <item>@drawable/menu_ico_scan</item>
+    </array>
+</resources>

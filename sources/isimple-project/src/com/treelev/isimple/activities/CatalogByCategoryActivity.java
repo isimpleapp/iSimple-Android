@@ -1,11 +1,18 @@
 package com.treelev.isimple.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.ListActivity;
@@ -13,9 +20,10 @@ import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.SimpleExpandableListAdapter;
 
+
 import java.util.*;
 
-public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener {
+public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener, ActionBar.OnNavigationListener {
 
     private final static String FIELD_TAG = "field_tag";
     private ProxyManager proxyManager;
@@ -26,6 +34,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
+        createNavigation();
         RadioGroup rd = (RadioGroup) findViewById(R.id.sort_group);
         rd.check(R.id.alphabet_sort);
         rd.setOnCheckedChangeListener(this);
@@ -67,7 +76,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     }*/
 
 
-    @Override
+   @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         HashMap product = (HashMap) l.getAdapter().getItem(position);
@@ -88,10 +97,43 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         }
     }
 
-
     private void updateList(int sortBy) {
         uiItemList.clear();
         uiItemList.addAll(proxyManager.convertItemsToUI(items, sortBy));
         listCategoriesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.search, menu);
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setIconifiedByDefault(false);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void createNavigation() {
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+
+        Context context = getSupportActionBar().getThemedContext();
+
+        String[] locations = getResources().getStringArray(R.array.locations);
+
+        TypedArray typedArray = getResources().obtainTypedArray(R.array.location_icon);
+        Drawable[] iconLocation = new Drawable[typedArray.length()];
+        for(int i = 0; i < locations.length; ++i) {
+            iconLocation[i] = typedArray.getDrawable(i);
+        }
+
+        NavigationListAdapter list = new NavigationListAdapter(this, iconLocation, locations);
+
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        getSupportActionBar().setListNavigationCallbacks(list, this);
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

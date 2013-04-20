@@ -11,12 +11,10 @@
                   android:layout_width="match_parent"
                   android:layout_height="80dip" android:gravity="center_horizontal" android:layout_below="@+id/title"
                   android:id="@+id/sort_control">
-        <LinearLayout
-                android:orientation="vertical"
+        <org.holoeverywhere.widget.ExpandableListView
                 android:layout_width="match_parent"
-                android:layout_height="0dip" android:layout_weight="1"
-                android:background="@android:color/darker_gray">
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:id="@+id/filtration_view"/>
         <RadioGroup
                 android:layout_width="match_parent"
                 android:id="@+id/sort_group"
@@ -25,11 +23,11 @@
             <RadioButton
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:id="@+id/alphabet_sort" android:layout_weight="1" android:text="по алфавиту"/>
+                    android:id="@+id/alphabet_sort" android:layout_weight="1" android:text="@string/sort_label_alphabet"/>
             <RadioButton
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:id="@+id/price_sort" android:layout_weight="1" android:text="по цене"/>
+                    android:id="@+id/price_sort" android:layout_weight="1" android:text="@string/sort_label_price"/>
         </RadioGroup>
     </LinearLayout>
     <RelativeLayout

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="filtration_group_name">Фильтрация</string>
+    <string name="sort_label_alphabet">по алфавиту</string>
+    <string name="sort_label_price">по цене</string>
+</resources>

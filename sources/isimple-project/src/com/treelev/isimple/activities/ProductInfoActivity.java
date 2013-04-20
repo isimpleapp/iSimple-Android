@@ -35,7 +35,7 @@ public class ProductInfoActivity extends ExpandableListActivity {
         populateFormsFields(headerView, product);
         List<ExpandableListItem> expandableListItemList = createExpandableItems(product);
         SimpleExpandableListAdapter listAdapter = new SimpleExpandableListAdapter(this, createExpandableGroups(expandableListItemList),
-                R.layout.expandable_group_layout, new String[]{FIELD_TAG}, new int[]{R.id.group_name}, createExpandableContent(expandableListItemList),
+                R.layout.product_info_expandable_group_layout, new String[]{FIELD_TAG}, new int[]{R.id.group_name}, createExpandableContent(expandableListItemList),
                 R.layout.expandable_item_layout, new String[]{FIELD_TAG}, new int[]{R.id.item_content}
         );
         listView.setAdapter(listAdapter);

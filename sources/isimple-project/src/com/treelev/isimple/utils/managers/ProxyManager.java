@@ -29,8 +29,7 @@ public class ProxyManager {
         return convertItemsToUI(itemList);
     }
 
-    public List<Map<String, ?>> getItemsByCategory(int categoryId, int sortBy) {
-        List<Item> itemList = ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId);
+    public List<Map<String, ?>> convertItemsToUI(List<Item> itemList, int sortBy) {
         Comparator<Item> compare = null;
         switch(sortBy) {
             case SORT_NAME_AZ:
@@ -42,6 +41,10 @@ public class ProxyManager {
         }
         Collections.sort(itemList, compare);
         return convertItemsToUI(itemList);
+    }
+
+    public List<Item> getItemsByCategory(int categoryId) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId);
     }
 
     private List<Map<String, ?>> convertItemsToUI(List<Item> itemList) {

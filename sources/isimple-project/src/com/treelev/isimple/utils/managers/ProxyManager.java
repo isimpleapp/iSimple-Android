@@ -3,6 +3,8 @@ package com.treelev.isimple.utils.managers;
 import android.content.Context;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.*;
+import com.treelev.isimple.domain.comparators.ItemCompareName;
+import com.treelev.isimple.domain.comparators.ItemComparePrice;
 import com.treelev.isimple.domain.db.Item;
 
 import java.util.*;
@@ -10,6 +12,9 @@ import java.util.*;
 public class ProxyManager {
 
     private Context context;
+
+    public static final int SORT_NAME_AZ = 1;
+    public static final int SORT_PRICE_UP = 2;
 
     public ProxyManager(Context context) {
         this.context = context;
@@ -24,9 +29,18 @@ public class ProxyManager {
         return convertItemsToUI(itemList);
     }
 
-    public List<Map<String, ?>> getItemsByCategory(int categoryId) {
+    public List<Map<String, ?>> getItemsByCategory(int categoryId, int sortBy) {
         List<Item> itemList = ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId);
-        Collections.sort(itemList);
+        Comparator<Item> compare = null;
+        switch(sortBy) {
+            case SORT_NAME_AZ:
+                compare = new ItemCompareName();
+                break;
+            case SORT_PRICE_UP:
+                compare = new ItemComparePrice();
+                break;
+        }
+        Collections.sort(itemList, compare);
         return convertItemsToUI(itemList);
     }
 

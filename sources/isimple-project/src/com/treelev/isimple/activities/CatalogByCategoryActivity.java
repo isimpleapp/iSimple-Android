@@ -13,18 +13,15 @@ import org.holoeverywhere.widget.ListView;
 
 import java.util.HashMap;
 
-public class CatalogByCategoryActivity extends ListActivity {
+public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener{
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
-        int categoryId = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
-        ProxyManager proxyManager = new ProxyManager(this);
-        ((RadioGroup) findViewById(R.id.sort_group)).check(R.id.alphabet_sort);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, proxyManager.getItemsByCategory(categoryId), R.layout.catalog_item_layout,
-                Item.getUITags(), new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type,
-                R.id.item_volume, R.id.item_price});
-        getListView().setAdapter(simpleAdapter);
+        RadioGroup rd = (RadioGroup) findViewById(R.id.sort_group);
+        rd.check(R.id.alphabet_sort);
+        rd.setOnCheckedChangeListener(this);
+        updateList(ProxyManager.SORT_NAME_AZ);
     }
 
     @Override
@@ -34,5 +31,29 @@ public class CatalogByCategoryActivity extends ListActivity {
         Intent startIntent = new Intent(this, ProductInfoActivity.class);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
         startActivity(startIntent);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
+        switch (rgb) {
+            case R.id.alphabet_sort:
+                updateList(ProxyManager.SORT_NAME_AZ);
+                break;
+            case R.id.price_sort:
+                updateList(ProxyManager.SORT_PRICE_UP);
+                break;
+        }
+    }
+
+
+    private void updateList(int sortBy) {
+        int categoryId = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
+        ProxyManager proxyManager = new ProxyManager(this);
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this,
+                proxyManager.getItemsByCategory(categoryId, sortBy),
+                R.layout.catalog_item_layout,
+                Item.getUITags(),
+                new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type, R.id.item_volume, R.id.item_price});
+        getListView().setAdapter(simpleAdapter);
     }
 }

@@ -5,7 +5,7 @@ import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.Style;
 import com.treelev.isimple.enumerable.item.Sweetness;
 
-public class Item implements Comparable<Item> {
+public class Item  {
 
     public final static String UI_TAG_ID = "id";
     private String itemID;
@@ -348,10 +348,5 @@ public class Item implements Comparable<Item> {
 
     public void setRating(String rating) {
         this.rating = rating;
-    }
-
-    @Override
-    public int compareTo(Item another) {
-        return this.name.compareTo(another.name);
     }
 }

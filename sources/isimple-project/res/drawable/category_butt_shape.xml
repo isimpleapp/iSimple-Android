@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#F1F1F1"/>
-    <stroke android:color="#AFAFAF" android:width="1dip" />
+    <solid android:color="@color/category_butt_back"/>
+    <stroke android:color="@color/category_butt_border" android:width="1dip" />
 </shape>

@@ -6,7 +6,7 @@
         android:layout_height="50dip"
         android:textSize="20dip"
         android:paddingLeft="45dip"
-        android:background="#F0F0F0"
-        android:textColor="#575757"
+        android:background="@color/category_filtration_group_back"
+        android:textColor="@color/category_filtration_text_color"
         android:gravity="center_vertical">
 </org.holoeverywhere.widget.TextView>

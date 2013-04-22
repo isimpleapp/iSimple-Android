@@ -4,10 +4,6 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent" >
-
-    <view android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          class="com.treelev.isimple.views.TitleControl" android:id="@+id/view"/>
     <org.holoeverywhere.widget.ExpandableListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

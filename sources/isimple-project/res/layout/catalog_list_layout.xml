@@ -2,18 +2,10 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+        android:descendantFocusability="blocksDescendants"
         android:layout_height="match_parent" android:layout_gravity="center">
-    <com.treelev.isimple.views.TitleControl
-            android:id="@+id/title"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-    <RelativeLayout
+    <org.holoeverywhere.widget.ListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_below="@+id/title"
-            android:descendantFocusability="blocksDescendants">
-        <org.holoeverywhere.widget.ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@android:id/list"/>
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:id="@android:id/list"/>
 </RelativeLayout>

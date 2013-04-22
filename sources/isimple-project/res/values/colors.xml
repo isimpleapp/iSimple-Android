@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="select_item_navigation">#fc0fc0</color>
+    <color name="catalog_header_background">#ebebeb</color>
+    <color name="catalog_item_background">#fbfbfb</color>
+    <color name="item_wine_color">#f587d8</color>
+    <color name="item_text_color">#807f7f</color>
+    <color name="item_volume_color">#555555</color>
+    <color name="item_price_color">#ea148c</color>
+    <color name="category_butt_text_color">#838d97</color>
+    <color name="category_filtration_group_back">#f0f0f0</color>
+    <color name="category_filtration_text_color">#575757</color>
+    <color name="product_wine_label_color">#f388a7</color>
+    <color name="product_text_color1">#b0b0b0</color>
+    <color name="product_text_color2">#807f7f</color>
+    <color name="product_text_color3">#dadada</color>
+    <color name="category_butt_back">#f1f1f1</color>
+    <color name="category_butt_border">#afafaf</color>
  </resources>

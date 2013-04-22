@@ -3,11 +3,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="90dip" android:background="#FBFBFB">
+              android:layout_height="90dip" android:background="@color/catalog_item_background">
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="7dip"
-            android:layout_height="match_parent" android:background="#F587D8">
+            android:layout_height="match_parent" android:background="@color/item_wine_color">
     </LinearLayout>
     <ImageView
             android:layout_width="75dip"
@@ -25,11 +25,11 @@
         <org.holoeverywhere.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_loc_name" android:textColor="#807F7F"/>
+                android:id="@+id/item_loc_name" android:textColor="@color/item_text_color"/>
         <org.holoeverywhere.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_drink_type" android:textColor="#807F7F"/>
+                android:id="@+id/item_drink_type" android:textColor="@color/item_text_color"/>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -37,17 +37,17 @@
             <org.holoeverywhere.widget.TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/item_volume" android:textColor="#555555"
+                    android:id="@+id/item_volume" android:textColor="@color/item_volume_color"
                     android:gravity="center_vertical"/>
             <org.holoeverywhere.internal._View
                     android:layout_height="match_parent"
-                    android:layout_width="1dip" android:background="#555555" android:layout_marginLeft="10dip"
+                    android:layout_width="1dip" android:background="@color/item_volume_color" android:layout_marginLeft="10dip"
                     android:layout_marginRight="10dip" android:layout_marginTop="3dip"
                     android:layout_marginBottom="3dip"/>
             <org.holoeverywhere.widget.TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/item_price" android:textColor="#EA148C"
+                    android:id="@+id/item_price" android:textColor="@color/item_price_color"
                     android:gravity="center_vertical"/>
         </LinearLayout>
     </LinearLayout>

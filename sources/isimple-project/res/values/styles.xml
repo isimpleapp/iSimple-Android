@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="CategoryButtStyle" parent="Holo.Button">
-        <item name="android:textColor">#838D97</item>
+        <item name="android:textColor">@color/category_butt_text_color</item>
         <item name="android:background">@drawable/category_butt_selector</item>
         <item name="android:layout_margin">2dip</item>
         <item name="android:textStyle">bold</item>

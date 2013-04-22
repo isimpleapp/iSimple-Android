@@ -7,6 +7,7 @@ import com.treelev.isimple.R;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.PopupMenu;
 
+//TODO delete unused file
 public class TitleControl extends LinearLayout implements View.OnClickListener {
 
     public TitleControl(Context context, AttributeSet attrs) {

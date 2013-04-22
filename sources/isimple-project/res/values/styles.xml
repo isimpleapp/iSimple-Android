@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="iSimpleStyle" parent="Holo.Theme.Light" >
+        <item name="android:actionBarStyle">@style/CustomActionBar</item>
+        <item name="android:actionDropDownStyle">@style/CustomSpinner</item>
+<!--        <item name="android:spinnerItemStyle">@style/CustomSpinner.SpinnerItem</item> -->
+    </style>
+
+    <style name="CustomActionBar" parent="android:Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/category_butt_back</item>
+    </style>
+
+    <style name="CustomSpinner" parent="android:Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_selector</item>
+    </style>
+
+    <!--<style name="CustomSpinner.SpinnerItem" parent="android:Widget.Holo.Light.TextView.SpinnerItem">-->
+        <!--<item name="android:textColor">@color/select_item_navigation</item>-->
+    <!--</style>-->
+
     <style name="CategoryButtStyle" parent="Holo.Button">
         <item name="android:textColor">@color/category_butt_text_color</item>
         <item name="android:background">@drawable/category_butt_selector</item>

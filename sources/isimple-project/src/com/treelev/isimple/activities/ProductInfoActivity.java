@@ -1,9 +1,16 @@
 package com.treelev.isimple.activities;
 
 
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ExpandableListItem;
 import com.treelev.isimple.utils.managers.ProxyManager;
@@ -17,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductInfoActivity extends ExpandableListActivity {
+public class ProductInfoActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
 
     public final static String ITEM_ID_TAG = "id";
     private final static String FIELD_TAG = "field_tag";
@@ -25,6 +32,9 @@ public class ProductInfoActivity extends ExpandableListActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        createNavigation();
+
         String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
@@ -88,5 +98,25 @@ public class ProductInfoActivity extends ExpandableListActivity {
         ((TextView) formView.findViewById(R.id.product_alcohol)).setText(String.format(FORMAT_FIELDS, product.getAlcohol()));
         ((TextView) formView.findViewById(R.id.product_volume)).setText(String.format(FORMAT_FIELDS, product.getVolume()));
         ((TextView) formView.findViewById(R.id.product_year)).setText(String.format(FORMAT_FIELDS, product.getYear()));
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        return false;
+    }
+
+    private void createNavigation() {
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        Context context = getSupportActionBar().getThemedContext();
+        String[] menuItemText = getResources().getStringArray(R.array.main_menu_items);
+        TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
+        Drawable[] menuItemIcon = new Drawable[typedArray.length()];
+        for(int i = 0; i < menuItemText.length; ++i) {
+            menuItemIcon[i] = typedArray.getDrawable(i);
+        }
+        NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, menuItemIcon, menuItemText);
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
     }
 }

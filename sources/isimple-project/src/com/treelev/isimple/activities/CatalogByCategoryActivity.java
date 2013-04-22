@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 import com.actionbarsherlock.app.ActionBar;
@@ -15,21 +17,21 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.RadioButton;
 import org.holoeverywhere.widget.SimpleExpandableListAdapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener, ActionBar.OnNavigationListener {
 
     private final static String FIELD_TAG = "field_tag";
     private ProxyManager proxyManager;
     private List<Item> items;
+    private List<Item> itemsFind;
     private List<Map<String, ?>> uiItemList;
     private SimpleAdapter listCategoriesAdapter;
 
@@ -53,12 +55,13 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
+        List<Item> currentList = itemsFind == null ? items : itemsFind;
         switch (rgb) {
             case R.id.alphabet_sort:
-                updateList(ProxyManager.SORT_NAME_AZ);
+                updateList(currentList, ProxyManager.SORT_NAME_AZ);
                 break;
             case R.id.price_sort:
-                updateList(ProxyManager.SORT_PRICE_UP);
+                updateList(currentList, ProxyManager.SORT_PRICE_UP);
                 break;
         }
     }
@@ -68,7 +71,51 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setIconifiedByDefault(false);
+        SearchView.OnQueryTextListener qyeryTextListner = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.v("Test", "onQueryTextSubmit");
+                Log.v("Test", query);
+                showResultSearch(query);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.v("Test", "onQueryTextChange");
+                Log.v("Test", newText);
+                return false;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        };
+        searchView.setOnQueryTextListener(qyeryTextListner);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void showResultSearch(String query) {
+        if(itemsFind == null) {
+            itemsFind = new ArrayList<Item>();
+        }
+            Log.v("Test", "StartFind");
+            itemsFind.clear();
+            Item tempItem;
+            for(int i = 0; i < items.size(); ++i) {
+                tempItem = items.get(i);
+                if(tempItem.getName().toLowerCase().indexOf(query.toLowerCase()) >-1
+                        || tempItem.getLocalizedName().toLowerCase().indexOf(query.toLowerCase()) >-1) {
+                itemsFind.add(tempItem);
+                    Log.v("Test", "add listFind");
+                }
+            }
+            Log.v("Test", "StopFind");
+            updateList(itemsFind, ProxyManager.SORT_NAME_AZ);
+//        RadioButton rb = (RadioButton)findViewById(R.id.alphabet_sort);
+//        if(rb.isChecked()) {
+//            updateList(itemsFind, ProxyManager.SORT_NAME_AZ);
+//        } else {
+//            updateList(itemsFind, ProxyManager.SORT_PRICE_UP);
+//        }
     }
 
     @Override
@@ -118,9 +165,9 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         return content;
     }
 
-    private void updateList(int sortBy) {
+    private void updateList(List<Item> list, int sortBy) {
         uiItemList.clear();
-        uiItemList.addAll(proxyManager.convertItemsToUI(items, sortBy));
+        uiItemList.addAll(proxyManager.convertItemsToUI(list, sortBy));
         listCategoriesAdapter.notifyDataSetChanged();
     }
 

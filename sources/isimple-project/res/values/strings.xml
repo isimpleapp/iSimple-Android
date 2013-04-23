@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">iSimple</string>
+
+    <string name="dialog_search_tittle">Подождите</string>
+    <string name="dialog_serch_message">Идет поиск...</string>
 </resources>

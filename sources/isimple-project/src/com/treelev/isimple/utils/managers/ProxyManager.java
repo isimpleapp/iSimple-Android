@@ -47,6 +47,10 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId);
     }
 
+    public List<Item>getSerchItemsByCategory(int categoryId, String query){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, query);
+    }
+
     private List<Map<String, ?>> convertItemsToUI(List<Item> itemList) {
         List<Map<String, ?>> uiDataList = new ArrayList<Map<String, ?>>();
         for (Item item : itemList) {

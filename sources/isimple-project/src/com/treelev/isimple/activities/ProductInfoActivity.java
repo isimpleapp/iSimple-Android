@@ -7,8 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
@@ -32,9 +30,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         createNavigation();
-
         String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);

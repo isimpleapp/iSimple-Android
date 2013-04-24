@@ -6,5 +6,6 @@
         android:layout_height="wrap_content"
         android:textSize="13dip"
         android:background="@android:color/white"
-        android:textColor="@android:color/black">
+        android:textColor="@android:color/black"
+        android:paddingLeft="8dip" android:paddingRight="8dip" android:paddingTop="3dip" android:paddingBottom="2dip">
 </org.holoeverywhere.widget.TextView>

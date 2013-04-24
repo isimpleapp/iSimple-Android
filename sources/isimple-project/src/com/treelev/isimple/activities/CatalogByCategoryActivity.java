@@ -1,6 +1,7 @@
 package com.treelev.isimple.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -18,10 +19,7 @@ import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.ListActivity;
-import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.ListView;
@@ -163,6 +161,16 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Ошибка");
+        builder.setMessage("Фильтрация недоступна");
+        builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
         return true;
     }
 

@@ -1,11 +1,15 @@
 package com.treelev.isimple.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
+import com.treelev.isimple.views.RangeSeekBar;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
+import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
 
 import java.util.List;
@@ -15,10 +19,12 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     private String groupName;
     private List<String> items;
     private LayoutInflater infalInflater;
+    private Context context;
 
     public FilterAdapter(Context context, String groupName, List<String> items) {
         this.groupName = groupName;
         this.items = items;
+        this.context = context;
         infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -73,7 +79,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             int resource;
             if (childPosition == 3) {
-                resource = R.layout.category_filtration_progress_bar_layout;
+                resource = R.layout.category_filtration_seek_bar_layout;
             } else if (childPosition == 5) {
                 resource = R.layout.category_filtration_button_bar_layout;
             } else {
@@ -81,9 +87,21 @@ public class FilterAdapter extends BaseExpandableListAdapter {
             }
             convertView = infalInflater.inflate(resource, null);
         }
-        TextView textView = ((TextView) convertView.findViewById(R.id.item_content));
-        if (textView != null) {
-            textView.setText(filterItem);
+        if (childPosition == 3) {
+            RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(20, 75, context);
+            seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+                @Override
+                public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                    Log.i("TAG", "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
+                }
+            });
+            seekBar.setBackgroundColor(Color.WHITE);
+            ((LinearLayout) convertView).addView(seekBar);
+        } else if (childPosition != 5) {
+            TextView textView = ((TextView) convertView.findViewById(R.id.item_content));
+            if (textView != null) {
+                textView.setText(filterItem);
+            }
         }
         return convertView;
     }

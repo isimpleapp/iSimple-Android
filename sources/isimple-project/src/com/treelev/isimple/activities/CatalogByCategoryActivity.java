@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioGroup;
@@ -15,6 +14,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.utils.managers.ProxyManager;
@@ -22,13 +22,17 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.SimpleExpandableListAdapter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener, ActionBar.OnNavigationListener {
+public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
+        ActionBar.OnNavigationListener, ExpandableListView.OnGroupExpandListener {
 
     private static final int PROGRESS_DLG_ID = 666;
     private final static String FIELD_TAG = "field_tag";
@@ -36,27 +40,26 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private List<Item> mItems;
     private List<Map<String, ?>> mUiItemList;
     private SimpleAdapter mListCategoriesAdapter;
-    private Context mContext;
     private int mCategoryId;
-    View mHeaderView;
+    private ExpandableListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
         createNavigation();
-        mContext = this;
-        mHeaderView = getLayoutInflater().inflate(R.layout.category_header_layout, getListView(), false);
-        RadioGroup rd = (RadioGroup) mHeaderView.findViewById(R.id.sort_group);
-        rd.check(R.id.alphabet_sort);
-        rd.setOnCheckedChangeListener(this);
         mCategoryId = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
-        initListView(mHeaderView, mCategoryId);
-        SimpleExpandableListAdapter filterAdapter = new SimpleExpandableListAdapter(this, createExpandableGroups(),
-                R.layout.category_filtration_expandable_group_layout, new String[]{FIELD_TAG}, new int[]{R.id.group_name}, createExpandableContent(),
-                R.layout.category_filtration_expandable_item_layout, new String[]{FIELD_TAG}, new int[]{R.id.item_content}
-        );
-        ((ExpandableListView) mHeaderView.findViewById(R.id.filtration_view)).setAdapter(filterAdapter);
+        initDataListView(mCategoryId);
+
+        List<String> content = new ArrayList<String>();
+        content.add("Содержание сахара");
+        content.add("Регион");
+        content.add("Вкусовое сочетание");
+        content.add("");
+        content.add("Год урожая");
+        content.add("");
+
+        initFilterListView(content);
     }
 
     @Override
@@ -76,20 +79,19 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setIconifiedByDefault(false);
-        mContext = this;
         SearchView.OnQueryTextListener qyeryTextListner = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Search search = new Search(mContext);
+                Search search = new Search(CatalogByCategoryActivity.this);
                 search.execute(query);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                return false;  //To change body of implemented methods use File | Settings | File Templates.
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;  //To change body of implemented methods use File | Settings | File Templates.
+                return false;
             }
         };
         searchView.setOnQueryTextListener(qyeryTextListner);
@@ -102,6 +104,14 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     }
 
     @Override
+    public void onGroupExpand(int groupPosition) {
+        View groupView = listView.getChildAt(groupPosition);
+        groupView.findViewById(R.id.group_name).setVisibility(View.GONE);
+        groupView.findViewById(R.id.filter_type_butt).setVisibility(View.VISIBLE);
+        findViewById(R.id.sort_group).setVisibility(View.GONE);
+    }
+
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         HashMap product = (HashMap) l.getAdapter().getItem(position);
@@ -110,7 +120,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         startActivity(startIntent);
     }
 
-    private void initListView(View headerView, int categoryId) {
+    private void initDataListView(int categoryId) {
         mProxyManager = new ProxyManager(this);
         mItems = mProxyManager.getItemsByCategory(categoryId);
         mUiItemList = mProxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
@@ -119,28 +129,14 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                 R.layout.catalog_item_layout,
                 Item.getUITags(),
                 new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type, R.id.item_volume, R.id.item_price});
-        getListView().addHeaderView(headerView, null, false);
         getListView().setAdapter(mListCategoriesAdapter);
     }
 
-    private List<Map<String, ?>> createExpandableGroups() {
-        List<Map<String, ?>> groupName = new ArrayList<Map<String, ?>>();
-        Map<String, Object> item = new HashMap<String, Object>();
-        item.put(FIELD_TAG, getString(R.string.filtration_group_name));
-        groupName.add(item);
-        return groupName;
-    }
-
-    private List<List<Map<String, ?>>> createExpandableContent() {
-        List<List<Map<String, ?>>> content = new ArrayList<List<Map<String, ?>>>();
-        List<Map<String, ?>> contentFilterMenu = new ArrayList<Map<String, ?>>();
-        for (int j = 0; j < 7; ++j) {
-            Map<String, Object> item = new HashMap<String, Object>();
-            item.put(FIELD_TAG, String.valueOf(j));
-            contentFilterMenu.add(item);
-        }
-        content.add(contentFilterMenu);
-        return content;
+    private void initFilterListView(List<String> content) {
+        BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, "Фильтрация", content);
+        listView = (ExpandableListView) findViewById(R.id.filtration_view);
+        listView.setOnGroupExpandListener(this);
+        listView.setAdapter(filterAdapter);
     }
 
     private void updateList(int sortBy) {
@@ -162,7 +158,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         NavigationListAdapter list = new NavigationListAdapter(this, iconLocation, locations);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getSupportActionBar().setListNavigationCallbacks(list, this);
-
     }
 
     class Search extends AsyncTask<String, Void, Void> {
@@ -184,8 +179,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         @Override
         protected Void doInBackground(String... strings) {
             mProxyManager = new ProxyManager(mContext);
-            mItems = mProxyManager.getSerchItemsByCategory(mCategoryId, strings[0]);
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            mItems = mProxyManager.getSearchItemsByCategory(mCategoryId, strings[0]);
+            return null;
         }
 
         @Override
@@ -198,7 +193,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                     R.layout.catalog_item_layout,
                     Item.getUITags(),
                     new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type, R.id.item_volume, R.id.item_price});
-            getListView().addHeaderView(mHeaderView, null, false);
             getListView().setAdapter(mListCategoriesAdapter);
         }
     }

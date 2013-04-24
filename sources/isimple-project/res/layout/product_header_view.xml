@@ -8,7 +8,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dip"
             android:text="Розовое вино"
-            android:id="@+id/textView" android:background="@color/product_wine_label_color" android:gravity="center"
+            android:id="@+id/textView" android:background="@color/wine_type_pink" android:gravity="center"
             android:textColor="@android:color/white" android:height="30dip" android:textStyle="bold" android:textSize="13dip"/>
     <RelativeLayout
             android:layout_width="match_parent"

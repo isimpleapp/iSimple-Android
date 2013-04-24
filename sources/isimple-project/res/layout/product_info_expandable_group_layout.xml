@@ -6,7 +6,7 @@
         android:layout_height="50dip"
         android:textSize="20dip"
         android:paddingLeft="45dip"
-        android:background="@color/category_filtration_group_back"
-        android:textColor="@color/category_filtration_text_color"
+        android:background="@color/product_expandable_item_back"
+        android:textColor="@color/product_expandable_item_text"
         android:gravity="center_vertical">
 </org.holoeverywhere.widget.TextView>

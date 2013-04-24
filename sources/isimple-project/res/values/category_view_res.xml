@@ -3,4 +3,8 @@
     <string name="filtration_group_name">Фильтрация</string>
     <string name="sort_label_alphabet">по алфавиту</string>
     <string name="sort_label_price">по цене</string>
+    <string name="wine_type_red">Красное</string>
+    <string name="wine_type_white">Белое</string>
+    <string name="wine_type_pink">Розовое</string>
+    <string name="filter_label">Фильтрация</string>
 </resources>

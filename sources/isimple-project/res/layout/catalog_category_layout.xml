@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:id="@+id/sort_control">
+        <org.holoeverywhere.widget.ExpandableListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/filtration_view"
+                android:groupIndicator="@null"/>
+        <RadioGroup
+                android:layout_width="match_parent"
+                android:id="@+id/sort_group"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+            <org.holoeverywhere.widget.RadioButton
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/alphabet_sort"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/sort_label_alphabet"/>
+            <org.holoeverywhere.widget.RadioButton
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/price_sort"
+                    android:layout_weight="1"
+                    android:text="@string/sort_label_price"/>
+        </RadioGroup>
+    </LinearLayout>
     <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@android:id/list"/>
-</RelativeLayout>
+</LinearLayout>

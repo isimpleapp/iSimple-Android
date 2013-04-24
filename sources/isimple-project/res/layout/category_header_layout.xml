@@ -3,25 +3,33 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="80dip" android:gravity="center_horizontal" android:layout_below="@+id/title"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:layout_below="@+id/title"
               android:id="@+id/sort_control">
     <org.holoeverywhere.widget.ExpandableListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/filtration_view"
+            android:scrollbars="none"
             android:groupIndicator="@null"/>
     <RadioGroup
             android:layout_width="match_parent"
             android:id="@+id/sort_group"
-            android:layout_height="0dip" android:layout_weight="1" android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:gravity="center">
-        <RadioButton
+        <org.holoeverywhere.widget.RadioButton
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:id="@+id/alphabet_sort" android:layout_weight="1" android:text="@string/sort_label_alphabet"/>
-        <RadioButton
+                android:id="@+id/alphabet_sort"
+                android:layout_weight="1"
+                android:text="@string/sort_label_alphabet"/>
+        <org.holoeverywhere.widget.RadioButton
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:id="@+id/price_sort" android:layout_weight="1" android:text="@string/sort_label_price"/>
+                android:id="@+id/price_sort"
+                android:layout_weight="1"
+                android:text="@string/sort_label_price"/>
     </RadioGroup>
 </LinearLayout>

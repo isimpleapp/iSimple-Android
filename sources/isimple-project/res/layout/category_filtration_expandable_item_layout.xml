@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.TextView
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/item_content"
         android:layout_width="match_parent"
         android:layout_height="50dip"
-        android:textSize="13dip"
-        android:background="@android:color/white"
-        android:textColor="@android:color/black">
-</org.holoeverywhere.widget.TextView>
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+    <org.holoeverywhere.widget.TextView
+            android:id="@+id/item_content"
+            android:layout_width="match_parent"
+            android:layout_height="43dip"
+            android:textSize="20dip"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black" android:paddingLeft="10dip"
+            android:gravity="center_vertical"/>
+</LinearLayout>

@@ -36,7 +36,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     private static final int PROGRESS_DLG_ID = 1;
     private final static String FIELD_TAG = "field_tag";
-    private ProxyManager mProxyManager;
     private List<Item> mItems;
     private List<Map<String, ?>> mUiItemList;
     private SimpleAdapter mListCategoriesAdapter;
@@ -122,7 +121,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     }
 
     private void initDataListView(int categoryId) {
-        mProxyManager = new ProxyManager(this);
+        ProxyManager mProxyManager = new ProxyManager(this);
         mItems = mProxyManager.getItemsByCategory(categoryId);
         mUiItemList = mProxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
         mListCategoriesAdapter = new SimpleAdapter(this,
@@ -144,9 +143,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     }
 
     private void updateList(int sortBy) {
-        mUiItemList.clear();
-        mUiItemList.addAll(mProxyManager.convertItemsToUI(mItems, sortBy));
-        mListCategoriesAdapter.notifyDataSetChanged();
+        new SortTask(this, mItems).execute(sortBy);
     }
 
     private void createNavigation() {
@@ -169,6 +166,41 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         return true;
     }
 
+    private class SortTask extends AsyncTask<Integer, Void, List<Map<String, ?>>> {
+
+        private Dialog mDialog;
+        private Context context;
+        private List<Item> mItems;
+        private ProxyManager proxyManager;
+
+        private SortTask(Context context, List<Item> items) {
+            this.context = context;
+            this.mItems = items;
+            proxyManager = new ProxyManager(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mUiItemList.clear();
+            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_title),
+                    context.getString(R.string.dialog_sort_message), false, false);
+        }
+
+        @Override
+        protected List<Map<String, ?>> doInBackground(Integer... sortParams) {
+            return proxyManager.convertItemsToUI(mItems, sortParams[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<Map<String, ?>> items) {
+            super.onPostExecute(items);
+            mUiItemList.addAll(items);
+            mListCategoriesAdapter.notifyDataSetChanged();
+            mDialog.dismiss();
+        }
+    }
+
     private class Search extends AsyncTask<String, Void, Void> {
 
         private Dialog mDialog;
@@ -183,8 +215,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_tittle),
-                    context.getString(R.string.dialog_serch_message), false, false);
+            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_title),
+                    context.getString(R.string.dialog_search_message), false, false);
         }
 
         @Override

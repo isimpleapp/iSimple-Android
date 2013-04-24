@@ -4,24 +4,19 @@ import com.treelev.isimple.domain.db.Item;
 
 import java.util.Comparator;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mhviedchenia
- * Date: 20.04.13
- * Time: 11:55
- * To change this template use File | Settings | File Templates.
- */
 public class ItemComparePrice implements Comparator<Item> {
     @Override
     public int compare(Item prev, Item next) {
-        Float prevPrice = 0F;
-        if(prev.getPrice() != null && prev.getPrice().trim().length() != 0 ) {
-            prevPrice = Float.valueOf(prev.getPrice());
+        Float prevPrice = getPriceValue(prev);
+        Float nextPrice = getPriceValue(next);
+        return prevPrice.compareTo(nextPrice);
+    }
+
+    private Float getPriceValue(Item item) {
+        Float price = 0F;
+        if (item.getPrice() != null && item.getPrice().trim().length() != 0) {
+            price = Float.valueOf(item.getPrice());
         }
-        Float nextIPrice = 0F;
-        if(next.getPrice() != null && next.getPrice().trim().length() != 0 ) {
-            nextIPrice = Float.valueOf(next.getPrice());
-        }
-        return prevPrice.compareTo(nextIPrice);  //To change body of implemented methods use File | Settings | File Templates.
+        return price;
     }
 }

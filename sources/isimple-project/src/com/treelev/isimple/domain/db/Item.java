@@ -1,11 +1,15 @@
 package com.treelev.isimple.domain.db;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.treelev.isimple.enumerable.item.Color;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.Style;
 import com.treelev.isimple.enumerable.item.Sweetness;
 
-public class Item  {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     public final static String UI_TAG_ID = "id";
     private String itemID;
@@ -349,4 +353,120 @@ public class Item  {
     public void setRating(String rating) {
         this.rating = rating;
     }
+
+//    private Item(Parcel in) {
+//        itemID = in.readString();
+//        drinkID = in.readString();
+//        name = in.readString();
+//        localizedName = in.readString();
+//        manufacturer = in.readString();
+//        localizedManufacturer = in.readString();
+//        price = in.readString();
+//        priceMarkup = in.readString();
+//        country = in.readString();
+//        region = in.readString();
+//        barcode = in.readString();
+//        drinkCategory = in.readParcelable(DrinkCategory.class.getClassLoader());
+//        color = in.readParcelable(Color.class.getClassLoader());
+//        style = in.readParcelable(Style.class.getClassLoader());
+//        sweetness = in.readParcelable(Sweetness.class.getClassLoader());
+//        year = in.readString();
+//        volume = in.readString();
+//        drinkType = in.readString();
+//        alcohol = in.readString();
+//        bottleHiResolutionImageFilename = in.readString();
+//        bottleLowResolutionImageFilename = in.readString();
+//        styleDescription = in.readString();
+//        appelation = in.readString();
+//        servingTempMin = in.readString();
+//        servingTempMax = in.readString();
+//        tasteQualities = in.readString();
+//        vintageReport = in.readString();
+//        agingProcess = in.readString();
+//        productionProcess = in.readString();
+//        interestingFacts = in.readString();
+//        labelHistory = in.readString();
+//        gastronomy = in.readString();
+//        vineyard = in.readString();
+//        grapesUsed = in.readString();
+//        rating = in.readString();
+//    }
+//
+//    public static final Parcelable.Creator<Item> CREATOR =
+//            new Parcelable.Creator<Item>() {
+//
+//                @Override
+//                public Item createFromParcel(Parcel source) {
+//                    return new Item(source);
+//                }
+//
+//                @Override
+//                public Item[] newArray(int size) {
+//                    return new Item[size];
+//                }
+//
+//            };
+//
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel parcel, int flags) {
+//        parcel.writeString(name);
+//        parcel.writeString(localizedName);
+//        parcel.writeString(manufacturer);
+//        parcel.writeString(localizedManufacturer);
+//        parcel.writeString(price);
+//        parcel.writeString(priceMarkup);
+//        parcel.writeString(country);
+//        parcel.writeString(region);
+//        parcel.writeString(barcode);
+//        parcel.writeParcelable(drinkCategory, flags);
+//        parcel.writeParcelable(color, flags);
+//        parcel.writeParcelable(style, flags);
+//        parcel.writeParcelable(sweetness, flags);
+////        if(drinkCategory != null) {
+////            parcel.writeString(drinkCategory.getDescription());
+////        } else {
+////            parcel.writeString(null);
+////        }
+////        if(color != null) {
+////            parcel.writeString(color.getDescription());
+////        } else {
+////            parcel.writeString(null);
+////        }
+////        if(style != null) {
+////            parcel.writeString(style.getDescription());
+////        } else {
+////            parcel.writeString(null);
+////        }
+////        if(sweetness != null) {
+////            parcel.writeString(sweetness.getDescription());
+////        } else {
+////            parcel.writeString(null);
+////        }
+//        parcel.writeString(year);
+//        parcel.writeString(volume);
+//        parcel.writeString(drinkType);
+//        parcel.writeString(alcohol);
+//        parcel.writeString(bottleHiResolutionImageFilename);
+//        parcel.writeString(bottleLowResolutionImageFilename);
+//        parcel.writeString(styleDescription);
+//        parcel.writeString(appelation);
+//        parcel.writeString(servingTempMin);
+//        parcel.writeString(servingTempMax);
+//        parcel.writeString(tasteQualities);
+//        parcel.writeString(vintageReport);
+//        parcel.writeString(agingProcess);
+//        parcel.writeString(productionProcess);
+//        parcel.writeString(interestingFacts);
+//        parcel.writeString(labelHistory);
+//        parcel.writeString(gastronomy);
+//        parcel.writeString(vineyard);
+//        parcel.writeString(grapesUsed);
+//        parcel.writeString(rating);
+//    }
 }

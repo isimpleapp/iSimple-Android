@@ -1,6 +1,8 @@
 package com.treelev.isimple.enumerable.item;
 
-public enum Style {
+import java.io.Serializable;
+
+public enum Style implements Serializable {
     STILL("тихое"), SPARKLING("игристое"), SPECIAL("специальное"), FORTIFIED("крепленое"), UNKNOWN;
 
     private String description;

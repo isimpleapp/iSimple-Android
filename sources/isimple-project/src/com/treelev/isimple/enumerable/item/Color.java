@@ -1,6 +1,8 @@
 package com.treelev.isimple.enumerable.item;
 
-public enum Color {
+import java.io.Serializable;
+
+public enum Color implements Serializable {
     WHITE("белое"), RED("красное"), ROSE("Розовое"), UNKNOWN;
 
     private String description;
@@ -11,6 +13,10 @@ public enum Color {
 
     private Color(String description) {
         this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public static Color getColor(String colorId) {

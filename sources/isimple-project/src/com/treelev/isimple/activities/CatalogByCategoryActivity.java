@@ -18,6 +18,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.tasks.Search;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
@@ -32,7 +33,6 @@ import java.util.Map;
 public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
         ActionBar.OnNavigationListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener {
 
-    private static final int PROGRESS_DLG_ID = 1;
     private final static String FIELD_TAG = "field_tag";
     private List<Item> mItems;
     private List<Map<String, ?>> mUiItemList;
@@ -80,10 +80,10 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Search search = new Search(CatalogByCategoryActivity.this);
-                search.execute(query);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                Search search = new Search(CatalogByCategoryActivity.this, mCategoryId);
+                search.execute(query);
                 return false;
             }
 
@@ -209,42 +209,42 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         }
     }
 
-    private class Search extends AsyncTask<String, Void, Void> {
-
-        private Dialog mDialog;
-        private Context context;
-        private ProxyManager proxyManager;
-
-        Search(Context context) {
-            this.context = context;
-            this.proxyManager = new ProxyManager(context);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_title),
-                    context.getString(R.string.dialog_search_message), false, false);
-        }
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            mItems = proxyManager.getSearchItemsByCategory(mCategoryId, strings[0]);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            mDialog.dismiss();
-            mUiItemList = proxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
-            mListCategoriesAdapter = new SimpleAdapter(context,
-                    mUiItemList,
-                    R.layout.catalog_item_layout,
-                    Item.getUITags(),
-                    new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type, R.id.item_volume, R.id.item_price});
-            getListView().setAdapter(mListCategoriesAdapter);
-        }
-    }
+//    private class Search extends AsyncTask<String, Void, Void> {
+//
+//        private Dialog mDialog;
+//        private Context context;
+//        private ProxyManager proxyManager;
+//
+//        Search(Context context) {
+//            this.context = context;
+//            this.proxyManager = new ProxyManager(context);
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_title),
+//                    context.getString(R.string.dialog_search_message), false, false);
+//        }
+//
+//        @Override
+//        protected Void doInBackground(String... strings) {
+//            mItems = proxyManager.getSearchItemsByCategory(mCategoryId, strings[0]);
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//            mDialog.dismiss();
+//            mUiItemList = proxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
+//            mListCategoriesAdapter = new SimpleAdapter(context,
+//                    mUiItemList,
+//                    R.layout.catalog_item_layout,
+//                    Item.getUITags(),
+//                    new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type, R.id.item_volume, R.id.item_price});
+//            getListView().setAdapter(mListCategoriesAdapter);
+//        }
+//    }
 
 }

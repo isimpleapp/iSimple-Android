@@ -3,7 +3,6 @@ package com.treelev.isimple.data;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.ItemPrice;
@@ -72,13 +71,12 @@ public class ItemDAO extends BaseDAO {
         return itemList;
     }
 
-    public List<Item> getSearchItemsByCategory(int categoryId, String query) {
+    public List<Item> getSearchItemsByCategory(Integer categoryId, String query) {
         List<Item> itemList = new ArrayList<Item>();
         open();
 //        String formatSelectScript = getSelectByQuery(categoryId, query);
         String formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
         if (formatSelectScript != null) {
-            Log.v("Test", formatSelectScript);
             String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
                     DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_DRINK_TYPE, DatabaseSqlHelper.ITEM_VOLUME,
                     DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
@@ -418,7 +416,10 @@ public class ItemDAO extends BaseDAO {
         return itemList;
     }
 
-    private String getSelectCategoryStringByCategoryId(int categoryId) {
+    private String getSelectCategoryStringByCategoryId(Integer categoryId) {
+        if(categoryId == null) {
+            return "select %s, %s, %s, %s, %s, %s, %s from %s where ";
+        }
         switch (categoryId) {
             case R.id.category_wine_butt:
                 return "select %s, %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 0 and " +
@@ -438,26 +439,14 @@ public class ItemDAO extends BaseDAO {
         }
     }
 
-    private String getSelectByQuery(int categoryId, String query) {
+    private String getSelectByQuery(Integer categoryId, String query) {
         String prepareQuery = " '%" + query + "%'";
-        switch (categoryId) {
-            case R.id.category_wine_butt:
-                return " and ("
-                        + DatabaseSqlHelper.ITEM_LOCALIZED_NAME + " LIKE" + prepareQuery + " or "
-                        + DatabaseSqlHelper.ITEM_NAME  +" LIKE" + prepareQuery + ")";
-            case R.id.category_water_butt:
-                return null;
-            case R.id.category_spirits_butt:
-                return " and ("
-                        + DatabaseSqlHelper.ITEM_LOCALIZED_NAME + " LIKE" + prepareQuery + " or "
-                        + DatabaseSqlHelper.ITEM_NAME  +" LIKE" + prepareQuery + ")";
-            case R.id.category_sake_butt:
-                return " and ("
-                        + DatabaseSqlHelper.ITEM_LOCALIZED_NAME + " LIKE" + prepareQuery + " or "
-                        + DatabaseSqlHelper.ITEM_NAME  +" LIKE" + prepareQuery + ")";
-            default:
-                return null;
+        String result = "(" + DatabaseSqlHelper.ITEM_LOCALIZED_NAME + " LIKE" + prepareQuery + " or "
+                + DatabaseSqlHelper.ITEM_NAME  +" LIKE" + prepareQuery + ")";
+        if(categoryId != null ) {
+          result = " and " + result;
         }
+        return result;
     }
 
 }

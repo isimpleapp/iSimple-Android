@@ -1,6 +1,11 @@
 package com.treelev.isimple.enumerable.item;
 
-public enum Sweetness {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public enum Sweetness implements Serializable {
     DRY("сухое"), MEDIUM_DRY("Полусухое"), MEDIUM("Полусладкое"), SWEET("Сладкое"), UNKNOWN;
 
     private String description;

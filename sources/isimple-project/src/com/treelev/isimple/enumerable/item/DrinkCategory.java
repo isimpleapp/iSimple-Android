@@ -1,7 +1,32 @@
 package com.treelev.isimple.enumerable.item;
 
-public enum DrinkCategory {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public enum DrinkCategory implements Parcelable{
     WINE("Вино"), SPIRITS("Крепкий Алкоголь"), SAKE("Саке"), UNKNOWN;
+
+    public static final Parcelable.Creator<DrinkCategory> CREATOR = new Parcelable.Creator<DrinkCategory>() {
+
+        public DrinkCategory createFromParcel(Parcel in) {
+            return DrinkCategory.values()[in.readInt()];
+        }
+
+        public DrinkCategory[] newArray(int size) {
+            return new DrinkCategory[size];
+        }
+
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(ordinal());
+    }
 
     private String description;
 

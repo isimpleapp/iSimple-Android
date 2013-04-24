@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import com.actionbarsherlock.app.ActionBar;
@@ -16,8 +17,10 @@ import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.tasks.Search;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.util.ByteArrayBuffer;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.widget.ListView;
 
@@ -66,6 +69,22 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setIconifiedByDefault(false);
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                Search search = new Search(CatalogListActivity.this, null);
+                search.execute(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }
 

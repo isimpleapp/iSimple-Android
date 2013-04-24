@@ -32,9 +32,9 @@ import java.util.List;
 import java.util.Map;
 
 public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
-        ActionBar.OnNavigationListener, ExpandableListView.OnGroupExpandListener {
+        ActionBar.OnNavigationListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener {
 
-    private static final int PROGRESS_DLG_ID = 666;
+    private static final int PROGRESS_DLG_ID = 1;
     private final static String FIELD_TAG = "field_tag";
     private ProxyManager mProxyManager;
     private List<Item> mItems;
@@ -50,6 +50,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         createNavigation();
         mCategoryId = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
         initDataListView(mCategoryId);
+        ((RadioGroup) findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
 
         List<String> content = new ArrayList<String>();
         content.add("Содержание сахара");
@@ -59,7 +60,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         content.add("Год урожая");
         content.add("");
 
-        initFilterListView(content);
+        initFilterListView(content, mCategoryId);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setIconifiedByDefault(false);
-        SearchView.OnQueryTextListener qyeryTextListner = new SearchView.OnQueryTextListener() {
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Search search = new Search(CatalogByCategoryActivity.this);
@@ -94,7 +95,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                 return false;
             }
         };
-        searchView.setOnQueryTextListener(qyeryTextListner);
+        searchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -132,10 +133,13 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         getListView().setAdapter(mListCategoriesAdapter);
     }
 
-    private void initFilterListView(List<String> content) {
+    private void initFilterListView(List<String> content, int categoryId) {
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, "Фильтрация", content);
         listView = (ExpandableListView) findViewById(R.id.filtration_view);
         listView.setOnGroupExpandListener(this);
+        if (categoryId != R.id.category_wine_butt) {
+            listView.setOnGroupClickListener(this);
+        }
         listView.setAdapter(filterAdapter);
     }
 
@@ -160,26 +164,32 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         getSupportActionBar().setListNavigationCallbacks(list, this);
     }
 
-    class Search extends AsyncTask<String, Void, Void> {
+    @Override
+    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+        return true;
+    }
+
+    private class Search extends AsyncTask<String, Void, Void> {
 
         private Dialog mDialog;
-        private Context mContext;
+        private Context context;
+        private ProxyManager proxyManager;
 
-        public Search(Context context) {
-            mContext = context;
+        Search(Context context) {
+            this.context = context;
+            this.proxyManager = new ProxyManager(context);
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_search_tittle),
-                    mContext.getString(R.string.dialog_serch_message), false, false);
+            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_tittle),
+                    context.getString(R.string.dialog_serch_message), false, false);
         }
 
         @Override
         protected Void doInBackground(String... strings) {
-            mProxyManager = new ProxyManager(mContext);
-            mItems = mProxyManager.getSearchItemsByCategory(mCategoryId, strings[0]);
+            mItems = proxyManager.getSearchItemsByCategory(mCategoryId, strings[0]);
             return null;
         }
 
@@ -187,8 +197,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             mDialog.dismiss();
-            mUiItemList = mProxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
-            mListCategoriesAdapter = new SimpleAdapter(mContext,
+            mUiItemList = proxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
+            mListCategoriesAdapter = new SimpleAdapter(context,
                     mUiItemList,
                     R.layout.catalog_item_layout,
                     Item.getUITags(),

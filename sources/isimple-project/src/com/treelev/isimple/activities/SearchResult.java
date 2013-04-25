@@ -2,7 +2,6 @@ package com.treelev.isimple.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
@@ -12,7 +11,6 @@ import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

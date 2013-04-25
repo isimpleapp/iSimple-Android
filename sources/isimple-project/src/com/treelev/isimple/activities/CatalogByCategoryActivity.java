@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
@@ -39,6 +40,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private SimpleAdapter mListCategoriesAdapter;
     private int mCategoryId;
     private ExpandableListView listView;
+    private RadioGroup checkTypeRg;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         content.add("");
 
         initFilterListView(content, mCategoryId);
+
     }
 
     @Override
@@ -105,7 +108,12 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     public void onGroupExpand(int groupPosition) {
         View groupView = listView.getChildAt(groupPosition);
         groupView.findViewById(R.id.group_name).setVisibility(View.GONE);
-        groupView.findViewById(R.id.filter_type_butt).setVisibility(View.VISIBLE);
+        RelativeLayout categoryTypeLayout = (RelativeLayout) groupView.findViewById(R.id.category_type_view);
+        categoryTypeLayout.setVisibility(View.VISIBLE);
+        categoryTypeLayout.findViewById(R.id.red_wine_butt).setOnClickListener(categoryTypeClick);
+        categoryTypeLayout.findViewById(R.id.white_wine_butt).setOnClickListener(categoryTypeClick);
+        categoryTypeLayout.findViewById(R.id.pink_wine_butt).setOnClickListener(categoryTypeClick);
+        checkTypeRg = (RadioGroup) categoryTypeLayout.findViewById(R.id.check_type_rg);
         findViewById(R.id.sort_group).setVisibility(View.GONE);
     }
 
@@ -173,6 +181,26 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         builder.create().show();
         return true;
     }
+
+    private View.OnClickListener categoryTypeClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            checkTypeRg.check(getCheckIdByViewId(view.getId()));
+        }
+
+        private int getCheckIdByViewId(int viewId) {
+            switch (viewId) {
+                case R.id.red_wine_butt:
+                    return R.id.check_red_wine;
+                case R.id.white_wine_butt:
+                    return R.id.check_white_wine;
+                case R.id.pink_wine_butt:
+                    return R.id.check_pink_wine;
+                default:
+                    return -1;
+            }
+        }
+    };
 
     private class SortTask extends AsyncTask<Integer, Void, List<Map<String, ?>>> {
 

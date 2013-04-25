@@ -67,7 +67,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String group = (String) getGroup(groupPosition);
         if (convertView == null) {
-            convertView = infalInflater.inflate(R.layout.category_filtration_expandable_group_layout, null);
+            convertView = infalInflater.inflate(R.layout.category_filter_group_layout, null);
         }
         ((TextView) convertView.findViewById(R.id.group_name)).setText(group);
         return convertView;
@@ -77,31 +77,26 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         String filterItem = (String) getChild(groupPosition, childPosition);
         if (convertView == null) {
-            int resource;
             if (childPosition == 3) {
-                resource = R.layout.category_filtration_seek_bar_layout;
+                convertView = infalInflater.inflate(R.layout.category_filtration_seek_bar_layout, null);
+                RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(20, 75, context);
+                seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+                    @Override
+                    public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+                        Log.i("TAG", "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
+                    }
+                });
+                seekBar.setBackgroundColor(Color.WHITE);
+                ((LinearLayout) convertView).addView(seekBar);
             } else if (childPosition == 5) {
-                resource = R.layout.category_filtration_button_bar_layout;
+                convertView = infalInflater.inflate(R.layout.category_filtration_button_bar_layout, null);
             } else {
-                resource = R.layout.category_filtration_expandable_item_layout;
+                convertView = infalInflater.inflate(R.layout.category_filtration_expandable_item_layout, null);
             }
-            convertView = infalInflater.inflate(resource, null);
         }
-        if (childPosition == 3) {
-            RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(20, 75, context);
-            seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
-                @Override
-                public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-                    Log.i("TAG", "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
-                }
-            });
-            seekBar.setBackgroundColor(Color.WHITE);
-            ((LinearLayout) convertView).addView(seekBar);
-        } else if (childPosition != 5) {
-            TextView textView = ((TextView) convertView.findViewById(R.id.item_content));
-            if (textView != null) {
-                textView.setText(filterItem);
-            }
+        TextView textView = ((TextView) convertView.findViewById(R.id.item_content));
+        if (textView != null) {
+            textView.setText(filterItem);
         }
         return convertView;
     }

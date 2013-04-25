@@ -3,24 +3,24 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dip">
+        android:layout_height="50dip">
     <org.holoeverywhere.widget.TextView
             android:id="@+id/group_name"
             android:layout_width="match_parent"
-            android:layout_height="50dip"
+            android:layout_height="match_parent"
             android:textSize="30dip"
             android:background="@color/category_filter_back"
             android:textColor="@color/category_filter_text"
-            android:visibility="visible"
+            android:visibility="gone"
             android:text="@string/filter_label"
             android:layout_gravity="center"
             android:gravity="center"/>
     <RadioGroup
             android:id="@+id/filter_type_butt"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50dip">
+            android:layout_height="match_parent">
         <RadioButton
                 android:checked="true"
                 android:background="@color/wine_type_red"

@@ -10,4 +10,5 @@
     <string name="dialog_search_title">Подождите</string>
     <string name="dialog_search_message">Идет поиск…</string>
     <string name="dialog_sort_message">Идет сортировка…</string>
+    <string name="filtration_label">Фильтрация</string>
 </resources>

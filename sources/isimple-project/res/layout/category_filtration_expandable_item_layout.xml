@@ -10,6 +10,16 @@
             android:layout_height="43dip"
             android:textSize="20dip"
             android:background="@android:color/white"
-            android:textColor="@android:color/black" android:paddingLeft="10dip"
+            android:textColor="@android:color/black"
+            android:visibility="gone"
+            android:paddingLeft="10dip"
+            android:gravity="center_vertical"/>
+    <LinearLayout
+            android:id="@+id/seek_bar_layout"
+            android:background="@android:color/white"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
             android:gravity="center_vertical"/>
 </LinearLayout>

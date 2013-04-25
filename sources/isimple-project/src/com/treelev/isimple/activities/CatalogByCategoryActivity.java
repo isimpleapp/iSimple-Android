@@ -19,6 +19,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.domain.ui.FilterItem;
 import com.treelev.isimple.tasks.Search;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.*;
@@ -41,6 +42,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private int mCategoryId;
     private ExpandableListView listView;
     private RadioGroup checkTypeRg;
+    private View footerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,18 +51,17 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         createNavigation();
         mCategoryId = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
         initDataListView(mCategoryId);
-        ((RadioGroup) findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
+        initFilterListView(createFilterList(), mCategoryId);
+    }
 
-        List<String> content = new ArrayList<String>();
-        content.add("Содержание сахара");
-        content.add("Регион");
-        content.add("Вкусовое сочетание");
-        content.add("");
-        content.add("Год урожая");
-        content.add("");
-
-        initFilterListView(content, mCategoryId);
-
+    private List<FilterItem> createFilterList() {
+        List<FilterItem> filterItems = new ArrayList<FilterItem>();
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Содержание сахара"));
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Регион"));
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Вкусовое сочетание"));
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_PROGRESS));
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Год урожая"));
+        return filterItems;
     }
 
     @Override
@@ -108,13 +109,14 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     public void onGroupExpand(int groupPosition) {
         View groupView = listView.getChildAt(groupPosition);
         groupView.findViewById(R.id.group_name).setVisibility(View.GONE);
+        footerView.findViewById(R.id.sort_group).setVisibility(View.GONE);
+        footerView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
         RelativeLayout categoryTypeLayout = (RelativeLayout) groupView.findViewById(R.id.category_type_view);
         categoryTypeLayout.setVisibility(View.VISIBLE);
         categoryTypeLayout.findViewById(R.id.red_wine_butt).setOnClickListener(categoryTypeClick);
         categoryTypeLayout.findViewById(R.id.white_wine_butt).setOnClickListener(categoryTypeClick);
         categoryTypeLayout.findViewById(R.id.pink_wine_butt).setOnClickListener(categoryTypeClick);
         checkTypeRg = (RadioGroup) categoryTypeLayout.findViewById(R.id.check_type_rg);
-        findViewById(R.id.sort_group).setVisibility(View.GONE);
     }
 
     @Override
@@ -138,13 +140,17 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         getListView().setAdapter(mListCategoriesAdapter);
     }
 
-    private void initFilterListView(List<String> content, int categoryId) {
-        BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, "Фильтрация", content);
+    private void initFilterListView(List<FilterItem> content, int categoryId) {
+        BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, getString(R.string.filtration_label), content);
         listView = (ExpandableListView) findViewById(R.id.filtration_view);
         listView.setOnGroupExpandListener(this);
         if (categoryId != R.id.category_wine_butt) {
             listView.setOnGroupClickListener(this);
         }
+        footerView = getLayoutInflater().inflate(R.layout.category_filtration_button_bar_layout, listView, false);
+        ((RadioGroup) footerView.findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
+        footerView.findViewById(R.id.reset_butt).setOnClickListener(resetButtonClick);
+        listView.addFooterView(footerView, null, false);
         listView.setAdapter(filterAdapter);
     }
 
@@ -199,6 +205,26 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                 default:
                     return -1;
             }
+        }
+    };
+
+    private View.OnClickListener resetButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            organizeView();
+            listView.collapseGroup(0);
+        }
+
+        private void organizeView() {
+            View groupView = listView.getChildAt(0);
+            groupView.findViewById(R.id.group_name).setVisibility(View.VISIBLE);
+            footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);
+            footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
+            RelativeLayout categoryTypeLayout = (RelativeLayout) groupView.findViewById(R.id.category_type_view);
+            categoryTypeLayout.setVisibility(View.GONE);
+            categoryTypeLayout.findViewById(R.id.red_wine_butt).setOnClickListener(null);
+            categoryTypeLayout.findViewById(R.id.white_wine_butt).setOnClickListener(null);
+            categoryTypeLayout.findViewById(R.id.pink_wine_butt).setOnClickListener(null);
         }
     };
 

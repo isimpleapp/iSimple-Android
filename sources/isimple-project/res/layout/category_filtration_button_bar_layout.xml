@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="50dip">
-    <org.holoeverywhere.widget.Button
-            android:layout_height="match_parent"
-            android:layout_width="0dip" android:layout_weight="2" android:id="@+id/reset_butt" android:text="Сброс"/>
-    <org.holoeverywhere.widget.Button
-            android:layout_height="match_parent"
-            android:layout_width="0dip" android:layout_weight="3" android:id="@+id/search_butt" android:text="Найти"/>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    <LinearLayout
+            android:id="@+id/filter_button_bar"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dip">
+        <org.holoeverywhere.widget.Button
+                android:layout_height="match_parent"
+                android:layout_width="0dip"
+                android:layout_weight="2"
+                android:id="@+id/reset_butt"
+                android:text="Сброс"/>
+        <org.holoeverywhere.widget.Button
+                android:layout_height="match_parent"
+                android:layout_width="0dip"
+                android:layout_weight="3"
+                android:id="@+id/search_butt"
+                android:text="Найти"/>
+    </LinearLayout>
+    <RadioGroup
+            android:layout_width="match_parent"
+            android:id="@+id/sort_group"
+            android:visibility="visible"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+        <org.holoeverywhere.widget.RadioButton
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:id="@+id/alphabet_sort"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/sort_label_alphabet"/>
+        <org.holoeverywhere.widget.RadioButton
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:id="@+id/price_sort"
+                android:layout_weight="1"
+                android:text="@string/sort_label_price"/>
+    </RadioGroup>
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
@@ -70,7 +71,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchManager searcMenager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-
         mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
@@ -80,8 +80,11 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                 mSearchView.onActionViewCollapsed();
                 mSearchView.setQuery("", false);
                 mSearchView.clearFocus();
-                SearchResult.categoryID = null;
-                return false;
+                if(query.trim().length() != 0) {
+                    SearchResult.categoryID = null;
+                    return false;
+                }
+                return true;
             }
 
             @Override

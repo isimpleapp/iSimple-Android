@@ -13,12 +13,26 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <meta-data
+                    android:name="android.app.default_searchable"
+                    android:value=".activities.SearchResult" />
         </activity>
-        <activity android:name=".activities.CatalogByCategoryActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.CatalogByCategoryActivity" android:screenOrientation="portrait">
+            <meta-data
+                    android:name="android.app.default_searchable"
+                    android:value=".activities.SearchResult" />
+        </activity>
         <activity android:name=".activities.ProductInfoActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.FilterActivity"/>
         <activity android:name=".activities.CatalogByCategoryActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.SearchResult" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.SearchResult" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+            <meta-data
+                    android:name="android.app.searchable"
+                    android:resource="@xml/searchable"/>
+        </activity>
         <uses-library android:name="com.google.android.maps" />
     </application>
 </manifest>

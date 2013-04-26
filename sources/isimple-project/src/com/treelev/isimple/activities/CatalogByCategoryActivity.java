@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -20,7 +19,6 @@ import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.FilterItem;
-import com.treelev.isimple.tasks.Search;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
@@ -43,6 +41,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private ExpandableListView listView;
     private RadioGroup checkTypeRg;
     private View footerView;
+    private SearchView mSearchView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,15 +78,13 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setIconifiedByDefault(false);
+        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        mSearchView.setIconifiedByDefault(false);
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                Search search = new Search(CatalogByCategoryActivity.this, mCategoryId);
-                search.execute(query);
+                mSearchView.onActionViewCollapsed();
+                SearchResult.categoryID = null;
                 return false;
             }
 
@@ -96,7 +93,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                 return false;
             }
         };
-        searchView.setOnQueryTextListener(queryTextListener);
+        mSearchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }
 

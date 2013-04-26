@@ -1,5 +1,6 @@
 package com.treelev.isimple.activities;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -8,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import com.actionbarsherlock.app.ActionBar;
@@ -17,10 +17,8 @@ import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
-import com.treelev.isimple.tasks.Search;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.util.ByteArrayBuffer;
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.widget.ListView;
 
@@ -32,6 +30,9 @@ import java.util.HashMap;
 public class CatalogListActivity extends ListActivity implements ActionBar.OnNavigationListener {
 
     public final static String CATEGORY_NAME_EXTRA_ID = "category_name";
+
+    SearchView mSearchView;
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -47,6 +48,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                 R.id.item_volume, R.id.item_price});
         //simpleAdapter.setViewBinder(new ImageBinder(this));
         listView.setAdapter(simpleAdapter);
+        mContext = this;
     }
 
     @Override
@@ -67,15 +69,18 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setIconifiedByDefault(false);
+        SearchManager searcMenager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+
+        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconifiedByDefault(false);
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                Search search = new Search(CatalogListActivity.this, null);
-                search.execute(query);
+                mSearchView.onActionViewCollapsed();
+                mSearchView.setQuery("", false);
+                mSearchView.clearFocus();
+                SearchResult.categoryID = null;
                 return false;
             }
 
@@ -84,7 +89,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                 return false;
             }
         };
-        searchView.setOnQueryTextListener(queryTextListener);
+        mSearchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }
 

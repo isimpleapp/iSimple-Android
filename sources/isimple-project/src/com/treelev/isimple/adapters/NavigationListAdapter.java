@@ -65,6 +65,11 @@ public class NavigationListAdapter extends BaseAdapter {
         }
         holder.title.setText(mTitles[position]);
         holder.icon.setImageDrawable(mIcons[position]);
+
+//        if(isDropDownView) {
+//            holder.title.setText(mTitles[position]);
+//            holder.icon.setImageDrawable(mIcons[position]);
+//        }
         if (!isDropDownView) {
             holder.title.setTextColor(mContext.getResources().getColor(R.color.select_item_navigation));
         }

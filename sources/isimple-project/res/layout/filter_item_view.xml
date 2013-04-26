@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="50dip">
+    <org.holoeverywhere.widget.TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                        android:textColor="@android:color/black" android:layout_alignParentLeft="true"
+                                        android:id="@+id/filter_data_name"
+                                        android:layout_marginLeft="10dip"
+                                        android:textSize="18dip" android:text="qwegqwgheqweh"
+                                        android:layout_centerVertical="true"/>
+    <org.holoeverywhere.widget.CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true" android:id="@+id/filter_data_check"
+                                        style="@style/Holo.CompoundButton.CheckBox.Light"
+                                        android:layout_marginRight="10dip"/>
+</RelativeLayout>

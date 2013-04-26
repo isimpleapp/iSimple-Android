@@ -88,17 +88,21 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="70dip" android:gravity="center" android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip">
+            android:layout_height="45dip" android:gravity="center" android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip" android:layout_marginTop="5dip" android:layout_marginBottom="5dip">
         <org.holoeverywhere.widget.Button
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="В корзину"
-                android:id="@+id/button" android:layout_weight="4"/>
+                android:id="@+id/button" android:layout_weight="4"
+                android:background="@drawable/product_info_basket_butt_selector" android:layout_marginLeft="3dip"
+                android:layout_marginRight="3dip" android:drawableLeft="@drawable/add_basket_ico"/>
         <org.holoeverywhere.widget.Button
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Где купить?"
-                android:id="@+id/button1" android:layout_weight="3"/>
+                android:id="@+id/button1" android:layout_weight="3"
+                android:background="@drawable/product_info_basket_butt_selector" android:layout_marginLeft="3dip"
+                android:layout_marginRight="3dip"/>
     </LinearLayout>
 </LinearLayout>

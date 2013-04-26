@@ -5,7 +5,7 @@
         android:layout_width="match_parent">
     <LinearLayout
             android:id="@+id/filter_button_bar"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="50dip">
@@ -14,18 +14,20 @@
                 android:layout_width="0dip"
                 android:layout_weight="2"
                 android:id="@+id/reset_butt"
-                android:text="Сброс"/>
+                android:text="@string/filtration_butt_reset" android:background="@drawable/category_reset_butt_selector"
+                android:textColor="#3e3e3e" android:textSize="18dip"/>
         <org.holoeverywhere.widget.Button
                 android:layout_height="match_parent"
                 android:layout_width="0dip"
                 android:layout_weight="3"
                 android:id="@+id/search_butt"
-                android:text="Найти"/>
+                android:text="@string/filtration_butt_find" android:background="@drawable/category_find_butt_selector"
+                android:textColor="@android:color/white" android:textSize="18dip"/>
     </LinearLayout>
     <RadioGroup
             android:layout_width="match_parent"
             android:id="@+id/sort_group"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">

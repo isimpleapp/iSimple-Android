@@ -76,9 +76,10 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = new ViewHolder();
+        ViewHolder viewHolder;
         if (convertView == null) {
             convertView = infalInflater.inflate(R.layout.category_filtration_expandable_item_layout, null);
+            viewHolder = new ViewHolder();
             viewHolder.text = (TextView) convertView.findViewById(R.id.item_content);
             viewHolder.seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);
             viewHolder.seekBarLayout.addView(createSeekBar());
@@ -98,6 +99,11 @@ public class FilterAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
+
     private RangeSeekBar<Integer> createSeekBar() {
         RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(20, 75, context);
         seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
@@ -113,17 +119,5 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     private class ViewHolder {
         public TextView text;
         public LinearLayout seekBarLayout;
-    }
-
-    private View.OnClickListener resetButtonClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
     }
 }

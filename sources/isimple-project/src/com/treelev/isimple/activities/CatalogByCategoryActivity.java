@@ -31,9 +31,11 @@ import java.util.List;
 import java.util.Map;
 
 public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
-        ActionBar.OnNavigationListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener {
+        ActionBar.OnNavigationListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener,
+        ExpandableListView.OnChildClickListener {
 
     private final static String FIELD_TAG = "field_tag";
+    public final static String FILTER_DATA_TAG = "filter_data";
     private List<Item> mItems;
     private List<Map<String, ?>> mUiItemList;
     private SimpleAdapter mListCategoriesAdapter;
@@ -51,16 +53,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         mCategoryId = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
         initDataListView(mCategoryId);
         initFilterListView(createFilterList(), mCategoryId);
-    }
-
-    private List<FilterItem> createFilterList() {
-        List<FilterItem> filterItems = new ArrayList<FilterItem>();
-        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Содержание сахара"));
-        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Регион"));
-        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Вкусовое сочетание"));
-        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_PROGRESS));
-        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Год урожая"));
-        return filterItems;
     }
 
     @Override
@@ -117,12 +109,45 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     }
 
     @Override
+    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Ошибка");
+        builder.setMessage("Фильтрация недоступна");
+        builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+        return true;
+    }
+
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         HashMap product = (HashMap) l.getAdapter().getItem(position);
         Intent startIntent = new Intent(this, ProductInfoActivity.class);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
         startActivity(startIntent);
+    }
+
+    @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        Intent filterDataIntent = new Intent(this, FilterActivity.class);
+        filterDataIntent.putExtra(FILTER_DATA_TAG, childPosition);
+        startActivity(filterDataIntent);
+        return false;
+    }
+
+    private List<FilterItem> createFilterList() {
+        List<FilterItem> filterItems = new ArrayList<FilterItem>();
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Содержание сахара"));
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Регион"));
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Вкусовое сочетание"));
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_PROGRESS));
+        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, "Год урожая"));
+        return filterItems;
     }
 
     private void initDataListView(int categoryId) {
@@ -141,6 +166,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, getString(R.string.filtration_label), content);
         listView = (ExpandableListView) findViewById(R.id.filtration_view);
         listView.setOnGroupExpandListener(this);
+        listView.setOnChildClickListener(this);
         if (categoryId != R.id.category_wine_butt) {
             listView.setOnGroupClickListener(this);
         }
@@ -168,21 +194,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         NavigationListAdapter list = new NavigationListAdapter(this, iconLocation, locations);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getSupportActionBar().setListNavigationCallbacks(list, this);
-    }
-
-    @Override
-    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Ошибка");
-        builder.setMessage("Фильтрация недоступна");
-        builder.setPositiveButton("Ок", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-        return true;
     }
 
     private View.OnClickListener categoryTypeClick = new View.OnClickListener() {

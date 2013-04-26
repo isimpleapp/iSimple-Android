@@ -6,6 +6,7 @@ import com.treelev.isimple.data.*;
 import com.treelev.isimple.domain.comparators.ItemCompareName;
 import com.treelev.isimple.domain.comparators.ItemComparePrice;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.utils.Utils;
 
 import java.util.*;
 
@@ -60,8 +61,10 @@ public class ProxyManager {
             uiDataItem.put(Item.UI_TAG_NAME, item.getName());
             uiDataItem.put(Item.UI_TAG_LOCALIZATION_NAME, item.getLocalizedName());
             uiDataItem.put(Item.UI_TAG_DRINK_TYPE, item.getDrinkType());
-            uiDataItem.put(Item.UI_TAG_VOLUME, item.getVolume());
-            uiDataItem.put(Item.UI_TAG_PRICE, item.getPrice());
+            String volumeLabel = Utils.organizeVolumeLabel(item.getVolume());
+            uiDataItem.put(Item.UI_TAG_VOLUME, volumeLabel != null ? volumeLabel : "");
+            String priceLabel = Utils.organizePriceLabel(item.getPrice());
+            uiDataItem.put(Item.UI_TAG_PRICE, priceLabel != null ? priceLabel : "");
             uiDataList.add(uiDataItem);
         }
         return uiDataList;

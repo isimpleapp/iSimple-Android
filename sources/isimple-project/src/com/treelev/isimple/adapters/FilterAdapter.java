@@ -113,6 +113,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
             }
         });
         seekBar.setBackgroundColor(Color.WHITE);
+
         return seekBar;
     }
 

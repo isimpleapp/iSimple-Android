@@ -40,7 +40,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private List<Item> mItems;
     private List<Map<String, ?>> mUiItemList;
     private SimpleAdapter mListCategoriesAdapter;
-    private int mCategoryId;
     private ExpandableListView listView;
     private RadioGroup checkTypeRg;
     private View footerView;
@@ -51,7 +50,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
         createNavigation();
-        mCategoryId = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
+        int mCategoryId = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
         initDataListView(mCategoryId);
         initFilterListView(createFilterList(), mCategoryId);
     }

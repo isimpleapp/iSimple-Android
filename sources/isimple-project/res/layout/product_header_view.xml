@@ -12,7 +12,7 @@
             android:textColor="@android:color/white" android:height="30dip" android:textStyle="bold" android:textSize="13dip"/>
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="265dip">
+            android:layout_height="wrap_content">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -77,6 +77,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dip"
                     android:id="@+id/product_year"/>
+            <view android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  class="org.holoeverywhere.widget.TextView" android:id="@+id/retail_price_label"
+                  android:layout_marginTop="3dip"/>
         </LinearLayout>
         <ImageView
                 android:contentDescription="@string/app_name"
@@ -93,15 +97,15 @@
         <org.holoeverywhere.widget.Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:text="В корзину"
-                android:id="@+id/button" android:layout_weight="4"
+                android:id="@+id/add_to_basket_butt" android:layout_weight="4"
                 android:background="@drawable/product_info_basket_butt_selector" android:layout_marginLeft="3dip"
-                android:layout_marginRight="3dip" android:drawableLeft="@drawable/add_basket_ico"/>
+                android:layout_marginRight="3dip" android:drawableLeft="@drawable/add_basket_ico"
+                android:textColor="@color/item_price_color"/>
         <org.holoeverywhere.widget.Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Где купить?"
-                android:id="@+id/button1" android:layout_weight="3"
+                android:id="@+id/shops_butt" android:layout_weight="3"
                 android:background="@drawable/product_info_basket_butt_selector" android:layout_marginLeft="3dip"
                 android:layout_marginRight="3dip"/>
     </LinearLayout>

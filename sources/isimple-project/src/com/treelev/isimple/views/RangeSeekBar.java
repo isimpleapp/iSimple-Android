@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
-import org.holoeverywhere.R;
+import com.treelev.isimple.R;
 
 import java.math.BigDecimal;
 
@@ -33,7 +33,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     /**
      * Default color of a {@link RangeSeekBar}, #FF33B5E5. This is also known as "Ice Cream Sandwich" blue.
      */
-    public static final int DEFAULT_COLOR = Color.argb(0xFF, 0x33, 0xB5, 0xE5);
+    //public static final int DEFAULT_COLOR = Color.argb(0xFF, 0x33, 0xB5, 0xE5);
+    public static final int DEFAULT_COLOR = Color.parseColor("#ea168c");
 
     /**
      * An invalid pointer id.

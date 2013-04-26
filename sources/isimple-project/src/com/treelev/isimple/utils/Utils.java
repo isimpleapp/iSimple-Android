@@ -8,6 +8,9 @@ import com.treelev.isimple.utils.managers.LocationTrackingManager;
 
 public class Utils {
 
+    private final static String FORMAT_PRICE_LABEL = "%s р.";
+    private final static String FORMAT_VOLUME_LABEL = "%sл";
+
     public static Parser getXmlParser(int parserId) {
         switch (parserId) {
             case ItemPricesParser.ITEM_PRICES_PARSER_ID:
@@ -36,5 +39,23 @@ public class Utils {
 
     public static boolean isNetworkAvailable(Context context) {
         return ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null;
+    }
+
+    public static String organizePriceLabel(String price) {
+        String result = null;
+        if (price != null) {
+            String[] realPrice = price.split("\\.");
+            result = String.format(FORMAT_PRICE_LABEL, realPrice[0]);
+        }
+        return result;
+    }
+
+    public static String organizeVolumeLabel(String volume) {
+        String result = null;
+        if (volume != null) {
+            result = volume.replace('.', ',');
+            result = String.format(FORMAT_VOLUME_LABEL, result);
+        }
+        return result;
     }
 }

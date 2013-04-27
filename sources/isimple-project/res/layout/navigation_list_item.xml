@@ -4,13 +4,6 @@
               android:layout_height="match_parent"
               android:layout_gravity="center_vertical"
               android:orientation="horizontal">
-    <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:padding="4dip"/>
-
     <TextView
             android:id="@+id/title"
             style="?attr/spinnerItemStyle"
@@ -18,6 +11,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:layout_gravity="center_vertical"/>
-
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/select_item_navigation"/>
 </LinearLayout>

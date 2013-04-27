@@ -34,6 +34,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
 
     SearchView mSearchView;
     Context mContext;
+    MenuItem mItemSearch;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -74,14 +75,13 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
+        mItemSearch = menu.findItem(R.id.menu_search);
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mSearchView.onActionViewCollapsed();
-                mSearchView.setQuery("", false);
-                mSearchView.clearFocus();
                 if(query.trim().length() != 0) {
                     SearchResult.categoryID = null;
+                    SearchResult.backActivity = CatalogListActivity.class;
                     return false;
                 }
                 return true;
@@ -146,7 +146,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
 
     private void createNavigation() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
         Context context = getSupportActionBar().getThemedContext();
         String[] menuItemText = getResources().getStringArray(R.array.main_menu_items);
         TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
@@ -157,5 +156,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, menuItemIcon, menuItemText);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
     }
 }

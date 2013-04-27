@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.FilterAdapter;
@@ -44,15 +45,30 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private RadioGroup checkTypeRg;
     private View footerView;
     private SearchView mSearchView;
+    private Integer mCategoryID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
         createNavigation();
-        int mCategoryId = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
-        initDataListView(mCategoryId);
-        initFilterListView(createFilterList(), mCategoryId);
+        mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
+        initDataListView(mCategoryID);
+        initFilterListView(createFilterList(), mCategoryID);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(this, CatalogListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -77,8 +93,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mSearchView.onActionViewCollapsed();
-                SearchResult.categoryID = null;
+                SearchResult.backActivity = CatalogByCategoryActivity.class;
+                SearchResult.categoryID = mCategoryID;
                 return false;
             }
 
@@ -185,7 +201,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     private void createNavigation() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
         Context context = getSupportActionBar().getThemedContext();
         String[] locations = getResources().getStringArray(R.array.main_menu_items);
         TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
@@ -196,6 +211,9 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         NavigationListAdapter list = new NavigationListAdapter(this, iconLocation, locations);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getSupportActionBar().setListNavigationCallbacks(list, this);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
     }
 
     private View.OnClickListener categoryTypeClick = new View.OnClickListener() {
@@ -272,43 +290,4 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             mDialog.dismiss();
         }
     }
-
-//    private class Search extends AsyncTask<String, Void, Void> {
-//
-//        private Dialog mDialog;
-//        private Context context;
-//        private ProxyManager proxyManager;
-//
-//        Search(Context context) {
-//            this.context = context;
-//            this.proxyManager = new ProxyManager(context);
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_title),
-//                    context.getString(R.string.dialog_search_message), false, false);
-//        }
-//
-//        @Override
-//        protected Void doInBackground(String... strings) {
-//            mItems = proxyManager.getSearchItemsByCategory(mCategoryId, strings[0]);
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void result) {
-//            super.onPostExecute(result);
-//            mDialog.dismiss();
-//            mUiItemList = proxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
-//            mListCategoriesAdapter = new SimpleAdapter(context,
-//                    mUiItemList,
-//                    R.layout.catalog_item_layout,
-//                    Item.getUITags(),
-//                    new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type, R.id.item_volume, R.id.item_price});
-//            getListView().setAdapter(mListCategoriesAdapter);
-//        }
-//    }
-
 }

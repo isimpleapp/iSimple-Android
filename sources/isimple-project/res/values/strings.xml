@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">iSimple</string>
     <string name="search_hint"></string>
+
+    <string name="message_not_found">По Вашему запросу ничего не найдено</string>
 </resources>

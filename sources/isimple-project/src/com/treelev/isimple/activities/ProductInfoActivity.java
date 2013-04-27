@@ -2,11 +2,13 @@ package com.treelev.isimple.activities;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
@@ -30,6 +32,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private final static String FIELD_TAG = "field_tag";
     private final static String FORMAT_FIELDS = "- %s";
     private final static String EMPTY_PRICE_LABEL = "-";
+    Item mProduct;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,17 +40,27 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
-        Item product = proxyManager.getItemById(itemId);
+        mProduct = proxyManager.getItemById(itemId);
         ExpandableListView listView = getExpandableListView();
         View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
-        populateFormsFields(headerView, product);
-        List<ExpandableListItem> expandableListItemList = createExpandableItems(product);
+        populateFormsFields(headerView, mProduct);
+        List<ExpandableListItem> expandableListItemList = createExpandableItems(mProduct);
         SimpleExpandableListAdapter listAdapter = new SimpleExpandableListAdapter(this, createExpandableGroups(expandableListItemList),
                 R.layout.product_info_expandable_group_layout, new String[]{FIELD_TAG}, new int[]{R.id.group_name}, createExpandableContent(expandableListItemList),
                 R.layout.expandable_item_layout, new String[]{FIELD_TAG}, new int[]{R.id.item_content}
         );
         listView.setAdapter(listAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -123,7 +136,6 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
 
     private void createNavigation() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
         Context context = getSupportActionBar().getThemedContext();
         String[] menuItemText = getResources().getStringArray(R.array.main_menu_items);
         TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
@@ -134,5 +146,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, menuItemIcon, menuItemText);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
     }
 }

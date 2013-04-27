@@ -3,12 +3,20 @@ package com.treelev.isimple.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
@@ -16,38 +24,104 @@ import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchResult extends ListActivity implements RadioGroup.OnCheckedChangeListener{
+public class SearchResult extends ListActivity implements RadioGroup.OnCheckedChangeListener,
+                ActionBar.OnNavigationListener {
 
     public static Integer categoryID;
+    public static Class backActivity;
 
     private List<Item> mItems;
     private List<Map<String, ?>> mUiItemList;
     private SimpleAdapter mListCategoriesAdapter;
     private ProxyManager mProxyManager;
+    private SearchView mSearchView;
+    private String mQuery;
 
     @Override
     public void  onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
+        createNavigation();
         RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
         rg.setOnCheckedChangeListener(this);
-//        Intent intent = getIntent();
-//        mItems = (List<Item>) intent.getSerializableExtra(LIST_RESULT);
         mProxyManager = new ProxyManager(this);
-        Intent intent = getIntent();
+        handledIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent newInten) {
+        setIntent(newInten);
+        handledIntent(newInten);
+    }
+
+    void handledIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Search search = new Search(this, categoryID);
             search.execute(query);
         }
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.search, menu);
+        SearchManager searcMenager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+//                mSearchView.onActionViewCollapsed();
+//                mSearchView.setQuery("", false);
+//                mSearchView.clearFocus();
+                if(query.trim().length() != 0) {
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        };
+        mSearchView.setOnQueryTextListener(queryTextListener);
+//        mSearchView.setIconifiedByDefault(false);
+//        MenuItem item = menu.findItem(R.id.menu_search);
+//        item.expandActionView();
+//        item.setTitle(mQuery);
+//        mSearchView.onActionViewExpanded();
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                back();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        back();
+    }
+
+    void back(){
+        Intent intent = new Intent(this, backActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, categoryID);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
@@ -74,6 +148,28 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
         mUiItemList.clear();
         mUiItemList.addAll(mProxyManager.convertItemsToUI(mItems, sortBy));
         mListCategoriesAdapter.notifyDataSetChanged();
+    }
+
+    private void createNavigation() {
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Context context = getSupportActionBar().getThemedContext();
+        String[] menuItemText = getResources().getStringArray(R.array.main_menu_items);
+        TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
+        Drawable[] menuItemIcon = new Drawable[typedArray.length()];
+        for(int i = 0; i < menuItemText.length; ++i) {
+            menuItemIcon[i] = typedArray.getDrawable(i);
+        }
+        NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, menuItemIcon, menuItemText);
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     class Search extends AsyncTask<String, Void, List<Item>> {
@@ -106,7 +202,7 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
             super.onPostExecute(result);
             mDialog.dismiss();
             mItems = result;
-            mProxyManager = new ProxyManager(mContext);
+            mProxyManager =  new ProxyManager(mContext);
             mUiItemList = mProxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
             mListCategoriesAdapter = new SimpleAdapter(mContext,
                     mUiItemList,
@@ -115,6 +211,9 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
                     new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type, R.id.item_volume, R.id.item_price});
             ListView listView = getListView();
             getListView().setAdapter(mListCategoriesAdapter);
+            if(getListView().getCount() == 0) {
+                Toast.makeText(mContext, mContext.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
+            }
         }
     }
 

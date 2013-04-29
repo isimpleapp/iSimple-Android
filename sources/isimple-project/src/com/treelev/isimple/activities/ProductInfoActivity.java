@@ -70,8 +70,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
 
     @Override
     public void onBackPressed() {
+        finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
-        super.onBackPressed();
     }
 
     private List<List<Map<String, ?>>> createExpandableContent(List<ExpandableListItem> expandableListItemList) {

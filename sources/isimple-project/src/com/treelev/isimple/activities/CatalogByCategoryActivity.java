@@ -161,8 +161,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public void onBackPressed() {
+        finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
-        super.onBackPressed();
     }
 
     private List<FilterItem> createFilterList() {

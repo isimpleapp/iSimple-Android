@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content" android:background="@color/catalog_header_background" android:clickable="true">
+             android:layout_height="wrap_content" android:background="@color/catalog_header_background" android:clickable="true"
+        >
     <TableRow
-            android:layout_width="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:orientation="horizontal" android:layout_height="55dip">
         <org.holoeverywhere.widget.Button
                 android:drawableLeft="@drawable/category_wine_selector"
                 android:text="@string/category_name_wine"
@@ -12,23 +13,23 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:id="@+id/category_wine_butt" style="@style/CategoryButtStyle"
-                android:textSize="19dip" android:onClick="onClickCategoryButt"/>
+                android:textSize="15dip" android:onClick="onClickCategoryButt"/>
         <org.holoeverywhere.widget.Button
                 android:text="@string/category_name_spirits"
                 android:layout_width="0dip"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:id="@+id/category_spirits_butt"
-                style="@style/CategoryButtStyle" android:textSize="16dip"
+                style="@style/CategoryButtStyle" android:textSize="18dip"
                 android:drawableLeft="@drawable/category_whiskey_selector" android:onClick="onClickCategoryButt"/>
     </TableRow>
-    <TableRow android:layout_weight="1">
+    <TableRow android:layout_width="match_parent" android:layout_height="55dip">
         <org.holoeverywhere.widget.Button
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:layout_width="0dip"
                 android:text="@string/category_name_sparkling"
-                android:textSize="13dip"
+                android:textSize="18dip"
                 android:id="@+id/category_sparkling_butt"
                 style="@style/CategoryButtStyle"
                 android:drawableLeft="@drawable/category_champagne_selector" android:onClick="onClickCategoryButt"/>
@@ -39,9 +40,9 @@
                 android:text="@string/category_name_porto_heres"
                 android:id="@+id/category_porto_heres_butt"
                 style="@style/CategoryButtStyle"
-                android:drawableLeft="@drawable/category_porto_heres_selector" android:textSize="19dip" android:onClick="onClickCategoryButt"/>
+                android:drawableLeft="@drawable/category_porto_heres_selector" android:textSize="18dip" android:onClick="onClickCategoryButt"/>
     </TableRow>
-    <TableRow android:layout_weight="1">
+    <TableRow android:layout_width="match_parent" android:layout_height="55dip">
         <org.holoeverywhere.widget.Button
                 android:layout_weight="1"
                 android:layout_width="0dip"
@@ -49,7 +50,7 @@
                 android:text="@string/category_name_sake"
                 android:id="@+id/category_sake_butt"
                 style="@style/CategoryButtStyle"
-                android:drawableLeft="@drawable/category_sake_selector" android:textSize="19dip" android:onClick="onClickCategoryButt"/>
+                android:drawableLeft="@drawable/category_sake_selector" android:textSize="18dip" android:onClick="onClickCategoryButt"/>
         <org.holoeverywhere.widget.Button
                 android:layout_weight="1"
                 android:layout_width="0dip"
@@ -57,7 +58,7 @@
                 android:text="@string/category_name_water"
                 android:id="@+id/category_water_butt"
                 style="@style/CategoryButtStyle"
-                android:drawableLeft="@drawable/category_water_selector" android:textSize="17dip"
+                android:drawableLeft="@drawable/category_water_selector" android:textSize="18dip"
                 android:onClick="onClickCategoryButt"/>
     </TableRow>
 </TableLayout>

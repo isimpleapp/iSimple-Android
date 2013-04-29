@@ -14,13 +14,10 @@ public class NavigationListAdapter extends BaseAdapter {
 
     private Drawable[] mIcons;
     private String[] mTitles;
-    private Context mContext;
     private LayoutInflater mInflator;
 
     public NavigationListAdapter(Context context, Drawable[] icons, String[] titles) {
-        mContext = context;
-        mInflator = (LayoutInflater) mContext.getSystemService(
-                Context.LAYOUT_INFLATER_SERVICE);
+        mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mIcons = icons;
         mTitles = titles;
     }
@@ -89,7 +86,7 @@ public class NavigationListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.title.setText(mTitles[position]);
-        if(isDropDownView) {
+        if (isDropDownView) {
             holder.icon.setImageDrawable(mIcons[position]);
         }
         return convertView;

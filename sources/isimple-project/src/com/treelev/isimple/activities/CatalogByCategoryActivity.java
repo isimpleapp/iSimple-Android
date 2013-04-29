@@ -44,7 +44,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private ExpandableListView listView;
     private RadioGroup checkTypeRg;
     private View footerView;
-    private SearchView mSearchView;
     private Integer mCategoryID;
 
     @Override
@@ -87,7 +86,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchManager searcMenager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
@@ -148,6 +147,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         Intent startIntent = new Intent(this, ProductInfoActivity.class);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
         startActivity(startIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     @Override
@@ -155,7 +155,14 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         Intent filterDataIntent = new Intent(this, FilterActivity.class);
         filterDataIntent.putExtra(FILTER_DATA_TAG, childPosition);
         startActivity(filterDataIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+        super.onBackPressed();
     }
 
     private List<FilterItem> createFilterList() {

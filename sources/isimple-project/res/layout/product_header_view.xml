@@ -35,7 +35,7 @@
             <org.holoeverywhere.widget.TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/product_drink_id"
+                    android:id="@+id/product_item_id"
                     android:textColor="@color/product_text_color3"
                     android:layout_marginTop="5dip" android:layout_marginBottom="5dip"/>
             <View

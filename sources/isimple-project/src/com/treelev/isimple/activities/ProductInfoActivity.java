@@ -2,10 +2,10 @@ package com.treelev.isimple.activities;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
@@ -68,6 +68,12 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+        super.onBackPressed();
+    }
+
     private List<List<Map<String, ?>>> createExpandableContent(List<ExpandableListItem> expandableListItemList) {
         List<List<Map<String, ?>>> list = new ArrayList<List<Map<String, ?>>>();
         for (ExpandableListItem anExpandableListItemList : expandableListItemList) {
@@ -83,14 +89,20 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private List<ExpandableListItem> createExpandableItems(Item product) {
         String[] itemsNames = getResources().getStringArray(R.array.expandable_groups_names);
         List<ExpandableListItem> items = new ArrayList<ExpandableListItem>();
-        items.add(new ExpandableListItem(itemsNames[0], product.getStyleDescription()));
-        items.add(new ExpandableListItem(itemsNames[1], product.getGastronomy()));
-        items.add(new ExpandableListItem(itemsNames[2], product.getTasteQualities()));
-        items.add(new ExpandableListItem(itemsNames[3], product.getInterestingFacts()));
-        items.add(new ExpandableListItem(itemsNames[4], product.getProductionProcess()));
-        items.add(new ExpandableListItem(itemsNames[5], product.getDrinkCategory().getDescription()));
-        items.add(new ExpandableListItem(itemsNames[6], product.getVineyard()));
+        addExpandableItem(items, itemsNames[0], product.getStyleDescription());
+        addExpandableItem(items, itemsNames[1], product.getGastronomy());
+        addExpandableItem(items, itemsNames[2], product.getTasteQualities());
+        addExpandableItem(items, itemsNames[3], product.getInterestingFacts());
+        addExpandableItem(items, itemsNames[4], product.getProductionProcess());
+        addExpandableItem(items, itemsNames[5], product.getDrinkCategory().getDescription());
+        addExpandableItem(items, itemsNames[6], product.getVineyard());
         return items;
+    }
+
+    private void addExpandableItem(List<ExpandableListItem> listItems, String itemName, String itemContent) {
+        if (!TextUtils.isEmpty(itemContent)) {
+            listItems.add(new ExpandableListItem(itemName, itemContent));
+        }
     }
 
     private List<Map<String, ?>> createExpandableGroups(List<ExpandableListItem> expandableListItemList) {
@@ -106,29 +118,22 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private void populateFormsFields(View formView, Item product) {
         String priceLabel = Utils.organizePriceLabel(product.getPrice());
         ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(priceLabel != null ? priceLabel : EMPTY_PRICE_LABEL);
-        organizeTextView((TextView) formView.findViewById(R.id.product_name), product.getName());
-        organizeTextView((TextView) formView.findViewById(R.id.product_manufacturer), product.getManufacturer());
-        organizeTextView((TextView) formView.findViewById(R.id.product_localizated_name), product.getLocalizedName());
-        organizeTextView((TextView) formView.findViewById(R.id.product_drink_id), product.getDrinkID());
-        organizeTextView((TextView) formView.findViewById(R.id.product_region), product.getRegion() != null ?
-                String.format(FORMAT_FIELDS, product.getRegion()) : null);
-        organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription() != null ?
-                String.format(FORMAT_FIELDS, product.getSweetness().getDescription()) : null);
-        organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription() != null ?
-                String.format(FORMAT_FIELDS, product.getStyle().getDescription()) : null);
-        organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed() != null ?
-                String.format(FORMAT_FIELDS, product.getGrapesUsed()) : null);
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), product.getAlcohol() != null ?
-                String.format(FORMAT_FIELDS, product.getAlcohol()) : null);
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), product.getVolume() != null ?
-                String.format(FORMAT_FIELDS, product.getVolume()) : null);
-        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear() != null ?
-                String.format(FORMAT_FIELDS, product.getYear()) : null);
+        ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
+        ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
+        ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product.getLocalizedName());
+        ((TextView) formView.findViewById(R.id.product_item_id)).setText(product.getItemID());
+        organizeTextView((TextView) formView.findViewById(R.id.product_region), product.getRegion());
+        organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
+        organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
+        organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), product.getAlcohol());
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), product.getVolume());
+        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }
 
     private void organizeTextView(TextView textView, String text) {
-        if (text != null) {
-            textView.setText(text);
+        if (!TextUtils.isEmpty(text)) {
+            textView.setText(String.format(FORMAT_FIELDS, text));
         } else {
             textView.setVisibility(View.GONE);
         }

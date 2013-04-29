@@ -60,26 +60,28 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         Intent startIntent = new Intent(this, ProductInfoActivity.class);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
         startActivity(startIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     public void onClickCategoryButt(View v) {
         Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
         startIntent.putExtra(CATEGORY_NAME_EXTRA_ID, v.getId());
         startActivity(startIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
-        SearchManager searcMenager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
         mItemSearch = menu.findItem(R.id.menu_search);
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(query.trim().length() != 0) {
+                if (query.trim().length() != 0) {
                     SearchResult.categoryID = null;
                     SearchResult.backActivity = CatalogListActivity.class;
                     return false;
@@ -150,7 +152,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         String[] menuItemText = getResources().getStringArray(R.array.main_menu_items);
         TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
         Drawable[] menuItemIcon = new Drawable[typedArray.length()];
-        for(int i = 0; i < menuItemText.length; ++i) {
+        for (int i = 0; i < menuItemText.length; ++i) {
             menuItemIcon[i] = typedArray.getDrawable(i);
         }
         NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, menuItemIcon, menuItemText);

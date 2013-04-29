@@ -39,7 +39,6 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
     private List<Map<String, ?>> mUiItemList;
     private SimpleAdapter mListCategoriesAdapter;
     private ProxyManager mProxyManager;
-    private SearchView mSearchView;
     private String mQuery;
 
     @Override
@@ -54,9 +53,9 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
     }
 
     @Override
-    protected void onNewIntent(Intent newInten) {
-        setIntent(newInten);
-        handledIntent(newInten);
+    protected void onNewIntent(Intent newIntent) {
+        setIntent(newIntent);
+        handledIntent(newIntent);
     }
 
     void handledIntent(Intent intent) {
@@ -71,7 +70,7 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchManager searcMenager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override

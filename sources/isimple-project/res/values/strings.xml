@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">iSimple</string>
-    <string name="search_hint"></string>
+    <string name="search_hint"/>
 
     <string name="message_not_found">По Вашему запросу ничего не найдено</string>
 </resources>

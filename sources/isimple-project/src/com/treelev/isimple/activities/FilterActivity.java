@@ -35,6 +35,12 @@ public class FilterActivity extends ListActivity implements ActionBar.OnNavigati
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+        super.onBackPressed();
+    }
+
     private List<FilterData> createFilterDataList(int filterId) {
         List<FilterData> filterList = new ArrayList<FilterData>();
         if (filterId == 0) {

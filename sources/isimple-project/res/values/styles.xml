@@ -6,12 +6,14 @@
 <!--        <item name="android:spinnerItemStyle">@style/CustomSpinner.SpinnerItem</item> -->
     </style>
 
-    <style name="CustomActionBar" parent="android:Widget.Holo.Light.ActionBar">
+    <style name="CustomActionBar" parent="Widget.Sherlock.Light.ActionBar">
         <item name="android:background">@color/category_butt_back</item>
     </style>
 
-    <style name="CustomSpinner" parent="android:Widget.Holo.Light.Spinner">
+    <style name="CustomSpinner" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_selector</item>
+        <item name="android:dropDownSelector">@drawable/list_navigation_selector</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel</item>
     </style>
 
     <!--<style name="CustomSpinner.SpinnerItem" parent="android:Widget.Holo.Light.TextView.SpinnerItem">-->

@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
+             android:layout_width="fill_parent"
              android:layout_height="wrap_content" android:background="@color/catalog_header_background" android:clickable="true"
-        >
+             android:padding="2dip">
     <TableRow
-            android:layout_width="match_parent"
-            android:orientation="horizontal" android:layout_height="55dip">
+            android:layout_width="fill_parent"
+            android:orientation="horizontal" android:layout_height="wrap_content">
         <org.holoeverywhere.widget.Button
                 android:drawableLeft="@drawable/category_wine_selector"
-                android:text="@string/category_name_wine"
                 android:layout_width="0dip"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:id="@+id/category_wine_butt" style="@style/CategoryButtStyle"
-                android:textSize="15dip" android:onClick="onClickCategoryButt"/>
+                android:layout_height="56dip"
+                android:id="@+id/category_wine_butt"
+                style="@style/CategoryButtStyle"
+                android:textSize="15dip"
+                android:onClick="onClickCategoryButt"
+                android:text="@string/category_name_wine"/>
         <org.holoeverywhere.widget.Button
-                android:text="@string/category_name_spirits"
                 android:layout_width="0dip"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:id="@+id/category_spirits_butt"
-                style="@style/CategoryButtStyle" android:textSize="18dip"
-                android:drawableLeft="@drawable/category_whiskey_selector" android:onClick="onClickCategoryButt"/>
+                style="@style/CategoryButtStyle"
+                android:textSize="15dip"
+                android:drawableLeft="@drawable/category_whiskey_selector"
+                android:onClick="onClickCategoryButt"
+                android:text="@string/category_name_spirits"/>
     </TableRow>
-    <TableRow android:layout_width="match_parent" android:layout_height="55dip">
+    <TableRow android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
         <org.holoeverywhere.widget.Button
                 android:layout_weight="1"
-                android:layout_height="match_parent"
+                android:layout_height="56dip"
                 android:layout_width="0dip"
-                android:text="@string/category_name_sparkling"
-                android:textSize="18dip"
+                android:textSize="15dip"
                 android:id="@+id/category_sparkling_butt"
                 style="@style/CategoryButtStyle"
-                android:drawableLeft="@drawable/category_champagne_selector" android:onClick="onClickCategoryButt"/>
+                android:drawableLeft="@drawable/category_champagne_selector" android:onClick="onClickCategoryButt"
+                android:text="@string/category_name_sparkling"/>
         <org.holoeverywhere.widget.Button
                 android:layout_weight="1"
-                android:layout_height="match_parent"
+                android:layout_height="56dip"
                 android:layout_width="0dip"
-                android:text="@string/category_name_porto_heres"
                 android:id="@+id/category_porto_heres_butt"
                 style="@style/CategoryButtStyle"
-                android:drawableLeft="@drawable/category_porto_heres_selector" android:textSize="18dip" android:onClick="onClickCategoryButt"/>
+                android:drawableLeft="@drawable/category_porto_heres_selector" android:textSize="15dip" android:onClick="onClickCategoryButt"
+                android:text="@string/category_name_porto_heres"/>
     </TableRow>
-    <TableRow android:layout_width="match_parent" android:layout_height="55dip">
+    <TableRow android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
         <org.holoeverywhere.widget.Button
                 android:layout_weight="1"
                 android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:text="@string/category_name_sake"
+                android:layout_height="56dip"
                 android:id="@+id/category_sake_butt"
                 style="@style/CategoryButtStyle"
-                android:drawableLeft="@drawable/category_sake_selector" android:textSize="18dip" android:onClick="onClickCategoryButt"/>
+                android:drawableLeft="@drawable/category_sake_selector" android:textSize="15dip" android:onClick="onClickCategoryButt"
+                android:text="@string/category_name_sake"/>
         <org.holoeverywhere.widget.Button
                 android:layout_weight="1"
                 android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:text="@string/category_name_water"
+                android:layout_height="56dip"
                 android:id="@+id/category_water_butt"
                 style="@style/CategoryButtStyle"
-                android:drawableLeft="@drawable/category_water_selector" android:textSize="18dip"
-                android:onClick="onClickCategoryButt"/>
+                android:drawableLeft="@drawable/category_water_selector" android:textSize="15dip"
+                android:onClick="onClickCategoryButt" android:text="@string/category_name_water"/>
     </TableRow>
 </TableLayout>

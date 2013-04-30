@@ -63,13 +63,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
-    public void onClickCategoryButt(View v) {
-        Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
-        startIntent.putExtra(CATEGORY_NAME_EXTRA_ID, v.getId());
-        startActivity(startIntent);
-        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
@@ -101,6 +94,13 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         return false;
+    }
+
+    public void onClickCategoryButt(View v) {
+        Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
+        startIntent.putExtra(CATEGORY_NAME_EXTRA_ID, v.getId());
+        startActivity(startIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     private static class ImageBinder implements SimpleAdapter.ViewBinder {

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array  name="main_menu_items">
+        <item>Каталог</item>
         <item>Магазины</item>
         <item>Избранное</item>
         <item>Корзина</item>
         <item>Штрих-код</item>
     </string-array>
     <array name="main_menu_icons">
+        <item>@drawable/menu_ico_catalog</item>
         <item>@drawable/menu_ico_shop</item>
         <item>@drawable/menu_ico_fav</item>
         <item>@drawable/menu_ico_basket</item>

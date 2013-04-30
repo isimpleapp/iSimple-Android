@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="filtration_group_name">Фильтрация</string>
-    <string name="sort_label_alphabet">по алфавиту</string>
-    <string name="sort_label_price">по цене</string>
+    <string name="sort_label_alphabet">ПО АЛФАВИТУ</string>
+    <string name="sort_label_price">ПО ЦЕНЕ</string>
     <string name="wine_type_red">Красное</string>
     <string name="wine_type_white">Белое</string>
     <string name="wine_type_pink">Розовое</string>

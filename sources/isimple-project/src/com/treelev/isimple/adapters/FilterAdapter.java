@@ -17,13 +17,11 @@ import java.util.List;
 
 public class FilterAdapter extends BaseExpandableListAdapter {
 
-    private String groupName;
     private List<FilterItem> items;
     private LayoutInflater infalInflater;
     private Context context;
 
-    public FilterAdapter(Context context, String groupName, List<FilterItem> items) {
-        this.groupName = groupName;
+    public FilterAdapter(Context context, List<FilterItem> items) {
         this.items = items;
         this.context = context;
         infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -31,7 +29,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return groupName != null ? 1 : 0;
+        return 1;
     }
 
     @Override
@@ -41,7 +39,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     @Override
     public String getGroup(int groupPosition) {
-        return groupPosition == 0 ? groupName : null;
+        return null;
     }
 
     @Override
@@ -66,11 +64,9 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String group = getGroup(groupPosition);
         if (convertView == null) {
-            convertView = infalInflater.inflate(R.layout.category_filter_group_layout, null);
+            convertView = infalInflater.inflate(R.layout.category_filter_group_layout2, null);
         }
-        ((TextView) convertView.findViewById(R.id.group_name)).setText(group);
         return convertView;
     }
 

@@ -189,7 +189,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     }
 
     private void initFilterListView(List<FilterItem> content, int categoryId) {
-        BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, getString(R.string.filtration_label), content);
+        BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, content);
         listView = (ExpandableListView) findViewById(R.id.filtration_view);
         listView.setOnGroupExpandListener(this);
         listView.setOnChildClickListener(this);

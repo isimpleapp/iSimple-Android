@@ -57,7 +57,7 @@ public class ProxyManager {
         for (Item item : itemList) {
             Map<String, Object> uiDataItem = new HashMap<String, Object>();
             uiDataItem.put(Item.UI_TAG_ID, item.getItemID());
-            uiDataItem.put(Item.UI_TAG_IMAGE, R.drawable.image_not_found);
+            uiDataItem.put(Item.UI_TAG_IMAGE, R.drawable.bottle_list_image_default);
             uiDataItem.put(Item.UI_TAG_NAME, item.getName());
             uiDataItem.put(Item.UI_TAG_LOCALIZATION_NAME, item.getLocalizedName());
             uiDataItem.put(Item.UI_TAG_DRINK_TYPE, item.getDrinkType());

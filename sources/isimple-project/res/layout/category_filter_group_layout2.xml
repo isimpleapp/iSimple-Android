@@ -4,17 +4,22 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="60dip">
-    <org.holoeverywhere.widget.TextView
-            android:id="@+id/group_name"
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50dip"
-            android:textSize="30dip"
-            android:background="@color/category_filter_back"
-            android:textColor="@color/category_filter_text"
-            android:visibility="visible"
-            android:text="@string/filter_label"
-            android:layout_gravity="center"
-            android:gravity="center"/>
+            android:layout_height="50dip" android:background="@color/category_filter_back"
+            android:gravity="center" android:id="@+id/group_name" android:visibility="visible">
+        <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="27dip"
+                android:textColor="@color/category_filter_text"
+                android:text="@string/filter_label"
+                android:textStyle="bold" android:paddingRight="30dip"/>
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:src="@drawable/filter_label_arrow_down"/>
+
+    </LinearLayout>
     <RelativeLayout
             android:id="@+id/category_type_view"
             android:layout_width="match_parent"

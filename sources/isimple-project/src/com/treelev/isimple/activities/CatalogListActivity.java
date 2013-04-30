@@ -134,7 +134,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                     ((ImageView) view).setImageBitmap(BitmapFactory.decodeFile(tempFile.getPath()));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    ((ImageView) view).setImageDrawable(context.getResources().getDrawable(R.drawable.image_not_found));
+                    ((ImageView) view).setImageDrawable(context.getResources().getDrawable(R.drawable.filter_label_arrow_down));
                 } finally {
                     if (tempFile != null) {
                         tempFile.delete();

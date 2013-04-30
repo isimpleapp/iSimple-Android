@@ -128,8 +128,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(product.getAlcohol()));
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), product.getVolume());
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(trimTrailingZeros(product.getAlcohol())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), trimTrailingZeros(product.getVolume()));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }
 
@@ -146,6 +146,14 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         if(!TextUtils.isEmpty(text)){
             result = String.format(FORMAT_ALCOHOL, text);}
         return result;
+    }
+
+    private static String trimTrailingZeros(String number) {
+        if(!number.contains(".")) {
+            return number;
+        }
+
+        return number.replaceAll("\\.?0*$", "");
     }
 
     private void createNavigation() {

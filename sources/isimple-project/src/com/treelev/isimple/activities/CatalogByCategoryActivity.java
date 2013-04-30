@@ -65,6 +65,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                         Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
+                overridePendingTransition(R.anim.finish_show_anim,R.anim.finish_back_anim);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -58,6 +58,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         switch(item.getItemId()) {
             case android.R.id.home:
                 super.onBackPressed();
+                overridePendingTransition(R.anim.finish_show_anim,R.anim.finish_back_anim);
                 break;
         }
         return super.onOptionsItemSelected(item);

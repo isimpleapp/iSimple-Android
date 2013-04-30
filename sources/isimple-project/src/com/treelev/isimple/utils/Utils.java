@@ -49,7 +49,12 @@ public class Utils {
         }
         return result;
     }
-
+    public static String removeZeros(String number) {
+        if(!number.contains(".")) {
+            return number;
+        }
+        return number.replaceAll("\\.?0*$", "");
+    }
     public static String organizeVolumeLabel(String volume) {
         String result = null;
         if (volume != null) {

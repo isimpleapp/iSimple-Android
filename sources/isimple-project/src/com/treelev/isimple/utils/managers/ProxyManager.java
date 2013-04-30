@@ -61,7 +61,7 @@ public class ProxyManager {
             uiDataItem.put(Item.UI_TAG_NAME, item.getName());
             uiDataItem.put(Item.UI_TAG_LOCALIZATION_NAME, item.getLocalizedName());
             uiDataItem.put(Item.UI_TAG_DRINK_TYPE, item.getDrinkType());
-            String volumeLabel = Utils.organizeVolumeLabel(item.getVolume());
+            String volumeLabel = Utils.organizeVolumeLabel(Utils.removeZeros(item.getVolume()));
             uiDataItem.put(Item.UI_TAG_VOLUME, volumeLabel != null ? volumeLabel : "");
             String priceLabel = Utils.organizePriceLabel(item.getPrice());
             uiDataItem.put(Item.UI_TAG_PRICE, priceLabel != null ? priceLabel : "");
@@ -69,6 +69,8 @@ public class ProxyManager {
         }
         return uiDataList;
     }
+
+
 
     private BaseDAO getObjectDAO(int id) {
         switch (id) {

@@ -32,6 +32,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private final static String FIELD_TAG = "field_tag";
     private final static String FORMAT_FIELDS = "- %s";
     private final static String EMPTY_PRICE_LABEL = "-";
+    private final static String FORMAT_ALCOHOL = "%s%% алк.";
     Item mProduct;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -55,10 +56,10 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 super.onBackPressed();
-                overridePendingTransition(R.anim.finish_show_anim,R.anim.finish_back_anim);
+                overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -127,7 +128,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), product.getAlcohol());
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(product.getAlcohol()));
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), product.getVolume());
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }
@@ -138,6 +139,13 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         } else {
             textView.setVisibility(View.GONE);
         }
+    }
+
+    private String organizeValueAlcohol(String text) {
+        String result = null;
+        if(!TextUtils.isEmpty(text)){
+            result = String.format(FORMAT_ALCOHOL, text);}
+        return result;
     }
 
     private void createNavigation() {

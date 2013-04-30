@@ -3,21 +3,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:background="@android:color/white">
+              android:layout_height="wrap_content"
+              android:background="@android:color/white">
     <org.holoeverywhere.widget.TextView
             android:layout_width="match_parent"
             android:layout_height="30dip"
             android:text="Розовое вино"
-            android:id="@+id/textView" android:background="@color/wine_type_pink" android:gravity="center"
-            android:textColor="@android:color/white" android:height="30dip" android:textStyle="bold" android:textSize="13dip"/>
+            android:id="@+id/textView"
+            android:background="@color/wine_type_pink"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:height="30dip"
+            android:textStyle="bold"
+            android:textSize="13dip"/>
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+        <ImageView
+                android:contentDescription="@string/app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/product_image"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/product_image_test"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="10dip"
+                android:layout_marginRight="20dip"
+                android:layout_marginLeft="10dip"/>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_alignParentLeft="true"
-                android:layout_marginTop="10dip" android:layout_marginLeft="20dip">
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dip"
+                android:layout_marginLeft="20dip"
+                android:layout_toLeftOf="@+id/product_image">
             <org.holoeverywhere.widget.TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -25,8 +45,11 @@
             <org.holoeverywhere.widget.TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/product_manufacturer" android:textColor="@android:color/black"
-                    android:textStyle="bold" android:textSize="18dip" android:layout_marginTop="5dip"/>
+                    android:id="@+id/product_manufacturer"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:textSize="18dip"
+                    android:layout_marginTop="5dip"/>
             <org.holoeverywhere.widget.TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -82,12 +105,13 @@
                   class="org.holoeverywhere.widget.TextView" android:id="@+id/retail_price_label"
                   android:layout_marginTop="3dip"/>
         </LinearLayout>
-        <ImageView
-                android:contentDescription="@string/app_name"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/product_image" android:layout_alignParentRight="true"
-                android:src="@drawable/product_image_test" android:scaleType="fitCenter"/>
+        <!--<ImageView-->
+                <!--android:contentDescription="@string/app_name"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/product_image" android:layout_alignParentRight="true"-->
+                <!--android:layout_toRightOf="@+id/linear_layout_info"-->
+                <!--android:src="@drawable/product_image_test" android:scaleType="fitCenter"/>-->
     </RelativeLayout>
     <LinearLayout
             android:orientation="horizontal"

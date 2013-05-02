@@ -33,6 +33,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private final static String FORMAT_FIELDS = "- %s";
     private final static String EMPTY_PRICE_LABEL = "-";
     private final static String FORMAT_ALCOHOL = "%s%% алк.";
+    private final static String FORMAT_VOLUME = "%s л.";
     Item mProduct;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -128,8 +129,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(trimTrailingZeros(product.getAlcohol())));
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), trimTrailingZeros(product.getVolume()));
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(FORMAT_ALCOHOL,trimTrailingZeros(product.getAlcohol())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), organizeValueAlcohol(FORMAT_VOLUME,trimTrailingZeros(product.getVolume())));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }
 
@@ -141,10 +142,10 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         }
     }
 
-    private String organizeValueAlcohol(String text) {
+    private String organizeValueAlcohol(String format,String text) {
         String result = null;
         if(!TextUtils.isEmpty(text)){
-            result = String.format(FORMAT_ALCOHOL, text);}
+            result = String.format(format, text);}
         return result;
     }
 

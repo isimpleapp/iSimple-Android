@@ -29,8 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchResult extends ListActivity implements RadioGroup.OnCheckedChangeListener,
-                ActionBar.OnNavigationListener {
+public class SearchResultActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
+        ActionBar.OnNavigationListener {
 
     public static Integer categoryID;
     public static Class backActivity;
@@ -42,7 +42,7 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
     private String mQuery;
 
     @Override
-    public void  onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
         createNavigation();
@@ -69,7 +69,7 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
-        SearchManager searcMenager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searcMenager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
@@ -78,7 +78,7 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
 //                mSearchView.onActionViewCollapsed();
 //                mSearchView.setQuery("", false);
 //                mSearchView.clearFocus();
-                if(query.trim().length() != 0) {
+                if (query.trim().length() != 0) {
                     return false;
                 }
                 return true;
@@ -100,7 +100,7 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 back();
                 break;
@@ -113,7 +113,7 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
         back();
     }
 
-    void back(){
+    void back() {
         Intent intent = new Intent(this, backActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -155,7 +155,7 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
         String[] menuItemText = getResources().getStringArray(R.array.main_menu_items);
         TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
         Drawable[] menuItemIcon = new Drawable[typedArray.length()];
-        for(int i = 0; i < menuItemText.length; ++i) {
+        for (int i = 0; i < menuItemText.length; ++i) {
             menuItemIcon[i] = typedArray.getDrawable(i);
         }
         NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, menuItemIcon, menuItemText);
@@ -201,16 +201,16 @@ public class SearchResult extends ListActivity implements RadioGroup.OnCheckedCh
             super.onPostExecute(result);
             mDialog.dismiss();
             mItems = result;
-            mProxyManager =  new ProxyManager(mContext);
+            mProxyManager = new ProxyManager(mContext);
             mUiItemList = mProxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
             mListCategoriesAdapter = new SimpleAdapter(mContext,
                     mUiItemList,
                     R.layout.catalog_item_layout,
                     Item.getUITags(),
-                    new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type, R.id.item_volume, R.id.item_price});
+                    new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price});
             ListView listView = getListView();
             getListView().setAdapter(mListCategoriesAdapter);
-            if(getListView().getCount() == 0) {
+            if (getListView().getCount() == 0) {
                 Toast.makeText(mContext, mContext.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
             }
         }

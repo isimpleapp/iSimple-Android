@@ -65,7 +65,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                         Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
-                overridePendingTransition(R.anim.finish_show_anim,R.anim.finish_back_anim);
+                overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -93,8 +93,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                SearchResult.backActivity = CatalogByCategoryActivity.class;
-                SearchResult.categoryID = mCategoryID;
+                SearchResultActivity.backActivity = CatalogByCategoryActivity.class;
+                SearchResultActivity.categoryID = mCategoryID;
                 return false;
             }
 
@@ -184,7 +184,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                 mUiItemList,
                 R.layout.catalog_item_layout,
                 Item.getUITags(),
-                new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type, R.id.item_volume, R.id.item_price});
+                new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price});
         getListView().setAdapter(mListCategoriesAdapter);
     }
 

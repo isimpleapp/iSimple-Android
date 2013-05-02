@@ -49,8 +49,8 @@ public class ItemDAO extends BaseDAO {
         String formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
         if (formatSelectScript != null) {
             String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
-                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_DRINK_TYPE, DatabaseSqlHelper.ITEM_VOLUME,
-                    DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
+                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
+                    DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
             Cursor cursor = getDatabase().rawQuery(selectSql, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -58,10 +58,9 @@ public class ItemDAO extends BaseDAO {
                     item.setItemID(cursor.getString(0));
                     item.setName(cursor.getString(1));
                     item.setLocalizedName(cursor.getString(2));
-                    item.setDrinkType(cursor.getString(3));
-                    item.setVolume(cursor.getString(4));
-                    item.setPrice(cursor.getString(5));
-                    item.setBottleHiResolutionImageFilename(cursor.getString(6));
+                    item.setVolume(cursor.getString(3));
+                    item.setPrice(cursor.getString(4));
+                    item.setBottleHiResolutionImageFilename(cursor.getString(5));
                     itemList.add(item);
                 }
                 cursor.close();
@@ -74,12 +73,11 @@ public class ItemDAO extends BaseDAO {
     public List<Item> getSearchItemsByCategory(Integer categoryId, String query) {
         List<Item> itemList = new ArrayList<Item>();
         open();
-//        String formatSelectScript = getSelectByQuery(categoryId, query);
         String formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
         if (formatSelectScript != null) {
             String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
-                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_DRINK_TYPE, DatabaseSqlHelper.ITEM_VOLUME,
-                    DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
+                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
+                    DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
             selectSql += getSelectByQuery(categoryId, query);
             Cursor cursor = getDatabase().rawQuery(selectSql, null);
             if (cursor != null) {
@@ -88,10 +86,9 @@ public class ItemDAO extends BaseDAO {
                     item.setItemID(cursor.getString(0));
                     item.setName(cursor.getString(1));
                     item.setLocalizedName(cursor.getString(2));
-                    item.setDrinkType(cursor.getString(3));
-                    item.setVolume(cursor.getString(4));
-                    item.setPrice(cursor.getString(5));
-                    item.setBottleHiResolutionImageFilename(cursor.getString(6));
+                    item.setVolume(cursor.getString(3));
+                    item.setPrice(cursor.getString(4));
+                    item.setBottleHiResolutionImageFilename(cursor.getString(5));
                     itemList.add(item);
                 }
                 cursor.close();
@@ -391,10 +388,10 @@ public class ItemDAO extends BaseDAO {
 
     public List<Item> getRandomItems() {
         open();
-        String formatSelectScript = "select %s, %s, %s, %s, %s, %s, %s from %s limit 10";
+        String formatSelectScript = "select %s, %s, %s, %s, %s, %s from %s limit 10";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_DRINK_TYPE, DatabaseSqlHelper.ITEM_VOLUME,
-                DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
+                DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         List<Item> itemList = null;
         if (cursor != null) {
@@ -404,10 +401,9 @@ public class ItemDAO extends BaseDAO {
                 item.setItemID(cursor.getString(0));
                 item.setName(cursor.getString(1));
                 item.setLocalizedName(cursor.getString(2));
-                item.setDrinkType(cursor.getString(3));
-                item.setVolume(cursor.getString(4));
-                item.setPrice(cursor.getString(5));
-                item.setBottleHiResolutionImageFilename(cursor.getString(6));
+                item.setVolume(cursor.getString(3));
+                item.setPrice(cursor.getString(4));
+                item.setBottleHiResolutionImageFilename(cursor.getString(5));
                 itemList.add(item);
             }
             cursor.close();
@@ -416,24 +412,25 @@ public class ItemDAO extends BaseDAO {
         return itemList;
     }
 
+    //TODO refactor
     private String getSelectCategoryStringByCategoryId(Integer categoryId) {
-        if(categoryId == null) {
-            return "select %s, %s, %s, %s, %s, %s, %s from %s where ";
+        if (categoryId == null) {
+            return "select %s, %s, %s, %s, %s, %s from %s where ";
         }
         switch (categoryId) {
             case R.id.category_wine_butt:
-                return "select %s, %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 0 and " +
+                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 0 and " +
                         DatabaseSqlHelper.ITEM_STYLE + " <> 1 and " + DatabaseSqlHelper.ITEM_STYLE + " <> 3";
             case R.id.category_sparkling_butt:
-                return "select %s, %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_STYLE + " = 1";
+                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_STYLE + " = 1";
             case R.id.category_porto_heres_butt:
-                return "select %s, %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_STYLE + " = 3";
+                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_STYLE + " = 3";
             case R.id.category_water_butt:
                 return null;
             case R.id.category_spirits_butt:
-                return "select %s, %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 1";
+                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 1";
             case R.id.category_sake_butt:
-                return "select %s, %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 2";
+                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 2";
             default:
                 return null;
         }
@@ -442,9 +439,9 @@ public class ItemDAO extends BaseDAO {
     private String getSelectByQuery(Integer categoryId, String query) {
         String prepareQuery = " '%" + query + "%'";
         String result = "(" + DatabaseSqlHelper.ITEM_LOCALIZED_NAME + " LIKE" + prepareQuery + " or "
-                + DatabaseSqlHelper.ITEM_NAME  +" LIKE" + prepareQuery + ")";
-        if(categoryId != null ) {
-          result = " and " + result;
+                + DatabaseSqlHelper.ITEM_NAME + " LIKE" + prepareQuery + ")";
+        if (categoryId != null) {
+            result = " and " + result;
         }
         return result;
     }

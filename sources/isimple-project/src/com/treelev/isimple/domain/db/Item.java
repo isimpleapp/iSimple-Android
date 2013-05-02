@@ -1,7 +1,5 @@
 package com.treelev.isimple.domain.db;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import com.treelev.isimple.enumerable.item.Color;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.Style;
@@ -33,7 +31,6 @@ public class Item implements Serializable {
     private String year;
     public final static String UI_TAG_VOLUME = "volume";
     private String volume;
-    public final static String UI_TAG_DRINK_TYPE = "type";
     private String drinkType;
     private String alcohol;
     private String bottleHiResolutionImageFilename;
@@ -55,7 +52,7 @@ public class Item implements Serializable {
     private String rating;
 
     public static String[] getUITags() {
-        return new String[]{UI_TAG_IMAGE, UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_DRINK_TYPE, UI_TAG_VOLUME, UI_TAG_PRICE};
+        return new String[]{UI_TAG_IMAGE, UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE};
     }
 
     public String getItemID() {

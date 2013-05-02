@@ -15,16 +15,16 @@
             </intent-filter>
             <meta-data
                     android:name="android.app.default_searchable"
-                    android:value=".activities.SearchResult" />
+                    android:value=".activities.SearchResultActivity" />
         </activity>
         <activity android:name=".activities.CatalogByCategoryActivity" android:screenOrientation="portrait">
             <meta-data
                     android:name="android.app.default_searchable"
-                    android:value=".activities.SearchResult" />
+                    android:value=".activities.SearchResultActivity" />
         </activity>
         <activity android:name=".activities.ProductInfoActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.FilterActivity"/>
-        <activity android:name=".activities.SearchResult"
+        <activity android:name=".activities.SearchResultActivity"
                   android:launchMode="singleTop"
                   android:screenOrientation="portrait">
             <intent-filter>

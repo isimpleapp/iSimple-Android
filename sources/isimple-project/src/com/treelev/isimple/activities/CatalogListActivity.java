@@ -46,9 +46,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         listView.addHeaderView(headerView, null, false);
         ProxyManager proxyManager = new ProxyManager(this);
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, proxyManager.getRandomItems(), R.layout.catalog_item_layout,
-                Item.getUITags(), new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_drink_type,
-                R.id.item_volume, R.id.item_price});
-        //simpleAdapter.setViewBinder(new ImageBinder(this));
+                Item.getUITags(), new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price});
         listView.setAdapter(simpleAdapter);
         mContext = this;
     }
@@ -75,8 +73,8 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query.trim().length() != 0) {
-                    SearchResult.categoryID = null;
-                    SearchResult.backActivity = CatalogListActivity.class;
+                    SearchResultActivity.categoryID = null;
+                    SearchResultActivity.backActivity = CatalogListActivity.class;
                     return false;
                 }
                 return true;

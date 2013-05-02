@@ -36,6 +36,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private final static String FORMAT_VOLUME = "%s л.";
     Item mProduct;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createNavigation();

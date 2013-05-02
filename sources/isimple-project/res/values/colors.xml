@@ -20,5 +20,5 @@
     <color name="wine_type_red">#c21118</color>
     <color name="wine_type_white">#fce8bf</color>
     <color name="wine_type_pink">#f388a7</color>
-    <color name="backgdound_sort_unchecked">#00f1f1f1</color>
+    <color name="background_sort_unchecked">#00f1f1f1</color>
  </resources>

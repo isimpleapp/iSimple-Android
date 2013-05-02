@@ -10,6 +10,7 @@ public class Utils {
 
     private final static String FORMAT_PRICE_LABEL = "%s р.";
     private final static String FORMAT_VOLUME_LABEL = "%sл";
+    private final static String REPLACE_STRING_ZEROS = "\\.?0*$";
 
     public static Parser getXmlParser(int parserId) {
         switch (parserId) {
@@ -49,12 +50,15 @@ public class Utils {
         }
         return result;
     }
+
     public static String removeZeros(String number) {
-        if(!number.contains(".")) {
-            return number;
+        String result = number;
+        if (number.contains(".")) {
+            result = number.replaceAll(REPLACE_STRING_ZEROS, "");
         }
-        return number.replaceAll("\\.?0*$", "");
+        return result;
     }
+
     public static String organizeVolumeLabel(String volume) {
         String result = null;
         if (volume != null) {

@@ -3,9 +3,9 @@
     <string name="filtration_group_name">Фильтрация</string>
     <string name="sort_label_alphabet">ПО АЛФАВИТУ</string>
     <string name="sort_label_price">ПО ЦЕНЕ</string>
-    <string name="wine_type_red">Красное</string>
-    <string name="wine_type_white">Белое</string>
-    <string name="wine_type_pink">Розовое</string>
+    <string name="wine_type_red">КРАСНОЕ</string>
+    <string name="wine_type_white">БЕЛОЕ</string>
+    <string name="wine_type_pink">РОЗОВОЕ</string>
     <string name="filter_label">Фильтрация</string>
     <string name="dialog_search_title">Подождите</string>
     <string name="dialog_search_message">Идет поиск…</string>

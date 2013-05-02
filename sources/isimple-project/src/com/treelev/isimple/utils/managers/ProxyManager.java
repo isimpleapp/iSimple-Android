@@ -70,8 +70,6 @@ public class ProxyManager {
         return uiDataList;
     }
 
-
-
     private BaseDAO getObjectDAO(int id) {
         switch (id) {
             case ItemDAO.ID:

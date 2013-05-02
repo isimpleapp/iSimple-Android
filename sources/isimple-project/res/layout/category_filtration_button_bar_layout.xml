@@ -4,50 +4,61 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent">
     <LinearLayout
+            android:baselineAligned="false"
             android:id="@+id/filter_button_bar"
-            android:visibility="visible"
+            android:visibility="gone"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="50dip">
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="0dip"
-                android:layout_height="match_parent" android:layout_weight="2"
-                android:background="@drawable/category_reset_butt_selector" android:gravity="center">
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/category_reset_butt_selector"
+                android:gravity="center">
             <ImageView
+                    android:contentDescription="@string/app_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ico_btn_filter_reset" android:layout_marginRight="7dip"/>
+                    android:src="@drawable/ico_btn_filter_reset"
+                    android:layout_marginRight="7dip"/>
             <org.holoeverywhere.widget.Button
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:id="@+id/reset_butt"
                     android:text="@string/filtration_butt_reset"
                     android:textColor="#3e3e3e"
-                    android:textSize="22dip" android:background="@color/transparent"/>
+                    android:textSize="22dip"
+                    android:background="@color/transparent"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="0dip"
-                android:layout_height="match_parent" android:layout_weight="3"
-                android:background="@drawable/category_find_butt_selector" android:gravity="center">
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@drawable/category_find_butt_selector"
+                android:gravity="center">
             <ImageView
+                    android:contentDescription="@string/app_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ico_btn_filter_find" android:layout_marginRight="7dip"/>
+                    android:src="@drawable/ico_btn_filter_find"
+                    android:layout_marginRight="7dip"/>
             <org.holoeverywhere.widget.Button
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:id="@+id/search_butt"
                     android:text="@string/filtration_butt_find"
                     android:textColor="@android:color/white"
-                    android:textSize="22dip" android:background="@color/transparent"/>
+                    android:textSize="22dip"
+                    android:background="@color/transparent"/>
         </LinearLayout>
     </LinearLayout>
     <RadioGroup
             android:layout_width="match_parent"
             android:id="@+id/sort_group"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">

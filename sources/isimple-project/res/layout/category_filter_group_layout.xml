@@ -15,9 +15,9 @@
                 android:textSize="27dip"
                 android:textColor="@color/category_filter_text"
                 android:text="@string/filter_label"
-                android:textStyle="bold" android:paddingRight="30dip"/>
+                android:textStyle="bold" android:paddingRight="8dip"/>
         <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                   android:src="@drawable/filter_label_arrow_down"/>
+                   android:src="@drawable/filter_label_arrow_down" android:paddingTop="5dip"/>
 
     </LinearLayout>
     <RelativeLayout

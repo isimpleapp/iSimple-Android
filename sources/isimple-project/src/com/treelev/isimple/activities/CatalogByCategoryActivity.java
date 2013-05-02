@@ -24,6 +24,7 @@ import com.treelev.isimple.domain.ui.FilterItem;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
+import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.ListView;
 
@@ -42,7 +43,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private List<Map<String, ?>> mUiItemList;
     private SimpleAdapter mListCategoriesAdapter;
     private ExpandableListView listView;
-    private RadioGroup checkTypeRg;
+    private CheckBox[] filterTypeCheckBoxArray;
     private View footerView;
     private Integer mCategoryID;
 
@@ -58,7 +59,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(this, CatalogListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
@@ -86,7 +87,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
-        SearchManager searcMenager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searcMenager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
@@ -123,7 +124,10 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         categoryTypeLayout.findViewById(R.id.red_wine_butt).setOnClickListener(categoryTypeClick);
         categoryTypeLayout.findViewById(R.id.white_wine_butt).setOnClickListener(categoryTypeClick);
         categoryTypeLayout.findViewById(R.id.pink_wine_butt).setOnClickListener(categoryTypeClick);
-        checkTypeRg = (RadioGroup) categoryTypeLayout.findViewById(R.id.check_type_rg);
+        CheckBox checkBoxRedWine = (CheckBox) categoryTypeLayout.findViewById(R.id.red_wine_check);
+        CheckBox checkBoxWhiteWine = (CheckBox) categoryTypeLayout.findViewById(R.id.white_wine_check);
+        CheckBox checkBoxPinkWine = (CheckBox) categoryTypeLayout.findViewById(R.id.pink_wine_check);
+        filterTypeCheckBoxArray = new CheckBox[]{checkBoxRedWine, checkBoxWhiteWine, checkBoxPinkWine};
     }
 
     @Override
@@ -227,17 +231,18 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private View.OnClickListener categoryTypeClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            checkTypeRg.check(getCheckIdByViewId(view.getId()));
+            CheckBox checkBox = filterTypeCheckBoxArray[getCheckIdByViewId(view.getId())];
+            checkBox.setChecked(!checkBox.isChecked());
         }
 
         private int getCheckIdByViewId(int viewId) {
             switch (viewId) {
                 case R.id.red_wine_butt:
-                    return R.id.check_red_wine;
+                    return 0;
                 case R.id.white_wine_butt:
-                    return R.id.check_white_wine;
+                    return 1;
                 case R.id.pink_wine_butt:
-                    return R.id.check_pink_wine;
+                    return 2;
                 default:
                     return -1;
             }
@@ -248,6 +253,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         @Override
         public void onClick(View view) {
             organizeView();
+            resetFilterCheckBox();     
             listView.collapseGroup(0);
         }
 
@@ -261,6 +267,12 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             categoryTypeLayout.findViewById(R.id.red_wine_butt).setOnClickListener(null);
             categoryTypeLayout.findViewById(R.id.white_wine_butt).setOnClickListener(null);
             categoryTypeLayout.findViewById(R.id.pink_wine_butt).setOnClickListener(null);
+        }
+        
+        private void resetFilterCheckBox() {
+            for (CheckBox checkBox : filterTypeCheckBoxArray) {
+                checkBox.setChecked(false);
+            }
         }
     };
 

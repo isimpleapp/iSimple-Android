@@ -120,6 +120,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         intent.putExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, categoryID);
         startActivity(intent);
         finish();
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
     @Override
@@ -141,6 +142,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         Intent startIntent = new Intent(this, ProductInfoActivity.class);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
         startActivity(startIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     private void updateList(int sortBy) {

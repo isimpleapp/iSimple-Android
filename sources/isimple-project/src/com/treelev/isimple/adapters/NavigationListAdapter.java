@@ -39,36 +39,11 @@ public class NavigationListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        ViewHolder holder;
-//        if (convertView == null) {
-//            convertView = mInflator.inflate(R.layout.navigation_list_item, parent, false);
-//            holder = new ViewHolder();
-//            holder.title = (TextView) convertView.findViewById(R.id.title);
-//            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-//        holder.title.setText(mTitles[position]);
-//        holder.title.setTextColor(mContext.getResources().getColor(R.color.select_item_navigation));
         return getView(position, convertView, parent, false);
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-//        ViewHolder holder;
-//        if (convertView == null) {
-//            convertView = mInflator.inflate(R.layout.navigation_list_dropdown_item, parent, false);
-//            holder = new ViewHolder();
-//            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-//            holder.title = (TextView) convertView.findViewById(R.id.title);
-//            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-//        if( position != mCurrentIndex) {
-//            holder.title.setText(mTitles[position]);
-//            holder.icon.setImageDrawable(mIcons[position]);
-//        }
         return getView(position, convertView, parent, true);
     }
 

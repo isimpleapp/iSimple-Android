@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.enumerable.item.Sweetness;
@@ -28,6 +29,16 @@ public class FilterActivity extends ListActivity implements ActionBar.OnNavigati
         setContentView(R.layout.filter_data_layout);
         createNavigation();
         getListView().setAdapter(new FilterDataAdapter(this, 0, createFilterDataList(filterChildPosition)));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -55,7 +66,6 @@ public class FilterActivity extends ListActivity implements ActionBar.OnNavigati
 
     private void createNavigation() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
         Context context = getSupportActionBar().getThemedContext();
         String[] locations = getResources().getStringArray(R.array.main_menu_items);
         TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
@@ -66,6 +76,9 @@ public class FilterActivity extends ListActivity implements ActionBar.OnNavigati
         NavigationListAdapter list = new NavigationListAdapter(this, iconLocation, locations);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getSupportActionBar().setListNavigationCallbacks(list, this);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
     }
 
     private class FilterDataAdapter extends ArrayAdapter<FilterData> {

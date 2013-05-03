@@ -3,14 +3,16 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_gravity="center_vertical"
-              android:orientation="horizontal" >
+              android:orientation="horizontal"
+              android:background="@drawable/list_navigation_selector">
 
     <ImageView
             android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="?attr/dropdownListPreferredItemHeight"
             android:adjustViewBounds="true"
-            android:padding="4dip"/>
+            android:padding="4dip"
+            android:background="@android:color/transparent"/>
 
     <TextView
             android:id="@+id/title"
@@ -18,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/dropdownListPreferredItemHeight"
             android:ellipsize="marquee"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:background="@android:color/transparent"/>
 
 </LinearLayout>

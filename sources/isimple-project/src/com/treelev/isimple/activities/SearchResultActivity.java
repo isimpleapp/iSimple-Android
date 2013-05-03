@@ -55,7 +55,9 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     @Override
     protected void onNewIntent(Intent newIntent) {
         setIntent(newIntent);
-        handledIntent(newIntent);
+        finish();
+        startActivity(getIntent());
+//        handledIntent(newIntent);
     }
 
     void handledIntent(Intent intent) {
@@ -75,9 +77,6 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                mSearchView.onActionViewCollapsed();
-//                mSearchView.setQuery("", false);
-//                mSearchView.clearFocus();
                 if (query.trim().length() != 0) {
                     return false;
                 }
@@ -90,11 +89,6 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
             }
         };
         mSearchView.setOnQueryTextListener(queryTextListener);
-//        mSearchView.setIconifiedByDefault(false);
-//        MenuItem item = menu.findItem(R.id.menu_search);
-//        item.expandActionView();
-//        item.setTitle(mQuery);
-//        mSearchView.onActionViewExpanded();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -146,9 +140,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     }
 
     private void updateList(int sortBy) {
-        mUiItemList.clear();
-        mUiItemList.addAll(mProxyManager.convertItemsToUI(mItems, sortBy));
-        mListCategoriesAdapter.notifyDataSetChanged();
+        new SortTask(this, mItems).execute(sortBy);
     }
 
     private void createNavigation() {
@@ -218,4 +210,38 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         }
     }
 
+    private class SortTask extends AsyncTask<Integer, Void, List<Map<String, ?>>> {
+
+        private Dialog mDialog;
+        private Context context;
+        private List<Item> mItems;
+        private ProxyManager proxyManager;
+
+        private SortTask(Context context, List<Item> items) {
+            this.context = context;
+            this.mItems = items;
+            proxyManager = new ProxyManager(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mUiItemList.clear();
+            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_title),
+                    context.getString(R.string.dialog_sort_message), false, false);
+        }
+
+        @Override
+        protected List<Map<String, ?>> doInBackground(Integer... sortParams) {
+            return proxyManager.convertItemsToUI(mItems, sortParams[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<Map<String, ?>> items) {
+            super.onPostExecute(items);
+            mUiItemList.addAll(items);
+            mListCategoriesAdapter.notifyDataSetChanged();
+            mDialog.dismiss();
+        }
+    }
 }

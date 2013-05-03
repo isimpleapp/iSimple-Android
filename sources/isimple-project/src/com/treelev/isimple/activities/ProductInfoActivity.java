@@ -131,10 +131,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(FORMAT_ALCOHOL,
-                trimTrailingZeros(product.getAlcohol())));
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), organizeValueAlcohol(FORMAT_VOLUME,
-                Utils.organizeVolumeLabel(trimTrailingZeros(product.getVolume()))));
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(FORMAT_ALCOHOL,trimTrailingZeros(product.getAlcohol())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeVolumeLabel(trimTrailingZeros(product.getVolume())));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }
 

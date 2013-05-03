@@ -26,7 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductInfoActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
+public class ProductInfoActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener,
+        ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupCollapseListener {
 
     public final static String ITEM_ID_TAG = "id";
     private final static String FIELD_TAG = "field_tag";
@@ -34,7 +35,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private final static String EMPTY_PRICE_LABEL = "-";
     private final static String FORMAT_ALCOHOL = "%s%% алк.";
     private final static String FORMAT_VOLUME = "%s л.";
-    Item mProduct;
+    private Item mProduct;
+    private ExpandableListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,16 +46,18 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
         mProduct = proxyManager.getItemById(itemId);
-        ExpandableListView listView = getExpandableListView();
+        listView = getExpandableListView();
         View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
         populateFormsFields(headerView, mProduct);
         List<ExpandableListItem> expandableListItemList = createExpandableItems(mProduct);
         SimpleExpandableListAdapter listAdapter = new SimpleExpandableListAdapter(this, createExpandableGroups(expandableListItemList),
-                R.layout.product_info_expandable_group_layout, new String[]{FIELD_TAG}, new int[]{R.id.group_name},
+                R.layout.product_info_expandable_group_layout2, new String[]{FIELD_TAG}, new int[]{R.id.group_name},
                 createExpandableContent(expandableListItemList), R.layout.expandable_item_layout, new String[]{FIELD_TAG},
                 new int[]{R.id.item_content}
         );
+        listView.setOnGroupExpandListener(this);
+        listView.setOnGroupCollapseListener(this);
         listView.setAdapter(listAdapter);
     }
 
@@ -77,6 +81,20 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+    }
+
+    @Override
+    public void onGroupCollapse(int groupPosition) {
+        /*ImageView imageView = (ImageView) getExpandableListView().getChildAt(groupPosition).findViewById(R.id.group_arrow);
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_collapse));*/
+        super.onGroupCollapse(groupPosition);
+    }
+
+    @Override
+    public void onGroupExpand(int groupPosition) {
+        /*ImageView imageView = (ImageView) listView.getChildAt(groupPosition).findViewById(R.id.group_arrow);
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_expand));*/
+        super.onGroupExpand(groupPosition);
     }
 
     private List<List<Map<String, ?>>> createExpandableContent(List<ExpandableListItem> expandableListItemList) {
@@ -131,7 +149,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(FORMAT_ALCOHOL,trimTrailingZeros(product.getAlcohol())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(FORMAT_ALCOHOL,
+                trimTrailingZeros(product.getAlcohol())));
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeVolumeLabel(trimTrailingZeros(product.getVolume())));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }

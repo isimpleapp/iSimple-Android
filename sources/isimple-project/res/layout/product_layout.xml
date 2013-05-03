@@ -7,5 +7,6 @@
     <org.holoeverywhere.widget.ExpandableListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:groupIndicator="@null"
             android:id="@android:id/list" />
 </LinearLayout>

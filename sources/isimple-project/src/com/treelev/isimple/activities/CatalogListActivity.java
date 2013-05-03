@@ -32,10 +32,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
 
     public final static String CATEGORY_NAME_EXTRA_ID = "category_name";
 
-    SearchView mSearchView;
-    Context mContext;
-    MenuItem mItemSearch;
-
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
@@ -48,7 +44,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         SimpleAdapter simpleAdapter = new SimpleAdapter(this, proxyManager.getRandomItems(), R.layout.catalog_item_layout,
                 Item.getUITags(), new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price});
         listView.setAdapter(simpleAdapter);
-        mContext = this;
     }
 
     @Override
@@ -65,10 +60,10 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
-        mItemSearch = menu.findItem(R.id.menu_search);
+        MenuItem mItemSearch = menu.findItem(R.id.menu_search);
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

@@ -5,6 +5,7 @@ import com.treelev.isimple.domain.db.Item;
 import java.util.Comparator;
 
 public class ItemComparePrice implements Comparator<Item> {
+
     @Override
     public int compare(Item prev, Item next) {
         Float prevPrice = getPriceValue(prev);

@@ -50,8 +50,9 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         populateFormsFields(headerView, mProduct);
         List<ExpandableListItem> expandableListItemList = createExpandableItems(mProduct);
         SimpleExpandableListAdapter listAdapter = new SimpleExpandableListAdapter(this, createExpandableGroups(expandableListItemList),
-                R.layout.product_info_expandable_group_layout, new String[]{FIELD_TAG}, new int[]{R.id.group_name}, createExpandableContent(expandableListItemList),
-                R.layout.expandable_item_layout, new String[]{FIELD_TAG}, new int[]{R.id.item_content}
+                R.layout.product_info_expandable_group_layout, new String[]{FIELD_TAG}, new int[]{R.id.group_name},
+                createExpandableContent(expandableListItemList), R.layout.expandable_item_layout, new String[]{FIELD_TAG},
+                new int[]{R.id.item_content}
         );
         listView.setAdapter(listAdapter);
     }
@@ -130,8 +131,10 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(FORMAT_ALCOHOL,trimTrailingZeros(product.getAlcohol())));
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), organizeValueAlcohol(FORMAT_VOLUME,Utils.organizeVolumeLabel(trimTrailingZeros(product.getVolume()))));
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(FORMAT_ALCOHOL,
+                trimTrailingZeros(product.getAlcohol())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), organizeValueAlcohol(FORMAT_VOLUME,
+                Utils.organizeVolumeLabel(trimTrailingZeros(product.getVolume()))));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }
 
@@ -143,15 +146,16 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         }
     }
 
-    private String organizeValueAlcohol(String format,String text) {
+    private String organizeValueAlcohol(String format, String text) {
         String result = null;
-        if(!TextUtils.isEmpty(text)){
-            result = String.format(format, text);}
+        if (!TextUtils.isEmpty(text)) {
+            result = String.format(format, text);
+        }
         return result;
     }
 
     private static String trimTrailingZeros(String number) {
-        if(!number.contains(".")) {
+        if (!number.contains(".")) {
             return number;
         }
 

@@ -19,6 +19,11 @@ import java.util.Map;
 public class ItemDAO extends BaseDAO {
 
     public final static int ID = 1;
+    private final static String FIRST_PART_SELECT_SCRIPT = "select %s, %s, %s, %s, %s, %s from %s where ";
+    private final static int SCRIPT_TYPE_WINE = 2;
+    private final static int SCRIPT_TYPE_OTHERS = 3;
+    private final static String FORMAT_QUERY_WINE = "%s %s %s %s %s %s %s";
+    private final static String FORMAT_QUERY_OTHER = "%s %s %s";
 
     public ItemDAO(Context context) {
         super(context);
@@ -97,7 +102,6 @@ public class ItemDAO extends BaseDAO {
         close();
         return itemList;
     }
-
 
     public void insertListData(List<Item> items) {
         open();
@@ -412,30 +416,43 @@ public class ItemDAO extends BaseDAO {
         return itemList;
     }
 
-    //TODO refactor
     private String getSelectCategoryStringByCategoryId(Integer categoryId) {
-        if (categoryId == null) {
-            return "select %s, %s, %s, %s, %s, %s from %s where ";
+        int scriptType = SCRIPT_TYPE_OTHERS;
+        if (categoryId == R.id.category_wine_butt) {
+            scriptType = SCRIPT_TYPE_WINE;
         }
+        return createSelectScript(scriptType, getSelectParams(categoryId));
+    }
+
+    private Object[] getSelectParams(Integer categoryId) {
         switch (categoryId) {
             case R.id.category_wine_butt:
-                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 0 and " +
-                        DatabaseSqlHelper.ITEM_STYLE + " <> 1 and " + DatabaseSqlHelper.ITEM_STYLE + " <> 3";
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 0 and ",
+                        DatabaseSqlHelper.ITEM_STYLE, " <> 1 and ", DatabaseSqlHelper.ITEM_STYLE, " <> 3"};
             case R.id.category_sparkling_butt:
-                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_STYLE + " = 1";
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_STYLE, " = 1"};
             case R.id.category_porto_heres_butt:
-                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_STYLE + " = 3";
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_STYLE, " = 3"};
             case R.id.category_water_butt:
                 return null;
             case R.id.category_spirits_butt:
-                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 1";
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 1"};
             case R.id.category_sake_butt:
-                return "select %s, %s, %s, %s, %s, %s from %s where " + DatabaseSqlHelper.ITEM_DRINK_CATEGORY + " = 2";
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 2"};
             default:
                 return null;
         }
     }
 
+    private String createSelectScript(int scriptType, Object[] scriptParams) {
+        String formatQuery = FORMAT_QUERY_OTHER;
+        if (scriptType == SCRIPT_TYPE_WINE) {
+            formatQuery = FORMAT_QUERY_WINE;
+        }
+        return String.format(formatQuery, scriptParams);
+    }
+
+    //TODO refactor: переименовать метод и переписать через String.format
     private String getSelectByQuery(Integer categoryId, String query) {
         String prepareQuery = " '%" + query + "%'";
         String result = "(" + DatabaseSqlHelper.ITEM_LOCALIZED_NAME + " LIKE" + prepareQuery + " or "

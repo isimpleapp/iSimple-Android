@@ -149,9 +149,9 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeValueAlcohol(FORMAT_ALCOHOL,
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeNewFormat(FORMAT_ALCOHOL,
                 trimTrailingZeros(product.getAlcohol())));
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeVolumeLabel(trimTrailingZeros(product.getVolume())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), organizeNewFormat(FORMAT_VOLUME,trimTrailingZeros(product.getVolume())));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }
 
@@ -163,10 +163,20 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         }
     }
 
-    private String organizeValueAlcohol(String format, String text) {
+//    private String organizeNewFormat(String format, String text) {
+//        String result = null;
+//        if (text != null) {
+//            result = text.replace('.', ',');
+//            result = String.format(format, text);
+//        }
+//        return result;
+//    }
+
+    public static String organizeNewFormat(String format,String volume) {
         String result = null;
-        if (!TextUtils.isEmpty(text)) {
-            result = String.format(format, text);
+        if (volume != null) {
+            result = volume.replace('.', ',');
+            result = String.format(format, result);
         }
         return result;
     }
@@ -178,6 +188,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
 
         return number.replaceAll("\\.?0*$", "");
     }
+
+
 
     private void createNavigation() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);

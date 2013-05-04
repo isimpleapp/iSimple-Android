@@ -38,7 +38,6 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     private List<Item> mItems;
     private List<Map<String, ?>> mUiItemList;
     private SimpleAdapter mListCategoriesAdapter;
-    private ProxyManager mProxyManager;
     private String mQuery;
 
     @Override
@@ -48,7 +47,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         createNavigation();
         RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
         rg.setOnCheckedChangeListener(this);
-        mProxyManager = new ProxyManager(this);
+        ProxyManager mProxyManager = new ProxyManager(this);
         handledIntent(getIntent());
     }
 
@@ -77,10 +76,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (query.trim().length() != 0) {
-                    return false;
-                }
-                return true;
+                return query.trim().length() == 0;
             }
 
             @Override
@@ -162,7 +158,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
 

@@ -26,8 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductInfoActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener,
-        ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupCollapseListener {
+public class ProductInfoActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
 
     public final static String ITEM_ID_TAG = "id";
     private final static String FIELD_TAG = "field_tag";
@@ -35,8 +34,6 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private final static String EMPTY_PRICE_LABEL = "-";
     private final static String FORMAT_ALCOHOL = "%s%% алк.";
     private final static String FORMAT_VOLUME = "%s л.";
-    private Item mProduct;
-    private ExpandableListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,19 +42,17 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
-        mProduct = proxyManager.getItemById(itemId);
-        listView = getExpandableListView();
+        Item mProduct = proxyManager.getItemById(itemId);
+        ExpandableListView listView = getExpandableListView();
         View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
         populateFormsFields(headerView, mProduct);
         List<ExpandableListItem> expandableListItemList = createExpandableItems(mProduct);
         SimpleExpandableListAdapter listAdapter = new SimpleExpandableListAdapter(this, createExpandableGroups(expandableListItemList),
-                R.layout.product_info_expandable_group_layout2, new String[]{FIELD_TAG}, new int[]{R.id.group_name},
+                R.layout.product_info_expandable_group_layout, new String[]{FIELD_TAG}, new int[]{R.id.group_name},
                 createExpandableContent(expandableListItemList), R.layout.expandable_item_layout, new String[]{FIELD_TAG},
                 new int[]{R.id.item_content}
         );
-        listView.setOnGroupExpandListener(this);
-        listView.setOnGroupCollapseListener(this);
         listView.setAdapter(listAdapter);
     }
 
@@ -83,19 +78,23 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
-    @Override
+    /*@Override
     public void onGroupCollapse(int groupPosition) {
-        /*ImageView imageView = (ImageView) getExpandableListView().getChildAt(groupPosition).findViewById(R.id.group_arrow);
-        imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_collapse));*/
+        ImageView imageView = (ImageView) getExpandableListView().getChildAt(groupPosition + 1).findViewById(R.id.group_arrow);
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_collapse));
+        TextView textView = (TextView) getExpandableListView().getChildAt(groupPosition + 1).findViewById(R.id.group_name);
+        String text = textView.getText().toString();
         super.onGroupCollapse(groupPosition);
     }
 
     @Override
     public void onGroupExpand(int groupPosition) {
-        /*ImageView imageView = (ImageView) listView.getChildAt(groupPosition).findViewById(R.id.group_arrow);
-        imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_expand));*/
+        ImageView imageView = (ImageView) getExpandableListView().getChildAt(groupPosition + 1).findViewById(R.id.group_arrow);
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_expand));
+        TextView textView = (TextView) getExpandableListView().getChildAt(groupPosition + 1).findViewById(R.id.group_name);
+        String text = textView.getText().toString();
         super.onGroupExpand(groupPosition);
-    }
+    }*/
 
     private List<List<Map<String, ?>>> createExpandableContent(List<ExpandableListItem> expandableListItemList) {
         List<List<Map<String, ?>>> list = new ArrayList<List<Map<String, ?>>>();
@@ -149,9 +148,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeNewFormat(FORMAT_ALCOHOL,
-                trimTrailingZeros(product.getAlcohol())));
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), organizeNewFormat(FORMAT_VOLUME,trimTrailingZeros(product.getVolume())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeDataLabels(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), organizeDataLabels(FORMAT_VOLUME, trimTrailingZeros(product.getVolume())));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }
 
@@ -163,16 +161,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         }
     }
 
-//    private String organizeNewFormat(String format, String text) {
-//        String result = null;
-//        if (text != null) {
-//            result = text.replace('.', ',');
-//            result = String.format(format, text);
-//        }
-//        return result;
-//    }
-
-    public static String organizeNewFormat(String format,String volume) {
+    private String organizeDataLabels(String format, String volume) {
         String result = null;
         if (volume != null) {
             result = volume.replace('.', ',');
@@ -181,15 +170,37 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         return result;
     }
 
-    private static String trimTrailingZeros(String number) {
-        if (!number.contains(".")) {
-            return number;
-        }
-
-        return number.replaceAll("\\.?0*$", "");
+    private String trimTrailingZeros(String number) {
+        return Utils.removeZeros(number);
     }
 
+    /*private String organizeAlcoholLabel(String alcohol) {
+        String str = "\\d*\\.{1}0*$";
+        String result = alcohol;
+        if (result.contains(".")) {
+            if (result.matches(str)) {
+                Format myFormatter = new DecimalFormat("###");
+                result = myFormatter.format(Float.parseFloat(result));
+            } else {
+                result = result.replace('.', ',');
+            }
+        }
+        return result;
+    }
 
+    private String organizeVolumeLabel(String volume) {
+        String str = "\\d*\\.{1}0*$";
+        String result = volume;
+        if (result.contains(".")) {
+            if (result.matches(str)) {
+                Format myFormatter = new DecimalFormat("###");
+                result = myFormatter.format(Float.parseFloat(result));
+            } else {
+                result = result.replace('.', ',');
+            }
+        }
+        return result;
+    }*/
 
     private void createNavigation() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -207,4 +218,16 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
     }
+
+    /*@Override
+    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+        ImageView imageView = (ImageView) v.findViewById(R.id.group_arrow);
+        Drawable arrowDrawable = getResources().getDrawable(R.drawable.group_item_arrow_expand);
+        if (imageView.getDrawable().hashCode() != arrowDrawable.hashCode()) {
+            imageView.setImageDrawable(arrowDrawable);
+        } else {
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_collapse));
+        }
+        return false;
+    }*/
 }

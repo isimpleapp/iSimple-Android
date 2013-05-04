@@ -64,7 +64,7 @@
             android:gravity="center">
         <org.holoeverywhere.widget.RadioButton
                 android:layout_weight="1"
-                android:layout_height="40dip"
+                android:layout_height="50dip"
                 android:id="@+id/alphabet_sort"
                 android:checked="true"
                 android:text="@string/sort_label_alphabet"
@@ -73,11 +73,9 @@
                 android:background="@drawable/tab_indicator_sort"
                 android:button="@android:color/transparent"
                 android:paddingRight="1dip"/>
-
-
         <org.holoeverywhere.widget.RadioButton
                 android:layout_weight="1"
-                android:layout_height="40dip"
+                android:layout_height="50dip"
                 android:id="@+id/price_sort"
                 android:text="@string/sort_label_price"
                 android:gravity="center"

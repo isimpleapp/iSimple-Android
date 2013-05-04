@@ -56,6 +56,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);

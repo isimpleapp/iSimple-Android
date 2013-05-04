@@ -165,6 +165,8 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+
+
     class Search extends AsyncTask<String, Void, List<Item>> {
 
         private Dialog mDialog;

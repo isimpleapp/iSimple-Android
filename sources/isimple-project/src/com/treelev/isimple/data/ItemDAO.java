@@ -75,29 +75,27 @@ public class ItemDAO extends BaseDAO {
         return itemList;
     }
 
+    //TODO refactor: переименовать, заменить конкантенацию на String.format, метод дублируется с getItemsByCategory
     public List<Item> getSearchItemsByCategory(Integer categoryId, String query) {
         List<Item> itemList = new ArrayList<Item>();
         open();
-        String formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
-        if (formatSelectScript != null) {
-            String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
-                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
-                    DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
-            selectSql += getSelectByQuery(categoryId, query);
-            Cursor cursor = getDatabase().rawQuery(selectSql, null);
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
-                    Item item = new Item();
-                    item.setItemID(cursor.getString(0));
-                    item.setName(cursor.getString(1));
-                    item.setLocalizedName(cursor.getString(2));
-                    item.setVolume(cursor.getString(3));
-                    item.setPrice(cursor.getString(4));
-                    item.setBottleHiResolutionImageFilename(cursor.getString(5));
-                    itemList.add(item);
-                }
-                cursor.close();
+        String selectSql = String.format(FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
+                DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
+        selectSql += getSelectByQuery(categoryId, query);
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Item item = new Item();
+                item.setItemID(cursor.getString(0));
+                item.setName(cursor.getString(1));
+                item.setLocalizedName(cursor.getString(2));
+                item.setVolume(cursor.getString(3));
+                item.setPrice(cursor.getString(4));
+                item.setBottleHiResolutionImageFilename(cursor.getString(5));
+                itemList.add(item);
             }
+            cursor.close();
         }
         close();
         return itemList;

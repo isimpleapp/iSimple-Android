@@ -8,8 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
@@ -31,13 +33,25 @@ import java.util.HashMap;
 public class CatalogListActivity extends ListActivity implements ActionBar.OnNavigationListener {
 
     public final static String CATEGORY_NAME_EXTRA_ID = "category_name";
-
+    View darkView;
+    RelativeLayout myLayout;
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
         setContentView(R.layout.catalog_list_layout);
         createNavigation();
         ListView listView = getListView();
+
+//        Cteating dark wiew:
+
+        darkView = findViewById(R.id.dark_view);
+        darkView.setVisibility(View.GONE);
+        darkView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
         View headerView = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
         ProxyManager proxyManager = new ProxyManager(this);
@@ -69,21 +83,46 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query.trim().length() != 0) {
+//                    darkView.getBackground().setAlpha(0);
+//                    darkView.setVisibility(View.GONE);
                     SearchResultActivity.categoryID = null;
                     SearchResultActivity.backActivity = CatalogListActivity.class;
                     return false;
-                }
+                }else
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 return false;
             }
         };
+
+        MenuItem menuItem = menu.findItem(R.id.menu_search);
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener()
+        {
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item)
+            {
+                darkView.setVisibility(View.GONE);
+                return true; // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item)
+            {
+                darkView.setVisibility(View.VISIBLE);
+                darkView.getBackground().setAlpha(150);
+                return true;
+            }
+        });
+
         mSearchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {

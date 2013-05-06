@@ -39,6 +39,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     private List<Map<String, ?>> mUiItemList;
     private SimpleAdapter mListCategoriesAdapter;
     private String mQuery;
+    private View darkView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,13 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         rg.setOnCheckedChangeListener(this);
         ProxyManager mProxyManager = new ProxyManager(this);
         handledIntent(getIntent());
+        darkView = findViewById(R.id.category_dark_view);
+        darkView.setVisibility(View.GONE);
+        darkView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
     }
 
     @Override
@@ -84,6 +92,26 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
                 return false;
             }
         };
+
+        MenuItem menuItem = menu.findItem(R.id.menu_search);
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener()
+        {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item)
+            {
+                darkView.setVisibility(View.GONE);
+                return true; // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item)
+            {
+                darkView.setVisibility(View.VISIBLE);
+                darkView.getBackground().setAlpha(150);
+                return true;
+            }
+        });
+
         mSearchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }

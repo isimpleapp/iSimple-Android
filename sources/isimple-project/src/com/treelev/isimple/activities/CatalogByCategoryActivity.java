@@ -45,6 +45,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private ExpandableListView listView;
     private CheckBox[] filterTypeCheckBoxArray;
     private View footerView;
+    private View darkView;
     private Integer mCategoryID;
 
     @Override
@@ -52,6 +53,13 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
         createNavigation();
+        darkView = findViewById(R.id.category_dark_view);
+        darkView.setVisibility(View.GONE);
+        darkView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
         initDataListView(mCategoryID);
         initFilterListView(createFilterList(), mCategoryID);
@@ -104,6 +112,24 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                 return false;
             }
         };
+        MenuItem menuItem = menu.findItem(R.id.menu_search);
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener()
+        {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item)
+            {
+                darkView.setVisibility(View.GONE);
+                return true; // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item)
+            {
+                darkView.setVisibility(View.VISIBLE);
+                darkView.getBackground().setAlpha(150);
+                return true;
+            }
+        });
         mSearchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }

@@ -60,7 +60,7 @@ public class ProxyManager {
             uiDataItem.put(Item.UI_TAG_IMAGE, R.drawable.bottle_list_image_default);
             uiDataItem.put(Item.UI_TAG_NAME, item.getName());
             uiDataItem.put(Item.UI_TAG_LOCALIZATION_NAME, item.getLocalizedName());
-            String volumeLabel = Utils.organizeVolumeLabel(Utils.removeZeros(item.getVolume()));
+            String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(item.getVolume()));
             uiDataItem.put(Item.UI_TAG_VOLUME, volumeLabel != null ? volumeLabel : "");
             String priceLabel = Utils.organizePriceLabel(item.getPrice());
             uiDataItem.put(Item.UI_TAG_PRICE, priceLabel != null ? priceLabel : "");

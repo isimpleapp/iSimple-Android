@@ -33,7 +33,7 @@ import java.util.HashMap;
 public class CatalogListActivity extends ListActivity implements ActionBar.OnNavigationListener {
 
     public final static String CATEGORY_NAME_EXTRA_ID = "category_name";
-    View darkView;
+    private View darkView;
     RelativeLayout myLayout;
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -41,9 +41,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         setContentView(R.layout.catalog_list_layout);
         createNavigation();
         ListView listView = getListView();
-
-//        Cteating dark wiew:
-
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +48,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
             public void onClick(View v) {
             }
         });
-
         View headerView = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
         ProxyManager proxyManager = new ProxyManager(this);
@@ -69,8 +65,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
@@ -83,8 +77,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query.trim().length() != 0) {
-//                    darkView.getBackground().setAlpha(0);
-//                    darkView.setVisibility(View.GONE);
                     SearchResultActivity.categoryID = null;
                     SearchResultActivity.backActivity = CatalogListActivity.class;
                     return false;
@@ -94,7 +86,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 return false;
             }
         };
@@ -118,7 +109,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                 return true;
             }
         });
-
         mSearchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
     }

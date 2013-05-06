@@ -59,11 +59,15 @@ public class Utils {
         return result;
     }
 
-    public static String organizeVolumeLabel(String volume) {
+    public static String organizeProductLabel(String volume) {
+        return organizeProductLabel(FORMAT_VOLUME_LABEL, volume);
+    }
+
+    public static String organizeProductLabel(String format, String volume) {
         String result = null;
         if (volume != null) {
             result = volume.replace('.', ',');
-            result = String.format(FORMAT_VOLUME_LABEL, result);
+            result = String.format(format, result);
         }
         return result;
     }

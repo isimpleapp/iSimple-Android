@@ -148,8 +148,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), organizeDataLabels(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())));
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), organizeDataLabels(FORMAT_VOLUME, trimTrailingZeros(product.getVolume())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume())));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
     }
 
@@ -159,15 +159,6 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         } else {
             textView.setVisibility(View.GONE);
         }
-    }
-
-    private String organizeDataLabels(String format, String volume) {
-        String result = null;
-        if (volume != null) {
-            result = volume.replace('.', ',');
-            result = String.format(format, result);
-        }
-        return result;
     }
 
     private String trimTrailingZeros(String number) {

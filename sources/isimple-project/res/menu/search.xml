@@ -3,7 +3,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_search"
           android:title=""
-          android:icon="@drawable/abs__ic_search_api_holo_light"
+          android:icon="@drawable/search_button"
           android:showAsAction="always|collapseActionView"
           android:actionViewClass="com.actionbarsherlock.widget.SearchView" />
 </menu>

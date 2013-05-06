@@ -124,7 +124,7 @@
                 android:id="@+id/add_to_basket_butt" android:layout_weight="4"
                 android:background="@drawable/product_info_basket_butt_selector" android:layout_marginLeft="3dip"
                 android:layout_marginRight="3dip" android:drawableLeft="@drawable/add_basket_ico"
-                android:textColor="@color/item_price_color"/>
+                android:textColor="@color/product_price_color"/>
         <org.holoeverywhere.widget.Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"

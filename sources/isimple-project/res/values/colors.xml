@@ -2,11 +2,12 @@
 <resources>
     <color name="select_item_navigation">#fc0fc0</color>
     <color name="catalog_header_background">#ebebeb</color>
-    <color name="catalog_item_background">#fbfbfb</color>
-    <color name="item_wine_color">#f587d8</color>
-    <color name="item_text_color">#807f7f</color>
-    <color name="item_volume_color">#555555</color>
-    <color name="item_price_color">#ea148c</color>
+    <color name="product_background">#fbfbfb</color>
+    <color name="product_background_press">#4cea148c</color>
+    <color name="product_wine_color">#f587d8</color>
+    <color name="product_text_color">#807f7f</color>
+    <color name="product_volume_color">#757575</color>
+    <color name="product_price_color">#ea148c</color>
     <color name="category_butt_text_color">#838d97</color>
     <color name="product_expandable_item_back">#f0f0f0</color>
     <color name="category_filter_back">#d3d8dd</color>
@@ -21,5 +22,7 @@
     <color name="wine_type_white">#fce8bf</color>
     <color name="wine_type_pink">#f388a7</color>
     <color name="background_item_navigaton">#f2b1d5</color>
-
+    <color name="product_category_color">#c4c4c4</color>
+    <color name="product_separator_color">#4d323232</color>
+    <color name="reset_butt_label_color">#3e3e3e</color>
  </resources>

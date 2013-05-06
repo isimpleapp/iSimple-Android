@@ -8,7 +8,7 @@
     </item>
     <item>
         <shape>
-            <solid android:color="@color/catalog_item_background"/>
+            <solid android:color="@color/product_background"/>
         </shape>
     </item>
 </selector>

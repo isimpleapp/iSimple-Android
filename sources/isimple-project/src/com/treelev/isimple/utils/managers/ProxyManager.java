@@ -64,6 +64,7 @@ public class ProxyManager {
             uiDataItem.put(Item.UI_TAG_VOLUME, volumeLabel != null ? volumeLabel : "");
             String priceLabel = Utils.organizePriceLabel(item.getPrice());
             uiDataItem.put(Item.UI_TAG_PRICE, priceLabel != null ? priceLabel : "");
+            uiDataItem.put(Item.UI_TAG_DRINK_CATEGORY, item.getDrinkCategory().getDescription());
             uiDataList.add(uiDataItem);
         }
         return uiDataList;

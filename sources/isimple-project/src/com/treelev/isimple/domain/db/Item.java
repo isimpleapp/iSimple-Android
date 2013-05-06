@@ -24,6 +24,7 @@ public class Item implements Serializable {
     private String country;
     private String region;
     private String barcode;
+    public final static String UI_TAG_DRINK_CATEGORY = "drink_category";
     private DrinkCategory drinkCategory;
     private Color color;
     private Style style;
@@ -52,7 +53,7 @@ public class Item implements Serializable {
     private String rating;
 
     public static String[] getUITags() {
-        return new String[]{UI_TAG_IMAGE, UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE};
+        return new String[]{UI_TAG_IMAGE, UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE, UI_TAG_DRINK_CATEGORY};
     }
 
     public String getItemID() {

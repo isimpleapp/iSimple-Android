@@ -172,16 +172,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        HashMap product = (HashMap) l.getAdapter().getItem(position);
-        Intent startIntent = new Intent(this, ProductInfoActivity.class);
-        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
-        startActivity(startIntent);
-        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-    }
-
-    @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         Intent filterDataIntent = new Intent(this, FilterActivity.class);
         filterDataIntent.putExtra(FILTER_DATA_TAG, childPosition);
@@ -194,6 +184,16 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        HashMap product = (HashMap) l.getAdapter().getItem(position);
+        Intent startIntent = new Intent(this, ProductInfoActivity.class);
+        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
+        startActivity(startIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     private List<FilterItem> createFilterList() {
@@ -214,7 +214,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                 mUiItemList,
                 R.layout.catalog_item_layout,
                 Item.getUITags(),
-                new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price});
+                new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category});
         getListView().setAdapter(mListCategoriesAdapter);
     }
 

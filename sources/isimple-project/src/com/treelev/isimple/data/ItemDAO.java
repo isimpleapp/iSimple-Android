@@ -19,7 +19,7 @@ import java.util.Map;
 public class ItemDAO extends BaseDAO {
 
     public final static int ID = 1;
-    private final static String FIRST_PART_SELECT_SCRIPT = "select %s, %s, %s, %s, %s, %s from %s where ";
+    private final static String FIRST_PART_SELECT_SCRIPT = "select %s, %s, %s, %s, %s, %s, %s from %s where ";
     private final static int SCRIPT_TYPE_WINE = 2;
     private final static int SCRIPT_TYPE_OTHERS = 3;
     private final static String FORMAT_QUERY_WINE = "%s %s %s %s %s %s %s";
@@ -48,6 +48,7 @@ public class ItemDAO extends BaseDAO {
         return count;
     }
 
+    //TODO refactor: метод дублируется с getRandomItems
     public List<Item> getItemsByCategory(int categoryId) {
         List<Item> itemList = new ArrayList<Item>();
         open();
@@ -55,7 +56,8 @@ public class ItemDAO extends BaseDAO {
         if (formatSelectScript != null) {
             String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
                     DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
-                    DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
+                    DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                    DatabaseSqlHelper.ITEM_TABLE);
             Cursor cursor = getDatabase().rawQuery(selectSql, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -66,6 +68,7 @@ public class ItemDAO extends BaseDAO {
                     item.setVolume(cursor.getString(3));
                     item.setPrice(cursor.getString(4));
                     item.setBottleHiResolutionImageFilename(cursor.getString(5));
+                    item.setDrinkCategory(DrinkCategory.values()[Integer.parseInt(cursor.getString(6))]);
                     itemList.add(item);
                 }
                 cursor.close();
@@ -81,7 +84,7 @@ public class ItemDAO extends BaseDAO {
         open();
         String selectSql = String.format(FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
                 DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
+                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, DatabaseSqlHelper.ITEM_TABLE);
         selectSql += getSelectByQuery(categoryId, query);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         if (cursor != null) {
@@ -93,6 +96,7 @@ public class ItemDAO extends BaseDAO {
                 item.setVolume(cursor.getString(3));
                 item.setPrice(cursor.getString(4));
                 item.setBottleHiResolutionImageFilename(cursor.getString(5));
+                item.setDrinkCategory(DrinkCategory.values()[Integer.parseInt(cursor.getString(6))]);
                 itemList.add(item);
             }
             cursor.close();
@@ -390,10 +394,11 @@ public class ItemDAO extends BaseDAO {
 
     public List<Item> getRandomItems() {
         open();
-        String formatSelectScript = "select %s, %s, %s, %s, %s, %s from %s limit 10";
+        String formatSelectScript = "select %s, %s, %s, %s, %s, %s, %s from %s limit 10";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
                 DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
-                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_TABLE);
+                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                DatabaseSqlHelper.ITEM_TABLE);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         List<Item> itemList = null;
         if (cursor != null) {
@@ -406,6 +411,7 @@ public class ItemDAO extends BaseDAO {
                 item.setVolume(cursor.getString(3));
                 item.setPrice(cursor.getString(4));
                 item.setBottleHiResolutionImageFilename(cursor.getString(5));
+                item.setDrinkCategory(DrinkCategory.values()[Integer.parseInt(cursor.getString(6))]);
                 itemList.add(item);
             }
             cursor.close();
@@ -455,9 +461,9 @@ public class ItemDAO extends BaseDAO {
         String prepareQuery = " '%" + query + "%'";
         String result = "(" + DatabaseSqlHelper.ITEM_LOCALIZED_NAME + " LIKE" + prepareQuery + " or "
                 + DatabaseSqlHelper.ITEM_NAME + " LIKE" + prepareQuery + ")";
-        if (categoryId != null) {
+        /*if (categoryId != null) {
             result = " and " + result;
-        }
+        }*/
         return result;
     }
 

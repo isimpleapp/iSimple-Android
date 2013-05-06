@@ -189,8 +189,6 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         return false;
     }
 
-
-
     class Search extends AsyncTask<String, Void, List<Item>> {
 
         private Dialog mDialog;

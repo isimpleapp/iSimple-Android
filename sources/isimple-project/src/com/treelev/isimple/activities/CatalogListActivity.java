@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -35,6 +36,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     private View darkView;
     private RelativeLayout myLayout;
     
+
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
@@ -91,7 +93,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                 return false;
             }
         };
-
         MenuItem menuItem = menu.findItem(R.id.menu_search);
         menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener()
         {

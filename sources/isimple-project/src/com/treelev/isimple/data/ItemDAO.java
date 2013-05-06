@@ -82,7 +82,13 @@ public class ItemDAO extends BaseDAO {
     public List<Item> getSearchItemsByCategory(Integer categoryId, String query) {
         List<Item> itemList = new ArrayList<Item>();
         open();
-        String selectSql = String.format(FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
+        String formatSelectScript;
+        if(categoryId == null){
+            formatSelectScript = FIRST_PART_SELECT_SCRIPT;
+        } else {
+            formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
+        }
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
                 DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
                 DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, DatabaseSqlHelper.ITEM_TABLE);
         selectSql += getSelectByQuery(categoryId, query);
@@ -461,9 +467,9 @@ public class ItemDAO extends BaseDAO {
         String prepareQuery = " '%" + query + "%'";
         String result = "(" + DatabaseSqlHelper.ITEM_LOCALIZED_NAME + " LIKE" + prepareQuery + " or "
                 + DatabaseSqlHelper.ITEM_NAME + " LIKE" + prepareQuery + ")";
-        /*if (categoryId != null) {
+        if (categoryId != null) {
             result = " and " + result;
-        }*/
+        }
         return result;
     }
 

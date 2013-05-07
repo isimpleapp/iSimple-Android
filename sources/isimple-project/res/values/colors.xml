@@ -25,4 +25,5 @@
     <color name="product_category_color">#c4c4c4</color>
     <color name="product_separator_color">#4d323232</color>
     <color name="reset_butt_label_color">#3e3e3e</color>
+    <color name="black">#000000</color>
  </resources>

@@ -28,34 +28,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_pressed_sort_left.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_pressed_sort_left.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_pressed_sort_left.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_pressed_sort_right.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_pressed_sort_right.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_pressed_sort_right.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_sort_left.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_sort_left.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort_left.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_sort_right.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_sort_right.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort_right.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_unselected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_unselected_pressed_sort_left.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_unselected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_unselected_pressed_sort_left.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_unselected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_unselected_pressed_sort_left.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_unselected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_unselected_pressed_sort_right.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_unselected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_unselected_pressed_sort_right.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_unselected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_unselected_pressed_sort_right.9.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/search_result.xml" afterPath="$PROJECT_DIR$/res/layout/search_result.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/tab_indicator_left.xml" afterPath="$PROJECT_DIR$/res/drawable/tab_indicator_left.xml" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable\tab_indicator_sort.xml" afterPath="" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable-hdpi\tab_selected_pressed_sort.9.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable-mdpi\tab_selected_pressed_sort.9.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable-xhdpi\tab_selected_pressed_sort.9.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable-hdpi\tab_selected_sort.9.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable-mdpi\tab_selected_sort.9.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable-xhdpi\tab_selected_sort.9.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable-hdpi\tab_unselected_pressed_sort.9.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable-mdpi\tab_unselected_pressed_sort.9.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\drawable-xhdpi\tab_unselected_pressed_sort.9.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/colors.xml" afterPath="$PROJECT_DIR$/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367683178266" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367061912266" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367938721581" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367951265097" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364204323218" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -671,7 +662,7 @@
     <file path="$PROJECT_DIR$/../untitled1/build.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366114763761" ignored="false" />
     <file path="/abs__themes.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366116419094" ignored="false" />
     <file path="/category_butt_shape.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366126183428" ignored="false" />
-    <file path="/styles.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367938518769" ignored="false" />
+    <file path="/styles.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367952678102" ignored="false" />
     <file path="/category_butt_selector.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366201818682" ignored="false" />
     <file path="/category_wine_selector.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366202154815" ignored="false" />
     <file path="/category_water_selector.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366202418073" ignored="false" />
@@ -700,7 +691,7 @@
     <file path="$PROJECT_DIR$/../../../TestAndroid/res/layout/navigation_list_item.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366462672514" ignored="false" />
     <file path="$PROJECT_DIR$/../../../TestAndroid/src/com/example/TestAndroid/NavigationListAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366469489289" ignored="false" />
     <file path="$PROJECT_DIR$/../../../TestAndroid/res/values/colors.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366464512268" ignored="false" />
-    <file path="/colors.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367675790913" ignored="false" />
+    <file path="/colors.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367952661292" ignored="false" />
     <file path="/NavigationListAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367080969013" ignored="false" />
     <file path="/navigation_list_dropdown_item.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367680440246" ignored="false" />
     <file path="$PROJECT_DIR$/../../../TestAndroid/res/values/styles.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366469932593" ignored="false" />
@@ -923,33 +914,60 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="search_result.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/res/layout/search_result.xml">
+      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="36" selection-start="527" selection-end="527" vertical-scroll-proportion="0.4987775">
+            <state line="19" column="51" selection-start="1038" selection-end="1038" vertical-scroll-proportion="-12.92">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/data/res/values/styles.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="820" column="82" selection-start="38644" selection-end="38664" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="abs__styles.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Sherlock/res/values/abs__styles.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="410" column="84" selection-start="23075" selection-end="23075" vertical-scroll-proportion="-14.64">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="colors.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="31" selection-start="1474" selection-end="1474" vertical-scroll-proportion="-13.28">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1010" column="88" selection-start="64426" selection-end="64446" vertical-scroll-proportion="-4.26">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="category_filtration_button_bar_layout.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/category_filtration_button_bar_layout.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="74" column="37" selection-start="3581" selection-end="3581" vertical-scroll-proportion="0.7775061">
               <folding />
             </state>
           </provider>
           <provider editor-type-id="android-designer">
             <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tab_indicator_left.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_left.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="19" selection-start="625" selection-end="625" vertical-scroll-proportion="-6.8">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tab_indicator_right.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_right.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="-6.8">
-              <folding />
-            </state>
           </provider>
         </entry>
       </file>
@@ -972,8 +990,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/drawable/tab_indicator_sort.xml" />
-        <option value="$PROJECT_DIR$/res/drawable/list_navigation_selector.xml" />
         <option value="$PROJECT_DIR$/res/layout/navigation_list_dropdown_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/navigation_list_item.xml" />
         <option value="$PROJECT_DIR$/res/drawable/spinner_selector.xml" />
@@ -984,10 +1000,12 @@
         <option value="$PROJECT_DIR$/../HoloEveryWhere/res/drawable/list_selector_background_transition_holo_light.xml" />
         <option value="$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml" />
         <option value="$PROJECT_DIR$/res/drawable/item_background.xml" />
-        <option value="$PROJECT_DIR$/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/res/drawable/tab_indicator_right.xml" />
         <option value="$PROJECT_DIR$/res/drawable/tab_indicator_left.xml" />
         <option value="$PROJECT_DIR$/res/layout/search_result.xml" />
+        <option value="$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/res/values/colors.xml" />
+        <option value="$PROJECT_DIR$/res/values/styles.xml" />
       </list>
     </option>
   </component>
@@ -1255,7 +1273,7 @@
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="BX902TNSYY" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="S58303c6661c9" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="options.searchVisible" value="true" />
@@ -1719,7 +1737,11 @@
       <created>1367938729106</created>
       <updated>1367938729106</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="IS-51">
+      <created>1367951273103</created>
+      <updated>1367951273103</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1747,34 +1769,34 @@
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.67085075" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2374462" sideWeight="0.67085075" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32684284" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42817295" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47838214" sideWeight="0.50071734" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42398885" sideWeight="0.50071734" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31799164" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47838214" sideWeight="0.49928263" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25107604" sideWeight="0.67642957" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32357043" sideWeight="0.49928263" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2374462" sideWeight="0.67085075" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42817295" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31799164" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47838214" sideWeight="0.49928263" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1820,7 +1842,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="feedback item&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS-51" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1834,7 +1856,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="first commit" />
     <MESSAGE value="1" />
     <MESSAGE value="IS-22, IS-23(реализованы оба парсера)&#10;Частичная структура бд." />
     <MESSAGE value="IS-24, IS-25(реализованы оба парсера)&#10;Частичная структура бд.&#10;Временные оценки операций." />
@@ -1859,6 +1880,7 @@
     <MESSAGE value="IS-93&#10;" />
     <MESSAGE value="height sort button&#10;" />
     <MESSAGE value="feedback item&#10;" />
+    <MESSAGE value="IS-51" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1868,35 +1890,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable-hdpi/list_focused_holo.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/spinner_ab_focused_example.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/spinner_ab_pressed_example.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable/list_selector_background_transition_holo_light.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="89" selection-start="173" selection-end="173" vertical-scroll-proportion="0.08153477">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/spinner_selector.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="34" selection-start="280" selection-end="280" vertical-scroll-proportion="0.12762763">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/drawable/item_background.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="73" selection-start="480" selection-end="480" vertical-scroll-proportion="0.12762763">
@@ -1918,23 +1911,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
+    <entry file="file://$PROJECT_DIR$/res/drawable-mdpi/spinner_ab_default_example.9.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_right.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="17" selection-start="971" selection-end="971" vertical-scroll-proportion="0.47004607">
+        <state line="10" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="-6.8">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
+    <entry file="file://$PROJECT_DIR$/res/layout/search_result.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="844" column="74" selection-start="51459" selection-end="51459" vertical-scroll-proportion="0.33496332">
+        <state line="12" column="36" selection-start="527" selection-end="527" vertical-scroll-proportion="0.4987775">
           <folding />
         </state>
       </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+    <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_left.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="54" selection-start="796" selection-end="796" vertical-scroll-proportion="0.5875576">
+        <state line="10" column="19" selection-start="625" selection-end="625" vertical-scroll-proportion="0.25525525">
           <folding />
         </state>
       </provider>
@@ -1948,28 +1949,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable-mdpi/spinner_ab_default_example.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_right.xml">
+    <entry file="file://$PROJECT_DIR$/../Sherlock/res/values/abs__styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="-6.8">
+        <state line="410" column="84" selection-start="23075" selection-end="23075" vertical-scroll-proportion="-14.64">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_left.xml">
+    <entry file="file://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/data/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="19" selection-start="625" selection-end="625" vertical-scroll-proportion="-6.8">
+        <state line="820" column="82" selection-start="38644" selection-end="38664" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/search_result.xml">
+    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="36" selection-start="527" selection-end="527" vertical-scroll-proportion="0.4987775">
+        <state line="1010" column="88" selection-start="64426" selection-end="64446" vertical-scroll-proportion="-4.26">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/data/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="17" selection-start="2464" selection-end="2464" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/data/res/color/primary_text_dark.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="83" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.7037037">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="31" selection-start="1474" selection-end="1474" vertical-scroll-proportion="-13.28">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="51" selection-start="1038" selection-end="1038" vertical-scroll-proportion="-12.92">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/category_filtration_button_bar_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="37" selection-start="3581" selection-end="3581" vertical-scroll-proportion="0.7775061">
           <folding />
         </state>
       </provider>

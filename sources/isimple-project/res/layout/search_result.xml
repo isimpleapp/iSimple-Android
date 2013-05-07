@@ -10,7 +10,7 @@
             android:visibility="visible"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center" android:showDividers="middle">
+            android:gravity="center">
         <org.holoeverywhere.widget.RadioButton
                 android:layout_weight="1"
                 android:layout_height="50dip"

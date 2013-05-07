@@ -27,24 +27,35 @@
     </option>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="feedback item&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/list_focused.9.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-mdpi/list_focused.9.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-hdpi/list_longpressed.9.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-mdpi/list_longpressed.9.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/list_longpressed.9.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/list_pressed.9.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable/item_background.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../HoloEveryWhere/res/drawable/list_selector_background_transition_holo_light.xml" afterPath="$PROJECT_DIR$/../HoloEveryWhere/res/drawable/list_selector_background_transition_holo_light.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
+    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_pressed_sort_left.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_pressed_sort_left.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_pressed_sort_left.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_pressed_sort_right.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_pressed_sort_right.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_pressed_sort_right.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_sort_left.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_sort_left.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort_left.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_selected_sort_right.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_selected_sort_right.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_selected_sort_right.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_unselected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_unselected_pressed_sort_left.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_unselected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_unselected_pressed_sort_left.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_unselected_pressed_sort_left.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_unselected_pressed_sort_left.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-hdpi/tab_unselected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-hdpi/tab_unselected_pressed_sort_right.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-mdpi/tab_unselected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-mdpi/tab_unselected_pressed_sort_right.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/tab_unselected_pressed_sort_right.9.png" afterPath="$PROJECT_DIR$/res/drawable-xhdpi/tab_unselected_pressed_sort_right.9.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/search_result.xml" afterPath="$PROJECT_DIR$/res/layout/search_result.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/tab_indicator_left.xml" afterPath="$PROJECT_DIR$/res/drawable/tab_indicator_left.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367683178266" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367061912266" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367938675182" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367938721581" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364204323218" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -812,8 +823,8 @@
     <file path="E:/AndoidSimple/ActionBar Custom/res/drawable/selected_background.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367675660181" ignored="false" />
     <file path="/selected_background_navigation.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367675716874" ignored="false" />
     <file path="E:/AndoidSimple/ActionBar Custom/src/com/example/android/styledactionbar/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367678687457" ignored="false" />
-    <file path="/tab_indicator_right.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367865762117" ignored="false" />
-    <file path="/tab_indicator_left.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367865803092" ignored="false" />
+    <file path="/tab_indicator_right.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367948871963" ignored="false" />
+    <file path="/tab_indicator_left.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367948710375" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -904,7 +915,7 @@
       <file leaf-file-name="CatalogListActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="0" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.0">
+            <state line="113" column="43" selection-start="4741" selection-end="4741" vertical-scroll-proportion="0.0">
               <folding>
                 <marker date="1367932315757" expanded="true" signature="8068:8074" placeholder="{...}" />
               </folding>
@@ -912,64 +923,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+      <file leaf-file-name="search_result.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/search_result.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="107" selection-start="455" selection-end="455" vertical-scroll-proportion="0.3292978">
+            <state line="12" column="36" selection-start="527" selection-end="527" vertical-scroll-proportion="0.4987775">
               <folding />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="spinner_selector.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/drawable/spinner_selector.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="34" selection-start="280" selection-end="280" vertical-scroll-proportion="-3.4">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="844" column="74" selection-start="51459" selection-end="51459" vertical-scroll-proportion="-2.74">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="item_background_holo_light.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable/item_background_holo_light.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="109" selection-end="821" vertical-scroll-proportion="-1.36">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="item_background.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/drawable/item_background.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="73" selection-start="480" selection-end="480" vertical-scroll-proportion="-3.4">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list_selector_background_transition.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="50" selection-start="160" selection-end="160" vertical-scroll-proportion="-2.04">
-              <folding />
-            </state>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="tab_indicator_left.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_left.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="38" selection-start="609" selection-end="609" vertical-scroll-proportion="-6.8">
+            <state line="10" column="19" selection-start="625" selection-end="625" vertical-scroll-proportion="-6.8">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tab_indicator_right.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_right.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="-6.8">
               <folding />
             </state>
           </provider>
@@ -1001,15 +979,15 @@
         <option value="$PROJECT_DIR$/res/drawable/spinner_selector.xml" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
-        <option value="$PROJECT_DIR$/res/drawable/tab_indicator_right.xml" />
         <option value="$PROJECT_DIR$/res/layout/category_filtration_button_bar_layout.xml" />
-        <option value="$PROJECT_DIR$/res/drawable/tab_indicator_left.xml" />
         <option value="$PROJECT_DIR$/res/menu/search.xml" />
-        <option value="$PROJECT_DIR$/res/layout/search_result.xml" />
         <option value="$PROJECT_DIR$/../HoloEveryWhere/res/drawable/list_selector_background_transition_holo_light.xml" />
         <option value="$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml" />
         <option value="$PROJECT_DIR$/res/drawable/item_background.xml" />
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/res/drawable/tab_indicator_right.xml" />
+        <option value="$PROJECT_DIR$/res/drawable/tab_indicator_left.xml" />
+        <option value="$PROJECT_DIR$/res/layout/search_result.xml" />
       </list>
     </option>
   </component>
@@ -1130,6 +1108,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1719,7 +1715,11 @@
       <created>1367935990107</created>
       <updated>1367935990107</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="feedback item&#10;">
+      <created>1367938729106</created>
+      <updated>1367938729106</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1820,7 +1820,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="height sort button&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="feedback item&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1858,6 +1858,7 @@
     <MESSAGE value="IS-51&#10;" />
     <MESSAGE value="IS-93&#10;" />
     <MESSAGE value="height sort button&#10;" />
+    <MESSAGE value="feedback item&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1867,52 +1868,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/category_filtration_button_bar_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="61" selection-start="3479" selection-end="3479" vertical-scroll-proportion="0.3469388">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="0" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1367932315757" expanded="true" signature="8068:8074" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable/item_background_holo_light.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="109" selection-end="821" vertical-scroll-proportion="-1.36">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable-hdpi/list_selector_disabled_holo_light.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable-mdpi/list_selector_disabled_holo_light.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable-hdpi/list_pressed_holo_light.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable-hdpi/list_longpressed_holo.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable-hdpi/list_focused_holo.9.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -1928,13 +1883,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/spinner_selector.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="34" selection-start="280" selection-end="280" vertical-scroll-proportion="-3.4">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable/list_selector_background_transition_holo_light.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="89" selection-start="173" selection-end="173" vertical-scroll-proportion="0.08153477">
@@ -1942,32 +1890,91 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
+    <entry file="file://$PROJECT_DIR$/res/drawable/spinner_selector.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="844" column="74" selection-start="51459" selection-end="51459" vertical-scroll-proportion="-2.74">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="50" selection-start="160" selection-end="160" vertical-scroll-proportion="-2.04">
+        <state line="5" column="34" selection-start="280" selection-end="280" vertical-scroll-proportion="0.12762763">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/drawable/item_background.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="73" selection-start="480" selection-end="480" vertical-scroll-proportion="-3.4">
+        <state line="5" column="73" selection-start="480" selection-end="480" vertical-scroll-proportion="0.12762763">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/drawable/item_background_holo_light.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="109" selection-end="821" vertical-scroll-proportion="0.05105105">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="50" selection-start="160" selection-end="160" vertical-scroll-proportion="0.11751152">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="17" selection-start="971" selection-end="971" vertical-scroll-proportion="0.47004607">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="844" column="74" selection-start="51459" selection-end="51459" vertical-scroll-proportion="0.33496332">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="107" selection-start="455" selection-end="455" vertical-scroll-proportion="0.3292978">
+        <state line="15" column="54" selection-start="796" selection-end="796" vertical-scroll-proportion="0.5875576">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="113" column="43" selection-start="4741" selection-end="4741" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1367932315757" expanded="true" signature="8068:8074" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-mdpi/spinner_ab_default_example.9.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_right.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="-6.8">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_left.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="19" selection-start="625" selection-end="625" vertical-scroll-proportion="-6.8">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/search_result.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="36" selection-start="527" selection-end="527" vertical-scroll-proportion="0.4987775">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>

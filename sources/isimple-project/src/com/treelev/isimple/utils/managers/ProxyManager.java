@@ -16,6 +16,9 @@ public class ProxyManager {
 
     public static final int SORT_NAME_AZ = 1;
     public static final int SORT_PRICE_UP = 2;
+    private final static String FORMAT_TEXT_LABEL = "%s...";
+    private final static int FORMAT_NAME_MAX_LENGTH = 41;
+    private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
 
     public ProxyManager(Context context) {
         this.context = context;
@@ -32,7 +35,7 @@ public class ProxyManager {
 
     public List<Map<String, ?>> convertItemsToUI(List<Item> itemList, int sortBy) {
         Comparator<Item> compare = null;
-        switch(sortBy) {
+        switch (sortBy) {
             case SORT_NAME_AZ:
                 compare = new ItemCompareName();
                 break;
@@ -48,7 +51,7 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId);
     }
 
-    public List<Item> getSearchItemsByCategory(Integer categoryId, String query){
+    public List<Item> getSearchItemsByCategory(Integer categoryId, String query) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, query);
     }
 
@@ -58,8 +61,8 @@ public class ProxyManager {
             Map<String, Object> uiDataItem = new HashMap<String, Object>();
             uiDataItem.put(Item.UI_TAG_ID, item.getItemID());
             uiDataItem.put(Item.UI_TAG_IMAGE, R.drawable.bottle_list_image_default);
-            uiDataItem.put(Item.UI_TAG_NAME, item.getName());
-            uiDataItem.put(Item.UI_TAG_LOCALIZATION_NAME, item.getLocalizedName());
+            uiDataItem.put(Item.UI_TAG_NAME, organizeItemNameLabel(item.getName()));
+            uiDataItem.put(Item.UI_TAG_LOCALIZATION_NAME, organizeLocItemNameLabel(item.getLocalizedName()));
             String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(item.getVolume()));
             uiDataItem.put(Item.UI_TAG_VOLUME, volumeLabel != null ? volumeLabel : "");
             String priceLabel = Utils.organizePriceLabel(item.getPrice());
@@ -68,6 +71,22 @@ public class ProxyManager {
             uiDataList.add(uiDataItem);
         }
         return uiDataList;
+    }
+
+    private String organizeItemNameLabel(String itemName) {
+        return organizeTextLabel(itemName, FORMAT_NAME_MAX_LENGTH);
+    }
+
+    private String organizeLocItemNameLabel(String locItemName) {
+        return organizeTextLabel(locItemName, FORMAT_LOC_NAME_MAX_LENGTH);
+    }
+
+    private String organizeTextLabel(String itemName, int maxLength) {
+        String result = itemName;
+        if (result.length() > maxLength) {
+            result = String.format(FORMAT_TEXT_LABEL, result.substring(0, maxLength));
+        }
+        return result;
     }
 
     private BaseDAO getObjectDAO(int id) {

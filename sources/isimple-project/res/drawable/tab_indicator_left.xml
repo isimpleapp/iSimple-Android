@@ -3,7 +3,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/tab_selected_sort_left" android:state_checked="true" android:state_pressed="false"/>
 
-    <item android:drawable="@color/catalog_item_background" android:state_checked="false" android:state_pressed="false"/>
+    <item android:drawable="@color/category_butt_back" android:state_checked="false" android:state_pressed="false"/>
 
     <item android:drawable="@drawable/tab_selected_pressed_sort_left" android:state_checked="true" android:state_pressed="true"/>
 

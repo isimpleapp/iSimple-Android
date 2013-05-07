@@ -3,6 +3,7 @@
     <style name="iSimpleStyle" parent="Holo.Theme.Light" >
         <item name="android:actionBarStyle">@style/CustomActionBar</item>
         <item name="android:actionDropDownStyle">@style/CustomSpinner</item>
+        <item name="android:selectableItemBackground">@drawable/item_background</item>
 <!--        <item name="android:spinnerItemStyle">@style/CustomSpinner.SpinnerItem</item> -->
     </style>
 

@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -25,7 +24,10 @@ import org.apache.http.util.ByteArrayBuffer;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.widget.ListView;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
@@ -35,7 +37,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     public final static String CATEGORY_NAME_EXTRA_ID = "category_name";
     private View darkView;
     private RelativeLayout myLayout;
-    
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {

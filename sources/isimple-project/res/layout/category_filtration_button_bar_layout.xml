@@ -73,8 +73,6 @@
                 android:background="@drawable/tab_indicator_left"
                 android:button="@android:color/transparent"
                 android:paddingRight="1dip"/>
-
-
         <org.holoeverywhere.widget.RadioButton
                 android:layout_weight="1"
                 android:layout_height="50dip"

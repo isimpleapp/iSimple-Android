@@ -7,5 +7,5 @@
 
     <item android:drawable="@drawable/tab_selected_pressed_sort_right" android:state_checked="true" android:state_pressed="true"/>
 
-    <item android:drawable="@drawable/tab_unselected_pressed_sort_right" android:state_checked="false" android:state_pressed="true"/>
+    <item android:drawable="@drawable/tab_selected_pressed_sort_right" android:state_checked="false" android:state_pressed="true"/>
 </selector>

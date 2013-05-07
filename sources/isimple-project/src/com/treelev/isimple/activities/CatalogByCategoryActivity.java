@@ -112,21 +112,29 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                 return false;
             }
         };
+       mSearchView.setOnQueryTextFocusChangeListener( new View.OnFocusChangeListener() {
+           @Override
+           public void onFocusChange(View v, boolean hasFocus) {
+               if (hasFocus) {
+                   darkView.setVisibility(View.VISIBLE);
+                   darkView.getBackground().setAlpha(150);
+               } else {
+                   darkView.setVisibility(View.GONE);
+               }
+           }
+       });
         MenuItem menuItem = menu.findItem(R.id.menu_search);
-        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener()
-        {
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
-            public boolean onMenuItemActionCollapse(MenuItem item)
-            {
+            public boolean onMenuItemActionCollapse(MenuItem item) {
                 darkView.setVisibility(View.GONE);
                 return true; // Return true to collapse action view
             }
 
             @Override
-            public boolean onMenuItemActionExpand(MenuItem item)
-            {
-                darkView.setVisibility(View.VISIBLE);
-                darkView.getBackground().setAlpha(150);
+            public boolean onMenuItemActionExpand(MenuItem item) {
+//                   darkView.setVisibility(View.VISIBLE);
+//                   darkView.getBackground().setAlpha(150);
                 return true;
             }
         });
@@ -182,6 +190,10 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public void onBackPressed() {
+//        MenuItem menuItem = (MenuItem)findViewById(R.id.menu_search);
+//        if(menuItem.isActionViewExpanded() == true) {
+//            menuItem.collapseActionView();
+//        }
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
@@ -279,7 +291,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         @Override
         public void onClick(View view) {
             organizeView();
-            resetFilterCheckBox();     
+            resetFilterCheckBox();
             listView.collapseGroup(0);
         }
 
@@ -294,7 +306,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             categoryTypeLayout.findViewById(R.id.white_wine_butt).setOnClickListener(null);
             categoryTypeLayout.findViewById(R.id.pink_wine_butt).setOnClickListener(null);
         }
-        
+
         private void resetFilterCheckBox() {
             for (CheckBox checkBox : filterTypeCheckBoxArray) {
                 checkBox.setChecked(false);

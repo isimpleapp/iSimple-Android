@@ -92,7 +92,17 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
                 return false;
             }
         };
-
+        mSearchView.setOnQueryTextFocusChangeListener( new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    darkView.setVisibility(View.VISIBLE);
+                    darkView.getBackground().setAlpha(150);
+                } else {
+                    darkView.setVisibility(View.GONE);
+                }
+            }
+        });
         MenuItem menuItem = menu.findItem(R.id.menu_search);
         menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener()
         {
@@ -106,8 +116,8 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
             @Override
             public boolean onMenuItemActionExpand(MenuItem item)
             {
-                darkView.setVisibility(View.VISIBLE);
-                darkView.getBackground().setAlpha(150);
+//                darkView.setVisibility(View.VISIBLE);
+//                darkView.getBackground().setAlpha(150);
                 return true;
             }
         });

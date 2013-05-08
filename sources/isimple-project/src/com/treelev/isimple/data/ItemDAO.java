@@ -455,11 +455,15 @@ public class ItemDAO extends BaseDAO {
     }
 
     private String createSelectScript(int scriptType, Object[] scriptParams) {
+        String result = null;
         String formatQuery = FORMAT_QUERY_OTHER;
         if (scriptType == SCRIPT_TYPE_WINE) {
             formatQuery = FORMAT_QUERY_WINE;
         }
-        return String.format(formatQuery, scriptParams);
+        if (scriptParams != null) {
+            result = String.format(formatQuery, scriptParams);
+        }
+        return result;
     }
 
     //TODO refactor: переименовать метод и переписать через String.format

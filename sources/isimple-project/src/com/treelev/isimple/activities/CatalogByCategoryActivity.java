@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -55,11 +57,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         createNavigation();
         darkView = findViewById(R.id.category_dark_view);
         darkView.setVisibility(View.GONE);
-        darkView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+        darkView.setOnClickListener(null);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
         initDataListView(mCategoryID);
         initFilterListView(createFilterList(), mCategoryID);
@@ -162,6 +160,10 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         CheckBox checkBoxWhiteWine = (CheckBox) categoryTypeLayout.findViewById(R.id.white_wine_check);
         CheckBox checkBoxPinkWine = (CheckBox) categoryTypeLayout.findViewById(R.id.pink_wine_check);
         filterTypeCheckBoxArray = new CheckBox[]{checkBoxRedWine, checkBoxWhiteWine, checkBoxPinkWine};
+
+
+//        Animation anim = AnimationUtils.loadAnimation(this, R.anim.slide_down_anim);
+//        groupView.startAnimation(anim);
     }
 
     @Override
@@ -190,10 +192,10 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public void onBackPressed() {
-//        MenuItem menuItem = (MenuItem)findViewById(R.id.menu_search);
-//        if(menuItem.isActionViewExpanded() == true) {
-//            menuItem.collapseActionView();
-//        }
+        Intent intent = new Intent(this, CatalogListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
@@ -290,8 +292,11 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private View.OnClickListener resetButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Animation anim = null;
             organizeView();
             resetFilterCheckBox();
+//            anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_anim);
+//            listView.startAnimation(anim);
             listView.collapseGroup(0);
         }
 

@@ -37,6 +37,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     public final static String CATEGORY_NAME_EXTRA_ID = "category_name";
     private View darkView;
     private RelativeLayout myLayout;
+    SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -46,11 +47,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         ListView listView = getListView();
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
-        darkView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+        darkView.setOnClickListener(null);
         View headerView = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
         ProxyManager proxyManager = new ProxyManager(this);
@@ -59,6 +56,19 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                 R.id.product_category});
         listView.setAdapter(simpleAdapter);
     }
+    
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        darkView.setVisibility(View.GONE);
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        darkView.setVisibility(View.GONE);
+//    }
+
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -85,8 +95,8 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                     SearchResultActivity.categoryID = null;
                     SearchResultActivity.backActivity = CatalogListActivity.class;
                     return false;
-                }else
-                return true;
+                } else
+                    return true;
             }
 
             @Override
@@ -94,7 +104,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                 return false;
             }
         };
-        mSearchView.setOnQueryTextFocusChangeListener( new View.OnFocusChangeListener() {
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -106,21 +116,17 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
             }
         });
         MenuItem menuItem = menu.findItem(R.id.menu_search);
-        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener()
-        {
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
 
             @Override
-            public boolean onMenuItemActionCollapse(MenuItem item)
-            {
+            public boolean onMenuItemActionCollapse(MenuItem item) {
                 darkView.setVisibility(View.GONE);
                 return true; // Return true to collapse action view
             }
 
             @Override
-            public boolean onMenuItemActionExpand(MenuItem item)
-            {
-//                darkView.setVisibility(View.VISIBLE);
-//                darkView.getBackground().setAlpha(150);
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                
                 return true;
             }
         });

@@ -17,7 +17,7 @@
     </style>
 
     <style name="CustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
     <!--<style name="CustomSpinner.SpinnerItem" parent="android:Widget.Holo.Light.TextView.SpinnerItem">-->
         <!--<item name="android:textColor">@color/select_item_navigation</item>-->

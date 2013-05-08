@@ -18,7 +18,7 @@
     <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_marginLeft="20dip">
+            android:layout_height="match_parent" android:layout_marginLeft="20dip" android:layout_marginRight="5dip">
         <org.holoeverywhere.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

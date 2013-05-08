@@ -78,8 +78,9 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
+        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
         SearchManager searcMenager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
@@ -100,6 +101,8 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
                     darkView.getBackground().setAlpha(150);
                 } else {
                     darkView.setVisibility(View.GONE);
+                    mItemSearch.collapseActionView();
+                    mSearchView.setQuery("", false);
                 }
             }
         });

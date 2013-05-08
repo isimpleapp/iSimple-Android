@@ -56,19 +56,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                 R.id.product_category});
         listView.setAdapter(simpleAdapter);
     }
-    
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        darkView.setVisibility(View.GONE);
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        darkView.setVisibility(View.GONE);
-//    }
-
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -84,10 +71,10 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
-        MenuItem mItemSearch = menu.findItem(R.id.menu_search);
+        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -112,6 +99,8 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
                     darkView.getBackground().setAlpha(150);
                 } else {
                     darkView.setVisibility(View.GONE);
+                    mItemSearch.collapseActionView();
+                    mSearchView.setQuery("", false);
                 }
             }
         });

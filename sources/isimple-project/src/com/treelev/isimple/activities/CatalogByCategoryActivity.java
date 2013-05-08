@@ -94,9 +94,10 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchManager searcMenager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
+        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -118,6 +119,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                    darkView.getBackground().setAlpha(150);
                } else {
                    darkView.setVisibility(View.GONE);
+                   mItemSearch.collapseActionView();
+                   mSearchView.setQuery("", false);
                }
            }
        });
@@ -131,8 +134,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-//                   darkView.setVisibility(View.VISIBLE);
-//                   darkView.getBackground().setAlpha(150);
                 return true;
             }
         });

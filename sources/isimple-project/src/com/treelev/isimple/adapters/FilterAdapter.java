@@ -18,13 +18,13 @@ import java.util.List;
 public class FilterAdapter extends BaseExpandableListAdapter {
 
     private List<FilterItem> items;
-    private LayoutInflater infalInflater;
+    private LayoutInflater layoutInflater;
     private Context context;
 
     public FilterAdapter(Context context, List<FilterItem> items) {
         this.items = items;
         this.context = context;
-        infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = infalInflater.inflate(R.layout.category_filter_group_layout, null);
+            convertView = layoutInflater.inflate(R.layout.category_filter_group_layout, null);
         }
         return convertView;
     }
@@ -74,7 +74,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = infalInflater.inflate(R.layout.category_filtration_expandable_item_layout, null);
+            convertView = layoutInflater.inflate(R.layout.category_filtration_expandable_item_layout, null);
             viewHolder = new ViewHolder();
             viewHolder.text = (TextView) convertView.findViewById(R.id.item_content);
             viewHolder.seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);

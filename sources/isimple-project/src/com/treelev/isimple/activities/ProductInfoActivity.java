@@ -11,25 +11,23 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
+import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
-import com.treelev.isimple.domain.ui.ExpandableListItem;
+import com.treelev.isimple.domain.ui.ProductContent;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.ExpandableListActivity;
+import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.ExpandableListView;
-import org.holoeverywhere.widget.SimpleExpandableListAdapter;
 import org.holoeverywhere.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProductInfoActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
 
     public final static String ITEM_ID_TAG = "id";
-    private final static String FIELD_TAG = "field_tag";
     private final static String FORMAT_FIELDS = "- %s";
     private final static String EMPTY_PRICE_LABEL = "-";
     private final static String FORMAT_ALCOHOL = "%s%% алк.";
@@ -47,12 +45,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
         populateFormsFields(headerView, mProduct);
-        List<ExpandableListItem> expandableListItemList = createExpandableItems(mProduct);
-        SimpleExpandableListAdapter listAdapter = new SimpleExpandableListAdapter(this, createExpandableGroups(expandableListItemList),
-                R.layout.product_info_expandable_group_layout, new String[]{FIELD_TAG}, new int[]{R.id.group_name},
-                createExpandableContent(expandableListItemList), R.layout.expandable_item_layout, new String[]{FIELD_TAG},
-                new int[]{R.id.item_content}
-        );
+        List<ProductContent> productContentList = createExpandableItems(mProduct);
+        BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
         listView.setAdapter(listAdapter);
     }
 
@@ -78,39 +72,9 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
-    /*@Override
-    public void onGroupCollapse(int groupPosition) {
-        ImageView imageView = (ImageView) getExpandableListView().getChildAt(groupPosition + 1).findViewById(R.id.group_arrow);
-        imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_collapse));
-        TextView textView = (TextView) getExpandableListView().getChildAt(groupPosition + 1).findViewById(R.id.group_name);
-        String text = textView.getText().toString();
-        super.onGroupCollapse(groupPosition);
-    }
-
-    @Override
-    public void onGroupExpand(int groupPosition) {
-        ImageView imageView = (ImageView) getExpandableListView().getChildAt(groupPosition + 1).findViewById(R.id.group_arrow);
-        imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_expand));
-        TextView textView = (TextView) getExpandableListView().getChildAt(groupPosition + 1).findViewById(R.id.group_name);
-        String text = textView.getText().toString();
-        super.onGroupExpand(groupPosition);
-    }*/
-
-    private List<List<Map<String, ?>>> createExpandableContent(List<ExpandableListItem> expandableListItemList) {
-        List<List<Map<String, ?>>> list = new ArrayList<List<Map<String, ?>>>();
-        for (ExpandableListItem anExpandableListItemList : expandableListItemList) {
-            List<Map<String, ?>> itemList = new ArrayList<Map<String, ?>>();
-            Map<String, Object> item = new HashMap<String, Object>();
-            item.put(FIELD_TAG, anExpandableListItemList.getItemContent());
-            itemList.add(item);
-            list.add(itemList);
-        }
-        return list;
-    }
-
-    private List<ExpandableListItem> createExpandableItems(Item product) {
+    private List<ProductContent> createExpandableItems(Item product) {
         String[] itemsNames = getResources().getStringArray(R.array.expandable_groups_names);
-        List<ExpandableListItem> items = new ArrayList<ExpandableListItem>();
+        List<ProductContent> items = new ArrayList<ProductContent>();
         addExpandableItem(items, itemsNames[0], product.getStyleDescription());
         addExpandableItem(items, itemsNames[1], product.getGastronomy());
         addExpandableItem(items, itemsNames[2], product.getTasteQualities());
@@ -121,20 +85,10 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         return items;
     }
 
-    private void addExpandableItem(List<ExpandableListItem> listItems, String itemName, String itemContent) {
+    private void addExpandableItem(List<ProductContent> listItems, String itemName, String itemContent) {
         if (!TextUtils.isEmpty(itemContent)) {
-            listItems.add(new ExpandableListItem(itemName, itemContent));
+            listItems.add(new ProductContent(itemName, itemContent));
         }
-    }
-
-    private List<Map<String, ?>> createExpandableGroups(List<ExpandableListItem> expandableListItemList) {
-        List<Map<String, ?>> list = new ArrayList<Map<String, ?>>();
-        for (ExpandableListItem listItem : expandableListItemList) {
-            Map<String, Object> item = new HashMap<String, Object>();
-            item.put(FIELD_TAG, listItem.getItemName());
-            list.add(item);
-        }
-        return list;
     }
 
     private void populateFormsFields(View formView, Item product) {
@@ -165,34 +119,6 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         return Utils.removeZeros(number);
     }
 
-    /*private String organizeAlcoholLabel(String alcohol) {
-        String str = "\\d*\\.{1}0*$";
-        String result = alcohol;
-        if (result.contains(".")) {
-            if (result.matches(str)) {
-                Format myFormatter = new DecimalFormat("###");
-                result = myFormatter.format(Float.parseFloat(result));
-            } else {
-                result = result.replace('.', ',');
-            }
-        }
-        return result;
-    }
-
-    private String organizeVolumeLabel(String volume) {
-        String str = "\\d*\\.{1}0*$";
-        String result = volume;
-        if (result.contains(".")) {
-            if (result.matches(str)) {
-                Format myFormatter = new DecimalFormat("###");
-                result = myFormatter.format(Float.parseFloat(result));
-            } else {
-                result = result.replace('.', ',');
-            }
-        }
-        return result;
-    }*/
-
     private void createNavigation() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Context context = getSupportActionBar().getThemedContext();
@@ -209,16 +135,4 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
     }
-
-    /*@Override
-    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        ImageView imageView = (ImageView) v.findViewById(R.id.group_arrow);
-        Drawable arrowDrawable = getResources().getDrawable(R.drawable.group_item_arrow_expand);
-        if (imageView.getDrawable().hashCode() != arrowDrawable.hashCode()) {
-            imageView.setImageDrawable(arrowDrawable);
-        } else {
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.group_item_arrow_collapse));
-        }
-        return false;
-    }*/
 }

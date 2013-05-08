@@ -9,14 +9,14 @@
             android:id="@+id/group_arrow"
             android:contentDescription="@string/app_name"
             android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:src="@drawable/group_item_arrow_collapse"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:scaleType="center"/>
+            android:scaleType="center"
+            android:layout_gravity="center_vertical"/>
     <org.holoeverywhere.widget.TextView
             android:id="@+id/group_name"
             android:layout_width="0dip"
-            android:layout_height="match_parent"
+            android:layout_height="50dip"
             android:textSize="20dip"
             android:textColor="@color/product_expandable_item_text"
             android:layout_weight="5"

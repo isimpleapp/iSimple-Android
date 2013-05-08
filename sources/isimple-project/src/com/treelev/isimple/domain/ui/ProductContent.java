@@ -1,11 +1,11 @@
 package com.treelev.isimple.domain.ui;
 
-public class ExpandableListItem {
+public class ProductContent {
 
     private String itemName;
     private String itemContent;
 
-    public ExpandableListItem(String itemName, String itemContent) {
+    public ProductContent(String itemName, String itemContent) {
         this.itemName = itemName;
         this.itemContent = itemContent;
     }

@@ -49,6 +49,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private View footerView;
     private View darkView;
     private Integer mCategoryID;
+    private boolean mExpandFiltr = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,13 +68,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(this, CatalogListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                        Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-                overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
-                break;
+                backOrCollapse();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -162,7 +158,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         CheckBox checkBoxPinkWine = (CheckBox) categoryTypeLayout.findViewById(R.id.pink_wine_check);
         filterTypeCheckBoxArray = new CheckBox[]{checkBoxRedWine, checkBoxWhiteWine, checkBoxPinkWine};
 
-
+        mExpandFiltr = true;
 //        Animation anim = AnimationUtils.loadAnimation(this, R.anim.slide_down_anim);
 //        groupView.startAnimation(anim);
     }
@@ -193,14 +189,23 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, CatalogListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+        backOrCollapse();
     }
 
+    private void backOrCollapse() {
+        if(mExpandFiltr) {
+            resetButtonClick.onClick(null);
+            mExpandFiltr = false;
+        } else {
+            Intent intent = new Intent(this, CatalogListActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+
+        }
+    }
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);

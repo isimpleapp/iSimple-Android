@@ -5,15 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
+import android.widget.*;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -23,6 +21,8 @@ import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.FilterItem;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
@@ -31,9 +31,7 @@ import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
         ActionBar.OnNavigationListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnGroupClickListener,
@@ -41,15 +39,22 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
-    private List<Item> mItems;
-    private List<Map<String, ?>> mUiItemList;
-    private SimpleAdapter mListCategoriesAdapter;
+    private Cursor cItems;
+    private SimpleCursorAdapter mListCategoriesAdapter;
     private ExpandableListView listView;
     private CheckBox[] filterTypeCheckBoxArray;
     private View footerView;
     private View darkView;
     private Integer mCategoryID;
     private boolean mExpandFiltr = false;
+    private ProxyManager mProxyManager;
+
+    private ProxyManager getProxyManager() {
+        if (mProxyManager == null) {
+            mProxyManager = new ProxyManager(this);
+        }
+        return mProxyManager;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -209,9 +214,9 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        HashMap product = (HashMap) l.getAdapter().getItem(position);
+        Cursor product = (Cursor)l.getAdapter().getItem(position);
         Intent startIntent = new Intent(this, ProductInfoActivity.class);
-        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
+        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
@@ -227,14 +232,9 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     }
 
     private void initDataListView(int categoryId) {
-        ProxyManager mProxyManager = new ProxyManager(this);
-        mItems = mProxyManager.getItemsByCategory(categoryId);
-        mUiItemList = mProxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
-        mListCategoriesAdapter = new SimpleAdapter(this,
-                mUiItemList,
-                R.layout.catalog_item_layout,
-                Item.getUITags(),
-                new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category});
+        cItems = getProxyManager().getItemsByCategory(categoryId, ProxyManager.SORT_NAME_AZ);
+        startManagingCursor(cItems);
+        mListCategoriesAdapter = new ItemCursorAdapter(cItems);
         getListView().setAdapter(mListCategoriesAdapter);
     }
 
@@ -254,7 +254,9 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     }
 
     private void updateList(int sortBy) {
-        new SortTask(this, mItems).execute(sortBy);
+        stopManagingCursor(cItems);
+        cItems.close();
+        new SortTask(this).execute(sortBy);
     }
 
     private void createNavigation() {
@@ -272,6 +274,14 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mProxyManager != null) {
+            mProxyManager.release();
+            mProxyManager = null;
+        }
     }
 
     private View.OnClickListener categoryTypeClick = new View.OnClickListener() {
@@ -325,37 +335,80 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         }
     };
 
-    private class SortTask extends AsyncTask<Integer, Void, List<Map<String, ?>>> {
+    private class ItemCursorAdapter extends SimpleCursorAdapter {
+
+        private final static String FORMAT_TEXT_LABEL = "%s...";
+        private final static int FORMAT_NAME_MAX_LENGTH = 41;
+        private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
+
+        public ItemCursorAdapter(Cursor c) {
+            super(CatalogByCategoryActivity.this, R.layout.catalog_item_layout, c, Item.getUITags(),
+                    new int[] { R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category} );
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            ImageView imageView = (ImageView)view.findViewById(R.id.item_image);
+            TextView nameView = (TextView)view.findViewById(R.id.item_name);
+            TextView itemLocName = (TextView)view.findViewById(R.id.item_loc_name);
+            TextView itemVolume = (TextView)view.findViewById(R.id.item_volume);
+            TextView itemPrice = (TextView)view.findViewById(R.id.item_price);
+            TextView itemDrinkCategory = (TextView)view.findViewById(R.id.product_category);
+
+            imageView.setImageResource(R.drawable.bottle_list_image_default);
+            nameView.setText(organizeItemNameLabel(cursor.getString(1)));
+            itemLocName.setText(organizeLocItemNameLabel(cursor.getString(2)));
+            String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(3)));
+            itemVolume.setText(volumeLabel != null ? volumeLabel : "");
+            String priceLabel = Utils.organizePriceLabel(cursor.getString(4));
+            itemPrice.setText(priceLabel != null ? priceLabel : "");
+            itemDrinkCategory.setText(DrinkCategory.getDrinkCategory(cursor.getString(6)).getDescription());
+        }
+
+        private String organizeItemNameLabel(String itemName) {
+            return organizeTextLabel(itemName, FORMAT_NAME_MAX_LENGTH);
+        }
+
+        private String organizeLocItemNameLabel(String locItemName) {
+            return organizeTextLabel(locItemName, FORMAT_LOC_NAME_MAX_LENGTH);
+        }
+
+        private String organizeTextLabel(String itemName, int maxLength) {
+            String result = itemName;
+            if (result.length() > maxLength) {
+                result = String.format(FORMAT_TEXT_LABEL, result.substring(0, maxLength));
+            }
+            return result;
+        }
+    }
+
+    private class SortTask extends AsyncTask<Integer, Void, Cursor> {
 
         private Dialog mDialog;
         private Context context;
-        private List<Item> mItems;
-        private ProxyManager proxyManager;
 
-        private SortTask(Context context, List<Item> items) {
+        private SortTask(Context context) {
             this.context = context;
-            this.mItems = items;
-            proxyManager = new ProxyManager(context);
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mUiItemList.clear();
             mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_title),
                     context.getString(R.string.dialog_sort_message), false, false);
         }
 
         @Override
-        protected List<Map<String, ?>> doInBackground(Integer... sortParams) {
-            return proxyManager.convertItemsToUI(mItems, sortParams[0]);
+        protected Cursor doInBackground(Integer... params) {
+            return getProxyManager().getItemsByCategory(mCategoryID, params[0]);
         }
 
         @Override
-        protected void onPostExecute(List<Map<String, ?>> items) {
-            super.onPostExecute(items);
-            mUiItemList.addAll(items);
-            mListCategoriesAdapter.notifyDataSetChanged();
+        protected void onPostExecute(Cursor cursor) {
+            cItems = cursor;
+            startManagingCursor(cItems);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems);
+            getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
     }

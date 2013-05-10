@@ -9,33 +9,34 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
 
-    public final static String UI_TAG_ID = "id";
+    public final static String UI_TAG_ID = "_id";
+    public final static String UI_TAG_NAME = "name";
+    public final static String UI_TAG_LOCALIZATION_NAME = "localized_name";
+    public final static String UI_TAG_PRICE = "price";
+    public final static String UI_TAG_DRINK_CATEGORY = "drink_category";
+    public final static String UI_TAG_VOLUME = "volume";
+    public final static String UI_TAG_IMAGE = "image";
+
     private String itemID;
     private String drinkID;
-    public final static String UI_TAG_NAME = "name";
     private String name;
-    public final static String UI_TAG_LOCALIZATION_NAME = "loc_name";
     private String localizedName;
     private String manufacturer;
     private String localizedManufacturer;
-    public final static String UI_TAG_PRICE = "price";
     private String price;
     private String priceMarkup;
     private String country;
     private String region;
     private String barcode;
-    public final static String UI_TAG_DRINK_CATEGORY = "drink_category";
     private DrinkCategory drinkCategory;
     private Color color;
     private Style style;
     private Sweetness sweetness;
     private String year;
-    public final static String UI_TAG_VOLUME = "volume";
     private String volume;
     private String drinkType;
     private String alcohol;
     private String bottleHiResolutionImageFilename;
-    public final static String UI_TAG_IMAGE = "image";
     private String bottleLowResolutionImageFilename;
     private String styleDescription;
     private String appelation;
@@ -53,7 +54,7 @@ public class Item implements Serializable {
     private String rating;
 
     public static String[] getUITags() {
-        return new String[]{UI_TAG_IMAGE, UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE, UI_TAG_DRINK_CATEGORY};
+        return new String[] { UI_TAG_IMAGE, UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE, UI_TAG_DRINK_CATEGORY };
     }
 
     public String getItemID() {

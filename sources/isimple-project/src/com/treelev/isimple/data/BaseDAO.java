@@ -13,12 +13,14 @@ public abstract class BaseDAO {
         databaseSqlHelper = new DatabaseSqlHelper(context);
     }
 
-    protected void open() {
+    public void open() {
         database = databaseSqlHelper.getWritableDatabase();
     }
 
-    protected void close() {
-        database.close();
+    public void close() {
+        if (database.isOpen()) {
+            database.close();
+        }
         databaseSqlHelper.close();
     }
 

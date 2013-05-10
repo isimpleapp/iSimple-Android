@@ -1,6 +1,7 @@
 package com.treelev.isimple.utils.managers;
 
 import android.content.Context;
+import android.database.Cursor;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.*;
 import com.treelev.isimple.domain.comparators.ItemCompareName;
@@ -19,6 +20,8 @@ public class ProxyManager {
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
     private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
+
+    private HashMap<Integer, BaseDAO> mdao = new HashMap<Integer, BaseDAO>();
 
     public ProxyManager(Context context) {
         this.context = context;
@@ -47,8 +50,11 @@ public class ProxyManager {
         return convertItemsToUI(itemList);
     }
 
-    public List<Item> getItemsByCategory(int categoryId) {
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId);
+    public Cursor getItemsByCategory(int categoryId, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId, orderByField);
     }
 
     public List<Item> getSearchItemsByCategory(Integer categoryId, String query) {
@@ -90,17 +96,31 @@ public class ProxyManager {
     }
 
     private BaseDAO getObjectDAO(int id) {
-        switch (id) {
-            case ItemDAO.ID:
-                return new ItemDAO(context);
-            case ItemAvailabilityDAO.ID:
-                return new ItemAvailabilityDAO(context);
-            case ShopDAO.ID:
-                return new ShopDAO(context);
-            case ChainDAO.ID:
-                return new ChainDAO(context);
-            default:
+        if (mdao.containsKey(id)) {
+            return mdao.get(id);
+        }
+        else {
+            BaseDAO dao =
+                    (id == ItemDAO.ID) ? new ItemDAO(context) :
+                    (id == ItemAvailabilityDAO.ID) ?  new ItemAvailabilityDAO(context) :
+                    (id == ShopDAO.ID) ? new ShopDAO(context) :
+                    (id == ChainDAO.ID) ? new ChainDAO(context) : null;
+            if (dao != null) {
+                mdao.put(id, dao);
+                return dao;
+            }
+            else {
                 return null;
+            }
+        }
+    }
+
+    public void release() {
+        if (mdao.size() > 0) {
+            for (BaseDAO dao : mdao.values()) {
+                dao.close();
+            }
+            mdao.clear();
         }
     }
 }

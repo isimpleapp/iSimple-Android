@@ -27,6 +27,4 @@ public enum Color implements Serializable {
         }
         return UNKNOWN;
     }
-
-
 }

@@ -217,7 +217,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_search_title),
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.dialog_search_message), false, false);
         }
 
@@ -264,7 +264,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         protected void onPreExecute() {
             super.onPreExecute();
             mUiItemList.clear();
-            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_title),
+            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_title),
                     context.getString(R.string.dialog_sort_message), false, false);
         }
 

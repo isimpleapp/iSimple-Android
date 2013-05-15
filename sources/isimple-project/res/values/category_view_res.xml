@@ -7,9 +7,10 @@
     <string name="wine_type_white">БЕЛОЕ</string>
     <string name="wine_type_pink">РОЗОВОЕ</string>
     <string name="filter_label">Фильтрация</string>
-    <string name="dialog_search_title">Подождите</string>
+    <string name="dialog_title">Подождите</string>
     <string name="dialog_search_message">Идет поиск…</string>
     <string name="dialog_sort_message">Идет сортировка…</string>
+    <string name="dialog_select_data_message">Идет извлечение данных...</string>
     <string name="filtration_label">Фильтрация</string>
     <string name="filtration_butt_find">Найти</string>
     <string name="filtration_butt_reset">Сброс</string>

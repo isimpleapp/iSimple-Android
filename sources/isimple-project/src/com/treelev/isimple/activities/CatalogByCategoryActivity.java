@@ -68,7 +68,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
-        initDataListView(mCategoryID);
+        new SelectDataTask(this).execute(mCategoryID);
         initFilterListView(createFilterList(), mCategoryID);
     }
 
@@ -233,13 +233,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         return filterItems;
     }
 
-    private void initDataListView(int categoryId) {
-        cItems = getProxyManager().getItemsByCategory(categoryId, ProxyManager.SORT_NAME_AZ);
-        startManagingCursor(cItems);
-        mListCategoriesAdapter = new ItemCursorAdapter(cItems);
-        getListView().setAdapter(mListCategoriesAdapter);
-    }
-
     private void initFilterListView(List<FilterItem> content, int categoryId) {
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, content);
         listView = (ExpandableListView) findViewById(R.id.filtration_view);
@@ -396,13 +389,44 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_search_title),
+            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_title),
                     context.getString(R.string.dialog_sort_message), false, false);
         }
 
         @Override
         protected Cursor doInBackground(Integer... params) {
             return getProxyManager().getItemsByCategory(mCategoryID, params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            cItems = cursor;
+            startManagingCursor(cItems);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems);
+            getListView().setAdapter(mListCategoriesAdapter);
+            mDialog.dismiss();
+        }
+    }
+
+    private class SelectDataTask extends AsyncTask<Integer, Void, Cursor> {
+
+        private Dialog mDialog;
+        private Context mContext;
+
+        private SelectDataTask(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+                    mContext.getString(R.string.dialog_select_data_message), false, false);
+        }
+
+        @Override
+        protected Cursor doInBackground(Integer... params) {
+            return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
         }
 
         @Override

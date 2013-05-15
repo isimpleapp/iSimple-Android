@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 public enum Sweetness implements Serializable {
-    DRY("сухое"), MEDIUM_DRY("Полусухое"), MEDIUM("Полусладкое"), SWEET("Сладкое"), UNKNOWN;
+    DRY("Cухое"), MEDIUM_DRY("Полусухое"), MEDIUM("Полусладкое"), SWEET("Сладкое"), UNKNOWN;
 
     private String description;
 

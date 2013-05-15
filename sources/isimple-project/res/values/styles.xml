@@ -5,7 +5,6 @@
         <item name="android:actionDropDownStyle">@style/CustomSpinner</item>
         <item name="android:itemTextAppearance">@style/CustomMenuTextApearance</item>
         <item name="android:actionBarItemBackground">@drawable/item_background</item>
-<!--        <item name="android:spinnerItemStyle">@style/CustomSpinner.SpinnerItem</item> -->
     </style>
 
     <style name="CustomActionBar" parent="Widget.Sherlock.Light.ActionBar">
@@ -19,19 +18,6 @@
     <style name="CustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
         <item name="android:textColor">@android:color/black</item>
     </style>
-
-
-
-    <!--<style name="CustomWindowTitle" parent="@android:style/WindowTitle">-->
-       <!--<item name="android:textAppearance">@style/CustomTextApperanceWindowTitle</item>-->
-    <!--</style>-->
-
-    <!--<style name="CustomTextApperanceWindowTitle" parent="@android:style/TextAppearance.WindowTitle">-->
-        <!--<item name="android:textColor">@android:color/white</item>-->
-    <!--</style>-->
-    <!--<style name="CustomSpinner.SpinnerItem" parent="android:Widget.Holo.Light.TextView.SpinnerItem">-->
-        <!--<item name="android:textColor">@color/select_item_navigation</item>-->
-    <!--</style>-->
 
     <style name="CategoryButtStyle" parent="Holo.Button">
         <item name="android:textColor">@color/category_butt_text_color</item>

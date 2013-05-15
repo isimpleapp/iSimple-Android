@@ -27,15 +27,16 @@
     </option>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
+    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="IS-104">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367683178266" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367061912266" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367953133336" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368631927634" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364204323218" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -131,7 +132,7 @@
     <file path="/title_view.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366214207990" ignored="false" />
     <file path="/catalog_list_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367083702794" ignored="false" />
     <file path="/catalog_list_resource.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365677978872" ignored="false" />
-    <file path="/CatalogListActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367692587863" ignored="false" />
+    <file path="/CatalogListActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368625398622" ignored="false" />
     <file path="/ProxyManager.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366831513516" ignored="false" />
     <file path="/catalog_item_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366203958960" ignored="false" />
     <file path="/CatalogItem.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365692210869" ignored="false" />
@@ -651,7 +652,7 @@
     <file path="$PROJECT_DIR$/../untitled1/build.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366114763761" ignored="false" />
     <file path="/abs__themes.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366116419094" ignored="false" />
     <file path="/category_butt_shape.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366126183428" ignored="false" />
-    <file path="/styles.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367952678102" ignored="false" />
+    <file path="/styles.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368631263820" ignored="false" />
     <file path="/category_butt_selector.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366201818682" ignored="false" />
     <file path="/category_wine_selector.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366202154815" ignored="false" />
     <file path="/category_water_selector.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366202418073" ignored="false" />
@@ -695,7 +696,7 @@
     <file path="/ResultSerch.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366738991209" ignored="false" />
     <file path="/SerchResult.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366812749582" ignored="false" />
     <file path="/SearchResult.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367082881583" ignored="false" />
-    <file path="$APPLICATION_HOME_DIR$/plugins/android/lib/android.jar!/org/jetbrains/android/android.xsd" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366899316838" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/android/lib/android.jar!/org/jetbrains/android/android.xsd" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368623052816" ignored="false" />
     <file path="/searchable.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366909574005" ignored="false" />
     <file path="E:/AndoidSimple/SearchableDictionary/src/com/example/android/searchabledict/SearchableDictionary.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366982851005" ignored="false" />
     <file path="E:/AndoidSimple/SearchableDictionary/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366982851005" ignored="false" />
@@ -743,26 +744,12 @@
     <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values-xlarge/dimens.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values-zh-rCN/strings.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values-zh-rTW/strings.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values/colors.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values/dimens.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values/config.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values/ids.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values/attrs.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values/strings.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../Sherlock/res/values-w360dp/abs__dimens.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../Sherlock/res/values-w480dp/abs__config.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../Sherlock/res/values-w480dp/abs__bools.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../Sherlock/res/values-w500dp/abs__dimens.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../Sherlock/res/values-w600dp/abs__dimens.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../Sherlock/res/values-xlarge/abs__dimens.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../Sherlock/res/values/abs__bools.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../Sherlock/res/values/abs__themes.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../Sherlock/res/values/abs__ids.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../Sherlock/res/values/abs__attrs.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../Sherlock/res/values/abs__colors.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../Sherlock/res/values/abs__config.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../Sherlock/res/values/abs__dimens.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
-    <file path="$PROJECT_DIR$/../Sherlock/res/values/abs__strings.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values-af/strings.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values-am/strings.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
     <file path="$PROJECT_DIR$/../HoloEveryWhere/res/values-ar/strings.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367601063470" ignored="false" />
@@ -805,6 +792,8 @@
     <file path="E:/AndoidSimple/ActionBar Custom/src/com/example/android/styledactionbar/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367678687457" ignored="false" />
     <file path="/tab_indicator_right.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367948871963" ignored="false" />
     <file path="/tab_indicator_left.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367948710375" ignored="false" />
+    <file path="/item_background.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368024409704" ignored="false" />
+    <file path="/list_selector_background_transition.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368024835038" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -829,23 +818,6 @@
     <sortChildren value="false" />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Item.java" line="428" class="com.treelev.isimple.domain.db.Item" package="com.treelev.isimple.domain.db">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -882,6 +854,23 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Item.java" line="429" class="com.treelev.isimple.domain.db.Item" package="com.treelev.isimple.domain.db">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
@@ -892,51 +881,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CatalogListActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="CatalogListActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="43" selection-start="5107" selection-end="5107" vertical-scroll-proportion="0.0">
+            <state line="125" column="0" selection-start="5284" selection-end="5284" vertical-scroll-proportion="0.4814815">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CatalogByCategoryActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
+      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="28" selection-start="2834" selection-end="2834" vertical-scroll-proportion="0.5925926">
-              <folding>
-                <element signature="method#onCheckedChanged#0;class#CatalogByCategoryActivity#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#CatalogByCategoryActivity#0" expanded="false" />
-                <element signature="method#onGroupClick#0;class#CatalogByCategoryActivity#0" expanded="false" />
-                <element signature="e#7309#7497#0" expanded="true" />
-                <element signature="e#7486#7487#0" expanded="true" />
-              </folding>
+            <state line="12" column="98" selection-start="702" selection-end="702" vertical-scroll-proportion="-8.16">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="category_filter_group_layout.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/category_filter_group_layout.xml">
+      <file leaf-file-name="abs__item_background_holo_light.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Sherlock/res/drawable/abs__item_background_holo_light.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="24" selection-start="1386" selection-end="1386" vertical-scroll-proportion="-10.54">
+            <state line="19" column="0" selection-start="894" selection-end="1901" vertical-scroll-proportion="-12.92">
               <folding />
             </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="catalog_category_layout.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/catalog_category_layout.xml">
+      <file leaf-file-name="item_background.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/drawable/item_background.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="53" selection-start="536" selection-end="554" vertical-scroll-proportion="-4.08">
+            <state line="5" column="64" selection-start="471" selection-end="471" vertical-scroll-proportion="-3.4">
               <folding />
             </state>
           </provider>
-          <provider editor-type-id="android-designer">
-            <state />
+        </entry>
+      </file>
+      <file leaf-file-name="list_selector_background_transition.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="49" selection-start="213" selection-end="213" vertical-scroll-proportion="-2.72">
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -959,22 +945,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/layout/navigation_list_item.xml" />
         <option value="$PROJECT_DIR$/res/drawable/spinner_selector.xml" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
         <option value="$PROJECT_DIR$/res/layout/category_filtration_button_bar_layout.xml" />
         <option value="$PROJECT_DIR$/res/menu/search.xml" />
         <option value="$PROJECT_DIR$/../HoloEveryWhere/res/drawable/list_selector_background_transition_holo_light.xml" />
-        <option value="$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml" />
-        <option value="$PROJECT_DIR$/res/drawable/item_background.xml" />
         <option value="$PROJECT_DIR$/res/drawable/tab_indicator_right.xml" />
         <option value="$PROJECT_DIR$/res/drawable/tab_indicator_left.xml" />
         <option value="$PROJECT_DIR$/res/layout/search_result.xml" />
         <option value="$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
+        <option value="$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml" />
+        <option value="$PROJECT_DIR$/res/drawable/item_background.xml" />
+        <option value="$PROJECT_DIR$/res/layout/navigation_list_item.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
+        <option value="$PROJECT_DIR$/res/values/styles.xml" />
       </list>
     </option>
   </component>
@@ -1023,6 +1009,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1037,7 +1025,21 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
+              <option name="myItemId" value="Sherlock" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Sherlock" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1048,36 +1050,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iSimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="activities" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1095,10 +1067,26 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawable" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1187,14 +1175,16 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
-            <PATH vcs="svn" revision="86">E:\NewWork\iSimple\sources\isimple-project\res\layout\category_filtration_expandable_item_layout.xml</PATH>
-            <PATH vcs="svn" revision="86">E:\NewWork\iSimple\sources\isimple-project\res\layout\catalog_item_layout.xml</PATH>
-            <PATH vcs="svn" revision="86">E:\NewWork\iSimple\sources\isimple-project\res\values\colors.xml</PATH>
-            <PATH vcs="svn" revision="86">E:\NewWork\iSimple\sources\isimple-project\res\values\styles.xml</PATH>
-            <PATH vcs="svn" revision="86">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\activities\CatalogByCategoryActivity.java</PATH>
-            <PATH vcs="svn" revision="86">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\activities\SearchResultActivity.java</PATH>
-            <PATH vcs="svn" revision="86">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\activities\CatalogListActivity.java</PATH>
-            <PATH vcs="svn" revision="86">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\data\ItemDAO.java</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\activities\CatalogByCategoryActivity.java</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\activities\ProductInfoActivity.java</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\utils\managers\ProxyManager.java</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\adapters\FilterAdapter.java</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\domain\db\Item.java</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\data\BaseDAO.java</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\data\ItemDAO.java</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\res\layout\product_info_expandable_group_layout.xml</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\res\layout\category_filtration_expandable_item_layout.xml</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\res\values\colors.xml</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -1202,6 +1192,8 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\adapters\ProductContentAdapter.java</PATH>
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\domain\ui\ProductContent.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -1209,6 +1201,7 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="true" />
             <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+            <PATH vcs="svn" revision="89">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\domain\ui\ExpandableListItem.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Restored" />
@@ -1625,7 +1618,11 @@
       <created>1367953145135</created>
       <updated>1367953145135</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="IS-104">
+      <created>1368021812155</created>
+      <updated>1368021812155</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1654,7 +1651,6 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32545203" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1664,7 +1660,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31799164" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25244072" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47838214" sideWeight="0.49928263" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1672,13 +1668,14 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25107604" sideWeight="0.67085075" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25107604" sideWeight="0.67642957" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32357043" sideWeight="0.49928263" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.67085075" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2374462" sideWeight="0.67085075" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1726,7 +1723,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IS-72" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS-104" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1740,7 +1737,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="IS-22, IS-23(реализованы оба парсера)&#10;Частичная структура бд." />
     <MESSAGE value="IS-24, IS-25(реализованы оба парсера)&#10;Частичная структура бд.&#10;Временные оценки операций." />
     <MESSAGE value="update commit option" />
     <MESSAGE value="update data source" />
@@ -1765,6 +1761,7 @@
     <MESSAGE value="feedback item&#10;" />
     <MESSAGE value="IS-51" />
     <MESSAGE value="IS-72" />
+    <MESSAGE value="IS-104" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1774,129 +1771,103 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_right.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="60" selection-start="628" selection-end="628" vertical-scroll-proportion="-6.8">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/search_result.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="36" selection-start="527" selection-end="527" vertical-scroll-proportion="0.4987775">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/tab_indicator_left.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="19" selection-start="625" selection-end="625" vertical-scroll-proportion="0.25525525">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/data/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="820" column="82" selection-start="38644" selection-end="38664" vertical-scroll-proportion="0.0">
+        <state line="39" column="17" selection-start="1478" selection-end="1478" vertical-scroll-proportion="0.33333334">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1010" column="88" selection-start="64426" selection-end="64446" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/data/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="17" selection-start="2464" selection-end="2464" vertical-scroll-proportion="0.33333334" />
-      </provider>
-    </entry>
-    <entry file="file://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/data/res/color/primary_text_dark.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="83" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.7037037" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="51" selection-start="1066" selection-end="1066" vertical-scroll-proportion="0.039534885">
+        <state line="425" column="17" selection-start="24180" selection-end="24180" vertical-scroll-proportion="0.29173166">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Sherlock/res/values/abs__styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="410" column="84" selection-start="23075" selection-end="23075" vertical-scroll-proportion="1.2325581">
+        <state line="397" column="32" selection-start="22453" selection-end="22453" vertical-scroll-proportion="0.4648986">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="31" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.68372095">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/category_filtration_button_bar_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="74" selection-start="2992" selection-end="2992" vertical-scroll-proportion="0.28641975">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
+    <entry file="file://$PROJECT_DIR$/../Sherlock/res/drawable-hdpi/abs__list_selector_disabled_holo_light.9.png">
+      <provider selected="true" editor-type-id="images">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Sherlock/res/drawable-hdpi/abs__list_pressed_holo_light.9.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Sherlock/res/drawable-hdpi/abs__list_longpressed_holo.9.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Sherlock/res/drawable-hdpi/abs__list_focused_holo.9.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/data/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="17" selection-start="2012" selection-end="2012" vertical-scroll-proportion="0.33285093">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable/item_background.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="64" selection-start="471" selection-end="471" vertical-scroll-proportion="-3.4">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-xhdpi/list_pressed.9.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/list_longpressed.9.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Sherlock/res/drawable/abs__list_selector_background_transition_holo_light.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="59" selection-start="874" selection-end="874" vertical-scroll-proportion="0.45945945">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable/list_selector_background_transition.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="49" selection-start="213" selection-end="213" vertical-scroll-proportion="-2.72">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Sherlock/res/drawable/abs__item_background_holo_light.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="0" selection-start="894" selection-end="1901" vertical-scroll-proportion="-12.92">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="98" selection-start="702" selection-end="702" vertical-scroll-proportion="-8.16">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="43" selection-start="5107" selection-end="5107" vertical-scroll-proportion="0.0">
+        <state line="125" column="0" selection-start="5284" selection-end="5284" vertical-scroll-proportion="0.4814815">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/catalog_category_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="53" selection-start="536" selection-end="554" vertical-scroll-proportion="-4.08">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/category_filter_group_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="24" selection-start="1386" selection-end="1386" vertical-scroll-proportion="-10.54">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/android/view/View.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1027" column="13" selection-start="46142" selection-end="46142" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="28" selection-start="2834" selection-end="2834" vertical-scroll-proportion="0.5925926">
-          <folding>
-            <element signature="method#onCheckedChanged#0;class#CatalogByCategoryActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#CatalogByCategoryActivity#0" expanded="false" />
-            <element signature="method#onGroupClick#0;class#CatalogByCategoryActivity#0" expanded="false" />
-            <element signature="e#7309#7497#0" expanded="true" />
-            <element signature="e#7486#7487#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

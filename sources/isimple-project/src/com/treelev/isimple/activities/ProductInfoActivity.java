@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
@@ -24,6 +25,7 @@ import org.holoeverywhere.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ProductInfoActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
 
@@ -105,6 +107,47 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())));
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume())));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
+        if (priceLabel != null){
+        ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, takeRetailPrice(product).toString())));
+        } else {
+            ((TextView) formView.findViewById(R.id.retail_price)).setText("");
+        }
+    }
+
+    private Integer takeRetailPrice(Item product) {
+        int retailPrice;
+        String priceLabel = Utils.organizePriceLabel(product.getPrice());
+        Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "product.getName() = " + product.getName());
+        if (priceLabel != null) {
+            Scanner in = new Scanner(priceLabel).useDelimiter("[^0-9]+");
+            int integerPriceLabel = in.nextInt();
+            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "integerPriceLabel = " + integerPriceLabel);
+
+            String priceMarkup = Utils.organizePriceLabel(product.getPriceMarkup());
+            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "priceMarkup = " + priceMarkup);
+
+            if (priceMarkup != null) {
+                Scanner intMarkup = new Scanner(priceMarkup).useDelimiter("[^0-9]+");
+                int integerPriceMarkup = intMarkup.nextInt();
+                Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "integerPriceMarkup = " + integerPriceMarkup);
+                retailPrice = integerPriceLabel * (integerPriceMarkup + 100) / 100;
+            } else {
+                retailPrice = integerPriceLabel;
+            }
+            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "retailPrice = " + retailPrice);
+            return roundToTheTens(retailPrice);
+        } else {
+            return null;
+        }
+    }
+
+    private int roundToTheTens(int price) {
+        if ((price % 10) != 0) {
+            int newPrice;
+            return newPrice = price + (10 - (price % 10));
+        } else {
+            return price;
+        }
     }
 
     private void organizeTextView(TextView textView, String text) {

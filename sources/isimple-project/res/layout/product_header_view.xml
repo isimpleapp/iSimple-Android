@@ -31,6 +31,7 @@
                 android:layout_marginLeft="10dip" android:cropToPadding="true"
                 android:adjustViewBounds="false"/>
         <LinearLayout
+                android:id="@+id/list_layout"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,11 +101,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dip"
                     android:id="@+id/product_year"/>
+
             <view android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   class="org.holoeverywhere.widget.TextView" android:id="@+id/retail_price_label"
                   android:layout_marginTop="3dip"/>
         </LinearLayout>
+        <TextView
+                android:id="@+id/retail_price"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:text="@string/text_for_retail_price"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/product_image"
+                android:layout_toEndOf="@+id/list_layout"
+                android:layout_marginTop="10dip"
+                android:layout_marginLeft="20dip"/>
         <!--<ImageView-->
                 <!--android:contentDescription="@string/app_name"-->
                 <!--android:layout_width="wrap_content"-->

@@ -3,4 +3,5 @@
     <string name="app_name">iSimple</string>
     <string name="search_hint"/>
     <string name="message_not_found">По Вашему запросу ничего не найдено</string>
+    <string name="text_for_retail_price">Розничная цена: %s</string>
 </resources>

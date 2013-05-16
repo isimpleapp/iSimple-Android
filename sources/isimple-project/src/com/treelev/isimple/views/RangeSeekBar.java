@@ -5,6 +5,7 @@ import android.graphics.*;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import com.treelev.isimple.R;
@@ -19,8 +20,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private final float thumbWidth = thumbImage.getWidth();
     private final float thumbHalfWidth = 0.5f * thumbWidth;
     private final float thumbHalfHeight = 0.5f * thumbImage.getHeight();
-    private final float lineHeight = 0.3f * thumbHalfHeight;
-    private final float padding = thumbHalfWidth;
+    private final float lineHeight = 0.5f * thumbHalfHeight;
+    private final float padding = 2.5f * thumbHalfWidth;
     private final T absoluteMinValue, absoluteMaxValue;
     private final NumberType numberType;
     private final double absoluteMinValuePrim, absoluteMaxValuePrim;
@@ -337,7 +338,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         }
         int height = thumbImage.getHeight();
         if (MeasureSpec.UNSPECIFIED != MeasureSpec.getMode(heightMeasureSpec)) {
-            height = Math.min(height, MeasureSpec.getSize(heightMeasureSpec));
+//            height = Math.min(height, MeasureSpec.getSize(heightMeasureSpec));
+            height = MeasureSpec.getSize(heightMeasureSpec);
         }
         setMeasuredDimension(width, height);
     }
@@ -350,10 +352,11 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         super.onDraw(canvas);
 
         // draw seek bar background line
-        final RectF rect = new RectF(padding, 0.5f * (getHeight() - lineHeight), getWidth() - padding, 0.5f * (getHeight() + lineHeight));
+        final RectF rect = new RectF(padding, 0.7f * (getHeight() - lineHeight), getWidth() - padding, 0.7f * (getHeight() + lineHeight));
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.GRAY);
         paint.setAntiAlias(true);
+
         canvas.drawRect(rect, paint);
 
         // draw seek bar active range line
@@ -369,6 +372,11 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
         // draw maximum thumb
         drawThumb(normalizedToScreen(normalizedMaxValue), Thumb.MAX.equals(pressedThumb), canvas);
+
+        paint.setTextSize(15);
+        paint.setColor(getResources().getColor(android.R.color.black));
+        drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas);
+        drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas);
     }
 
     /**
@@ -405,7 +413,11 @@ public class RangeSeekBar<T extends Number> extends ImageView {
      *            The canvas to draw upon.
      */
     private void drawThumb(float screenCoord, boolean pressed, Canvas canvas) {
-        canvas.drawBitmap(pressed ? thumbPressedImage : thumbImage, screenCoord - thumbHalfWidth, (0.5f * getHeight()) - thumbHalfHeight, paint);
+        canvas.drawBitmap(pressed ? thumbPressedImage : thumbImage, screenCoord - thumbHalfWidth, (0.7f * getHeight()) - thumbHalfHeight, paint);
+    }
+
+    private void drawText(float screenCoord, T value, Canvas canvas) {
+        canvas.drawText(String.format("%d", value), screenCoord - thumbWidth , (0.7f * getHeight()) - thumbHalfHeight, paint);
     }
 
     /**

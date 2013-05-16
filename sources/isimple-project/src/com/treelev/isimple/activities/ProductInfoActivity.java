@@ -117,24 +117,24 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private Integer takeRetailPrice(Item product) {
         int retailPrice;
         String priceLabel = Utils.organizePriceLabel(product.getPrice());
-        Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "product.getName() = " + product.getName());
+//        Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "product.getName() = " + product.getName());
         if (priceLabel != null) {
             Scanner in = new Scanner(priceLabel).useDelimiter("[^0-9]+");
             int integerPriceLabel = in.nextInt();
-            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "integerPriceLabel = " + integerPriceLabel);
+//            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "integerPriceLabel = " + integerPriceLabel);
 
             String priceMarkup = Utils.organizePriceLabel(product.getPriceMarkup());
-            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "priceMarkup = " + priceMarkup);
+//            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "priceMarkup = " + priceMarkup);
 
             if (priceMarkup != null) {
                 Scanner intMarkup = new Scanner(priceMarkup).useDelimiter("[^0-9]+");
                 int integerPriceMarkup = intMarkup.nextInt();
-                Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "integerPriceMarkup = " + integerPriceMarkup);
+//                Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "integerPriceMarkup = " + integerPriceMarkup);
                 retailPrice = integerPriceLabel * (integerPriceMarkup + 100) / 100;
             } else {
                 retailPrice = integerPriceLabel;
             }
-            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "retailPrice = " + retailPrice);
+//            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "retailPrice = " + retailPrice);
             return roundToTheTens(retailPrice);
         } else {
             return null;

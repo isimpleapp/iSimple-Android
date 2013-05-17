@@ -5,7 +5,6 @@ import android.graphics.*;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import com.treelev.isimple.R;
@@ -30,6 +29,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private Thumb pressedThumb = null;
     private boolean notifyWhileDragging = false;
     private OnRangeSeekBarChangeListener<T> listener;
+    private Context mContext;
 
     /**
      * Default color of a {@link RangeSeekBar}, #FF33B5E5. This is also known as "Ice Cream Sandwich" blue.
@@ -70,6 +70,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
      */
     public RangeSeekBar(T absoluteMinValue, T absoluteMaxValue, Context context) throws IllegalArgumentException {
         super(context);
+        mContext = context;
         this.absoluteMinValue = absoluteMinValue;
         this.absoluteMaxValue = absoluteMaxValue;
         absoluteMinValuePrim = absoluteMinValue.doubleValue();
@@ -373,7 +374,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         // draw maximum thumb
         drawThumb(normalizedToScreen(normalizedMaxValue), Thumb.MAX.equals(pressedThumb), canvas);
 
-        paint.setTextSize(15);
+        paint.setTextSize(12);
         paint.setColor(getResources().getColor(android.R.color.black));
         drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas);
         drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas);
@@ -417,7 +418,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     }
 
     private void drawText(float screenCoord, T value, Canvas canvas) {
-        canvas.drawText(String.format("%d", value), screenCoord - thumbWidth , (0.7f * getHeight()) - thumbHalfHeight, paint);
+        canvas.drawText(String.format("%d", value), screenCoord - thumbWidth / 2.0f , (0.7f * getHeight()) - thumbHalfHeight, paint);
     }
 
     /**

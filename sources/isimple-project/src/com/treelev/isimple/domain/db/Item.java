@@ -16,6 +16,7 @@ public class Item implements Serializable {
     public final static String UI_TAG_DRINK_CATEGORY = "drink_category";
     public final static String UI_TAG_VOLUME = "volume";
     public final static String UI_TAG_IMAGE = "image";
+    public final static String UI_TAG_DRINK_ID = "drink_id";
 
     private String itemID;
     private String drinkID;

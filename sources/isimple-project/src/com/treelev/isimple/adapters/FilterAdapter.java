@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.FilterItem;
+import com.treelev.isimple.filter.Filter;
 import com.treelev.isimple.views.RangeSeekBar;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
@@ -21,8 +22,8 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public FilterAdapter(Context context, List<FilterItem> items) {
-        this.items = items;
+    public FilterAdapter(Context context, Filter filter) {
+        this.items = filter.getFilterContent();
         this.context = context;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -72,27 +73,30 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.category_filtration_expandable_item_layout, null);
-            viewHolder = new ViewHolder();
-            viewHolder.text = (TextView) convertView.findViewById(R.id.item_content);
-            viewHolder.seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);
-            viewHolder.seekBarLayout.addView(createSeekBar());
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
+        //ViewHolder viewHolder;
         FilterItem filterItem = getChild(groupPosition, childPosition);
-        if (filterItem.getItemType() == FilterItem.ITEM_TYPE_TEXT) {
-            viewHolder.text.setVisibility(View.VISIBLE);
-            viewHolder.seekBarLayout.setVisibility(View.GONE);
-            viewHolder.text.setText(filterItem.getName());
-        } else {
-            viewHolder.text.setVisibility(View.GONE);
-            viewHolder.seekBarLayout.setVisibility(View.VISIBLE);
-        }
-        return convertView;
+        return filterItem.renderView(convertView);
+
+//        if (convertView == null) {
+//            convertView = layoutInflater.inflate(R.layout.category_filtration_expandable_item_layout, null);
+//            viewHolder = new ViewHolder();
+//            viewHolder.text = (TextView) convertView.findViewById(R.id.item_content);
+//            viewHolder.seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);
+//            viewHolder.seekBarLayout.addView(createSeekBar());
+//            convertView.setTag(viewHolder);
+//        } else {
+//            viewHolder = (ViewHolder) convertView.getTag();
+//        }
+//
+//        if (filterItem.getItemType() == FilterItem.ITEM_ACTIVITY) {
+//            viewHolder.text.setVisibility(View.VISIBLE);
+//            viewHolder.seekBarLayout.setVisibility(View.GONE);
+//            viewHolder.text.setText(filterItem.getLabel());
+//        } else {
+//            viewHolder.text.setVisibility(View.GONE);
+//            viewHolder.seekBarLayout.setVisibility(View.VISIBLE);
+//        }
+//        return convertView;
     }
 
     @Override

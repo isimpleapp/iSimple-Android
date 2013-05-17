@@ -11,17 +11,8 @@
             android:textSize="20sp"
             android:background="@android:color/white"
             android:textColor="@color/filter_item_color"
-            android:visibility="visible"
             android:paddingLeft="10dip"
             android:paddingBottom="13dip"
             android:paddingTop="10dip"
-            android:gravity="center_vertical"/>
-    <LinearLayout
-            android:id="@+id/seek_bar_layout"
-            android:background="@android:color/white"
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="50dip"
             android:gravity="center_vertical"/>
 </LinearLayout>

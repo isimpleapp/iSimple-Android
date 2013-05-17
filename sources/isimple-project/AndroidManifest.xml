@@ -34,6 +34,7 @@
                     android:name="android.app.searchable"
                     android:resource="@xml/searchable"/>
         </activity>
+        <activity android:name=".activities.DefaultListFilterActivity"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
 </manifest>

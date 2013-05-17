@@ -1,27 +1,52 @@
 package com.treelev.isimple.domain.ui;
 
-public class FilterItem {
+import android.content.Context;
+import android.content.Intent;
+import android.view.View;
 
-    public final static int ITEM_TYPE_TEXT = 1;
-    public final static int ITEM_TYPE_PROGRESS = 2;
+public abstract class FilterItem {
+    public final static int ITEM_ACTIVITY = 1;
+    public final static int ITEM_INLINE = 2;
 
+    private Context context;
     private int itemType;
-    private String name;
+    private String label;
+    private Class activityClass;
 
-    public FilterItem(int itemType) {
-        this(itemType, null);
+    public FilterItem(Context context, int itemType, String label, Class activityClass) {
+        this.label = label;
+        this.activityClass = activityClass;
     }
 
-    public FilterItem(int itemType, String name) {
+    protected FilterItem(Context context, int itemType) {
+        this.context = context;
         this.itemType = itemType;
-        this.name = name;
     }
 
     public int getItemType() {
         return itemType;
     }
 
-    public String getName() {
-        return name;
+    public Context getContext() {
+        return context;
     }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Class getActivityClass() {
+        return activityClass;
+    }
+
+    public void process() {
+        //TODO: как передавать параметры??
+        if (itemType == ITEM_ACTIVITY) {
+            Intent intent = new Intent(context, activityClass);
+            context.startActivity(intent);
+        }
+    }
+
+    public abstract View renderView(View convertView);
+
 }

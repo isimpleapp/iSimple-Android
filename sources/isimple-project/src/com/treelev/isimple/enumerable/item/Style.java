@@ -3,7 +3,9 @@ package com.treelev.isimple.enumerable.item;
 import java.io.Serializable;
 
 public enum Style implements Serializable {
-    STILL("тихое"), SPARKLING("игристое"), SPECIAL("специальное"), FORTIFIED("крепленое"), UNKNOWN;
+    FIZZY("Шипучее"), STILL("Тихое"), SPARKLING("Игристое"),
+    SPECIAL("Специальное"), FORTIFIED("Крепленое"),
+    OTHER("Другое");
 
     private String description;
 
@@ -21,10 +23,10 @@ public enum Style implements Serializable {
 
     public static Style getStyle(String styleId) {
         for (Style style : values()) {
-            if (style.description != null && style.description.equals(styleId)) {
+            if (style.description != null && style.description.equalsIgnoreCase(styleId)) {
                 return style;
             }
         }
-        return UNKNOWN;
+        return OTHER;
     }
 }

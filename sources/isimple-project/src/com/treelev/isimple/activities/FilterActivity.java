@@ -55,10 +55,8 @@ public class FilterActivity extends ListActivity implements ActionBar.OnNavigati
     private List<FilterData> createFilterDataList(int filterId) {
         List<FilterData> filterList = new ArrayList<FilterData>();
         if (filterId == 0) {
-            for (Sweetness sweetness : Sweetness.values()) {
-                if (sweetness != Sweetness.UNKNOWN) {
-                    filterList.add(new FilterData(sweetness.getDescription()));
-                }
+            for (Sweetness sweetness : Sweetness.getWineSweetness()) {
+                filterList.add(new FilterData(sweetness.getDescription()));
             }
         }
         return filterList;

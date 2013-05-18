@@ -1,12 +1,13 @@
 package com.treelev.isimple.enumerable.item;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 public enum Sweetness implements Serializable {
-    DRY("Cухое"), MEDIUM_DRY("Полусухое"), MEDIUM("Полусладкое"), SWEET("Сладкое"), UNKNOWN;
+    DRY("Cухое"), MEDIUM_DRY("Полусухое"),
+    MEDIUM_SWEET("Полусладкое"), SWEET("Сладкое"),
+    CHAMPAGNE_BRUT("Брют"), CHAMPAGNE_XBRUT("Экстра брют"),
+    PORTO_DRY("Сухой"), PORTO_SWEET("Сладкий"),
+    OTHER("Другое");
 
     private String description;
 
@@ -24,10 +25,22 @@ public enum Sweetness implements Serializable {
 
     public static Sweetness getSweetness(String sweetnessId) {
         for (Sweetness sweetness : values()) {
-            if (sweetness.description != null && sweetness.description.equals(sweetnessId)) {
+            if (sweetness.description != null && sweetness.description.equalsIgnoreCase(sweetnessId)) {
                 return sweetness;
             }
         }
-        return UNKNOWN;
+        return OTHER;
+    }
+
+    public static Sweetness[] getWineSweetness() {
+        return new Sweetness[] { DRY, MEDIUM_DRY, MEDIUM_SWEET, SWEET };
+    }
+
+    public static Sweetness[] getChampagneSweetness() {
+        return new Sweetness[] { CHAMPAGNE_BRUT, CHAMPAGNE_XBRUT, DRY, MEDIUM_DRY, MEDIUM_SWEET, SWEET };
+    }
+
+    public static Sweetness[] getPortoSweetness() {
+        return new Sweetness[] { PORTO_DRY, PORTO_SWEET };
     }
 }

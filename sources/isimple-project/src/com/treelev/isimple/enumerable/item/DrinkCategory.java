@@ -4,7 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public enum DrinkCategory implements Parcelable{
-    WINE("Вино"), SPIRITS("Крепкий Алкоголь"), SAKE("Саке"), UNKNOWN;
+    WINE("Вино"), SPARKLING("Игристое"), PORTO("Порто-Херес"),
+    STRONG("Крепкий Алкоголь"), SAKE("Саке"), WATER("Вода"),
+    OTHER("Другое");
 
     public static final Parcelable.Creator<DrinkCategory> CREATOR = new Parcelable.Creator<DrinkCategory>() {
 
@@ -44,10 +46,10 @@ public enum DrinkCategory implements Parcelable{
 
     public static DrinkCategory getDrinkCategory(String drinkCategoryId) {
         for (DrinkCategory drinkCategory : values()) {
-            if (drinkCategory.description != null && drinkCategory.description.equals(drinkCategoryId)) {
+            if (drinkCategory.description != null && drinkCategory.description.equalsIgnoreCase(drinkCategoryId)) {
                 return drinkCategory;
             }
         }
-        return UNKNOWN;
+        return OTHER;
     }
 }

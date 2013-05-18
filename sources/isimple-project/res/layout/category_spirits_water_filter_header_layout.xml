@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/category_type_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:gravity="center_vertical">
+    <org.holoeverywhere.widget.TextView
+            android:layout_width="match_parent"
+            android:layout_height="53dip"
+            android:textSize="20sp"
+            android:text="@string/filter_item_type"
+            android:background="@android:color/white"
+            android:textColor="@color/filter_item_color"
+            android:paddingLeft="10dip"
+            android:paddingBottom="13dip"
+            android:paddingTop="10dip"
+            android:gravity="center_vertical"/>
+</RelativeLayout>

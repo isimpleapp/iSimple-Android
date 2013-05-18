@@ -22,7 +22,7 @@ import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.filter.WineFilter;
+import com.treelev.isimple.filter.*;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
@@ -200,6 +200,16 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         switch (mCategoryID) {
             case R.id.category_wine_butt:
                 return new WineFilter(this);
+            case R.id.category_spirits_butt:
+                return new SpiritsFilter(this);
+            case R.id.category_sparkling_butt:
+                return new SparklingFilter(this);
+            case R.id.category_sake_butt:
+                return new SakeFilter(this);
+            case R.id.category_porto_heres_butt:
+                return new PortoHeresFilter(this);
+            case R.id.category_water_butt:
+                return new WaterFilter(this);
             default:
                 return null;
         }

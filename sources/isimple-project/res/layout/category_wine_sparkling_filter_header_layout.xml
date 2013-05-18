@@ -41,7 +41,6 @@
             android:layout_height="5dip"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
-
         <CheckBox
                 android:layout_width="0dip"
                 android:layout_height="match_parent"

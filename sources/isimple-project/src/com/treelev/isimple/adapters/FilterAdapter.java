@@ -1,18 +1,13 @@
 package com.treelev.isimple.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.FilterItem;
 import com.treelev.isimple.filter.Filter;
-import com.treelev.isimple.views.RangeSeekBar;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
 
 import java.util.List;
 
@@ -20,11 +15,9 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     private List<FilterItem> items;
     private LayoutInflater layoutInflater;
-    private Context context;
 
     public FilterAdapter(Context context, Filter filter) {
         this.items = filter.getFilterContent();
-        this.context = context;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

@@ -14,13 +14,13 @@ import org.holoeverywhere.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WineFilter implements Filter, View.OnClickListener {
+public class SparklingFilter implements Filter, View.OnClickListener {
 
     private Context context;
     private View filterHeaderLayout;
     private List<FilterItem> filterItemList;
 
-    public WineFilter(Context context) {
+    public SparklingFilter(Context context) {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         filterHeaderLayout = inflater.inflate(R.layout.category_wine_sparkling_filter_header_layout);
@@ -60,9 +60,9 @@ public class WineFilter implements Filter, View.OnClickListener {
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
         filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_sweetness), DefaultListFilterActivity.class));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_year), DefaultListFilterActivity.class));
         filterItems.add(new DefaultSeekBarFilterItem(context));
         filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_region), DefaultListFilterActivity.class));
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_year), DefaultListFilterActivity.class));
         return filterItems;
     }
 }

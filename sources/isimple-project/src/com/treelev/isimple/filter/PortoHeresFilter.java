@@ -14,19 +14,18 @@ import org.holoeverywhere.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WineFilter implements Filter, View.OnClickListener {
+public class PortoHeresFilter implements Filter, View.OnClickListener {
 
     private Context context;
     private View filterHeaderLayout;
     private List<FilterItem> filterItemList;
 
-    public WineFilter(Context context) {
+    public PortoHeresFilter(Context context) {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        filterHeaderLayout = inflater.inflate(R.layout.category_wine_sparkling_filter_header_layout);
-        setClickButt(R.id.red_wine_butt, R.id.red_wine_check);
-        setClickButt(R.id.white_wine_butt, R.id.white_wine_check);
-        setClickButt(R.id.pink_wine_butt, R.id.pink_wine_check);
+        filterHeaderLayout = inflater.inflate(R.layout.category_porto_heres_filter_header_layout);
+        setClickButt(R.id.white_color_butt, R.id.white_porto_heres_check);
+        setClickButt(R.id.red_color_butt, R.id.red_porto_heres_check);
         filterItemList = createFilterContent();
     }
 
@@ -59,10 +58,11 @@ public class WineFilter implements Filter, View.OnClickListener {
 
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_type), DefaultListFilterActivity.class));
         filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_sweetness), DefaultListFilterActivity.class));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_classifier), DefaultListFilterActivity.class));
         filterItems.add(new DefaultSeekBarFilterItem(context));
         filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_region), DefaultListFilterActivity.class));
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_year), DefaultListFilterActivity.class));
         return filterItems;
     }
 }

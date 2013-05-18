@@ -18,9 +18,10 @@ public class DefaultActivityFilterItem extends FilterItem {
     public View renderView(View convertView) {
         if (convertView == null || convertView.findViewById(R.id.item_content) == null) {
             convertView = layoutInflater.inflate(R.layout.category_filter_text_item_layout, null);
+
+            TextView text = (TextView) convertView.findViewById(R.id.item_content);
+            text.setText(getLabel());
         }
-        TextView text = (TextView) convertView.findViewById(R.id.item_content);
-        text.setText(getLabel());
         return convertView;
     }
 }

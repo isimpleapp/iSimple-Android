@@ -73,52 +73,12 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        //ViewHolder viewHolder;
         FilterItem filterItem = getChild(groupPosition, childPosition);
         return filterItem.renderView(convertView);
-
-//        if (convertView == null) {
-//            convertView = layoutInflater.inflate(R.layout.category_filtration_expandable_item_layout, null);
-//            viewHolder = new ViewHolder();
-//            viewHolder.text = (TextView) convertView.findViewById(R.id.item_content);
-//            viewHolder.seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);
-//            viewHolder.seekBarLayout.addView(createSeekBar());
-//            convertView.setTag(viewHolder);
-//        } else {
-//            viewHolder = (ViewHolder) convertView.getTag();
-//        }
-//
-//        if (filterItem.getItemType() == FilterItem.ITEM_ACTIVITY) {
-//            viewHolder.text.setVisibility(View.VISIBLE);
-//            viewHolder.seekBarLayout.setVisibility(View.GONE);
-//            viewHolder.text.setText(filterItem.getLabel());
-//        } else {
-//            viewHolder.text.setVisibility(View.GONE);
-//            viewHolder.seekBarLayout.setVisibility(View.VISIBLE);
-//        }
-//        return convertView;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
-    }
-
-    private RangeSeekBar<Integer> createSeekBar() {
-        RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(20, 75, context);
-        seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
-            @Override
-            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-                Log.i("TAG", "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
-            }
-        });
-        seekBar.setBackgroundColor(Color.WHITE);
-
-        return seekBar;
-    }
-
-    private class ViewHolder {
-        public TextView text;
-        public LinearLayout seekBarLayout;
     }
 }

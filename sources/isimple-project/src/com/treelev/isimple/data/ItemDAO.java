@@ -19,12 +19,13 @@ import java.util.Map;
 public class ItemDAO extends BaseDAO {
 
     public final static int ID = 1;
-    private final static String FIRST_PART_SELECT_SCRIPT = "select %s, %s, %s, %s, %s, %s, %s, %s from %s where ";
+    private final static String FIRST_PART_SELECT_SCRIPT = "SELECT %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, COUNT(%s) FROM %s WHERE ";
     private final static int SCRIPT_TYPE_WINE = 2;
     private final static int SCRIPT_TYPE_OTHERS = 3;
-    private final static String FORMAT_QUERY_WINE = "%s %s %s %s %s %s %s";
-    private final static String FORMAT_QUERY_OTHER = "%s %s %s";
-    private final static String FROMAT_QUERY_END = "GROUP_BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
+    private final static String FORMAT_QUERY_WINE = "%s %s %s %s %s %s %s GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
+    private final static String FORMAT_QUERY_OTHER = "%s %s %s  GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
+    private final static String FORMAT_ORDER_BY_PRICE = " ORDER BY MIN(%s)";
+    private final static String FORMAT_ORDER_BY_NAME = " ORDER BY %s";
 
     public ItemDAO(Context context) {
         super(context);
@@ -54,11 +55,17 @@ public class ItemDAO extends BaseDAO {
         String formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
         if (formatSelectScript != null) {
             String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID + " as _id", DatabaseSqlHelper.ITEM_NAME,
-                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
+                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
                     DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, "0 as image",
+                    DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_DRINK_ID,
                     DatabaseSqlHelper.ITEM_TABLE);
             if (orderByField != null) {
-                selectSql += (" order by " + orderByField);
+                String formatOrder = FORMAT_ORDER_BY_PRICE;
+                if(orderByField.equals(DatabaseSqlHelper.ITEM_NAME)) {
+
+                    formatOrder = FORMAT_ORDER_BY_NAME;
+                }
+                selectSql += String.format(formatOrder, orderByField);
             }
             return getDatabase().rawQuery(selectSql, null);
         }
@@ -78,8 +85,10 @@ public class ItemDAO extends BaseDAO {
             formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
         }
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, DatabaseSqlHelper.ITEM_TABLE);
+                DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
+                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_DRINK_ID,
+                DatabaseSqlHelper.ITEM_TABLE);
         selectSql += getSelectByQuery(categoryId, query);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         if (cursor != null) {

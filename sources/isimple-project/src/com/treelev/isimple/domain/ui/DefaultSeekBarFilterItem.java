@@ -22,16 +22,16 @@ public class DefaultSeekBarFilterItem extends FilterItem {
     @Override
     public View renderView(View convertView) {
         RangeSeekBar<Integer> seekBar;
-        if (convertView == null) {
+        if (convertView == null || convertView.findViewById(R.id.seek_bar_layout) == null) {
             convertView = layoutInflater.inflate(R.layout.category_filter_seekbar_item_layout, null);
-            LinearLayout seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);
-            seekBar = createSeekBar();
-            seekBarLayout.addView(seekBar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getContext().getResources().getDisplayMetrics())));
-            convertView.setTag(seekBar);
-        } else {
-            seekBar = (RangeSeekBar<Integer>) convertView.getTag();
+
         }
+
+        LinearLayout seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);
+        seekBar = createSeekBar();
+        seekBarLayout.addView(seekBar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getContext().getResources().getDisplayMetrics())));
+
         return convertView;
     }
 

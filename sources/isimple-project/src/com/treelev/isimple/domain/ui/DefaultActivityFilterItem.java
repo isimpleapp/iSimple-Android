@@ -16,14 +16,10 @@ public class DefaultActivityFilterItem extends FilterItem {
 
     @Override
     public View renderView(View convertView) {
-        TextView text;
-        if (convertView == null) {
+        if (convertView == null || convertView.findViewById(R.id.item_content) == null) {
             convertView = layoutInflater.inflate(R.layout.category_filter_text_item_layout, null);
-            text = (TextView) convertView.findViewById(R.id.item_content);
-            convertView.setTag(text);
-        } else {
-            text = (TextView) convertView.getTag();
         }
+        TextView text = (TextView) convertView.findViewById(R.id.item_content);
         text.setText(getLabel());
         return convertView;
     }

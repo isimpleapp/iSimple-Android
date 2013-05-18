@@ -24,6 +24,7 @@ public class ItemDAO extends BaseDAO {
     private final static int SCRIPT_TYPE_OTHERS = 3;
     private final static String FORMAT_QUERY_WINE = "%s %s %s %s %s %s %s";
     private final static String FORMAT_QUERY_OTHER = "%s %s %s";
+    private final static String FROMAT_QUERY_END = "GROUP_BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
 
     public ItemDAO(Context context) {
         super(context);
@@ -388,11 +389,11 @@ public class ItemDAO extends BaseDAO {
 
     public List<Item> getRandomItems() {
         open();
-        String formatSelectScript = "select %s, %s, %s, %s, %s, %s, %s from %s limit 10";
+        String formatSelectScript = "SELECT %s, %s, %s, %s, MIN(%s) AS min_price, %s, %s, COUNT(%s) AS count_bottle FROM %s GROUP BY %s LIMIT 10 ";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
                 DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
                 DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                DatabaseSqlHelper.ITEM_TABLE);
+                DatabaseSqlHelper.ITEM_DRINK_ID, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_DRINK_ID);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         List<Item> itemList = null;
         if (cursor != null) {
@@ -406,6 +407,7 @@ public class ItemDAO extends BaseDAO {
                 item.setPrice(cursor.getString(4));
                 item.setBottleHiResolutionImageFilename(cursor.getString(5));
                 item.setDrinkCategory(DrinkCategory.values()[Integer.parseInt(cursor.getString(6))]);
+                item.setDrinkID(cursor.getString(7));
                 itemList.add(item);
             }
             cursor.close();

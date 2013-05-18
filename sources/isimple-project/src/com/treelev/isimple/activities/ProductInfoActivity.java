@@ -6,8 +6,13 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.*;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
@@ -43,14 +48,68 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
         Item mProduct = proxyManager.getItemById(itemId);
-        ExpandableListView listView = getExpandableListView();
+        final ExpandableListView listView = getExpandableListView();
         View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
         populateFormsFields(headerView, mProduct);
         List<ProductContent> productContentList = createExpandableItems(mProduct);
         BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
         listView.setAdapter(listAdapter);
+
+        final ImageView myImageView = (ImageView) headerView.findViewById(R.id.product_image);
+        myImageView.setOnTouchListener(new View.OnTouchListener() {
+            float firstKnownX;
+
+//            Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//            int width = display.getWidth();
+//            int constMarginRight = width - (200 + getViewsWidth(myImageView));
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                float dx;
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        dx = firstKnownX - event.getRawX();
+
+//                        if (((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin < 390) {
+
+                            ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin += dx;
+                            myImageView.requestLayout();
+                            firstKnownX = event.getRawX();
+                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin = " + ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin);
+//                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "constMarginRight = " + constMarginRight);
+                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "dx = " + dx);
+                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "firstKnownX = " + firstKnownX);
+//                        }
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        firstKnownX = event.getRawX();
+                        Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_DOWN:", "firstKnownX = " + firstKnownX);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
+
+//    private int getViewsWidth(View view) {
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//
+//        int screenWidth = metrics.widthPixels;
+//
+//        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(screenWidth, View.MeasureSpec.EXACTLY);
+//        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+//
+//        view.measure(widthMeasureSpec, heightMeasureSpec);
+//        return view.getMeasuredWidth();
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -107,8 +166,8 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())));
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume())));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
-        if (priceLabel != null){
-        ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, takeRetailPrice(product).toString())));
+        if (priceLabel != null) {
+            ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, takeRetailPrice(product).toString())));
         } else {
             ((TextView) formView.findViewById(R.id.retail_price)).setText("");
         }
@@ -117,24 +176,17 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     private Integer takeRetailPrice(Item product) {
         int retailPrice;
         String priceLabel = Utils.organizePriceLabel(product.getPrice());
-//        Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "product.getName() = " + product.getName());
         if (priceLabel != null) {
             Scanner in = new Scanner(priceLabel).useDelimiter("[^0-9]+");
             int integerPriceLabel = in.nextInt();
-//            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "integerPriceLabel = " + integerPriceLabel);
-
             String priceMarkup = Utils.organizePriceLabel(product.getPriceMarkup());
-//            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "priceMarkup = " + priceMarkup);
-
             if (priceMarkup != null) {
                 Scanner intMarkup = new Scanner(priceMarkup).useDelimiter("[^0-9]+");
                 int integerPriceMarkup = intMarkup.nextInt();
-//                Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "integerPriceMarkup = " + integerPriceMarkup);
                 retailPrice = integerPriceLabel * (integerPriceMarkup + 100) / 100;
             } else {
                 retailPrice = integerPriceLabel;
             }
-//            Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", "retailPrice = " + retailPrice);
             return roundToTheTens(retailPrice);
         } else {
             return null;

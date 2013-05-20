@@ -56,39 +56,32 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
         listView.setAdapter(listAdapter);
 
+        LinearLayout lin = (LinearLayout)findViewById(R.id.list_layout);
         final ImageView myImageView = (ImageView) headerView.findViewById(R.id.product_image);
         myImageView.setOnTouchListener(new View.OnTouchListener() {
-            float firstKnownX;
+            float firstKnownX = 0;
 
 //            Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 //            int width = display.getWidth();
-//            int constMarginRight = width - (200 + getViewsWidth(myImageView));
+//            int constMarginRight = getViewsWidth(myImageView);
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 float dx;
-
+//                Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "constMarginRight = " + constMarginRight);
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         dx = firstKnownX - event.getRawX();
-
-//                        if (((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin < 390) {
-
+                        if (((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin + dx < 50 && ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin + dx> -41) {
                             ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin += dx;
                             myImageView.requestLayout();
                             firstKnownX = event.getRawX();
-                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin = " + ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin);
-//                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "constMarginRight = " + constMarginRight);
-                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "dx = " + dx);
-                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "firstKnownX = " + firstKnownX);
-//                        }
-
-                        break;
-                    case MotionEvent.ACTION_UP:
+//                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "rightMargin = " + ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin);
+                        }
                         break;
                     case MotionEvent.ACTION_DOWN:
                         firstKnownX = event.getRawX();
-                        Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_DOWN:", "firstKnownX = " + firstKnownX);
+//                        Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_DOWN:", "rightMargin = " + ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin);
                         break;
                     default:
                         break;

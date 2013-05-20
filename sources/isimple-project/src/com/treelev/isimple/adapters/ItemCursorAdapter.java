@@ -24,10 +24,12 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
     private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
+    private boolean mGroup;
 
-    public ItemCursorAdapter(Cursor c, Activity activity) {
+    public ItemCursorAdapter(Cursor c, Activity activity, boolean group) {
         super(activity, R.layout.catalog_item_layout, c, Item.getUITags(),
                 new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category});
+        mGroup = group;
     }
 
     @Override
@@ -46,10 +48,10 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         String strDrinkId = Utils.removeZeros(cursor.getString(8));
         int drinkId = strDrinkId != null ? Integer.valueOf(strDrinkId) : 1;
 
-        if( drinkId > 1 && volumeLabel != null)
+        if( drinkId > 1 && volumeLabel != null && mGroup)
         {
             String formatPrice = "%s бутыл%s";
-            String end = "a";
+            String end = "кa";
             if( (drinkId >=5 && drinkId <=20) || strDrinkId.charAt(strDrinkId.length()-1) == '0') {
                 end = "ок";
             }
@@ -63,7 +65,7 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         }
         itemVolume.setText(volumeLabel != null ? volumeLabel : "");
         String priceLabel = Utils.organizePriceLabel(cursor.getString(7));
-        if( drinkId > 1 && priceLabel != null)
+        if( drinkId > 1 && priceLabel != null && mGroup)
         {
             String formatPrice = "от %s";
             priceLabel = String.format(formatPrice, priceLabel);

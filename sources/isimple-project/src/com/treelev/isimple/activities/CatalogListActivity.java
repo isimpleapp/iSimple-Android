@@ -4,25 +4,31 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ContextMenu;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.util.ByteArrayBuffer;
+import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListActivity;
+import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 
 import java.io.BufferedInputStream;
@@ -38,7 +44,9 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     public final static String CATEGORY_NAME_EXTRA_ID = "category_name";
     private View darkView;
     private RelativeLayout myLayout;
-    SearchView mSearchView;
+    private SimpleCursorAdapter mListCategoriesAdapter;
+    private Cursor cItems;
+    private ProxyManager mProxyManager;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -51,19 +59,36 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         darkView.setOnClickListener(null);
         View headerView = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
-        ProxyManager proxyManager = new ProxyManager(this);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, proxyManager.getRandomItems(), R.layout.catalog_item_layout,
-                Item.getUITags(), new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price,
-                R.id.product_category});
-        listView.setAdapter(simpleAdapter);
+        new SelectDataRandomTask(this).execute();
+//        ProxyManager proxyManager = new ProxyManager(this);
+//        SimpleAdapter simpleAdapter = new SimpleAdapter(this, proxyManager.getRandomItems(), R.layout.catalog_item_layout,
+//                Item.getUITags(), new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price,
+//                R.id.product_category});
+//        listView.setAdapter(simpleAdapter);
     }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
+//        super.onListItemClick(l, v, position, id);
+//        HashMap product = (HashMap) l.getAdapter().getItem(position);
+//        Intent startIntent = new Intent(this, ProductInfoActivity.class);
+//        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
+//        startActivity(startIntent);
+//        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         super.onListItemClick(l, v, position, id);
-        HashMap product = (HashMap) l.getAdapter().getItem(position);
-        Intent startIntent = new Intent(this, ProductInfoActivity.class);
-        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
+        Cursor product = (Cursor) l.getAdapter().getItem(position);
+        Intent startIntent;
+        if( product.getInt(8) > 1){
+            startIntent = new Intent(this, CatalogSubCategory.class);
+            CatalogSubCategory.categoryID = null;
+            CatalogSubCategory.backActivity = CatalogListActivity.class;
+            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(9));
+        } else {
+            startIntent = new Intent(this, ProductInfoActivity.class);
+            startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+        }
+
+        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
@@ -150,6 +175,44 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+    }
+
+    private ProxyManager getProxyManager() {
+        if (mProxyManager == null) {
+            mProxyManager = new ProxyManager(this);
+        }
+        return mProxyManager;
+    }
+
+    private class SelectDataRandomTask extends AsyncTask<Void, Void, Cursor> {
+
+        private Dialog mDialog;
+        private Context mContext;
+
+        private SelectDataRandomTask(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+                    mContext.getString(R.string.dialog_select_data_message), false, false);
+        }
+
+        @Override
+        protected Cursor doInBackground(Void... params) {
+            return getProxyManager().getRandomItems();
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            cItems = cursor;
+            startManagingCursor(cItems);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogListActivity.this, true);
+            getListView().setAdapter(mListCategoriesAdapter);
+            mDialog.dismiss();
+        }
     }
 
     private static class ImageBinder implements SimpleAdapter.ViewBinder {

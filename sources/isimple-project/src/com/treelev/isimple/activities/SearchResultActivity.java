@@ -10,9 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -20,17 +18,11 @@ import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
-import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
-
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SearchResultActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
         ActionBar.OnNavigationListener {
@@ -42,6 +34,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     private String mQuery;
     private View darkView;
     private ProxyManager mProxyManager;
+    private String mDrinkId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +64,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
 
     void handledIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            mDrinkId = intent.getStringExtra(CatalogByCategoryActivity.DRINK_ID);
             mQuery = intent.getStringExtra(SearchManager.QUERY);
             Search search = new Search(this, categoryID);
             search.execute(mQuery);
@@ -170,10 +164,26 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
+//        super.onListItemClick(l, v, position, id);
+//        Cursor product = (Cursor) l.getAdapter().getItem(position);
+//        Intent startIntent = new Intent(this, ProductInfoActivity.class);
+//        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+//        startActivity(startIntent);
+//        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         super.onListItemClick(l, v, position, id);
-        HashMap product = (HashMap) l.getAdapter().getItem(position);
-        Intent startIntent = new Intent(this, ProductInfoActivity.class);
-        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
+        Cursor product = (Cursor) l.getAdapter().getItem(position);
+        Intent startIntent;
+        if( product.getInt(8) > 1){
+            startIntent = new Intent(this, CatalogSubCategory.class);
+            CatalogSubCategory.categoryID = categoryID;
+            CatalogSubCategory.backActivity = Search.class;
+            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(9));
+        } else {
+            startIntent = new Intent(this, ProductInfoActivity.class);
+            startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+        }
+
+        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
@@ -241,7 +251,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
@@ -278,7 +288,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

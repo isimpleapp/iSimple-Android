@@ -35,6 +35,11 @@
                     android:resource="@xml/searchable"/>
         </activity>
         <activity android:name=".activities.DefaultListFilterActivity"/>
+        <activity android:name=".activities.CatalogSubCategory">
+            <meta-data
+                    android:name="android.app.default_searchable"
+                    android:value=".activities.SearchResultActivity" />
+        </activity>
         <uses-library android:name="com.google.android.maps" />
     </application>
 </manifest>

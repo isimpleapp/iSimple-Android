@@ -38,6 +38,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
+    public final static String DRINK_ID = "drink_id";
     private Cursor cItems;
     private SimpleCursorAdapter mListCategoriesAdapter;
     private ExpandableListView filterListView;
@@ -183,7 +184,17 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
-        Intent startIntent = new Intent(this, ProductInfoActivity.class);
+        Intent startIntent;
+        if( product.getInt(8) > 1){
+            startIntent = new Intent(this, CatalogSubCategory.class);
+            CatalogSubCategory.categoryID = mCategoryID;
+            CatalogSubCategory.backActivity = CatalogByCategoryActivity.class;
+            startIntent.putExtra(DRINK_ID, product.getString(9));
+        } else {
+            startIntent = new Intent(this, ProductInfoActivity.class);
+            startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+        }
+
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
@@ -339,7 +350,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
@@ -363,14 +374,14 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
         @Override
         protected Cursor doInBackground(Integer... params) {
-            return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
+               return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
         }
 
         @Override
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

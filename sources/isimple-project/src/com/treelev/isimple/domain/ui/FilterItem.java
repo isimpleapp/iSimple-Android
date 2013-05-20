@@ -1,8 +1,10 @@
 package com.treelev.isimple.domain.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import com.treelev.isimple.R;
 
 public abstract class FilterItem {
     public final static int ITEM_ACTIVITY = 1;
@@ -44,6 +46,7 @@ public abstract class FilterItem {
         if (itemType == ITEM_ACTIVITY) {
             Intent intent = new Intent(context, activityClass);
             context.startActivity(intent);
+            ((Activity) context).overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         }
     }
 

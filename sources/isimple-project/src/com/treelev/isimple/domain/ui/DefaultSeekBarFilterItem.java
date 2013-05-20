@@ -21,7 +21,7 @@ public class DefaultSeekBarFilterItem extends FilterItem {
 
     @Override
     public View renderView(View convertView) {
-        if (convertView == null || convertView.findViewById(R.id.seek_bar_layout) == null) {
+        if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.category_filter_seekbar_item_layout, null);
             LinearLayout seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);
             RangeSeekBar<Integer> seekBar = createSeekBar();

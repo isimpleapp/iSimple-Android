@@ -12,7 +12,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.*;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.SimpleCursorAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -21,10 +24,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
-import com.treelev.isimple.domain.db.Item;
-import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.filter.*;
-import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListActivity;
@@ -166,10 +166,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        Intent filterDataIntent = new Intent(this, FilterActivity.class);
-        filterDataIntent.putExtra(FILTER_DATA_TAG, childPosition);
-        startActivity(filterDataIntent);
-        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+        filter.getFilterContent().get(childPosition).process();
         return false;
     }
 
@@ -237,45 +234,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         }
     }
 
-    /*private List<FilterItem> createFilterList() {
-        List<FilterItem> filterItems = new ArrayList<FilterItem>();
-        switch (mCategoryID) {
-            case R.id.category_wine_butt:
-            case R.id.category_sparkling_butt:
-                filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, getString(R.string.filter_item_sweetness)));
-                filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_PROGRESS));
-                break;
-            case R.id.category_spirits_butt:
-                filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, getString(R.string.filter_item_classifier)));
-                break;
-            case R.id.category_porto_heres_butt:
-                filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, getString(R.string.filter_item_type)));
-                filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, getString(R.string.filter_item_sweetness)));
-                filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, getString(R.string.filter_item_classifier)));
-                break;
-            case R.id.category_sake_butt:
-                filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, getString(R.string.filter_item_premiality)));
-                break;
-        }
-        if (mCategoryID != R.id.category_sake_butt) {
-            filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, getString(R.string.filter_item_region)));
-        }
-        filterItems.add(new FilterItem(FilterItem.ITEM_TYPE_TEXT, getString(R.string.filter_item_year)));
-        return filterItems;
-    }*/
-
-    /*private void initFilterListView(List<FilterItem> content, int categoryId) {
-        BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, content);
-        listView = (ExpandableListView) findViewById(R.id.filtration_view);
-        listView.setOnGroupExpandListener(this);
-        listView.setOnChildClickListener(this);
-        footerView = getLayoutInflater().inflate(R.layout.category_filtration_button_bar_layout, listView, false);
-        ((RadioGroup) footerView.findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
-        footerView.findViewById(R.id.reset_butt).setOnClickListener(resetButtonClick);
-        listView.addFooterView(footerView, null, false);
-        listView.setAdapter(filterAdapter);
-    }*/
-
     private void initFilterListView() {
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, filter);
         listView = (ExpandableListView) findViewById(R.id.filtration_view);
@@ -311,27 +269,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
     }
 
-    /*private View.OnClickListener categoryTypeClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            CheckBox checkBox = filterTypeCheckBoxArray[getCheckIdByViewId(view.getId())];
-            checkBox.setChecked(!checkBox.isChecked());
-        }
-
-        private int getCheckIdByViewId(int viewId) {
-            switch (viewId) {
-                case R.id.red_wine_butt:
-                    return 0;
-                case R.id.white_wine_butt:
-                    return 1;
-                case R.id.pink_wine_butt:
-                    return 2;
-                default:
-                    return -1;
-            }
-        }
-    };*/
-
     private View.OnClickListener resetButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -349,18 +286,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             groupView.findViewById(R.id.group_name).setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
-            /*RelativeLayout categoryTypeLayout = (RelativeLayout) groupView.findViewById(R.id.category_type_view);
-            categoryTypeLayout.setVisibility(View.GONE);
-            categoryTypeLayout.findViewById(R.id.red_wine_butt).setOnClickListener(null);
-            categoryTypeLayout.findViewById(R.id.white_wine_butt).setOnClickListener(null);
-            categoryTypeLayout.findViewById(R.id.pink_wine_butt).setOnClickListener(null);*/
         }
-
-        /*private void resetFilterCheckBox() {
-            for (CheckBox checkBox : filterTypeCheckBoxArray) {
-                checkBox.setChecked(false);
-            }
-        }*/
     };
 
     private class SortTask extends AsyncTask<Integer, Void, Cursor> {

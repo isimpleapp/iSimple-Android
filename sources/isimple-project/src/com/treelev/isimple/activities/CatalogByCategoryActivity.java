@@ -19,6 +19,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.FilterAdapter;
+import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
@@ -362,53 +363,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         }*/
     };
 
-    private class ItemCursorAdapter extends SimpleCursorAdapter {
-
-        private final static String FORMAT_TEXT_LABEL = "%s...";
-        private final static int FORMAT_NAME_MAX_LENGTH = 41;
-        private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
-
-        public ItemCursorAdapter(Cursor c) {
-            super(CatalogByCategoryActivity.this, R.layout.catalog_item_layout, c, Item.getUITags(),
-                    new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category});
-        }
-
-        @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-            ImageView imageView = (ImageView) view.findViewById(R.id.item_image);
-            TextView nameView = (TextView) view.findViewById(R.id.item_name);
-            TextView itemLocName = (TextView) view.findViewById(R.id.item_loc_name);
-            TextView itemVolume = (TextView) view.findViewById(R.id.item_volume);
-            TextView itemPrice = (TextView) view.findViewById(R.id.item_price);
-            TextView itemDrinkCategory = (TextView) view.findViewById(R.id.product_category);
-
-            imageView.setImageResource(R.drawable.bottle_list_image_default);
-            nameView.setText(organizeItemNameLabel(cursor.getString(1)));
-            itemLocName.setText(organizeLocItemNameLabel(cursor.getString(2)));
-            String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(3)));
-            itemVolume.setText(volumeLabel != null ? volumeLabel : "");
-            String priceLabel = Utils.organizePriceLabel(cursor.getString(4));
-            itemPrice.setText(priceLabel != null ? priceLabel : "");
-            itemDrinkCategory.setText(DrinkCategory.getDrinkCategory(cursor.getString(6)).getDescription());
-        }
-
-        private String organizeItemNameLabel(String itemName) {
-            return organizeTextLabel(itemName, FORMAT_NAME_MAX_LENGTH);
-        }
-
-        private String organizeLocItemNameLabel(String locItemName) {
-            return organizeTextLabel(locItemName, FORMAT_LOC_NAME_MAX_LENGTH);
-        }
-
-        private String organizeTextLabel(String itemName, int maxLength) {
-            String result = itemName;
-            if (result.length() > maxLength) {
-                result = String.format(FORMAT_TEXT_LABEL, result.substring(0, maxLength));
-            }
-            return result;
-        }
-    }
-
     private class SortTask extends AsyncTask<Integer, Void, Cursor> {
 
         private Dialog mDialog;
@@ -434,7 +388,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
@@ -465,7 +419,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

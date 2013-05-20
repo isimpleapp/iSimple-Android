@@ -4,18 +4,21 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.utils.managers.ProxyManager;
@@ -34,12 +37,13 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
 
     public static Integer categoryID;
     public static Class backActivity;
-
+    private Cursor cItems;
+    private SimpleCursorAdapter mListCategoriesAdapter;
     private List<Item> mItems;
     private List<Map<String, ?>> mUiItemList;
-    private SimpleAdapter mListCategoriesAdapter;
     private String mQuery;
     private View darkView;
+    private ProxyManager mProxyManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -177,7 +181,9 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     }
 
     private void updateList(int sortBy) {
-        new SortTask(this, mItems).execute(sortBy);
+        stopManagingCursor(cItems);
+        cItems.close();
+        new SortTask(this).execute(sortBy);
     }
 
     private void createNavigation() {
@@ -202,14 +208,21 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         return false;
     }
 
-    class Search extends AsyncTask<String, Void, List<Item>> {
+    private ProxyManager getProxyManager() {
+        if (mProxyManager == null) {
+            mProxyManager = new ProxyManager(this);
+        }
+        return mProxyManager;
+    }
+
+    class Search extends AsyncTask<String, Void, Cursor> {
 
         private Dialog mDialog;
         private Context mContext;
         private ProxyManager mProxyManager;
         private Integer mCategoryId;
 
-        public Search(Context context, Integer categoryId) {
+        private Search(Context context, Integer categoryId) {
             mContext = context;
             mCategoryId = categoryId;
         }
@@ -218,67 +231,119 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         protected void onPreExecute() {
             super.onPreExecute();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_search_message), false, false);
+                    mContext.getString(R.string.dialog_select_data_message), false, false);
         }
 
         @Override
-        protected List<Item> doInBackground(String... strings) {
-            mProxyManager = new ProxyManager(mContext);
-            return mProxyManager.getSearchItemsByCategory(mCategoryId, strings[0]);
+        protected Cursor doInBackground(String... params) {
+            return getProxyManager().getSearchItemsByCategory(mCategoryId, params[0], ProxyManager.SORT_NAME_AZ);
         }
 
         @Override
-        protected void onPostExecute(List<Item> result) {
-            super.onPostExecute(result);
-            mDialog.dismiss();
-            mItems = result;
-            mProxyManager = new ProxyManager(mContext);
-            mUiItemList = mProxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
-            mListCategoriesAdapter = new SimpleAdapter(mContext,
-                    mUiItemList,
-                    R.layout.catalog_item_layout,
-                    Item.getUITags(),
-                    new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price});
-            ListView listView = getListView();
+        protected void onPostExecute(Cursor cursor) {
+            cItems = cursor;
+            startManagingCursor(cItems);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this);
             getListView().setAdapter(mListCategoriesAdapter);
-            if (getListView().getCount() == 0) {
-                Toast.makeText(mContext, mContext.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
-            }
+            mDialog.dismiss();
         }
     }
+//
+//        public Search(Context context, Integer categoryId) {
+//            mContext = context;
+//            mCategoryId = categoryId;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+//                    mContext.getString(R.string.dialog_search_message), false, false);
+//        }
+//
+//        @Override
+//        protected Cursor doInBackground(String... strings) {
+//            mProxyManager = new ProxyManager(mContext);
+//            return mProxyManager.getSearchItemsByCategory(mCategoryId, strings[0], ProxyManager.SORT_NAME_AZ);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<Item> result) {
+//            super.onPostExecute(result);
+//            mDialog.dismiss();
+//            mItems = result;
+//            mProxyManager = new ProxyManager(mContext);
+//            mUiItemList = mProxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
+//            mListCategoriesAdapter = new SimpleAdapter(mContext,
+//                    mUiItemList,
+//                    R.layout.catalog_item_layout,
+//                    Item.getUITags(),
+//                    new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price});
+//            ListView listView = getListView();
+//            getListView().setAdapter(mListCategoriesAdapter);
+//            if (getListView().getCount() == 0) {
+//                Toast.makeText(mContext, mContext.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
+//            }
+//        }
 
-    private class SortTask extends AsyncTask<Integer, Void, List<Map<String, ?>>> {
+    private class SortTask extends AsyncTask<Integer, Void, Cursor> {
 
         private Dialog mDialog;
-        private Context context;
-        private List<Item> mItems;
+        private Context mContext;
         private ProxyManager proxyManager;
 
-        private SortTask(Context context, List<Item> items) {
-            this.context = context;
-            this.mItems = items;
-            proxyManager = new ProxyManager(context);
+
+        private SortTask(Context context) {
+            mContext = context;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mUiItemList.clear();
-            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_title),
-                    context.getString(R.string.dialog_sort_message), false, false);
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+                    mContext.getString(R.string.dialog_select_data_message), false, false);
         }
 
         @Override
-        protected List<Map<String, ?>> doInBackground(Integer... sortParams) {
-            return proxyManager.convertItemsToUI(mItems, sortParams[0]);
+        protected Cursor doInBackground(Integer... params) {
+            return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
         }
 
         @Override
-        protected void onPostExecute(List<Map<String, ?>> items) {
-            super.onPostExecute(items);
-            mUiItemList.addAll(items);
-            mListCategoriesAdapter.notifyDataSetChanged();
+        protected void onPostExecute(Cursor cursor) {
+            cItems = cursor;
+            startManagingCursor(cItems);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this);
+            getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
+
+//        private SortTask(Context context, List<Item> items) {
+//            this.context = context;
+//            this.mItems = items;
+//            proxyManager = new ProxyManager(context);
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            mUiItemList.clear();
+//            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_title),
+//                    context.getString(R.string.dialog_sort_message), false, false);
+//        }
+//
+//        @Override
+//        protected List<Map<String, ?>> doInBackground(Integer... sortParams) {
+//            return proxyManager.convertItemsToUI(mItems, sortParams[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<Map<String, ?>> items) {
+//            super.onPostExecute(items);
+//            mUiItemList.addAll(items);
+//            mListCategoriesAdapter.notifyDataSetChanged();
+//            mDialog.dismiss();
+//        }
     }
+
 }

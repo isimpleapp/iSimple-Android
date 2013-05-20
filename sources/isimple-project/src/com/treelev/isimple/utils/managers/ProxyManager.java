@@ -57,8 +57,11 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId, orderByField);
     }
 
-    public List<Item> getSearchItemsByCategory(Integer categoryId, String query) {
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, query);
+    public Cursor getSearchItemsByCategory(Integer categoryId, String query, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO)getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, query, orderByField);
     }
 
     private List<Map<String, ?>> convertItemsToUI(List<Item> itemList) {

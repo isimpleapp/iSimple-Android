@@ -19,11 +19,11 @@ import java.util.Map;
 public class ItemDAO extends BaseDAO {
 
     public final static int ID = 1;
-    private final static String FIRST_PART_SELECT_SCRIPT = "SELECT %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, COUNT(%s) FROM %s WHERE ";
+    private final static String FIRST_PART_SELECT_SCRIPT = "SELECT %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, COUNT(%s) FROM %s ";
     private final static int SCRIPT_TYPE_WINE = 2;
     private final static int SCRIPT_TYPE_OTHERS = 3;
-    private final static String FORMAT_QUERY_WINE = "%s %s %s %s %s %s %s GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
-    private final static String FORMAT_QUERY_OTHER = "%s %s %s  GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
+    private final static String FORMAT_QUERY_WINE = "  %s WHERE %s %s %s %s %s %s GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
+    private final static String FORMAT_QUERY_OTHER = "   %s WHERE %s %s  GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
     private final static String FORMAT_ORDER_BY_PRICE = " ORDER BY MIN(%s)";
     private final static String FORMAT_ORDER_BY_NAME = " ORDER BY %s";
 
@@ -75,8 +75,7 @@ public class ItemDAO extends BaseDAO {
     }
 
     //TODO refactor: переименовать, заменить конкантенацию на String.format, метод дублируется с getItemsByCategory
-    public List<Item> getSearchItemsByCategory(Integer categoryId, String query) {
-        List<Item> itemList = new ArrayList<Item>();
+    public Cursor getSearchItemsByCategory(Integer categoryId, String query, String orderByField) {
         open();
         String formatSelectScript;
         if(categoryId == null){
@@ -84,29 +83,27 @@ public class ItemDAO extends BaseDAO {
         } else {
             formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
         }
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.ITEM_NAME,
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID + " as _id", DatabaseSqlHelper.ITEM_NAME,
                 DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, "0 as image",
                 DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_DRINK_ID,
                 DatabaseSqlHelper.ITEM_TABLE);
-        selectSql += getSelectByQuery(categoryId, query);
-        Cursor cursor = getDatabase().rawQuery(selectSql, null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                Item item = new Item();
-                item.setItemID(cursor.getString(0));
-                item.setName(cursor.getString(1));
-                item.setLocalizedName(cursor.getString(2));
-                item.setVolume(cursor.getString(3));
-                item.setPrice(cursor.getString(4));
-                item.setBottleHiResolutionImageFilename(cursor.getString(5));
-                item.setDrinkCategory(DrinkCategory.values()[Integer.parseInt(cursor.getString(6))]);
-                itemList.add(item);
-            }
-            cursor.close();
+        if( categoryId == null ) {
+            selectSql +=  " WHERE ";
         }
-        close();
-        return itemList;
+        selectSql += getSelectByQuery(categoryId, query);
+        if( categoryId == null ) {
+            selectSql += " GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
+        }
+        if (orderByField != null) {
+            String formatOrder = FORMAT_ORDER_BY_PRICE;
+            if(orderByField.equals(DatabaseSqlHelper.ITEM_NAME)) {
+
+                formatOrder = FORMAT_ORDER_BY_NAME;
+            }
+            selectSql += String.format(formatOrder, orderByField);
+        }
+       return getDatabase().rawQuery(selectSql, null);
     }
 
     public void insertListData(List<Item> items) {

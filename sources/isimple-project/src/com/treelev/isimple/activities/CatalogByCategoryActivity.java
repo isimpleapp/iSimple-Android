@@ -40,13 +40,17 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     public final static String FILTER_DATA_TAG = "filter_data";
     private Cursor cItems;
     private SimpleCursorAdapter mListCategoriesAdapter;
-    private ExpandableListView listView;
+    private ExpandableListView filterListView;
     private View footerView;
     private View darkView;
     private Integer mCategoryID;
     private boolean mExpandFiltr = false;
     private ProxyManager mProxyManager;
     private com.treelev.isimple.filter.Filter filter;
+
+    public final static int RESULT_REQUEST_CODE = 1;
+    public final static String EXTRA_RESULT_CHECKED = "isChecked";
+    public final static String EXTRA_CHILD_POSITION = "position";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,7 +146,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public void onGroupExpand(int groupPosition) {
-        LinearLayout groupView = (LinearLayout) listView.getChildAt(groupPosition);
+        LinearLayout groupView = (LinearLayout) filterListView.getChildAt(groupPosition);
         groupView.findViewById(R.id.group_name).setVisibility(View.GONE);
         groupView.addView(filter.getFilterHeaderLayout(),
                 new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -166,7 +170,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        filter.getFilterContent().get(childPosition).process();
+        filter.getFilterContent().get(childPosition).process(mCategoryID, childPosition);
         return false;
     }
 
@@ -191,6 +195,27 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         if (mProxyManager != null) {
             mProxyManager.release();
             mProxyManager = null;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                boolean isItemChecked = data.getBooleanExtra(EXTRA_RESULT_CHECKED, false);
+                int childPosition = data.getIntExtra(EXTRA_CHILD_POSITION, -1);
+                //TODO доделать изменение цвета текста при выборе
+                /*filterListView.getI
+                TextView filterItemText = (TextView) filterLayout.findViewById(R.id.item_content);
+                int color;
+                if (isItemChecked) {
+                    color = Color.BLACK;
+                } else {
+                    color = getResources().getColor(R.color.filter_item_text_color);
+                }
+                filterItemText.setTextColor(color);*/
+            }
         }
     }
 
@@ -236,14 +261,14 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     private void initFilterListView() {
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, filter);
-        listView = (ExpandableListView) findViewById(R.id.filtration_view);
-        listView.setOnGroupExpandListener(this);
-        listView.setOnChildClickListener(this);
-        footerView = getLayoutInflater().inflate(R.layout.category_filtration_button_bar_layout, listView, false);
+        filterListView = (ExpandableListView) findViewById(R.id.filtration_view);
+        filterListView.setOnGroupExpandListener(this);
+        filterListView.setOnChildClickListener(this);
+        footerView = getLayoutInflater().inflate(R.layout.category_filtration_button_bar_layout, filterListView, false);
         ((RadioGroup) footerView.findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
         footerView.findViewById(R.id.reset_butt).setOnClickListener(resetButtonClick);
-        listView.addFooterView(footerView, null, false);
-        listView.setAdapter(filterAdapter);
+        filterListView.addFooterView(footerView, null, false);
+        filterListView.setAdapter(filterAdapter);
     }
 
     private void updateList(int sortBy) {
@@ -277,11 +302,11 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             //resetFilterCheckBox();
 //            anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_anim);
 //            listView.startAnimation(anim);
-            listView.collapseGroup(0);
+            filterListView.collapseGroup(0);
         }
 
         private void organizeView() {
-            View groupView = listView.getChildAt(0);
+            View groupView = filterListView.getChildAt(0);
             ((ViewGroup) groupView).removeView(groupView.findViewById(R.id.category_type_view));
             groupView.findViewById(R.id.group_name).setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);

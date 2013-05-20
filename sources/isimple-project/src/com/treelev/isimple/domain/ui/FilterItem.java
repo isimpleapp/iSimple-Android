@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import com.treelev.isimple.R;
+import com.treelev.isimple.activities.CatalogByCategoryActivity;
 
 public abstract class FilterItem {
+
     public final static int ITEM_ACTIVITY = 1;
     public final static int ITEM_INLINE = 2;
 
@@ -15,7 +17,11 @@ public abstract class FilterItem {
     private String label;
     private Class activityClass;
 
+    public final static String EXTRA_CATEGORY_ID = "categoryId";
+    public final static String EXTRA_POSITION = "position";
+
     public FilterItem(Context context, int itemType, String label, Class activityClass) {
+        this(context, itemType);
         this.label = label;
         this.activityClass = activityClass;
     }
@@ -41,11 +47,12 @@ public abstract class FilterItem {
         return activityClass;
     }
 
-    public void process() {
-        //TODO: как передавать параметры??
+    public void process(Integer categoryId, Integer childPosition) {
         if (itemType == ITEM_ACTIVITY) {
             Intent intent = new Intent(context, activityClass);
-            context.startActivity(intent);
+            intent.putExtra(EXTRA_CATEGORY_ID, categoryId);
+            intent.putExtra(EXTRA_POSITION, childPosition);
+            ((Activity) context).startActivityForResult(intent, CatalogByCategoryActivity.RESULT_REQUEST_CODE);
             ((Activity) context).overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         }
     }

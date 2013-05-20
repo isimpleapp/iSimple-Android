@@ -39,8 +39,6 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     public static Class backActivity;
     private Cursor cItems;
     private SimpleCursorAdapter mListCategoriesAdapter;
-    private List<Item> mItems;
-    private List<Map<String, ?>> mUiItemList;
     private String mQuery;
     private View darkView;
     private ProxyManager mProxyManager;
@@ -73,9 +71,9 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
 
     void handledIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            mQuery = intent.getStringExtra(SearchManager.QUERY);
             Search search = new Search(this, categoryID);
-            search.execute(query);
+            search.execute(mQuery);
         }
     }
 
@@ -183,7 +181,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     private void updateList(int sortBy) {
         stopManagingCursor(cItems);
         cItems.close();
-        new SortTask(this).execute(sortBy);
+        new SortTask(this, categoryID, sortBy).execute(mQuery);
     }
 
     private void createNavigation() {
@@ -248,53 +246,20 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
             mDialog.dismiss();
         }
     }
-//
-//        public Search(Context context, Integer categoryId) {
-//            mContext = context;
-//            mCategoryId = categoryId;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-//                    mContext.getString(R.string.dialog_search_message), false, false);
-//        }
-//
-//        @Override
-//        protected Cursor doInBackground(String... strings) {
-//            mProxyManager = new ProxyManager(mContext);
-//            return mProxyManager.getSearchItemsByCategory(mCategoryId, strings[0], ProxyManager.SORT_NAME_AZ);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<Item> result) {
-//            super.onPostExecute(result);
-//            mDialog.dismiss();
-//            mItems = result;
-//            mProxyManager = new ProxyManager(mContext);
-//            mUiItemList = mProxyManager.convertItemsToUI(mItems, ProxyManager.SORT_NAME_AZ);
-//            mListCategoriesAdapter = new SimpleAdapter(mContext,
-//                    mUiItemList,
-//                    R.layout.catalog_item_layout,
-//                    Item.getUITags(),
-//                    new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price});
-//            ListView listView = getListView();
-//            getListView().setAdapter(mListCategoriesAdapter);
-//            if (getListView().getCount() == 0) {
-//                Toast.makeText(mContext, mContext.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
-//            }
-//        }
 
-    private class SortTask extends AsyncTask<Integer, Void, Cursor> {
+    private class SortTask extends AsyncTask<String, Void, Cursor> {
 
         private Dialog mDialog;
         private Context mContext;
+        private Integer mCategoryId;
+        private int mSortBy;
         private ProxyManager proxyManager;
 
 
-        private SortTask(Context context) {
+        private SortTask(Context context,Integer categoryId, int sortBy ) {
             mContext = context;
+            mCategoryId = categoryId;
+            mSortBy = sortBy;
         }
 
         @Override
@@ -305,8 +270,8 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         }
 
         @Override
-        protected Cursor doInBackground(Integer... params) {
-            return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
+        protected Cursor doInBackground(String... params) {
+            return getProxyManager().getSearchItemsByCategory(mCategoryId, params[0], mSortBy);
         }
 
         @Override
@@ -317,33 +282,6 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
-
-//        private SortTask(Context context, List<Item> items) {
-//            this.context = context;
-//            this.mItems = items;
-//            proxyManager = new ProxyManager(context);
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            mUiItemList.clear();
-//            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_title),
-//                    context.getString(R.string.dialog_sort_message), false, false);
-//        }
-//
-//        @Override
-//        protected List<Map<String, ?>> doInBackground(Integer... sortParams) {
-//            return proxyManager.convertItemsToUI(mItems, sortParams[0]);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<Map<String, ?>> items) {
-//            super.onPostExecute(items);
-//            mUiItemList.addAll(items);
-//            mListCategoriesAdapter.notifyDataSetChanged();
-//            mDialog.dismiss();
-//        }
     }
 
 }

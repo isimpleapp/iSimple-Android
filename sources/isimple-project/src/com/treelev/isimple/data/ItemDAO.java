@@ -22,8 +22,10 @@ public class ItemDAO extends BaseDAO {
     private final static String FIRST_PART_SELECT_SCRIPT = "SELECT %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, COUNT(%s) FROM %s ";
     private final static int SCRIPT_TYPE_WINE = 2;
     private final static int SCRIPT_TYPE_OTHERS = 3;
-    private final static String FORMAT_QUERY_WINE = "  %s WHERE %s %s %s %s %s %s GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
-    private final static String FORMAT_QUERY_OTHER = "   %s WHERE %s %s  GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
+    private final static String FORMAT_QUERY_WINE = "  %s WHERE %s %s %s %s %s %s GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
+    private final static String FORMAT_QUERY_OTHER = "   %s WHERE %s %s  GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
+    private final static String FORMAT_QUERY_WINE_SEARCH = "  %s WHERE %s %s %s %s %s %s %s GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
+    private final static String FORMAT_QUERY_OTHER_SEARCH = "   %s WHERE %s %s %s  GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
     private final static String FORMAT_ORDER_BY_PRICE = " ORDER BY MIN(%s)";
     private final static String FORMAT_ORDER_BY_NAME = " ORDER BY %s";
 
@@ -79,22 +81,16 @@ public class ItemDAO extends BaseDAO {
         open();
         String formatSelectScript;
         if(categoryId == null){
-            formatSelectScript = FIRST_PART_SELECT_SCRIPT;
+            formatSelectScript = FIRST_PART_SELECT_SCRIPT
+                    + " WHERE %s GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
         } else {
-            formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
+            formatSelectScript = getSelectCategoryStringByCategoryIdSearch(categoryId, getSelectByQuery(categoryId, query));
         }
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID + " as _id", DatabaseSqlHelper.ITEM_NAME,
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, "0 as image",
-                DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_DRINK_ID,
-                DatabaseSqlHelper.ITEM_TABLE);
-        if( categoryId == null ) {
-            selectSql +=  " WHERE ";
-        }
-        selectSql += getSelectByQuery(categoryId, query);
-        if( categoryId == null ) {
-            selectSql += " GROUP BY "  + DatabaseSqlHelper.ITEM_DRINK_ID;
-        }
+                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
+                    DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, "0 as image",
+                    DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_DRINK_ID,
+                    DatabaseSqlHelper.ITEM_TABLE, getSelectByQuery(categoryId, query));
         if (orderByField != null) {
             String formatOrder = FORMAT_ORDER_BY_PRICE;
             if(orderByField.equals(DatabaseSqlHelper.ITEM_NAME)) {
@@ -455,6 +451,46 @@ public class ItemDAO extends BaseDAO {
         String formatQuery = FORMAT_QUERY_OTHER;
         if (scriptType == SCRIPT_TYPE_WINE) {
             formatQuery = FORMAT_QUERY_WINE;
+        }
+        if (scriptParams != null) {
+            result = String.format(formatQuery, scriptParams);
+        }
+        return result;
+    }
+
+    private String getSelectCategoryStringByCategoryIdSearch(Integer categoryId, String query) {
+        int scriptType = SCRIPT_TYPE_OTHERS;
+        if (categoryId == R.id.category_wine_butt) {
+            scriptType = SCRIPT_TYPE_WINE;
+        }
+        return createSelectScriptSearch(scriptType, getSelectParamsSearch(categoryId, query));
+    }
+
+    private Object[] getSelectParamsSearch(Integer categoryId, String query) {
+        switch (categoryId) {
+            case R.id.category_wine_butt:
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 0 and ",
+                        DatabaseSqlHelper.ITEM_STYLE, " <> 1 and ", DatabaseSqlHelper.ITEM_STYLE, " <> 3 ", "%s"};
+            case R.id.category_sparkling_butt:
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_STYLE, " = 1 ", "%s"};
+            case R.id.category_porto_heres_butt:
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_STYLE, " = 3 ", "%s"};
+            case R.id.category_water_butt:
+                return null;
+            case R.id.category_spirits_butt:
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 1 ", "%s"};
+            case R.id.category_sake_butt:
+                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 2 ", "%s"};
+            default:
+                return null;
+        }
+    }
+
+    private String createSelectScriptSearch(int scriptType, Object[] scriptParams) {
+        String result = null;
+        String formatQuery = FORMAT_QUERY_OTHER_SEARCH;
+        if (scriptType == SCRIPT_TYPE_WINE) {
+            formatQuery = FORMAT_QUERY_WINE_SEARCH;
         }
         if (scriptParams != null) {
             result = String.format(formatQuery, scriptParams);

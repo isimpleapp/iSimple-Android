@@ -20,7 +20,7 @@ import org.holoeverywhere.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterActivity extends ListActivity implements ActionBar.OnNavigationListener {
+public class DefaultListFilterActivity extends ListActivity implements ActionBar.OnNavigationListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

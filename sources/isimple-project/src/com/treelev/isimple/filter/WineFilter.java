@@ -3,7 +3,7 @@ package com.treelev.isimple.filter;
 import android.content.Context;
 import android.view.View;
 import com.treelev.isimple.R;
-import com.treelev.isimple.activities.FilterActivity;
+import com.treelev.isimple.activities.DefaultListFilterActivity;
 import com.treelev.isimple.domain.ui.DefaultActivityFilterItem;
 import com.treelev.isimple.domain.ui.DefaultSeekBarFilterItem;
 import com.treelev.isimple.domain.ui.FilterItem;
@@ -59,10 +59,10 @@ public class WineFilter implements Filter, View.OnClickListener {
 
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_sweetness), FilterActivity.class));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_sweetness), DefaultListFilterActivity.class));
         filterItems.add(new DefaultSeekBarFilterItem(context));
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_region), FilterActivity.class));
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_year), FilterActivity.class));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_region), DefaultListFilterActivity.class));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_year), DefaultListFilterActivity.class));
         return filterItems;
     }
 }

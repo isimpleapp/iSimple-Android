@@ -28,22 +28,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/catalog_sub_category.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369071971771" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369072541404" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369074541656" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369074846453" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364204323218" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -828,6 +821,7 @@
     <sortChildren value="false" />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -881,7 +875,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -895,20 +888,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="435" column="79" selection-start="23128" selection-end="23128" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="method#insertListData#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#updatePriceList#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getCountries#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getRegionsByCountry#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getWineAndRegions#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getRedWines#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getCategorySpirits#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getWineStyleFortified#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemById#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getWinesGroupByDrinkId#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getSelectParams#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#createSelectScript#0;class#ItemDAO#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -916,37 +896,28 @@
       <file leaf-file-name="CatalogListActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="74" selection-start="2246" selection-end="2246" vertical-scroll-proportion="0.0">
+            <state line="89" column="0" selection-start="3979" selection-end="3979" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="catalog_list_header_view.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/catalog_list_header_view.xml">
+      <file leaf-file-name="CatalogSubCategory.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="38" selection-start="1305" selection-end="1305" vertical-scroll-proportion="-5.1">
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="63" selection-start="1876" selection-end="1931" vertical-scroll-proportion="-17.8">
-              <folding />
+            <state line="110" column="14" selection-start="3717" selection-end="3717" vertical-scroll-proportion="0.72925764">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#onCreateOptionsMenu#0;class#CatalogSubCategory#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CatalogByCategoryActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CatalogByCategoryActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="173" column="89" selection-start="7754" selection-end="7754" vertical-scroll-proportion="0.33186814">
+            <state line="173" column="89" selection-start="7754" selection-end="7754" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="method#onCreateOptionsMenu#0;class#CatalogByCategoryActivity#0" expanded="false" />
               </folding>
@@ -990,14 +961,14 @@
         <option value="$PROJECT_DIR$/res/layout/CatalogSubCategory.xml" />
         <option value="$PROJECT_DIR$/res/layout/catalog_sub_category.xml" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/catalog_list_header_view.xml" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" />
       </list>
     </option>
   </component>
@@ -1046,6 +1017,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1170,42 +1143,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iSimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iSimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1224,15 +1163,15 @@
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="MyAvd0" />
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="Downloaded.Files.Path" value="D:\projects-android\iSimple\libs" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="Downloaded.Files.Path" value="D:\projects-android\iSimple\libs" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="options.lastSelected" value="preferences.sourceCode.XML" />
     <property name="project.structure.side.proportion" value="0.26419467" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="75" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="75" />
     <property name="project.structure.last.edited" value="SDKs" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="75" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="75" />
     <property name="OverrideImplement.combined" value="false" />
     <property name="project.structure.proportion" value="0.15" />
@@ -1279,125 +1218,6 @@
       <recent name="D:\projects-android\iSimple\res\layout\views" />
     </key>
   </component>
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="Moments ago" ActionInfo="_Update">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-            <PATH vcs="svn" revision="115">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\enumerable\item\Sweetness.java</PATH>
-            <PATH vcs="svn" revision="115">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\activities\DefaultListFilterActivity.java</PATH>
-            <PATH vcs="svn" revision="115">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\domain\ui\FilterItem.java</PATH>
-            <PATH vcs="svn" revision="115">E:\NewWork\iSimple\sources\isimple-project\res\layout\category_filter_text_item_layout.xml</PATH>
-            <PATH vcs="svn" revision="115">E:\NewWork\iSimple\sources\isimple-project\res\layout\category_spirits_water_filter_header_layout.xml</PATH>
-            <PATH vcs="svn" revision="115">E:\NewWork\iSimple\sources\isimple-project\res\values\colors.xml</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-            <PATH vcs="svn" revision="115">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\enumerable\item\EnumDescriptable.java</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with tree conflicts" />
-          <option name="myStatusName" value="Merged with tree conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with property conflicts" />
-          <option name="myStatusName" value="Will be merged with property conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-          <PATH vcs="svn" revision="115">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\activities\CatalogByCategoryActivity.java</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Switched" />
-          <option name="myStatusName" value="Switched" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SWITCHED" />
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
-  </component>
   <component name="RunManager" selected="Android Application.iSimple">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
@@ -1431,19 +1251,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -1470,6 +1277,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1780,7 +1600,11 @@
       <created>1369060474131</created>
       <updated>1369060474131</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="IS - 62">
+      <created>1369074863102</created>
+      <updated>1369074863102</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1805,15 +1629,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.67782426" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2374462" sideWeight="0.67782426" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32357043" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30264995" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30822873" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
@@ -1821,10 +1642,10 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47838214" sideWeight="0.50071734" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32914925" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25244072" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26638773" sideWeight="0.49928263" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32496512" sideWeight="0.49928263" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1832,10 +1653,13 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25107604" sideWeight="0.61645746" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32217574" sideWeight="0.49928263" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.67782426" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2374462" sideWeight="0.67782426" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30264995" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1931,9 +1755,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/src/org/holoeverywhere/widget/BaseExpandableListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="22" selection-start="189" selection-end="189" vertical-scroll-proportion="0.12301013">
-          <folding />
-        </state>
+        <state line="7" column="22" selection-start="189" selection-end="189" vertical-scroll-proportion="0.12301013" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Item.java">
@@ -1945,9 +1767,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/catalog_sub_category.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="17" selection-start="2134" selection-end="2134" vertical-scroll-proportion="0.9225513">
-          <folding />
-        </state>
+        <state line="49" column="17" selection-start="2134" selection-end="2134" vertical-scroll-proportion="0.9225513" />
       </provider>
       <provider editor-type-id="android-designer">
         <state />
@@ -1955,16 +1775,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/parser/CatalogParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="62" selection-start="862" selection-end="862" vertical-scroll-proportion="0.21852387">
-          <folding />
-        </state>
+        <state line="23" column="62" selection-start="862" selection-end="862" vertical-scroll-proportion="0.21852387" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/search_result.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="39" selection-end="2133" vertical-scroll-proportion="0.02652106">
-          <folding />
-        </state>
+        <state line="1" column="0" selection-start="39" selection-end="2133" vertical-scroll-proportion="0.02652106" />
       </provider>
       <provider editor-type-id="android-designer">
         <state />
@@ -1991,16 +1807,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="251" column="97" selection-start="9180" selection-end="9180" vertical-scroll-proportion="0.68017364">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#onCreateOptionsMenu#0;class#CatalogSubCategory#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="67" column="55" selection-start="3045" selection-end="3045" vertical-scroll-proportion="0.72648335">
@@ -2020,33 +1826,29 @@
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="435" column="79" selection-start="23128" selection-end="23128" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="173" column="89" selection-start="7754" selection-end="7754" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="method#insertListData#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#updatePriceList#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getCountries#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getRegionsByCountry#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getWineAndRegions#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getRedWines#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getCategorySpirits#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getWineStyleFortified#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getItemById#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getWinesGroupByDrinkId#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getSelectParams#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#createSelectScript#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#onCreateOptionsMenu#0;class#CatalogByCategoryActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
+    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="74" selection-start="2246" selection-end="2246" vertical-scroll-proportion="0.0">
+        <state line="34" column="63" selection-start="1876" selection-end="1931" vertical-scroll-proportion="0.6681682">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/catalog_list_header_view.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="38" selection-start="1305" selection-end="1305" vertical-scroll-proportion="-5.1">
+        <state line="23" column="38" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.02652106">
           <folding />
         </state>
       </provider>
@@ -2054,18 +1856,19 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="63" selection-start="1876" selection-end="1931" vertical-scroll-proportion="-17.8">
+        <state line="89" column="0" selection-start="3979" selection-end="3979" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="173" column="89" selection-start="7754" selection-end="7754" vertical-scroll-proportion="0.33186814">
+        <state line="110" column="14" selection-start="3717" selection-end="3717" vertical-scroll-proportion="0.72925764">
           <folding>
-            <element signature="method#onCreateOptionsMenu#0;class#CatalogByCategoryActivity#0" expanded="false" />
+            <element signature="imports" expanded="true" />
+            <element signature="method#onCreateOptionsMenu#0;class#CatalogSubCategory#0" expanded="false" />
           </folding>
         </state>
       </provider>

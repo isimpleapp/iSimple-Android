@@ -87,8 +87,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         }
-
-        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }

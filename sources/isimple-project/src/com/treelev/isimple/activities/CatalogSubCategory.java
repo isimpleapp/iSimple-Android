@@ -22,6 +22,7 @@ import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.ListView;
 
 /**
  * Created with IntelliJ IDEA.
@@ -101,6 +102,16 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
         stopManagingCursor(cItems);
         cItems.close();
         new SortTask(this).execute(sortBy);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Cursor product = (Cursor) l.getAdapter().getItem(position);
+        Intent startIntent = new Intent(this, ProductInfoActivity.class);
+        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+        startActivity(startIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     @Override

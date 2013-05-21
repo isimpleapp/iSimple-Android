@@ -7,9 +7,11 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,6 +31,7 @@ import org.apache.http.util.ByteArrayBuffer;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.ListView;
 
 import java.io.BufferedInputStream;
@@ -47,6 +50,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     private SimpleCursorAdapter mListCategoriesAdapter;
     private Cursor cItems;
     private ProxyManager mProxyManager;
+    private View mHeader;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -56,15 +60,23 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
-        ListView listView = getListView();
-        View headerView = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
-        listView.addHeaderView(headerView, null, false);
         new SelectDataRandomTask(this).execute();
 //        ProxyManager proxyManager = new ProxyManager(this);
 //        SimpleAdapter simpleAdapter = new SimpleAdapter(this, proxyManager.getRandomItems(), R.layout.catalog_item_layout,
 //                Item.getUITags(), new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price,
 //                R.id.product_category});
 //        listView.setAdapter(simpleAdapter);
+    }
+
+    @Override
+    protected void onResume () {
+        super.onResume();
+        ListView listView = getListView();
+        if( mHeader != null) {
+            listView.removeHeaderView(mHeader);
+        }
+        mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
+        listView.addHeaderView(mHeader, null, false);
     }
 
     @Override

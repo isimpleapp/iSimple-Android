@@ -31,7 +31,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/enumerable/item/DrinkCategory.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/enumerable/item/DrinkCategory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -39,7 +38,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369071971771" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369072541404" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369132488943" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369133565459" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364204323218" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -896,21 +895,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ItemCursorAdapter.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ItemCursorAdapter.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="59" selection-start="3324" selection-end="3324" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DrinkCategory.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/enumerable/item/DrinkCategory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="76" selection-start="1523" selection-end="1523" vertical-scroll-proportion="1.0956522">
+            <state line="4" column="0" selection-start="103" selection-end="103" vertical-scroll-proportion="0.14782609">
               <folding />
             </state>
           </provider>
@@ -949,8 +937,8 @@
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/enumerable/item/DrinkCategory.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java" />
       </list>
     </option>
   </component>
@@ -1594,7 +1582,11 @@
       <created>1369132498131</created>
       <updated>1369132498131</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="IS - 137">
+      <created>1369133572102</created>
+      <updated>1369133572102</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1695,7 +1687,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IS - 138" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS - 137" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1709,7 +1701,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="IS-35 - меню через Action Bar&#10;IS-36 - добавил контрол. Поиск не реализован.&#10;" />
     <MESSAGE value="IS-36 - Поиск в категориях&#10;" />
     <MESSAGE value="litle Fixs&#10;" />
     <MESSAGE value="Fix crash for search&#10;" />
@@ -1734,6 +1725,7 @@
     <MESSAGE value="IS-133&#10;IS-134" />
     <MESSAGE value="IS - 62" />
     <MESSAGE value="IS - 138" />
+    <MESSAGE value="IS - 137" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1849,18 +1841,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="59" selection-start="3324" selection-end="3324" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/enumerable/item/DrinkCategory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="76" selection-start="1523" selection-end="1523" vertical-scroll-proportion="1.0956522">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="103" selection-end="103" vertical-scroll-proportion="0.14782609">
           <folding />
         </state>
       </provider>

@@ -2,7 +2,6 @@ package com.treelev.isimple.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
@@ -74,7 +73,6 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         itemPrice.setText(priceLabel != null ? priceLabel : "");
 
         itemDrinkCategory.setText(DrinkCategory.getDrinkCategory(cursor.getString(5)).getDescription());
-        Log.v("Category Drink", cursor.getString(5));
     }
 
     private String organizeItemNameLabel(String itemName) {

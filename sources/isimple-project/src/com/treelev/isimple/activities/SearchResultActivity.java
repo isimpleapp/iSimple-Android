@@ -23,6 +23,7 @@ import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.Toast;
 
 public class SearchResultActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
         ActionBar.OnNavigationListener {
@@ -183,9 +184,13 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     }
 
     private void updateList(int sortBy) {
-        stopManagingCursor(cItems);
-        cItems.close();
-        new SortTask(this, categoryID, sortBy).execute(mQuery);
+        if(cItems.getCount() == 0) {
+            Toast.makeText(this, this.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
+        } else {
+            stopManagingCursor(cItems);
+            cItems.close();
+            new SortTask(this, categoryID, sortBy).execute(mQuery);
+        }
     }
 
     private void createNavigation() {
@@ -248,6 +253,9 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
             mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
+            if(cItems.getCount() == 0) {
+                Toast.makeText(mContext, mContext.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
+            }
         }
     }
 

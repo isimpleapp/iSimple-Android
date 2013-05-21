@@ -127,7 +127,7 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                SearchResultActivity.backActivity = CatalogByCategoryActivity.class;
+                SearchResultActivity.backActivity = CatalogSubCategory.class;
                 SearchResultActivity.categoryID = mCategoryID;
                 return false;
             }
@@ -240,17 +240,17 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
     private class SortTask extends AsyncTask<Integer, Void, Cursor> {
 
         private Dialog mDialog;
-        private Context context;
+        private Context mContext;
 
         private SortTask(Context context) {
-            this.context = context;
+            this.mContext = context;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_title),
-                    context.getString(R.string.dialog_sort_message), false, false);
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+                    mContext.getString(R.string.dialog_sort_message), false, false);
         }
 
         @Override

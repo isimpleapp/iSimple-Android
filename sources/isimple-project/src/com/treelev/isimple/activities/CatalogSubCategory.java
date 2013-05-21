@@ -65,7 +65,8 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                back();
+                super.onBackPressed();
+                overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -73,7 +74,8 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
 
     @Override
     public void onBackPressed() {
-        back();
+        finish();
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
     void back() {

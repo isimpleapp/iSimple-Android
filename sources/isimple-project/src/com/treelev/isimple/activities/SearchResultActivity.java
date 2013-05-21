@@ -164,19 +164,13 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-//        super.onListItemClick(l, v, position, id);
-//        Cursor product = (Cursor) l.getAdapter().getItem(position);
-//        Intent startIntent = new Intent(this, ProductInfoActivity.class);
-//        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
-//        startActivity(startIntent);
-//        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
         if( product.getInt(8) > 1){
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = categoryID;
-            CatalogSubCategory.backActivity = Search.class;
+            CatalogSubCategory.backActivity = SearchResultActivity.class;
             startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(9));
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);

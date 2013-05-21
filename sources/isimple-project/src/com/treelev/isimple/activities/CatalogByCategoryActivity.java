@@ -63,8 +63,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         darkView.setOnClickListener(null);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
         filter = initFilter();
-        new SelectDataTask(this).execute(mCategoryID);
         initFilterListView();
+        new SelectDataTask(this).execute(mCategoryID);
     }
 
     @Override

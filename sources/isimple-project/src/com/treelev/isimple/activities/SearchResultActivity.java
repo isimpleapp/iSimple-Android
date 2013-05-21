@@ -45,7 +45,6 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
         rg.setOnCheckedChangeListener(this);
         ProxyManager mProxyManager = new ProxyManager(this);
-        handledIntent(getIntent());
         darkView = findViewById(R.id.category_dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +52,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
             public void onClick(View v) {
             }
         });
+        handledIntent(getIntent());
     }
 
     @Override

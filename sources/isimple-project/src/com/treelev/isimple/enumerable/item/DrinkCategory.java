@@ -45,10 +45,13 @@ public enum DrinkCategory implements Parcelable{
     }
 
     public static DrinkCategory getDrinkCategory(String drinkCategoryId) {
-        for (DrinkCategory drinkCategory : values()) {
-            if (drinkCategory.description != null && drinkCategory.description.equalsIgnoreCase(drinkCategoryId)) {
-                return drinkCategory;
-            }
+//        for (DrinkCategory drinkCategory : values()) {
+//            if (drinkCategory.description != null && drinkCategory.description.equalsIgnoreCase(drinkCategoryId)) {
+//                return drinkCategory;
+//            }
+//        }
+        if(drinkCategoryId != null){
+            return DrinkCategory.values()[Integer.valueOf(drinkCategoryId)];
         }
         return OTHER;
     }

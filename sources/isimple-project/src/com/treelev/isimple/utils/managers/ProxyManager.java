@@ -32,7 +32,11 @@ public class ProxyManager {
     }
 
     public Cursor getRandomItems() {
-        return ((ItemDAO)getObjectDAO(ItemDAO.ID)).getRandomItems();
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRandomItems();
+    }
+
+    public List<String> getYearsByCategory(int categoryId) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getYearsByCategory(categoryId);
     }
 
     public List<Map<String, ?>> convertItemsToUI(List<Item> itemList, int sortBy) {
@@ -52,7 +56,7 @@ public class ProxyManager {
     public Cursor getItemsByCategory(int categoryId, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
-                (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId, orderByField);
     }
 
@@ -67,7 +71,7 @@ public class ProxyManager {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO)getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, query, orderByField);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, query, orderByField);
     }
 
     private List<Map<String, ?>> convertItemsToUI(List<Item> itemList) {
@@ -108,18 +112,16 @@ public class ProxyManager {
     private BaseDAO getObjectDAO(int id) {
         if (mdao.containsKey(id)) {
             return mdao.get(id);
-        }
-        else {
+        } else {
             BaseDAO dao =
                     (id == ItemDAO.ID) ? new ItemDAO(context) :
-                    (id == ItemAvailabilityDAO.ID) ?  new ItemAvailabilityDAO(context) :
-                    (id == ShopDAO.ID) ? new ShopDAO(context) :
-                    (id == ChainDAO.ID) ? new ChainDAO(context) : null;
+                            (id == ItemAvailabilityDAO.ID) ? new ItemAvailabilityDAO(context) :
+                                    (id == ShopDAO.ID) ? new ShopDAO(context) :
+                                            (id == ChainDAO.ID) ? new ChainDAO(context) : null;
             if (dao != null) {
                 mdao.put(id, dao);
                 return dao;
-            }
-            else {
+            } else {
                 return null;
             }
         }

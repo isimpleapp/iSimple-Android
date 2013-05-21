@@ -15,6 +15,7 @@ import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.ui.FilterItem;
 import com.treelev.isimple.enumerable.item.EnumDescriptable;
 import com.treelev.isimple.enumerable.item.Sweetness;
+import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.ListActivity;
@@ -27,6 +28,7 @@ import java.util.List;
 public class DefaultListFilterActivity extends ListActivity implements ActionBar.OnNavigationListener {
 
     private int filterChildPosition;
+    private ProxyManager proxyManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
         filterChildPosition = getIntent().getIntExtra(FilterItem.EXTRA_POSITION, -1);
         setContentView(R.layout.filter_data_layout);
         createNavigation();
+        proxyManager = new ProxyManager(this);
         getListView().setAdapter(new FilterDataAdapter(this, 0, createFilterDataList(categoryId, filterChildPosition)));
     }
 
@@ -84,7 +87,7 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
     private List<FilterData> getCategoryData(int categoryId, int filterId) {
         switch (categoryId) {
             case R.id.category_wine_butt:
-                return getWineFilterData(filterId);
+                return getWineFilterData(categoryId, filterId);
             case R.id.category_spirits_butt:
                 return null;
             case R.id.category_sparkling_butt:
@@ -100,14 +103,14 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
         }
     }
 
-    private List<FilterData> getWineFilterData(int filterId) {
+    private List<FilterData> getWineFilterData(int categoryId, int filterId) {
         switch (filterId) {
             case 0:
                 return convertEnumDescToFilterData(Sweetness.getWineSweetness());
             case 2:
                 break;
             case 3:
-                break;
+                return convertYearsToFilterData(categoryId);
         }
         return null;
     }
@@ -116,6 +119,15 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
         List<FilterData> filterList = new ArrayList<FilterData>();
         for (EnumDescriptable enumItem : enumDescArray) {
             filterList.add(new FilterData(enumItem.getDescription()));
+        }
+        return filterList;
+    }
+
+    private List<FilterData> convertYearsToFilterData(int categoryId) {
+        List<FilterData> filterList = new ArrayList<FilterData>();
+        List<String> years = proxyManager.getYearsByCategory(categoryId);
+        for (String str : years) {
+            filterList.add(new FilterData(str));
         }
         return filterList;
     }

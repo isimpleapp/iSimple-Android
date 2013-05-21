@@ -153,13 +153,19 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
+        int sortBy = 0;
         switch (rgb) {
             case R.id.alphabet_sort:
-                updateList(ProxyManager.SORT_NAME_AZ);
+                sortBy = ProxyManager.SORT_NAME_AZ;
                 break;
             case R.id.price_sort:
-                updateList(ProxyManager.SORT_PRICE_UP);
+                sortBy = ProxyManager.SORT_PRICE_UP;
                 break;
+        }
+        if(cItems.getCount() == 0) {
+            Toast.makeText(this, this.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
+        } else {
+            new SortTask(this, categoryID, sortBy).execute(mQuery);
         }
     }
 
@@ -184,13 +190,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     }
 
     private void updateList(int sortBy) {
-        if(cItems.getCount() == 0) {
-            Toast.makeText(this, this.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
-        } else {
-            stopManagingCursor(cItems);
-            cItems.close();
-            new SortTask(this, categoryID, sortBy).execute(mQuery);
-        }
+
     }
 
     private void createNavigation() {
@@ -279,6 +279,8 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
             super.onPreExecute();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.dialog_select_data_message), false, false);
+            stopManagingCursor(cItems);
+            cItems.close();
         }
 
         @Override

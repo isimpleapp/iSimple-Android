@@ -90,20 +90,16 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
+        int sortBy = 0;
         switch (rgb) {
             case R.id.alphabet_sort:
-                updateList(ProxyManager.SORT_NAME_AZ);
+                sortBy = ProxyManager.SORT_NAME_AZ;
                 break;
             case R.id.price_sort:
-                updateList(ProxyManager.SORT_PRICE_UP);
+                sortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
-    }
-
-    private void updateList(int sortBy) {
-        stopManagingCursor(cItems);
-        cItems.close();
-        new SortTask(this).execute(sortBy);
+         new SortTask(this).execute(sortBy);
     }
 
     @Override
@@ -243,7 +239,7 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
         private Context mContext;
 
         private SortTask(Context context) {
-            this.mContext = context;
+            mContext = context;
         }
 
         @Override

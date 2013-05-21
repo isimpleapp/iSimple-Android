@@ -23,7 +23,7 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
 
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
-    private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
+    private final static int FORMAT_LOC_NAME_MAX_LENGTH = 29;
     private boolean mGroup;
 
     public ItemCursorAdapter(Cursor c, Activity activity, boolean group) {

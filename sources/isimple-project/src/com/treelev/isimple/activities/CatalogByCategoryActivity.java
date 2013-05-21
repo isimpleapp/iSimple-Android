@@ -79,14 +79,16 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
+        int sortBy = 0;
         switch (rgb) {
             case R.id.alphabet_sort:
-                updateList(ProxyManager.SORT_NAME_AZ);
+                sortBy = ProxyManager.SORT_NAME_AZ;
                 break;
             case R.id.price_sort:
-                updateList(ProxyManager.SORT_PRICE_UP);
+                sortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
+        new SortTask(this).execute(sortBy);
     }
 
     @Override
@@ -282,12 +284,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         filterListView.setAdapter(filterAdapter);
     }
 
-    private void updateList(int sortBy) {
-        stopManagingCursor(cItems);
-        cItems.close();
-        new SortTask(this).execute(sortBy);
-    }
-
     private void createNavigation() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Context context = getSupportActionBar().getThemedContext();
@@ -328,17 +324,17 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private class SortTask extends AsyncTask<Integer, Void, Cursor> {
 
         private Dialog mDialog;
-        private Context context;
+        private Context mContext;
 
         private SortTask(Context context) {
-            this.context = context;
+            mContext = context;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog = ProgressDialog.show(context, context.getString(R.string.dialog_title),
-                    context.getString(R.string.dialog_sort_message), false, false);
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+                    mContext.getString(R.string.dialog_sort_message), false, false);
         }
 
         @Override

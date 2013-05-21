@@ -53,10 +53,10 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         super.onCreate(sSavedInstanceState);
         setContentView(R.layout.catalog_list_layout);
         createNavigation();
-        ListView listView = getListView();
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
+        ListView listView = getListView();
         View headerView = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
         listView.addHeaderView(headerView, null, false);
         new SelectDataRandomTask(this).execute();

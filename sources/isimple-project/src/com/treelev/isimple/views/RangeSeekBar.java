@@ -452,7 +452,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
      * @return true if x-coordinate is in thumb range, false otherwise.
      */
     private boolean isInThumbRange(float touchX, double normalizedThumbValue) {
-        return Math.abs(touchX - normalizedToScreen(normalizedThumbValue)) <= thumbHalfWidth;
+//        return Math.abs(touchX - normalizedToScreen(normalizedThumbValue)) <= thumbHalfWidth;
+        return Math.abs(touchX - normalizedToScreen(normalizedThumbValue)) <= thumbWidth;
     }
 
     /**

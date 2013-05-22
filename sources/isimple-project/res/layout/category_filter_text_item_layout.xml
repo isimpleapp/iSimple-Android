@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="53dip"
             android:textSize="20sp"
-            android:background="@android:color/white"
+            android:background="@drawable/list_navigation_selector"
             android:textColor="@color/filter_item_text_color"
             android:paddingLeft="10dip"
             android:paddingBottom="13dip"

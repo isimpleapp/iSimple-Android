@@ -8,7 +8,6 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.activities.CatalogByCategoryActivity;
 
 public abstract class FilterItem {
-
     public final static int ITEM_ACTIVITY = 1;
     public final static int ITEM_INLINE = 2;
 

@@ -112,56 +112,56 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.search, menu);
-        SearchManager searcMenager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
-        mSearchView.setIconifiedByDefault(false);
-        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                SearchResultActivity.backActivity = CatalogSubCategory.class;
-                SearchResultActivity.categoryID = mCategoryID;
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        };
-        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    mDarkView.setVisibility(View.VISIBLE);
-                    mDarkView.getBackground().setAlpha(150);
-                } else {
-                    mDarkView.setVisibility(View.GONE);
-                    mItemSearch.collapseActionView();
-                    mSearchView.setQuery("", false);
-                }
-            }
-        });
-        MenuItem menuItem = menu.findItem(R.id.menu_search);
-        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                mDarkView.setVisibility(View.GONE);
-                return true; // Return true to collapse action view
-            }
-
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                return true;
-            }
-        });
-        mSearchView.setOnQueryTextListener(queryTextListener);
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getSupportMenuInflater().inflate(R.menu.search, menu);
+//        SearchManager searcMenager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+//        mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
+//        mSearchView.setIconifiedByDefault(false);
+//        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
+//        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                SearchResultActivity.backActivity = CatalogSubCategory.class;
+//                SearchResultActivity.categoryID = mCategoryID;
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        };
+//        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    mDarkView.setVisibility(View.VISIBLE);
+//                    mDarkView.getBackground().setAlpha(150);
+//                } else {
+//                    mDarkView.setVisibility(View.GONE);
+//                    mItemSearch.collapseActionView();
+//                    mSearchView.setQuery("", false);
+//                }
+//            }
+//        });
+//        MenuItem menuItem = menu.findItem(R.id.menu_search);
+//        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+//            @Override
+//            public boolean onMenuItemActionCollapse(MenuItem item) {
+//                mDarkView.setVisibility(View.GONE);
+//                return true; // Return true to collapse action view
+//            }
+//
+//            @Override
+//            public boolean onMenuItemActionExpand(MenuItem item) {
+//                return true;
+//            }
+//        });
+//        mSearchView.setOnQueryTextListener(queryTextListener);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {

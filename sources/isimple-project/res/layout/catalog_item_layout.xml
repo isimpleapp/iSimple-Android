@@ -5,6 +5,7 @@
               android:layout_height="135dip"
               android:background="@drawable/product_list_item_selector">
     <LinearLayout
+            android:id="@+id/color_item"
             android:orientation="vertical"
             android:layout_width="7dip"
             android:layout_height="match_parent" android:background="@color/product_wine_color">

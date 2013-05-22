@@ -3,6 +3,7 @@ package com.treelev.isimple.activities;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,6 +21,8 @@ import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
+import com.treelev.isimple.enumerable.item.ProductType;
+import com.treelev.isimple.enumerable.item.WineType;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.ExpandableListActivity;
@@ -50,6 +53,17 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         Item mProduct = proxyManager.getItemById(itemId);
         final ExpandableListView listView = getExpandableListView();
         View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
+//TODO: replace
+        TextView itemTitle = (TextView) headerView.findViewById(R.id.title_item);
+        ProductType productType = ProductType.getProductType("ВИНО_ВИСКИ");
+        itemTitle.setText(productType.getDescription());
+
+        String colorStr = productType.getColor();
+        if(colorStr == null ) {
+            colorStr = WineType.getWineType("розовое").getColor();
+        }
+        itemTitle.setBackgroundColor(Color.parseColor(colorStr));
+
         listView.addHeaderView(headerView, null, false);
         populateFormsFields(headerView, mProduct);
         List<ProductContent> productContentList = createExpandableItems(mProduct);

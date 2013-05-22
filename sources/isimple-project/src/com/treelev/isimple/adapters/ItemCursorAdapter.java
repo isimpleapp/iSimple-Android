@@ -2,15 +2,18 @@ package com.treelev.isimple.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Item;
-import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.enumerable.item.ProductType;
+import com.treelev.isimple.enumerable.item.WineType;
 import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.LinearLayout;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,7 +42,8 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         TextView itemLocName = (TextView) view.findViewById(R.id.item_loc_name);
         TextView itemVolume = (TextView) view.findViewById(R.id.item_volume);
         TextView itemPrice = (TextView) view.findViewById(R.id.item_price);
-        TextView itemDrinkCategory = (TextView) view.findViewById(R.id.product_category);
+        TextView itemProductType = (TextView) view.findViewById(R.id.product_category);
+        LinearLayout colorItem = (LinearLayout) view.findViewById(R.id.color_item);
 
         imageView.setImageResource(R.drawable.bottle_list_image_default);
         nameView.setText(organizeItemNameLabel(cursor.getString(1)));
@@ -71,8 +75,15 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
             priceLabel = String.format(formatPrice, priceLabel);
         }
         itemPrice.setText(priceLabel != null ? priceLabel : "");
+//TODO:
+        ProductType productType = ProductType.getProductType("ВИНО_ВИСКИ");
+        itemProductType.setText(productType.getDescription());
 
-        itemDrinkCategory.setText(DrinkCategory.getDrinkCategory(cursor.getString(5)).getDescription());
+        String colorStr = productType.getColor();
+        if(colorStr == null ) {
+               colorStr = WineType.getWineType("розовое").getColor();
+        }
+        colorItem.setBackgroundColor(Color.parseColor(colorStr));
     }
 
     private String organizeItemNameLabel(String itemName) {

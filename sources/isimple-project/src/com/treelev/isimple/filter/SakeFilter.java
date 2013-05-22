@@ -3,7 +3,7 @@ package com.treelev.isimple.filter;
 import android.content.Context;
 import android.view.View;
 import com.treelev.isimple.R;
-import com.treelev.isimple.activities.DefaultListFilterActivity;
+import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
 import com.treelev.isimple.domain.ui.DefaultActivityFilterItem;
 import com.treelev.isimple.domain.ui.DefaultSeekBarFilterItem;
 import com.treelev.isimple.domain.ui.FilterItem;

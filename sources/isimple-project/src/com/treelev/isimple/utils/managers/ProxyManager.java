@@ -39,6 +39,10 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getYearsByCategory(categoryId);
     }
 
+    public Map<String, List<String>> getRegionsByCategory(int categoryId) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRegionsByCategory(categoryId);
+    }
+
     public List<Map<String, ?>> convertItemsToUI(List<Item> itemList, int sortBy) {
         Comparator<Item> compare = null;
         switch (sortBy) {

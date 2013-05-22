@@ -1,4 +1,4 @@
-package com.treelev.isimple.activities;
+package com.treelev.isimple.activities.filter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
+import com.treelev.isimple.activities.CatalogByCategoryActivity;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.domain.ui.FilterItem;
 import com.treelev.isimple.enumerable.item.EnumDescriptable;
@@ -35,7 +36,7 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
         super.onCreate(savedInstanceState);
         int categoryId = getIntent().getIntExtra(FilterItem.EXTRA_CATEGORY_ID, -1);
         filterChildPosition = getIntent().getIntExtra(FilterItem.EXTRA_POSITION, -1);
-        setContentView(R.layout.filter_data_layout);
+        setContentView(R.layout.filter_list_layout);
         createNavigation();
         proxyManager = new ProxyManager(this);
         getListView().setAdapter(new FilterDataAdapter(this, 0, createFilterDataList(categoryId, filterChildPosition)));

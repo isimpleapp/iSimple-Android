@@ -145,6 +145,40 @@ public class ItemDAO extends BaseDAO {
         return years;
     }
 
+    public Map<String, List<String>> getRegionsByCategory(int categoryId) {
+        open();
+        Map<String, List<String>> regionsGroupByCountry = new HashMap<String, List<String>>();
+        String selectString = String.format("select distinct %s, %s from %s where", DatabaseSqlHelper.ITEM_REGION, DatabaseSqlHelper.ITEM_COUNTRY, DatabaseSqlHelper.ITEM_TABLE);
+        String formatScript = "%s %s %s";
+        if (categoryId == R.id.category_wine_butt) {
+            formatScript = "%s %s %s %s %s %s %s";
+        }
+        String sqlQueryString = String.format(formatScript, getSelectParams(selectString, categoryId));
+        Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String region = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_REGION));
+                String country = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_COUNTRY));
+                List<String> regions;
+                if (!TextUtils.isEmpty(region)) {
+                    if (regionsGroupByCountry.containsKey(country)) {
+                        regions = regionsGroupByCountry.get(country);
+                        if (!regions.contains(region)) {
+                            regions.add(region);
+                        }
+                    } else {
+                        regions = new ArrayList<String>();
+                        regions.add(region);
+                        regionsGroupByCountry.put(country, regions);
+                    }
+                }
+            }
+            cursor.close();
+        }
+        close();
+        return regionsGroupByCountry;
+    }
+
     public void insertListData(List<Item> items) {
         open();
         getDatabase().beginTransaction();

@@ -94,9 +94,9 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
-        SearchManager searcMenager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
         final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {

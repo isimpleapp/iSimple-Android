@@ -15,6 +15,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     private List<FilterItem> items;
     private LayoutInflater layoutInflater;
+    private View groupView;
 
     public FilterAdapter(Context context, Filter filter) {
         this.items = filter.getFilterContent();
@@ -58,10 +59,10 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.category_filter_group_layout, null);
+        if (groupView == null) {
+            groupView = layoutInflater.inflate(R.layout.category_filter_group_layout, null);
         }
-        return convertView;
+        return groupView;
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.holoeverywhere.widget.TextView;
 
 public class DefaultActivityFilterItem extends FilterItem {
     private LayoutInflater layoutInflater;
+    private View itemView;
 
     public DefaultActivityFilterItem(Context context, String label, Class activityClass) {
         super(context, ITEM_ACTIVITY, label, activityClass);
@@ -16,11 +17,11 @@ public class DefaultActivityFilterItem extends FilterItem {
 
     @Override
     public View renderView(View convertView) {
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.category_filter_text_item_layout, null);
-            TextView text = (TextView) convertView.findViewById(R.id.item_content);
+        if (itemView == null) {
+            itemView = layoutInflater.inflate(R.layout.category_filter_text_item_layout, null);
+            TextView text = (TextView) itemView.findViewById(R.id.item_content);
             text.setText(getLabel());
         }
-        return convertView;
+        return itemView;
     }
 }

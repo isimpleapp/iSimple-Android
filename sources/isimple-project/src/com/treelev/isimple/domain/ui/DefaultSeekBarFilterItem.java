@@ -13,6 +13,7 @@ import org.holoeverywhere.widget.LinearLayout;
 
 public class DefaultSeekBarFilterItem extends FilterItem {
     private LayoutInflater layoutInflater;
+    private View itemView;
 
     public DefaultSeekBarFilterItem(Context context) {
         super(context, ITEM_INLINE);
@@ -21,24 +22,24 @@ public class DefaultSeekBarFilterItem extends FilterItem {
 
     @Override
     public View renderView(View convertView) {
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.category_filter_seekbar_item_layout, null);
-            LinearLayout seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);
+        if (itemView == null) {
+            itemView = layoutInflater.inflate(R.layout.category_filter_seekbar_item_layout, null);
+            LinearLayout seekBarLayout = (LinearLayout) itemView.findViewById(R.id.seek_bar_layout);
             RangeSeekBar<Integer> seekBar = createSeekBar();
             seekBarLayout.addView(seekBar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getContext().getResources().getDisplayMetrics())));
         }
-        return convertView;
+        return itemView;
     }
 
     private RangeSeekBar<Integer> createSeekBar() {
         RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(20, 75, getContext());
-        seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
-            @Override
-            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-                Log.i("TAG", "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
-            }
-        });
+//        seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+//            @Override
+//            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+//                Log.i("TAG", "User selected new range values: MIN=" + minValue + ", MAX=" + maxValue);
+//            }
+//        });
         seekBar.setBackgroundColor(Color.WHITE);
         return seekBar;
     }

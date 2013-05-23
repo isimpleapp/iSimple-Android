@@ -8,10 +8,13 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -24,6 +27,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
+import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.filter.*;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
@@ -44,11 +48,18 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private ExpandableListView filterListView;
     private View footerView;
     private View darkView;
+    private RelativeLayout filterContainer;
+    private AnimationWithMargins filterCollapseAnimation;
+    private AnimationWithMargins filterExpandAnimation;
+    private TranslateAnimation filterInstantAnimation;
+    int newLayoutHeight = 120;
+    int oldLayoutHeight = 350;
+    final int myGroupPosition = 0;
     private Integer mCategoryID;
     private boolean mExpandFiltr = false;
     private ProxyManager mProxyManager;
     private com.treelev.isimple.filter.Filter filter;
-
+    private static final int ANIMATION_DURATION_IN_MILLIS = 500;
     public final static int RESULT_REQUEST_CODE = 1;
     public final static String EXTRA_RESULT_CHECKED = "isChecked";
     public final static String EXTRA_CHILD_POSITION = "position";
@@ -167,8 +178,21 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         filterTypeCheckBoxArray = new CheckBox[]{checkBoxRedWine, checkBoxWhiteWine, checkBoxPinkWine};*/
 
         mExpandFiltr = true;
-//        Animation anim = AnimationUtils.loadAnimation(this, R.anim.slide_down_anim);
-//        groupView.startAnimation(anim);
+        Log.e("!!!!!!!!!!!!!! onGroupExpand: ","getViewsHeight(listView) = " + getViewsHeight(filterListView));
+
+    }
+
+    private int getViewsHeight(View view) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int screenWidth = metrics.widthPixels;
+
+        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(screenWidth, View.MeasureSpec.EXACTLY);
+
+        view.measure(widthMeasureSpec, heightMeasureSpec);
+        return view.getMeasuredHeight();
     }
 
     @Override
@@ -282,6 +306,8 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         footerView.findViewById(R.id.reset_butt).setOnClickListener(resetButtonClick);
         filterListView.addFooterView(footerView, null, false);
         filterListView.setAdapter(filterAdapter);
+
+        Log.e("!!!!!!!!!!!!!! initFilterListView: ","getViewsHeight(listView) = " + getViewsHeight(filterListView));
     }
 
     private void createNavigation() {
@@ -304,22 +330,112 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private View.OnClickListener resetButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Animation anim = null;
             organizeView();
             //resetFilterCheckBox();
-//            anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_anim);
-//            listView.startAnimation(anim);
-            filterListView.collapseGroup(0);
-        }
+//            startCollapseFilterAnimation();
 
+            filterListView.collapseGroup(0);
+
+        }
         private void organizeView() {
             View groupView = filterListView.getChildAt(0);
             ((ViewGroup) groupView).removeView(groupView.findViewById(R.id.category_type_view));
             groupView.findViewById(R.id.group_name).setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
+            Log.e("!!!!!!!!!!!!!! organizeView: ","getViewsHeight(listView) = " + getViewsHeight(filterListView));
         }
+
     };
+
+//    private void organizeView() {
+//        View groupView = filterListView.getChildAt(0);
+//        ((ViewGroup) groupView).removeView(groupView.findViewById(R.id.category_type_view));
+//        groupView.findViewById(R.id.group_name).setVisibility(View.VISIBLE);
+//        footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);
+//        footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
+//        Log.e("!!!!!!!!!!!!!! organizeView: ","getViewsHeight(listView) = " + getViewsHeight(filterListView));
+//    }
+//
+//    private void initExpandFilterAnimationVariables() {
+//
+//        filterExpandAnimation = new AnimationWithMargins(0, 0, -newLayoutHeight, 0, filterContainer);
+//        filterExpandAnimation.setDuration(ANIMATION_DURATION_IN_MILLIS);
+//        filterExpandAnimation.setFillAfter(true);
+//
+//        filterInstantAnimation = new TranslateAnimation(0, 0, 0, -newLayoutHeight);
+//        filterInstantAnimation.setFillAfter(true);
+//    }
+//
+//    private void initCollapseFilterAnimationVariables() {
+//
+//        filterCollapseAnimation = new AnimationWithMargins(0, 0, -oldLayoutHeight, 0, filterContainer);
+//        filterCollapseAnimation.setDuration(ANIMATION_DURATION_IN_MILLIS);
+//        filterCollapseAnimation.setFillAfter(true);
+//
+//        filterInstantAnimation = new TranslateAnimation(0, 0, 0, -oldLayoutHeight);
+//        filterInstantAnimation.setFillAfter(true);
+//    }
+//
+//    private void startExpandFilterAnimation() {
+//        filterContainer.startAnimation(filterCollapseAnimation);
+//        filterCollapseAnimation.setAnimationListener(new Animation.AnimationListener() {
+//
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                organizeView();
+//                ((RelativeLayout.LayoutParams) filterContainer.getLayoutParams()).bottomMargin = -newLayoutHeight;
+//                filterContainer.requestLayout();
+//                filterContainer.startAnimation(filterInstantAnimation);
+////                filterContainer.startAnimation(filterExpandAnimation);
+//            }
+//        });
+//    }
+//    private void startCollapseFilterAnimation() {
+//
+//        filterContainer.startAnimation(filterExpandAnimation);
+//        filterExpandAnimation.setAnimationListener(new Animation.AnimationListener() {
+//
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//
+//                LinearLayout groupView = (LinearLayout) filterListView.getChildAt(myGroupPosition);
+//                groupView.findViewById(R.id.group_name).setVisibility(View.GONE);
+//                groupView.addView(filter.getFilterHeaderLayout(),
+//                        new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics())));
+//                footerView.findViewById(R.id.sort_group).setVisibility(View.GONE);
+//                footerView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
+//
+//                mExpandFiltr = true;
+//
+//                ((RelativeLayout.LayoutParams) filterContainer.getLayoutParams()).bottomMargin = -oldLayoutHeight;
+//                filterContainer.requestLayout();
+//                filterContainer.startAnimation(filterInstantAnimation);
+////                filterContainer.startAnimation(filterCollapseAnimation);
+//            }
+//        });
+//    }
 
     private class SortTask extends AsyncTask<Integer, Void, Cursor> {
 

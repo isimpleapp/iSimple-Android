@@ -4,10 +4,28 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@android:color/white">
+              android:background="@android:color/white"
+              >
+    <org.holoeverywhere.widget.TextView
+            android:layout_width="fill_parent"
+            android:layout_height="30dip"
+            android:text="Розовое вино"
+            android:id="@+id/title_item"
+            android:background="@color/wine_type_pink"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:height="30dip"
+            android:textStyle="bold"
+            android:textSize="13dip"/>
+    <HorizontalScrollView
+            android:id="@+id/horizontal_scroll_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
     <org.holoeverywhere.widget.ExpandableListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:groupIndicator="@null"
-            android:id="@android:id/list"/>
+            android:id="@android:id/list"
+            />
+    </HorizontalScrollView>
 </LinearLayout>

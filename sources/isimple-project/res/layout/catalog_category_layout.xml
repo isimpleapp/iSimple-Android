@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/filtration_view"
                 android:groupIndicator="@null"/>
-    </LinearLayout>
+    </RelativeLayout>
     <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

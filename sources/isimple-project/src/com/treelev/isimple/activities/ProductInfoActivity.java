@@ -52,14 +52,14 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         ProxyManager proxyManager = new ProxyManager(this);
         Item mProduct = proxyManager.getItemById(itemId);
         final ExpandableListView listView = getExpandableListView();
-        View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
+        final View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
 //TODO: replace
-        TextView itemTitle = (TextView) headerView.findViewById(R.id.title_item);
+        TextView itemTitle = (TextView) findViewById(R.id.title_item);
         ProductType productType = ProductType.getProductType("ВИНО_ВИСКИ");
         itemTitle.setText(productType.getDescription());
 
         String colorStr = productType.getColor();
-        if(colorStr == null ) {
+        if (colorStr == null) {
             colorStr = WineType.getWineType("розовое").getColor();
         }
         itemTitle.setBackgroundColor(Color.parseColor(colorStr));
@@ -70,53 +70,37 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
         BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
         listView.setAdapter(listAdapter);
 
-        LinearLayout lin = (LinearLayout)findViewById(R.id.list_layout);
-        final ImageView myImageView = (ImageView) headerView.findViewById(R.id.product_image);
-        myImageView.setOnTouchListener(new View.OnTouchListener() {
-            float firstKnownX = 0;
+//        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//        int widthDisplay = display.getWidth();
+        LinearLayout list_layout = (LinearLayout)headerView.findViewById(R.id.list_layout);
+        final LinearLayout lin_for_two_button = (LinearLayout) headerView.findViewById(R.id.linear_for_two_button);
+        ((RelativeLayout.LayoutParams) lin_for_two_button.getLayoutParams()).width = widthDisplay();
+        ((RelativeLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
+        lin_for_two_button.requestLayout();
 
-//            Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-//            int width = display.getWidth();
-//            int constMarginRight = getViewsWidth(myImageView);
+//        TextView titleItem = (TextView)findViewById(R.id.title_item);
+//        titleItem.setPadding(0,0,getViewsWidth(headerView) - width,0);
+//        ((LinearLayout.LayoutParams) titleItem.getLayoutParams()).rightMargin = getViewsWidth(headerView) - width;
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                float dx;
-//                Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "constMarginRight = " + constMarginRight);
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        dx = firstKnownX - event.getRawX();
-                        if (((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin + dx < 50 && ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin + dx> -41) {
-                            ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin += dx;
-                            myImageView.requestLayout();
-                            firstKnownX = event.getRawX();
-//                            Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_MOVE: ", "rightMargin = " + ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin);
-                        }
-                        break;
-                    case MotionEvent.ACTION_DOWN:
-                        firstKnownX = event.getRawX();
-//                        Log.e("!!!!!!!!!!!!!!!!!!!! ACTION_DOWN:", "rightMargin = " + ((RelativeLayout.LayoutParams) myImageView.getLayoutParams()).rightMargin);
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
     }
 
-//    private int getViewsWidth(View view) {
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//
-//        int screenWidth = metrics.widthPixels;
-//
-//        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(screenWidth, View.MeasureSpec.EXACTLY);
-//        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-//
-//        view.measure(widthMeasureSpec, heightMeasureSpec);
-//        return view.getMeasuredWidth();
-//    }
+    public int widthDisplay() {
+        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        return display.getWidth();
+    }
+
+    private int getViewsWidth(View view) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int screenWidth = metrics.widthPixels;
+
+        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(screenWidth, View.MeasureSpec.EXACTLY);
+        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+
+        view.measure(widthMeasureSpec, heightMeasureSpec);
+        return view.getMeasuredWidth();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

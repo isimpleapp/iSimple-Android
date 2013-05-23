@@ -1,9 +1,14 @@
 package com.treelev.isimple.adapters;
 
 import android.content.Context;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.ProductContent;
 import org.holoeverywhere.LayoutInflater;
@@ -16,9 +21,11 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
 
     private List<ProductContent> productContentList;
     private LayoutInflater layoutInflater;
+    private Display display;
 
     public ProductContentAdapter(Context context, List<ProductContent> productContentList) {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+         display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         this.productContentList = productContentList;
     }
 
@@ -60,6 +67,7 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         GroupViewHolder groupViewHolder;
+        int widthDisplay = display.getWidth();
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.product_info_expandable_group_layout, null);
             groupViewHolder = new GroupViewHolder();
@@ -67,6 +75,7 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
             groupViewHolder.text = (TextView) convertView.findViewById(R.id.group_name);
             convertView.setTag(groupViewHolder);
         } else {
+            ((AbsListView.LayoutParams) convertView.getLayoutParams()).width = widthDisplay + 50;
             groupViewHolder = (GroupViewHolder) convertView.getTag();
         }
         ProductContent productContent = getGroup(groupPosition);
@@ -78,12 +87,15 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildViewHolder childViewHolder;
+        int widthDisplay = display.getWidth();
+
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.expandable_item_layout, null);
             childViewHolder = new ChildViewHolder();
             childViewHolder.text = (TextView) convertView.findViewById(R.id.item_content);
             convertView.setTag(childViewHolder);
         } else {
+            ((AbsListView.LayoutParams) convertView.getLayoutParams()).width = widthDisplay;
             childViewHolder = (ChildViewHolder) convertView.getTag();
         }
         String content = getChild(groupPosition, childPosition);

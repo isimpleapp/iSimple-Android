@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import com.treelev.isimple.R;
+import com.treelev.isimple.activities.filter.DefaultExpandableListFilterActivity;
 import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
 import com.treelev.isimple.domain.ui.DefaultActivityFilterItem;
 import com.treelev.isimple.domain.ui.DefaultSeekBarFilterItem;
@@ -49,9 +50,10 @@ public class SpiritsFilter implements Filter, View.OnClickListener {
 
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_classifier), DefaultListFilterActivity.class));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_classifier), null));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_region),
+                DefaultExpandableListFilterActivity.class, null));
         filterItems.add(new DefaultSeekBarFilterItem(context));
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_region), DefaultListFilterActivity.class));
         return filterItems;
     }
 }

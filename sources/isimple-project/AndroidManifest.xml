@@ -23,7 +23,7 @@
                     android:value=".activities.SearchResultActivity" />
         </activity>
         <activity android:name=".activities.ProductInfoActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.filter.DefaultListFilterActivity"/>
+        <activity android:name=".activities.filter.DefaultListFilterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.SearchResultActivity"
                   android:launchMode="singleTop"
                   android:screenOrientation="portrait">
@@ -34,13 +34,13 @@
                     android:name="android.app.searchable"
                     android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".activities.filter.DefaultListFilterActivity"/>
-        <activity android:name=".activities.CatalogSubCategory">
+        <activity android:name=".activities.filter.DefaultListFilterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.CatalogSubCategory" android:screenOrientation="portrait">
             <meta-data
                     android:name="android.app.default_searchable"
                     android:value=".activities.SearchResultActivity" />
         </activity>
-        <activity android:name=".activities.filter.DefaultExpandableListFilterActivity"/>
+        <activity android:name=".activities.filter.DefaultExpandableListFilterActivity" android:screenOrientation="portrait"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
 </manifest>

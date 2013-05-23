@@ -12,7 +12,13 @@ import com.treelev.isimple.views.RangeSeekBar;
 import org.holoeverywhere.widget.LinearLayout;
 
 public class DefaultSeekBarFilterItem extends FilterItem {
+    private static final int DEFAULT_MIN_VALUE = 20;
+    private static final int DEFAULT_MAX_VALUE = 75;
+
     private LayoutInflater layoutInflater;
+
+    private int minValue = DEFAULT_MIN_VALUE;
+    private int maxValue = DEFAULT_MAX_VALUE;
 
     public DefaultSeekBarFilterItem(Context context) {
         super(context, ITEM_INLINE);
@@ -31,15 +37,19 @@ public class DefaultSeekBarFilterItem extends FilterItem {
 
             convertView.setTag(seekBar);
         }
+        RangeSeekBar<Integer> seekBar = (RangeSeekBar<Integer>) convertView.getTag();
+        seekBar.setSelectedMinValue(minValue);
+        seekBar.setSelectedMaxValue(maxValue);
         return convertView;
     }
 
     private RangeSeekBar<Integer> createSeekBar() {
-        RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(20, 75, getContext());
+        RangeSeekBar<Integer> seekBar = new RangeSeekBar<Integer>(DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, getContext());
         seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-
+                DefaultSeekBarFilterItem.this.maxValue = maxValue;
+                DefaultSeekBarFilterItem.this.minValue = minValue;
             }
         });
         seekBar.setBackgroundColor(Color.WHITE);

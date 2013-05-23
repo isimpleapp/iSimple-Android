@@ -42,16 +42,17 @@ public abstract class FilterItem {
         return label;
     }
 
-    public Class getActivityClass() {
+    protected Class getActivityClass() {
         return activityClass;
     }
 
-    public void process(Integer categoryId, Integer childPosition) {
+    protected Intent createIntent() {
+        return new Intent(getContext(), getActivityClass());
+    }
+
+    public void process() {
         if (itemType == ITEM_ACTIVITY) {
-            Intent intent = new Intent(context, activityClass);
-            intent.putExtra(EXTRA_CATEGORY_ID, categoryId);
-            intent.putExtra(EXTRA_POSITION, childPosition);
-            ((Activity) context).startActivityForResult(intent, CatalogByCategoryActivity.RESULT_REQUEST_CODE);
+            ((Activity) context).startActivityForResult(createIntent(), CatalogByCategoryActivity.RESULT_REQUEST_CODE);
             ((Activity) context).overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         }
     }

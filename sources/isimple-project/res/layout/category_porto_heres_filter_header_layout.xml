@@ -13,7 +13,7 @@
                 android:id="@+id/white_color_butt"
                 android:layout_weight="1"
                 android:background="@color/wine_type_red"
-                android:text="@string/porto_heres_type_white"
+                android:text="@string/porto_type_red"
                 android:textColor="@android:color/white"
                 android:gravity="center"/>
         <TextView
@@ -23,7 +23,7 @@
                 android:layout_weight="1"
                 android:background="@color/wine_type_white"
                 android:gravity="center"
-                android:text="@string/porto_heres_type_red"
+                android:text="@string/porto_type_white"
                 android:textColor="@android:color/black"/>
     </LinearLayout>
     <LinearLayout

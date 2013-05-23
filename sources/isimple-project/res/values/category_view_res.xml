@@ -9,10 +9,10 @@
     <string name="wine_type_red">КРАСНОЕ</string>
     <string name="wine_type_white">БЕЛОЕ</string>
     <string name="wine_type_pink">РОЗОВОЕ</string>
+    <string name="porto_type_red">КРАСНЫЙ</string>
+    <string name="porto_type_white">БЕЛЫЙ</string>
     <string name="sake_type_classic">Классическое</string>
     <string name="sake_type_author">Авторское</string>
-    <string name="porto_heres_type_white">Белое</string>
-    <string name="porto_heres_type_red">Красное</string>
     <string name="filter_label">Фильтрация</string>
     <string name="dialog_title">Подождите</string>
     <string name="dialog_search_message">Идет поиск…</string>
@@ -23,7 +23,8 @@
     <string name="filtration_butt_reset">Сброс</string>
     <string name="filter_item_sweetness">Сладость</string>
     <string name="filter_item_premiality">Премиальность</string>
-    <string name="filter_item_region">Регион</string>
+    <string name="filter_item_style">Стиль</string>
+    <string name="filter_item_region">Страна/Регион</string>
     <string name="filter_item_year">Год урожая</string>
     <string name="filter_item_classifier">Классификатор</string>
     <string name="filter_item_type">Тип напитка</string>

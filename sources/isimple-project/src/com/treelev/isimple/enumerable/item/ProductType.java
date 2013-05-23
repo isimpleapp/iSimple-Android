@@ -1,8 +1,10 @@
 package com.treelev.isimple.enumerable.item;
 
+import com.treelev.isimple.domain.ui.Presentable;
+
 import java.io.Serializable;
 
-public enum ProductType implements Serializable {
+public enum ProductType implements Serializable, Presentable {
     SPARKLING("ВИНО_ИГР", "Игристое", null),
     WINE("ВИНО_ВИНО", "Вино", null),
     CHAMPAGNE("ВИНО_ШАМП", "Шампанское", null),
@@ -41,6 +43,8 @@ public enum ProductType implements Serializable {
         this.color = color;
     }
 
+
+
     public String getName() {
         return name;
     }
@@ -69,5 +73,10 @@ public enum ProductType implements Serializable {
         else {
             return null;
         }
+    }
+
+    @Override
+    public String getLabel() {
+        return getDescription();
     }
 }

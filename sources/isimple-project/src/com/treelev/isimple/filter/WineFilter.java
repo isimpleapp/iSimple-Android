@@ -4,10 +4,12 @@ import android.content.Context;
 import android.view.View;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.filter.DefaultExpandableListFilterActivity;
-import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
 import com.treelev.isimple.domain.ui.DefaultActivityFilterItem;
 import com.treelev.isimple.domain.ui.DefaultSeekBarFilterItem;
 import com.treelev.isimple.domain.ui.FilterItem;
+import com.treelev.isimple.domain.ui.FilterItemData;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.enumerable.item.Sweetness;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.TextView;
@@ -60,10 +62,13 @@ public class WineFilter implements Filter, View.OnClickListener {
 
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_sweetness), DefaultListFilterActivity.class));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_sweetness),
+                FilterItemData.createFromPresentable(Sweetness.getWineSweetness())));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_year),
+                FilterItemData.getAvailableYears(context, DrinkCategory.WINE.ordinal())));
+        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_region),
+                DefaultExpandableListFilterActivity.class, null));
         filterItems.add(new DefaultSeekBarFilterItem(context));
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_region), DefaultExpandableListFilterActivity.class));
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_year), DefaultListFilterActivity.class));
         return filterItems;
     }
 }

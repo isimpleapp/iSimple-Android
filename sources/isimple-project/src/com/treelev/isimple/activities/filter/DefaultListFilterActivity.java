@@ -13,33 +13,44 @@ import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.CatalogByCategoryActivity;
 import com.treelev.isimple.adapters.NavigationListAdapter;
-import com.treelev.isimple.domain.ui.FilterItem;
-import com.treelev.isimple.enumerable.item.EnumDescriptable;
-import com.treelev.isimple.enumerable.item.Sweetness;
-import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.domain.ui.FilterItemData;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DefaultListFilterActivity extends ListActivity implements ActionBar.OnNavigationListener {
 
-    private int filterChildPosition;
-    private ProxyManager proxyManager;
+    private static final String BUNDLE_EXTRA = "bundle_extra";
+    private static final String FILTER_DATA = "filter_data";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int categoryId = getIntent().getIntExtra(FilterItem.EXTRA_CATEGORY_ID, -1);
-        filterChildPosition = getIntent().getIntExtra(FilterItem.EXTRA_POSITION, -1);
+//        int categoryId = getIntent().getIntExtra(FilterItem.EXTRA_CATEGORY_ID, -1);
+//        filterChildPosition = getIntent().getIntExtra(FilterItem.EXTRA_POSITION, -1);
         setContentView(R.layout.filter_list_layout);
         createNavigation();
-        proxyManager = new ProxyManager(this);
-        getListView().setAdapter(new FilterDataAdapter(this, 0, createFilterDataList(categoryId, filterChildPosition)));
+        getListView().setAdapter(new FilterDataAdapter(this, 0, getFilterData()));
+    }
+
+    private FilterItemData[] getFilterData() {
+        Bundle bundle = getIntent().getBundleExtra(BUNDLE_EXTRA);
+        FilterItemData[] items = (FilterItemData[])bundle.getParcelableArray(FILTER_DATA);
+        if (items == null)
+            items = new FilterItemData[0];
+
+        return items;
+    }
+
+    public static void putFilterData(Intent intent, FilterItemData[] filterData) {
+        Bundle bundle = intent.getBundleExtra(BUNDLE_EXTRA);
+        if (bundle == null) {
+            bundle = new Bundle();
+            intent.putExtra(BUNDLE_EXTRA, bundle);
+        }
+        bundle.putParcelableArray(FILTER_DATA, filterData);
     }
 
     @Override
@@ -62,7 +73,7 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
         Intent resultIntent = new Intent();
         boolean isAnyItemCheck = isAnyItemCheck();
-        resultIntent.putExtra(CatalogByCategoryActivity.EXTRA_CHILD_POSITION, filterChildPosition);
+//        resultIntent.putExtra(CatalogByCategoryActivity.EXTRA_CHILD_POSITION, filterChildPosition);
         if (isAnyItemCheck) {
             resultIntent.putExtra(CatalogByCategoryActivity.EXTRA_RESULT_CHECKED, isAnyItemCheck);
         }
@@ -79,58 +90,6 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
             }
         }
         return false;
-    }
-
-    private List<FilterData> createFilterDataList(int categoryId, int filterId) {
-        return getCategoryData(categoryId, filterId);
-    }
-
-    private List<FilterData> getCategoryData(int categoryId, int filterId) {
-        switch (categoryId) {
-            case R.id.category_wine_butt:
-                return getWineFilterData(categoryId, filterId);
-            case R.id.category_spirits_butt:
-                return null;
-            case R.id.category_sparkling_butt:
-                return null;
-            case R.id.category_sake_butt:
-                return null;
-            case R.id.category_porto_heres_butt:
-                return null;
-            case R.id.category_water_butt:
-                return null;
-            default:
-                return null;
-        }
-    }
-
-    private List<FilterData> getWineFilterData(int categoryId, int filterId) {
-        switch (filterId) {
-            case 0:
-                return convertEnumDescToFilterData(Sweetness.getWineSweetness());
-            case 2:
-                break;
-            case 3:
-                return convertYearsToFilterData(categoryId);
-        }
-        return null;
-    }
-
-    private List<FilterData> convertEnumDescToFilterData(EnumDescriptable[] enumDescArray) {
-        List<FilterData> filterList = new ArrayList<FilterData>();
-        for (EnumDescriptable enumItem : enumDescArray) {
-            filterList.add(new FilterData(enumItem.getDescription()));
-        }
-        return filterList;
-    }
-
-    private List<FilterData> convertYearsToFilterData(int categoryId) {
-        List<FilterData> filterList = new ArrayList<FilterData>();
-        List<String> years = proxyManager.getYearsByCategory(categoryId);
-        for (String str : years) {
-            filterList.add(new FilterData(str));
-        }
-        return filterList;
     }
 
     private void createNavigation() {
@@ -150,12 +109,12 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
     }
 
-    private class FilterDataAdapter extends ArrayAdapter<FilterData> implements View.OnClickListener {
+    private class FilterDataAdapter extends ArrayAdapter<FilterItemData> implements View.OnClickListener {
 
         private LayoutInflater inflater;
 
-        public FilterDataAdapter(Context context, int textViewResourceId, List<FilterData> objects) {
-            super(context, textViewResourceId, objects);
+        public FilterDataAdapter(Context context, int textViewResourceId, FilterItemData[] filterData) {
+            super(context, textViewResourceId, filterData);
             inflater = LayoutInflater.from(context);
         }
 
@@ -172,9 +131,9 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            FilterData filterData = getItem(position);
-            viewHolder.textView.setText(filterData.name);
-            viewHolder.checkBox.setChecked(filterData.check);
+            FilterItemData filterData = getItem(position);
+            viewHolder.textView.setText(filterData.getName());
+            viewHolder.checkBox.setChecked(filterData.isChecked());
             return convertView;
         }
 
@@ -187,16 +146,6 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
         private class ViewHolder {
             TextView textView;
             CheckBox checkBox;
-        }
-    }
-
-    private class FilterData {
-        String name;
-        boolean check;
-
-        private FilterData(String name) {
-            this.name = name;
-            this.check = false;
         }
     }
 }

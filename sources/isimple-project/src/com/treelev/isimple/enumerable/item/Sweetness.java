@@ -1,8 +1,10 @@
 package com.treelev.isimple.enumerable.item;
 
+import com.treelev.isimple.domain.ui.Presentable;
+
 import java.io.Serializable;
 
-public enum Sweetness implements Serializable, EnumDescriptable {
+public enum Sweetness implements Serializable, Presentable {
     DRY("Cухое"), MEDIUM_DRY("Полусухое"),
     MEDIUM_SWEET("Полусладкое"), SWEET("Сладкое"),
     CHAMPAGNE_BRUT("Брют"), CHAMPAGNE_XBRUT("Экстра брют"),
@@ -20,6 +22,10 @@ public enum Sweetness implements Serializable, EnumDescriptable {
     }
 
     @Override
+    public String getLabel() {
+        return getDescription();
+    }
+
     public String getDescription() {
         return description;
     }
@@ -33,15 +39,15 @@ public enum Sweetness implements Serializable, EnumDescriptable {
         return OTHER;
     }
 
-    public static EnumDescriptable[] getWineSweetness() {
+    public static Presentable[] getWineSweetness() {
         return new Sweetness[] { DRY, MEDIUM_DRY, MEDIUM_SWEET, SWEET };
     }
 
-    public static EnumDescriptable[] getChampagneSweetness() {
+    public static Presentable[] getSparklingSweetness() {
         return new Sweetness[] { CHAMPAGNE_BRUT, CHAMPAGNE_XBRUT, DRY, MEDIUM_DRY, MEDIUM_SWEET, SWEET };
     }
 
-    public static EnumDescriptable[] getPortoSweetness() {
+    public static Presentable[] getPortoSweetness() {
         return new Sweetness[] { PORTO_DRY, PORTO_SWEET };
     }
 }

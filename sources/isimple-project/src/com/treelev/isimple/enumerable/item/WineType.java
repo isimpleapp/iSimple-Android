@@ -1,16 +1,9 @@
 package com.treelev.isimple.enumerable.item;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mhviedchenia
- * Date: 22.05.13
- * Time: 17:34
- * To change this template use File | Settings | File Templates.
- */
 public enum WineType {
-    WHITE("белое",  "#FDEFC0"),
-    RED("красное",  "#C21018"),
-    PINK("розовое",  "#F388A6"),
+    WHITE("Белое",  "#FDEFC0"),
+    RED("Красное",  "#C21018"),
+    PINK("Розовое",  "#F388A6"),
     OTHER("Other" , "#000000");
 
     private String description;
@@ -23,7 +16,6 @@ public enum WineType {
         this.description = description;
         this.color = color;
     }
-
 
     public String getDescription() {
         return description;

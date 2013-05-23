@@ -197,7 +197,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        filter.getFilterContent().get(childPosition).process(mCategoryID, childPosition);
+        filter.getFilterContent().get(childPosition).process();
         return false;
     }
 

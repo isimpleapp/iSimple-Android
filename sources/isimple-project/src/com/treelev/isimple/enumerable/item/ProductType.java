@@ -8,7 +8,7 @@ public enum ProductType implements Serializable, Presentable {
     SPARKLING("ВИНО_ИГР", "Игристое", null),
     WINE("ВИНО_ВИНО", "Вино", null),
     CHAMPAGNE("ВИНО_ШАМП", "Шампанское", null),
-    PORTO("ВИНО_ПОРТО", "Порто", null),
+    PORTO("ВИНО_ПОРТО", "Портвейн", null),
     HERES("ВИНО_ХЕРЕС", "Херес", "#FDEFC0"),
     WHISKY("ВИНО_ВИСКИ", "Виски", "#E75202"),
     SAKE_AUT("СТ_АВТ", "Саке авторское", "#E2E2E2"),
@@ -22,7 +22,7 @@ public enum ProductType implements Serializable, Presentable {
     WATER("ПРОД_ВОДА", "Вода", "#A6E4E4"),
     JUICE("ПРОД_СОКИ", "Соки", "#E1E234"),
     SYRUP("ПРОД_СИРОП", "Сиропы", "#E1E234"),
-    GRAPPA("ГРАППА_ГРА", "Граппа","#DBBE61"),
+    GRAPPA("ГРАППА_ГРА", "Граппа", "#DBBE61"),
     OTHER("ДРУГОЕ", "Другое", "#000000"),
 
     TEQUILA("КСН_ТЕКИЛА", "Текила", "#000000"),
@@ -43,8 +43,6 @@ public enum ProductType implements Serializable, Presentable {
         this.color = color;
     }
 
-
-
     public String getName() {
         return name;
     }
@@ -55,6 +53,18 @@ public enum ProductType implements Serializable, Presentable {
 
     public String getColor() {
         return color;
+    }
+
+    public static Presentable[] getSpiritsTypes() {
+        return new ProductType[]{COGNAC, WHISKY, ARMAGNAC, GRAPPA, LIQUOR, RUM, CASHASA};
+    }
+
+    public static Presentable[] getPortoHeresTypes() {
+        return new ProductType[]{PORTO, HERES};
+    }
+
+    public static Presentable[] getWaterTypes() {
+        return new ProductType[]{WATER, JUICE, ENERGY, SYRUP};
     }
 
     public static ProductType getProductType(String typeId) {

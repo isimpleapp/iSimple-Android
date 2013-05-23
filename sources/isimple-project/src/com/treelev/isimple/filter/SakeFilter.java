@@ -3,7 +3,6 @@ package com.treelev.isimple.filter;
 import android.content.Context;
 import android.view.View;
 import com.treelev.isimple.R;
-import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
 import com.treelev.isimple.domain.ui.*;
 import com.treelev.isimple.enumerable.item.ProductType;
 import org.holoeverywhere.LayoutInflater;
@@ -58,7 +57,7 @@ public class SakeFilter implements Filter, View.OnClickListener {
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
         filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_style),
-                FilterItemData.createFromPresentable(new Presentable[] { ProductType.SAKE, ProductType.SAKE_AUT })));
+                FilterItemData.createFromPresentable(new Presentable[]{ProductType.SAKE, ProductType.SAKE_AUT})));
         filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_premiality), null));
         filterItems.add(new DefaultSeekBarFilterItem(context));
         return filterItems;

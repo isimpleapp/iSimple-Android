@@ -127,7 +127,7 @@ public class ItemDAO extends BaseDAO {
         List<String> years = new ArrayList<String>();
         String selectString = String.format("select distinct %s from %s where", DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_TABLE);
         String formatScript = "%s %s %s";
-        if (categoryId == R.id.category_wine_butt) {
+        if (categoryId == R.id.category_wine_butt || categoryId == 0) {
             formatScript = "%s %s %s %s %s %s %s";
         }
         String sqlQueryString = String.format(formatScript, getSelectParams(selectString, categoryId));
@@ -512,9 +512,11 @@ public class ItemDAO extends BaseDAO {
     private Object[] getSelectParams(String firstPartSelectScript, Integer categoryId) {
         switch (categoryId) {
             case R.id.category_wine_butt:
+            case 0:
                 return new String[]{firstPartSelectScript, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 0 and ",
                         DatabaseSqlHelper.ITEM_STYLE, " <> 1 and ", DatabaseSqlHelper.ITEM_STYLE, " <> 3"};
             case R.id.category_sparkling_butt:
+            case 1:
                 return new String[]{firstPartSelectScript, DatabaseSqlHelper.ITEM_STYLE, " = 1"};
             case R.id.category_porto_heres_butt:
                 return new String[]{firstPartSelectScript, DatabaseSqlHelper.ITEM_STYLE, " = 3"};

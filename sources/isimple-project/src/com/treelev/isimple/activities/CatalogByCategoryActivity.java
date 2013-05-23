@@ -13,7 +13,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -211,7 +210,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if( product.getInt(8) > 1){
+        if (product.getInt(8) > 1) {
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = mCategoryID;
             CatalogSubCategory.backActivity = CatalogByCategoryActivity.class;
@@ -261,7 +260,9 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             case R.id.category_wine_butt:
                 return new WineFilter(this);
             case R.id.category_spirits_butt:
-                return new SpiritsFilter(this);
+                SpiritsFilter spiritsFilter = new SpiritsFilter(this);
+                //spiritsFilter.setCategoryId(mCategoryID);
+                return spiritsFilter;
             case R.id.category_sparkling_butt:
                 return new SparklingFilter(this);
             case R.id.category_sake_butt:
@@ -269,7 +270,9 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             case R.id.category_porto_heres_butt:
                 return new PortoHeresFilter(this);
             case R.id.category_water_butt:
-                return new WaterFilter(this);
+                WaterFilter waterFilter = new WaterFilter(this);
+                //waterFilter.setCategoryId(mCategoryID);
+                return waterFilter;
             default:
                 return null;
         }
@@ -486,7 +489,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
         @Override
         protected Cursor doInBackground(Integer... params) {
-               return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
+            return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
         }
 
         @Override

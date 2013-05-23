@@ -115,7 +115,6 @@ public class FilterItemData implements Parcelable {
     public static FilterItemData[] getAvailableYears(Context context, int categoryId) {
         ProxyManager proxyManager = new ProxyManager(context);
         List<String> years = proxyManager.getYearsByCategory(categoryId);
-
         FilterItemData[] filterList = new FilterItemData[years.size()];
         for (int i = 0; i < years.size(); i++) {
             filterList[i] = new FilterItemData(years.get(i));

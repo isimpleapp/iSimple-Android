@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+    <RadioGroup
+            android:layout_width="match_parent"
+            android:id="@+id/group_shop"
+            android:visibility="visible"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+        <org.holoeverywhere.widget.RadioButton
+                android:layout_weight="1"
+                android:layout_height="50dip"
+                android:id="@+id/group_list"
+                android:checked="true"
+                android:text="@string/group_list"
+                android:gravity="center"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@drawable/tab_indicator_left"
+                android:button="@android:color/transparent"
+                android:paddingRight="1dip"/>
+
+
+        <org.holoeverywhere.widget.RadioButton
+                android:layout_weight="1"
+                android:layout_height="50dip"
+                android:id="@+id/group_map"
+                android:text="@string/group_map"
+                android:gravity="center"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@drawable/tab_indicator_between"
+                android:checked="false"
+                android:button="@android:color/transparent"/>
+
+        <org.holoeverywhere.widget.RadioButton
+                android:layout_weight="1"
+                android:layout_height="50dip"
+                android:id="@+id/group_network"
+                android:text="@string/group_network"
+                android:gravity="center"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:background="@drawable/tab_indicator_right"
+                android:checked="false"
+                android:button="@android:color/transparent"/>
+    </RadioGroup>
+
+    <View
+            android:id="@+id/category_dark_view"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:background="@color/category_filter_text"
+            />
+</RelativeLayout>

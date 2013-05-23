@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -81,12 +82,6 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-//        super.onListItemClick(l, v, position, id);
-//        HashMap product = (HashMap) l.getAdapter().getItem(position);
-//        Intent startIntent = new Intent(this, ProductInfoActivity.class);
-//        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, (String) product.get(Item.UI_TAG_ID));
-//        startActivity(startIntent);
-//        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
@@ -161,6 +156,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        Log.v("onNavigationItemSelected", "itemPosition=" + String.valueOf(itemPosition) + " itemId=" + String.valueOf(itemId));
         return false;
     }
 

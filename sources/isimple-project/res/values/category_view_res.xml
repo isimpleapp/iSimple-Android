@@ -3,9 +3,9 @@
     <string name="filtration_group_name">Фильтрация</string>
     <string name="sort_label_alphabet">ПО АЛФАВИТУ</string>
     <string name="sort_label_price">ПО ЦЕНЕ</string>
-    <string name="group_network">СЕТИ</string>
+    <string name="group_chain">СЕТИ</string>
     <string name="group_map">НА КАРТЕ</string>
-    <string name="group_list">СПИСОКОМ</string>
+    <string name="group_list">СПИСКОМ</string>
     <string name="wine_type_red">КРАСНОЕ</string>
     <string name="wine_type_white">БЕЛОЕ</string>
     <string name="wine_type_pink">РОЗОВОЕ</string>

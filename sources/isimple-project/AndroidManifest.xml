@@ -41,6 +41,7 @@
                     android:value=".activities.SearchResultActivity" />
         </activity>
         <activity android:name=".activities.filter.DefaultExpandableListFilterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ShopsActivity" android:screenOrientation="portrait"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
 </manifest>

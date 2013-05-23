@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
@@ -208,10 +209,33 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+        getSupportActionBar().setSelectedNavigationItem(0);
     }
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        Intent newIntent = null;
+        switch (itemPosition) {
+            case 0: //Catalog
+                break;
+            case 1: //Shops
+                newIntent = new Intent(this, ShopsActivity.class);
+                break;
+            case 2: //Favorites
+                break;
+            case 3: //Basket
+                break;
+            case 4: //Scan Code
+                break;
+            default:
+                Log.v("Exception", "Unkown item menu");
+        }
+        if( newIntent != null )
+        {
+            getSupportActionBar().setSelectedNavigationItem(0);
+            startActivity(newIntent);
+            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+        }
         return false;
     }
 

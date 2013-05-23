@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
@@ -78,16 +79,6 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
-    void back() {
-        Intent intent = new Intent(this, backActivity);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, categoryID);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
-    }
-
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
         int sortBy = 0;
@@ -112,59 +103,30 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getSupportMenuInflater().inflate(R.menu.search, menu);
-//        SearchManager searcMenager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-//        mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
-//        mSearchView.setIconifiedByDefault(false);
-//        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
-//        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                SearchResultActivity.backActivity = CatalogSubCategory.class;
-//                SearchResultActivity.categoryID = mCategoryID;
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        };
-//        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    mDarkView.setVisibility(View.VISIBLE);
-//                    mDarkView.getBackground().setAlpha(150);
-//                } else {
-//                    mDarkView.setVisibility(View.GONE);
-//                    mItemSearch.collapseActionView();
-//                    mSearchView.setQuery("", false);
-//                }
-//            }
-//        });
-//        MenuItem menuItem = menu.findItem(R.id.menu_search);
-//        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                mDarkView.setVisibility(View.GONE);
-//                return true; // Return true to collapse action view
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                return true;
-//            }
-//        });
-//        mSearchView.setOnQueryTextListener(queryTextListener);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        Intent newIntent = null;
+        switch (itemPosition) {
+            case 0: //Catalog
+                break;
+            case 1: //Shops
+                newIntent = new Intent(this, ShopsActivity.class);
+                break;
+            case 2: //Favorites
+                break;
+            case 3: //Basket
+                break;
+            case 4: //Scan Code
+                break;
+            default:
+                Log.v("Exception", "Unkown item menu");
+        }
+        if( newIntent != null )
+        {
+            getSupportActionBar().setSelectedNavigationItem(0);
+            startActivity(newIntent);
+            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+        }
         return false;
     }
 
@@ -192,6 +154,7 @@ public class CatalogSubCategory extends ListActivity implements RadioGroup.OnChe
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+        getSupportActionBar().setSelectedNavigationItem(0);
     }
 
     private ProxyManager getProxyManager() {

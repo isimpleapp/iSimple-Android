@@ -42,7 +42,7 @@
                 android:layout_weight="1"
                 android:layout_height="50dip"
                 android:id="@+id/group_network"
-                android:text="@string/group_network"
+                android:text="@string/group_chain"
                 android:gravity="center"
                 style="?android:attr/listSeparatorTextViewStyle"
                 android:background="@drawable/tab_indicator_right"
@@ -50,10 +50,4 @@
                 android:button="@android:color/transparent"/>
     </RadioGroup>
 
-    <View
-            android:id="@+id/category_dark_view"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:background="@color/category_filter_text"
-            />
 </RelativeLayout>

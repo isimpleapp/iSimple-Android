@@ -154,6 +154,28 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+        Intent newIntent = null;
+        switch (itemPosition) {
+            case 0: //Catalog
+                break;
+            case 1: //Shops
+                newIntent = new Intent(this, ShopsActivity.class);
+                break;
+            case 2: //Favorites
+                break;
+            case 3: //Basket
+                break;
+            case 4: //Scan Code
+                break;
+            default:
+                Log.v("Exception", "Unkown item menu");
+        }
+        if( newIntent != null )
+        {
+            getSupportActionBar().setSelectedNavigationItem(0);
+            startActivity(newIntent);
+            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+        }
         return false;
     }
 
@@ -328,6 +350,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+        getSupportActionBar().setSelectedNavigationItem(0);
     }
 
     private View.OnClickListener resetButtonClick = new View.OnClickListener() {

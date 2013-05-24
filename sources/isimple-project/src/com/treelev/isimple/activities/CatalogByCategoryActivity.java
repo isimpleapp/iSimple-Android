@@ -27,6 +27,7 @@ import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
+import com.treelev.isimple.domain.ui.FilterItem;
 import com.treelev.isimple.filter.*;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
@@ -59,7 +60,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     private ProxyManager mProxyManager;
     private com.treelev.isimple.filter.Filter filter;
     private static final int ANIMATION_DURATION_IN_MILLIS = 500;
-    public final static int RESULT_REQUEST_CODE = 1;
     public final static String EXTRA_RESULT_CHECKED = "isChecked";
     public final static String EXTRA_CHILD_POSITION = "position";
 
@@ -188,19 +188,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
                         (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics())));
         footerView.findViewById(R.id.sort_group).setVisibility(View.GONE);
         footerView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
-        /*RelativeLayout categoryTypeLayout = (RelativeLayout) groupView.findViewById(R.id.category_type_view);
-        categoryTypeLayout.setVisibility(View.VISIBLE);
-        categoryTypeLayout.findViewById(R.id.red_wine_butt).setOnClickListener(categoryTypeClick);
-        categoryTypeLayout.findViewById(R.id.white_wine_butt).setOnClickListener(categoryTypeClick);
-        categoryTypeLayout.findViewById(R.id.pink_wine_butt).setOnClickListener(categoryTypeClick);
-        CheckBox checkBoxRedWine = (CheckBox) categoryTypeLayout.findViewById(R.id.red_wine_check);
-        CheckBox checkBoxWhiteWine = (CheckBox) categoryTypeLayout.findViewById(R.id.white_wine_check);
-        CheckBox checkBoxPinkWine = (CheckBox) categoryTypeLayout.findViewById(R.id.pink_wine_check);
-        filterTypeCheckBoxArray = new CheckBox[]{checkBoxRedWine, checkBoxWhiteWine, checkBoxPinkWine};*/
-
         mExpandFiltr = true;
-        Log.e("!!!!!!!!!!!!!! onGroupExpand: ","getViewsHeight(listView) = " + getViewsHeight(filterListView));
-
     }
 
     private int getViewsHeight(View view) {
@@ -259,21 +247,11 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                boolean isItemChecked = data.getBooleanExtra(EXTRA_RESULT_CHECKED, false);
-                int childPosition = data.getIntExtra(EXTRA_CHILD_POSITION, -1);
-                //TODO доделать изменение цвета текста при выборе
-                /*filterListView.getI
-                TextView filterItemText = (TextView) filterLayout.findViewById(R.id.item_content);
-                int color;
-                if (isItemChecked) {
-                    color = Color.BLACK;
-                } else {
-                    color = getResources().getColor(R.color.filter_item_text_color);
-                }
-                filterItemText.setTextColor(color);*/
-            }
+        boolean processed;
+        for (FilterItem filterItem : filter.getFilterContent()) {
+            processed = filterItem.processResult(requestCode, resultCode, data);
+            if (processed)
+                break;
         }
     }
 
@@ -282,9 +260,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             case R.id.category_wine_butt:
                 return new WineFilter(this);
             case R.id.category_spirits_butt:
-                SpiritsFilter spiritsFilter = new SpiritsFilter(this);
-                //spiritsFilter.setCategoryId(mCategoryID);
-                return spiritsFilter;
+                return new SpiritsFilter(this);
             case R.id.category_sparkling_butt:
                 return new SparklingFilter(this);
             case R.id.category_sake_butt:
@@ -292,9 +268,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             case R.id.category_porto_heres_butt:
                 return new PortoHeresFilter(this);
             case R.id.category_water_butt:
-                WaterFilter waterFilter = new WaterFilter(this);
-                //waterFilter.setCategoryId(mCategoryID);
-                return waterFilter;
+                return new WaterFilter(this);
             default:
                 return null;
         }
@@ -331,8 +305,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         footerView.findViewById(R.id.reset_butt).setOnClickListener(resetButtonClick);
         filterListView.addFooterView(footerView, null, false);
         filterListView.setAdapter(filterAdapter);
-
-        Log.e("!!!!!!!!!!!!!! initFilterListView: ","getViewsHeight(listView) = " + getViewsHeight(filterListView));
     }
 
     private void createNavigation() {
@@ -357,9 +329,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         @Override
         public void onClick(View view) {
             organizeView();
-            //resetFilterCheckBox();
-//            startCollapseFilterAnimation();
-
             filterListView.collapseGroup(0);
 
         }
@@ -369,99 +338,9 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             groupView.findViewById(R.id.group_name).setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
-            Log.e("!!!!!!!!!!!!!! organizeView: ","getViewsHeight(listView) = " + getViewsHeight(filterListView));
         }
 
     };
-
-//    private void organizeView() {
-//        View groupView = filterListView.getChildAt(0);
-//        ((ViewGroup) groupView).removeView(groupView.findViewById(R.id.category_type_view));
-//        groupView.findViewById(R.id.group_name).setVisibility(View.VISIBLE);
-//        footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);
-//        footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
-//        Log.e("!!!!!!!!!!!!!! organizeView: ","getViewsHeight(listView) = " + getViewsHeight(filterListView));
-//    }
-//
-//    private void initExpandFilterAnimationVariables() {
-//
-//        filterExpandAnimation = new AnimationWithMargins(0, 0, -newLayoutHeight, 0, filterContainer);
-//        filterExpandAnimation.setDuration(ANIMATION_DURATION_IN_MILLIS);
-//        filterExpandAnimation.setFillAfter(true);
-//
-//        filterInstantAnimation = new TranslateAnimation(0, 0, 0, -newLayoutHeight);
-//        filterInstantAnimation.setFillAfter(true);
-//    }
-//
-//    private void initCollapseFilterAnimationVariables() {
-//
-//        filterCollapseAnimation = new AnimationWithMargins(0, 0, -oldLayoutHeight, 0, filterContainer);
-//        filterCollapseAnimation.setDuration(ANIMATION_DURATION_IN_MILLIS);
-//        filterCollapseAnimation.setFillAfter(true);
-//
-//        filterInstantAnimation = new TranslateAnimation(0, 0, 0, -oldLayoutHeight);
-//        filterInstantAnimation.setFillAfter(true);
-//    }
-//
-//    private void startExpandFilterAnimation() {
-//        filterContainer.startAnimation(filterCollapseAnimation);
-//        filterCollapseAnimation.setAnimationListener(new Animation.AnimationListener() {
-//
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                organizeView();
-//                ((RelativeLayout.LayoutParams) filterContainer.getLayoutParams()).bottomMargin = -newLayoutHeight;
-//                filterContainer.requestLayout();
-//                filterContainer.startAnimation(filterInstantAnimation);
-////                filterContainer.startAnimation(filterExpandAnimation);
-//            }
-//        });
-//    }
-//    private void startCollapseFilterAnimation() {
-//
-//        filterContainer.startAnimation(filterExpandAnimation);
-//        filterExpandAnimation.setAnimationListener(new Animation.AnimationListener() {
-//
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//
-//                LinearLayout groupView = (LinearLayout) filterListView.getChildAt(myGroupPosition);
-//                groupView.findViewById(R.id.group_name).setVisibility(View.GONE);
-//                groupView.addView(filter.getFilterHeaderLayout(),
-//                        new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics())));
-//                footerView.findViewById(R.id.sort_group).setVisibility(View.GONE);
-//                footerView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
-//
-//                mExpandFiltr = true;
-//
-//                ((RelativeLayout.LayoutParams) filterContainer.getLayoutParams()).bottomMargin = -oldLayoutHeight;
-//                filterContainer.requestLayout();
-//                filterContainer.startAnimation(filterInstantAnimation);
-////                filterContainer.startAnimation(filterCollapseAnimation);
-//            }
-//        });
-//    }
 
     private class SortTask extends AsyncTask<Integer, Void, Cursor> {
 

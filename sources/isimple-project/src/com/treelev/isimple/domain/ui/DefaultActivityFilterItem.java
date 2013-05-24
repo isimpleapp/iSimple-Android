@@ -2,6 +2,7 @@ package com.treelev.isimple.domain.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.treelev.isimple.R;
@@ -22,12 +23,14 @@ public class DefaultActivityFilterItem extends FilterItem {
         this.filterData = filterData;
     }
 
-    public FilterItemData[] getFilterData() {
-        return filterData;
-    }
-
-    public void setFilterData(FilterItemData[] filterData) {
-        this.filterData = filterData;
+    private boolean isAnyItemChecked() {
+        if (filterData != null) {
+            for (FilterItemData item : filterData) {
+                if (item.isChecked())
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -40,6 +43,19 @@ public class DefaultActivityFilterItem extends FilterItem {
     }
 
     @Override
+    public boolean processResult(int requestCode, int resultCode, Intent data) {
+        if (super.processResult(requestCode, resultCode, data)) {
+            if (getActivityClass().equals(DefaultListFilterActivity.class)) {
+                filterData = DefaultListFilterActivity.getFilterData(data);
+            }
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
     public View renderView(View convertView) {
         if (convertView == null || !(convertView.getTag() instanceof TextView)) {
             convertView = layoutInflater.inflate(R.layout.category_filter_text_item_layout, null);
@@ -48,6 +64,8 @@ public class DefaultActivityFilterItem extends FilterItem {
         }
         TextView text = (TextView) convertView.getTag();
         text.setText(getLabel());
+        text.setTextColor(isAnyItemChecked() ? Color.BLACK : Color.LTGRAY);
+
         return convertView;
     }
 }

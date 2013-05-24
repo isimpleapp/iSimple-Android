@@ -6,7 +6,7 @@ import com.treelev.isimple.domain.ui.FilterItem;
 import java.util.List;
 
 public interface Filter {
-    public View getFilterHeaderLayout();
-    public String getSql();
-    public List<FilterItem> getFilterContent();
+    View getFilterHeaderLayout();
+    String getSql();
+    List<FilterItem> getFilterContent();
 }

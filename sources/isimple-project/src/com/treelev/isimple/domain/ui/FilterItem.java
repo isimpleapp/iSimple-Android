@@ -15,6 +15,7 @@ public abstract class FilterItem {
     private int itemType;
     private String label;
     private Class activityClass;
+    private int requestCode;
 
     public final static String EXTRA_CATEGORY_ID = "categoryId";
     public final static String EXTRA_POSITION = "position";
@@ -23,6 +24,7 @@ public abstract class FilterItem {
         this(context, itemType);
         this.label = label;
         this.activityClass = activityClass;
+        this.requestCode = generateUniqueRequestCode();
     }
 
     protected FilterItem(Context context, int itemType) {
@@ -52,11 +54,18 @@ public abstract class FilterItem {
 
     public void process() {
         if (itemType == ITEM_ACTIVITY) {
-            ((Activity) context).startActivityForResult(createIntent(), CatalogByCategoryActivity.RESULT_REQUEST_CODE);
+            ((Activity) context).startActivityForResult(createIntent(), requestCode);
             ((Activity) context).overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         }
     }
 
+    public boolean processResult(int requestCode, int resultCode, Intent data) {
+        return this.requestCode == requestCode;
+    }
+
     public abstract View renderView(View convertView);
 
+    private int generateUniqueRequestCode() {
+        return System.identityHashCode(this) & 0xFFFF;
+    }
 }

@@ -1,27 +1,22 @@
 package com.treelev.isimple.activities.filter;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.NavigationListAdapter;
+import com.treelev.isimple.activities.BaseListActivity;
 import com.treelev.isimple.domain.ui.FilterItemData;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.TextView;
 
 import java.util.Arrays;
 
-public class DefaultListFilterActivity extends ListActivity implements ActionBar.OnNavigationListener {
+public class DefaultListFilterActivity extends BaseListActivity {
     private static final String BUNDLE_EXTRA = "bundle_extra";
     private static final String FILTER_DATA = "filter_data";
 
@@ -31,15 +26,27 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_list_layout);
-        createNavigation();
+        createNavigationMenuBar();
         getListView().setAdapter(new FilterDataAdapter(getFilterData()));
     }
 
-    private FilterItemData[] getFilterData() {
-        if (filterData == null) {
-            filterData = getFilterData(getIntent());
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
         }
-        return filterData;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent resultIntent = new Intent();
+        putFilterData(resultIntent, getFilterData());
+        setResult(RESULT_OK, resultIntent);
+        super.onBackPressed();
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
     public static FilterItemData[] getFilterData(Intent intent) {
@@ -59,45 +66,11 @@ public class DefaultListFilterActivity extends ListActivity implements ActionBar
         bundle.putParcelableArray(FILTER_DATA, filterData);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    private FilterItemData[] getFilterData() {
+        if (filterData == null) {
+            filterData = getFilterData(getIntent());
         }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        return false;
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent resultIntent = new Intent();
-        putFilterData(resultIntent, getFilterData());
-        setResult(RESULT_OK, resultIntent);
-        super.onBackPressed();
-        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
-    }
-
-    private void createNavigation() {
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Context context = getSupportActionBar().getThemedContext();
-        String[] locations = getResources().getStringArray(R.array.main_menu_items);
-        TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
-        Drawable[] iconLocation = new Drawable[typedArray.length()];
-        for (int i = 0; i < locations.length; ++i) {
-            iconLocation[i] = typedArray.getDrawable(i);
-        }
-        NavigationListAdapter list = new NavigationListAdapter(this, iconLocation, locations);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(list, this);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+        return filterData;
     }
 
     private class FilterDataAdapter extends ArrayAdapter<FilterItemData> implements View.OnClickListener {

@@ -12,13 +12,6 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import org.holoeverywhere.app.Activity;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mhviedchenia
- * Date: 23.05.13
- * Time: 19:02
- * To change this template use File | Settings | File Templates.
- */
 public class ShopsActivity extends Activity implements
         ActionBar.OnNavigationListener {
 

@@ -2,23 +2,17 @@ package com.treelev.isimple.activities;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.*;
-import com.actionbarsherlock.app.ActionBar;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
@@ -26,7 +20,6 @@ import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.WineType;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.app.ExpandableListActivity;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.ExpandableListView;
@@ -36,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ProductInfoActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
+public class ProductInfoActivity extends BaseExpandableListActivity {
 
     public final static String ITEM_ID_TAG = "id";
     private final static String FORMAT_FIELDS = "- %s";
@@ -47,7 +40,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createNavigation();
+        createNavigationMenuBar();
         String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
@@ -73,7 +66,7 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
 
 //        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 //        int widthDisplay = display.getWidth();
-        LinearLayout list_layout = (LinearLayout)headerView.findViewById(R.id.list_layout);
+        LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
         final LinearLayout lin_for_two_button = (LinearLayout) headerView.findViewById(R.id.linear_for_two_button);
         ((RelativeLayout.LayoutParams) lin_for_two_button.getLayoutParams()).width = widthDisplay();
         ((RelativeLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
@@ -85,7 +78,24 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
 
     }
 
-    public int widthDisplay() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+    }
+
+    private int widthDisplay() {
         Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         return display.getWidth();
     }
@@ -101,50 +111,6 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
 
         view.measure(widthMeasureSpec, heightMeasureSpec);
         return view.getMeasuredWidth();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                super.onBackPressed();
-                overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        Intent newIntent = null;
-        switch (itemPosition) {
-            case 0: //Catalog
-                break;
-            case 1: //Shops
-                newIntent = new Intent(this, ShopsActivity.class);
-                break;
-            case 2: //Favorites
-                break;
-            case 3: //Basket
-                break;
-            case 4: //Scan Code
-                break;
-            default:
-                Log.v("Exception", "Unkown item menu");
-        }
-        if( newIntent != null )
-        {
-            getSupportActionBar().setSelectedNavigationItem(0);
-            startActivity(newIntent);
-            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-        }
-        return false;
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
     private List<ProductContent> createExpandableItems(Item product) {
@@ -208,12 +174,11 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
     }
 
     private int roundToTheTens(int price) {
+        int newPrice = price;
         if ((price % 10) != 0) {
-            int newPrice;
-            return newPrice = price + (10 - (price % 10));
-        } else {
-            return price;
+            newPrice = price + (10 - (price % 10));
         }
+        return newPrice;
     }
 
     private void organizeTextView(TextView textView, String text) {
@@ -226,23 +191,5 @@ public class ProductInfoActivity extends ExpandableListActivity implements Actio
 
     private String trimTrailingZeros(String number) {
         return Utils.removeZeros(number);
-    }
-
-    private void createNavigation() {
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Context context = getSupportActionBar().getThemedContext();
-        String[] menuItemText = getResources().getStringArray(R.array.main_menu_items);
-        TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
-        Drawable[] menuItemIcon = new Drawable[typedArray.length()];
-        for (int i = 0; i < menuItemText.length; ++i) {
-            menuItemIcon[i] = typedArray.getDrawable(i);
-        }
-        NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, menuItemIcon, menuItemText);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-        getSupportActionBar().setSelectedNavigationItem(0);
     }
 }

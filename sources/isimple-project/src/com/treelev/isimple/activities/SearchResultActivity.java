@@ -3,31 +3,24 @@ package com.treelev.isimple.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
-import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.Toast;
 
-public class SearchResultActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
-        ActionBar.OnNavigationListener {
+public class SearchResultActivity extends BaseListActivity implements RadioGroup.OnCheckedChangeListener {
 
     public static Integer categoryID;
     public static Class backActivity;
@@ -36,13 +29,12 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
     private String mQuery;
     private View darkView;
     private ProxyManager mProxyManager;
-    private String mDrinkId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
-        createNavigation();
+        createNavigationMenuBar();
         RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
         rg.setOnCheckedChangeListener(this);
         ProxyManager mProxyManager = new ProxyManager(this);
@@ -62,15 +54,6 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         finish();
         startActivity(getIntent());
 //        handledIntent(newIntent);
-    }
-
-    void handledIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            mDrinkId = intent.getStringExtra(CatalogByCategoryActivity.DRINK_ID);
-            mQuery = intent.getStringExtra(SearchManager.QUERY);
-            Search search = new Search(this, categoryID);
-            search.execute(mQuery);
-        }
     }
 
     @Override
@@ -142,16 +125,6 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         back();
     }
 
-    void back() {
-        Intent intent = new Intent(this, backActivity);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, categoryID);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
-    }
-
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
         int sortBy = 0;
@@ -190,53 +163,27 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
+    private void handledIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String mDrinkId = intent.getStringExtra(CatalogByCategoryActivity.DRINK_ID);
+            mQuery = intent.getStringExtra(SearchManager.QUERY);
+            Search search = new Search(this, categoryID);
+            search.execute(mQuery);
+        }
+    }
+
+    private void back() {
+        Intent intent = new Intent(this, backActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, categoryID);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+    }
+
     private void updateList(int sortBy) {
 
-    }
-
-    private void createNavigation() {
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Context context = getSupportActionBar().getThemedContext();
-        String[] menuItemText = getResources().getStringArray(R.array.main_menu_items);
-        TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
-        Drawable[] menuItemIcon = new Drawable[typedArray.length()];
-        for (int i = 0; i < menuItemText.length; ++i) {
-            menuItemIcon[i] = typedArray.getDrawable(i);
-        }
-        NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, menuItemIcon, menuItemText);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-        getSupportActionBar().setSelectedNavigationItem(0);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        Intent newIntent = null;
-        switch (itemPosition) {
-            case 0: //Catalog
-                break;
-            case 1: //Shops
-                newIntent = new Intent(this, ShopsActivity.class);
-                break;
-            case 2: //Favorites
-                break;
-            case 3: //Basket
-                break;
-            case 4: //Scan Code
-                break;
-            default:
-                Log.v("Exception", "Unkown item menu");
-        }
-        if( newIntent != null )
-        {
-            getSupportActionBar().setSelectedNavigationItem(0);
-            startActivity(newIntent);
-            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-        }
-        return false;
     }
 
     private ProxyManager getProxyManager() {
@@ -246,7 +193,7 @@ public class SearchResultActivity extends ListActivity implements RadioGroup.OnC
         return mProxyManager;
     }
 
-    class Search extends AsyncTask<String, Void, Cursor> {
+    private class Search extends AsyncTask<String, Void, Cursor> {
 
         private Dialog mDialog;
         private Context mContext;

@@ -3,36 +3,25 @@ package com.treelev.isimple.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.SimpleCursorAdapter;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.ContextMenu;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
-import com.treelev.isimple.adapters.NavigationListAdapter;
-import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.util.ByteArrayBuffer;
 import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.ListView;
 
 import java.io.BufferedInputStream;
@@ -41,15 +30,12 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
 
-public class CatalogListActivity extends ListActivity implements ActionBar.OnNavigationListener {
+public class CatalogListActivity extends BaseListActivity {
 
     public final static String CATEGORY_NAME_EXTRA_ID = "category_name";
     private View darkView;
     private RelativeLayout myLayout;
-    private SimpleCursorAdapter mListCategoriesAdapter;
-    private Cursor cItems;
     private ProxyManager mProxyManager;
     private View mHeader;
 
@@ -57,7 +43,7 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
         setContentView(R.layout.catalog_list_layout);
-        createNavigation();
+        createNavigationMenuBar();
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
@@ -154,56 +140,11 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        Log.v("onNavigationItemSelected", "itemPosition=" + String.valueOf(itemPosition) + " itemId=" + String.valueOf(itemId));
-        Intent newIntent = null;
-        switch (itemPosition) {
-            case 0: //Catalog
-                break;
-            case 1: //Shops
-                newIntent = new Intent(this, ShopsActivity.class);
-                break;
-            case 2: //Favorites
-                break;
-            case 3: //Basket
-                break;
-            case 4: //Scan Code
-                break;
-            default:
-                Log.v("Exception", "Unkown item menu");
-        }
-        if( newIntent != null )
-        {
-            getSupportActionBar().setSelectedNavigationItem(0);
-            startActivity(newIntent);
-            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-        }
-        return false;
-    }
-
     public void onClickCategoryButt(View v) {
         Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
         startIntent.putExtra(CATEGORY_NAME_EXTRA_ID, v.getId());
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-    }
-
-    private void createNavigation() {
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Context context = getSupportActionBar().getThemedContext();
-        String[] menuItemText = getResources().getStringArray(R.array.main_menu_items);
-        TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
-        Drawable[] menuItemIcon = new Drawable[typedArray.length()];
-        for (int i = 0; i < menuItemText.length; ++i) {
-            menuItemIcon[i] = typedArray.getDrawable(i);
-        }
-        NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, menuItemIcon, menuItemText);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-        getSupportActionBar().setSelectedNavigationItem(0);
     }
 
     private ProxyManager getProxyManager() {
@@ -236,9 +177,9 @@ public class CatalogListActivity extends ListActivity implements ActionBar.OnNav
 
         @Override
         protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
+            Cursor cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogListActivity.this, true);
+            SimpleCursorAdapter mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogListActivity.this, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

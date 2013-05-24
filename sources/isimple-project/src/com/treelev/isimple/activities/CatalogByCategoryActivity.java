@@ -3,13 +3,10 @@ package com.treelev.isimple.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,27 +15,24 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
-import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.domain.ui.FilterItem;
 import com.treelev.isimple.filter.*;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.ListView;
 
-public class CatalogByCategoryActivity extends ListActivity implements RadioGroup.OnCheckedChangeListener,
-        ActionBar.OnNavigationListener, ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener {
+public class CatalogByCategoryActivity extends BaseListActivity implements RadioGroup.OnCheckedChangeListener,
+        ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener {
 
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
@@ -67,7 +61,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
-        createNavigation();
+        createNavigationMenuBar();
         darkView = findViewById(R.id.category_dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
@@ -150,33 +144,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         });
         mSearchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        Intent newIntent = null;
-        switch (itemPosition) {
-            case 0: //Catalog
-                break;
-            case 1: //Shops
-                newIntent = new Intent(this, ShopsActivity.class);
-                break;
-            case 2: //Favorites
-                break;
-            case 3: //Basket
-                break;
-            case 4: //Scan Code
-                break;
-            default:
-                Log.v("Exception", "Unkown item menu");
-        }
-        if( newIntent != null )
-        {
-            getSupportActionBar().setSelectedNavigationItem(0);
-            startActivity(newIntent);
-            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-        }
-        return false;
     }
 
     @Override
@@ -307,24 +274,6 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
         filterListView.setAdapter(filterAdapter);
     }
 
-    private void createNavigation() {
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Context context = getSupportActionBar().getThemedContext();
-        String[] locations = getResources().getStringArray(R.array.main_menu_items);
-        TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
-        Drawable[] iconLocation = new Drawable[typedArray.length()];
-        for (int i = 0; i < locations.length; ++i) {
-            iconLocation[i] = typedArray.getDrawable(i);
-        }
-        NavigationListAdapter list = new NavigationListAdapter(this, iconLocation, locations);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(list, this);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-        getSupportActionBar().setSelectedNavigationItem(0);
-    }
-
     private View.OnClickListener resetButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -332,6 +281,7 @@ public class CatalogByCategoryActivity extends ListActivity implements RadioGrou
             filterListView.collapseGroup(0);
 
         }
+
         private void organizeView() {
             View groupView = filterListView.getChildAt(0);
             ((ViewGroup) groupView).removeView(groupView.findViewById(R.id.category_type_view));

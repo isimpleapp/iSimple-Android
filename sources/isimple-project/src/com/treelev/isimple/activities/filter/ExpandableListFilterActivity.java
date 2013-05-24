@@ -41,17 +41,17 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
     }
 
     private List<Map<String, ?>> getGroupItems(Map<String, FilterItemData[]> filterData) {
-        List<Map<String, ?>> countries = new ArrayList<Map<String, ?>>();
+        List<Map<String, ?>> groups = new ArrayList<Map<String, ?>>();
         for (String groupName : filterData.keySet()) {
             Map<String, Object> item = new HashMap<String, Object>();
             item.put(GROUP_NAME, groupName);
-            countries.add(item);
+            groups.add(item);
         }
-        return countries;
+        return groups;
     }
 
     private List<List<Map<String, ?>>> getSubItems(Map<String, FilterItemData[]> filterData) {
-        List<List<Map<String, ?>>> regionsData = new ArrayList<List<Map<String, ?>>>();
+        List<List<Map<String, ?>>> subItemsData = new ArrayList<List<Map<String, ?>>>();
         for (String groupName : filterData.keySet()) {
             List<Map<String, ?>> childList = new ArrayList<Map<String, ?>>();
             for (FilterItemData subItem : filterData.get(groupName)) {
@@ -59,9 +59,9 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
                 item.put(ITEM_NAME, subItem.getName());
                 childList.add(item);
             }
-            regionsData.add(childList);
+            subItemsData.add(childList);
         }
-        return regionsData;
+        return subItemsData;
     }
 
     @Override

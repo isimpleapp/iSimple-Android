@@ -17,7 +17,7 @@ public class NavigationListAdapter extends BaseAdapter {
     private LayoutInflater mInflator;
 
     public NavigationListAdapter(Context context, Drawable[] icons, String[] titles) {
-        mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflator = LayoutInflater.from(context);
         mIcons = icons;
         mTitles = titles;
     }

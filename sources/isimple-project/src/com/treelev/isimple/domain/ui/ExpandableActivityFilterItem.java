@@ -18,7 +18,7 @@ public class ExpandableActivityFilterItem extends FilterItem {
 
     public ExpandableActivityFilterItem(Context context, String label, Map<String, FilterItemData[]> filterData) {
         super(context, ITEM_ACTIVITY, label, ExpandableListFilterActivity.class);
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = LayoutInflater.from(context);
         this.filterData = filterData;
     }
 

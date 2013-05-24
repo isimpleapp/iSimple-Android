@@ -24,8 +24,8 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
     private Display display;
 
     public ProductContentAdapter(Context context, List<ProductContent> productContentList) {
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-         display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        layoutInflater = LayoutInflater.from(context);
+        display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         this.productContentList = productContentList;
     }
 

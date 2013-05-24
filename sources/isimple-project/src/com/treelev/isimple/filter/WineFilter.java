@@ -22,7 +22,7 @@ public class WineFilter implements Filter, View.OnClickListener {
 
     public WineFilter(Context context) {
         this.context = context;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(context);
         filterHeaderLayout = inflater.inflate(R.layout.category_wine_sparkling_filter_header_layout);
         setClickButt(R.id.red_wine_butt, R.id.red_wine_check);
         setClickButt(R.id.white_wine_butt, R.id.white_wine_check);

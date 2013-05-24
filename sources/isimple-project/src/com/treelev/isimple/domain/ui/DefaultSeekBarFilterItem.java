@@ -22,7 +22,7 @@ public class DefaultSeekBarFilterItem extends FilterItem {
 
     public DefaultSeekBarFilterItem(Context context) {
         super(context, ITEM_INLINE);
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override

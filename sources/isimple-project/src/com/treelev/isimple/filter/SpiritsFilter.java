@@ -20,7 +20,7 @@ public class SpiritsFilter implements Filter, View.OnClickListener {
 
     public SpiritsFilter(Context context) {
         this.context = context;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(context);
         filterHeaderLayout = inflater.inflate(R.layout.category_spirits_water_filter_header_layout);
         filterHeaderLayout.setOnClickListener(this);
         filterItemList = createFilterContent();

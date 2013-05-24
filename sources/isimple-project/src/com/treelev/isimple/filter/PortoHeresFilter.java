@@ -22,7 +22,7 @@ public class PortoHeresFilter implements Filter, View.OnClickListener {
 
     public PortoHeresFilter(Context context) {
         this.context = context;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(context);
         filterHeaderLayout = inflater.inflate(R.layout.category_porto_heres_filter_header_layout);
         setClickButt(R.id.white_color_butt, R.id.white_porto_heres_check);
         setClickButt(R.id.red_color_butt, R.id.red_porto_heres_check);

@@ -19,7 +19,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     public FilterAdapter(Context context, Filter filter) {
         this.items = filter.getFilterContent();
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override

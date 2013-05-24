@@ -20,7 +20,7 @@ public class SakeFilter implements Filter, View.OnClickListener {
 
     public SakeFilter(Context context) {
         this.context = context;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(context);
         filterHeaderLayout = inflater.inflate(R.layout.category_sake_filter_header_layout);
         setClickButt(R.id.classic_butt, R.id.classic_sake_check);
         setClickButt(R.id.author_butt, R.id.author_sake_check);

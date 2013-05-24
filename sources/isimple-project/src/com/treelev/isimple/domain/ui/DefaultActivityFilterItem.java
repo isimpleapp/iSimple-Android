@@ -15,7 +15,7 @@ public class DefaultActivityFilterItem extends FilterItem {
 
     public DefaultActivityFilterItem(Context context, String label, FilterItemData[] filterData) {
         super(context, ITEM_ACTIVITY, label, DefaultListFilterActivity.class);
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = LayoutInflater.from(context);
         this.filterData = filterData;
     }
 

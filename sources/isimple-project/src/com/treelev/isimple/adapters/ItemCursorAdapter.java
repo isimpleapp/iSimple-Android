@@ -15,13 +15,6 @@ import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mhviedchenia
- * Date: 20.05.13
- * Time: 14:18
- * To change this template use File | Settings | File Templates.
- */
 public class ItemCursorAdapter extends SimpleCursorAdapter {
 
     private final static String FORMAT_TEXT_LABEL = "%s...";

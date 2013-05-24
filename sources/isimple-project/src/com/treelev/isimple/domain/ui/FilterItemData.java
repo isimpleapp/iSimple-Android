@@ -5,7 +5,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FilterItemData implements Parcelable {
 
@@ -120,6 +122,27 @@ public class FilterItemData implements Parcelable {
             filterList[i] = new FilterItemData(years.get(i));
         }
         return filterList;
+    }
+
+    public static Map<String, FilterItemData[]> getAvailableCountryRegions(Context context, int categoryId) {
+        ProxyManager proxyManager = new ProxyManager(context);
+        Map<String, List<String>> regions = proxyManager.getRegionsByCategory(categoryId);
+        HashMap<String, FilterItemData[]> result = new HashMap<String, FilterItemData[]>();
+        for (String country : regions.keySet()) {
+            List<String> r = regions.get(country);
+            FilterItemData[] regionsData;
+            if (r != null) {
+                regionsData = new FilterItemData[r.size()];
+                for (int i = 0; i < r.size(); i++) {
+                    regionsData[i] = new FilterItemData(r.get(i));
+                }
+            }
+            else {
+                regionsData = new FilterItemData[0];
+            }
+            result.put(country, regionsData);
+        }
+        return result;
     }
 
 }

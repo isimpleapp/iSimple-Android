@@ -3,7 +3,7 @@ package com.treelev.isimple.filter;
 import android.content.Context;
 import android.view.View;
 import com.treelev.isimple.R;
-import com.treelev.isimple.activities.filter.DefaultExpandableListFilterActivity;
+import com.treelev.isimple.activities.filter.ExpandableListFilterActivity;
 import com.treelev.isimple.domain.ui.*;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
@@ -63,8 +63,8 @@ public class PortoHeresFilter implements Filter, View.OnClickListener {
         filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_sweetness),
                 FilterItemData.createFromPresentable(Sweetness.getPortoSweetness())));
         filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_classifier), null));
-        filterItems.add(new DefaultActivityFilterItem(context, context.getString(R.string.filter_item_region),
-                DefaultExpandableListFilterActivity.class, null));
+        filterItems.add(new ExpandableActivityFilterItem(context, context.getString(R.string.filter_item_region),
+                FilterItemData.getAvailableCountryRegions(context, R.id.category_wine_butt)));
         filterItems.add(new DefaultSeekBarFilterItem(context));
         return filterItems;
     }

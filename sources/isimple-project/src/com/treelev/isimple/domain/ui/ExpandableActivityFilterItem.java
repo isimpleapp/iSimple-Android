@@ -6,24 +6,29 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.treelev.isimple.R;
+import com.treelev.isimple.activities.filter.ExpandableListFilterActivity;
 import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
 import org.holoeverywhere.widget.TextView;
 
-public class DefaultActivityFilterItem extends FilterItem {
-    private LayoutInflater layoutInflater;
-    private FilterItemData[] filterData;
+import java.util.Map;
 
-    public DefaultActivityFilterItem(Context context, String label, FilterItemData[] filterData) {
-        super(context, ITEM_ACTIVITY, label, DefaultListFilterActivity.class);
+public class ExpandableActivityFilterItem extends FilterItem {
+    private LayoutInflater layoutInflater;
+    private Map<String, FilterItemData[]> filterData;
+
+    public ExpandableActivityFilterItem(Context context, String label, Map<String, FilterItemData[]> filterData) {
+        super(context, ITEM_ACTIVITY, label, ExpandableListFilterActivity.class);
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.filterData = filterData;
     }
 
     private boolean isAnyItemChecked() {
         if (filterData != null) {
-            for (FilterItemData item : filterData) {
-                if (item.isChecked())
-                    return true;
+            for (String key : filterData.keySet()) {
+                for (FilterItemData item : filterData.get(key)) {
+                    if (item.isChecked())
+                        return true;
+                }
             }
         }
         return false;
@@ -33,7 +38,7 @@ public class DefaultActivityFilterItem extends FilterItem {
     protected Intent createIntent() {
         Intent intent = super.createIntent();
         if (filterData != null) {
-            DefaultListFilterActivity.putFilterData(intent, filterData);
+            ExpandableListFilterActivity.putFilterData(intent, filterData);
         }
         return intent;
     }
@@ -41,7 +46,7 @@ public class DefaultActivityFilterItem extends FilterItem {
     @Override
     public boolean processResult(int requestCode, int resultCode, Intent data) {
         if (super.processResult(requestCode, resultCode, data)) {
-            filterData = DefaultListFilterActivity.getFilterData(data);
+            filterData = ExpandableListFilterActivity.getFilterData(data);
             return true;
         }
         else {

@@ -113,6 +113,10 @@ public class ProxyManager {
         return result;
     }
 
+    public Cursor getChains() {
+        return ((ChainDAO) getObjectDAO(ChainDAO.ID)).getChains();
+    }
+
     private BaseDAO getObjectDAO(int id) {
         if (mdao.containsKey(id)) {
             return mdao.get(id);

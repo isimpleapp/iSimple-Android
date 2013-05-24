@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import com.treelev.isimple.domain.db.Chain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChainDAO extends BaseDAO {
@@ -55,4 +56,24 @@ public class ChainDAO extends BaseDAO {
         }
         close();
     }
+
+    public Cursor getChains() {
+        open();
+        String formatSelectScript = "SELECT %s, %s, %s  FROM %s ORDER BY %s";
+        String selectSql = String.format(formatSelectScript,
+                DatabaseSqlHelper.CHAIN_ID + " as _id", DatabaseSqlHelper.CHAIN_NAME, DatabaseSqlHelper.CHAIN_TYPE,
+                DatabaseSqlHelper.CHAIN_TABLE, DatabaseSqlHelper.CHAIN_NAME);
+        return getDatabase().rawQuery(selectSql, null);
+//        List<String> webList = null;
+//        if (cursor != null) {
+//            webList = new ArrayList<String>();
+//            while (cursor.moveToNext()) {
+//                webList.add(cursor.getString(0));
+//            }
+//            cursor.close();
+//        }
+//        close();
+//        return webList;
+    }
+
 }

@@ -1,25 +1,35 @@
 package com.treelev.isimple.activities;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
+import org.holoeverywhere.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
-import com.actionbarsherlock.app.ActionBar;
+import android.widget.RadioGroup;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.NavigationListAdapter;
-import org.holoeverywhere.app.Activity;
+import com.treelev.isimple.fragments.ShopChainFragment;
+import com.treelev.isimple.fragments.ShopListFragment;
+import com.treelev.isimple.fragments.ShopMapFragment;
 
-public class ShopsActivity extends Activity implements
-        ActionBar.OnNavigationListener {
+public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+
+    private Fragment shopListFragment;
+    private Fragment shopMapFragment;
+    private Fragment shopChainFragment;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shops_main);
-        createNavigation();
+        setContentView(R.layout.shops_layout);
+        createNavigationMenuBar();
+        shopListFragment = new ShopListFragment();
+        shopMapFragment = new ShopMapFragment();
+        shopChainFragment = new ShopChainFragment();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, shopListFragment);
+        fragmentTransaction.commit();
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.shop_layout_radio_group);
+        radioGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -39,49 +49,20 @@ public class ShopsActivity extends Activity implements
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
-    private void createNavigation() {
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Context context = getSupportActionBar().getThemedContext();
-        String[] locations = getResources().getStringArray(R.array.main_menu_items);
-        TypedArray typedArray = getResources().obtainTypedArray(R.array.main_menu_icons);
-        Drawable[] iconLocation = new Drawable[typedArray.length()];
-        for (int i = 0; i < locations.length; ++i) {
-            iconLocation[i] = typedArray.getDrawable(i);
-        }
-        NavigationListAdapter list = new NavigationListAdapter(this, iconLocation, locations);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(list, this);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
-        getSupportActionBar().setSelectedNavigationItem(1);
-    }
-
     @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        Intent newIntent = null;
-        switch (itemPosition) {
-            case 0: //Catalog
-                newIntent = new Intent(this, CatalogListActivity.class);
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        switch (checkedId) {
+            case R.id.group_shop_list:
+                fragmentTransaction.replace(R.id.fragment_container, shopListFragment);
                 break;
-            case 1: //Shops
+            case R.id.group_shop_map:
+                fragmentTransaction.replace(R.id.fragment_container, shopMapFragment);
                 break;
-            case 2: //Favorites
+            case R.id.group_shop_network:
+                fragmentTransaction.replace(R.id.fragment_container, shopChainFragment);
                 break;
-            case 3: //Basket
-                break;
-            case 4: //Scan Code
-                break;
-            default:
-                Log.v("Exception", "Unkown item menu");
         }
-        if( newIntent != null )
-        {
-            getSupportActionBar().setSelectedNavigationItem(1);
-            startActivity(newIntent);
-            finish();
-            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-        }
-        return false;
+        fragmentTransaction.commit();
     }
 }

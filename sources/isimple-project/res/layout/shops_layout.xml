@@ -4,20 +4,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-
     <RadioGroup
             android:layout_width="match_parent"
-            android:id="@+id/group_shop"
+            android:id="@+id/shop_layout_radio_group"
             android:visibility="visible"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
-
         <org.holoeverywhere.widget.RadioButton
                 android:layout_weight="1"
                 android:layout_height="50dip"
-                android:id="@+id/group_list"
+                android:id="@+id/group_shop_list"
                 android:checked="true"
                 android:text="@string/group_list"
                 android:gravity="center"
@@ -25,23 +22,20 @@
                 android:background="@drawable/tab_indicator_left"
                 android:button="@android:color/transparent"
                 android:paddingRight="1dip"/>
-
-
         <org.holoeverywhere.widget.RadioButton
                 android:layout_weight="1"
                 android:layout_height="50dip"
-                android:id="@+id/group_map"
+                android:id="@+id/group_shop_map"
                 android:text="@string/group_map"
                 android:gravity="center"
                 style="?android:attr/listSeparatorTextViewStyle"
                 android:background="@drawable/tab_indicator_between"
                 android:checked="false"
                 android:button="@android:color/transparent"/>
-
         <org.holoeverywhere.widget.RadioButton
                 android:layout_weight="1"
                 android:layout_height="50dip"
-                android:id="@+id/group_network"
+                android:id="@+id/group_shop_network"
                 android:text="@string/group_chain"
                 android:gravity="center"
                 style="?android:attr/listSeparatorTextViewStyle"
@@ -49,5 +43,10 @@
                 android:checked="false"
                 android:button="@android:color/transparent"/>
     </RadioGroup>
-
+    <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_below="@id/shop_layout_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    </FrameLayout>
 </RelativeLayout>

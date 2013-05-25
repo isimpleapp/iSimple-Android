@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.CatalogByCategoryActivity;
 
@@ -63,7 +64,7 @@ public abstract class FilterItem {
         return this.requestCode == requestCode;
     }
 
-    public abstract View renderView(View convertView);
+    public abstract View renderView(View convertView, ViewGroup parent);
 
     private int generateUniqueRequestCode() {
         return System.identityHashCode(this) & 0xFFFF;

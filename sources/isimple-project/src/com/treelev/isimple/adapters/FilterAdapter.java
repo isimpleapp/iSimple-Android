@@ -60,7 +60,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (groupView == null) {
-            groupView = layoutInflater.inflate(R.layout.category_filter_group_layout, null);
+            groupView = layoutInflater.inflate(R.layout.category_filter_group_layout, parent, false);
         }
         return groupView;
     }
@@ -68,7 +68,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         FilterItem filterItem = getChild(groupPosition, childPosition);
-        return filterItem.renderView(convertView);
+        return filterItem.renderView(convertView, parent);
     }
 
     @Override

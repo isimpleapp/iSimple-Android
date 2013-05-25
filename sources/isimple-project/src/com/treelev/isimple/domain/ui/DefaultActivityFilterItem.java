@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
 import org.holoeverywhere.widget.TextView;
@@ -50,9 +51,9 @@ public class DefaultActivityFilterItem extends FilterItem {
     }
 
     @Override
-    public View renderView(View convertView) {
+    public View renderView(View convertView, ViewGroup parent) {
         if (convertView == null || !(convertView.getTag() instanceof TextView)) {
-            convertView = layoutInflater.inflate(R.layout.category_filter_text_item_layout, null);
+            convertView = layoutInflater.inflate(R.layout.category_filter_text_item_layout, parent, false);
             TextView text = (TextView) convertView.findViewById(R.id.item_content);
             convertView.setTag(text);
         }

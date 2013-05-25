@@ -2,18 +2,9 @@ package com.treelev.isimple.domain.ui;
 
 import com.treelev.isimple.domain.db.Shop;
 
-public class DistanceShop implements Comparable<DistanceShop> {
+public class DistanceShop extends AbsDistanceShop {
 
-    private Float distance;
     private Shop shop;
-
-    public Float getDistance() {
-        return distance;
-    }
-
-    public void setDistance(Float distance) {
-        this.distance = distance;
-    }
 
     public Shop getShop() {
         return shop;
@@ -24,7 +15,12 @@ public class DistanceShop implements Comparable<DistanceShop> {
     }
 
     @Override
-    public int compareTo(DistanceShop anotherShop) {
-        return this.distance.compareTo(anotherShop.getDistance());
+    public boolean isSection() {
+        return false;
+    }
+
+    @Override
+    public String getTitle() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

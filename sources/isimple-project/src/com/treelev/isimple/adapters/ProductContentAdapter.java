@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.ProductContent;
 import org.holoeverywhere.LayoutInflater;

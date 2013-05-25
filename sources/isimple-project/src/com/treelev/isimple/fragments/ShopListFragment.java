@@ -74,6 +74,7 @@ public class ShopListFragment extends ListFragment {
         @Override
         protected List<AbsDistanceShop> doInBackground(Void... voids) {
 //get location
+//TODO replace test to real location
             Location location = new Location("test_location");
             location.setLongitude(37.6167f);
             location.setLatitude(55.770f);

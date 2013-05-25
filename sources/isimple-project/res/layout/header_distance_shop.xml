@@ -9,6 +9,8 @@
         android:textStyle="bold"
         android:background="@android:color/white"
         android:textColor="@color/product_text_color"
-        android:paddingLeft="8dip" android:paddingRight="8dip"
-        android:paddingTop="3dip" android:paddingBottom="2dip">
+        android:paddingLeft="8dip"
+        android:paddingRight="8dip"
+        android:paddingTop="3dip"
+        android:paddingBottom="2dip">
 </org.holoeverywhere.widget.TextView>

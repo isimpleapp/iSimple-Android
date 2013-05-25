@@ -5,21 +5,60 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <org.holoeverywhere.widget.TextView
-            android:id="@+id/title_shop"
+    <TableLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            />
+            android:layout_gravity="center_horizontal">
+        <TableRow
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+            <org.holoeverywhere.widget.TextView
+                    android:id="@+id/title_shop"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="30dip"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"/>
+        </TableRow>
+        <TableRow
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+            <org.holoeverywhere.widget.TextView
+                    android:id="@+id/adress_shop"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:textSize="15dip"
+                    android:layout_gravity="center_horizontal"/>
+        </TableRow>
+        <TableRow
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+            <org.holoeverywhere.widget.Button
+                    android:layout_width="100dip"
+                    android:layout_height="50dip"
+                    android:id="@+id/get_direction"
+                    android:textSize="15dip"
+                    android:text="@string/get_direction"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="50dip"
+                    android:paddingRight="50dip"
+                    android:layout_gravity="center_horizontal"/>
+        </TableRow>
+    </TableLayout>
 
-    <org.holoeverywhere.widget.Button
-            android:layout_width="100dip"
-            android:layout_height="30dip"
-            android:id="@+id/get_direction"
-            android:textSize="15dip"
-            android:text="@string/get_direction"
-            android:paddingLeft="50dip"
-            android:paddingRight="50dip"
-            />
+    <org.holoeverywhere.widget.TextView
+            android:layout_width="match_parent"
+            android:layout_height="4dip"
+                android:id="@+id/separator"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:height="4dip"/>
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:layout_width="fill_parent"
@@ -99,5 +138,6 @@
                     android:paddingLeft="5dip" android:drawablePadding="7dip"/>
         </TableRow>
     </TableLayout>
+
 
 </LinearLayout>

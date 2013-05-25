@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/product_list_item_selector">
+              >
 
     <org.holoeverywhere.widget.TextView
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,7 +12,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:textSize="17sp"
-            android:background="@android:color/white"
             android:textColor="@android:color/black"
             android:textStyle="bold"
             android:paddingLeft="8dip" android:paddingRight="8dip"
@@ -25,10 +24,11 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:textSize="12sp"
-            android:background="@android:color/white"
             android:textColor="@color/product_text_color"
-            android:paddingLeft="8dip" android:paddingRight="8dip"
-            android:paddingTop="3dip" android:paddingBottom="2dip">
+            android:paddingLeft="8dip"
+            android:paddingRight="8dip"
+            android:paddingTop="3dip"
+            android:paddingBottom="2dip">
     </org.holoeverywhere.widget.TextView>
 
 </LinearLayout>

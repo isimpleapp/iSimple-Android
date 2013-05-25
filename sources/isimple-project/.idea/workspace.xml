@@ -28,31 +28,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseExpandableListActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseExpandableListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseListActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Shop.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Shop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/fragments/ShopListFragment.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/fragments/ShopListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopsActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/catalog_list_header_view.xml" afterPath="$PROJECT_DIR$/res/layout/catalog_list_header_view.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/category_view_res.xml" afterPath="$PROJECT_DIR$/res/values/category_view_res.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/header_distance_shop.xml" afterPath="$PROJECT_DIR$/res/layout/header_distance_shop.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/item_distance_shop.xml" afterPath="$PROJECT_DIR$/res/layout/item_distance_shop.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/shop_layout.xml" afterPath="$PROJECT_DIR$/res/layout/shop_layout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/shop_list_fragment_layout.xml" afterPath="$PROJECT_DIR$/res/layout/shop_list_fragment_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="E:\NewWork\iSimple\sources\isimple-project\res\layout\shop_screen_28.xml" afterPath="$PROJECT_DIR$/res/layout/shop_layout.xml" />
-      <change type="MOVED" beforePath="E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\adapters\ShopAdapter.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ShopsAdapter.java" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369071971771" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369482726209" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369479640410" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369490224590" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369490056533" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -842,12 +830,13 @@
     <file path="/ShopAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369484684312" ignored="false" />
     <file path="/header_distance_shop.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369471466557" ignored="false" />
     <file path="/item_distance_shop.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369477603003" ignored="false" />
-    <file path="/ShopListFragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369485031248" ignored="false" />
-    <file path="/shop_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369488125930" ignored="false" />
-    <file path="/ShopActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369488999860" ignored="false" />
+    <file path="/ShopListFragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369490447543" ignored="false" />
+    <file path="/shop_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369494417793" ignored="false" />
+    <file path="/ShopActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369492439620" ignored="false" />
     <file path="/BaseListActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369490077631" ignored="false" />
     <file path="/AbsBaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369488391220" ignored="false" />
     <file path="/BaseExpandableListActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369490066078" ignored="false" />
+    <file path="/ShopsAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369491263593" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -935,19 +924,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CatalogListActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
+      <file leaf-file-name="shop_layout.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/shop_layout.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="30" selection-start="1556" selection-end="1556" vertical-scroll-proportion="0.35890016">
+            <state line="34" column="62" selection-start="1583" selection-end="1583" vertical-scroll-proportion="0.92688173">
               <folding />
             </state>
           </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShopActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopActivity.java">
+      <file leaf-file-name="ShopListFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/ShopListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="30" selection-start="695" selection-end="695" vertical-scroll-proportion="0.0">
+            <state line="31" column="58" selection-start="1138" selection-end="1138" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -955,33 +947,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProductInfoActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java">
+      <file leaf-file-name="ShopActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="30" selection-start="1569" selection-end="1569" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="31" column="45" selection-start="1003" selection-end="1003" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CatalogSubCategory.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="30" selection-start="1165" selection-end="1165" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="shop_layout.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/shop_layout.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="40" selection-start="786" selection-end="786" vertical-scroll-proportion="-11.04">
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
@@ -1004,15 +977,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/layout/item_distance_shop.xml" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/fragments/ShopListFragment.java" />
-        <option value="$PROJECT_DIR$/res/values/category_view_res.xml" />
-        <option value="$PROJECT_DIR$/res/layout/shop_layout.xml" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/AbsBaseActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CurrentCategory.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopsActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java" />
@@ -1020,6 +986,13 @@
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseExpandableListActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseListActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/shop_list_fragment_layout.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/fragments/ShopListFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/header_distance_shop.xml" />
+        <option value="$PROJECT_DIR$/res/layout/item_distance_shop.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ShopsAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/shop_layout.xml" />
       </list>
     </option>
   </component>
@@ -1933,7 +1906,11 @@
       <created>1369479652131</created>
       <updated>1369479652131</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="fixed navigation">
+      <created>1369490240131</created>
+      <updated>1369490240131</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1960,8 +1937,8 @@
     <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.59693164" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2374462" sideWeight="0.59693164" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.7196653" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2374462" sideWeight="0.7196653" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32357043" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1984,7 +1961,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22238164" sideWeight="0.7196653" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28033474" sideWeight="0.49928263" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28033474" sideWeight="0.49928263" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2034,7 +2011,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="add view List Shop" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed navigation" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2048,7 +2025,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="IS-102&#10;" />
     <MESSAGE value="IS-51&#10;" />
     <MESSAGE value="IS-93&#10;" />
     <MESSAGE value="height sort button&#10;" />
@@ -2073,6 +2049,7 @@
     <MESSAGE value="fixed style tabs" />
     <MESSAGE value="add adpter DistanceShop" />
     <MESSAGE value="add view List Shop" />
+    <MESSAGE value="fixed navigation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -2082,9 +2059,63 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/res/layout/header_distance_shop.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="49" selection-start="392" selection-end="393" vertical-scroll-proportion="0.22972973">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/ChainAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="68" selection-start="888" selection-end="888" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/item_chain_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="29" selection-start="307" selection-end="307" vertical-scroll-proportion="-4.76">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/shop_list_fragment_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="0" selection-start="499" selection-end="499" vertical-scroll-proportion="0.385567">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/ShopChainFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="44" selection-start="1260" selection-end="1260" vertical-scroll-proportion="0.6333333">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/shops_chain_fragment_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="70" selection-start="456" selection-end="482" vertical-scroll-proportion="0.31546393">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/item_distance_shop.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="71" selection-start="330" selection-end="330" vertical-scroll-proportion="0.15315315">
+        <state line="30" column="12" selection-start="1308" selection-end="1308" vertical-scroll-proportion="1.0515463">
           <folding />
         </state>
       </provider>
@@ -2092,117 +2123,79 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/catalog_list_layout.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/ShopsAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/catalog_list_resource.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="18" selection-start="69" selection-end="69" vertical-scroll-proportion="0.04920405">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/category_view_res.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="50" selection-start="1672" selection-end="1672" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/shop_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="40" selection-start="786" selection-end="786" vertical-scroll-proportion="-11.04">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/ItemCursorAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="40" selection-start="965" selection-end="965" vertical-scroll-proportion="0.1522388">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="30" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.44283646">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="30" selection-start="695" selection-end="695" vertical-scroll-proportion="0.0">
+        <state line="48" column="40" selection-start="1467" selection-end="1467" vertical-scroll-proportion="0.48039216">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="62" selection-start="899" selection-end="899" vertical-scroll-proportion="0.3936324">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/category_view_res.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="67" selection-start="1265" selection-end="1265" vertical-scroll-proportion="0.7979592">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/ShopListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="58" selection-start="1138" selection-end="1138" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="45" selection-start="1003" selection-end="1003" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="77" selection-start="2233" selection-end="2233" vertical-scroll-proportion="0.8530612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/product_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="48" selection-start="757" selection-end="757" vertical-scroll-proportion="0.43393394">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="30" selection-start="1569" selection-end="1569" vertical-scroll-proportion="0.0">
+        <state line="45" column="40" selection-start="1710" selection-end="1710" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/shop_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="30" selection-start="1165" selection-end="1165" vertical-scroll-proportion="0.0">
+        <state line="34" column="62" selection-start="1583" selection-end="1583" vertical-scroll-proportion="0.92688173">
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="72" selection-start="3420" selection-end="3420" vertical-scroll-proportion="1.1023455">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="30" selection-start="2704" selection-end="2704" vertical-scroll-proportion="0.48208955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="39" selection-start="0" selection-end="39" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseExpandableListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="72" selection-start="3446" selection-end="3446" vertical-scroll-proportion="0.77858174">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="72" selection-start="3569" selection-end="3569" vertical-scroll-proportion="0.77858174">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="30" selection-start="1556" selection-end="1556" vertical-scroll-proportion="0.35890016">
-          <folding />
-        </state>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>

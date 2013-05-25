@@ -28,6 +28,8 @@ public class ShopActivity extends BaseActivity {
         mShop = (Shop)getIntent().getSerializableExtra(SHOP);
         TextView tv = (TextView) findViewById(R.id.title_shop);
         tv.setText(mShop.getLocationName());
+        tv = (TextView) findViewById(R.id.adress_shop);
+        tv.setText(mShop.getLocationAddress());
     }
 
     @Override

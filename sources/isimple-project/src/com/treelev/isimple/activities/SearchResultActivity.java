@@ -34,6 +34,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
+        setCurrentCategory(0);
         createNavigationMenuBar();
         RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
         rg.setOnCheckedChangeListener(this);

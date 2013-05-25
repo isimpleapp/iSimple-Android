@@ -20,7 +20,7 @@ import java.util.List;
  * Time: 14:28
  * To change this template use File | Settings | File Templates.
  */
-public class ShopAdapter extends ArrayAdapter {
+public class ShopsAdapter extends ArrayAdapter {
 
     private Context context;
     private List<AbsDistanceShop> items;
@@ -28,7 +28,7 @@ public class ShopAdapter extends ArrayAdapter {
 
 
 
-    public ShopAdapter(Context context, List<AbsDistanceShop> items) {
+    public ShopsAdapter(Context context, List<AbsDistanceShop> items) {
         super(context, 0, items);
         this.context = context;
         this.items = items;

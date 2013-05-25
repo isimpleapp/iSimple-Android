@@ -9,15 +9,22 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import org.holoeverywhere.app.ListActivity;
 
-public class BaseListActivity extends ListActivity implements ActionBar.OnNavigationListener {
+public class BaseListActivity extends ListActivity implements  ActionBar.OnNavigationListener {
+
+    private int mCurrentCategory;
+
+    public void setCurrentCategory(int currentCategory) {
+        mCurrentCategory = currentCategory;
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Intent newIntent = getStartIntentByItemPosition(itemPosition);
-        if (newIntent != null) {
-            getSupportActionBar().setSelectedNavigationItem(0);
+        if (newIntent != null && mCurrentCategory != itemPosition) {
             startActivity(newIntent);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+            getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
         }
         return false;
     }
@@ -32,20 +39,31 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
     }
 
     private Intent getStartIntentByItemPosition(int itemPosition) {
+        Class category = null;
+        Intent intent = null;
         switch (itemPosition) {
             case 0: //Catalog
-                return null;
-            case 1:
-                return new Intent(this, ShopsActivity.class);
+                category = CatalogListActivity.class;
+                break;
+            case 1: //Shop
+                category = ShopsActivity.class;
+                break;
             case 2: //Favorites
-                return null;
-            case 3: //Basket
-                return null;
+                category = null;
+                break;
+             case 3: //Basket
+                 category = null;
+                 break;
             case 4: //Scan Code
-                return null;
+                category = null;
+                break;
             default:
-                return null;
+                category = null;
         }
+        if( !this.getClass().equals(category) && category != null){
+            intent =  new Intent(this, category);
+        }
+        return intent;
     }
 
     private Drawable[] getIconsList(TypedArray typedIconsArray, int navigationMenuBarLenght) {
@@ -63,6 +81,6 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-        getSupportActionBar().setSelectedNavigationItem(0);
+        getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
     }
 }

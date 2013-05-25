@@ -61,6 +61,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
+        setCurrentCategory(0);
         createNavigationMenuBar();
         darkView = findViewById(R.id.category_dark_view);
         darkView.setVisibility(View.GONE);

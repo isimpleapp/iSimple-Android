@@ -2,15 +2,16 @@ package com.treelev.isimple.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.ShopAdapter;
+import com.treelev.isimple.activities.ShopActivity;
+import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.domain.ui.DistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShopHeader;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.LayoutInflater;
@@ -47,10 +48,10 @@ public class ShopListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-
-        Intent startIntent;
-
-//        startActivity(startIntent);
+        DistanceShop item = (DistanceShop) l.getAdapter().getItem(position);
+        Intent startIntent = new Intent(getActivity(), ShopActivity.class);
+        startIntent.putExtra(ShopActivity.SHOP, item.getShop());
+        startActivity(startIntent);
         getActivity().overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
@@ -89,9 +90,10 @@ public class ShopListFragment extends ListFragment {
 
         @Override
         protected void onPostExecute(List<AbsDistanceShop> items) {
-            ShopAdapter adapter = new ShopAdapter(getActivity(), items);
+            ShopsAdapter adapter = new ShopsAdapter(getActivity(), items);
             getListView().setAdapter(adapter);
             mDialog.dismiss();
         }
     }
+
 }

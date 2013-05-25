@@ -3,7 +3,9 @@ package com.treelev.isimple.domain.db;
 import android.location.Location;
 import com.treelev.isimple.enumerable.location.LocationType;
 
-public class Shop {
+import java.io.Serializable;
+
+public class Shop implements Serializable {
 
     private String locationId;
     private String locationName;

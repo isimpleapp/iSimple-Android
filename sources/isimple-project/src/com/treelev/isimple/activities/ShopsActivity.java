@@ -21,6 +21,7 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shops_layout);
+        setCurrentCategory(1);
         createNavigationMenuBar();
         shopListFragment = new ShopListFragment();
         shopMapFragment = new ShopMapFragment();
@@ -31,6 +32,7 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.shop_layout_radio_group);
         radioGroup.setOnCheckedChangeListener(this);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -64,5 +66,11 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
                 break;
         }
         fragmentTransaction.commit();
+    }
+
+    @Override
+    protected  void createNavigationMenuBar() {
+        super.createNavigationMenuBar();
+        getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
     }
 }

@@ -40,6 +40,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setCurrentCategory(0);
         createNavigationMenuBar();
         String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);

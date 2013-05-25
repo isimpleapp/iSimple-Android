@@ -43,6 +43,7 @@ public class CatalogListActivity extends BaseListActivity {
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
         setContentView(R.layout.catalog_list_layout);
+        setCurrentCategory(0);
         createNavigationMenuBar();
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
@@ -53,6 +54,12 @@ public class CatalogListActivity extends BaseListActivity {
 //                Item.getUITags(), new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price,
 //                R.id.product_category});
 //        listView.setAdapter(simpleAdapter);
+    }
+
+    @Override
+    protected void createNavigationMenuBar() {
+        super.createNavigationMenuBar();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override

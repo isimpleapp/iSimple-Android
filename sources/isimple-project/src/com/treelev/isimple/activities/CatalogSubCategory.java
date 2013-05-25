@@ -30,6 +30,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
+        setCurrentCategory(0);
         createNavigationMenuBar();
         RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
         rg.setOnCheckedChangeListener(this);

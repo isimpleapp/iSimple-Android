@@ -177,7 +177,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         Intent intent = new Intent(this, backActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, categoryID);
+        intent.putExtra(CatalogListActivity.CATEGORY_ID, categoryID);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);

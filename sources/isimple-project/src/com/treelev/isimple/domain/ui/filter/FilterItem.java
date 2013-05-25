@@ -1,4 +1,4 @@
-package com.treelev.isimple.domain.ui;
+package com.treelev.isimple.domain.ui.filter;
 
 import android.app.Activity;
 import android.content.Context;

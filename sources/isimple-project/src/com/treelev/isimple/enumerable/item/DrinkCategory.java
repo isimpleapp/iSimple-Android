@@ -3,56 +3,36 @@ package com.treelev.isimple.enumerable.item;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public enum DrinkCategory implements Parcelable{
+public enum DrinkCategory {
     WINE("Вино"), SPARKLING("Игристое"), PORTO("Порто-Херес"),
-    STRONG("Крепкий Алкоголь"), SAKE("Саке"), WATER("Вода"),
+    SPIRITS("Крепкий Алкоголь"), SAKE("Саке"), WATER("Вода"),
     OTHER("Другое");
 
-    public static final Parcelable.Creator<DrinkCategory> CREATOR = new Parcelable.Creator<DrinkCategory>() {
+    private String name;
 
-        public DrinkCategory createFromParcel(Parcel in) {
-            return DrinkCategory.values()[in.readInt()];
-        }
-
-        public DrinkCategory[] newArray(int size) {
-            return new DrinkCategory[size];
-        }
-
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
+    private DrinkCategory(String name) {
+        this.name = name;
     }
 
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(ordinal());
-    }
-
-    private String description;
-
-    private DrinkCategory() {
-        this(null);
-    }
-
-    private DrinkCategory(String description) {
-        this.description = description;
+    public String getName() {
+        return name;
     }
 
     public String getDescription() {
-        return description;
+        return getName();
     }
 
-    public static DrinkCategory getDrinkCategory(String drinkCategoryId) {
-//        for (DrinkCategory drinkCategory : values()) {
-//            if (drinkCategory.description != null && drinkCategory.description.equalsIgnoreCase(drinkCategoryId)) {
-//                return drinkCategory;
-//            }
-//        }
-        if(drinkCategoryId != null){
-            return DrinkCategory.values()[Integer.valueOf(drinkCategoryId)];
+    public static DrinkCategory getDrinkCategory(String name) {
+        for (DrinkCategory drinkCategory : values()) {
+            if (drinkCategory.name != null && drinkCategory.name.equalsIgnoreCase(name)) {
+                return drinkCategory;
+            }
         }
         return OTHER;
+    }
+
+    public static DrinkCategory getDrinkCategory(int ordinal) {
+        return ordinal >= 0 && ordinal < DrinkCategory.values().length
+                ? DrinkCategory.values()[ordinal] : OTHER;
     }
 }

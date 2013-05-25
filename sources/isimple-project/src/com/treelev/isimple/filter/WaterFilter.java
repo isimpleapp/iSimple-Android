@@ -1,34 +1,28 @@
 package com.treelev.isimple.filter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.view.View;
 import com.treelev.isimple.R;
-import com.treelev.isimple.activities.filter.ExpandableListFilterActivity;
-import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
-import com.treelev.isimple.domain.ui.*;
-import org.holoeverywhere.LayoutInflater;
+import com.treelev.isimple.domain.ui.filter.DefaultSeekBarFilterItem;
+import com.treelev.isimple.domain.ui.filter.ExpandableActivityFilterItem;
+import com.treelev.isimple.domain.ui.filter.FilterItem;
+import com.treelev.isimple.domain.ui.filter.FilterItemData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WaterFilter implements Filter, View.OnClickListener {
+public class WaterFilter extends Filter {
 
-    private Context context;
-    private View filterHeaderLayout;
+//    private Context context;
+//    private View filterHeaderLayout;
     private List<FilterItem> filterItemList;
 
     public WaterFilter(Context context) {
-        this.context = context;
-        LayoutInflater inflater = LayoutInflater.from(context);
-        filterHeaderLayout = inflater.inflate(R.layout.category_spirits_water_filter_header_layout);
-        filterHeaderLayout.setOnClickListener(this);
+        super(context);
+//        this.context = context;
+//        LayoutInflater inflater = LayoutInflater.from(context);
+//        filterHeaderLayout = inflater.inflate(R.layout.category_spirits_water_filter_header_layout);
+//        filterHeaderLayout.setOnClickListener(this);
         filterItemList = createFilterContent();
-    }
-
-    @Override
-    public View getFilterHeaderLayout() {
-        return filterHeaderLayout;
     }
 
     @Override
@@ -41,16 +35,11 @@ public class WaterFilter implements Filter, View.OnClickListener {
         return filterItemList;
     }
 
-    @Override
-    public void onClick(View v) {
-        context.startActivity(new Intent(context, DefaultListFilterActivity.class));
-    }
-
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
-        filterItems.add(new ExpandableActivityFilterItem(context, context.getString(R.string.filter_item_region),
-                FilterItemData.getAvailableCountryRegions(context, R.id.category_wine_butt)));
-        filterItems.add(new DefaultSeekBarFilterItem(context));
+        filterItems.add(new ExpandableActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_region),
+                FilterItemData.getAvailableCountryRegions(getContext(), R.id.category_wine_butt)));
+        filterItems.add(new DefaultSeekBarFilterItem(getContext()));
         return filterItems;
     }
 }

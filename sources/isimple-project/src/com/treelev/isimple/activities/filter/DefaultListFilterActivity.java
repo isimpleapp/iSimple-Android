@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BaseListActivity;
-import com.treelev.isimple.domain.ui.FilterItemData;
+import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.CheckBox;

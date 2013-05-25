@@ -1,8 +1,9 @@
-package com.treelev.isimple.domain.ui;
+package com.treelev.isimple.domain.ui.filter;
 
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.treelev.isimple.domain.ui.Presentable;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
 import java.util.HashMap;

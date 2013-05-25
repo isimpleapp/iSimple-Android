@@ -33,7 +33,7 @@ import java.net.URLConnection;
 
 public class CatalogListActivity extends BaseListActivity {
 
-    public final static String CATEGORY_NAME_EXTRA_ID = "category_name";
+    public final static String CATEGORY_ID = "category_id";
     private View darkView;
     private RelativeLayout myLayout;
     private ProxyManager mProxyManager;
@@ -49,11 +49,6 @@ public class CatalogListActivity extends BaseListActivity {
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
         new SelectDataRandomTask(this).execute();
-//        ProxyManager proxyManager = new ProxyManager(this);
-//        SimpleAdapter simpleAdapter = new SimpleAdapter(this, proxyManager.getRandomItems(), R.layout.catalog_item_layout,
-//                Item.getUITags(), new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price,
-//                R.id.product_category});
-//        listView.setAdapter(simpleAdapter);
     }
 
     @Override
@@ -149,7 +144,7 @@ public class CatalogListActivity extends BaseListActivity {
 
     public void onClickCategoryButt(View v) {
         Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
-        startIntent.putExtra(CATEGORY_NAME_EXTRA_ID, v.getId());
+        startIntent.putExtra(CATEGORY_ID, v.getId());
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }

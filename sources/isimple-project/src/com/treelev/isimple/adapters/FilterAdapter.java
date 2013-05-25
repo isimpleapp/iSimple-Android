@@ -3,11 +3,13 @@ package com.treelev.isimple.adapters;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import com.treelev.isimple.R;
-import com.treelev.isimple.domain.ui.FilterItem;
+import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.filter.Filter;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
+import org.holoeverywhere.widget.TextView;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
     private List<FilterItem> items;
     private LayoutInflater layoutInflater;
     private View groupView;
+    private View emptyView;
 
     public FilterAdapter(Context context, Filter filter) {
         this.items = filter.getFilterContent();
@@ -59,10 +62,18 @@ public class FilterAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if (groupView == null) {
-            groupView = layoutInflater.inflate(R.layout.category_filter_group_layout, parent, false);
+        if (!isExpanded) {
+            if (groupView == null) {
+                groupView = layoutInflater.inflate(R.layout.category_filter_group_layout, parent, false);
+            }
+            return groupView;
         }
-        return groupView;
+        else {
+            if (emptyView == null) {
+                emptyView = layoutInflater.inflate(R.layout.empty_layout, parent, false);
+            }
+            return emptyView;
+        }
     }
 
     @Override

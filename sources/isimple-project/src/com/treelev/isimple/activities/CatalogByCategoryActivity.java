@@ -22,7 +22,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
-import com.treelev.isimple.domain.ui.FilterItem;
+import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.filter.*;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
@@ -66,7 +66,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         darkView = findViewById(R.id.category_dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
-        mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_NAME_EXTRA_ID, -1);
+        mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         filter = initFilter();
         initFilterListView();
         new SelectDataTask(this).execute(mCategoryID);
@@ -149,28 +149,25 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
     @Override
     public void onGroupExpand(int groupPosition) {
-        LinearLayout groupView = (LinearLayout) filterListView.getChildAt(groupPosition);
-        groupView.findViewById(R.id.group_name).setVisibility(View.GONE);
-        groupView.addView(filter.getFilterHeaderLayout(),
-                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics())));
+//        LinearLayout groupView = (LinearLayout) filterListView.getChildAt(groupPosition);
+//        groupView.setVisibility(View.GONE);
         footerView.findViewById(R.id.sort_group).setVisibility(View.GONE);
         footerView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
         mExpandFiltr = true;
     }
 
-    private int getViewsHeight(View view) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int screenWidth = metrics.widthPixels;
-
-        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(screenWidth, View.MeasureSpec.EXACTLY);
-
-        view.measure(widthMeasureSpec, heightMeasureSpec);
-        return view.getMeasuredHeight();
-    }
+//    private int getViewsHeight(View view) {
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//
+//        int screenWidth = metrics.widthPixels;
+//
+//        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+//        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(screenWidth, View.MeasureSpec.EXACTLY);
+//
+//        view.measure(widthMeasureSpec, heightMeasureSpec);
+//        return view.getMeasuredHeight();
+//    }
 
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -223,7 +220,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         }
     }
 
-    private com.treelev.isimple.filter.Filter initFilter() {
+    private Filter initFilter() {
         switch (mCategoryID) {
             case R.id.category_wine_butt:
                 return new WineFilter(this);
@@ -280,17 +277,15 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         public void onClick(View view) {
             organizeView();
             filterListView.collapseGroup(0);
-
         }
 
         private void organizeView() {
-            View groupView = filterListView.getChildAt(0);
-            ((ViewGroup) groupView).removeView(groupView.findViewById(R.id.category_type_view));
-            groupView.findViewById(R.id.group_name).setVisibility(View.VISIBLE);
+//            View groupView = filterListView.getChildAt(0);
+            //((ViewGroup) groupView).removeView(groupView.findViewById(R.id.category_type_view));
+//            groupView.setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
         }
-
     };
 
     private class SortTask extends AsyncTask<Integer, Void, Cursor> {

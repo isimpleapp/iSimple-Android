@@ -1,8 +1,7 @@
-package com.treelev.isimple.domain.ui;
+package com.treelev.isimple.domain.ui.filter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +11,8 @@ import com.treelev.isimple.views.RangeSeekBar;
 import org.holoeverywhere.widget.LinearLayout;
 
 public class DefaultSeekBarFilterItem extends FilterItem {
-    private static final int DEFAULT_MIN_VALUE = 20;
-    private static final int DEFAULT_MAX_VALUE = 75;
+    private static final int DEFAULT_MIN_VALUE = 0;
+    private static final int DEFAULT_MAX_VALUE = 5000;
 
     private LayoutInflater layoutInflater;
 

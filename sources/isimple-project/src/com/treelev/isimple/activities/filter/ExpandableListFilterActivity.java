@@ -1,10 +1,12 @@
 package com.treelev.isimple.activities.filter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BaseExpandableListActivity;
@@ -134,24 +136,41 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         }
 
         @Override
+        public View newGroupView(boolean isExpanded, ViewGroup parent) {
+            View groupView = super.newGroupView(isExpanded, parent);
+            GroupViewHolder viewHolder = new GroupViewHolder();
+            viewHolder.textView = (TextView)groupView.findViewById(android.R.id.text1);
+            viewHolder.textView.setTextColor(R.drawable.expandable_list_color_selector);
+            groupView.setTag(viewHolder);
+            return groupView;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            View groupView = super.getGroupView(groupPosition, isExpanded, convertView, parent);
+            GroupViewHolder viewHolder = (GroupViewHolder)groupView.getTag();
+            FilterItemData[] filters = getFilterItems(groupPosition);
+            viewHolder.groupPosition = groupPosition;
+            viewHolder.textView.setTextColor(isAnyItemChecked(filters) ? Color.BLACK : Color.LTGRAY);
+            return groupView;
+        }
+
+        @Override
         public View newChildView(boolean isLastChild, ViewGroup parent) {
             View view = super.newChildView(isLastChild, parent);
-
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.filter_data_check);
             view.setOnClickListener(this);
             checkBox.setOnClickListener(this);
-
-            ViewHolder viewHolder = new ViewHolder();
+            ChildViewHolder viewHolder = new ChildViewHolder();
             viewHolder.checkBox = checkBox;
             view.setTag(viewHolder);
-
             return view;
         }
 
         @Override
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             View childView = super.getChildView(groupPosition, childPosition, isLastChild, convertView, parent);
-            ViewHolder viewHolder = (ViewHolder)childView.getTag();
+            ChildViewHolder viewHolder = (ChildViewHolder)childView.getTag();
             viewHolder.groupPosition = groupPosition;
             viewHolder.childPosition = childPosition;
             FilterItemData filterData = getFilterItemData(groupPosition, childPosition);
@@ -164,22 +183,41 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             if (v.getId() == R.id.filter_data_check) {
                 v = (View)v.getParent();
             }
-            ViewHolder viewHolder = ((ViewHolder) v.getTag());
+            ChildViewHolder viewHolder = ((ChildViewHolder) v.getTag());
             FilterItemData filterData = getFilterItemData(viewHolder.groupPosition, viewHolder.childPosition);
             filterData.setChecked(!filterData.isChecked());
             viewHolder.checkBox.setChecked(filterData.isChecked());
         }
 
         private FilterItemData getFilterItemData(int groupPosition, int childPosition) {
-            Map<String, Object> group = (Map<String, Object>)getGroup(groupPosition);
-            FilterItemData[] filters = getFilterData().get(group.get(GROUP_NAME));
+            FilterItemData[] filters = getFilterItems(groupPosition);
             return filters[childPosition];
         }
 
-        private class ViewHolder {
+        private FilterItemData[] getFilterItems(int groupPosition) {
+            Map<String, Object> group = (Map<String, Object>)getGroup(groupPosition);
+            return getFilterData().get(group.get(GROUP_NAME));
+        }
+
+        private boolean isAnyItemChecked(FilterItemData[] filterData) {
+            if (filterData != null) {
+                for (FilterItemData item : filterData) {
+                    if (item.isChecked())
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        private class ChildViewHolder {
             CheckBox checkBox;
             int groupPosition;
             int childPosition;
+        }
+
+        private class GroupViewHolder {
+            TextView textView;
+            int groupPosition;
         }
     }
 }

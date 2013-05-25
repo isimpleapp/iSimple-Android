@@ -140,7 +140,6 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             View groupView = super.newGroupView(isExpanded, parent);
             GroupViewHolder viewHolder = new GroupViewHolder();
             viewHolder.textView = (TextView)groupView.findViewById(android.R.id.text1);
-            viewHolder.textView.setTextColor(R.drawable.expandable_list_color_selector);
             groupView.setTag(viewHolder);
             return groupView;
         }

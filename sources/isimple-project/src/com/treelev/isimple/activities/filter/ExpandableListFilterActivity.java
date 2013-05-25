@@ -3,12 +3,13 @@ package com.treelev.isimple.activities.filter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.View;
+import android.view.ViewGroup;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BaseExpandableListActivity;
-import com.treelev.isimple.domain.ui.FilterItem;
 import com.treelev.isimple.domain.ui.FilterItemData;
-import com.treelev.isimple.utils.managers.ProxyManager;
+import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.SimpleExpandableListAdapter;
 
 import java.util.*;
@@ -24,15 +25,17 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int categoryId = getIntent().getIntExtra(FilterItem.EXTRA_CATEGORY_ID, -1);
         setContentView(R.layout.filter_expandable_layout);
         createNavigationMenuBar();
-        ProxyManager proxyManager = new ProxyManager(this);
-        getExpandableListView().setAdapter(new SimpleExpandableListAdapter(this,
+        getExpandableListView().setAdapter(new CustomExpandableListAdapter(
                 getGroupItems(getFilterData()),
-                android.R.layout.simple_expandable_list_item_1, new String[] { GROUP_NAME }, new int[] { android.R.id.text1 },
+                android.R.layout.simple_expandable_list_item_1,
+                new String[] { GROUP_NAME },
+                new int[] { android.R.id.text1 },
                 getSubItems(getFilterData()),
-                R.layout.filter_item_view, new String[] { ITEM_NAME }, new int[] { R.id.filter_data_name }));
+                R.layout.filter_item_view,
+                new String[] { ITEM_NAME },
+                new int[] { R.id.filter_data_name }));
     }
 
     @Override
@@ -114,5 +117,69 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             filterData = getFilterData(getIntent());
         }
         return filterData;
+    }
+
+    private class CustomExpandableListAdapter extends SimpleExpandableListAdapter implements View.OnClickListener {
+
+        public CustomExpandableListAdapter(List<? extends Map<String, ?>> groupData,
+                                           int groupLayout,
+                                           String[] groupFrom,
+                                           int[] groupTo,
+                                           List<? extends List<? extends Map<String, ?>>> childData,
+                                           int childLayout,
+                                           String[] childFrom,
+                                           int[] childTo) {
+            super(ExpandableListFilterActivity.this, groupData, groupLayout,
+                    groupFrom, groupTo, childData, childLayout, childFrom, childTo);
+        }
+
+        @Override
+        public View newChildView(boolean isLastChild, ViewGroup parent) {
+            View view = super.newChildView(isLastChild, parent);
+
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.filter_data_check);
+            view.setOnClickListener(this);
+            checkBox.setOnClickListener(this);
+
+            ViewHolder viewHolder = new ViewHolder();
+            viewHolder.checkBox = checkBox;
+            view.setTag(viewHolder);
+
+            return view;
+        }
+
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            View childView = super.getChildView(groupPosition, childPosition, isLastChild, convertView, parent);
+            ViewHolder viewHolder = (ViewHolder)childView.getTag();
+            viewHolder.groupPosition = groupPosition;
+            viewHolder.childPosition = childPosition;
+            FilterItemData filterData = getFilterItemData(groupPosition, childPosition);
+            viewHolder.checkBox.setChecked(filterData.isChecked());
+            return childView;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.filter_data_check) {
+                v = (View)v.getParent();
+            }
+            ViewHolder viewHolder = ((ViewHolder) v.getTag());
+            FilterItemData filterData = getFilterItemData(viewHolder.groupPosition, viewHolder.childPosition);
+            filterData.setChecked(!filterData.isChecked());
+            viewHolder.checkBox.setChecked(filterData.isChecked());
+        }
+
+        private FilterItemData getFilterItemData(int groupPosition, int childPosition) {
+            Map<String, Object> group = (Map<String, Object>)getGroup(groupPosition);
+            FilterItemData[] filters = getFilterData().get(group.get(GROUP_NAME));
+            return filters[childPosition];
+        }
+
+        private class ViewHolder {
+            CheckBox checkBox;
+            int groupPosition;
+            int childPosition;
+        }
     }
 }

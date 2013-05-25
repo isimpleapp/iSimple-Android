@@ -5,9 +5,10 @@
         android:id="@+id/header_distance_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13dip"
+        android:textSize="17sp"
+        android:textStyle="bold"
         android:background="@android:color/white"
-        android:textColor="@android:color/black"
+        android:textColor="@color/product_text_color"
         android:paddingLeft="8dip" android:paddingRight="8dip"
         android:paddingTop="3dip" android:paddingBottom="2dip">
 </org.holoeverywhere.widget.TextView>

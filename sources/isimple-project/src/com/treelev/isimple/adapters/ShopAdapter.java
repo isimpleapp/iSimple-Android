@@ -23,15 +23,16 @@ import java.util.List;
 public class ShopAdapter extends ArrayAdapter {
 
     private Context context;
-    private List<DistanceShop> items;
+    private List<AbsDistanceShop> items;
     private LayoutInflater inflater;
 
 
 
-    public ShopAdapter(Context context, ArrayList<DistanceShop> items) {
+    public ShopAdapter(Context context, List<AbsDistanceShop> items) {
         super(context, 0, items);
         this.context = context;
         this.items = items;
+        inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override

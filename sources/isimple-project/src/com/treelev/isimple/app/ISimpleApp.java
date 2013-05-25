@@ -3,6 +3,7 @@ package com.treelev.isimple.app;
 import android.content.res.AssetManager;
 import android.location.Location;
 import com.treelev.isimple.data.ShopDAO;
+import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
 import org.holoeverywhere.app.Application;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class ISimpleApp extends Application {
 
-    private List<DistanceShop> distanceShopList;
+    private List<AbsDistanceShop> distanceShopList;
     private Location currentLocation;
 
     @Override
@@ -29,11 +30,11 @@ public class ISimpleApp extends Application {
         distanceShopList = new ShopDAO(this).getNearestShops(currentLocation);
     }
 
-    public List<DistanceShop> getDistanceShopList() {
+    public List<AbsDistanceShop> getDistanceShopList() {
         return distanceShopList;
     }
 
-    public void setDistanceShopList(List<DistanceShop> distanceShopList) {
+    public void setDistanceShopList(List<AbsDistanceShop> distanceShopList) {
         this.distanceShopList = distanceShopList;
     }
 

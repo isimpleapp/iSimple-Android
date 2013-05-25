@@ -2,11 +2,14 @@ package com.treelev.isimple.utils.managers;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.*;
 import com.treelev.isimple.domain.comparators.ItemCompareName;
 import com.treelev.isimple.domain.comparators.ItemComparePrice;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.domain.ui.DistanceShop;
 import com.treelev.isimple.utils.Utils;
 
 import java.util.*;
@@ -115,6 +118,10 @@ public class ProxyManager {
 
     public Cursor getChains() {
         return ((ChainDAO) getObjectDAO(ChainDAO.ID)).getChains();
+    }
+
+    public List<AbsDistanceShop> getNearestShops(Location location) {
+        return ((ShopDAO) getObjectDAO(ShopDAO.ID)).getNearestShops(location);
     }
 
     private BaseDAO getObjectDAO(int id) {

@@ -8,5 +8,5 @@
             android:layout_height="wrap_content"
             android:id="@android:id/list"
             android:listSelector="@drawable/product_list_item_selector"
-            android:layout_below="@+id/sort_control"/>
+            />
 </LinearLayout>

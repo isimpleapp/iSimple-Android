@@ -21,6 +21,15 @@ public class DistanceShop extends AbsDistanceShop {
 
     @Override
     public String getTitle() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        String format;
+        int factor;
+        if( getDistance() > 1000.0f ) {
+            format = "%s (%.1f км)";
+            factor = 1000;
+        } else {
+            format = "%s (%.0f м)";
+            factor = 1;
+        }
+        return String.format(format, shop.getLocationName(), getDistance() / factor );
     }
 }

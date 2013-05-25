@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.location.Location;
+import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
 import com.treelev.isimple.domain.db.Shop;
 
@@ -93,13 +94,13 @@ public class ShopDAO extends BaseDAO {
         return winesList;
     }
 
-    public List<DistanceShop> getNearestShops(Location currentLocation) {
+    public List<AbsDistanceShop> getNearestShops(Location currentLocation) {
         open();
         String formatSelectScript = "select %s, %s, %s, %s, %s from %s";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.SHOP_LOCATION_ID, DatabaseSqlHelper.SHOP_LOCATION_NAME,
                 DatabaseSqlHelper.SHOP_LOCATION_ADDRESS, DatabaseSqlHelper.SHOP_LANTITUDE, DatabaseSqlHelper.SHOP_LONGITUDE, DatabaseSqlHelper.SHOP_TABLE);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
-        List<DistanceShop> distanceShopList = new ArrayList<DistanceShop>();
+        List<AbsDistanceShop> distanceShopList = new ArrayList<AbsDistanceShop>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 Shop shop = new Shop();
@@ -118,6 +119,6 @@ public class ShopDAO extends BaseDAO {
             cursor.close();
         }
         close();
-        return distanceShopList.subList(0, 15);
+        return distanceShopList.subList(0, 100);
     }
 }

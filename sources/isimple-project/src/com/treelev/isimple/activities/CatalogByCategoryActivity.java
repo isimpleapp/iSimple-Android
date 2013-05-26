@@ -11,10 +11,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.SimpleCursorAdapter;
+import android.widget.*;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
@@ -24,6 +21,7 @@ import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.filter.*;
+import com.treelev.isimple.filter.Filter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -149,30 +147,14 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
     @Override
     public void onGroupExpand(int groupPosition) {
-//        LinearLayout groupView = (LinearLayout) filterListView.getChildAt(groupPosition);
-//        groupView.setVisibility(View.GONE);
         footerView.findViewById(R.id.sort_group).setVisibility(View.GONE);
         footerView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
         mExpandFiltr = true;
     }
 
-//    private int getViewsHeight(View view) {
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//
-//        int screenWidth = metrics.widthPixels;
-//
-//        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-//        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(screenWidth, View.MeasureSpec.EXACTLY);
-//
-//        view.measure(widthMeasureSpec, heightMeasureSpec);
-//        return view.getMeasuredHeight();
-//    }
-
     @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        filter.getFilterContent().get(childPosition).process();
-        return false;
+        return filter.getFilterContent().get(childPosition).process();
     }
 
     @Override
@@ -265,6 +247,12 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         filterListView = (ExpandableListView) findViewById(R.id.filtration_view);
         filterListView.setOnGroupExpandListener(this);
         filterListView.setOnChildClickListener(this);
+        filterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
         footerView = getLayoutInflater().inflate(R.layout.category_filtration_button_bar_layout, filterListView, false);
         ((RadioGroup) footerView.findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
         footerView.findViewById(R.id.reset_butt).setOnClickListener(resetButtonClick);

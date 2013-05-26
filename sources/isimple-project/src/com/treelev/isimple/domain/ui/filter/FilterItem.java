@@ -53,11 +53,13 @@ public abstract class FilterItem {
         return new Intent(getContext(), getActivityClass());
     }
 
-    public void process() {
+    public boolean process() {
         if (itemType == ITEM_ACTIVITY) {
             ((Activity) context).startActivityForResult(createIntent(), requestCode);
             ((Activity) context).overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+            return true;
         }
+        return false;
     }
 
     public boolean processResult(int requestCode, int resultCode, Intent data) {

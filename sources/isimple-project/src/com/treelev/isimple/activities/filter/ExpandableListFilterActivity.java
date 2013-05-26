@@ -90,17 +90,22 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
 
     public static Map<String, FilterItemData[]> getFilterData(Intent intent) {
         Bundle bundle = intent.getBundleExtra(BUNDLE_EXTRA);
-        String[] names = bundle.getStringArray(NAME_DATA);
         Map<String, FilterItemData[]> filterData = new HashMap<String, FilterItemData[]>();
-        if (names != null) {
-            for (String name : names) {
-                Parcelable[] parcelableItems = bundle.getParcelableArray(name);
-                filterData.put(name, parcelableItems != null ?
-                        Arrays.copyOf(parcelableItems, parcelableItems.length, FilterItemData[].class) :
-                        new FilterItemData[0]);
+        if (bundle != null) {
+            String[] names = bundle.getStringArray(NAME_DATA);
+            if (names != null) {
+                for (String name : names) {
+                    Parcelable[] parcelableItems = bundle.getParcelableArray(name);
+                    filterData.put(name, parcelableItems != null ?
+                            Arrays.copyOf(parcelableItems, parcelableItems.length, FilterItemData[].class) :
+                            new FilterItemData[0]);
+                }
             }
+            return filterData;
         }
-        return filterData;
+        else {
+            return filterData;
+        }
     }
 
     public static void putFilterData(Intent intent, Map<String, FilterItemData[]> filterData) {

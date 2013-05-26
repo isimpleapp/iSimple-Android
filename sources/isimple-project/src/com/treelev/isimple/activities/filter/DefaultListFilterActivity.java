@@ -51,10 +51,15 @@ public class DefaultListFilterActivity extends BaseListActivity {
 
     public static FilterItemData[] getFilterData(Intent intent) {
         Bundle bundle = intent.getBundleExtra(BUNDLE_EXTRA);
-        Parcelable[] parcelableItems = bundle.getParcelableArray(FILTER_DATA);
-        return (parcelableItems != null) ?
-                Arrays.copyOf(parcelableItems, parcelableItems.length, FilterItemData[].class) :
-                new FilterItemData[0];
+        if (bundle != null) {
+            Parcelable[] parcelableItems = bundle.getParcelableArray(FILTER_DATA);
+            return (parcelableItems != null) ?
+                    Arrays.copyOf(parcelableItems, parcelableItems.length, FilterItemData[].class) :
+                    new FilterItemData[0];
+        }
+        else {
+            return new FilterItemData[0];
+        }
     }
 
     public static void putFilterData(Intent intent, FilterItemData[] filterData) {

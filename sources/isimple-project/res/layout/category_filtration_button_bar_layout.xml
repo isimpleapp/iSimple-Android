@@ -82,6 +82,7 @@
                 style="?android:attr/listSeparatorTextViewStyle"
                 android:background="@drawable/tab_indicator_right"
                 android:checked="false"
-                android:button="@android:color/transparent"/>
+                android:button="@android:color/transparent"
+                android:paddingLeft="1dip"/>
     </RadioGroup>
 </LinearLayout>

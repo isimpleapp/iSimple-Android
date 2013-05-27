@@ -13,6 +13,7 @@ import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShopHeader;
+import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Dialog;
@@ -80,6 +81,8 @@ public class ShopListFragment extends ListFragment {
             location.setLatitude(55.770f);
 //            location.setLongitude(27.0f);
 //            location.setLatitude(53.0f);
+//            LocationTrackingManager locationTrackingManager = new LocationTrackingManager(mContext);
+//            Location location = locationTrackingManager.getCurrentLocation();
             List<AbsDistanceShop> items = getProxyManager().getNearestShops(location);
 //add header
             addHeader(items);

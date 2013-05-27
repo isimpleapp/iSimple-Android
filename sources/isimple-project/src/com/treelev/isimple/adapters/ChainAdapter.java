@@ -8,14 +8,6 @@ import android.widget.TextView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Chain;
 
-
-/**
- * Created with IntelliJ IDEA.
- * User: Maryna
- * Date: 24.05.13
- * Time: 12:38
- * To change this template use File | Settings | File Templates.
- */
 public class ChainAdapter extends SimpleCursorAdapter {
 
     public ChainAdapter(Context context, int layout, Cursor c, String[] from, int[] to) {

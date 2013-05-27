@@ -13,13 +13,6 @@ import org.holoeverywhere.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mhviedchenia
- * Date: 24.05.13
- * Time: 14:28
- * To change this template use File | Settings | File Templates.
- */
 public class ShopsAdapter extends ArrayAdapter {
 
     private Context context;

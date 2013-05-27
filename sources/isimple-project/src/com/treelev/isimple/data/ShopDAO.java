@@ -15,6 +15,7 @@ import java.util.List;
 public class ShopDAO extends BaseDAO {
 
     public final static int ID = 2;
+    public final static  int SHOP_LIMIT = 100;
 
     public ShopDAO(Context context) {
         super(context);
@@ -119,6 +120,7 @@ public class ShopDAO extends BaseDAO {
             cursor.close();
         }
         close();
-        return distanceShopList.subList(0, 200);
+        int limit = SHOP_LIMIT < distanceShopList.size() ? distanceShopList.size() : SHOP_LIMIT;
+        return distanceShopList.subList(0, limit);
     }
 }

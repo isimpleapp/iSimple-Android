@@ -63,17 +63,11 @@ public class ChainDAO extends BaseDAO {
         String selectSql = String.format(formatSelectScript,
                 DatabaseSqlHelper.CHAIN_ID + " as _id", DatabaseSqlHelper.CHAIN_NAME, DatabaseSqlHelper.CHAIN_TYPE,
                 DatabaseSqlHelper.CHAIN_TABLE, DatabaseSqlHelper.CHAIN_NAME);
-        return getDatabase().rawQuery(selectSql, null);
-//        List<String> webList = null;
-//        if (cursor != null) {
-//            webList = new ArrayList<String>();
-//            while (cursor.moveToNext()) {
-//                webList.add(cursor.getString(0));
-//            }
-//            cursor.close();
-//        }
 //        close();
-//        return webList;
+        return getDatabase().rawQuery(selectSql, null);
+
     }
+
+
 
 }

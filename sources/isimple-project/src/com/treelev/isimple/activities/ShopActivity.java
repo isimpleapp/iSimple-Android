@@ -54,4 +54,7 @@ public class ShopActivity extends BaseActivity {
         super.createNavigationMenuBar();
         getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
     }
+
+
+
 }

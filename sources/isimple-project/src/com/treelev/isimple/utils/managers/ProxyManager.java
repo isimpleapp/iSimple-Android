@@ -120,6 +120,10 @@ public class ProxyManager {
         return ((ChainDAO) getObjectDAO(ChainDAO.ID)).getChains();
     }
 
+    public List<AbsDistanceShop> getShopByChain(Location currentLocation, String chainID) {
+        return ((ShopDAO) getObjectDAO(ShopDAO.ID)).getShopByChain(currentLocation, chainID);
+    }
+
     public List<AbsDistanceShop> getNearestShops(Location location) {
         return ((ShopDAO) getObjectDAO(ShopDAO.ID)).getNearestShops(location);
     }

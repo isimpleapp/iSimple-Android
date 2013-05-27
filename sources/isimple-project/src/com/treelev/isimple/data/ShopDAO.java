@@ -119,6 +119,6 @@ public class ShopDAO extends BaseDAO {
             cursor.close();
         }
         close();
-        return distanceShopList.subList(0, 100);
+        return distanceShopList.subList(0, 200);
     }
 }

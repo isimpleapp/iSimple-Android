@@ -16,7 +16,7 @@
                 android:gravity="center_horizontal">
             <org.holoeverywhere.widget.TextView
                     android:id="@+id/title_shop"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dip"
                     android:layout_width="match_parent"
                     android:textSize="30dip"
                     android:textStyle="bold"
@@ -29,7 +29,7 @@
                 android:gravity="center_horizontal">
             <org.holoeverywhere.widget.TextView
                     android:id="@+id/adress_shop"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dip"
                     android:layout_width="fill_parent"
                     android:textSize="15dip"
                     android:layout_gravity="center_horizontal"/>
@@ -54,11 +54,11 @@
 
     <org.holoeverywhere.widget.TextView
             android:layout_width="match_parent"
-            android:layout_height="4dip"
-                android:id="@+id/separator"
-            android:background="@android:color/black"
+            android:layout_height="2dip"
+            android:id="@+id/separator"
+            android:background="@color/shop_separator"
             android:gravity="center"
-            android:height="4dip"/>
+            android:height="2dip"/>
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:layout_width="fill_parent"

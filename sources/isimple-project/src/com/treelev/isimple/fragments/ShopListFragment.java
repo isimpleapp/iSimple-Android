@@ -78,15 +78,36 @@ public class ShopListFragment extends ListFragment {
             Location location = new Location("test_location");
             location.setLongitude(37.6167f);
             location.setLatitude(55.770f);
-
+//            location.setLongitude(27.0f);
+//            location.setLatitude(53.0f);
             List<AbsDistanceShop> items = getProxyManager().getNearestShops(location);
 //add header
-            DistanceShopHeader header = new DistanceShopHeader(0.0f, "НЕ ДАЛЕЕ 1 КМ");
-            items.add(header);
-            header = new DistanceShopHeader(1000.0f, "ДАЛЕЕ 1 КМ");
-            items.add(header);
-            Collections.sort(items);
+            addHeader(items);
             return items;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        private void addHeader(List<AbsDistanceShop> items) {
+            DistanceShopHeader header1 = new DistanceShopHeader(0.0f, "НЕ ДАЛЕЕ 1 КМ");
+            items.add(header1);
+            DistanceShopHeader header2 = new DistanceShopHeader(1000.0f, "ДАЛЕЕ 1 КМ");
+            items.add(header2);
+            DistanceShopHeader header3 = new DistanceShopHeader(5000.0f, "ДАЛЕЕ 5 КМ");
+            items.add(header3);
+            Collections.sort(items);
+//remove header empty distance category
+            int index = items.indexOf(header1);
+            if( items.get(index + 1) instanceof DistanceShopHeader ) {
+                items.remove(index);
+            }
+            index = items.indexOf(header2);
+            if( items.get(index + 1) instanceof DistanceShopHeader ) {
+                items.remove(index);
+            }
+            index = items.indexOf(header3);
+            if( index == items.size() - 1 ) {
+                items.remove(index);
+            }
+
         }
 
         @Override

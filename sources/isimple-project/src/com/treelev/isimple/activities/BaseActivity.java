@@ -43,11 +43,9 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
         Intent intent = null;
         switch (itemPosition) {
             case 0: //Catalog
-//                return new Intent(this, CatalogListActivity.class);
                 category = CatalogListActivity.class;
                 break;
             case 1: //Shop
-//                return new Intent(this, ShopsActivity.class);
                 category = ShopsActivity.class;
                 break;
             case 2: //Favorites
@@ -60,7 +58,6 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
                 category = null;
                 break;
             default:
-//                return null;
                 category = null;
         }
         if( !this.getClass().equals(category) && category != null){

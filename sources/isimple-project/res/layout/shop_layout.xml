@@ -48,7 +48,8 @@
                     android:textColor="@android:color/black"
                     android:paddingLeft="50dip"
                     android:paddingRight="50dip"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/category_butt_selector"/>
         </TableRow>
     </TableLayout>
 

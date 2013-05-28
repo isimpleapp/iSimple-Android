@@ -55,6 +55,7 @@ public class CatalogListActivity extends BaseListActivity {
     protected void createNavigationMenuBar() {
         super.createNavigationMenuBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
     }
 
     @Override

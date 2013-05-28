@@ -22,6 +22,8 @@ public class Utils {
                 return new CatalogParser();
             case ItemAvailabilityParser.ITEM_AVAILABILITY_PARSER_ID:
                 return new ItemAvailabilityParser();
+            case FeaturedItemsParser.FEATURED_ITEMS_PARSER_ID:
+                return new FeaturedItemsParser();
             default:
                 return null;
         }

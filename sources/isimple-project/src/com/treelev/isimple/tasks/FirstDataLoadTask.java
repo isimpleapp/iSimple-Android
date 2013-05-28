@@ -5,10 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.treelev.isimple.data.BaseDAO;
-import com.treelev.isimple.parser.CatalogParser;
-import com.treelev.isimple.parser.ItemAvailabilityParser;
-import com.treelev.isimple.parser.ItemPricesParser;
-import com.treelev.isimple.parser.ShopAndChainsParser;
+import com.treelev.isimple.parser.*;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.UnzipManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
@@ -83,6 +80,8 @@ public class FirstDataLoadTask extends AsyncTask<String, Integer, Void> {
                 return ItemAvailabilityParser.ITEM_AVAILABILITY_PARSER_ID;
             case 3:
                 return ItemPricesParser.ITEM_PRICES_PARSER_ID;
+            case 4:
+                return FeaturedItemsParser.FEATURED_ITEMS_PARSER_ID;
             default:
                 return null;
         }

@@ -1,8 +1,5 @@
 package com.treelev.isimple.enumerable.item;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public enum DrinkCategory {
     WINE("Вино"), SPARKLING("Игристое"), PORTO("Порто-Херес"),
     SPIRITS("Крепкий Алкоголь"), SAKE("Саке"), WATER("Вода"),

@@ -3,10 +3,7 @@ package com.treelev.isimple.tasks;
 import android.os.AsyncTask;
 import android.widget.TextView;
 import com.treelev.isimple.data.BaseDAO;
-import com.treelev.isimple.parser.CatalogParser;
-import com.treelev.isimple.parser.ItemAvailabilityParser;
-import com.treelev.isimple.parser.ItemPricesParser;
-import com.treelev.isimple.parser.ShopAndChainsParser;
+import com.treelev.isimple.parser.*;
 import com.treelev.isimple.utils.Utils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -83,6 +80,8 @@ public class ParseDataTask extends AsyncTask<File, Void, Void> {
                 return ItemAvailabilityParser.ITEM_AVAILABILITY_PARSER_ID;
             case 3:
                 return ItemPricesParser.ITEM_PRICES_PARSER_ID;
+            case 4:
+                return FeaturedItemsParser.FEATURED_ITEMS_PARSER_ID;
             default:
                 return -1;
         }

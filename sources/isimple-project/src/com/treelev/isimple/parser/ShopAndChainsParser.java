@@ -1,6 +1,5 @@
 package com.treelev.isimple.parser;
 
-import android.text.TextUtils;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ChainDAO;
 import com.treelev.isimple.data.ShopDAO;

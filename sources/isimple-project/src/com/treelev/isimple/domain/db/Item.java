@@ -53,8 +53,6 @@ public class Item implements Serializable {
     private String grapesUsed;
     private String rating;
     private Float quantity;
-    private boolean featured;
-    private boolean mainFeatured;
 
     public static String[] getUITags() {
         return new String[] { UI_TAG_IMAGE, UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE, UI_TAG_DRINK_CATEGORY };
@@ -374,21 +372,5 @@ public class Item implements Serializable {
 
     public void setQuantity(Float quantity) {
         this.quantity = quantity;
-    }
-
-    public boolean isFeatured() {
-        return featured;
-    }
-
-    public void setFeatured(boolean featured) {
-        this.featured = featured;
-    }
-
-    public boolean isMainFeatured() {
-        return mainFeatured;
-    }
-
-    public void setMainFeatured(boolean mainFeatured) {
-        this.mainFeatured = mainFeatured;
     }
 }

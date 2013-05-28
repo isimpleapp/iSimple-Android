@@ -51,8 +51,6 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_GRAPES_USED = "grapes_used";
     public final static String ITEM_RATING = "rating";
     public final static String ITEM_QUANTITY = "quantity";
-    public final static String ITEM_MAIN_FEATURED = "main_featured";
-    public final static String ITEM_FEATURED = "featured";
 
     private final static String CREATE_TABLE_ITEM_DEPRECATED = "create table " + ITEM_DEPRECATED_TABLE + "( " +
             ITEM_ID + " text primary key, " +
@@ -108,9 +106,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_VINEYARD + " text, " +
             ITEM_GRAPES_USED + " text, " +
             ITEM_RATING + " text, " +
-            ITEM_QUANTITY + " float, " +
-            ITEM_MAIN_FEATURED + " integer, " +
-            ITEM_FEATURED + " integer);";
+            ITEM_QUANTITY + " float;";
 
     public final static String ITEM_AVAILABILITY_TABLE = "item_availability";
     public final static String ITEM_AVAILABILITY_ID = BaseColumns._ID;
@@ -162,6 +158,15 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             CHAIN_NAME + " text, " +
             CHAIN_TYPE + " integer);";
 
+
+    public final static String FEATURED_ITEM_TABLE = "featured_item";
+    public final static String FEATURED_ITEM_ID = "item_id";
+    public final static String FEATURED_ITEM_CATEGORY_ID = "category_id";
+
+    private final static String CREATE_TABLE_FEATURED_ITEM = "create table " + FEATURED_ITEM_TABLE + " ( " +
+            FEATURED_ITEM_ID + " text, " +
+            FEATURED_ITEM_CATEGORY_ID + " integer);";
+
     public DatabaseSqlHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -173,10 +178,12 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CHAIN);
         db.execSQL(CREATE_TABLE_SHOP);
         db.execSQL(CREATE_TABLE_ITEM_AVAILABILITY);
+        db.execSQL(CREATE_TABLE_FEATURED_ITEM);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + FEATURED_ITEM_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ITEM_AVAILABILITY_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + CHAIN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SHOP_TABLE);

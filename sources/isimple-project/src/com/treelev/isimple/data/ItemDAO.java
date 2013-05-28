@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.DeprecatedItem;
+import com.treelev.isimple.domain.db.FeaturedItem;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.ItemPrice;
 import com.treelev.isimple.enumerable.item.ItemColor;
@@ -239,11 +240,9 @@ public class ItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_VINEYARD + ", " +
                     DatabaseSqlHelper.ITEM_GRAPES_USED + ", " +
                     DatabaseSqlHelper.ITEM_RATING + ", " +
-                    DatabaseSqlHelper.ITEM_QUANTITY + ", " +
-                    DatabaseSqlHelper.ITEM_MAIN_FEATURED + ", " +
-                    DatabaseSqlHelper.ITEM_FEATURED +
+                    DatabaseSqlHelper.ITEM_QUANTITY +
                     ") VALUES " +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (Item item : items) {
                 insertStatement = bindString(insertStatement, 1, item.getItemID());
@@ -284,8 +283,6 @@ public class ItemDAO extends BaseDAO {
                 insertStatement = bindString(insertStatement, 36, item.getGrapesUsed());
                 insertStatement = bindString(insertStatement, 37, item.getRating());
                 insertStatement = bindFloat(insertStatement, 38, item.getQuantity());
-                insertStatement = bindInteger(insertStatement, 39, item.isMainFeatured() ? 1 : 0);
-                insertStatement = bindInteger(insertStatement, 40, item.isFeatured() ? 1 : 0);
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();
@@ -361,6 +358,49 @@ public class ItemDAO extends BaseDAO {
         }
         close();
     }
+
+    public void insertListFeaturedData(List<FeaturedItem> items) {
+        open();
+        getDatabase().beginTransaction();
+        try {
+            String insertSql = "INSERT OR REPLACE INTO " + DatabaseSqlHelper.FEATURED_ITEM_TABLE + " (" +
+                    DatabaseSqlHelper.FEATURED_ITEM_ID + ", " +
+                    DatabaseSqlHelper.FEATURED_ITEM_CATEGORY_ID + ") VALUES (?, ?)";
+
+            SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
+            for (FeaturedItem item : items) {
+                insertStatement = bindString(insertStatement, 1, item.getItemID());
+                insertStatement = bindInteger(insertStatement, 2, item.getCategoryID());
+                insertStatement.execute();
+            }
+            getDatabase().setTransactionSuccessful();
+        } finally {
+            getDatabase().endTransaction();
+        }
+        close();
+    }
+
+//    public void updateFeaturedList(List<FeaturedItem> featuredList) {
+//        open();
+//        getDatabase().beginTransaction();
+//        try {
+//            String updateSql = "UPDATE " + DatabaseSqlHelper.ITEM_TABLE + " SET " +
+//                    DatabaseSqlHelper.ITEM_MAIN_FEATURED + " = ?, " +
+//                    DatabaseSqlHelper.ITEM_FEATURED + " = ? WHERE " +
+//                    DatabaseSqlHelper.ITEM_ID + " = ?";
+//            SQLiteStatement updateStatement = getDatabase().compileStatement(updateSql);
+//            for (FeaturedItem featured : featuredList) {
+//                updateStatement = bindInteger(updateStatement, 1, featured.isMainFeatured() ? 1 : 0);
+//                updateStatement = bindInteger(updateStatement, 2, featured.isFeatured() ? 1 : 0);
+//                updateStatement = bindString(updateStatement, 3, featured.getItemID());
+//                updateStatement.execute();
+//            }
+//            getDatabase().setTransactionSuccessful();
+//        } finally {
+//            getDatabase().endTransaction();
+//        }
+//        close();
+//    }
 
     public List<String> getCountries() {
         open();
@@ -442,8 +482,6 @@ public class ItemDAO extends BaseDAO {
             item.setGrapesUsed(cursor.getString(35));
             item.setRating(cursor.getString(36));
             item.setQuantity(cursor.getFloat(37));
-            item.setMainFeatured(cursor.getInt(38) > 0);
-            item.setFeatured(cursor.getInt(39) > 0);
             cursor.close();
         }
         close();

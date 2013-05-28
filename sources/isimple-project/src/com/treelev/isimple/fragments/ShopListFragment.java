@@ -20,6 +20,7 @@ import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -76,16 +77,19 @@ public class ShopListFragment extends ListFragment {
         protected List<AbsDistanceShop> doInBackground(Void... voids) {
 //get location
 //TODO replace test to real location
-            Location location = new Location("test_location");
-            location.setLongitude(37.6167f);
-            location.setLatitude(55.770f);
+//            Location location = new Location("test_location");
+//            location.setLongitude(37.6167f);
+//            location.setLatitude(55.770f);
 //            location.setLongitude(27.0f);
 //            location.setLatitude(53.0f);
-//            LocationTrackingManager locationTrackingManager = new LocationTrackingManager(mContext);
-//            Location location = locationTrackingManager.getCurrentLocation();
-            List<AbsDistanceShop> items = getProxyManager().getNearestShops(location);
+            LocationTrackingManager locationTrackingManager = new LocationTrackingManager(mContext);
+            Location location = locationTrackingManager.getCurrentLocation();
+            List<AbsDistanceShop> items = null;
+            if( location != null ) {
+                items = getProxyManager().getNearestShops(location);
 //add header
-            addHeader(items);
+                addHeader(items);
+            }
             return items;  //To change body of implemented methods use File | Settings | File Templates.
         }
 
@@ -115,9 +119,14 @@ public class ShopListFragment extends ListFragment {
 
         @Override
         protected void onPostExecute(List<AbsDistanceShop> items) {
-            ShopsAdapter adapter = new ShopsAdapter(getActivity(), items);
-            getListView().setAdapter(adapter);
+            if(items != null) {
+                ShopsAdapter adapter = new ShopsAdapter(getActivity(), items);
+                getListView().setAdapter(adapter);
+            }
             mDialog.dismiss();
+            if( items == null ) {
+                Toast.makeText(mContext, mContext.getString(R.string.not_find_location), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

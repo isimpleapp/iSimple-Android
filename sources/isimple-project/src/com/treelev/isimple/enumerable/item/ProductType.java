@@ -77,6 +77,12 @@ public enum ProductType implements Serializable, Presentable {
     }
 
 
+    public static ProductType getProductType(Integer typeOrdinal) {
+        return (typeOrdinal != null && typeOrdinal >= 0 && typeOrdinal < ProductType.values().length) ?
+                ProductType.values()[typeOrdinal] : OTHER;
+    }
+
+
     public static String[] GetAvailableClassifications(ProductType productType) {
         if (productType == SPARKLING || productType == WINE || productType == CHAMPAGNE)
             return new String[0];

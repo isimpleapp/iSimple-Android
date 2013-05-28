@@ -2,31 +2,25 @@ package com.treelev.isimple.domain.db;
 
 public class ItemPrice {
 
-    private String itemId;
-    private Integer price;
-    private Integer priceMarkup;
+    private String itemID;
+    private float price;
+    private float priceMarkup;
 
-    public String getItemId() {
-        return itemId;
+    public ItemPrice(String itemID, float price, float priceMarkup) {
+        this.itemID = itemID;
+        this.price = price;
+        this.priceMarkup = priceMarkup;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public String getItemID() {
+        return itemID;
     }
 
-    public Integer getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public Integer getPriceMarkup() {
+    public float getPriceMarkup() {
         return priceMarkup;
-    }
-
-    public void setPriceMarkup(Integer priceMarkup) {
-        this.priceMarkup = priceMarkup;
     }
 }

@@ -71,4 +71,35 @@ public class Utils {
         }
         return result;
     }
+
+    public static Float parseFloat(String floatValue) {
+        if (floatValue != null) {
+            if (floatValue.startsWith("."))
+                floatValue = "0" + floatValue;
+
+            try {
+                return Float.parseFloat(floatValue);
+            }
+            catch (NumberFormatException e) {
+                return -1f;
+            }
+        }
+        else {
+            return -1f;
+        }
+    }
+
+    public static Integer parseInteger(String integerValue) {
+        if (integerValue != null) {
+            try {
+                return Integer.parseInt(integerValue);
+            }
+            catch (NumberFormatException e) {
+                return -1;
+            }
+        }
+        else {
+            return -1;
+        }
+    }
 }

@@ -8,6 +8,7 @@ import com.treelev.isimple.domain.db.Chain;
 import com.treelev.isimple.domain.db.Shop;
 import com.treelev.isimple.enumerable.chain.ChainType;
 import com.treelev.isimple.enumerable.location.LocationType;
+import com.treelev.isimple.utils.Utils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -53,7 +54,7 @@ public class ShopAndChainsParser implements Parser {
                         while (xmlPullParser.getEventType() != XmlPullParser.END_TAG && !xmlPullParser.getName().equals(CHAIN_OBJECT_TAG)) {
                             if (xmlPullParser.getEventType() == XmlPullParser.START_TAG) {
                                 if (xmlPullParser.getName().equals(CHAIN_ID_VALUE_TAG)) {
-                                    chain.setChainId(xmlPullParser.nextText());
+                                    chain.setChainID(xmlPullParser.nextText());
                                 } else if (xmlPullParser.getName().equals(CHAIN_NAME_VALUE_TAG)) {
                                     chain.setChainName(xmlPullParser.nextText());
                                 } else if (xmlPullParser.getName().equals(CHAIN_TYPE_VALUE_TAG)) {
@@ -72,7 +73,7 @@ public class ShopAndChainsParser implements Parser {
                             int eventType = xmlPullParser.getEventType();
                             if (xmlPullParser.getEventType() == XmlPullParser.START_TAG) {
                                 if (xmlPullParser.getName().equals(LOCATION_ID_VALUE_TAG)) {
-                                    shop.setLocationId(xmlPullParser.nextText());
+                                    shop.setLocationID(xmlPullParser.nextText());
                                 } else if (xmlPullParser.getName().equals(LOCATION_NAME_VALUE_TAG)) {
                                     shop.setLocationName(xmlPullParser.nextText());
                                 } else if (xmlPullParser.getName().equals(LOCATION_ADDRESS_VALUE_TAG)) {
@@ -82,24 +83,15 @@ public class ShopAndChainsParser implements Parser {
                                 } else if (xmlPullParser.getName().equals(LOCATION_LATITUDE_VALUE_TAG)) {
                                     shop.setLatitude(Float.parseFloat(xmlPullParser.nextText()));
                                 } else if (xmlPullParser.getName().equals(LOCATION_WORKING_HOURS_VALUE_TAG)) {
-                                    tempStr = xmlPullParser.nextText();
-                                    if (!TextUtils.isEmpty(tempStr)) {
-                                        shop.setWorkingHours(Integer.parseInt(tempStr));
-                                    }
+                                    shop.setWorkingHours(xmlPullParser.nextText());
                                 } else if (xmlPullParser.getName().equals(LOCATION_PHONE_NUMBER_VALUE_TAG)) {
-                                    tempStr = xmlPullParser.nextText();
-                                    if (!TextUtils.isEmpty(tempStr)) {
-                                        shop.setPhoneNumber(tempStr);
-                                    }
+                                    shop.setPhoneNumber(xmlPullParser.nextText());
                                 } else if (xmlPullParser.getName().equals(LOCATION_CHAIN_ID_VALUE_TAG)) {
-                                    tempStr = xmlPullParser.nextText();
-                                    if (!TextUtils.isEmpty(tempStr)) {
-                                        shop.setChainId(tempStr);
-                                    }
+                                    shop.setChainID(xmlPullParser.nextText());
                                 } else if (xmlPullParser.getName().equals(LOCATION_TYPE_VALUE_TAG)) {
                                     shop.setLocationType(LocationType.getLocationType(xmlPullParser.nextText()));
                                 } else if (xmlPullParser.getName().equals(LOCATION_PRESENCE_PERCENTAGE_VALUE_TAG)) {
-                                    shop.setPresencePercentage(Integer.parseInt(xmlPullParser.nextText()));
+                                    shop.setPresencePercentage(Utils.parseFloat(xmlPullParser.nextText()));
                                 } else {
                                     xmlPullParser.nextText();
                                 }

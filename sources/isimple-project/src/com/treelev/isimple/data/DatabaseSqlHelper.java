@@ -8,9 +8,11 @@ import android.provider.BaseColumns;
 public class DatabaseSqlHelper extends SQLiteOpenHelper {
 
     public final static String DATABASE_NAME = "iSimple.db";
-    public final static int DATABASE_VERSION = 1;
+    public final static int DATABASE_VERSION = 2;
 
+    public final static String ITEM_DEPRECATED_TABLE = "item_deprecated";
     public final static String ITEM_TABLE = "item";
+
     public final static String ITEM_ID = "item_id";
     public final static String ITEM_DRINK_ID = "drink_id";
     public final static String ITEM_NAME = "name";
@@ -22,6 +24,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_COUNTRY = "country";
     public final static String ITEM_REGION = "region";
     public final static String ITEM_BARCODE = "barcode";
+    public final static String ITEM_PRODUCT_TYPE = "product_type";
+    public final static String ITEM_CLASSIFICATION = "classification";
     public final static String ITEM_DRINK_CATEGORY = "drink_category";
     public final static String ITEM_COLOR = "color";
     public final static String ITEM_STYLE = "style";
@@ -46,6 +50,25 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_VINEYARD = "vineyard";
     public final static String ITEM_GRAPES_USED = "grapes_used";
     public final static String ITEM_RATING = "rating";
+    public final static String ITEM_QUANTITY = "quantity";
+    public final static String ITEM_MAIN_FEATURED = "main_featured";
+    public final static String ITEM_FEATURED = "featured";
+
+    private final static String CREATE_TABLE_ITEM_DEPRECATED = "create table " + ITEM_DEPRECATED_TABLE + "( " +
+            ITEM_ID + " text primary key, " +
+            ITEM_DRINK_ID + " text, " +
+            ITEM_NAME + " text, " +
+            ITEM_LOCALIZED_NAME + " text, " +
+            ITEM_MANUFACTURER + " text, " +
+            ITEM_LOCALIZED_MANUFACTURER + " text, " +
+            ITEM_COUNTRY + " text, " +
+            ITEM_REGION + " text, " +
+            ITEM_BARCODE + " text, " +
+            ITEM_PRODUCT_TYPE + " integer, " +
+            ITEM_CLASSIFICATION + " text, " +
+            ITEM_DRINK_CATEGORY + " integer, " +
+            ITEM_DRINK_TYPE + " text, " +
+            ITEM_VOLUME + " float);";
 
     private final static String CREATE_TABLE_ITEM = "create table " + ITEM_TABLE + "( " +
             ITEM_ID + " text primary key, " +
@@ -54,17 +77,19 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_LOCALIZED_NAME + " text, " +
             ITEM_MANUFACTURER + " text, " +
             ITEM_LOCALIZED_MANUFACTURER + " text, " +
-            ITEM_PRICE + " text, " +
-            ITEM_PRICE_MARKUP + " text, " +
+            ITEM_PRICE + " float, " +
+            ITEM_PRICE_MARKUP + " float, " +
             ITEM_COUNTRY + " text, " +
             ITEM_REGION + " text, " +
             ITEM_BARCODE + " text, " +
-            ITEM_DRINK_CATEGORY + " double, " +
-            ITEM_COLOR + " double, " +
-            ITEM_STYLE + " double, " +
-            ITEM_SWEETNESS + " double, " +
-            ITEM_YEAR + " text, " +
-            ITEM_VOLUME + " text, " +
+            ITEM_PRODUCT_TYPE + " integer, " +
+            ITEM_CLASSIFICATION + " text, " +
+            ITEM_DRINK_CATEGORY + " integer, " +
+            ITEM_COLOR + " integer, " +
+            ITEM_STYLE + " text, " +
+            ITEM_SWEETNESS + " integer, " +
+            ITEM_YEAR + " integer, " +
+            ITEM_VOLUME + " float, " +
             ITEM_DRINK_TYPE + " text, " +
             ITEM_ALCOHOL + " text, " +
             ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME + " text, " +
@@ -82,24 +107,33 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_GASTRONOMY + " text, " +
             ITEM_VINEYARD + " text, " +
             ITEM_GRAPES_USED + " text, " +
-            ITEM_RATING + " text);";
+            ITEM_RATING + " text, " +
+            ITEM_QUANTITY + " float, " +
+            ITEM_MAIN_FEATURED + " integer, " +
+            ITEM_FEATURED + " integer);";
 
     public final static String ITEM_AVAILABILITY_TABLE = "item_availability";
     public final static String ITEM_AVAILABILITY_ID = BaseColumns._ID;
     public final static String ITEM_AVAILABILITY_ITEM_ID = "item_id";
     public final static String ITEM_AVAILABILITY_LOCATION_ID = "location_id";
+    public final static String ITEM_AVAILABILITY_CUSTOMER_ID = "customer_id";
+    public final static String ITEM_AVAILABILITY_SHIPTO_CODE_ID = "shipto_code_id";
+    public final static String ITEM_AVAILABILITY_PRICE = "price";
 
     private final static String CREATE_TABLE_ITEM_AVAILABILITY = "create table " + ITEM_AVAILABILITY_TABLE + " ( " +
             ITEM_AVAILABILITY_ID + " integer primary key autoincrement, " +
             ITEM_AVAILABILITY_ITEM_ID + " text, " +
-            ITEM_AVAILABILITY_LOCATION_ID + " text);";
+            ITEM_AVAILABILITY_LOCATION_ID + " text, " +
+            ITEM_AVAILABILITY_CUSTOMER_ID + " text, " +
+            ITEM_AVAILABILITY_SHIPTO_CODE_ID + " text, " +
+            ITEM_AVAILABILITY_PRICE + " float);";
 
     public final static String SHOP_TABLE = "shop";
     public final static String SHOP_LOCATION_ID = "location_id";
     public final static String SHOP_LOCATION_NAME = "location_name";
     public final static String SHOP_LOCATION_ADDRESS = "location_address";
+    public final static String SHOP_LATITUDE = "location_latitude";
     public final static String SHOP_LONGITUDE = "location_longitude";
-    public final static String SHOP_LANTITUDE = "location_lantitude";
     public final static String SHOP_WORKING_HOURS = "working_hours";
     public final static String SHOP_PHONE_NUMBER = "phone_number";
     public final static String SHOP_CHAIN_ID = "chain_id";
@@ -110,13 +144,13 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             SHOP_LOCATION_ID + " text primary key, " +
             SHOP_LOCATION_NAME + " text, " +
             SHOP_LOCATION_ADDRESS + " text, " +
-            SHOP_LONGITUDE + " double, " +
-            SHOP_LANTITUDE + " double, " +
-            SHOP_WORKING_HOURS + " integer, " +
+            SHOP_LATITUDE + " float, " +
+            SHOP_LONGITUDE + " float, " +
+            SHOP_WORKING_HOURS + " text, " +
             SHOP_PHONE_NUMBER + " text, " +
             SHOP_CHAIN_ID + " text, " +
             SHOP_LOCATION_TYPE + " integer, " +
-            SHOP_PRESENCE_PERCENTAGE + " integer);";
+            SHOP_PRESENCE_PERCENTAGE + " float);";
 
     public final static String CHAIN_TABLE = "chain";
     public final static String CHAIN_ID = "chain_id";
@@ -135,6 +169,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_ITEM);
+        db.execSQL(CREATE_TABLE_ITEM_DEPRECATED);
         db.execSQL(CREATE_TABLE_CHAIN);
         db.execSQL(CREATE_TABLE_SHOP);
         db.execSQL(CREATE_TABLE_ITEM_AVAILABILITY);
@@ -146,6 +181,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + CHAIN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SHOP_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ITEM_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + ITEM_DEPRECATED_TABLE);
         onCreate(db);
     }
 }

@@ -17,7 +17,6 @@ public class ShopDAO extends BaseDAO {
     public final static int ID = 2;
     public final static  int SHOP_LIMIT = 100;
 
-
     public ShopDAO(Context context) {
         super(context);
     }
@@ -49,8 +48,8 @@ public class ShopDAO extends BaseDAO {
                     DatabaseSqlHelper.SHOP_LOCATION_ID + ", " +
                     DatabaseSqlHelper.SHOP_LOCATION_NAME + ", " +
                     DatabaseSqlHelper.SHOP_LOCATION_ADDRESS + ", " +
+                    DatabaseSqlHelper.SHOP_LATITUDE + ", " +
                     DatabaseSqlHelper.SHOP_LONGITUDE + ", " +
-                    DatabaseSqlHelper.SHOP_LANTITUDE + ", " +
                     DatabaseSqlHelper.SHOP_WORKING_HOURS + ", " +
                     DatabaseSqlHelper.SHOP_PHONE_NUMBER + ", " +
                     DatabaseSqlHelper.SHOP_CHAIN_ID + ", " +
@@ -58,16 +57,16 @@ public class ShopDAO extends BaseDAO {
                     DatabaseSqlHelper.SHOP_PRESENCE_PERCENTAGE + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (Shop shop : items) {
-                insertStatement = bindString(insertStatement, 1, shop.getLocationId());
+                insertStatement = bindString(insertStatement, 1, shop.getLocationID());
                 insertStatement = bindString(insertStatement, 2, shop.getLocationName());
                 insertStatement = bindString(insertStatement, 3, shop.getLocationAddress());
-                insertStatement = bindFloat(insertStatement, 4, shop.getLongitude());
                 insertStatement = bindFloat(insertStatement, 5, shop.getLatitude());
-                insertStatement = bindInteger(insertStatement, 6, shop.getWorkingHours());
+                insertStatement = bindFloat(insertStatement, 4, shop.getLongitude());
+                insertStatement = bindString(insertStatement, 6, shop.getWorkingHours());
                 insertStatement = bindString(insertStatement, 7, shop.getPhoneNumber());
-                insertStatement = bindString(insertStatement, 8, shop.getChainId());
+                insertStatement = bindString(insertStatement, 8, shop.getChainID());
                 insertStatement = bindInteger(insertStatement, 9, shop.getLocationType().ordinal());
-                insertStatement = bindInteger(insertStatement, 10, shop.getPresencePercentage());
+                insertStatement = bindFloat(insertStatement, 10, shop.getPresencePercentage());
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();
@@ -99,14 +98,19 @@ public class ShopDAO extends BaseDAO {
     public List<AbsDistanceShop> getNearestShops(Location currentLocation) {
         open();
         String formatSelectScript = "select %s, %s, %s, %s, %s from %s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.SHOP_LOCATION_ID, DatabaseSqlHelper.SHOP_LOCATION_NAME,
-                DatabaseSqlHelper.SHOP_LOCATION_ADDRESS, DatabaseSqlHelper.SHOP_LANTITUDE, DatabaseSqlHelper.SHOP_LONGITUDE, DatabaseSqlHelper.SHOP_TABLE);
+        String selectSql = String.format(formatSelectScript,
+                DatabaseSqlHelper.SHOP_LOCATION_ID,
+                DatabaseSqlHelper.SHOP_LOCATION_NAME,
+                DatabaseSqlHelper.SHOP_LOCATION_ADDRESS,
+                DatabaseSqlHelper.SHOP_LATITUDE,
+                DatabaseSqlHelper.SHOP_LONGITUDE,
+                DatabaseSqlHelper.SHOP_TABLE);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         List<AbsDistanceShop> distanceShopList = new ArrayList<AbsDistanceShop>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 Shop shop = new Shop();
-                shop.setLocationId(cursor.getString(0));
+                shop.setLocationID(cursor.getString(0));
                 shop.setLocationName(cursor.getString(1));
                 shop.setLocationAddress(cursor.getString(2));
                 shop.setLatitude(cursor.getFloat(3));
@@ -128,15 +132,20 @@ public class ShopDAO extends BaseDAO {
     public List<AbsDistanceShop> getShopByChain(Location currentLocation, String chainID) {
         open();
         String formatSelectScript = "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = '%s'";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.SHOP_LOCATION_ID, DatabaseSqlHelper.SHOP_LOCATION_NAME,
-                DatabaseSqlHelper.SHOP_LOCATION_ADDRESS, DatabaseSqlHelper.SHOP_LANTITUDE, DatabaseSqlHelper.SHOP_LONGITUDE, DatabaseSqlHelper.SHOP_TABLE,
+        String selectSql = String.format(formatSelectScript,
+                DatabaseSqlHelper.SHOP_LOCATION_ID,
+                DatabaseSqlHelper.SHOP_LOCATION_NAME,
+                DatabaseSqlHelper.SHOP_LOCATION_ADDRESS,
+                DatabaseSqlHelper.SHOP_LATITUDE,
+                DatabaseSqlHelper.SHOP_LONGITUDE,
+                DatabaseSqlHelper.SHOP_TABLE,
                 DatabaseSqlHelper.CHAIN_ID, chainID);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         List<AbsDistanceShop> distanceShopList = new ArrayList<AbsDistanceShop>();
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 Shop shop = new Shop();
-                shop.setLocationId(cursor.getString(0));
+                shop.setLocationID(cursor.getString(0));
                 shop.setLocationName(cursor.getString(1));
                 shop.setLocationAddress(cursor.getString(2));
                 shop.setLatitude(cursor.getFloat(3));

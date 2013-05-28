@@ -9,8 +9,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
-import com.treelev.isimple.enumerable.item.WineType;
 import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
@@ -74,7 +74,7 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
 
         String colorStr = productType.getColor();
         if(colorStr == null ) {
-               colorStr = WineType.getWineType("розовое").getColor();
+               colorStr = ItemColor.PINK.getCode();
         }
         colorItem.setBackgroundColor(Color.parseColor(colorStr));
     }

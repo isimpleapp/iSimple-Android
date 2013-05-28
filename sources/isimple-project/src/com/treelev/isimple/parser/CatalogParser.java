@@ -4,10 +4,11 @@ import android.text.TextUtils;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemDAO;
 import com.treelev.isimple.domain.db.Item;
-import com.treelev.isimple.enumerable.item.Color;
+import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.enumerable.item.Style;
+import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
+import com.treelev.isimple.utils.Utils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -37,6 +38,8 @@ public class CatalogParser implements Parser {
     private final static String CATALOG_YEAR_VALUE_TAG = "Year";
     private final static String CATALOG_VOLUME_VALUE_TAG = "Volume";
     private final static String CATALOG_DRINK_TYPE_VALUE_TAG = "DrinkType";
+    private final static String CATALOG_PRODUCT_TYPE_VALUE_TAG = "ProductType";
+    private final static String CATALOG_CLASSIFICATION_VALUE_TAG = "Classification";
     private final static String CATALOG_ALCOHOL_VALUE_TAG = "Alcohol";
     private final static String CATALOG_BOTTLE_IMG_HIGR_RES_VALUE_TAG = "BottleHiResolutionImageFilename";
     private final static String CATALOG_BOTTLE_IMG_LOW_RES_VALUE_TAG = "BottleLowResolutionImageFilename";
@@ -54,6 +57,7 @@ public class CatalogParser implements Parser {
     private final static String CATALOG_VINEYARD_VALUE_TAG = "Vineyard";
     private final static String CATALOG_GRAPES_USED_VALUE_TAG = "GrapesUsed";
     private final static String CATALOG_RATING_VALUE_TAG = "Rating";
+    private final static String CATALOG_QUANTITY_VALUE_TAG = "Quantity";
 
     //TODO lower case
     @Override
@@ -81,25 +85,29 @@ public class CatalogParser implements Parser {
                             } else if (xmlPullParser.getName().equals(CATALOG_LOCALIZATED_MANUFACTURER_VALUE_TAG)) {
                                 item.setLocalizedManufacturer(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_PRICE_VALUE_TAG)) {
-                                item.setPrice(xmlPullParser.nextText());
+                                item.setPrice(Utils.parseFloat(xmlPullParser.nextText()));
                             } else if (xmlPullParser.getName().equals(CATALOG_COUNTRY_VALUE_TAG)) {
                                 item.setCountry(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_REGION_VALUE_TAG)) {
                                 item.setRegion(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_BARCODE_VALUE_TAG)) {
                                 item.setBarcode(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_PRODUCT_TYPE_VALUE_TAG)) {
+                                item.setProductType(ProductType.getProductType(xmlPullParser.nextText()));
+                            } else if (xmlPullParser.getName().equals(CATALOG_CLASSIFICATION_VALUE_TAG)) {
+                                item.setClassification(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_DRINK_CATEGORY_VALUE_TAG)) {
                                 item.setDrinkCategory(DrinkCategory.getDrinkCategory(xmlPullParser.nextText()));
                             } else if (xmlPullParser.getName().equals(CATALOG_COLOR_VALUE_TAG)) {
-                                item.setColor(Color.getColor(xmlPullParser.nextText()));
+                                item.setColor(ItemColor.getColor(xmlPullParser.nextText()));
                             } else if (xmlPullParser.getName().equals(CATALOG_STYLE_VALUE_TAG)) {
-                                item.setStyle(Style.getStyle(xmlPullParser.nextText()));
+                                item.setStyle(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_SWEETNESS_VALUE_TAG)) {
                                 item.setSweetness(Sweetness.getSweetness(xmlPullParser.nextText()));
                             } else if (xmlPullParser.getName().equals(CATALOG_YEAR_VALUE_TAG)) {
-                                item.setYear(xmlPullParser.nextText());
+                                item.setYear(Utils.parseInteger(xmlPullParser.nextText()));
                             } else if (xmlPullParser.getName().equals(CATALOG_VOLUME_VALUE_TAG)) {
-                                item.setVolume(xmlPullParser.nextText());
+                                item.setVolume(Utils.parseFloat(xmlPullParser.nextText()));
                             } else if (xmlPullParser.getName().equals(CATALOG_DRINK_TYPE_VALUE_TAG)) {
                                 tempStr = xmlPullParser.nextText();
                                 if (!TextUtils.isEmpty(tempStr)) {
@@ -148,6 +156,8 @@ public class CatalogParser implements Parser {
                                 item.setGrapesUsed(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_RATING_VALUE_TAG)) {
                                 item.setRating(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_QUANTITY_VALUE_TAG)) {
+                                item.setQuantity(Utils.parseFloat(xmlPullParser.nextText()));
                             } else {
                                 xmlPullParser.nextText();
                             }
@@ -165,4 +175,5 @@ public class CatalogParser implements Parser {
             e.printStackTrace();
         }
     }
+
 }

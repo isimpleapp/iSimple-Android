@@ -3,6 +3,7 @@ package com.treelev.isimple.parser;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemAvailabilityDAO;
 import com.treelev.isimple.domain.db.ItemAvailability;
+import com.treelev.isimple.utils.Utils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -33,9 +34,15 @@ public class ItemAvailabilityParser implements Parser {
                     while (xmlPullParser.getEventType() != XmlPullParser.END_TAG && !ITEM_AVAILABILITY_OBJECT_TAG.equals(xmlPullParser.getName())) {
                         if (xmlPullParser.getEventType() == XmlPullParser.START_TAG) {
                             if (xmlPullParser.getName().equals(ITEM_AVAILABILITY_ID_VALUE_TAG)) {
-                                itemAvailability.setItemId(xmlPullParser.nextText());
+                                itemAvailability.setItemID(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(ITEM_AVAILABILITY_LOCATION_ID_VALUE_TAG)) {
-                                itemAvailability.setLocationId(xmlPullParser.nextText());
+                                itemAvailability.setLocationID(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(ITEM_AVAILABILITY_CUSTOMER_ID_VALUE_TAG)) {
+                                itemAvailability.setCustomerID(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(ITEM_AVAILABILITY_SHIPTO_CODE_ID_VALUE_TAG)) {
+                                itemAvailability.setShiptoCodeID(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(ITEM_AVAILABILITY_PRICE_VALUE_TAG)) {
+                                itemAvailability.setPrice(Utils.parseFloat(xmlPullParser.nextText()));
                             } else {
                                 xmlPullParser.nextText();
                             }

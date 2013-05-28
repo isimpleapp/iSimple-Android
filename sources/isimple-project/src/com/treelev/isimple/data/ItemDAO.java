@@ -5,11 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
 import com.treelev.isimple.R;
+import com.treelev.isimple.domain.db.DeprecatedItem;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.ItemPrice;
-import com.treelev.isimple.enumerable.item.Color;
+import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.enumerable.item.Style;
+import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class ItemDAO extends BaseDAO {
     private final static String SCRIPT_SELECT_DRINK_ID = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s = %s";
     private final static int SCRIPT_TYPE_WINE = 2;
     private final static int SCRIPT_TYPE_OTHERS = 3;
+
     private final static String FORMAT_QUERY_WINE = " %s WHERE %s %s %s %s %s %s GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
     private final static String FORMAT_QUERY_OTHER = " %s WHERE %s %s  GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
     private final static String FORMAT_QUERY_WINE_SEARCH = " %s WHERE %s %s %s %s %s %s %s GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
@@ -46,11 +48,14 @@ public class ItemDAO extends BaseDAO {
     public int getTableDataCount() {
         int count = -1;
         open();
-        String formatSelectScript = "select * from %s";
+        String formatSelectScript = "select count(*) from %s";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_TABLE);
         Cursor c = getDatabase().rawQuery(selectSql, null);
         if (c != null) {
-            count = c.getCount();
+            if (c.moveToNext()) {
+                count = c.getInt(0);
+            }
+            c.close();
         }
         close();
         return count;
@@ -60,10 +65,17 @@ public class ItemDAO extends BaseDAO {
         open();
         String formatSelectScript = getSelectCategoryStringByCategoryId(categoryId);
         if (formatSelectScript != null) {
-            String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID + " as _id", DatabaseSqlHelper.ITEM_NAME,
-                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
-                    DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, "0 as image",
-                    DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_DRINK_ID, DatabaseSqlHelper.ITEM_DRINK_ID,
+            String selectSql = String.format(formatSelectScript,
+                    DatabaseSqlHelper.ITEM_ID + " as _id",
+                    DatabaseSqlHelper.ITEM_NAME,
+                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+                    DatabaseSqlHelper.ITEM_VOLUME,
+                    DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+                    DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                    "0 as image",
+                    DatabaseSqlHelper.ITEM_PRICE,
+                    DatabaseSqlHelper.ITEM_DRINK_ID,
+                    DatabaseSqlHelper.ITEM_DRINK_ID,
                     DatabaseSqlHelper.ITEM_TABLE);
             if (orderByField != null) {
                 String formatOrder = FORMAT_ORDER_BY_PRICE_MIN;
@@ -81,11 +93,17 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getItemsByDrinkId(String drinkId, String orderByField) {
         open();
-        String selectSql = String.format(SCRIPT_SELECT_DRINK_ID, DatabaseSqlHelper.ITEM_ID + " as _id", DatabaseSqlHelper.ITEM_NAME,
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, "0 as image",
-                DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_DRINK_ID,
-                DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_DRINK_ID, drinkId);
+        String selectSql = String.format(SCRIPT_SELECT_DRINK_ID,
+                DatabaseSqlHelper.ITEM_ID + " as _id",
+                DatabaseSqlHelper.ITEM_NAME,
+                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+                DatabaseSqlHelper.ITEM_VOLUME,
+                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+                DatabaseSqlHelper.ITEM_DRINK_CATEGORY, "0 as image",
+                DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_DRINK_ID,
+                DatabaseSqlHelper.ITEM_TABLE,
+                DatabaseSqlHelper.ITEM_DRINK_ID, drinkId);
         if (orderByField != null) {
             String formatOrder = FORMAT_ORDER_BY_PRICE;
             if (orderByField.equals(DatabaseSqlHelper.ITEM_NAME)) {
@@ -196,6 +214,8 @@ public class ItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_REGION + ", " +
                     DatabaseSqlHelper.ITEM_BARCODE + ", " +
                     DatabaseSqlHelper.ITEM_DRINK_CATEGORY + ", " +
+                    DatabaseSqlHelper.ITEM_PRODUCT_TYPE + ", " +
+                    DatabaseSqlHelper.ITEM_CLASSIFICATION + ", " +
                     DatabaseSqlHelper.ITEM_COLOR + ", " +
                     DatabaseSqlHelper.ITEM_STYLE + ", " +
                     DatabaseSqlHelper.ITEM_SWEETNESS + ", " +
@@ -218,7 +238,12 @@ public class ItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_GASTRONOMY + ", " +
                     DatabaseSqlHelper.ITEM_VINEYARD + ", " +
                     DatabaseSqlHelper.ITEM_GRAPES_USED + ", " +
-                    DatabaseSqlHelper.ITEM_RATING + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    DatabaseSqlHelper.ITEM_RATING + ", " +
+                    DatabaseSqlHelper.ITEM_QUANTITY + ", " +
+                    DatabaseSqlHelper.ITEM_MAIN_FEATURED + ", " +
+                    DatabaseSqlHelper.ITEM_FEATURED +
+                    ") VALUES " +
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (Item item : items) {
                 insertStatement = bindString(insertStatement, 1, item.getItemID());
@@ -227,35 +252,85 @@ public class ItemDAO extends BaseDAO {
                 insertStatement = bindString(insertStatement, 4, item.getLocalizedName());
                 insertStatement = bindString(insertStatement, 5, item.getManufacturer());
                 insertStatement = bindString(insertStatement, 6, item.getLocalizedManufacturer());
-                insertStatement = bindString(insertStatement, 7, item.getPrice());
-                insertStatement = bindString(insertStatement, 8, item.getPriceMarkup());
+                insertStatement = bindFloat(insertStatement, 7, item.getPrice());
+                insertStatement = bindFloat(insertStatement, 8, item.getPriceMarkup());
                 insertStatement = bindString(insertStatement, 9, item.getCountry());
                 insertStatement = bindString(insertStatement, 10, item.getRegion());
                 insertStatement = bindString(insertStatement, 11, item.getBarcode());
                 insertStatement = bindInteger(insertStatement, 12, item.getDrinkCategory().ordinal());
-                insertStatement = bindInteger(insertStatement, 13, item.getColor().ordinal());
-                insertStatement = bindInteger(insertStatement, 14, item.getStyle().ordinal());
-                insertStatement = bindInteger(insertStatement, 15, item.getSweetness().ordinal());
-                insertStatement = bindString(insertStatement, 16, item.getYear());
-                insertStatement = bindString(insertStatement, 17, item.getVolume());
-                insertStatement = bindString(insertStatement, 18, item.getDrinkType());
-                insertStatement = bindString(insertStatement, 19, item.getAlcohol());
-                insertStatement = bindString(insertStatement, 20, item.getBottleHiResolutionImageFilename());
-                insertStatement = bindString(insertStatement, 21, item.getBottleLowResolutionImageFilename());
-                insertStatement = bindString(insertStatement, 22, item.getStyleDescription());
-                insertStatement = bindString(insertStatement, 23, item.getAppelation());
-                insertStatement = bindString(insertStatement, 24, item.getServingTempMin());
-                insertStatement = bindString(insertStatement, 25, item.getServingTempMax());
-                insertStatement = bindString(insertStatement, 26, item.getTasteQualities());
-                insertStatement = bindString(insertStatement, 27, item.getVintageReport());
-                insertStatement = bindString(insertStatement, 28, item.getAgingProcess());
-                insertStatement = bindString(insertStatement, 29, item.getProductionProcess());
-                insertStatement = bindString(insertStatement, 30, item.getInterestingFacts());
-                insertStatement = bindString(insertStatement, 31, item.getLabelHistory());
-                insertStatement = bindString(insertStatement, 32, item.getGastronomy());
-                insertStatement = bindString(insertStatement, 33, item.getVineyard());
-                insertStatement = bindString(insertStatement, 34, item.getGrapesUsed());
-                insertStatement = bindString(insertStatement, 35, item.getRating());
+                insertStatement = bindInteger(insertStatement, 13, item.getProductType().ordinal());
+                insertStatement = bindString(insertStatement, 14, item.getClassification());
+                insertStatement = bindInteger(insertStatement, 15, item.getColor().ordinal());
+                insertStatement = bindString(insertStatement, 16, item.getStyle());
+                insertStatement = bindInteger(insertStatement, 17, item.getSweetness().ordinal());
+                insertStatement = bindInteger(insertStatement, 18, item.getYear());
+                insertStatement = bindFloat(insertStatement, 19, item.getVolume());
+                insertStatement = bindString(insertStatement, 20, item.getDrinkType());
+                insertStatement = bindString(insertStatement, 21, item.getAlcohol());
+                insertStatement = bindString(insertStatement, 22, item.getBottleHiResolutionImageFilename());
+                insertStatement = bindString(insertStatement, 23, item.getBottleLowResolutionImageFilename());
+                insertStatement = bindString(insertStatement, 24, item.getStyleDescription());
+                insertStatement = bindString(insertStatement, 25, item.getAppelation());
+                insertStatement = bindString(insertStatement, 26, item.getServingTempMin());
+                insertStatement = bindString(insertStatement, 27, item.getServingTempMax());
+                insertStatement = bindString(insertStatement, 28, item.getTasteQualities());
+                insertStatement = bindString(insertStatement, 29, item.getVintageReport());
+                insertStatement = bindString(insertStatement, 30, item.getAgingProcess());
+                insertStatement = bindString(insertStatement, 31, item.getProductionProcess());
+                insertStatement = bindString(insertStatement, 32, item.getInterestingFacts());
+                insertStatement = bindString(insertStatement, 33, item.getLabelHistory());
+                insertStatement = bindString(insertStatement, 34, item.getGastronomy());
+                insertStatement = bindString(insertStatement, 35, item.getVineyard());
+                insertStatement = bindString(insertStatement, 36, item.getGrapesUsed());
+                insertStatement = bindString(insertStatement, 37, item.getRating());
+                insertStatement = bindFloat(insertStatement, 38, item.getQuantity());
+                insertStatement = bindInteger(insertStatement, 39, item.isMainFeatured() ? 1 : 0);
+                insertStatement = bindInteger(insertStatement, 40, item.isFeatured() ? 1 : 0);
+                insertStatement.execute();
+            }
+            getDatabase().setTransactionSuccessful();
+        } finally {
+            getDatabase().endTransaction();
+        }
+        close();
+    }
+
+    public void insertListDeprecatedData(List<DeprecatedItem> items) {
+        open();
+        getDatabase().beginTransaction();
+        try {
+            String insertSql = "INSERT OR REPLACE INTO " + DatabaseSqlHelper.ITEM_DEPRECATED_TABLE + " (" +
+                    DatabaseSqlHelper.ITEM_ID + ", " +
+                    DatabaseSqlHelper.ITEM_DRINK_ID + ", " +
+                    DatabaseSqlHelper.ITEM_NAME + ", " +
+                    DatabaseSqlHelper.ITEM_LOCALIZED_NAME + ", " +
+                    DatabaseSqlHelper.ITEM_MANUFACTURER + ", " +
+                    DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER + ", " +
+                    DatabaseSqlHelper.ITEM_COUNTRY + ", " +
+                    DatabaseSqlHelper.ITEM_REGION + ", " +
+                    DatabaseSqlHelper.ITEM_BARCODE + ", " +
+                    DatabaseSqlHelper.ITEM_DRINK_CATEGORY + ", " +
+                    DatabaseSqlHelper.ITEM_PRODUCT_TYPE + ", " +
+                    DatabaseSqlHelper.ITEM_CLASSIFICATION + ", " +
+                    DatabaseSqlHelper.ITEM_DRINK_TYPE + ", " +
+                    DatabaseSqlHelper.ITEM_VOLUME + ")" +
+                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
+            for (DeprecatedItem item : items) {
+                insertStatement = bindString(insertStatement, 1, item.getItemID());
+                insertStatement = bindString(insertStatement, 2, item.getDrinkID());
+                insertStatement = bindString(insertStatement, 3, item.getName());
+                insertStatement = bindString(insertStatement, 4, item.getLocalizedName());
+                insertStatement = bindString(insertStatement, 5, item.getManufacturer());
+                insertStatement = bindString(insertStatement, 6, item.getLocalizedManufacturer());
+                insertStatement = bindString(insertStatement, 7, item.getCountry());
+                insertStatement = bindString(insertStatement, 8, item.getRegion());
+                insertStatement = bindString(insertStatement, 9, item.getBarcode());
+                insertStatement = bindInteger(insertStatement, 10, item.getDrinkCategory().ordinal());
+                insertStatement = bindInteger(insertStatement, 11, item.getProductType().ordinal());
+                insertStatement = bindString(insertStatement, 12, item.getClassification());
+                insertStatement = bindString(insertStatement, 13, item.getDrinkType());
+                insertStatement = bindFloat(insertStatement, 14, item.getVolume());
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();
@@ -275,9 +350,9 @@ public class ItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_ID + " = ?";
             SQLiteStatement updateStatement = getDatabase().compileStatement(updateSql);
             for (ItemPrice price : priceList) {
-                updateStatement = bindInteger(updateStatement, 1, price.getPrice());
-                updateStatement = bindInteger(updateStatement, 2, price.getPriceMarkup());
-                updateStatement = bindString(updateStatement, 3, price.getItemId());
+                updateStatement = bindFloat(updateStatement, 1, price.getPrice());
+                updateStatement = bindFloat(updateStatement, 2, price.getPriceMarkup());
+                updateStatement = bindString(updateStatement, 3, price.getItemID());
                 updateStatement.execute();
             }
             getDatabase().setTransactionSuccessful();
@@ -321,79 +396,6 @@ public class ItemDAO extends BaseDAO {
         return regions;
     }
 
-    public List<Map<String, String>> getWineAndRegions(String country) {
-        open();
-        String formatSelectScript = "select distinct %1$s, %2$s from %3$s where %4$s = '%5$s' order by %2$s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_REGION,
-                DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_COUNTRY, country);
-        Cursor cursor = getDatabase().rawQuery(selectSql, null);
-        List<Map<String, String>> winesList = null;
-        if (cursor != null) {
-            winesList = new ArrayList<Map<String, String>>();
-            Map<String, String> wines;
-            while (cursor.moveToNext()) {
-                wines = new HashMap<String, String>();
-                wines.put("1", cursor.getString(0));
-                wines.put("2", cursor.getString(1));
-                winesList.add(wines);
-            }
-            cursor.close();
-        }
-        close();
-        return winesList;
-    }
-
-    public List<String> getRedWines() {
-        open();
-        String formatSelectScript = "select distinct %1$s from %2$s where %3$s = 1 order by %1$s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_COLOR);
-        Cursor cursor = getDatabase().rawQuery(selectSql, null);
-        List<String> winesList = null;
-        if (cursor != null) {
-            winesList = new ArrayList<String>();
-            while (cursor.moveToNext()) {
-                winesList.add(cursor.getString(0));
-            }
-            cursor.close();
-        }
-        close();
-        return winesList;
-    }
-
-    public List<String> getCategorySpirits() {
-        open();
-        String formatSelectScript = "select distinct %1$s from %2$s where %3$s = 1 order by %1$s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_DRINK_CATEGORY);
-        Cursor cursor = getDatabase().rawQuery(selectSql, null);
-        List<String> winesList = null;
-        if (cursor != null) {
-            winesList = new ArrayList<String>();
-            while (cursor.moveToNext()) {
-                winesList.add(cursor.getString(0));
-            }
-            cursor.close();
-        }
-        close();
-        return winesList;
-    }
-
-    public List<String> getWineStyleFortified() {
-        open();
-        String formatSelectScript = "select distinct %1$s from %2$s where %3$s = 3 order by %1$s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_STYLE);
-        Cursor cursor = getDatabase().rawQuery(selectSql, null);
-        List<String> winesList = null;
-        if (cursor != null) {
-            winesList = new ArrayList<String>();
-            while (cursor.moveToNext()) {
-                winesList.add(cursor.getString(0));
-            }
-            cursor.close();
-        }
-        close();
-        return winesList;
-    }
-
     public Item getItemById(String itemId) {
         open();
         String formatSelectScript = "select * from %1$s where %2$s = '%3$s'";
@@ -408,35 +410,40 @@ public class ItemDAO extends BaseDAO {
             item.setLocalizedName(cursor.getString(3));
             item.setManufacturer(cursor.getString(4));
             item.setLocalizedManufacturer(cursor.getString(5));
-            item.setPrice(cursor.getString(6));
-            item.setPriceMarkup(cursor.getString(7));
+            item.setPrice(cursor.getFloat(6));
+            item.setPriceMarkup(cursor.getFloat(7));
             item.setCountry(cursor.getString(8));
             item.setRegion(cursor.getString(9));
             item.setBarcode(cursor.getString(10));
-            item.setDrinkCategory(DrinkCategory.values()[Integer.parseInt(cursor.getString(11))]);
-            item.setColor(Color.values()[Integer.parseInt(cursor.getString(12))]);
-            item.setStyle(Style.values()[Integer.parseInt(cursor.getString(13))]);
-            item.setSweetness(Sweetness.values()[Integer.parseInt(cursor.getString(14))]);
-            item.setYear(cursor.getString(15));
-            item.setVolume(cursor.getString(16));
-            item.setDrinkType(cursor.getString(17));
-            item.setAlcohol(cursor.getString(18));
-            item.setBottleHiResolutionImageFilename(cursor.getString(19));
-            item.setBottleLowResolutionImageFilename(cursor.getString(20));
-            item.setStyleDescription(cursor.getString(21));
-            item.setAppelation(cursor.getString(22));
-            item.setServingTempMin(cursor.getString(23));
-            item.setServingTempMax(cursor.getString(24));
-            item.setTasteQualities(cursor.getString(25));
-            item.setVintageReport(cursor.getString(26));
-            item.setAgingProcess(cursor.getString(27));
-            item.setProductionProcess(cursor.getString(28));
-            item.setInterestingFacts(cursor.getString(29));
-            item.setLabelHistory(cursor.getString(30));
-            item.setGastronomy(cursor.getString(31));
-            item.setVineyard(cursor.getString(32));
-            item.setGrapesUsed(cursor.getString(33));
-            item.setRating(cursor.getString(34));
+            item.setProductType(ProductType.getProductType(cursor.getInt(11)));
+            item.setClassification(cursor.getString(12));
+            item.setDrinkCategory(DrinkCategory.getDrinkCategory(cursor.getInt(13)));
+            item.setColor(ItemColor.getColor(cursor.getInt(14)));
+            item.setStyle(cursor.getString(15));
+            item.setSweetness(Sweetness.getSweetness(cursor.getInt(16)));
+            item.setYear(cursor.getInt(17));
+            item.setVolume(cursor.getFloat(18));
+            item.setDrinkType(cursor.getString(19));
+            item.setAlcohol(cursor.getString(20));
+            item.setBottleHiResolutionImageFilename(cursor.getString(21));
+            item.setBottleLowResolutionImageFilename(cursor.getString(22));
+            item.setStyleDescription(cursor.getString(23));
+            item.setAppelation(cursor.getString(24));
+            item.setServingTempMin(cursor.getString(25));
+            item.setServingTempMax(cursor.getString(26));
+            item.setTasteQualities(cursor.getString(27));
+            item.setVintageReport(cursor.getString(28));
+            item.setAgingProcess(cursor.getString(29));
+            item.setProductionProcess(cursor.getString(30));
+            item.setInterestingFacts(cursor.getString(31));
+            item.setLabelHistory(cursor.getString(32));
+            item.setGastronomy(cursor.getString(33));
+            item.setVineyard(cursor.getString(34));
+            item.setGrapesUsed(cursor.getString(35));
+            item.setRating(cursor.getString(36));
+            item.setQuantity(cursor.getFloat(37));
+            item.setMainFeatured(cursor.getInt(38) > 0);
+            item.setFeatured(cursor.getInt(39) > 0);
             cursor.close();
         }
         close();

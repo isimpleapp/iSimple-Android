@@ -40,11 +40,18 @@ public class ItemAvailabilityDAO extends BaseDAO {
         try {
             String insertSql = "INSERT INTO " + DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE + " (" +
                     DatabaseSqlHelper.ITEM_AVAILABILITY_ITEM_ID + ", " +
-                    DatabaseSqlHelper.ITEM_AVAILABILITY_LOCATION_ID + ") VALUES (?, ?)";
+                    DatabaseSqlHelper.ITEM_AVAILABILITY_LOCATION_ID + ", " +
+                    DatabaseSqlHelper.ITEM_AVAILABILITY_CUSTOMER_ID + ", " +
+                    DatabaseSqlHelper.ITEM_AVAILABILITY_SHIPTO_CODE_ID + ", " +
+                    DatabaseSqlHelper.ITEM_AVAILABILITY_PRICE +
+                    ") VALUES (?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (ItemAvailability item : items) {
-                insertStatement = bindString(insertStatement, 1, item.getItemId());
-                insertStatement = bindString(insertStatement, 2, item.getLocationId());
+                insertStatement = bindString(insertStatement, 1, item.getItemID());
+                insertStatement = bindString(insertStatement, 2, item.getLocationID());
+                insertStatement = bindString(insertStatement, 3, item.getCustomerID());
+                insertStatement = bindString(insertStatement, 4, item.getShiptoCodeID());
+                insertStatement = bindFloat(insertStatement, 5, item.getPrice());
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();

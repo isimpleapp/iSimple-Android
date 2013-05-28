@@ -10,7 +10,7 @@ public class Chain implements Serializable{
     public final static String UI_TAG_NAME_CHAIN = "chain_name";
     public final static String UI_TAG_TYPE_CHAIN = "chain_type";
 
-    private String chainId;
+    private String chainID;
     private String chainName;
     private ChainType chainType;
 
@@ -18,12 +18,12 @@ public class Chain implements Serializable{
         return new String[] { UI_TAG_ID_CHAIN, UI_TAG_NAME_CHAIN, UI_TAG_TYPE_CHAIN };
     }
 
-    public String getChainId() {
-        return chainId;
+    public String getChainID() {
+        return chainID;
     }
 
-    public void setChainId(String chainId) {
-        this.chainId = chainId;
+    public void setChainID(String chainID) {
+        this.chainID = chainID;
     }
 
     public String getChainName() {

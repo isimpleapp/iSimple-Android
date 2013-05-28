@@ -7,23 +7,23 @@ import java.io.Serializable;
 
 public class Shop implements Serializable {
 
-    private String locationId;
+    private String locationID;
     private String locationName;
     private String locationAddress;
     private Float longitude;
     private Float latitude;
-    private Integer workingHours;
+    private String workingHours;
     private String phoneNumber;
-    private String chainId;
+    private String chainID;
     private LocationType locationType;
-    private Integer presencePercentage;
+    private Float presencePercentage;
 
-    public String getLocationId() {
-        return locationId;
+    public String getLocationID() {
+        return locationID;
     }
 
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setLocationID(String locationID) {
+        this.locationID = locationID;
     }
 
     public String getLocationName() {
@@ -58,11 +58,11 @@ public class Shop implements Serializable {
         this.latitude = latitude;
     }
 
-    public Integer getWorkingHours() {
+    public String getWorkingHours() {
         return workingHours;
     }
 
-    public void setWorkingHours(Integer workingHours) {
+    public void setWorkingHours(String workingHours) {
         this.workingHours = workingHours;
     }
 
@@ -74,16 +74,16 @@ public class Shop implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getChainId() {
-        return chainId;
+    public String getChainID() {
+        return chainID;
     }
 
-    public void setChainId(String chainId) {
-        this.chainId = chainId;
+    public void setChainID(String chainID) {
+        this.chainID = chainID;
     }
 
     public LocationType getLocationType() {
-        if (locationType!=null) {
+        if (locationType != null) {
             return locationType;
         } else {
             return LocationType.UNKNOWN;
@@ -94,11 +94,11 @@ public class Shop implements Serializable {
         this.locationType = locationType;
     }
 
-    public Integer getPresencePercentage() {
+    public Float getPresencePercentage() {
         return presencePercentage;
     }
 
-    public void setPresencePercentage(Integer presencePercentage) {
+    public void setPresencePercentage(Float presencePercentage) {
         this.presencePercentage = presencePercentage;
     }
 

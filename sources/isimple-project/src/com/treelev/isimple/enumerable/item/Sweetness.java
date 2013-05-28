@@ -39,6 +39,11 @@ public enum Sweetness implements Serializable, Presentable {
         return OTHER;
     }
 
+    public static Sweetness getSweetness(Integer ordinal) {
+        return (ordinal != null && ordinal >= 0 && ordinal < Sweetness.values().length) ?
+                Sweetness.values()[ordinal] : OTHER;
+    }
+
     public static Presentable[] getWineSweetness() {
         return new Sweetness[] { DRY, MEDIUM_DRY, MEDIUM_SWEET, SWEET };
     }

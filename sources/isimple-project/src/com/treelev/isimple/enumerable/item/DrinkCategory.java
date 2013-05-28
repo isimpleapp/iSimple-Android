@@ -31,8 +31,8 @@ public enum DrinkCategory {
         return OTHER;
     }
 
-    public static DrinkCategory getDrinkCategory(int ordinal) {
-        return ordinal >= 0 && ordinal < DrinkCategory.values().length
+    public static DrinkCategory getDrinkCategory(Integer ordinal) {
+        return ordinal != null && ordinal >= 0 && ordinal < DrinkCategory.values().length
                 ? DrinkCategory.values()[ordinal] : OTHER;
     }
 }

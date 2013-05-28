@@ -1,9 +1,6 @@
 package com.treelev.isimple.domain.db;
 
-import com.treelev.isimple.enumerable.item.Color;
-import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.enumerable.item.Style;
-import com.treelev.isimple.enumerable.item.Sweetness;
+import com.treelev.isimple.enumerable.item.*;
 
 import java.io.Serializable;
 
@@ -24,18 +21,20 @@ public class Item implements Serializable {
     private String localizedName;
     private String manufacturer;
     private String localizedManufacturer;
-    private String price;
-    private String priceMarkup;
+    private Float price;
+    private Float priceMarkup;
     private String country;
     private String region;
     private String barcode;
     private DrinkCategory drinkCategory;
-    private Color color;
-    private Style style;
+    private ItemColor color;
+    private String style;
     private Sweetness sweetness;
-    private String year;
-    private String volume;
+    private Integer year;
+    private Float volume;
+    private ProductType productType;
     private String drinkType;
+    private String classification;
     private String alcohol;
     private String bottleHiResolutionImageFilename;
     private String bottleLowResolutionImageFilename;
@@ -53,6 +52,9 @@ public class Item implements Serializable {
     private String vineyard;
     private String grapesUsed;
     private String rating;
+    private Float quantity;
+    private boolean featured;
+    private boolean mainFeatured;
 
     public static String[] getUITags() {
         return new String[] { UI_TAG_IMAGE, UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE, UI_TAG_DRINK_CATEGORY };
@@ -106,19 +108,19 @@ public class Item implements Serializable {
         this.localizedManufacturer = localizedManufacturer;
     }
 
-    public String getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
-    public String getPriceMarkup() {
+    public Float getPriceMarkup() {
         return priceMarkup;
     }
 
-    public void setPriceMarkup(String priceMarkup) {
+    public void setPriceMarkup(Float priceMarkup) {
         this.priceMarkup = priceMarkup;
     }
 
@@ -158,27 +160,23 @@ public class Item implements Serializable {
         this.drinkCategory = drinkCategory;
     }
 
-    public Color getColor() {
+    public ItemColor getColor() {
         if (color != null) {
             return color;
         } else {
-            return Color.OTHER;
+            return ItemColor.OTHER;
         }
     }
 
-    public void setColor(Color color) {
+    public void setColor(ItemColor color) {
         this.color = color;
     }
 
-    public Style getStyle() {
-        if (style != null) {
-            return style;
-        } else {
-            return Style.OTHER;
-        }
+    public String getStyle() {
+        return style;
     }
 
-    public void setStyle(Style style) {
+    public void setStyle(String style) {
         this.style = style;
     }
 
@@ -194,19 +192,19 @@ public class Item implements Serializable {
         this.sweetness = sweetness;
     }
 
-    public String getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
-    public String getVolume() {
+    public Float getVolume() {
         return volume;
     }
 
-    public void setVolume(String volume) {
+    public void setVolume(Float volume) {
         this.volume = volume;
     }
 
@@ -352,5 +350,45 @@ public class Item implements Serializable {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
+    }
+
+    public Float getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Float quantity) {
+        this.quantity = quantity;
+    }
+
+    public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
+    }
+
+    public boolean isMainFeatured() {
+        return mainFeatured;
+    }
+
+    public void setMainFeatured(boolean mainFeatured) {
+        this.mainFeatured = mainFeatured;
     }
 }

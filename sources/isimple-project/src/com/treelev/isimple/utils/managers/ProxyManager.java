@@ -5,11 +5,8 @@ import android.database.Cursor;
 import android.location.Location;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.*;
-import com.treelev.isimple.domain.comparators.ItemCompareName;
-import com.treelev.isimple.domain.comparators.ItemComparePrice;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
-import com.treelev.isimple.domain.ui.DistanceShop;
 import com.treelev.isimple.utils.Utils;
 
 import java.util.*;
@@ -46,20 +43,6 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRegionsByCategory(categoryId);
     }
 
-    public List<Map<String, ?>> convertItemsToUI(List<Item> itemList, int sortBy) {
-        Comparator<Item> compare = null;
-        switch (sortBy) {
-            case SORT_NAME_AZ:
-                compare = new ItemCompareName();
-                break;
-            case SORT_PRICE_UP:
-                compare = new ItemComparePrice();
-                break;
-        }
-        Collections.sort(itemList, compare);
-        return convertItemsToUI(itemList);
-    }
-
     public Cursor getItemsByCategory(int categoryId, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
@@ -89,9 +72,9 @@ public class ProxyManager {
             uiDataItem.put(Item.UI_TAG_IMAGE, R.drawable.bottle_list_image_default);
             uiDataItem.put(Item.UI_TAG_NAME, organizeItemNameLabel(item.getName()));
             uiDataItem.put(Item.UI_TAG_LOCALIZATION_NAME, organizeLocItemNameLabel(item.getLocalizedName()));
-            String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(item.getVolume()));
+            String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(item.getVolume().toString()));
             uiDataItem.put(Item.UI_TAG_VOLUME, volumeLabel != null ? volumeLabel : "");
-            String priceLabel = Utils.organizePriceLabel(item.getPrice());
+            String priceLabel = Utils.organizePriceLabel(item.getPrice().toString());
             uiDataItem.put(Item.UI_TAG_PRICE, priceLabel != null ? priceLabel : "");
             uiDataItem.put(Item.UI_TAG_DRINK_CATEGORY, item.getDrinkCategory().getDescription());
             uiDataItem.put(Item.UI_TAG_DRINK_ID, item.getDrinkID());

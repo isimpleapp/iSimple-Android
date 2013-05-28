@@ -16,8 +16,8 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
+import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
-import com.treelev.isimple.enumerable.item.WineType;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
@@ -55,7 +55,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         String colorStr = productType.getColor();
         if (colorStr == null) {
-            colorStr = WineType.getWineType("розовое").getColor();
+            colorStr = ItemColor.PINK.getCode();
         }
         itemTitle.setBackgroundColor(Color.parseColor(colorStr));
 
@@ -134,7 +134,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     }
 
     private void populateFormsFields(View formView, Item product) {
-        String priceLabel = Utils.organizePriceLabel(product.getPrice());
+        String priceLabel = Utils.organizePriceLabel(product.getPrice() + "");
         ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(priceLabel != null ? priceLabel : EMPTY_PRICE_LABEL);
         ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
@@ -142,11 +142,11 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         ((TextView) formView.findViewById(R.id.product_item_id)).setText(product.getItemID());
         organizeTextView((TextView) formView.findViewById(R.id.product_region), product.getRegion());
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
-        organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle().getDescription());
+        organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
         organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())));
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume())));
-        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear());
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + "")));
+        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear() + "");
         if (priceLabel != null) {
             ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, takeRetailPrice(product).toString())));
         } else {
@@ -156,11 +156,11 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     private Integer takeRetailPrice(Item product) {
         int retailPrice;
-        String priceLabel = Utils.organizePriceLabel(product.getPrice());
+        String priceLabel = Utils.organizePriceLabel(product.getPrice() + "");
         if (priceLabel != null) {
             Scanner in = new Scanner(priceLabel).useDelimiter("[^0-9]+");
             int integerPriceLabel = in.nextInt();
-            String priceMarkup = Utils.organizePriceLabel(product.getPriceMarkup());
+            String priceMarkup = Utils.organizePriceLabel(product.getPriceMarkup() + "");
             if (priceMarkup != null) {
                 Scanner intMarkup = new Scanner(priceMarkup).useDelimiter("[^0-9]+");
                 int integerPriceMarkup = intMarkup.nextInt();

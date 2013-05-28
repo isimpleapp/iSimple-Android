@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import com.treelev.isimple.domain.db.Chain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChainDAO extends BaseDAO {
@@ -45,7 +44,7 @@ public class ChainDAO extends BaseDAO {
                     DatabaseSqlHelper.CHAIN_TYPE + ") VALUES (?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (Chain chain : items) {
-                insertStatement = bindString(insertStatement, 1, chain.getChainId());
+                insertStatement = bindString(insertStatement, 1, chain.getChainID());
                 insertStatement = bindString(insertStatement, 2, chain.getChainName());
                 insertStatement = bindInteger(insertStatement, 3, chain.getChainType().ordinal());
                 insertStatement.execute();

@@ -47,15 +47,15 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
 
         if( drinkId > 1 && volumeLabel != null && mGroup)
         {
-            String formatPrice = "%s бутыл%s";
-            String end = "кa";
+            String formatPrice = "%s товар%s";
+            String end = "";
             if( (drinkId >=5 && drinkId <=20) || strDrinkId.charAt(strDrinkId.length()-1) == '0') {
-                end = "ок";
+                end = "ов";
             }
             else if(strDrinkId.charAt(strDrinkId.length()-1) == '2' ||
                     strDrinkId.charAt(strDrinkId.length()-1) == '3' ||
                     strDrinkId.charAt(strDrinkId.length()-1) == '4' ) {
-                end = "ки";
+                end = "а";
             }
 
             volumeLabel = String.format(formatPrice, drinkId, end);

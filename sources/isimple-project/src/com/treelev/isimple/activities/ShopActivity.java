@@ -6,13 +6,6 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Shop;
 import org.holoeverywhere.widget.TextView;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mhviedchenia
- * Date: 25.05.13
- * Time: 13:49
- * To change this template use File | Settings | File Templates.
- */
 public class ShopActivity extends BaseActivity {
 
     public static final String SHOP = "SHOP";

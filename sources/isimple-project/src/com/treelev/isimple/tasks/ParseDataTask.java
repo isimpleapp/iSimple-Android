@@ -58,6 +58,7 @@ public class ParseDataTask extends AsyncTask<File, Void, Void> {
         switch (index) {
             case 0:
             case 3:
+            case 4:
                 customDAOList = new BaseDAO[]{daoList[0]};
                 break;
             case 1:

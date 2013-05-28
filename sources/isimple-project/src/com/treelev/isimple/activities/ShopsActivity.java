@@ -1,14 +1,13 @@
 package com.treelev.isimple.activities;
 
-import org.holoeverywhere.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioGroup;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.fragments.ShopChainFragment;
 import com.treelev.isimple.fragments.ShopListFragment;
-import com.treelev.isimple.fragments.ShopMapFragment;
 
 public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
 
@@ -24,7 +23,7 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
         setCurrentCategory(1);
         createNavigationMenuBar();
         shopListFragment = new ShopListFragment();
-        shopMapFragment = new ShopMapFragment();
+        //shopMapFragment = new ShopMapFragment();
         shopChainFragment = new ShopChainFragment();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, shopListFragment);
@@ -32,7 +31,6 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.shop_layout_radio_group);
         radioGroup.setOnCheckedChangeListener(this);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

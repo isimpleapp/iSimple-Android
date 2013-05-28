@@ -106,7 +106,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_VINEYARD + " text, " +
             ITEM_GRAPES_USED + " text, " +
             ITEM_RATING + " text, " +
-            ITEM_QUANTITY + " float;";
+            ITEM_QUANTITY + " float);";
 
     public final static String ITEM_AVAILABILITY_TABLE = "item_availability";
     public final static String ITEM_AVAILABILITY_ID = BaseColumns._ID;

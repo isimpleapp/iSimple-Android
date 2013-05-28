@@ -4,7 +4,6 @@ import android.content.res.AssetManager;
 import android.location.Location;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
-import com.treelev.isimple.domain.ui.DistanceShop;
 import org.holoeverywhere.app.Application;
 
 import java.io.*;

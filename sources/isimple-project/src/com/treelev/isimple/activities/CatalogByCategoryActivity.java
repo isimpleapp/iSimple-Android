@@ -167,7 +167,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if (product.getInt(8) > 1) {
+        if (product.getInt(10) > 1) {
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = mCategoryID;
             CatalogSubCategory.backActivity = CatalogByCategoryActivity.class;
@@ -203,18 +203,34 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     }
 
     private Filter initFilter() {
+//        switch (mCategoryID) {
+//            case R.id.category_wine_butt:
+//                return new WineFilter(this);
+//            case R.id.category_spirits_butt:
+//                return new SpiritsFilter(this);
+//            case R.id.category_sparkling_butt:
+//                return new SparklingFilter(this);
+//            case R.id.category_sake_butt:
+//                return new SakeFilter(this);
+//            case R.id.category_porto_heres_butt:
+//                return new PortoHeresFilter(this);
+//            case R.id.category_water_butt:
+//                return new WaterFilter(this);
+//            default:
+//                return null;
+//        }
         switch (mCategoryID) {
-            case R.id.category_wine_butt:
+            case 0:
                 return new WineFilter(this);
-            case R.id.category_spirits_butt:
+            case 1:
                 return new SpiritsFilter(this);
-            case R.id.category_sparkling_butt:
+            case 2:
                 return new SparklingFilter(this);
-            case R.id.category_sake_butt:
+            case 3:
                 return new SakeFilter(this);
-            case R.id.category_porto_heres_butt:
+            case 4:
                 return new PortoHeresFilter(this);
-            case R.id.category_water_butt:
+            case 5:
                 return new WaterFilter(this);
             default:
                 return null;

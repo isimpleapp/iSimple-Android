@@ -74,7 +74,7 @@ public class CatalogListActivity extends BaseListActivity {
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if( product.getInt(8) > 1){
+        if( product.getInt(10) > 1){
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
             CatalogSubCategory.backActivity = CatalogListActivity.class;
@@ -145,7 +145,29 @@ public class CatalogListActivity extends BaseListActivity {
 
     public void onClickCategoryButt(View v) {
         Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
-        startIntent.putExtra(CATEGORY_ID, v.getId());
+        Integer category  = null;
+        switch (v.getId())
+        {
+        case R.id.category_wine_butt:
+            category = 0;
+            break;
+        case R.id.category_spirits_butt:
+            category = 1;
+            break;
+        case R.id.category_sparkling_butt:
+                category = 2;
+                break;
+        case R.id.category_porto_heres_butt:
+                category = 3;
+                break;
+        case R.id.category_sake_butt:
+                category = 4;
+                break;
+        case R.id.category_water_butt:
+                category = 5;
+                break;
+        }
+        startIntent.putExtra(CATEGORY_ID, category);
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }

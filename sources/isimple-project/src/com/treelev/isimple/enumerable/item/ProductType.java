@@ -73,6 +73,7 @@ public enum ProductType implements Serializable, Presentable {
                 return productType;
             }
         }
+
         return OTHER;
     }
 

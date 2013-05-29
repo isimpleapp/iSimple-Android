@@ -42,34 +42,33 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         nameView.setText(organizeItemNameLabel(cursor.getString(1)));
         itemLocName.setText(organizeLocItemNameLabel(cursor.getString(2)));
         String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(3)));
-        String strDrinkId = Utils.removeZeros(cursor.getString(8));
-        int drinkId = strDrinkId != null ? Integer.valueOf(strDrinkId) : 1;
-
-        if( drinkId > 1 && volumeLabel != null && mGroup)
-        {
-            String formatPrice = "%s товар%s";
-            String end = "";
-            if( (drinkId >=5 && drinkId <=20) || strDrinkId.charAt(strDrinkId.length()-1) == '0') {
-                end = "ов";
-            }
-            else if(strDrinkId.charAt(strDrinkId.length()-1) == '2' ||
+        String priceLabel = Utils.organizePriceLabel(cursor.getString(8));
+        if( mGroup ) {
+            String strDrinkId = Utils.removeZeros(cursor.getString(10));
+            int drinkId = strDrinkId != null && strDrinkId.length() != 0 ? Integer.valueOf(strDrinkId) : 1;
+            if( drinkId > 1 && volumeLabel != null )
+            {
+                String formatVolume = "%s товар%s";
+                String end = "";
+                if( (drinkId >=5 && drinkId <=20) || strDrinkId.charAt(strDrinkId.length()-1) == '0') {
+                    end = "ов";
+                }
+                else if(strDrinkId.charAt(strDrinkId.length()-1) == '2' ||
                     strDrinkId.charAt(strDrinkId.length()-1) == '3' ||
                     strDrinkId.charAt(strDrinkId.length()-1) == '4' ) {
-                end = "а";
+                    end = "а";
+                }
+                volumeLabel = String.format(formatVolume, drinkId, end);
+                if(priceLabel != null) {
+                    String formatPrice = "от %s";
+                    priceLabel = String.format(formatPrice, priceLabel);
+                }
             }
-
-            volumeLabel = String.format(formatPrice, drinkId, end);
         }
         itemVolume.setText(volumeLabel != null ? volumeLabel : "");
-        String priceLabel = Utils.organizePriceLabel(cursor.getString(7));
-        if( drinkId > 1 && priceLabel != null && mGroup)
-        {
-            String formatPrice = "от %s";
-            priceLabel = String.format(formatPrice, priceLabel);
-        }
         itemPrice.setText(priceLabel != null ? priceLabel : "");
 //TODO:
-        ProductType productType = ProductType.getProductType("ВИНО_ВИСКИ");
+        ProductType productType = ProductType.getProductType(cursor.getInt(5));
         itemProductType.setText(productType.getDescription());
 
         String colorStr = productType.getColor();

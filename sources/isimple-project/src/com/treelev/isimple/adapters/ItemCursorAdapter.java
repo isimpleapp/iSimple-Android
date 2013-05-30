@@ -9,6 +9,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
@@ -79,17 +80,14 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         itemVolume.setText(volumeLabel != null ? volumeLabel : "");
         itemPrice.setText(priceLabel != null ? priceLabel : "");
 //TODO:
-        ProductType productType = ProductType.getProductType(cursor.getInt(5));
-        String strProductType;
+        String strDrinkCategory = DrinkCategory.getDrinkCategory(cursor.getInt(6)).getDescription();
         if( mYearEnable ) {
             String format = "%s %s";
-            strProductType = String.format(format, productType.getDescription(), cursor.getString(9));
-        } else {
-            strProductType = productType.getDescription();
+            strDrinkCategory = String.format(format, strDrinkCategory, cursor.getString(9));
         }
+        itemProductType.setText(strDrinkCategory);
 
-        itemProductType.setText(strProductType);
-
+        ProductType productType = ProductType.getProductType(cursor.getInt(5));
         String colorStr = productType.getColor();
         if(colorStr == null ) {
                colorStr = ItemColor.getColor(cursor.getInt(11)).getCode();

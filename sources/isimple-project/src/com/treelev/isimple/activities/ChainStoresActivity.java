@@ -27,19 +27,15 @@ public class ChainStoresActivity extends BaseListActivity {
         setContentView(R.layout.shops_chain_fragment_layout);
         setCurrentCategory(1);
         createNavigationMenuBar();
-
         String itemId = getIntent().getStringExtra(ITEM_CHAIN_ID);
-
         ProxyManager proxyManager = new ProxyManager(this);
         Location location = new Location("test_location");
         location.setLongitude(37.6167f);
         location.setLatitude(55.770f);
         List<AbsDistanceShop> iShop = proxyManager.getShopByChain(location, itemId);
-
         ShopsAdapter adapter = new ShopsAdapter(this, iShop);
         addHeader(iShop);
         getListView().setAdapter(adapter);
-
     }
 
     @Override

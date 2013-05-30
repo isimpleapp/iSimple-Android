@@ -4,4 +4,6 @@
     <string name="search_hint"/>
     <string name="message_not_found">По Вашему запросу ничего не найдено</string>
     <string name="text_for_retail_price">Розничная цена: %s</string>
+    <string name="dialog_massage"><p style="text-align: center" align="center" size="20"><b>По данному штрихкоду ничего не найдено.</b></p></string>
+    <string name="dialog_button_ok"><b>OK</b></string>
 </resources>

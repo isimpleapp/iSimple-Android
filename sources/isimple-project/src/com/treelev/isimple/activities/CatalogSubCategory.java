@@ -25,6 +25,9 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
     private SimpleCursorAdapter mListCategoriesAdapter;
     private ProxyManager mProxyManager;
     private String mDrinkID;
+    private String mBarcode;
+    private String mBarcodeFromBaseActivity;
+    private String mBarcodeFromBaseExpandListActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,8 +44,18 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
             public void onClick(View v) {
             }
         });
+
+//        mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
+//        mBarcodeFromBaseActivity = getIntent().getStringExtra(BaseActivity.BARCODE);
+//        mBarcodeFromBaseExpandListActivity = getIntent().getStringExtra(BaseExpandableListActivity.BARCODE);
         mDrinkID = getIntent().getStringExtra(CatalogByCategoryActivity.DRINK_ID);
-        new SelectByDrinkId(this).execute(mDrinkID);
+        mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
+        if (mBarcode != null) {
+            new SelectBy(this, SelectBy.BARCODE).execute(mBarcode);
+        } else {
+            new SelectBy(this, SelectBy.DRINK_ID).execute(mDrinkID);
+        }
+
     }
 
     @Override
@@ -73,7 +86,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
                 sortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
-         new SortTask(this).execute(sortBy);
+        new SortTask(this).execute(sortBy);
     }
 
     @Override
@@ -102,14 +115,19 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         return mProxyManager;
     }
 
-    private class SelectByDrinkId extends AsyncTask<String, Void, Cursor> {
+    private class SelectBy extends AsyncTask<String, Void, Cursor> {
+
+        private final static int BARCODE = 1;
+        private final static int DRINK_ID = 2;
 
         private Dialog mDialog;
         private Context mContext;
         private ProxyManager mProxyManager;
+        private int mSelectWhere;
 
-        private SelectByDrinkId(Context context) {
+        private SelectBy(Context context, int select) {
             mContext = context;
+            mSelectWhere = select;
         }
 
         @Override
@@ -121,7 +139,15 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
 
         @Override
         protected Cursor doInBackground(String... params) {
-            return getProxyManager().getItemsByDrinkId(params[0], ProxyManager.SORT_NAME_AZ);
+            switch (mSelectWhere) {
+                case BARCODE:
+                    return getProxyManager().getItemByBarcode(mBarcode);
+                case DRINK_ID:
+                    return getProxyManager().getItemsByDrinkId(params[0], ProxyManager.SORT_NAME_AZ);
+                default:
+                    return null;
+            }
+
         }
 
         @Override

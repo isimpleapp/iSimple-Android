@@ -66,9 +66,9 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
         fragmentTransaction.commit();
     }
 
-    @Override
-    protected  void createNavigationMenuBar() {
-        super.createNavigationMenuBar();
-        getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
-    }
+//    @Override
+//    protected  void createNavigationMenuBar() {
+//        super.createNavigationMenuBar();
+//        getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+//    }
 }

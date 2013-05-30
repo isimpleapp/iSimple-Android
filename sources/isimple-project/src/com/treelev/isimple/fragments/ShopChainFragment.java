@@ -52,9 +52,9 @@ public class ShopChainFragment extends ListFragment {
     @Override
     public void onListItemClick(org.holoeverywhere.widget.ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Cursor product = (Cursor) l.getAdapter().getItem(position);
+        Cursor iChain = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent = new Intent(getActivity(), ChainStoresActivity.class);
-        startIntent.putExtra(ChainStoresActivity.ITEM_CHAIN_ID, product.getString(0));
+        startIntent.putExtra(ChainStoresActivity.ITEM_CHAIN_ID, iChain.getString(0));
         startActivity(startIntent);
         getActivity().overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }

@@ -30,6 +30,17 @@ public class ProxyManager {
     public Item getItemById(String itemId) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemById(itemId);
     }
+    public Cursor getItemByBarcode(String barcode){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemByBarcode(barcode);
+    }
+
+    public Item getItemByBarcodeTypeItem(String barcode){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemByBarcodeTypeItem(barcode);
+    }
+
+    public int getCountBarcode(String barcode){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getCountBarcode(barcode);
+    }
 
     public Cursor getRandomItems() {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRandomItems();

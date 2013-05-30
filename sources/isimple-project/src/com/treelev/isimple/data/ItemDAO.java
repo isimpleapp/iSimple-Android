@@ -97,7 +97,7 @@ public class ItemDAO extends BaseDAO {
     public Cursor getItemsByCategory(int categoryId, String orderByField) {
         open();
         String orderBy = "";
-        if(orderByField != null) {
+        if (orderByField != null) {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, orderByField);
         }
@@ -116,31 +116,31 @@ public class ItemDAO extends BaseDAO {
                 categoryId);
         String where = String.format(AND, join, whereCategory);
         String selectSql = String.format(SELECT_ITEMS_FROM,
-               TABLE_ONE + "." + DatabaseSqlHelper.ITEM_ID + " as _id",
-               DatabaseSqlHelper.ITEM_NAME,
-               DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
-               DatabaseSqlHelper.ITEM_VOLUME,
-               DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
-               DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
-               DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-               "0 as image",
-               DatabaseSqlHelper.ITEM_PRICE,
+                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_ID + " as _id",
+                DatabaseSqlHelper.ITEM_NAME,
+                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+                DatabaseSqlHelper.ITEM_VOLUME,
+                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                "0 as image",
+                DatabaseSqlHelper.ITEM_PRICE,
                 DatabaseSqlHelper.ITEM_YEAR,
                 DatabaseSqlHelper.ITEM_QUANTITY,
                 DatabaseSqlHelper.ITEM_COLOR,
-               DatabaseSqlHelper.ITEM_DRINK_ID,
-               DatabaseSqlHelper.ITEM_DRINK_ID,
-               from,
-               where,
-               DatabaseSqlHelper.ITEM_DRINK_ID,
-               orderBy);
-            return getDatabase().rawQuery(selectSql, null);
+                DatabaseSqlHelper.ITEM_DRINK_ID,
+                DatabaseSqlHelper.ITEM_DRINK_ID,
+                from,
+                where,
+                DatabaseSqlHelper.ITEM_DRINK_ID,
+                orderBy);
+        return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getItemsByDrinkId(String drinkId, String orderByField) {
         open();
         String orderBy = "";
-        if(orderByField != null) {
+        if (orderByField != null) {
             orderBy = String.format(FORMAT_ORDER_BY, orderByField);
         }
         String from = DatabaseSqlHelper.ITEM_TABLE;
@@ -171,17 +171,17 @@ public class ItemDAO extends BaseDAO {
     public Cursor getSearchItemsByCategory(Integer categoryId, String query, String orderByField) {
         open();
         String orderBy = "";
-        if(orderByField != null) {
+        if (orderByField != null) {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, orderByField);
         }
         String from = DatabaseSqlHelper.ITEM_TABLE;
         String whereCategory = "";
         String where = getWhereBySearch(query);
-        if( categoryId != null) {
+        if (categoryId != null) {
             whereCategory = String.format(COMPARE,
-                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                categoryId);
+                    DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                    categoryId);
             where = String.format(HOOKS, where);
             where = String.format(AND, whereCategory, where);
         }
@@ -554,6 +554,107 @@ public class ItemDAO extends BaseDAO {
         return item;
     }
 
+    public Cursor getItemByBarcode(String itemBarcode) {
+        open();
+        String orderBy = "";
+        String from = DatabaseSqlHelper.ITEM_TABLE;
+        String where = String.format(COMPARE_STRING,
+                DatabaseSqlHelper.ITEM_BARCODE,
+                itemBarcode);
+        String selectSql = String.format(SELECT_ITEMS_FROM_DRINK_ID,
+                DatabaseSqlHelper.ITEM_ID + " as _id",
+                DatabaseSqlHelper.ITEM_NAME,
+                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+                DatabaseSqlHelper.ITEM_VOLUME,
+                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                "0 as image",
+                DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_YEAR,
+                DatabaseSqlHelper.ITEM_QUANTITY,
+                DatabaseSqlHelper.ITEM_COLOR,
+                DatabaseSqlHelper.ITEM_DRINK_ID,
+                from,
+                where,
+                orderBy);
+        return getDatabase().rawQuery(selectSql, null);
+    }
+
+    public Item getItemByBarcodeTypeItem(String itemBarcode) {
+        open();
+//        String formatSelectScript = "select %1$s, %2$s, %3$s, %4$s, %5$s, %6$s,%7$s from %8$s where %9$s = '%10$s'";
+//        String selectSql = String.format(formatSelectScript,
+//                DatabaseSqlHelper.ITEM_ID + " as _id", DatabaseSqlHelper.ITEM_DRINK_ID, DatabaseSqlHelper.ITEM_NAME,
+//                DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_PRICE,
+//                DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, DatabaseSqlHelper.ITEM_TABLE,
+//                DatabaseSqlHelper.ITEM_BARCODE, itemBarcode);
+        String formatSelectScript = "select * from %1$s where %2$s = '%3$s'";
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_BARCODE, itemBarcode);
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        Item item = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            item = new Item();
+            item.setItemID(cursor.getString(0));
+            item.setDrinkID(cursor.getString(1));
+            item.setName(cursor.getString(2));
+            item.setLocalizedName(cursor.getString(3));
+            item.setManufacturer(cursor.getString(4));
+            item.setLocalizedManufacturer(cursor.getString(5));
+            item.setPrice(cursor.getFloat(6));
+            item.setPriceMarkup(cursor.getFloat(7));
+            item.setCountry(cursor.getString(8));
+            item.setRegion(cursor.getString(9));
+            item.setBarcode(cursor.getString(10));
+            item.setProductType(ProductType.getProductType(cursor.getInt(11)));
+            item.setClassification(cursor.getString(12));
+            item.setDrinkCategory(DrinkCategory.getDrinkCategory(cursor.getInt(13)));
+            item.setColor(ItemColor.getColor(cursor.getInt(14)));
+            item.setStyle(cursor.getString(15));
+            item.setSweetness(Sweetness.getSweetness(cursor.getInt(16)));
+            item.setYear(cursor.getInt(17));
+            item.setVolume(cursor.getFloat(18));
+            item.setDrinkType(cursor.getString(19));
+            item.setAlcohol(cursor.getString(20));
+            item.setBottleHiResolutionImageFilename(cursor.getString(21));
+            item.setBottleLowResolutionImageFilename(cursor.getString(22));
+            item.setStyleDescription(cursor.getString(23));
+            item.setAppelation(cursor.getString(24));
+            item.setServingTempMin(cursor.getString(25));
+            item.setServingTempMax(cursor.getString(26));
+            item.setTasteQualities(cursor.getString(27));
+            item.setVintageReport(cursor.getString(28));
+            item.setAgingProcess(cursor.getString(29));
+            item.setProductionProcess(cursor.getString(30));
+            item.setInterestingFacts(cursor.getString(31));
+            item.setLabelHistory(cursor.getString(32));
+            item.setGastronomy(cursor.getString(33));
+            item.setVineyard(cursor.getString(34));
+            item.setGrapesUsed(cursor.getString(35));
+            item.setRating(cursor.getString(36));
+            item.setQuantity(cursor.getFloat(37));
+            cursor.close();
+        }
+        close();
+        return item;
+    }
+
+    public int getCountBarcode(String barcode) {
+        int count = 0;
+        open();
+        String formatSelectScript = "SELECT count(%2$s) FROM %1$s WHERE %2$s = '%3$s' GROUP BY %2$s";
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_BARCODE, barcode);
+        Cursor c = getDatabase().rawQuery(selectSql, null);
+        if (c != null) {
+            if (c.moveToFirst()) {
+            count = c.getInt(0);
+            }
+            c.close();
+        }
+        close();
+        return count;
+    }
+
     public Map<String, List<String>> getWinesGroupByDrinkId() {
         open();
         String formatSelectScript = "select %1$s, %2$s from %3$s order by %2$s";
@@ -709,5 +810,6 @@ public class ItemDAO extends BaseDAO {
         String twoPart = String.format(LIKE, DatabaseSqlHelper.ITEM_NAME, formatQuery);
         return String.format(OR, onePart, twoPart);
     }
+
 
 }

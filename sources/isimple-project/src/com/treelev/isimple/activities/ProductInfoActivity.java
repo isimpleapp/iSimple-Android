@@ -9,6 +9,8 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.MenuItem;
@@ -36,17 +38,28 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private final static String EMPTY_PRICE_LABEL = "-";
     private final static String FORMAT_ALCOHOL = "%s%% алк.";
     private final static String FORMAT_VOLUME = "%s л.";
+    private String mBarcode;
+    private String itemId;
+    private Item mProduct;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setCurrentCategory(0);
         createNavigationMenuBar();
-        String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
-        Item mProduct = proxyManager.getItemById(itemId);
-        final ExpandableListView listView = getExpandableListView();
+
+        itemId = getIntent().getStringExtra(ITEM_ID_TAG);
+        mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
+
+        if(itemId != null){
+            mProduct = proxyManager.getItemById(itemId);
+        }else{
+            mProduct = proxyManager.getItemByBarcodeTypeItem(mBarcode);
+        }
+
+        ExpandableListView listView = getExpandableListView();
         final View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
 //TODO: replace
         TextView itemTitle = (TextView) findViewById(R.id.title_item);
@@ -62,20 +75,14 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         listView.addHeaderView(headerView, null, false);
         populateFormsFields(headerView, mProduct);
         List<ProductContent> productContentList = createExpandableItems(mProduct);
+
         BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
         listView.setAdapter(listAdapter);
-
-//        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-//        int widthDisplay = display.getWidth();
         LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
         final LinearLayout lin_for_two_button = (LinearLayout) headerView.findViewById(R.id.linear_for_two_button);
         ((RelativeLayout.LayoutParams) lin_for_two_button.getLayoutParams()).width = widthDisplay();
         ((RelativeLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
         lin_for_two_button.requestLayout();
-
-//        TextView titleItem = (TextView)findViewById(R.id.title_item);
-//        titleItem.setPadding(0,0,getViewsWidth(headerView) - width,0);
-//        ((LinearLayout.LayoutParams) titleItem.getLayoutParams()).rightMargin = getViewsWidth(headerView) - width;
 
     }
 
@@ -131,6 +138,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         if (!TextUtils.isEmpty(itemContent)) {
             listItems.add(new ProductContent(itemName, itemContent));
         }
+
     }
 
     private void populateFormsFields(View formView, Item product) {

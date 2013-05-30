@@ -1,17 +1,22 @@
 package com.treelev.isimple.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import com.actionbarsherlock.app.ActionBar;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
+import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Activity;
 
 public class BaseActivity extends Activity implements ActionBar.OnNavigationListener {
 
     private int mCurrentCategory;
+    public final static String BARCODE = "barcode";
 
     public void setCurrentCategory(int currentCategory) {
         mCurrentCategory = currentCategory;
@@ -55,7 +60,9 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
                 category = null;
                 break;
             case 4: //Scan Code
-                category = null;
+                IntentIntegrator integrator = new IntentIntegrator(this);
+                integrator.initiateScan();
+                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
             default:
                 category = null;
@@ -64,6 +71,54 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
             intent =  new Intent(this, category);
         }
         return intent;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String codeInfo = "test";
+        String typeCode = "test";
+        if (resultCode == android.app.Activity.RESULT_OK) {
+            switch (requestCode) {
+                case IntentIntegrator.REQUEST_CODE:
+
+                    typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
+                    codeInfo = data.getStringExtra("SCAN_RESULT");
+                    checkBarcodeResult(codeInfo);
+                    break;
+            }
+        }
+    }
+
+    private void checkBarcodeResult(String code) {
+        ProxyManager proxyManager = new ProxyManager(this);
+        int count = proxyManager.getCountBarcode(code);
+
+        if (count > 1) {
+            Intent intent = new Intent(this, CatalogSubCategory.class);
+            intent.putExtra(BARCODE, code);
+            startActivity(intent);
+        } else {
+            if (count == 1) {
+                Intent intent = new Intent(this, ProductInfoActivity.class);
+                intent.putExtra(BARCODE, code);
+                startActivity(intent);
+            } else {
+                showAlertDialog(0, null, getResources().getString(R.string.dialog_massage));
+            }
+        }
+    }
+
+    protected void showAlertDialog(int iconId, String title, String message) {
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        adb.setTitle(title);
+        adb.setMessage(message);
+        adb.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        adb.show();
     }
 
     private Drawable[] getIconsList(TypedArray typedIconsArray, int navigationMenuBarLenght) {

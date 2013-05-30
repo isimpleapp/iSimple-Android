@@ -152,20 +152,20 @@ public class CatalogListActivity extends BaseListActivity {
             category = 0;
             break;
         case R.id.category_spirits_butt:
-            category = 1;
+            category = 3;
             break;
         case R.id.category_sparkling_butt:
-                category = 2;
-                break;
+            category = 1;
+            break;
         case R.id.category_porto_heres_butt:
-                category = 3;
-                break;
+            category = 2;
+            break;
         case R.id.category_sake_butt:
-                category = 4;
-                break;
+            category = 4;
+            break;
         case R.id.category_water_butt:
-                category = 5;
-                break;
+            category = 5;
+            break;
         }
         startIntent.putExtra(CATEGORY_ID, category);
         startActivity(startIntent);

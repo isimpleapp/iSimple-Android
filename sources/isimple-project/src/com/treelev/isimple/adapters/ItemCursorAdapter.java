@@ -56,14 +56,19 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
             if( drinkId > 1 && volumeLabel != null ) {
                 formatVolume = "%s товар%s";
                 String end = "";
-                if( (drinkId >=5 && drinkId <=20) || strDrinkId.charAt(strDrinkId.length()-1) == '0') {
+                if( (drinkId >=10 && drinkId <=20) || strDrinkId.charAt(strDrinkId.length()-1) == '0') {
                     end = "ов";
-                }
-                else if(strDrinkId.charAt(strDrinkId.length()-1) == '2' ||
+
+                } else if(strDrinkId.charAt(strDrinkId.length()-1) == '2' ||
                     strDrinkId.charAt(strDrinkId.length()-1) == '3' ||
                     strDrinkId.charAt(strDrinkId.length()-1) == '4' ) {
                     end = "а";
+                }else if(strDrinkId.charAt(strDrinkId.length()-1) == '1') {
+                    end = "";
+                }  else {    //5 - 9 last number
+                   end= "ов";
                 }
+
                 volumeLabel = String.format(formatVolume, drinkId, end);
                 if(priceLabel != null) {
                     String formatPrice = "от %s";

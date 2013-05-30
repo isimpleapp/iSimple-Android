@@ -113,8 +113,8 @@ public class ShopDAO extends BaseDAO {
                 shop.setLocationID(cursor.getString(0));
                 shop.setLocationName(cursor.getString(1));
                 shop.setLocationAddress(cursor.getString(2));
-                shop.setLatitude(cursor.getFloat(3));
-                shop.setLongitude(cursor.getFloat(4));
+                shop.setLatitude(cursor.getFloat(4));
+                shop.setLongitude(cursor.getFloat(3));
                 Location shopLocation = shop.createShopLocation();
                 DistanceShop distanceShop = new DistanceShop();
                 distanceShop.setShop(shop);

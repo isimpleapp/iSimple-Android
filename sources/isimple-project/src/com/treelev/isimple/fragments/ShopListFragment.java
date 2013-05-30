@@ -77,13 +77,13 @@ public class ShopListFragment extends ListFragment {
         protected List<AbsDistanceShop> doInBackground(Void... voids) {
 //get location
 //TODO replace test to real location
-//            Location location = new Location("test_location");
+            Location location = new Location("test_location");
 //            location.setLongitude(37.6167f);
 //            location.setLatitude(55.770f);
-//            location.setLongitude(27.0f);
-//            location.setLatitude(53.0f);
-            LocationTrackingManager locationTrackingManager = new LocationTrackingManager(mContext);
-            Location location = locationTrackingManager.getCurrentLocation();
+            location.setLongitude(27.0f);
+            location.setLatitude(53.0f);
+//            LocationTrackingManager locationTrackingManager = new LocationTrackingManager(mContext);
+//            Location location = locationTrackingManager.getCurrentLocation();
             List<AbsDistanceShop> items = null;
             if( location != null ) {
                 items = getProxyManager().getNearestShops(location);

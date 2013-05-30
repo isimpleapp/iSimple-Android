@@ -25,7 +25,7 @@ public class LocationTrackingManager {
         long bestTime = Long.MIN_VALUE;
         long minTime = 1000;
         Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_LOW);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         List<String> matchingProviders = locationManager.getAllProviders();
         for (String provider: matchingProviders) {
@@ -45,6 +45,8 @@ public class LocationTrackingManager {
                 }
             }
         }
+        bestResult.setAccuracy(0.0f);
+        bestResult.setTime(0);
         return bestResult;
     }
 }

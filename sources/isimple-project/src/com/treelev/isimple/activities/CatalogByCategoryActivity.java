@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.*;
 import com.actionbarsherlock.view.Menu;
@@ -167,11 +164,11 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if (product.getInt(10) > 1) {
+        if (product.getInt(13) > 1) {
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = mCategoryID;
             CatalogSubCategory.backActivity = CatalogByCategoryActivity.class;
-            startIntent.putExtra(DRINK_ID, product.getString(9));
+            startIntent.putExtra(DRINK_ID, product.getString(12));
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
@@ -317,7 +314,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
@@ -348,7 +345,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

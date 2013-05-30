@@ -50,12 +50,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         final View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
 //TODO: replace
         TextView itemTitle = (TextView) findViewById(R.id.title_item);
-        ProductType productType = ProductType.getProductType("ВИНО_ВИСКИ");
-        itemTitle.setText(productType.getDescription());
+//        ProductType productType = mProduct.getProductType(); ProductType.getProductType(
+        itemTitle.setText(mProduct.getProductType().getLabel());
 
-        String colorStr = productType.getColor();
+        String colorStr = mProduct.getProductType().getColor();
         if (colorStr == null) {
-            colorStr = ItemColor.PINK.getCode();
+            colorStr = mProduct.getColor().getCode();
         }
         itemTitle.setBackgroundColor(Color.parseColor(colorStr));
 

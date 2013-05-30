@@ -74,11 +74,11 @@ public class CatalogListActivity extends BaseListActivity {
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if( product.getInt(10) > 1){
+        if( product.getInt(13) > 1){
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
             CatalogSubCategory.backActivity = CatalogListActivity.class;
-            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(9));
+            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(12));
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
@@ -204,7 +204,7 @@ public class CatalogListActivity extends BaseListActivity {
         protected void onPostExecute(Cursor cursor) {
             Cursor cItems = cursor;
             startManagingCursor(cItems);
-            SimpleCursorAdapter mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogListActivity.this, true);
+            SimpleCursorAdapter mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogListActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

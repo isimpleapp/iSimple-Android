@@ -21,11 +21,13 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
     private final static int FORMAT_LOC_NAME_MAX_LENGTH = 29;
     private boolean mGroup;
+    private boolean mYearEnable;
 
-    public ItemCursorAdapter(Cursor c, Activity activity, boolean group) {
+    public ItemCursorAdapter(Cursor c, Activity activity, boolean group, boolean yearEnable) {
         super(activity, R.layout.catalog_item_layout, c, Item.getUITags(),
                 new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category});
         mGroup = group;
+        mYearEnable = yearEnable;
     }
 
     @Override
@@ -43,12 +45,16 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         itemLocName.setText(organizeLocItemNameLabel(cursor.getString(2)));
         String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(3)));
         String priceLabel = Utils.organizePriceLabel(cursor.getString(8));
+        Float quantity = cursor.getFloat(10);
+        String formatVolume = "%.0f x %s";
+        if( quantity != null && quantity > 1) {
+            volumeLabel =  String.format(formatVolume, quantity, volumeLabel);
+        }
         if( mGroup ) {
-            String strDrinkId = Utils.removeZeros(cursor.getString(10));
+            String strDrinkId = Utils.removeZeros(cursor.getString(13));
             int drinkId = strDrinkId != null && strDrinkId.length() != 0 ? Integer.valueOf(strDrinkId) : 1;
-            if( drinkId > 1 && volumeLabel != null )
-            {
-                String formatVolume = "%s товар%s";
+            if( drinkId > 1 && volumeLabel != null ) {
+                formatVolume = "%s товар%s";
                 String end = "";
                 if( (drinkId >=5 && drinkId <=20) || strDrinkId.charAt(strDrinkId.length()-1) == '0') {
                     end = "ов";
@@ -69,11 +75,19 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         itemPrice.setText(priceLabel != null ? priceLabel : "");
 //TODO:
         ProductType productType = ProductType.getProductType(cursor.getInt(5));
-        itemProductType.setText(productType.getDescription());
+        String strProductType;
+        if( mYearEnable ) {
+            String format = "%s %s";
+            strProductType = String.format(format, productType.getDescription(), cursor.getString(9));
+        } else {
+            strProductType = productType.getDescription();
+        }
+
+        itemProductType.setText(strProductType);
 
         String colorStr = productType.getColor();
         if(colorStr == null ) {
-               colorStr = ItemColor.PINK.getCode();
+               colorStr = ItemColor.getColor(cursor.getInt(11)).getCode();
         }
         colorItem.setBackgroundColor(Color.parseColor(colorStr));
     }

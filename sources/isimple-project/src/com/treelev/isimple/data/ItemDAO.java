@@ -52,9 +52,9 @@ public class ItemDAO extends BaseDAO {
 
 
     private final static int RANDOM = -1;
-    private final static String SELECT_ITEMS_FROM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s,COUNT(%s) FROM %s  WHERE %s GROUP BY %s  %s";
-    private final static String SELECT_ITEMS_FROM_RANDOM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, COUNT(%s) FROM %s WHERE %s GROUP BY %s";
-    private final static String SELECT_ITEMS_FROM_DRINK_ID = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s %s";
+    private final static String SELECT_ITEMS_FROM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, %s, %s, %s,COUNT(%s) FROM %s  WHERE %s GROUP BY %s  %s";
+    private final static String SELECT_ITEMS_FROM_RANDOM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, %s, %s, %s, COUNT(%s) FROM %s WHERE %s GROUP BY %s";
+    private final static String SELECT_ITEMS_FROM_DRINK_ID = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,  %s, %s, %s FROM %s WHERE %s %s";
     private final static String FORMAT_ORDER_BY_MIN = "ORDER BY MIN(%s)";
     private final static String FORMAT_ORDER_BY = "ORDER BY %s";
     private final static String FORMAT_FROM_TWO_TABLE = "%s AS %s, %s AS %s";
@@ -125,6 +125,9 @@ public class ItemDAO extends BaseDAO {
                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
                "0 as image",
                DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_YEAR,
+                DatabaseSqlHelper.ITEM_QUANTITY,
+                DatabaseSqlHelper.ITEM_COLOR,
                DatabaseSqlHelper.ITEM_DRINK_ID,
                DatabaseSqlHelper.ITEM_DRINK_ID,
                from,
@@ -154,6 +157,9 @@ public class ItemDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
                 "0 as image",
                 DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_YEAR,
+                DatabaseSqlHelper.ITEM_QUANTITY,
+                DatabaseSqlHelper.ITEM_COLOR,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 from,
                 where,
@@ -189,6 +195,9 @@ public class ItemDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
                 "0 as image",
                 DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_YEAR,
+                DatabaseSqlHelper.ITEM_QUANTITY,
+                DatabaseSqlHelper.ITEM_COLOR,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 from,
@@ -594,6 +603,9 @@ public class ItemDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
                 "0 as image",
                 DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_YEAR,
+                DatabaseSqlHelper.ITEM_QUANTITY,
+                DatabaseSqlHelper.ITEM_COLOR,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 from,

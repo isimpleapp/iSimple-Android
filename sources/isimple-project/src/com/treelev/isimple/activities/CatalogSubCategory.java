@@ -128,7 +128,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogSubCategory.this, false);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogSubCategory.this, false, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
@@ -159,7 +159,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogSubCategory.this, false);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogSubCategory.this, false, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

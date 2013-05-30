@@ -149,11 +149,11 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if( product.getInt(8) > 1){
+        if( product.getInt(13) > 1){
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = categoryID;
             CatalogSubCategory.backActivity = SearchResultActivity.class;
-            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(9));
+            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(12));
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
@@ -222,7 +222,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this, true);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
             if(cItems.getCount() == 0) {
@@ -264,7 +264,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this, true);
+            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

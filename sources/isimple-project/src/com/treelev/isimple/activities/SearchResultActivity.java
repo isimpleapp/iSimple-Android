@@ -24,6 +24,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
 
     public static Integer categoryID;
     public static Class backActivity;
+    public static String locationId;
     private Cursor cItems;
     private SimpleCursorAdapter mListCategoriesAdapter;
     private String mQuery;
@@ -34,7 +35,11 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
-        setCurrentCategory(0);
+        if(locationId == null ){
+            setCurrentCategory(0);
+        } else {
+            setCurrentCategory(1);
+        }
         createNavigationMenuBar();
         RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
         rg.setOnCheckedChangeListener(this);
@@ -47,6 +52,14 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
             }
         });
         handledIntent(getIntent());
+    }
+
+    @Override
+    public void createNavigationMenuBar() {
+        super.createNavigationMenuBar();
+        if( locationId != null ){
+            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+        }
     }
 
     @Override
@@ -140,7 +153,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         if(cItems.getCount() == 0) {
             Toast.makeText(this, this.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
         } else {
-            new SortTask(this, categoryID, sortBy).execute(mQuery);
+            new SortTask(this, categoryID, locationId, sortBy).execute(mQuery);
         }
     }
 
@@ -158,7 +171,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         }
-
+        startIntent.putExtra(ShopActivity.LOCATION_ID, locationId);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
@@ -168,7 +181,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String mDrinkId = intent.getStringExtra(CatalogByCategoryActivity.DRINK_ID);
             mQuery = intent.getStringExtra(SearchManager.QUERY);
-            Search search = new Search(this, categoryID);
+            Search search = new Search(this, categoryID, locationId);
             search.execute(mQuery);
         }
     }
@@ -200,10 +213,12 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         private Context mContext;
         private ProxyManager mProxyManager;
         private Integer mCategoryId;
+        private String mLocationId;
 
-        private Search(Context context, Integer categoryId) {
+        private Search(Context context, Integer categoryId, String locationId) {
             mContext = context;
             mCategoryId = categoryId;
+            mLocationId = locationId;
         }
 
         @Override
@@ -215,7 +230,11 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
 
         @Override
         protected Cursor doInBackground(String... params) {
-            return getProxyManager().getSearchItemsByCategory(mCategoryId, params[0], ProxyManager.SORT_NAME_AZ);
+            if(mLocationId == null) {
+                return getProxyManager().getSearchItemsByCategory(mCategoryId, params[0], ProxyManager.SORT_NAME_AZ);
+            } else{
+                return getProxyManager().getSearchItemsByCategory(mCategoryId, mLocationId, params[0], ProxyManager.SORT_NAME_AZ);
+            }
         }
 
         @Override
@@ -237,12 +256,12 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         private Context mContext;
         private Integer mCategoryId;
         private int mSortBy;
-        private ProxyManager proxyManager;
+        private String mLocationId;
 
-
-        private SortTask(Context context,Integer categoryId, int sortBy ) {
+        private SortTask(Context context, Integer categoryId, String locationId, int sortBy) {
             mContext = context;
             mCategoryId = categoryId;
+            mLocationId = locationId;
             mSortBy = sortBy;
         }
 
@@ -257,7 +276,12 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
 
         @Override
         protected Cursor doInBackground(String... params) {
-            return getProxyManager().getSearchItemsByCategory(mCategoryId, params[0], mSortBy);
+            if(mLocationId == null) {
+                return getProxyManager().getSearchItemsByCategory(mCategoryId, params[0], mSortBy);
+            } else {
+                return getProxyManager().getSearchItemsByCategory(mCategoryId, mLocationId, params[0], mSortBy);
+            }
+
         }
 
         @Override

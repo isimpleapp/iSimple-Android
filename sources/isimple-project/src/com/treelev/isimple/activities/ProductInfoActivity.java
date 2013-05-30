@@ -38,6 +38,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private final static String EMPTY_PRICE_LABEL = "-";
     private final static String FORMAT_ALCOHOL = "%s%% алк.";
     private final static String FORMAT_VOLUME = "%s л.";
+    private String mLocationId;
     private String mBarcode;
     private String itemId;
     private Item mProduct;
@@ -45,8 +46,14 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setCurrentCategory(0);
+        mLocationId = getIntent().getStringExtra(ShopActivity.LOCATION_ID);
+        if(mLocationId == null ){
+            setCurrentCategory(0);
+        } else {
+            setCurrentCategory(1);
+        }
         createNavigationMenuBar();
+        String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
 
@@ -78,12 +85,27 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
         listView.setAdapter(listAdapter);
+
+//        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//        int widthDisplay = display.getWidth();
         LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
         final LinearLayout lin_for_two_button = (LinearLayout) headerView.findViewById(R.id.linear_for_two_button);
         ((RelativeLayout.LayoutParams) lin_for_two_button.getLayoutParams()).width = widthDisplay();
         ((RelativeLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
         lin_for_two_button.requestLayout();
 
+//        TextView titleItem = (TextView)findViewById(R.id.title_item);
+//        titleItem.setPadding(0,0,getViewsWidth(headerView) - width,0);
+//        ((LinearLayout.LayoutParams) titleItem.getLayoutParams()).rightMargin = getViewsWidth(headerView) - width;
+
+    }
+
+    @Override
+    public void createNavigationMenuBar(){
+        super.createNavigationMenuBar();
+        if(mLocationId != null) {
+            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+        }
     }
 
     @Override
@@ -138,7 +160,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         if (!TextUtils.isEmpty(itemContent)) {
             listItems.add(new ProductContent(itemName, itemContent));
         }
-
     }
 
     private void populateFormsFields(View formView, Item product) {

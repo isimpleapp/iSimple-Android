@@ -25,6 +25,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
     private SimpleCursorAdapter mListCategoriesAdapter;
     private ProxyManager mProxyManager;
     private String mDrinkID;
+    private String mLocationId;
     private String mBarcode;
     private String mBarcodeFromBaseActivity;
     private String mBarcodeFromBaseExpandListActivity;
@@ -33,7 +34,12 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
-        setCurrentCategory(0);
+        mLocationId = getIntent().getStringExtra(ShopActivity.LOCATION_ID);
+        if(mLocationId == null ){
+            setCurrentCategory(0); //Catalog
+        } else {
+            setCurrentCategory(1); //Shop
+        }
         createNavigationMenuBar();
         RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
         rg.setOnCheckedChangeListener(this);
@@ -58,6 +64,13 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
 
     }
 
+    @Override
+    public void createNavigationMenuBar(){
+        super.createNavigationMenuBar();
+        if(mLocationId != null) {
+            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -95,6 +108,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent = new Intent(this, ProductInfoActivity.class);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+        startIntent.putExtra(ShopActivity.LOCATION_ID, mLocationId);
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }

@@ -45,6 +45,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     int oldLayoutHeight = 350;
     final int myGroupPosition = 0;
     private Integer mCategoryID;
+    private String mLocationId;
     private boolean mExpandFiltr = false;
     private ProxyManager mProxyManager;
     private com.treelev.isimple.filter.Filter filter;
@@ -56,7 +57,12 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
-        setCurrentCategory(0);
+        mLocationId = getIntent().getStringExtra(ShopActivity.LOCATION_ID);
+        if(mLocationId == null){
+            setCurrentCategory(0);    //Catalog
+        } else {
+            setCurrentCategory(1); //Shop
+        }
         createNavigationMenuBar();
         darkView = findViewById(R.id.category_dark_view);
         darkView.setVisibility(View.GONE);
@@ -64,7 +70,15 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         filter = initFilter();
         initFilterListView();
-        new SelectDataTask(this).execute(mCategoryID);
+        new SelectDataTask(this, mLocationId).execute(mCategoryID);
+    }
+
+    @Override
+    public void createNavigationMenuBar(){
+        super.createNavigationMenuBar();
+        if(mLocationId != null) {
+            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+        }
     }
 
     @Override
@@ -88,7 +102,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
                 sortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
-        new SortTask(this).execute(sortBy);
+        new SortTask(this, mLocationId).execute(sortBy);
     }
 
     @Override
@@ -104,6 +118,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
             public boolean onQueryTextSubmit(String query) {
                 SearchResultActivity.backActivity = CatalogByCategoryActivity.class;
                 SearchResultActivity.categoryID = mCategoryID;
+                SearchResultActivity.locationId = mLocationId;
                 return false;
             }
 
@@ -173,8 +188,8 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         }
-
-        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+        startIntent.putExtra(ShopActivity.LOCATION_ID, mLocationId);
+//        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
@@ -246,10 +261,10 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
             resetButtonClick.onClick(null);
             mExpandFiltr = false;
         } else {
-            Intent intent = new Intent(this, CatalogListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                    Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+//            Intent intent = new Intent(this, CatalogListActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+//                    Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
             finish();
             overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
         }
@@ -293,9 +308,11 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         private Dialog mDialog;
         private Context mContext;
+        private String mLocationId;
 
-        private SortTask(Context context) {
+        private SortTask(Context context, String locationId) {
             mContext = context;
+            mLocationId = locationId;
         }
 
         @Override
@@ -307,7 +324,11 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         @Override
         protected Cursor doInBackground(Integer... params) {
-            return getProxyManager().getItemsByCategory(mCategoryID, params[0]);
+            if( mLocationId == null ) {
+                return getProxyManager().getItemsByCategory(mCategoryID, params[0]);
+            } else {
+                return getProxyManager().getItemsByCategory(mCategoryID, mLocationId, params[0]);
+            }
         }
 
         @Override
@@ -324,9 +345,11 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         private Dialog mDialog;
         private Context mContext;
+        private String mLocationId;
 
-        private SelectDataTask(Context context) {
+        private SelectDataTask(Context context, String locationId) {
             mContext = context;
+            mLocationId = locationId;
         }
 
         @Override
@@ -338,7 +361,11 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         @Override
         protected Cursor doInBackground(Integer... params) {
-            return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
+            if(mLocationId == null){
+                return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
+            } else{
+                return getProxyManager().getItemsByCategory(params[0], mLocationId, ProxyManager.SORT_NAME_AZ);
+            }
         }
 
         @Override

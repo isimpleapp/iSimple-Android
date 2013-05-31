@@ -1,6 +1,6 @@
 package com.treelev.isimple.activities;
 
-import android.app.AlertDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -12,6 +12,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.ExpandableListActivity;
+import org.holoeverywhere.app.AlertDialog;
 
 public class BaseExpandableListActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
 
@@ -103,7 +104,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
                 intent.putExtra(BARCODE, code);
                 startActivity(intent);
             } else {
-                showAlertDialog(0,  null, getResources().getString(R.string.dialog_massage));
+                showAlertDialog(0,  null, "По данному штрихкоду ничего не найдено.");
             }
         }
     }

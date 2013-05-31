@@ -1,20 +1,20 @@
 package com.treelev.isimple.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.widget.Toast;
+import android.view.ContextThemeWrapper;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.ListActivity;
+import org.holoeverywhere.app.AlertDialog;
 
 public class BaseListActivity extends ListActivity implements ActionBar.OnNavigationListener {
 
@@ -77,13 +77,17 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                 intent.putExtra(BARCODE, code);
                 startActivity(intent);
             } else {
-                showAlertDialog(0, null, getResources().getString(R.string.dialog_massage),getResources().getString(R.string.dialog_button_ok));
+                showAlertDialog(0,null,"По данному штрихкоду ничего не найдено.","OK");
             }
         }
     }
 
     protected void showAlertDialog(int iconId, String title, String message, String button) {
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        Context dialogContext = new ContextThemeWrapper(this, R.style.Holo_AlertDialog_Light);
+        AlertDialog.Builder adb = new AlertDialog.Builder(dialogContext);
+//        this.getWindow().setBackgroundDrawableResource(R.color.select_item_navigation);
+//        final SpannableString s = new SpannableString(message);
+//        AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle(title);
         adb.setMessage(message);
         adb.setNeutralButton(button, new DialogInterface.OnClickListener() {
@@ -92,6 +96,16 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                 dialogInterface.dismiss();
             }
         });
+
+//        TextView myMessage = ((TextView) this.findViewById(android.R.id.message));
+//        TextView myTitle = ((TextView) this.findViewById(android.R.id.title));
+//        // Next Line unfortunately does nothing
+//        if(myMessage != null && myTitle != null){
+//            myMessage.setTextColor(Color.MAGENTA);
+//            myMessage.setBackgroundColor(Color.BLACK);
+//            myTitle.setTextColor(Color.CYAN);
+//            myTitle.setBackgroundColor(Color.GREEN);
+//        }
         adb.show();
     }
 

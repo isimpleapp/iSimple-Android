@@ -2,6 +2,8 @@ package com.treelev.isimple.activities;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,8 +11,6 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AbsListView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.MenuItem;
@@ -18,8 +18,6 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
-import com.treelev.isimple.enumerable.item.ItemColor;
-import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
@@ -42,10 +40,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private String mBarcode;
     private String itemId;
     private Item mProduct;
+    private Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         mLocationId = getIntent().getStringExtra(ShopActivity.LOCATION_ID);
         if(mLocationId == null ){
             setCurrentCategory(0);
@@ -53,7 +53,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             setCurrentCategory(1);
         }
         createNavigationMenuBar();
-        String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
+//        String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
 
@@ -98,7 +98,19 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 //        titleItem.setPadding(0,0,getViewsWidth(headerView) - width,0);
 //        ((LinearLayout.LayoutParams) titleItem.getLayoutParams()).rightMargin = getViewsWidth(headerView) - width;
 
+        Button btWhereToBuy = (Button)headerView.findViewById(R.id.shops_butt);
+        btWhereToBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Cursor iChain = (Cursor) l.getAdapter().getItem(position);
+                Intent newIntent = new Intent(mContext,ShopsActivity.class);
+                newIntent.putExtra(ShopsActivity.ITEM_PRODUCT_ID,itemId);
+                startActivity(newIntent);
+            }
+        });
+
     }
+
 
     @Override
     public void createNavigationMenuBar(){

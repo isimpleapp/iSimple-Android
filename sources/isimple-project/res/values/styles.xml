@@ -39,4 +39,9 @@
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:clickable">true</item>
     </style>
+    <style name="AlertDialogCustom">
+        <item name="android:textColor">#fc0fc0</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">10sp</item>
+    </style>
 </resources>

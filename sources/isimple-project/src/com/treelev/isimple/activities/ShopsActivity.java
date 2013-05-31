@@ -15,6 +15,7 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
     private Fragment shopMapFragment;
     private Fragment shopChainFragment;
     private FragmentTransaction fragmentTransaction;
+    public final static String ITEM_PRODUCT_ID = "id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

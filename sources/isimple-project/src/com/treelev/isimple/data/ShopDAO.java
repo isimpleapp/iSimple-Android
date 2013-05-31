@@ -60,8 +60,8 @@ public class ShopDAO extends BaseDAO {
                 insertStatement = bindString(insertStatement, 1, shop.getLocationID());
                 insertStatement = bindString(insertStatement, 2, shop.getLocationName());
                 insertStatement = bindString(insertStatement, 3, shop.getLocationAddress());
-                insertStatement = bindFloat(insertStatement, 5, shop.getLatitude());
-                insertStatement = bindFloat(insertStatement, 4, shop.getLongitude());
+                insertStatement = bindFloat(insertStatement, 4, shop.getLatitude());
+                insertStatement = bindFloat(insertStatement, 5, shop.getLongitude());
                 insertStatement = bindString(insertStatement, 6, shop.getWorkingHours());
                 insertStatement = bindString(insertStatement, 7, shop.getPhoneNumber());
                 insertStatement = bindString(insertStatement, 8, shop.getChainID());
@@ -113,8 +113,8 @@ public class ShopDAO extends BaseDAO {
                 shop.setLocationID(cursor.getString(0));
                 shop.setLocationName(cursor.getString(1));
                 shop.setLocationAddress(cursor.getString(2));
-                shop.setLatitude(cursor.getFloat(4));
-                shop.setLongitude(cursor.getFloat(3));
+                shop.setLatitude(cursor.getFloat(3));
+                shop.setLongitude(cursor.getFloat(4));
                 Location shopLocation = shop.createShopLocation();
                 DistanceShop distanceShop = new DistanceShop();
                 distanceShop.setShop(shop);

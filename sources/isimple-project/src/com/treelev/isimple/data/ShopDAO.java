@@ -95,6 +95,15 @@ public class ShopDAO extends BaseDAO {
         return winesList;
     }
 
+    public Cursor getShopsByWineId(String wineId) {
+        open();
+        String formatSelectScript = "select * from %2$s join %3$s on %2$s.%4$s = %3$s.%5$s and %3$s.%6$s = %7$s";
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.SHOP_LOCATION_NAME, DatabaseSqlHelper.SHOP_TABLE,
+                DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE, DatabaseSqlHelper.SHOP_LOCATION_ID, DatabaseSqlHelper.ITEM_AVAILABILITY_LOCATION_ID,
+                DatabaseSqlHelper.ITEM_AVAILABILITY_ITEM_ID, wineId);
+        return getDatabase().rawQuery(selectSql, null);
+    }
+
     public List<AbsDistanceShop> getNearestShops(Location currentLocation) {
         open();
         String formatSelectScript = "select %s, %s, %s, %s, %s from %s";

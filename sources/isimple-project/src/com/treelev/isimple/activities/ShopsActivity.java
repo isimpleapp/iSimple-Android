@@ -1,5 +1,6 @@
 package com.treelev.isimple.activities;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,6 +17,8 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
     private Fragment shopChainFragment;
     private FragmentTransaction fragmentTransaction;
     public final static String ITEM_PRODUCT_ID = "id";
+    private String wineId;
+    private Cursor wineCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,18 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
         setContentView(R.layout.shops_layout);
         setCurrentCategory(1);
         createNavigationMenuBar();
+        wineId = getIntent().getStringExtra(ProductInfoActivity.ITEM_ID_TAG);
+//        if(wineId != null){
+//            ProxyManager proxyManager = new ProxyManager(this);
+//            wineCursor = proxyManager.getShopsByWineId(wineId);
+//        }
+//        Intent intent = new Intent();
         shopListFragment = new ShopListFragment();
+
+        //TODO как передать intent фрагментам?
+//        shopListFragment.setArguments(wineId);
+
+
         //shopMapFragment = new ShopMapFragment();
         shopChainFragment = new ShopChainFragment();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();

@@ -17,6 +17,7 @@ import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.filter.*;
 import com.treelev.isimple.filter.Filter;
 import com.treelev.isimple.utils.managers.ProxyManager;
@@ -215,34 +216,19 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     }
 
     private Filter initFilter() {
-//        switch (mCategoryID) {
-//            case R.id.category_wine_butt:
-//                return new WineFilter(this);
-//            case R.id.category_spirits_butt:
-//                return new SpiritsFilter(this);
-//            case R.id.category_sparkling_butt:
-//                return new SparklingFilter(this);
-//            case R.id.category_sake_butt:
-//                return new SakeFilter(this);
-//            case R.id.category_porto_heres_butt:
-//                return new PortoHeresFilter(this);
-//            case R.id.category_water_butt:
-//                return new WaterFilter(this);
-//            default:
-//                return null;
-//        }
-        switch (mCategoryID) {
-            case 0:
+        DrinkCategory drinkCategory = DrinkCategory.getDrinkCategory(mCategoryID);
+        switch (drinkCategory) {
+            case WINE:
                 return new WineFilter(this);
-            case 1:
+            case SPIRITS:
                 return new SpiritsFilter(this);
-            case 2:
+            case SPARKLING:
                 return new SparklingFilter(this);
-            case 3:
+            case SAKE:
                 return new SakeFilter(this);
-            case 4:
+            case PORTO:
                 return new PortoHeresFilter(this);
-            case 5:
+            case WATER:
                 return new WaterFilter(this);
             default:
                 return null;

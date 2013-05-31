@@ -9,18 +9,20 @@ import java.util.List;
 
 public class LocationTrackingManager {
 
-    private Context context;
-
-    public LocationTrackingManager(Context context) {
-        this.context = context;
+    private static Location mLocation;
+    static {
+        mLocation = new Location("kremlin");
+        mLocation.setLatitude(55.7516666666667d);
+        mLocation.setLongitude(37.6177777777778d);
     }
 
-    public Location getCurrentLocation() {
+    private LocationTrackingManager() {}
+
+    public static Location getCurrentLocation(Context context) {
 //        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 //        Criteria criteria = new Criteria();
 //        String provider = locationManager.getBestProvider(criteria, false);
 //        return locationManager.getLastKnownLocation(provider);
-        Location bestResult = null;
         float bestAccuracy = Float.MAX_VALUE;
         long bestTime = Long.MIN_VALUE;
         long minTime = 1000;
@@ -35,18 +37,18 @@ public class LocationTrackingManager {
                 long time = location.getTime();
 
                 if ((time > minTime && accuracy < bestAccuracy)) {
-                    bestResult = location;
+                    mLocation = location;
                     bestAccuracy = accuracy;
                     bestTime = time;
                 }
                 else if (time < minTime && bestAccuracy == Float.MAX_VALUE && time > bestTime) {
-                    bestResult = location;
+                    mLocation = location;
                     bestTime = time;
                 }
             }
         }
-        bestResult.setAccuracy(0.0f);
-        bestResult.setTime(0);
-        return bestResult;
+        mLocation.setAccuracy(0.0f);
+        mLocation.setTime(0);
+        return mLocation;
     }
 }

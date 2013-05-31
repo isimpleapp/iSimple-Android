@@ -51,20 +51,21 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         if( quantity != null && quantity > 1) {
             volumeLabel =  String.format(formatVolume, quantity, volumeLabel);
         }
+//        String strDrinkId = cursor.getString(12);
         if( mGroup ) {
-            String strDrinkId = Utils.removeZeros(cursor.getString(13));
-            int drinkId = strDrinkId != null && strDrinkId.length() != 0 ? Integer.valueOf(strDrinkId) : 1;
+            String strCountDrinkId = Utils.removeZeros(cursor.getString(13));
+            int drinkId = strCountDrinkId != null && strCountDrinkId.length() != 0 ? Integer.valueOf(strCountDrinkId) : 1;
             if( drinkId > 1 && volumeLabel != null ) {
                 formatVolume = "%s товар%s";
                 String end = "";
-                if( (drinkId >=10 && drinkId <=20) || strDrinkId.charAt(strDrinkId.length()-1) == '0') {
+                if( (drinkId >=10 && drinkId <=20) || strCountDrinkId.charAt(strCountDrinkId.length()-1) == '0') {
                     end = "ов";
 
-                } else if(strDrinkId.charAt(strDrinkId.length()-1) == '2' ||
-                    strDrinkId.charAt(strDrinkId.length()-1) == '3' ||
-                    strDrinkId.charAt(strDrinkId.length()-1) == '4' ) {
+                } else if(strCountDrinkId.charAt(strCountDrinkId.length()-1) == '2' ||
+                    strCountDrinkId.charAt(strCountDrinkId.length()-1) == '3' ||
+                    strCountDrinkId.charAt(strCountDrinkId.length()-1) == '4' ) {
                     end = "а";
-                }else if(strDrinkId.charAt(strDrinkId.length()-1) == '1') {
+                }else if(strCountDrinkId.charAt(strCountDrinkId.length()-1) == '1') {
                     end = "";
                 }  else {    //5 - 9 last number
                    end= "ов";

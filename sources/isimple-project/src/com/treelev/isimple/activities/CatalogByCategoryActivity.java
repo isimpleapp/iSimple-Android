@@ -311,9 +311,9 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         @Override
         protected Cursor doInBackground(Integer... params) {
             if( mLocationId == null ) {
-                return getProxyManager().getItemsByCategory(mCategoryID, params[0]);
+                return getProxyManager().getFeaturedItemsByCategory(mCategoryID, params[0]);
             } else {
-                return getProxyManager().getItemsByCategory(mCategoryID, mLocationId, params[0]);
+                return getProxyManager().getFeaturedItemsByCategory(mCategoryID, mLocationId, params[0]);
             }
         }
 
@@ -348,9 +348,9 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         @Override
         protected Cursor doInBackground(Integer... params) {
             if(mLocationId == null){
-                return getProxyManager().getItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
+                return getProxyManager().getFeaturedItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
             } else{
-                return getProxyManager().getItemsByCategory(params[0], mLocationId, ProxyManager.SORT_NAME_AZ);
+                return getProxyManager().getFeaturedItemsByCategory(params[0], mLocationId, ProxyManager.SORT_NAME_AZ);
             }
         }
 

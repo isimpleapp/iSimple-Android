@@ -67,6 +67,7 @@ public class ItemDAO extends BaseDAO {
     private final static String OR = "%s OR %s";
     private final static String HOOKS = "(%s)";
     private final static String LIKE = "%s LIKE '%s'";
+    private final static String DISTINC = "DISTINC %s";
 
     public ItemDAO(Context context) {
         super(context);
@@ -94,7 +95,7 @@ public class ItemDAO extends BaseDAO {
         return count;
     }
 
-    public Cursor getItemsByCategory(int categoryId, String orderByField) {
+    public Cursor getFeaturedItemsByCategory(int categoryId, String orderByField) {
         open();
         String orderBy = "";
         if (orderByField != null) {
@@ -137,7 +138,7 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getItemsByCategory(int categoryId, String locationId, String orderByField) {
+    public Cursor getFeaturedItemsByCategory(int categoryId, String locationId, String orderByField) {
         open();
         String orderBy = "";
         if(orderByField != null) {
@@ -773,7 +774,7 @@ public class ItemDAO extends BaseDAO {
         return wines;
     }
 
-    public Cursor getRandomItems() {
+    public Cursor getFeaturedMainItems() {
         open();
         String from = String.format(FORMAT_FROM_TWO_TABLE,
                 DatabaseSqlHelper.ITEM_TABLE,

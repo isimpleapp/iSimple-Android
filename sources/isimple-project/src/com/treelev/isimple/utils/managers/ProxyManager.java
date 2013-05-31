@@ -42,8 +42,8 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getCountBarcode(barcode);
     }
 
-    public Cursor getRandomItems() {
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRandomItems();
+    public Cursor getFeaturedMainItems() {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedMainItems();
     }
 
     public List<String> getYearsByCategory(int categoryId) {
@@ -54,18 +54,18 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRegionsByCategory(categoryId);
     }
 
-    public Cursor getItemsByCategory(int categoryId, int sortType) {
+    public Cursor getFeaturedItemsByCategory(int categoryId, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId, orderByField);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId, orderByField);
     }
 
-    public Cursor getItemsByCategory(int categoryId, String locationId, int sortType) {
+    public Cursor getFeaturedItemsByCategory(int categoryId, String locationId, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByCategory(categoryId, locationId, orderByField);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId, locationId, orderByField);
     }
 
 

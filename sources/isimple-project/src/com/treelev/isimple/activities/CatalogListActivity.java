@@ -197,7 +197,7 @@ public class CatalogListActivity extends BaseListActivity {
 
         @Override
         protected Cursor doInBackground(Void... params) {
-            return getProxyManager().getRandomItems();
+            return getProxyManager().getFeaturedMainItems();
         }
 
         @Override

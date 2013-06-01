@@ -68,7 +68,6 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId, locationId, orderByField);
     }
 
-
     public Cursor getItemsByDrinkId(String drinkId, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
@@ -128,6 +127,7 @@ public class ProxyManager {
     public Cursor getChains() {
         return ((ChainDAO) getObjectDAO(ChainDAO.ID)).getChains();
     }
+
     public Cursor getShopsByWineId(String wineId){
         return ((ShopDAO) getObjectDAO(ShopDAO.ID)).getShopsByWineId(wineId);
     }

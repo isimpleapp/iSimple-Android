@@ -1,14 +1,6 @@
 package com.treelev.isimple.domain.ui;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mhviedchenia
- * Date: 25.05.13
- * Time: 10:24
- * To change this template use File | Settings | File Templates.
- */
-public abstract class AbsDistanceShop implements Comparable<AbsDistanceShop>,
-    HeaderItem{
+public abstract class AbsDistanceShop implements Comparable<AbsDistanceShop>, HeaderItem {
 
     private Float distance;
 

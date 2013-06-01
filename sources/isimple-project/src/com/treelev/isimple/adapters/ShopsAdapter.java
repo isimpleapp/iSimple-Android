@@ -18,8 +18,6 @@ public class ShopsAdapter extends ArrayAdapter {
     private List<AbsDistanceShop> items;
     private LayoutInflater inflater;
 
-
-
     public ShopsAdapter(Context context, List<AbsDistanceShop> items) {
         super(context, 0, items);
         this.context = context;

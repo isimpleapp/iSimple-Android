@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
+import com.treelev.isimple.activities.ProductInfoActivity;
 import com.treelev.isimple.activities.ShopActivity;
 import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
@@ -28,23 +29,23 @@ import java.util.List;
 public class ShopListFragment extends ListFragment {
 
     private ProxyManager mProxyManager;
+    public final static String PRODUCT_ID_EXTRA = "product_id";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.shop_list_fragment_layout, null);
     }
 
-    private ProxyManager getProxyManager() {
-        if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(getActivity());
-        }
-        return mProxyManager;
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        new SelectDataShopDistance(getActivity()).execute();
+        String itemId = getArguments().getString(ProductInfoActivity.ITEM_ID_TAG, null);
+        //TODO: else branch IS-108
+        if (itemId == null) {
+            new SelectDataShopDistance(getActivity()).execute();
+        } else {
+
+        }
     }
 
     @Override
@@ -57,8 +58,14 @@ public class ShopListFragment extends ListFragment {
         getActivity().overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
-    private class SelectDataShopDistance extends AsyncTask<Void, Void, List<AbsDistanceShop>> {
+    private ProxyManager getProxyManager() {
+        if (mProxyManager == null) {
+            mProxyManager = new ProxyManager(getActivity());
+        }
+        return mProxyManager;
+    }
 
+    private class SelectDataShopDistance extends AsyncTask<Void, Void, List<AbsDistanceShop>> {
 
         private Dialog mDialog;
         private Context mContext;
@@ -73,6 +80,7 @@ public class ShopListFragment extends ListFragment {
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.dialog_select_data_message), false, false);
         }
+
         @Override
         protected List<AbsDistanceShop> doInBackground(Void... voids) {
 //get location
@@ -84,12 +92,23 @@ public class ShopListFragment extends ListFragment {
 //            location.setLatitude(53.0f);
             Location location = LocationTrackingManager.getCurrentLocation(getActivity());
             List<AbsDistanceShop> items = null;
-            if( location != null ) {
+            if (location != null) {
                 items = getProxyManager().getNearestShops(location);
-//add header
                 addHeader(items);
             }
-            return items;  //To change body of implemented methods use File | Settings | File Templates.
+            return items;
+        }
+
+        @Override
+        protected void onPostExecute(List<AbsDistanceShop> items) {
+            if (items != null) {
+                ShopsAdapter adapter = new ShopsAdapter(getActivity(), items);
+                getListView().setAdapter(adapter);
+            }
+            mDialog.dismiss();
+            if (items == null) {
+                Toast.makeText(mContext, mContext.getString(R.string.not_find_location), Toast.LENGTH_SHORT).show();
+            }
         }
 
         private void addHeader(List<AbsDistanceShop> items) {
@@ -100,32 +119,20 @@ public class ShopListFragment extends ListFragment {
             DistanceShopHeader header3 = new DistanceShopHeader(5000.0f, "ДАЛЕЕ 5 КМ");
             items.add(header3);
             Collections.sort(items);
-//remove header empty distance category
+            //remove header empty distance category
             int index = items.indexOf(header1);
-            if( items.get(index + 1) instanceof DistanceShopHeader ) {
+            if (items.get(index + 1) instanceof DistanceShopHeader) {
                 items.remove(index);
             }
             index = items.indexOf(header2);
-            if( items.get(index + 1) instanceof DistanceShopHeader ) {
+            if (items.get(index + 1) instanceof DistanceShopHeader) {
                 items.remove(index);
             }
             index = items.indexOf(header3);
-            if( index == items.size() - 1 ) {
+            if (index == items.size() - 1) {
                 items.remove(index);
             }
 
-        }
-
-        @Override
-        protected void onPostExecute(List<AbsDistanceShop> items) {
-            if(items != null) {
-                ShopsAdapter adapter = new ShopsAdapter(getActivity(), items);
-                getListView().setAdapter(adapter);
-            }
-            mDialog.dismiss();
-            if( items == null ) {
-                Toast.makeText(mContext, mContext.getString(R.string.not_find_location), Toast.LENGTH_SHORT).show();
-            }
         }
     }
 

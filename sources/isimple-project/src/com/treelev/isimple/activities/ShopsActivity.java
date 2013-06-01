@@ -27,18 +27,10 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
         setCurrentCategory(1);
         createNavigationMenuBar();
         wineId = getIntent().getStringExtra(ProductInfoActivity.ITEM_ID_TAG);
-//        if(wineId != null){
-//            ProxyManager proxyManager = new ProxyManager(this);
-//            wineCursor = proxyManager.getShopsByWineId(wineId);
-//        }
-//        Intent intent = new Intent();
         shopListFragment = new ShopListFragment();
-
-        //TODO как передать intent фрагментам?
-//        shopListFragment.setArguments(wineId);
-
-
-        //shopMapFragment = new ShopMapFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(ProductInfoActivity.ITEM_ID_TAG, wineId);
+        shopListFragment.setArguments(bundle);
         shopChainFragment = new ShopChainFragment();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, shopListFragment);

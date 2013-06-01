@@ -76,6 +76,7 @@ public class ShopDAO extends BaseDAO {
         close();
     }
 
+    //TODO: for IS-108
     public List<String> getShopsWithWine(String wineId) {
         open();
         String formatSelectScript = "select %1$s from %2$s join %3$s on %2$s.%4$s = %3$s.%5$s and %3$s.%6$s = %7$s";

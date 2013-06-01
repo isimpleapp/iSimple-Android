@@ -3,7 +3,6 @@ package com.treelev.isimple.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -47,7 +46,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         mLocationId = getIntent().getStringExtra(ShopActivity.LOCATION_ID);
-        if(mLocationId == null ){
+        if (mLocationId == null) {
             setCurrentCategory(0);
         } else {
             setCurrentCategory(1);
@@ -60,9 +59,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
 
-        if(itemId != null){
+        if (itemId != null) {
             mProduct = proxyManager.getItemById(itemId);
-        }else{
+        } else {
             mProduct = proxyManager.getItemByBarcodeTypeItem(mBarcode);
         }
 
@@ -98,24 +97,23 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 //        titleItem.setPadding(0,0,getViewsWidth(headerView) - width,0);
 //        ((LinearLayout.LayoutParams) titleItem.getLayoutParams()).rightMargin = getViewsWidth(headerView) - width;
 
-        Button btWhereToBuy = (Button)headerView.findViewById(R.id.shops_butt);
+        Button btWhereToBuy = (Button) headerView.findViewById(R.id.shops_butt);
         btWhereToBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Cursor iChain = (Cursor) l.getAdapter().getItem(position);
-                Intent newIntent = new Intent(mContext,ShopsActivity.class);
-                newIntent.putExtra(ShopsActivity.ITEM_PRODUCT_ID,itemId);
+                Intent newIntent = new Intent(mContext, ShopsActivity.class);
+                newIntent.putExtra(ShopsActivity.ITEM_PRODUCT_ID, itemId);
                 startActivity(newIntent);
             }
         });
 
     }
 
-
     @Override
-    public void createNavigationMenuBar(){
+    public void createNavigationMenuBar() {
         super.createNavigationMenuBar();
-        if(mLocationId != null) {
+        if (mLocationId != null) {
             getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
         }
     }

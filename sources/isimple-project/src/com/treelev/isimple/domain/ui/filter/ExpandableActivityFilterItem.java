@@ -14,18 +14,31 @@ import java.util.Map;
 
 public class ExpandableActivityFilterItem extends FilterItem {
     private LayoutInflater layoutInflater;
-    private Map<String, FilterItemData[]> filterData;
+    private FilterItemData[] groupData;
+    private Map<String, FilterItemData[]> childData;
 
-    public ExpandableActivityFilterItem(Context context, String label, Map<String, FilterItemData[]> filterData) {
+    public ExpandableActivityFilterItem(Context context, String label, Map<String, FilterItemData[]> childData) {
         super(context, ITEM_ACTIVITY, label, ExpandableListFilterActivity.class);
         layoutInflater = LayoutInflater.from(context);
-        this.filterData = filterData;
+        String[] groups = childData.keySet().toArray(new String[0]);
+        this.groupData = new FilterItemData[groups.length];
+        for (int i = 0; i < groupData.length; i++) {
+            groupData[i] = new FilterItemData(groups[i]);
+        }
+        this.childData = childData;
     }
 
     private boolean isAnyItemChecked() {
-        if (filterData != null) {
-            for (String key : filterData.keySet()) {
-                for (FilterItemData item : filterData.get(key)) {
+        if (groupData != null) {
+            for (FilterItemData item : groupData) {
+                if (item.isChecked())
+                    return true;
+            }
+        }
+
+        if (childData != null) {
+            for (String key : childData.keySet()) {
+                for (FilterItemData item : childData.get(key)) {
                     if (item.isChecked())
                         return true;
                 }
@@ -37,16 +50,15 @@ public class ExpandableActivityFilterItem extends FilterItem {
     @Override
     protected Intent createIntent() {
         Intent intent = super.createIntent();
-        if (filterData != null) {
-            ExpandableListFilterActivity.putFilterData(intent, filterData);
-        }
+        ExpandableListFilterActivity.putFilterData(intent, groupData, childData);
         return intent;
     }
 
     @Override
     public boolean processResult(int requestCode, int resultCode, Intent data) {
         if (super.processResult(requestCode, resultCode, data)) {
-            filterData = ExpandableListFilterActivity.getFilterData(data);
+            groupData = ExpandableListFilterActivity.getGroupData(data);
+            childData = ExpandableListFilterActivity.getChildData(data, groupData);
             return true;
         }
         else {

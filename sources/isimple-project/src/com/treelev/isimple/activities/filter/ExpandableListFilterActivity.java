@@ -11,30 +11,33 @@ import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BaseExpandableListActivity;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
+import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.widget.CheckBox;
+import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.SimpleExpandableListAdapter;
 
 import java.util.*;
 
 public class ExpandableListFilterActivity extends BaseExpandableListActivity {
     private static final String BUNDLE_EXTRA = "bundle_extra";
-    private static final String NAME_DATA = "name_data";
+    private static final String GROUP_DATA = "group_data";
 
     private final static String GROUP_NAME = "group";
     private final static String ITEM_NAME = "item";
 
-    private Map<String, FilterItemData[]> filterData;
+    private FilterItemData[] groupData;
+    private Map<String, FilterItemData[]> childData;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_expandable_layout);
         createNavigationMenuBar();
         getExpandableListView().setAdapter(new CustomExpandableListAdapter(
-                getGroupItems(getFilterData()),
-                android.R.layout.simple_expandable_list_item_1,
+                getGroupItems(getGroupData()),
+                R.layout.filter_item_view,
                 new String[] { GROUP_NAME },
-                new int[] { android.R.id.text1 },
-                getSubItems(getFilterData()),
+                new int[] { R.id.filter_data_name },
+                getChildItems(getGroupData(), getChildData()),
                 R.layout.filter_item_view,
                 new String[] { ITEM_NAME },
                 new int[] { R.id.filter_data_name }));
@@ -45,23 +48,23 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         return false;
     }
 
-    private List<Map<String, ?>> getGroupItems(Map<String, FilterItemData[]> filterData) {
+    private List<Map<String, ?>> getGroupItems(FilterItemData[] groupData) {
         List<Map<String, ?>> groups = new ArrayList<Map<String, ?>>();
-        for (String groupName : filterData.keySet()) {
+        for (FilterItemData group : groupData) {
             Map<String, Object> item = new HashMap<String, Object>();
-            item.put(GROUP_NAME, groupName);
+            item.put(GROUP_NAME, group.getName());
             groups.add(item);
         }
         return groups;
     }
 
-    private List<List<Map<String, ?>>> getSubItems(Map<String, FilterItemData[]> filterData) {
+    private List<List<Map<String, ?>>> getChildItems(FilterItemData[] groupData, Map<String, FilterItemData[]> childData) {
         List<List<Map<String, ?>>> subItemsData = new ArrayList<List<Map<String, ?>>>();
-        for (String groupName : filterData.keySet()) {
+        for (FilterItemData group : groupData) {
             List<Map<String, ?>> childList = new ArrayList<Map<String, ?>>();
-            for (FilterItemData subItem : filterData.get(groupName)) {
+            for (FilterItemData childItem : childData.get(group.getName())) {
                 Map<String, Object> item = new HashMap<String, Object>();
-                item.put(ITEM_NAME, subItem.getName());
+                item.put(ITEM_NAME, childItem.getName());
                 childList.add(item);
             }
             subItemsData.add(childList);
@@ -82,48 +85,71 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
     @Override
     public void onBackPressed() {
         Intent resultIntent = new Intent();
-        putFilterData(resultIntent, getFilterData());
+        putFilterData(resultIntent, getGroupData(), getChildData());
         setResult(RESULT_OK, resultIntent);
         super.onBackPressed();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
-    public static Map<String, FilterItemData[]> getFilterData(Intent intent) {
+    public static FilterItemData[] getGroupData(Intent intent) {
         Bundle bundle = intent.getBundleExtra(BUNDLE_EXTRA);
-        Map<String, FilterItemData[]> filterData = new HashMap<String, FilterItemData[]>();
         if (bundle != null) {
-            String[] names = bundle.getStringArray(NAME_DATA);
-            if (names != null) {
-                for (String name : names) {
-                    Parcelable[] parcelableItems = bundle.getParcelableArray(name);
-                    filterData.put(name, parcelableItems != null ?
+            Parcelable[] parcelableItems = bundle.getParcelableArray(GROUP_DATA);
+            return (parcelableItems != null) ?
+                    Arrays.copyOf(parcelableItems, parcelableItems.length, FilterItemData[].class) :
+                    new FilterItemData[0];
+        }
+        else {
+            return new FilterItemData[0];
+        }
+    }
+
+    public static Map<String, FilterItemData[]> getChildData(Intent intent) {
+        return getChildData(intent, getGroupData(intent));
+    }
+
+    public static Map<String, FilterItemData[]> getChildData(Intent intent, FilterItemData[] groupData) {
+        Bundle bundle = intent.getBundleExtra(BUNDLE_EXTRA);
+        Map<String, FilterItemData[]> childData = new HashMap<String, FilterItemData[]>();
+        if (bundle != null) {
+            if (groupData != null) {
+                for (FilterItemData group : groupData) {
+                    Parcelable[] parcelableItems = bundle.getParcelableArray(group.getName());
+                    childData.put(group.getName(), parcelableItems != null ?
                             Arrays.copyOf(parcelableItems, parcelableItems.length, FilterItemData[].class) :
                             new FilterItemData[0]);
                 }
             }
-            return filterData;
+            return childData;
         }
         else {
-            return filterData;
+            return childData;
         }
     }
 
-    public static void putFilterData(Intent intent, Map<String, FilterItemData[]> filterData) {
+    public static void putFilterData(Intent intent, FilterItemData[] groupData, Map<String, FilterItemData[]> childData) {
         Bundle bundle = intent.getBundleExtra(BUNDLE_EXTRA);
         if (bundle == null) {
             bundle = new Bundle();
             intent.putExtra(BUNDLE_EXTRA, bundle);
         }
-        bundle.putStringArray(NAME_DATA, filterData.keySet().toArray(new String[0]));
-        for (String name : filterData.keySet())
-            bundle.putParcelableArray(name, filterData.get(name));
+        bundle.putParcelableArray(GROUP_DATA, groupData);
+        for (FilterItemData group : groupData)
+            bundle.putParcelableArray(group.getName(), childData.get(group.getName()));
     }
 
-    private Map<String, FilterItemData[]> getFilterData() {
-        if (filterData == null) {
-            filterData = getFilterData(getIntent());
+    private FilterItemData[] getGroupData() {
+        if (groupData == null) {
+            groupData = getGroupData(getIntent());
         }
-        return filterData;
+        return groupData;
+    }
+
+    private Map<String, FilterItemData[]> getChildData() {
+        if (childData == null) {
+            childData = getChildData(getIntent(), getGroupData());
+        }
+        return childData;
     }
 
     private class CustomExpandableListAdapter extends SimpleExpandableListAdapter implements View.OnClickListener {
@@ -143,8 +169,15 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         @Override
         public View newGroupView(boolean isExpanded, ViewGroup parent) {
             View groupView = super.newGroupView(isExpanded, parent);
+            CheckBox checkBox = (CheckBox) groupView.findViewById(R.id.filter_data_check);
+            TextView textView = (TextView)groupView.findViewById(R.id.filter_data_name);
+            textView.setPadding(30, textView.getPaddingTop(), textView.getPaddingRight(), textView.getPaddingBottom());
+            groupView.setOnClickListener(this);
+            checkBox.setOnClickListener(this);
             GroupViewHolder viewHolder = new GroupViewHolder();
-            viewHolder.textView = (TextView)groupView.findViewById(android.R.id.text1);
+            viewHolder.listView = (ExpandableListView)parent;
+            viewHolder.textView = textView;
+            viewHolder.checkBox = checkBox;
             groupView.setTag(viewHolder);
             return groupView;
         }
@@ -155,17 +188,23 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             GroupViewHolder viewHolder = (GroupViewHolder)groupView.getTag();
             FilterItemData[] filters = getFilterItems(groupPosition);
             viewHolder.groupPosition = groupPosition;
-            viewHolder.textView.setTextColor(isAnyItemChecked(filters) ? Color.BLACK : Color.LTGRAY);
+            viewHolder.textView.setText(Utils.ellipseString(viewHolder.textView.getText().toString(), 24));
+            FilterItemData filterData = getGroupData()[groupPosition];
+            viewHolder.textView.setTextColor(filterData.isChecked() || isAnyItemChecked(filters) ? Color.BLACK : Color.LTGRAY);
+            viewHolder.checkBox.setChecked(filterData.isChecked());
             return groupView;
         }
 
         @Override
         public View newChildView(boolean isLastChild, ViewGroup parent) {
             View view = super.newChildView(isLastChild, parent);
+            TextView textView = (TextView) view.findViewById(R.id.filter_data_name);
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.filter_data_check);
             view.setOnClickListener(this);
             checkBox.setOnClickListener(this);
             ChildViewHolder viewHolder = new ChildViewHolder();
+            viewHolder.listView = (ExpandableListView)parent;
+            viewHolder.textView = textView;
             viewHolder.checkBox = checkBox;
             view.setTag(viewHolder);
             return view;
@@ -178,19 +217,76 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             viewHolder.groupPosition = groupPosition;
             viewHolder.childPosition = childPosition;
             FilterItemData filterData = getFilterItemData(groupPosition, childPosition);
+            viewHolder.textView.setText(Utils.ellipseString(viewHolder.textView.getText().toString(), 27));
             viewHolder.checkBox.setChecked(filterData.isChecked());
             return childView;
         }
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.filter_data_check) {
+            int originalEventSourceId = v.getId();
+
+            if (originalEventSourceId == R.id.filter_data_check) {
                 v = (View)v.getParent();
             }
+            Object tag = v.getTag();
+            if (tag instanceof GroupViewHolder)  {
+                processGroupViewClick(v, originalEventSourceId);
+            } else if (tag instanceof ChildViewHolder) {
+                processChildViewClick(v);
+            }
+        }
+
+        private void processGroupViewClick(View v, int originalEventSourceId) {
+            GroupViewHolder viewHolder = ((GroupViewHolder) v.getTag());
+            if (originalEventSourceId != R.id.filter_data_check) {
+                if (viewHolder.listView.isGroupExpanded(viewHolder.groupPosition)) {
+                    viewHolder.listView.collapseGroup(viewHolder.groupPosition);
+                } else {
+                    viewHolder.listView.expandGroup(viewHolder.groupPosition);
+                }
+            } else {
+                FilterItemData filterData = getGroupData()[viewHolder.groupPosition];
+                filterData.setChecked(!filterData.isChecked());
+                viewHolder.checkBox.setChecked(filterData.isChecked());
+                viewHolder.textView.setTextColor(filterData.isChecked() ? Color.BLACK : Color.LTGRAY);
+                if (filterData.isChecked()) {
+                    FilterItemData[] children = getFilterItems(viewHolder.groupPosition);
+
+                    for (int childPosition = 0; childPosition < children.length; childPosition++) {
+                        children[childPosition].setChecked(false);
+                    }
+
+                    if (viewHolder.listView.isGroupExpanded(viewHolder.groupPosition)) {
+                        viewHolder.listView.collapseGroup(viewHolder.groupPosition);
+                    }
+                }
+            }
+        }
+
+        private void processChildViewClick(View v) {
             ChildViewHolder viewHolder = ((ChildViewHolder) v.getTag());
             FilterItemData filterData = getFilterItemData(viewHolder.groupPosition, viewHolder.childPosition);
             filterData.setChecked(!filterData.isChecked());
             viewHolder.checkBox.setChecked(filterData.isChecked());
+
+            FilterItemData[] children = getFilterItems(viewHolder.groupPosition);
+            boolean anyItemChecked = isAnyItemChecked(children);
+            if (anyItemChecked) {
+                FilterItemData groupData = getGroupData()[viewHolder.groupPosition];
+                groupData.setChecked(false);
+            }
+
+            long packedGroupPosition = ExpandableListView.getPackedPositionForGroup(viewHolder.groupPosition);
+            int flatGroupPosition = viewHolder.listView.getFlatListPosition(packedGroupPosition);
+            if (viewHolder.listView.getFirstVisiblePosition() <= flatGroupPosition) {
+                View groupView = viewHolder.listView.getChildAt(flatGroupPosition - viewHolder.listView.getFirstVisiblePosition());
+                GroupViewHolder groupViewHolder = ((GroupViewHolder) groupView.getTag());
+                groupViewHolder.textView.setTextColor(anyItemChecked ? Color.BLACK : Color.LTGRAY);
+                if (anyItemChecked) {
+                    groupViewHolder.checkBox.setChecked(false);
+                }
+            }
         }
 
         private FilterItemData getFilterItemData(int groupPosition, int childPosition) {
@@ -200,7 +296,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
 
         private FilterItemData[] getFilterItems(int groupPosition) {
             Map<String, Object> group = (Map<String, Object>)getGroup(groupPosition);
-            return getFilterData().get(group.get(GROUP_NAME));
+            return getChildData().get(group.get(GROUP_NAME));
         }
 
         private boolean isAnyItemChecked(FilterItemData[] filterData) {
@@ -214,12 +310,16 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         }
 
         private class ChildViewHolder {
+            ExpandableListView listView;
             CheckBox checkBox;
+            TextView textView;
             int groupPosition;
             int childPosition;
         }
 
         private class GroupViewHolder {
+            ExpandableListView listView;
+            CheckBox checkBox;
             TextView textView;
             int groupPosition;
         }

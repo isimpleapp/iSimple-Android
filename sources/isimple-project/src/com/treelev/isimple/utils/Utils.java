@@ -101,4 +101,9 @@ public class Utils {
             return -1;
         }
     }
+
+    public static String ellipseString(String input, int maxCharactersNumber) {
+        return (input.length() > maxCharactersNumber) ?
+            input.substring(0, maxCharactersNumber - 2) + "..." : input;
+    }
 }

@@ -307,17 +307,15 @@ public class ItemDAO extends BaseDAO {
     public List<String> getYearsByCategory(int categoryId) {
         open();
         List<String> years = new ArrayList<String>();
-        String selectString = String.format("select distinct %s from %s where", DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_TABLE);
-        String formatScript = "%s %s %s";
-        if (categoryId == R.id.category_wine_butt || categoryId == 0) {
-            formatScript = "%s %s %s %s %s %s %s";
-        }
-        String sqlQueryString = String.format(formatScript, getSelectParams(selectString, categoryId));
+        String sqlQueryString = String.format("select distinct %1$s from %2$s where drink_category=%3$s order by %1$s",
+                DatabaseSqlHelper.ITEM_YEAR,
+                DatabaseSqlHelper.ITEM_TABLE,
+                categoryId);
         Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 String str = cursor.getString(0);
-                if (!TextUtils.isEmpty(str)) {
+                if (str != null && !TextUtils.isEmpty(str.trim())) {
                     years.add(str);
                 }
             }
@@ -330,29 +328,27 @@ public class ItemDAO extends BaseDAO {
     public Map<String, List<String>> getRegionsByCategory(int categoryId) {
         open();
         Map<String, List<String>> regionsGroupByCountry = new HashMap<String, List<String>>();
-        String selectString = String.format("select distinct %s, %s from %s where", DatabaseSqlHelper.ITEM_REGION, DatabaseSqlHelper.ITEM_COUNTRY, DatabaseSqlHelper.ITEM_TABLE);
-        String formatScript = "%s %s %s";
-        if (categoryId == R.id.category_wine_butt) {
-            formatScript = "%s %s %s %s %s %s %s";
-        }
-        String sqlQueryString = String.format(formatScript, getSelectParams(selectString, categoryId));
+        String sqlQueryString = String.format("select distinct %1$s, %2$s from %3$s where drink_category=%4$s order by %2$s",
+                DatabaseSqlHelper.ITEM_REGION,
+                DatabaseSqlHelper.ITEM_COUNTRY,
+                DatabaseSqlHelper.ITEM_TABLE,
+                categoryId);
+
         Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 String region = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_REGION));
                 String country = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_COUNTRY));
                 List<String> regions;
-                if (!TextUtils.isEmpty(region)) {
-                    if (regionsGroupByCountry.containsKey(country)) {
-                        regions = regionsGroupByCountry.get(country);
-                        if (!regions.contains(region)) {
-                            regions.add(region);
-                        }
-                    } else {
-                        regions = new ArrayList<String>();
+                if (regionsGroupByCountry.containsKey(country)) {
+                    regions = regionsGroupByCountry.get(country);
+                    if (region != null && !TextUtils.isEmpty(region.trim()) && !regions.contains(region)) {
                         regions.add(region);
-                        regionsGroupByCountry.put(country, regions);
                     }
+                } else {
+                    regions = new ArrayList<String>();
+                    regions.add(region);
+                    regionsGroupByCountry.put(country, regions);
                 }
             }
             cursor.close();
@@ -564,40 +560,6 @@ public class ItemDAO extends BaseDAO {
 //        }
 //        close();
 //    }
-
-    public List<String> getCountries() {
-        open();
-        String formatSelectScript = "select distinct %1$s from %2$s order by %1$s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_COUNTRY, DatabaseSqlHelper.ITEM_TABLE);
-        Cursor c = getDatabase().rawQuery(selectSql, null);
-        List<String> countries = null;
-        if (c != null) {
-            countries = new ArrayList<String>();
-            while (c.moveToNext()) {
-                countries.add(c.getString(0));
-            }
-            c.close();
-        }
-        close();
-        return countries;
-    }
-
-    public List<String> getRegionsByCountry(String country) {
-        open();
-        String formatSelectScript = "select distinct %1$s from %2$s where %3$s = '%4$s' order by %1$s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_REGION, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_COUNTRY, country);
-        Cursor c = getDatabase().rawQuery(selectSql, null);
-        List<String> regions = null;
-        if (c != null) {
-            regions = new ArrayList<String>();
-            while (c.moveToNext()) {
-                regions.add(c.getString(0));
-            }
-            c.close();
-        }
-        close();
-        return regions;
-    }
 
     public Item getItemById(String itemId) {
         open();
@@ -812,81 +774,11 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    private String getSelectCategoryStringByCategoryId(Integer categoryId) {
-        int scriptType = SCRIPT_TYPE_OTHERS;
-        if (categoryId == R.id.category_wine_butt) {
-            scriptType = SCRIPT_TYPE_WINE;
-        }
-        return createSelectScript(scriptType, getSelectParams(FIRST_PART_SELECT_SCRIPT, categoryId));
-    }
-
-    private Object[] getSelectParams(String firstPartSelectScript, Integer categoryId) {
-        switch (categoryId) {
-            case R.id.category_wine_butt:
-            case 0:
-                return new String[]{firstPartSelectScript, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 0 and ",
-                        DatabaseSqlHelper.ITEM_STYLE, " <> 1 and ", DatabaseSqlHelper.ITEM_STYLE, " <> 3"};
-            case R.id.category_sparkling_butt:
-            case 1:
-                return new String[]{firstPartSelectScript, DatabaseSqlHelper.ITEM_STYLE, " = 1"};
-            case R.id.category_porto_heres_butt:
-                return new String[]{firstPartSelectScript, DatabaseSqlHelper.ITEM_STYLE, " = 3"};
-            case R.id.category_water_butt:
-                return null;
-            case R.id.category_spirits_butt:
-                return new String[]{firstPartSelectScript, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 1"};
-            case R.id.category_sake_butt:
-                return new String[]{firstPartSelectScript, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 2"};
-            default:
-                return null;
-        }
-    }
-
     private String createSelectScript(int scriptType, Object[] scriptParams) {
         String result = null;
         String formatQuery = FORMAT_QUERY_OTHER;
         if (scriptType == SCRIPT_TYPE_WINE) {
             formatQuery = FORMAT_QUERY_WINE;
-        }
-        if (scriptParams != null) {
-            result = String.format(formatQuery, scriptParams);
-        }
-        return result;
-    }
-
-    private String getSelectCategoryStringByCategoryIdSearch(Integer categoryId, String query) {
-        int scriptType = SCRIPT_TYPE_OTHERS;
-        if (categoryId == R.id.category_wine_butt) {
-            scriptType = SCRIPT_TYPE_WINE;
-        }
-        return createSelectScriptSearch(scriptType, getSelectParamsSearch(categoryId, query));
-    }
-
-    private Object[] getSelectParamsSearch(Integer categoryId, String query) {
-        switch (categoryId) {
-            case R.id.category_wine_butt:
-                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 0 and ",
-                        DatabaseSqlHelper.ITEM_STYLE, " <> 1 and ", DatabaseSqlHelper.ITEM_STYLE, " <> 3 ", "%s"};
-            case R.id.category_sparkling_butt:
-                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_STYLE, " = 1 ", "%s"};
-            case R.id.category_porto_heres_butt:
-                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_STYLE, " = 3 ", "%s"};
-            case R.id.category_water_butt:
-                return null;
-            case R.id.category_spirits_butt:
-                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 1 ", "%s"};
-            case R.id.category_sake_butt:
-                return new String[]{FIRST_PART_SELECT_SCRIPT, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, " = 2 ", "%s"};
-            default:
-                return null;
-        }
-    }
-
-    private String createSelectScriptSearch(int scriptType, Object[] scriptParams) {
-        String result = null;
-        String formatQuery = FORMAT_QUERY_OTHER_SEARCH;
-        if (scriptType == SCRIPT_TYPE_WINE) {
-            formatQuery = FORMAT_QUERY_WINE_SEARCH;
         }
         if (scriptParams != null) {
             result = String.format(formatQuery, scriptParams);

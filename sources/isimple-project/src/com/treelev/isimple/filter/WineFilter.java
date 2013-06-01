@@ -36,9 +36,9 @@ public class WineFilter extends Filter {
         filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_sweetness),
                 FilterItemData.createFromPresentable(Sweetness.getWineSweetness())));
         filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_year),
-                FilterItemData.getAvailableYears(getContext(), DrinkCategory.WINE.ordinal())));
+                FilterItemData.getAvailableYears(getContext(), DrinkCategory.WINE)));
         filterItems.add(new ExpandableActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_region),
-                FilterItemData.getAvailableCountryRegions(getContext(), R.id.category_wine_butt)));
+                FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.WINE)));
         filterItems.add(new DefaultSeekBarFilterItem(getContext()));
         return filterItems;
     }

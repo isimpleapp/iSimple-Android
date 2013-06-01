@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.treelev.isimple.domain.ui.Presentable;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
 import java.util.HashMap;
@@ -115,9 +116,9 @@ public class FilterItemData implements Parcelable {
         }
     }
 
-    public static FilterItemData[] getAvailableYears(Context context, int categoryId) {
+    public static FilterItemData[] getAvailableYears(Context context, DrinkCategory category) {
         ProxyManager proxyManager = new ProxyManager(context);
-        List<String> years = proxyManager.getYearsByCategory(categoryId);
+        List<String> years = proxyManager.getYearsByCategory(category);
         FilterItemData[] filterList = new FilterItemData[years.size()];
         for (int i = 0; i < years.size(); i++) {
             filterList[i] = new FilterItemData(years.get(i));
@@ -125,9 +126,9 @@ public class FilterItemData implements Parcelable {
         return filterList;
     }
 
-    public static Map<String, FilterItemData[]> getAvailableCountryRegions(Context context, int categoryId) {
+    public static Map<String, FilterItemData[]> getAvailableCountryRegions(Context context, DrinkCategory category) {
         ProxyManager proxyManager = new ProxyManager(context);
-        Map<String, List<String>> regions = proxyManager.getRegionsByCategory(categoryId);
+        Map<String, List<String>> regions = proxyManager.getRegionsByCategory(category);
         HashMap<String, FilterItemData[]> result = new HashMap<String, FilterItemData[]>();
         for (String country : regions.keySet()) {
             List<String> r = regions.get(country);

@@ -3,6 +3,7 @@ package com.treelev.isimple.filter;
 import android.content.Context;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.filter.*;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ProductType;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class SpiritsFilter extends Filter {
                 FilterItemData.createFromPresentable(ProductType.getSpiritsTypes())));
         filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_classifier), null));
         filterItems.add(new ExpandableActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_region),
-                FilterItemData.getAvailableCountryRegions(getContext(), R.id.category_wine_butt)));
+                FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.SPIRITS)));
         filterItems.add(new DefaultSeekBarFilterItem(getContext()));
         return filterItems;
     }

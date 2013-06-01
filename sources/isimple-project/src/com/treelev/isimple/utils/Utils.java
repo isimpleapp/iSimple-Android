@@ -4,7 +4,6 @@ import android.content.Context;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import com.treelev.isimple.parser.*;
-import com.treelev.isimple.utils.managers.LocationTrackingManager;
 
 public class Utils {
 
@@ -24,6 +23,8 @@ public class Utils {
                 return new ItemAvailabilityParser();
             case FeaturedItemsParser.FEATURED_ITEMS_PARSER_ID:
                 return new FeaturedItemsParser();
+            case DeprecatedItemParser.DEPRECATED_ITEMS_PARSER_ID:
+                return new DeprecatedItemParser();
             default:
                 return null;
         }
@@ -76,17 +77,15 @@ public class Utils {
 
     public static Float parseFloat(String floatValue) {
         if (floatValue != null) {
-            if (floatValue.startsWith("."))
+            if (floatValue.startsWith(".")) {
                 floatValue = "0" + floatValue;
-
+            }
             try {
                 return Float.parseFloat(floatValue);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 return -1f;
             }
-        }
-        else {
+        } else {
             return -1f;
         }
     }
@@ -95,12 +94,10 @@ public class Utils {
         if (integerValue != null) {
             try {
                 return Integer.parseInt(integerValue);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 return -1;
             }
-        }
-        else {
+        } else {
             return -1;
         }
     }

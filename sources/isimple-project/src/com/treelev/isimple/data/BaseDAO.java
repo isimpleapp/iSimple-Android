@@ -44,7 +44,7 @@ public abstract class BaseDAO {
 
     protected SQLiteStatement bindFloat(SQLiteStatement sqLiteStatement, int index, Float value) {
         if (value != null) {
-            sqLiteStatement.bindDouble(index, value);
+            sqLiteStatement.bindDouble(index, value.doubleValue());
         } else {
             sqLiteStatement.bindNull(index);
         }

@@ -34,6 +34,22 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String codeInfo = "test";
+        String typeCode = "test";
+        if (resultCode == android.app.Activity.RESULT_OK) {
+            switch (requestCode) {
+                case IntentIntegrator.REQUEST_CODE:
+
+                    typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
+                    codeInfo = data.getStringExtra("SCAN_RESULT");
+                    checkBarcodeResult(codeInfo);
+                    break;
+            }
+        }
+    }
+
     protected void createNavigationMenuBar() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Resources resources = getResources();
@@ -71,22 +87,6 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
             intent =  new Intent(this, category);
         }
         return intent;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String codeInfo = "test";
-        String typeCode = "test";
-        if (resultCode == android.app.Activity.RESULT_OK) {
-            switch (requestCode) {
-                case IntentIntegrator.REQUEST_CODE:
-
-                    typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
-                    codeInfo = data.getStringExtra("SCAN_RESULT");
-                    checkBarcodeResult(codeInfo);
-                    break;
-            }
-        }
     }
 
     private void checkBarcodeResult(String code) {

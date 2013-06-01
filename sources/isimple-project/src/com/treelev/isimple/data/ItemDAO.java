@@ -303,6 +303,7 @@ public class ItemDAO extends BaseDAO {
                 orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
+
     public List<String> getYearsByCategory(int categoryId) {
         open();
         List<String> years = new ArrayList<String>();

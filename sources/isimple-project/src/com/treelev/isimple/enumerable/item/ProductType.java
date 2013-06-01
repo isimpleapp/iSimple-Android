@@ -28,7 +28,7 @@ public enum ProductType implements Serializable, Presentable {
     TEQUILA("КСН_ТЕКИЛА", "Текила", "#000000"),
     BITTER("КСН_БИТТЕР", "Биттер", "#000000"),
 
-    UNKNOWN("UNKOWN", "", "#000000");
+    UNKNOWN("UNKNOWN", "", "#000000");
 
     private String name;
     private String description;

@@ -3,14 +3,13 @@ package com.treelev.isimple.adapters;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
-import com.treelev.isimple.R;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShopsAdapter extends ArrayAdapter {
@@ -47,12 +46,12 @@ public class ShopsAdapter extends ArrayAdapter {
                 DistanceShop ei = (DistanceShop)i;
                 v = inflater.inflate(R.layout.item_distance_shop, null);
                 final TextView title = (TextView)v.findViewById(R.id.item_title_shop);
-                final TextView adress = (TextView)v.findViewById(R.id.item_adress_shop);
+                final TextView address = (TextView)v.findViewById(R.id.item_adress_shop);
 
                 if (title != null)
                     title.setText(ei.getTitle());
-                if(adress != null)
-                    adress.setText(ei.getShop().getLocationAddress());
+                if(address != null)
+                    address.setText(ei.getShop().getLocationAddress());
             }
         }
         return v;

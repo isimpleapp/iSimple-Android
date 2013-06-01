@@ -1,6 +1,7 @@
 package com.treelev.isimple.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,17 +15,11 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.ListActivity;
-import org.holoeverywhere.app.AlertDialog;
 
 public class BaseListActivity extends ListActivity implements ActionBar.OnNavigationListener {
 
     private int mCurrentCategory;
     public final static String BARCODE = "barcode";
-
-    public void setCurrentCategory(int currentCategory) {
-        mCurrentCategory = currentCategory;
-
-    }
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
@@ -35,15 +30,6 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
             getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
         }
         return false;
-    }
-
-    protected void createNavigationMenuBar() {
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Resources resources = getResources();
-        String[] mainMenuLabelsArray = resources.getStringArray(R.array.main_menu_items);
-        TypedArray typedIconsArray = resources.obtainTypedArray(R.array.main_menu_icons);
-        Drawable[] iconLocation = getIconsList(typedIconsArray, mainMenuLabelsArray.length);
-        organizeNavigationMenu(iconLocation, mainMenuLabelsArray);
     }
 
     @Override
@@ -63,23 +49,25 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         }
     }
 
-    private void checkBarcodeResult(String code) {
-        ProxyManager proxyManager = new ProxyManager(this);
-        int count = proxyManager.getCountBarcode(code);
+    @Override
+    public void onBackPressed() {
 
-        if (count > 1) {
-            Intent intent = new Intent(this, CatalogSubCategory.class);
-            intent.putExtra(BARCODE, code);
-            startActivity(intent);
-        } else {
-            if (count == 1) {
-                Intent intent = new Intent(this, ProductInfoActivity.class);
-                intent.putExtra(BARCODE, code);
-                startActivity(intent);
-            } else {
-                showAlertDialog(0,null,"По данному штрихкоду ничего не найдено.","OK");
-            }
-        }
+        finish();
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+    }
+
+    public void setCurrentCategory(int currentCategory) {
+        mCurrentCategory = currentCategory;
+
+    }
+
+    protected void createNavigationMenuBar() {
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Resources resources = getResources();
+        String[] mainMenuLabelsArray = resources.getStringArray(R.array.main_menu_items);
+        TypedArray typedIconsArray = resources.obtainTypedArray(R.array.main_menu_icons);
+        Drawable[] iconLocation = getIconsList(typedIconsArray, mainMenuLabelsArray.length);
+        organizeNavigationMenu(iconLocation, mainMenuLabelsArray);
     }
 
     protected void showAlertDialog(int iconId, String title, String message, String button) {
@@ -109,11 +97,23 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         adb.show();
     }
 
-    @Override
-    public void onBackPressed() {
+    private void checkBarcodeResult(String code) {
+        ProxyManager proxyManager = new ProxyManager(this);
+        int count = proxyManager.getCountBarcode(code);
 
-        finish();
-        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+        if (count > 1) {
+            Intent intent = new Intent(this, CatalogSubCategory.class);
+            intent.putExtra(BARCODE, code);
+            startActivity(intent);
+        } else {
+            if (count == 1) {
+                Intent intent = new Intent(this, ProductInfoActivity.class);
+                intent.putExtra(BARCODE, code);
+                startActivity(intent);
+            } else {
+                showAlertDialog(0,null,"По данному штрихкоду ничего не найдено.","OK");
+            }
+        }
     }
 
     private Intent getStartIntentByItemPosition(int itemPosition) {

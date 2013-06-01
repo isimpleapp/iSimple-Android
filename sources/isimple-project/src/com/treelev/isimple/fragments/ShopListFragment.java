@@ -39,7 +39,7 @@ public class ShopListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String itemId = getArguments().getString(ProductInfoActivity.ITEM_ID_TAG, null);
+        String itemId = getArguments().getString(ProductInfoActivity.ITEM_ID_TAG);
         //TODO: else branch IS-108
         if (itemId == null) {
             new SelectDataShopDistance(getActivity()).execute();

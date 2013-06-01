@@ -1,13 +1,10 @@
 package com.treelev.isimple.filter;
 
 import android.content.Context;
-import android.view.View;
 import com.treelev.isimple.R;
-import com.treelev.isimple.domain.ui.*;
 import com.treelev.isimple.domain.ui.filter.*;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
-import org.holoeverywhere.widget.CheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +32,7 @@ public class PortoHeresFilter extends Filter {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
         filterItems.add(new PortoColorFilterItem(getContext()));
         filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_type),
-                FilterItemData.createFromPresentable(new Presentable[]{ProductType.PORTO, ProductType.HERES})));
+                FilterItemData.createFromPresentable(ProductType.getPortoHeresTypes())));
         filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_sweetness),
                 FilterItemData.createFromPresentable(Sweetness.getPortoSweetness())));
         filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_classifier), null));

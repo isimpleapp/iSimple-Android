@@ -44,12 +44,6 @@
         <activity android:name=".activities.ShopsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.ShopActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.ChainStoresActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.TestActivity">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
-        </activity>
         <uses-library android:name="com.google.android.maps" />
     </application>
 </manifest>

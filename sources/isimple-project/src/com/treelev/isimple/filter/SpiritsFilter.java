@@ -34,9 +34,8 @@ public class SpiritsFilter extends Filter {
 
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
-        filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_type),
-                FilterItemData.createFromPresentable(ProductType.getSpiritsTypes())));
-        filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_classifier), null));
+        filterItems.add(new ExpandableActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_classifier),
+                FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.SPIRITS)));
         filterItems.add(new ExpandableActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_region),
                 FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.SPIRITS)));
         filterItems.add(new DefaultSeekBarFilterItem(getContext()));

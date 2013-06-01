@@ -8,6 +8,7 @@ import com.treelev.isimple.data.*;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
 
 import java.util.*;
@@ -53,6 +54,16 @@ public class ProxyManager {
 
     public Map<String, List<String>> getRegionsByCategory(DrinkCategory category) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRegionsByCategory(category.ordinal());
+    }
+
+    public Map<ProductType, List<String>> getClassificationsByCategory(DrinkCategory category) {
+        HashMap<ProductType, List<String>> result = new HashMap<ProductType, List<String>>();
+        Map<Integer, List<String>> classifications = ((ItemDAO) getObjectDAO(ItemDAO.ID))
+                .getClassificationsByCategory(category.ordinal());
+        for (Integer key : classifications.keySet()) {
+            result.put(ProductType.getProductType(key), classifications.get(key));
+        }
+        return result;
     }
 
     public Cursor getFeaturedItemsByCategory(int categoryId, int sortType) {

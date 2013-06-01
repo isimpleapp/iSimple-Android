@@ -347,7 +347,9 @@ public class ItemDAO extends BaseDAO {
                     }
                 } else {
                     regions = new ArrayList<String>();
-                    regions.add(region);
+                    if (region != null && !TextUtils.isEmpty(region.trim())) {
+                        regions.add(region);
+                    }
                     regionsGroupByCountry.put(country, regions);
                 }
             }
@@ -355,6 +357,40 @@ public class ItemDAO extends BaseDAO {
         }
         close();
         return regionsGroupByCountry;
+    }
+
+    public Map<Integer, List<String>> getClassificationsByCategory(int categoryId) {
+        open();
+        Map<Integer, List<String>> classificationsByProductType = new HashMap<Integer, List<String>>();
+        String sqlQueryString = String.format("select distinct %1$s, %2$s from %3$s where drink_category=%4$s order by %2$s",
+                DatabaseSqlHelper.ITEM_CLASSIFICATION,
+                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+                DatabaseSqlHelper.ITEM_TABLE,
+                categoryId);
+
+        Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String classification = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_CLASSIFICATION));
+                Integer productType = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRODUCT_TYPE));
+                List<String> classifications;
+                if (classificationsByProductType.containsKey(productType)) {
+                    classifications = classificationsByProductType.get(productType);
+                    if (classification != null && !TextUtils.isEmpty(classification.trim()) && !classifications.contains(classification)) {
+                        classifications.add(classification);
+                    }
+                } else {
+                    classifications = new ArrayList<String>();
+                    if (classification != null && !TextUtils.isEmpty(classification.trim())) {
+                        classifications.add(classification);
+                    }
+                    classificationsByProductType.put(productType, classifications);
+                }
+            }
+            cursor.close();
+        }
+        close();
+        return classificationsByProductType;
     }
 
     public void insertListData(List<Item> items) {

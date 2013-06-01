@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.treelev.isimple.domain.ui.Presentable;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
 import java.util.HashMap;
@@ -143,6 +144,27 @@ public class FilterItemData implements Parcelable {
                 regionsData = new FilterItemData[0];
             }
             result.put(country, regionsData);
+        }
+        return result;
+    }
+
+    public static Map<String, FilterItemData[]> getAvailableClassifications(Context context, DrinkCategory category) {
+        ProxyManager proxyManager = new ProxyManager(context);
+        Map<ProductType, List<String>> classifications = proxyManager.getClassificationsByCategory(category);
+        HashMap<String, FilterItemData[]> result = new HashMap<String, FilterItemData[]>();
+        for (ProductType productType : classifications.keySet()) {
+            List<String> r = classifications.get(productType);
+            FilterItemData[] classificationsData;
+            if (r != null) {
+                classificationsData = new FilterItemData[r.size()];
+                for (int i = 0; i < r.size(); i++) {
+                    classificationsData[i] = new FilterItemData(r.get(i));
+                }
+            }
+            else {
+                classificationsData = new FilterItemData[0];
+            }
+            result.put(productType.getLabel(), classificationsData);
         }
         return result;
     }

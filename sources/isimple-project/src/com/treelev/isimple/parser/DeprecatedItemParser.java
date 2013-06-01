@@ -17,6 +17,21 @@ import java.util.List;
 public class DeprecatedItemParser implements Parser {
 
     public final static int DEPRECATED_ITEMS_PARSER_ID = 6;
+    private final static String DEPRECATED_ITEM_TAG = "Deprecated";
+    private final static String DEPRECATED_ITEM_ID_TAG = "ItemID";
+    private final static String DEPRECATED_DRINK_ID_TAG = "DrinkID";
+    private final static String DEPRECATED_NAME_TAG = "Name";
+    private final static String DEPRECATED_LOC_NAME_TAG = "LocalizedName";
+    private final static String DEPRECATED_MANUFACTURER_TAG = "Manufacturer";
+    private final static String DEPRECATED_LOC_MANUFACTURER_TAG = "LocalizedManufacturer";
+    private final static String DEPRECATED_COUNTRY_TAG = "Country";
+    private final static String DEPRECATED_REGION_TAG = "Region";
+    private final static String DEPRECATED_BARCODE_TAG = "Barcode";
+    private final static String DEPRECATED_DRINK_CATEGORY_TAG = "DrinkCategory";
+    private final static String DEPRECATED_PRODUCT_TYPE_TAG = "ProductType";
+    private final static String DEPRECATED_DRINK_TYPE_TAG = "DrinkType";
+    private final static String DEPRECATED_CLASSIFICATION_TAG = "Classification";
+    private final static String DEPRECATED_VOLUME_TAG = "Volume";
 
     @Override
     public void parseXmlToDB(XmlPullParser xmlPullParser, BaseDAO... daoList) {
@@ -26,43 +41,43 @@ public class DeprecatedItemParser implements Parser {
             DeprecatedItem deprecatedItem;
             List<DeprecatedItem> deprecatedItemList = new ArrayList<DeprecatedItem>();
             while (xmlPullParser.getEventType() != XmlPullParser.END_DOCUMENT) {
-                if (xmlPullParser.getEventType() == XmlPullParser.START_TAG && xmlPullParser.getName().equals("Deprecated")) {
+                if (xmlPullParser.getEventType() == XmlPullParser.START_TAG && xmlPullParser.getName().equals(DEPRECATED_ITEM_TAG)) {
                     nestingLevel++;
                     if (nestingLevel == 2) {
                         deprecatedItem = new DeprecatedItem();
                         xmlPullParser.next();
-                        while (xmlPullParser.getEventType() != XmlPullParser.END_TAG && !xmlPullParser.getName().equals("Deprecated")) {
+                        while (xmlPullParser.getEventType() != XmlPullParser.END_TAG && !xmlPullParser.getName().equals(DEPRECATED_ITEM_TAG)) {
                             if (xmlPullParser.getEventType() == XmlPullParser.START_TAG) {
-                                if (xmlPullParser.getName().equals("ItemID")) {
+                                if (xmlPullParser.getName().equals(DEPRECATED_ITEM_ID_TAG)) {
                                     deprecatedItem.setItemID(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("DrinkID")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_DRINK_ID_TAG)) {
                                     deprecatedItem.setDrinkID(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("Name")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_NAME_TAG)) {
                                     deprecatedItem.setName(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("LocalizedName")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_LOC_NAME_TAG)) {
                                     deprecatedItem.setLocalizedName(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("Manufacturer")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_MANUFACTURER_TAG)) {
                                     deprecatedItem.setManufacturer(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("LocalizedManufacturer")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_LOC_MANUFACTURER_TAG)) {
                                     deprecatedItem.setLocalizedManufacturer(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("Country")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_COUNTRY_TAG)) {
                                     deprecatedItem.setCountry(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("Region")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_REGION_TAG)) {
                                     deprecatedItem.setRegion(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("Barcode")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_BARCODE_TAG)) {
                                     deprecatedItem.setBarcode(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("DrinkCategory")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_DRINK_CATEGORY_TAG)) {
                                     deprecatedItem.setDrinkCategory(DrinkCategory.getDrinkCategory(xmlPullParser.nextText()));
-                                } else if (xmlPullParser.getName().equals("ProductType")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_PRODUCT_TYPE_TAG)) {
                                     deprecatedItem.setProductType(ProductType.getProductType(xmlPullParser.nextText()));
-                                } else if (xmlPullParser.getName().equals("DrinkType")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_DRINK_TYPE_TAG)) {
                                     tempStr = xmlPullParser.nextText();
                                     if (!TextUtils.isEmpty(tempStr)) {
                                         deprecatedItem.setDrinkType(tempStr);
                                     }
-                                } else if (xmlPullParser.getName().equals("Classification")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_CLASSIFICATION_TAG)) {
                                     deprecatedItem.setClassification(xmlPullParser.nextText());
-                                } else if (xmlPullParser.getName().equals("Volume")) {
+                                } else if (xmlPullParser.getName().equals(DEPRECATED_VOLUME_TAG)) {
                                     deprecatedItem.setVolume(Utils.parseFloat(xmlPullParser.nextText()));
                                 }
                             }

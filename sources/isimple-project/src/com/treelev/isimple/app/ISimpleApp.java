@@ -17,7 +17,7 @@ public class ISimpleApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //importDBFromFile(false);
+        importDBFromFile(false);
     }
 
     @Override

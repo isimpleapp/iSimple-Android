@@ -35,7 +35,7 @@
         <CheckBox
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:id="@+id/white_porto_heres_check"
+                android:id="@+id/red_porto_heres_check"
                 android:layout_weight="1"
                 android:background="@drawable/filter_type_checkbox_selector"
                 android:checked="false"
@@ -43,7 +43,7 @@
         <CheckBox
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:id="@+id/red_porto_heres_check"
+                android:id="@+id/white_porto_heres_check"
                 android:layout_weight="1"
                 android:background="@drawable/filter_type_checkbox_selector"
                 android:button="@color/transparent"/>

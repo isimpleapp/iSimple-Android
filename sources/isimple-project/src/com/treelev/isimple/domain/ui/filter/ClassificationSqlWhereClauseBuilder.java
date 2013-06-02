@@ -13,6 +13,7 @@ public class ClassificationSqlWhereClauseBuilder implements ExpandableActivityFi
 
     @Override
     public String buildChildClause(String childName, String groupName) {
-        return String.format("(item.product_type=%1$s and item.classification='%2$s')", groupName, childName);
+        return String.format("(item.product_type=%1$s and item.classification='%2$s')",
+                ProductType.getProductTypeByLabel(groupName).ordinal(), childName);
     }
 }

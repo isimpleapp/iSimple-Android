@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.enumerable.item.ItemColor;
 
 public class WineColorFilterItem extends FilterItem implements View.OnTouchListener {
     private LayoutInflater inflater;
@@ -42,6 +43,33 @@ public class WineColorFilterItem extends FilterItem implements View.OnTouchListe
             setClickButt(R.id.pink_wine_butt, R.id.pink_wine_check);
         }
         return colorView;
+    }
+
+    @Override
+    public String getSQLWhereClause() {
+        StringBuilder sqlBuilder = new StringBuilder();
+        if (isRed()) {
+            sqlBuilder.append(String.format("item.color=%s", ItemColor.RED.ordinal()));
+        }
+        if (isWhite()) {
+            if (sqlBuilder.length() > 0) {
+                sqlBuilder.append(" or ");
+            }
+            sqlBuilder.append(String.format("item.color=%s", ItemColor.WHITE.ordinal()));
+        }
+        if (isPink()) {
+            if (sqlBuilder.length() > 0) {
+                sqlBuilder.append(" or ");
+            }
+            sqlBuilder.append(String.format("item.color=%s", ItemColor.PINK.ordinal()));
+        }
+
+        if (sqlBuilder.length() > 0) {
+            sqlBuilder.insert(0, '(');
+            sqlBuilder.append(')');
+        }
+
+        return sqlBuilder.toString();
     }
 
     private void setClickButt(int buttonId, int checkboxId) {

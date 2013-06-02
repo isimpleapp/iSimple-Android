@@ -10,7 +10,7 @@
         <TextView
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:id="@+id/white_color_butt"
+                android:id="@+id/red_color_butt"
                 android:layout_weight="1"
                 android:background="@color/wine_type_red"
                 android:text="@string/porto_type_red"
@@ -19,7 +19,7 @@
         <TextView
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:id="@+id/red_color_butt"
+                android:id="@+id/white_color_butt"
                 android:layout_weight="1"
                 android:background="@color/wine_type_white"
                 android:gravity="center"

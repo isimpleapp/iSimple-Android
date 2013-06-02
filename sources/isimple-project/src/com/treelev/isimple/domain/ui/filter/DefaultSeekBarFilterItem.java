@@ -18,10 +18,12 @@ public class DefaultSeekBarFilterItem extends FilterItem {
 
     private int minValue = DEFAULT_MIN_VALUE;
     private int maxValue = DEFAULT_MAX_VALUE;
+    private String targetColumn;
 
-    public DefaultSeekBarFilterItem(Context context) {
+    public DefaultSeekBarFilterItem(Context context, String targetColumn) {
         super(context, ITEM_INLINE);
-        layoutInflater = LayoutInflater.from(context);
+        this.layoutInflater = LayoutInflater.from(context);
+        this.targetColumn = targetColumn;
     }
 
     @Override
@@ -40,6 +42,12 @@ public class DefaultSeekBarFilterItem extends FilterItem {
         seekBar.setSelectedMinValue(minValue);
         seekBar.setSelectedMaxValue(maxValue);
         return convertView;
+    }
+
+    @Override
+    public String getSQLWhereClause() {
+        return (minValue == DEFAULT_MIN_VALUE && maxValue == DEFAULT_MAX_VALUE) ? "" :
+            String.format("(%1$s >= %2$s and %1$s <= %3$s)", targetColumn, minValue, maxValue);
     }
 
     private RangeSeekBar<Integer> createSeekBar() {

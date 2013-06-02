@@ -10,14 +10,19 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
 import org.holoeverywhere.widget.TextView;
 
+import java.util.concurrent.Callable;
+
 public class DefaultActivityFilterItem extends FilterItem {
     private LayoutInflater layoutInflater;
     private FilterItemData[] filterData;
+    private SqlWhereClauseBuilder clauseBuilder;
 
-    public DefaultActivityFilterItem(Context context, String label, FilterItemData[] filterData) {
+    public DefaultActivityFilterItem(Context context, String label, FilterItemData[] filterData,
+                                     SqlWhereClauseBuilder clauseBuilder) {
         super(context, ITEM_ACTIVITY, label, DefaultListFilterActivity.class);
         layoutInflater = LayoutInflater.from(context);
         this.filterData = filterData;
+        this.clauseBuilder = clauseBuilder;
     }
 
     private boolean isAnyItemChecked() {
@@ -62,5 +67,30 @@ public class DefaultActivityFilterItem extends FilterItem {
         text.setTextColor(isAnyItemChecked() ? Color.BLACK : Color.LTGRAY);
 
         return convertView;
+    }
+
+    @Override
+    public String getSQLWhereClause() {
+        StringBuilder sqlBuilder = new StringBuilder();
+        if (filterData != null) {
+            for (FilterItemData item : filterData) {
+                if (item.isChecked()) {
+                    if(sqlBuilder.length() > 0) {
+                        sqlBuilder.append(" or ");
+                    }
+                    sqlBuilder.append(clauseBuilder.buildClause(item.getName()));
+                }
+            }
+        }
+        if (sqlBuilder.length() > 0) {
+            sqlBuilder.insert(0, '(');
+            sqlBuilder.append(')');
+        }
+
+        return sqlBuilder.toString();
+    }
+
+    public static interface SqlWhereClauseBuilder {
+        String buildClause(String filterName);
     }
 }

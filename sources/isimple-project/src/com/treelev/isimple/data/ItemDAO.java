@@ -215,6 +215,64 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
+    public Cursor getFilteredItemsByCategory(Integer categoryId, String query, String orderByField) {
+        return getFilteredItemsByCategory(categoryId, null, query, orderByField);
+    }
+
+    public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId, String whereClause, String orderByField) {
+        String selectSql = String.format(
+                "SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, " +
+                    "drink_category, 0 as image, MIN(price) as price, year, quantity, color, drink_id, COUNT(drink_id) " +
+                    "FROM item WHERE drink_category=%1$s and %2$s GROUP BY drink_id ORDER BY %3$s",
+                categoryId, whereClause, orderByField);
+        open();
+//        String orderBy = "";
+//        if(orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
+//        }
+//        String from = String.format(FORMAT_FROM_TWO_TABLE,
+//                DatabaseSqlHelper.ITEM_TABLE,
+//                TABLE_ONE,
+//                DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE,
+//                TABLE_TWO);
+//        String join = String.format(FORMAT_JOIN_TWO_TABLE,
+//                TABLE_ONE,
+//                DatabaseSqlHelper.ITEM_ID,
+//                TABLE_TWO,
+//                DatabaseSqlHelper.ITEM_ID);
+//        String whereCategory = String.format(COMPARE,
+//                TABLE_ONE + "." +DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+//                categoryId);
+//        String whereShop = String.format(COMPARE_STRING,
+//                DatabaseSqlHelper.SHOP_LOCATION_ID,
+//                locationId);
+//        String where = String.format(AND, join, whereCategory);
+//        where = String.format(AND, where, whereShop);
+//        String whereSearch = String.format(HOOKS, getWhereBySearch(query));
+//        where = String.format(AND, where, whereSearch);
+//        String selectSql = String.format(SELECT_ITEMS_FROM,
+//                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_ID + " as _id",
+//                DatabaseSqlHelper.ITEM_NAME,
+//                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+//                DatabaseSqlHelper.ITEM_VOLUME,
+//                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+//                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+//                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+//                "0 as image",
+//                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_PRICE,
+//                DatabaseSqlHelper.ITEM_YEAR,
+//                DatabaseSqlHelper.ITEM_QUANTITY,
+//                DatabaseSqlHelper.ITEM_COLOR,
+//                DatabaseSqlHelper.ITEM_DRINK_ID,
+//                DatabaseSqlHelper.ITEM_DRINK_ID,
+//                from,
+//                where,
+//                DatabaseSqlHelper.ITEM_DRINK_ID,
+//                orderBy);
+        return getDatabase().rawQuery(selectSql, null);
+    }
+
     //TODO refactor: переименовать, заменить конкантенацию на String.format, метод дублируется с getItemsByCategory
     public Cursor getSearchItemsByCategory(Integer categoryId, String query, String orderByField) {
         open();

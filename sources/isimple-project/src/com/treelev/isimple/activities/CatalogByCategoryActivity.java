@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.*;
@@ -71,7 +72,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         filter = initFilter();
         initFilterListView();
-        new SelectDataTask(this, mLocationId).execute(mCategoryID);
+        new SelectDataTask(this, filter.getSQLWhereClause(), mLocationId).execute(mCategoryID);
     }
 
     @Override
@@ -103,7 +104,9 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
                 sortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
-        new SortTask(this, mLocationId).execute(sortBy);
+        stopManagingCursor(cItems);
+        cItems.close();
+        new SortTask(this, filter.getSQLWhereClause(), mLocationId).execute(sortBy);
     }
 
     @Override
@@ -244,13 +247,12 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
     private void backOrCollapse() {
         if (mExpandFiltr) {
-            resetButtonClick.onClick(null);
+            Button resetButton = (Button)footerView.findViewById(R.id.reset_butt);
+            if (resetButton != null) {
+                resetButton.performClick();
+            }
             mExpandFiltr = false;
         } else {
-//            Intent intent = new Intent(this, CatalogListActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-//                    Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
             finish();
             overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
         }
@@ -264,27 +266,31 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         filterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //To change body of implemented methods use File | Settings | File Templates.
+
             }
         });
         footerView = getLayoutInflater().inflate(R.layout.category_filtration_button_bar_layout, filterListView, false);
         ((RadioGroup) footerView.findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
-        footerView.findViewById(R.id.reset_butt).setOnClickListener(resetButtonClick);
+        footerView.findViewById(R.id.reset_butt).setOnClickListener(footerButtonClick);
+        footerView.findViewById(R.id.search_butt).setOnClickListener(footerButtonClick);
         filterListView.addFooterView(footerView, null, false);
         filterListView.setAdapter(filterAdapter);
     }
 
-    private View.OnClickListener resetButtonClick = new View.OnClickListener() {
+    private View.OnClickListener footerButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             organizeView();
             filterListView.collapseGroup(0);
+            if (view.getId() == R.id.search_butt) {
+                stopManagingCursor(cItems);
+                cItems.close();
+                new SelectDataTask(CatalogByCategoryActivity.this, filter.getSQLWhereClause(), mLocationId)
+                        .execute(mCategoryID);
+            }
         }
 
         private void organizeView() {
-//            View groupView = filterListView.getChildAt(0);
-            //((ViewGroup) groupView).removeView(groupView.findViewById(R.id.category_type_view));
-//            groupView.setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);
             footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
         }
@@ -294,10 +300,12 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         private Dialog mDialog;
         private Context mContext;
+        private String mFilterWhereClause;
         private String mLocationId;
 
-        private SortTask(Context context, String locationId) {
+        private SortTask(Context context, String filterWhereClause, String locationId) {
             mContext = context;
+            mFilterWhereClause = filterWhereClause;
             mLocationId = locationId;
         }
 
@@ -310,10 +318,18 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         @Override
         protected Cursor doInBackground(Integer... params) {
-            if( mLocationId == null ) {
-                return getProxyManager().getFeaturedItemsByCategory(mCategoryID, params[0]);
+            if (!TextUtils.isEmpty(mFilterWhereClause))  {
+                if(TextUtils.isEmpty(mLocationId)) {
+                    return getProxyManager().getFilteredItemsByCategory(mCategoryID, mFilterWhereClause, params[0]);
+                } else{
+                    return getProxyManager().getFilteredItemsByCategory(mCategoryID, mLocationId, mFilterWhereClause, params[0]);
+                }
             } else {
-                return getProxyManager().getFeaturedItemsByCategory(mCategoryID, mLocationId, params[0]);
+                if(TextUtils.isEmpty(mLocationId)) {
+                    return getProxyManager().getFeaturedItemsByCategory(mCategoryID, params[0]);
+                } else{
+                    return getProxyManager().getFeaturedItemsByCategory(mCategoryID, mLocationId, params[0]);
+                }
             }
         }
 
@@ -331,10 +347,12 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         private Dialog mDialog;
         private Context mContext;
+        private String mFilterWhereClause;
         private String mLocationId;
 
-        private SelectDataTask(Context context, String locationId) {
+        private SelectDataTask(Context context, String filterWhereClause, String locationId) {
             mContext = context;
+            mFilterWhereClause = filterWhereClause;
             mLocationId = locationId;
         }
 
@@ -347,10 +365,18 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         @Override
         protected Cursor doInBackground(Integer... params) {
-            if(mLocationId == null){
-                return getProxyManager().getFeaturedItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
-            } else{
-                return getProxyManager().getFeaturedItemsByCategory(params[0], mLocationId, ProxyManager.SORT_NAME_AZ);
+            if (!TextUtils.isEmpty(mFilterWhereClause))  {
+                if(TextUtils.isEmpty(mLocationId)) {
+                    return getProxyManager().getFilteredItemsByCategory(params[0], mFilterWhereClause, ProxyManager.SORT_NAME_AZ);
+                } else{
+                    return getProxyManager().getFilteredItemsByCategory(params[0], mLocationId, mFilterWhereClause, ProxyManager.SORT_NAME_AZ);
+                }
+            } else {
+                if(TextUtils.isEmpty(mLocationId)) {
+                    return getProxyManager().getFeaturedItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
+                } else{
+                    return getProxyManager().getFeaturedItemsByCategory(params[0], mLocationId, ProxyManager.SORT_NAME_AZ);
+                }
             }
         }
 

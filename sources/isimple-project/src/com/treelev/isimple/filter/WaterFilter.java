@@ -18,22 +18,21 @@ public class WaterFilter extends Filter {
     }
 
     @Override
-    public String getSql() {
-        return null;
-    }
-
-    @Override
     public List<FilterItem> getFilterContent() {
         return filterItemList;
     }
 
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
-        filterItems.add(new ExpandableActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_type),
-                FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.WATER)));
-        filterItems.add(new ExpandableActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_region),
-                FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.WATER)));
-        filterItems.add(new DefaultSeekBarFilterItem(getContext()));
+        filterItems.add(new ExpandableActivityFilterItem(
+                getContext(), getContext().getString(R.string.filter_item_type),
+                FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.WATER),
+                ClassificationSqlWhereClauseBuilder.INSTANCE));
+        filterItems.add(new ExpandableActivityFilterItem(
+                getContext(), getContext().getString(R.string.filter_item_region),
+                FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.WATER),
+                RegionSqlWhereClauseBuilder.INSTANCE));
+        filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price"));
         return filterItems;
     }
 }

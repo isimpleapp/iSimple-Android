@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.enumerable.item.ItemColor;
 
 public class PortoColorFilterItem extends FilterItem implements View.OnTouchListener {
     private LayoutInflater inflater;
@@ -37,6 +38,27 @@ public class PortoColorFilterItem extends FilterItem implements View.OnTouchList
             setClickButt(R.id.red_color_butt, R.id.red_porto_heres_check);
         }
         return colorView;
+    }
+
+    @Override
+    public String getSQLWhereClause() {
+        StringBuilder sqlBuilder = new StringBuilder();
+        if (isWhite()) {
+            sqlBuilder.append(String.format("item.color=%s", ItemColor.WHITE.ordinal()));
+        }
+        if (isRed()) {
+            if (sqlBuilder.length() > 0) {
+                sqlBuilder.append(" or ");
+            }
+            sqlBuilder.append(String.format("item.color=%s", ItemColor.RED.ordinal()));
+        }
+
+        if (sqlBuilder.length() > 0) {
+            sqlBuilder.insert(0, '(');
+            sqlBuilder.append(')');
+        }
+
+        return sqlBuilder.toString();
     }
 
     private void setClickButt(int buttonId, int checkboxId) {

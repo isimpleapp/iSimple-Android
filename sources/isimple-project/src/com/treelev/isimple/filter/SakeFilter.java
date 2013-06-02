@@ -20,11 +20,6 @@ public class SakeFilter extends Filter implements View.OnClickListener {
     }
 
     @Override
-    public String getSql() {
-        return null;
-    }
-
-    @Override
     public List<FilterItem> getFilterContent() {
         return filterItemList;
     }
@@ -37,9 +32,11 @@ public class SakeFilter extends Filter implements View.OnClickListener {
 
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
-        filterItems.add(new ExpandableActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_premiality),
-                FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.SAKE)));
-        filterItems.add(new DefaultSeekBarFilterItem(getContext()));
+        filterItems.add(new ExpandableActivityFilterItem(getContext(),
+                getContext().getString(R.string.filter_item_premiality),
+                FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.SAKE),
+                ClassificationSqlWhereClauseBuilder.INSTANCE));
+        filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price"));
         return filterItems;
     }
 }

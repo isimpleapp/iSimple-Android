@@ -77,19 +77,19 @@ public enum ProductType implements Serializable, Presentable {
         return OTHER;
     }
 
+    public static ProductType getProductTypeByLabel(String label) {
+        for (ProductType productType : values()) {
+            if (productType.getLabel() != null && productType.getLabel().equalsIgnoreCase(label)) {
+                return productType;
+            }
+        }
+
+        return OTHER;
+    }
 
     public static ProductType getProductType(Integer typeOrdinal) {
         return (typeOrdinal != null && typeOrdinal >= 0 && typeOrdinal < ProductType.values().length) ?
                 ProductType.values()[typeOrdinal] : OTHER;
-    }
-
-
-    public static String[] GetAvailableClassifications(ProductType productType) {
-        if (productType == SPARKLING || productType == WINE || productType == CHAMPAGNE)
-            return new String[0];
-        else {
-            return null;
-        }
     }
 
     @Override

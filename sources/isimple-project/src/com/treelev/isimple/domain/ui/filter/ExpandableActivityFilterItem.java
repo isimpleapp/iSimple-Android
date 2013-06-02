@@ -16,8 +16,10 @@ public class ExpandableActivityFilterItem extends FilterItem {
     private LayoutInflater layoutInflater;
     private FilterItemData[] groupData;
     private Map<String, FilterItemData[]> childData;
+    private SqlWhereClauseBuilder clauseBuilder;
 
-    public ExpandableActivityFilterItem(Context context, String label, Map<String, FilterItemData[]> childData) {
+    public ExpandableActivityFilterItem(Context context, String label, Map<String, FilterItemData[]> childData,
+                                        SqlWhereClauseBuilder clauseBuilder) {
         super(context, ITEM_ACTIVITY, label, ExpandableListFilterActivity.class);
         layoutInflater = LayoutInflater.from(context);
         String[] groups = childData.keySet().toArray(new String[0]);
@@ -26,6 +28,7 @@ public class ExpandableActivityFilterItem extends FilterItem {
             groupData[i] = new FilterItemData(groups[i]);
         }
         this.childData = childData;
+        this.clauseBuilder = clauseBuilder;
     }
 
     private boolean isAnyItemChecked() {
@@ -78,5 +81,45 @@ public class ExpandableActivityFilterItem extends FilterItem {
         text.setTextColor(isAnyItemChecked() ? Color.BLACK : Color.LTGRAY);
 
         return convertView;
+    }
+
+    @Override
+    public String getSQLWhereClause() {
+        StringBuilder sqlBuilder = new StringBuilder();
+        if (groupData != null) {
+            for (FilterItemData item : groupData) {
+                if (item.isChecked()) {
+                    if(sqlBuilder.length() > 0) {
+                        sqlBuilder.append(" or ");
+                    }
+                    sqlBuilder.append(clauseBuilder.buildGroupClause(item.getName()));
+                }
+            }
+        }
+
+        if (childData != null) {
+            for (String groupName : childData.keySet()) {
+                for (FilterItemData item : childData.get(groupName)) {
+                    if (item.isChecked()) {
+                        if(sqlBuilder.length() > 0) {
+                            sqlBuilder.append(" or ");
+                        }
+                        sqlBuilder.append(clauseBuilder.buildChildClause(item.getName(), groupName));
+                    }
+                }
+            }
+        }
+
+        if (sqlBuilder.length() > 0) {
+            sqlBuilder.insert(0, '(');
+            sqlBuilder.append(')');
+        }
+
+        return sqlBuilder.toString();
+    }
+
+    public static interface SqlWhereClauseBuilder {
+        String buildGroupClause(String groupName);
+        String buildChildClause(String childName, String groupName);
     }
 }

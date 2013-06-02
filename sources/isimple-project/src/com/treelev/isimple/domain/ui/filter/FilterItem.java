@@ -18,10 +18,7 @@ public abstract class FilterItem {
     private Class activityClass;
     private int requestCode;
 
-    public final static String EXTRA_CATEGORY_ID = "categoryId";
-    public final static String EXTRA_POSITION = "position";
-
-    public FilterItem(Context context, int itemType, String label, Class activityClass) {
+    protected FilterItem(Context context, int itemType, String label, Class activityClass) {
         this(context, itemType);
         this.label = label;
         this.activityClass = activityClass;
@@ -67,6 +64,8 @@ public abstract class FilterItem {
     }
 
     public abstract View renderView(View convertView, ViewGroup parent);
+
+    public abstract String getSQLWhereClause();
 
     private int generateUniqueRequestCode() {
         return System.identityHashCode(this) & 0xFFFF;

@@ -18,6 +18,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.util.ByteArrayBuffer;
 import org.holoeverywhere.app.Dialog;
@@ -148,24 +149,24 @@ public class CatalogListActivity extends BaseListActivity {
         Integer category  = null;
         switch (v.getId())
         {
-        case R.id.category_wine_butt:
-            category = 0;
-            break;
-        case R.id.category_spirits_butt:
-            category = 3;
-            break;
-        case R.id.category_sparkling_butt:
-            category = 1;
-            break;
-        case R.id.category_porto_heres_butt:
-            category = 2;
-            break;
-        case R.id.category_sake_butt:
-            category = 4;
-            break;
-        case R.id.category_water_butt:
-            category = 5;
-            break;
+            case R.id.category_wine_butt:
+                category = DrinkCategory.WINE.ordinal();
+                break;
+            case R.id.category_spirits_butt:
+                category = DrinkCategory.SPIRITS.ordinal();
+                break;
+            case R.id.category_sparkling_butt:
+                category = DrinkCategory.SPARKLING.ordinal();
+                break;
+            case R.id.category_porto_heres_butt:
+                category = DrinkCategory.PORTO.ordinal();
+                break;
+            case R.id.category_sake_butt:
+                category = DrinkCategory.SAKE.ordinal();
+                break;
+            case R.id.category_water_butt:
+                category = DrinkCategory.WATER.ordinal();
+                break;
         }
         startIntent.putExtra(CATEGORY_ID, category);
         startActivity(startIntent);

@@ -21,11 +21,6 @@ public class SparklingFilter extends Filter {
     }
 
     @Override
-    public String getSql() {
-        return null;
-    }
-
-    @Override
     public List<FilterItem> getFilterContent() {
         return filterItemList;
     }
@@ -33,13 +28,19 @@ public class SparklingFilter extends Filter {
     private List<FilterItem> createFilterContent() {
         List<FilterItem> filterItems = new ArrayList<FilterItem>();
         filterItems.add(new WineColorFilterItem(getContext()));
-        filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_sweetness),
-                FilterItemData.createFromPresentable(Sweetness.getSparklingSweetness())));
-        filterItems.add(new DefaultActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_year),
-                FilterItemData.getAvailableYears(getContext(), DrinkCategory.SPARKLING)));
-        filterItems.add(new ExpandableActivityFilterItem(getContext(), getContext().getString(R.string.filter_item_region),
-                FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.SPARKLING)));
-        filterItems.add(new DefaultSeekBarFilterItem(getContext()));
+        filterItems.add(new DefaultActivityFilterItem(
+                getContext(), getContext().getString(R.string.filter_item_sweetness),
+                FilterItemData.createFromPresentable(Sweetness.getSparklingSweetness()),
+                SweetnessSqlWhereClauseBuilder.INSTANCE));
+        filterItems.add(new DefaultActivityFilterItem(
+                getContext(), getContext().getString(R.string.filter_item_year),
+                FilterItemData.getAvailableYears(getContext(), DrinkCategory.SPARKLING),
+                YearSqlWhereClauseBuilder.INSTANCE));
+        filterItems.add(new ExpandableActivityFilterItem(
+                getContext(), getContext().getString(R.string.filter_item_region),
+                FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.SPARKLING),
+                RegionSqlWhereClauseBuilder.INSTANCE));
+        filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price"));
         return filterItems;
     }
 }

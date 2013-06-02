@@ -49,10 +49,10 @@ public enum Sweetness implements Serializable, Presentable {
     }
 
     public static Presentable[] getSparklingSweetness() {
-        return new Sweetness[] { CHAMPAGNE_BRUT, CHAMPAGNE_XBRUT, DRY, MEDIUM_DRY, MEDIUM_SWEET, SWEET };
+        return new Sweetness[] { DRY, MEDIUM_DRY, MEDIUM_SWEET, SWEET };
     }
 
     public static Presentable[] getPortoSweetness() {
-        return new Sweetness[] { PORTO_DRY, PORTO_SWEET };
+        return new Sweetness[] { DRY, SWEET };
     }
 }

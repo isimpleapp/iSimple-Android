@@ -222,7 +222,8 @@ public class ItemDAO extends BaseDAO {
     public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId, String whereClause, String orderByField) {
         String selectSql = String.format(
                 "SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, " +
-                    "drink_category, 0 as image, MIN(price) as price, year, quantity, color, drink_id, COUNT(drink_id) " +
+                    "drink_category, 0 as image, MIN(price) as price, year, quantity, color, " +
+                    "(case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, COUNT(drink_id) " +
                     "FROM item WHERE drink_category=%1$s and %2$s GROUP BY drink_id ORDER BY %3$s",
                 categoryId, whereClause, orderByField);
         open();

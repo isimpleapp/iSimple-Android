@@ -34,6 +34,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
     public final static String DRINK_ID = "drink_id";
+    public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
     private Cursor cItems;
     private SimpleCursorAdapter mListCategoriesAdapter;
     private ExpandableListView filterListView;
@@ -193,6 +194,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         }
         startIntent.putExtra(ShopActivity.LOCATION_ID, mLocationId);
+        startIntent.putExtra(FILTER_WHERE_CLAUSE, filter.getSQLWhereClause());
 //        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);

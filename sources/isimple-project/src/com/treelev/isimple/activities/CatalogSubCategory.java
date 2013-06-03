@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
@@ -25,10 +26,14 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
     private SimpleCursorAdapter mListCategoriesAdapter;
     private ProxyManager mProxyManager;
     private String mDrinkID;
+    private String mFilterWhereClause;
     private String mLocationId;
     private String mBarcode;
     private String mBarcodeFromBaseActivity;
     private String mBarcodeFromBaseExpandListActivity;
+    private final static int BARCODE = 1;
+    private final static int DRINK_ID = 2;
+    private final static int FILTER_WHERE_CLAUSE = 3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,10 +61,13 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
 //        mBarcodeFromBaseExpandListActivity = getIntent().getStringExtra(BaseExpandableListActivity.BARCODE);
         mDrinkID = getIntent().getStringExtra(CatalogByCategoryActivity.DRINK_ID);
         mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
+        mFilterWhereClause = getIntent().getStringExtra(CatalogByCategoryActivity.FILTER_WHERE_CLAUSE);
         if (mBarcode != null) {
-            new SelectBy(this, SelectBy.BARCODE).execute(mBarcode);
+            new SelectBy(this, BARCODE).execute(mBarcode);
+        } else if(!TextUtils.isEmpty(mFilterWhereClause)) {
+            new SelectBy(this, FILTER_WHERE_CLAUSE).execute(mDrinkID, mFilterWhereClause);
         } else {
-            new SelectBy(this, SelectBy.DRINK_ID).execute(mDrinkID);
+            new SelectBy(this, DRINK_ID).execute(mDrinkID);
         }
 
     }
@@ -99,7 +107,14 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
                 sortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
-        new SortTask(this).execute(sortBy);
+
+        if (mBarcode != null) {
+            new SortTask(this, BARCODE).execute(sortBy);
+        } else if(!TextUtils.isEmpty(mFilterWhereClause)) {
+            new SortTask(this, FILTER_WHERE_CLAUSE).execute(sortBy);
+        } else {
+            new SortTask(this, DRINK_ID).execute(sortBy);
+        }
     }
 
     @Override
@@ -163,6 +178,8 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
                     return myCursor;
                 case DRINK_ID:
                     return getProxyManager().getItemsByDrinkId(params[0], ProxyManager.SORT_NAME_AZ);
+                case FILTER_WHERE_CLAUSE:
+                    return getProxyManager().getItemsByDrinkId(params[0], params[1], ProxyManager.SORT_NAME_AZ);
                 default:
                     return null;
             }
@@ -183,9 +200,11 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
 
         private Dialog mDialog;
         private Context mContext;
+        private int mSelectWhere;
 
-        private SortTask(Context context) {
+        private SortTask(Context context, int select) {
             mContext = context;
+            mSelectWhere = select;
         }
 
         @Override
@@ -197,7 +216,16 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
 
         @Override
         protected Cursor doInBackground(Integer... params) {
-            return getProxyManager().getItemsByDrinkId(mDrinkID, params[0]);
+            switch (mSelectWhere) {
+                case BARCODE:
+//                    return getProxyManager().getItemByBarcode(mBarcode, params[0]);
+                case DRINK_ID:
+                    return getProxyManager().getItemsByDrinkId(mDrinkID, params[0]);
+                case FILTER_WHERE_CLAUSE:
+                    return getProxyManager().getItemsByDrinkId(mDrinkID, mFilterWhereClause, params[0]);
+                default:
+                    return null;
+            }
         }
 
         @Override

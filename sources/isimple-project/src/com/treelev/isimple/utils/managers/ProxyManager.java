@@ -99,6 +99,13 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkId(drinkId, orderByField);
     }
 
+    public Cursor getItemsByDrinkId(String drinkId, String filterQuery, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkId(drinkId, filterQuery, orderByField);
+    }
+
     public Cursor getFilteredItemsByCategory(Integer categoryId,  String query, int sortType) {
         return getFilteredItemsByCategory(categoryId, null, query, sortType);
     }

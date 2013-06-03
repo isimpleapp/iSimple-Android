@@ -9,6 +9,7 @@ import com.treelev.isimple.domain.db.DeprecatedItem;
 import com.treelev.isimple.domain.db.FeaturedItem;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.ItemPrice;
+import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
@@ -137,13 +138,14 @@ public class ItemDAO extends BaseDAO {
                 where,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 orderBy);
+        Log.v("SQL_QUERY getFeaturedItemsByCategory(int categoryId, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getFeaturedItemsByCategory(int categoryId, String locationId, String orderByField) {
         open();
         String orderBy = "";
-        if (orderByField != null) {
+        if(orderByField != null) {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
         }
@@ -158,7 +160,7 @@ public class ItemDAO extends BaseDAO {
                 TABLE_TWO,
                 DatabaseSqlHelper.ITEM_ID);
         String whereCategory = String.format(COMPARE,
-                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                TABLE_ONE + "." +DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
                 categoryId);
         String whereShop = String.format(COMPARE_STRING,
                 DatabaseSqlHelper.SHOP_LOCATION_ID,
@@ -185,6 +187,7 @@ public class ItemDAO extends BaseDAO {
                 where,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 orderBy);
+        Log.v("SQL_QUERY getFeaturedItemsByCategory(int categoryId, String locationId, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -215,6 +218,23 @@ public class ItemDAO extends BaseDAO {
                 from,
                 where,
                 orderBy);
+        Log.v("SQL_QUERY getItemsByDrinkId(String drinkId, String orderByField)", selectSql);
+        return getDatabase().rawQuery(selectSql, null);
+    }
+
+    public Cursor getItemsByDrinkId(String drinkId, String filterQuery, String orderByField) {
+        open();
+        String orderBy = "";
+        if (orderByField != null) {
+            orderBy = String.format(FORMAT_ORDER_BY, orderByField);
+        }
+        String formatSelectScript = "SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, " +
+                "drink_category, 0 as image, price, year,  " +
+                "quantity, color, drink_id " +
+                "FROM item " +
+                "WHERE drink_id = '%s' AND (%s)" +
+                " %s";
+        String selectSql = String.format(formatSelectScript, drinkId, filterQuery, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -225,9 +245,9 @@ public class ItemDAO extends BaseDAO {
     public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId, String whereClause, String orderByField) {
         String selectSql = String.format(
                 "SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, " +
-                        "drink_category, 0 as image, MIN(price) as price, year, quantity, color, " +
-                        "(case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, COUNT(drink_id) " +
-                        "FROM item WHERE drink_category=%1$s and %2$s GROUP BY drink_id ORDER BY %3$s",
+                    "drink_category, 0 as image, MIN(price) as price, year, quantity, color, " +
+                    "(case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, COUNT(drink_id) " +
+                    "FROM item WHERE drink_category=%1$s and %2$s GROUP BY drink_id ORDER BY %3$s",
                 categoryId, whereClause, orderByField);
         open();
         return getDatabase().rawQuery(selectSql, null);
@@ -286,13 +306,14 @@ public class ItemDAO extends BaseDAO {
                 where,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 orderBy);
+        Log.v("SQL_QUERY getSearchItemsByCategory(Integer categoryId, String query, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String query, String orderByField) {
         open();
         String orderBy = "";
-        if (orderByField != null) {
+        if(orderByField != null) {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
         }
@@ -307,7 +328,7 @@ public class ItemDAO extends BaseDAO {
                 TABLE_TWO,
                 DatabaseSqlHelper.ITEM_ID);
         String whereCategory = String.format(COMPARE,
-                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                TABLE_ONE + "." +DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
                 categoryId);
         String whereShop = String.format(COMPARE_STRING,
                 DatabaseSqlHelper.SHOP_LOCATION_ID,
@@ -336,6 +357,7 @@ public class ItemDAO extends BaseDAO {
                 where,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 orderBy);
+        Log.v("SQL_QUERY getSearchItemsByCategory(Integer categoryId, String locationId, String query, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -851,7 +873,7 @@ public class ItemDAO extends BaseDAO {
         Cursor c = getDatabase().rawQuery(selectSql, null);
         if (c != null) {
             if (c.moveToFirst()) {
-                count = c.getInt(0);
+            count = c.getInt(0);
             }
             c.close();
         }
@@ -936,6 +958,7 @@ public class ItemDAO extends BaseDAO {
                 from,
                 where,
                 DatabaseSqlHelper.ITEM_DRINK_ID);
+        Log.v("SQL_QUERY getFeaturedMainItems()", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 

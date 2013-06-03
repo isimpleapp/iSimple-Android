@@ -9,10 +9,7 @@ android:layout_height="match_parent" android:layout_gravity="center">
         android:layout_height="wrap_content"
         android:id="@android:id/list"
         android:scrollbars="none"
-        android:listSelector="@drawable/product_list_item_selector"
-        android:cacheColorHint="@android:color/transparent"
-        android:dividerHeight="0dip"
-        android:divider="@null"/>
+        android:listSelector="@drawable/product_list_item_selector"/>
     <View
             android:id="@+id/dark_view"
             android:layout_height="match_parent"

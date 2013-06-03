@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.treelev.isimple">
+<manifest
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.treelev.isimple"
+        android:installLocation="preferExternal">
     <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="16"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>

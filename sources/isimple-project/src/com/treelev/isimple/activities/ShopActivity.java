@@ -64,7 +64,6 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
         getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
     }
 
-
     @Override
     public void onClick(View view) {
         Intent startIntent = new Intent(this, CatalogByCategoryActivity.class);

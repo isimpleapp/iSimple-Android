@@ -64,7 +64,7 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
                 fragmentTransaction.replace(R.id.fragment_container, shopListFragment);
                 break;
             case R.id.group_shop_map:
-                fragmentTransaction.replace(R.id.fragment_container, shopMapFragment);
+                //fragmentTransaction.replace(R.id.fragment_container, shopMapFragment);
                 break;
             case R.id.group_shop_network:
                 fragmentTransaction.replace(R.id.fragment_container, shopChainFragment);

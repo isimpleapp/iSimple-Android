@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
+import android.util.Log;
 import com.treelev.isimple.domain.db.DeprecatedItem;
 import com.treelev.isimple.domain.db.FeaturedItem;
 import com.treelev.isimple.domain.db.Item;
@@ -54,6 +55,7 @@ public class ItemDAO extends BaseDAO {
     private final static String SELECT_ITEMS_FROM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, %s, %s, %s,COUNT(%s) FROM %s  WHERE %s GROUP BY %s  %s";
     private final static String SELECT_ITEMS_FROM_RANDOM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, %s, %s, %s, COUNT(%s) FROM %s WHERE %s GROUP BY %s";
     private final static String SELECT_ITEMS_FROM_DRINK_ID = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,  %s, %s, %s FROM %s WHERE %s %s";
+    private final static String SELECT_ITEMS_FROM_BARCODE = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s %s";
     private final static String FORMAT_ORDER_BY_MIN = "ORDER BY MIN(%s)";
     private final static String FORMAT_ORDER_BY = "ORDER BY %s";
     private final static String FORMAT_FROM_TWO_TABLE = "%s AS %s, %s AS %s";
@@ -709,14 +711,36 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
+    public Cursor getItemDeprecatedByBarcode(String itemBarcode) {
+        open();
+        String orderBy = "";
+        String from = DatabaseSqlHelper.ITEM_DEPRECATED_TABLE;
+        String where = String.format(COMPARE_STRING,
+                DatabaseSqlHelper.ITEM_BARCODE,
+                itemBarcode);
+        String selectSql = String.format(SELECT_ITEMS_FROM_DRINK_ID,
+                DatabaseSqlHelper.ITEM_ID + " as _id",
+                DatabaseSqlHelper.ITEM_NAME,
+                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+                DatabaseSqlHelper.ITEM_VOLUME,
+//                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+                "0 as bottle_low_resolution",
+                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                "0 as image",
+                "0 as price",
+                "0 as year",
+                "0 as quantity",
+                "0 as color",
+                DatabaseSqlHelper.ITEM_DRINK_ID,
+                from,
+                where,
+                orderBy);
+        return getDatabase().rawQuery(selectSql, null);
+    }
+
     public Item getItemByBarcodeTypeItem(String itemBarcode) {
         open();
-//        String formatSelectScript = "select %1$s, %2$s, %3$s, %4$s, %5$s, %6$s,%7$s from %8$s where %9$s = '%10$s'";
-//        String selectSql = String.format(formatSelectScript,
-//                DatabaseSqlHelper.ITEM_ID + " as _id", DatabaseSqlHelper.ITEM_DRINK_ID, DatabaseSqlHelper.ITEM_NAME,
-//                DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_PRICE,
-//                DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_DRINK_CATEGORY, DatabaseSqlHelper.ITEM_TABLE,
-//                DatabaseSqlHelper.ITEM_BARCODE, itemBarcode);
         String formatSelectScript = "select * from %1$s where %2$s = '%3$s'";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_BARCODE, itemBarcode);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
@@ -767,6 +791,58 @@ public class ItemDAO extends BaseDAO {
         return item;
     }
 
+    public Item getItemDeprecatedByBarcodeTypeItem(String itemBarcode) {
+        open();
+        String formatSelectScript = "select * from %1$s where %2$s = '%3$s'";
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_DEPRECATED_TABLE, DatabaseSqlHelper.ITEM_BARCODE, itemBarcode);
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        Item item = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            item = new Item();
+            item.setItemID(cursor.getString(0));
+            item.setDrinkID(cursor.getString(1));
+            item.setName(cursor.getString(2));
+            item.setLocalizedName(cursor.getString(3));
+            item.setManufacturer(cursor.getString(4));
+            item.setLocalizedManufacturer(cursor.getString(5));
+//            item.setPrice(cursor.getFloat(6));
+//            item.setPriceMarkup(cursor.getFloat(7));
+            item.setCountry(cursor.getString(6));
+            item.setRegion(cursor.getString(7));
+            item.setBarcode(cursor.getString(8));
+            item.setProductType(ProductType.getProductType(cursor.getInt(9)));
+            item.setClassification(cursor.getString(10));
+            item.setDrinkCategory(DrinkCategory.getDrinkCategory(cursor.getInt(11)));
+//            item.setColor(ItemColor.getColor(cursor.getInt(14)));
+//            item.setStyle(cursor.getString(15));
+//            item.setSweetness(Sweetness.getSweetness(cursor.getInt(16)));
+//            item.setYear(cursor.getInt(17));
+            item.setVolume(cursor.getFloat(13));
+            item.setDrinkType(cursor.getString(12));
+//            item.setAlcohol(cursor.getString(20));
+//            item.setBottleHiResolutionImageFilename(cursor.getString(21));
+//            item.setBottleLowResolutionImageFilename(cursor.getString(22));
+//            item.setStyleDescription(cursor.getString(23));
+//            item.setAppelation(cursor.getString(24));
+//            item.setServingTempMin(cursor.getString(25));
+//            item.setServingTempMax(cursor.getString(26));
+//            item.setTasteQualities(cursor.getString(27));
+//            item.setVintageReport(cursor.getString(28));
+//            item.setAgingProcess(cursor.getString(29));
+//            item.setProductionProcess(cursor.getString(30));
+//            item.setInterestingFacts(cursor.getString(31));
+//            item.setLabelHistory(cursor.getString(32));
+//            item.setGastronomy(cursor.getString(33));
+//            item.setVineyard(cursor.getString(34));
+//            item.setGrapesUsed(cursor.getString(35));
+//            item.setRating(cursor.getString(36));
+//            item.setQuantity(cursor.getFloat(37));
+            cursor.close();
+        }
+        close();
+        return item;
+    }
+
     public int getCountBarcode(String barcode) {
         int count = 0;
         open();
@@ -774,6 +850,25 @@ public class ItemDAO extends BaseDAO {
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_BARCODE, barcode);
         Cursor c = getDatabase().rawQuery(selectSql, null);
         if (c != null) {
+            if (c.moveToFirst()) {
+                count = c.getInt(0);
+            }
+            c.close();
+        }
+        close();
+        return count;
+    }
+
+    public int getCountBarcodeInDeprecatedTable(String barcode) {
+        int count = 0;
+        open();
+        String formatSelectScript = "SELECT count(%2$s) FROM %1$s GROUP BY %2$s HAVING %2$s = '%3$s'";
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_DEPRECATED_TABLE, DatabaseSqlHelper.ITEM_BARCODE, barcode);
+        Cursor c = getDatabase().rawQuery(selectSql, null);
+        if (c != null) {
+            Log.v("Cursor", String.valueOf(c.getCount()));
+            c.moveToNext();
+            Log.v("Cursor", String.valueOf(c.getCount()));
             if (c.moveToFirst()) {
                 count = c.getInt(0);
             }

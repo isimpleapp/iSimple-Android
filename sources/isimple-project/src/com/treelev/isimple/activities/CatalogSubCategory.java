@@ -109,6 +109,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         Intent startIntent = new Intent(this, ProductInfoActivity.class);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startIntent.putExtra(ShopActivity.LOCATION_ID, mLocationId);
+        startIntent.putExtra(BaseListActivity.BARCODE, mBarcode);
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
@@ -155,7 +156,11 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         protected Cursor doInBackground(String... params) {
             switch (mSelectWhere) {
                 case BARCODE:
-                    return getProxyManager().getItemByBarcode(mBarcode);
+                    Cursor myCursor = getProxyManager().getItemByBarcode(mBarcode);
+                    if(myCursor.getCount() == 0){
+                        myCursor = getProxyManager().getItemDeprecatedByBarcode(mBarcode);
+                    }
+                    return myCursor;
                 case DRINK_ID:
                     return getProxyManager().getItemsByDrinkId(params[0], ProxyManager.SORT_NAME_AZ);
                 default:

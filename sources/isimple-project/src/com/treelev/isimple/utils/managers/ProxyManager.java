@@ -36,12 +36,24 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemByBarcode(barcode);
     }
 
+    public Cursor getItemDeprecatedByBarcode(String barcode){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemDeprecatedByBarcode(barcode);
+    }
+
     public Item getItemByBarcodeTypeItem(String barcode){
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemByBarcodeTypeItem(barcode);
     }
 
+    public Item getItemDeprecatedByBarcodeTypeItem(String barcode){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemDeprecatedByBarcodeTypeItem(barcode);
+    }
+
     public int getCountBarcode(String barcode){
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getCountBarcode(barcode);
+    }
+
+    public int getCountBarcodeInDeprecatedTable(String barcode){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getCountBarcodeInDeprecatedTable(barcode);
     }
 
     public Cursor getFeaturedMainItems() {

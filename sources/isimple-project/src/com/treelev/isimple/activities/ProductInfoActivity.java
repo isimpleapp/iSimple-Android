@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -62,7 +63,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         if (itemId != null) {
             mProduct = proxyManager.getItemById(itemId);
         } else {
-            mProduct = proxyManager.getItemByBarcodeTypeItem(mBarcode);
+
+            if(proxyManager.getItemByBarcodeTypeItem(mBarcode) == null){
+                mProduct = proxyManager.getItemDeprecatedByBarcodeTypeItem(mBarcode);
+            } else{
+                mProduct = proxyManager.getItemByBarcodeTypeItem(mBarcode);
+            }
         }
 
         ExpandableListView listView = getExpandableListView();
@@ -70,6 +76,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 //TODO: replace
         TextView itemTitle = (TextView) findViewById(R.id.title_item);
 //        ProductType productType = mProduct.getProductType(); ProductType.getProductType(
+
+        Log.e("!!!!!!!!!!!!!!!","mProduct = " + mProduct);
+
         itemTitle.setText(mProduct.getProductType().getLabel());
 
         String colorStr = mProduct.getProductType().getColor();
@@ -173,8 +182,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     }
 
     private void populateFormsFields(View formView, Item product) {
-        String priceLabel = Utils.organizePriceLabel(product.getPrice() + "");
-        ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(priceLabel != null ? priceLabel : EMPTY_PRICE_LABEL);
+        String priceLabel = Utils.organizePriceLabel(String.valueOf(product.getPrice()));
+        ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(product.getPrice() != null ? priceLabel : EMPTY_PRICE_LABEL);
         ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
         ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product.getLocalizedName());
@@ -185,7 +194,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
         organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())));
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + "")));
-        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear() + "");
+        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear()!=null ?  String.valueOf(product.getYear()) : "");
         if (priceLabel != null) {
             ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, takeRetailPrice(product).toString())));
         } else {
@@ -195,7 +204,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     private Integer takeRetailPrice(Item product) {
         int retailPrice;
-        String priceLabel = Utils.organizePriceLabel(product.getPrice() + "");
+        String strPriceLabel = String.valueOf(product.getPrice());
+        if(strPriceLabel != null){
+        String priceLabel = Utils.organizePriceLabel(strPriceLabel);
         if (priceLabel != null) {
             Scanner in = new Scanner(priceLabel).useDelimiter("[^0-9]+");
             int integerPriceLabel = in.nextInt();
@@ -211,8 +222,10 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         } else {
             return null;
         }
+    }else{
+            return null;
+        }
     }
-
     private int roundToTheTens(int price) {
         int newPrice = price;
         if ((price % 10) != 0) {
@@ -230,6 +243,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     }
 
     private String trimTrailingZeros(String number) {
-        return Utils.removeZeros(number);
+        return number != null ? Utils.removeZeros(number) : null;
     }
 }

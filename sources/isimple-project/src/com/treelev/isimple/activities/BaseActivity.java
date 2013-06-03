@@ -103,7 +103,20 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
                 intent.putExtra(BARCODE, code);
                 startActivity(intent);
             } else {
-                showAlertDialog(0, null, "По данному штрихкоду ничего не найдено.");
+                int countFromItemDeprecatedTable = proxyManager.getCountBarcodeInDeprecatedTable(code);
+                if (countFromItemDeprecatedTable > 1) {
+                    Intent intent = new Intent(this, CatalogSubCategory.class);
+                    intent.putExtra(BARCODE, code);
+                    startActivity(intent);
+                } else {
+                    if (countFromItemDeprecatedTable == 1) {
+                        Intent intent = new Intent(this, ProductInfoActivity.class);
+                        intent.putExtra(BARCODE, code);
+                        startActivity(intent);
+                    } else {
+                        showAlertDialog(0, null, "По данному штрихкоду ничего не найдено.");
+                    }
+                }
             }
         }
     }

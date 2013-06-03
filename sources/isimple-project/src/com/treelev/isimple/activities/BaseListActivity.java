@@ -1,7 +1,7 @@
 package com.treelev.isimple.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import org.holoeverywhere.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,7 +42,7 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
 
                     typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
                     codeInfo = data.getStringExtra("SCAN_RESULT");
-//                    codeInfo = "4610000613306";
+                    codeInfo = "9319002010094";
                     checkBarcodeResult(codeInfo);
                     break;
             }
@@ -73,9 +73,6 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
     protected void showAlertDialog(int iconId, String title, String message, String button) {
         Context dialogContext = new ContextThemeWrapper(this, R.style.Holo_AlertDialog_Light);
         AlertDialog.Builder adb = new AlertDialog.Builder(dialogContext);
-//        this.getWindow().setBackgroundDrawableResource(R.color.select_item_navigation);
-//        final SpannableString s = new SpannableString(message);
-//        AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle(title);
         adb.setMessage(message);
         adb.setNeutralButton(button, new DialogInterface.OnClickListener() {
@@ -85,15 +82,6 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
             }
         });
 
-//        TextView myMessage = ((TextView) this.findViewById(android.R.id.message));
-//        TextView myTitle = ((TextView) this.findViewById(android.R.id.title));
-//        // Next Line unfortunately does nothing
-//        if(myMessage != null && myTitle != null){
-//            myMessage.setTextColor(Color.MAGENTA);
-//            myMessage.setBackgroundColor(Color.BLACK);
-//            myTitle.setTextColor(Color.CYAN);
-//            myTitle.setBackgroundColor(Color.GREEN);
-//        }
         adb.show();
     }
 
@@ -111,7 +99,20 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                 intent.putExtra(BARCODE, code);
                 startActivity(intent);
             } else {
-                showAlertDialog(0,null,"По данному штрихкоду ничего не найдено.","OK");
+                int countFromItemDeprecatedTable = proxyManager.getCountBarcodeInDeprecatedTable(code);
+                if (countFromItemDeprecatedTable > 1) {
+                    Intent intent = new Intent(this, CatalogSubCategory.class);
+                    intent.putExtra(BARCODE, code);
+                    startActivity(intent);
+                } else {
+                    if (countFromItemDeprecatedTable == 1) {
+                        Intent intent = new Intent(this, ProductInfoActivity.class);
+                        intent.putExtra(BARCODE, code);
+                        startActivity(intent);
+                    } else {
+                        showAlertDialog(0, null, "По данному штрихкоду ничего не найдено.", "OK");
+                    }
+                }
             }
         }
     }

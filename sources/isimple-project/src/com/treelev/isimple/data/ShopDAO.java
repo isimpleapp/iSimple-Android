@@ -96,13 +96,43 @@ public class ShopDAO extends BaseDAO {
         return winesList;
     }
 
-    public Cursor getShopsByWineId(String wineId) {
+    public List<AbsDistanceShop> getShopsByDrinkId(String drinkId, Location currentLocation) {
         open();
-        String formatSelectScript = "select * from %2$s join %3$s on %2$s.%4$s = %3$s.%5$s and %3$s.%6$s = %7$s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.SHOP_LOCATION_NAME, DatabaseSqlHelper.SHOP_TABLE,
-                DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE, DatabaseSqlHelper.SHOP_LOCATION_ID, DatabaseSqlHelper.ITEM_AVAILABILITY_LOCATION_ID,
-                DatabaseSqlHelper.ITEM_AVAILABILITY_ITEM_ID, wineId);
-        return getDatabase().rawQuery(selectSql, null);
+        String formatSelectScript = "SELECT t1.%s, t1.%s, t1.%s, t1.%s, t1.%s FROM %s AS t1, %s AS t2 WHERE t2.%s = '%s' AND t1.%s = t2.%s";
+        String selectSql = String.format(formatSelectScript,
+                DatabaseSqlHelper.SHOP_LOCATION_ID,
+                DatabaseSqlHelper.SHOP_LOCATION_NAME,
+                DatabaseSqlHelper.SHOP_LOCATION_ADDRESS,
+                DatabaseSqlHelper.SHOP_LATITUDE,
+                DatabaseSqlHelper.SHOP_LONGITUDE,
+                DatabaseSqlHelper.SHOP_TABLE,
+                DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE,
+                DatabaseSqlHelper.ITEM_AVAILABILITY_ITEM_ID,
+                drinkId,
+                DatabaseSqlHelper.SHOP_LOCATION_ID,
+                DatabaseSqlHelper.ITEM_AVAILABILITY_LOCATION_ID);
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        List<AbsDistanceShop> distanceShopList = new ArrayList<AbsDistanceShop>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Shop shop = new Shop();
+                shop.setLocationID(cursor.getString(0));
+                shop.setLocationName(cursor.getString(1));
+                shop.setLocationAddress(cursor.getString(2));
+                shop.setLatitude(cursor.getFloat(3));
+                shop.setLongitude(cursor.getFloat(4));
+                Location shopLocation = shop.createShopLocation();
+                DistanceShop distanceShop = new DistanceShop();
+                distanceShop.setShop(shop);
+                distanceShop.setDistance(currentLocation.distanceTo(shopLocation));
+                distanceShopList.add(distanceShop);
+            }
+            Collections.sort(distanceShopList);
+            cursor.close();
+        }
+        close();
+        int limit = SHOP_LIMIT > distanceShopList.size() ? distanceShopList.size() : SHOP_LIMIT;
+        return distanceShopList.subList(0, limit);
     }
 
     public List<AbsDistanceShop> getNearestShops(Location currentLocation) {
@@ -135,7 +165,7 @@ public class ShopDAO extends BaseDAO {
             cursor.close();
         }
         close();
-        int limit = SHOP_LIMIT < distanceShopList.size() ? distanceShopList.size() : SHOP_LIMIT;
+        int limit = SHOP_LIMIT > distanceShopList.size() ? distanceShopList.size() : SHOP_LIMIT;
         return distanceShopList.subList(0, limit);
     }
 

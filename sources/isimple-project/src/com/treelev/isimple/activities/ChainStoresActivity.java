@@ -10,6 +10,7 @@ import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShopHeader;
+import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ListView;
 
@@ -29,9 +30,7 @@ public class ChainStoresActivity extends BaseListActivity {
         createNavigationMenuBar();
         String itemId = getIntent().getStringExtra(ITEM_CHAIN_ID);
         ProxyManager proxyManager = new ProxyManager(this);
-        Location location = new Location("test_location");
-        location.setLongitude(37.6167f);
-        location.setLatitude(55.770f);
+        Location location = LocationTrackingManager.getCurrentLocation(this);
         List<AbsDistanceShop> iShop = proxyManager.getShopByChain(location, itemId);
         ShopsAdapter adapter = new ShopsAdapter(this, iShop);
         addHeader(iShop);

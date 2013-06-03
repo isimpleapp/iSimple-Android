@@ -30,4 +30,5 @@
     <string name="filter_item_type">Тип напитка</string>
     <string name="get_direction">Проложить маршрут</string>
     <string name="not_find_location">Не удалось определить место положение</string>
+    <string name="not_exsist_product">Товара нету в наличии ни в одном из магазинов</string>
 </resources>

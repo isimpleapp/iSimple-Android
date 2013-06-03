@@ -40,12 +40,7 @@ public class ShopListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         String itemId = getArguments().getString(ProductInfoActivity.ITEM_ID_TAG);
-        //TODO: else branch IS-108
-        if (itemId == null) {
-            new SelectDataShopDistance(getActivity()).execute();
-        } else {
-
-        }
+        new SelectDataShopDistance(getActivity(), itemId).execute();
     }
 
     @Override
@@ -69,9 +64,11 @@ public class ShopListFragment extends ListFragment {
 
         private Dialog mDialog;
         private Context mContext;
+        private String mItemId;
 
-        private SelectDataShopDistance(Context context) {
+        private SelectDataShopDistance(Context context, String itemId) {
             mContext = context;
+            mItemId = itemId;
         }
 
         @Override
@@ -83,18 +80,15 @@ public class ShopListFragment extends ListFragment {
 
         @Override
         protected List<AbsDistanceShop> doInBackground(Void... voids) {
-//get location
-//TODO replace test to real location
-//            Location location = new Location("test_location");
-//            location.setLongitude(37.6167f);
-//            location.setLatitude(55.770f);
-//            location.setLongitude(27.0f);
-//            location.setLatitude(53.0f);
-            Location location = LocationTrackingManager.getCurrentLocation(getActivity());
             List<AbsDistanceShop> items = null;
-            if (location != null) {
-                items = getProxyManager().getNearestShops(location);
-                addHeader(items);
+            Location location = LocationTrackingManager.getCurrentLocation(getActivity());
+            if(mItemId == null) {
+                if (location != null) {
+                    items = getProxyManager().getNearestShops(location);
+                    addHeader(items);
+                }
+            } else {
+                items = getProxyManager().getShopsByDrinkId(mItemId, location);
             }
             return items;
         }
@@ -106,8 +100,10 @@ public class ShopListFragment extends ListFragment {
                 getListView().setAdapter(adapter);
             }
             mDialog.dismiss();
-            if (items == null) {
-                Toast.makeText(mContext, mContext.getString(R.string.not_find_location), Toast.LENGTH_SHORT).show();
+            if (items != null ) {
+                if(items.size() == 0){
+                    Toast.makeText(mContext, mContext.getString(R.string.not_exsist_product), Toast.LENGTH_SHORT).show();
+                }
             }
         }
 

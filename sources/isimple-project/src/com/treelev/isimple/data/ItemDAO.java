@@ -195,7 +195,8 @@ public class ItemDAO extends BaseDAO {
         open();
         String orderBy = "";
         if (orderByField != null) {
-            orderBy = String.format(FORMAT_ORDER_BY, orderByField);
+//            orderBy = String.format(FORMAT_ORDER_BY, orderByField);
+            orderBy = "ORDER BY year, " + orderByField;
         }
         String from = DatabaseSqlHelper.ITEM_TABLE;
         String where = String.format(COMPARE_STRING,
@@ -226,7 +227,8 @@ public class ItemDAO extends BaseDAO {
         open();
         String orderBy = "";
         if (orderByField != null) {
-            orderBy = String.format(FORMAT_ORDER_BY, orderByField);
+//            orderBy = String.format(FORMAT_ORDER_BY, orderByField);
+            orderBy = "ORDER BY year, " + orderByField;
         }
         String formatSelectScript = "SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, " +
                 "drink_category, 0 as image, price, year,  " +

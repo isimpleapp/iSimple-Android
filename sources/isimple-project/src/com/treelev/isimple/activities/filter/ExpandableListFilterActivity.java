@@ -44,6 +44,14 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
     }
 
     @Override
+    protected void createNavigationMenuBar() {
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         return false;
     }

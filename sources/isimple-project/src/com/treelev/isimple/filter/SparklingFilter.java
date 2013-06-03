@@ -1,12 +1,10 @@
 package com.treelev.isimple.filter;
 
 import android.content.Context;
-import android.view.View;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.filter.*;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.Sweetness;
-import org.holoeverywhere.widget.CheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,7 @@ public class SparklingFilter extends Filter {
                 getContext(), getContext().getString(R.string.filter_item_region),
                 FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.SPARKLING),
                 RegionSqlWhereClauseBuilder.INSTANCE));
-        filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price"));
+        filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price", this));
         return filterItems;
     }
 }

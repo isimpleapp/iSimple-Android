@@ -4,13 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
-import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.DeprecatedItem;
 import com.treelev.isimple.domain.db.FeaturedItem;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.ItemPrice;
-import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
 
@@ -142,7 +141,7 @@ public class ItemDAO extends BaseDAO {
     public Cursor getFeaturedItemsByCategory(int categoryId, String locationId, String orderByField) {
         open();
         String orderBy = "";
-        if(orderByField != null) {
+        if (orderByField != null) {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
         }
@@ -157,7 +156,7 @@ public class ItemDAO extends BaseDAO {
                 TABLE_TWO,
                 DatabaseSqlHelper.ITEM_ID);
         String whereCategory = String.format(COMPARE,
-                TABLE_ONE + "." +DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
                 categoryId);
         String whereShop = String.format(COMPARE_STRING,
                 DatabaseSqlHelper.SHOP_LOCATION_ID,
@@ -224,12 +223,27 @@ public class ItemDAO extends BaseDAO {
     public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId, String whereClause, String orderByField) {
         String selectSql = String.format(
                 "SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, " +
-                    "drink_category, 0 as image, MIN(price) as price, year, quantity, color, " +
-                    "(case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, COUNT(drink_id) " +
-                    "FROM item WHERE drink_category=%1$s and %2$s GROUP BY drink_id ORDER BY %3$s",
+                        "drink_category, 0 as image, MIN(price) as price, year, quantity, color, " +
+                        "(case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, COUNT(drink_id) " +
+                        "FROM item WHERE drink_category=%1$s and %2$s GROUP BY drink_id ORDER BY %3$s",
                 categoryId, whereClause, orderByField);
         open();
         return getDatabase().rawQuery(selectSql, null);
+    }
+
+    public Integer getItemMaxPriceByCategory(Integer categoryId) {
+        String selectSql = String.format(
+                "SELECT max(price) FROM item WHERE drink_category = %s", categoryId);
+        open();
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        Integer maxValuePrice = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                maxValuePrice = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+        return maxValuePrice;
     }
 
     //TODO refactor: переименовать, заменить конкантенацию на String.format, метод дублируется с getItemsByCategory
@@ -276,7 +290,7 @@ public class ItemDAO extends BaseDAO {
     public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String query, String orderByField) {
         open();
         String orderBy = "";
-        if(orderByField != null) {
+        if (orderByField != null) {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
         }
@@ -291,7 +305,7 @@ public class ItemDAO extends BaseDAO {
                 TABLE_TWO,
                 DatabaseSqlHelper.ITEM_ID);
         String whereCategory = String.format(COMPARE,
-                TABLE_ONE + "." +DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
                 categoryId);
         String whereShop = String.format(COMPARE_STRING,
                 DatabaseSqlHelper.SHOP_LOCATION_ID,
@@ -761,7 +775,7 @@ public class ItemDAO extends BaseDAO {
         Cursor c = getDatabase().rawQuery(selectSql, null);
         if (c != null) {
             if (c.moveToFirst()) {
-            count = c.getInt(0);
+                count = c.getInt(0);
             }
             c.close();
         }

@@ -167,6 +167,10 @@ public class ProxyManager {
         return ((ShopDAO) getObjectDAO(ShopDAO.ID)).getNearestShops(location);
     }
 
+    public Integer getMaxValuePriceByCategoryId(Integer categoryId) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemMaxPriceByCategory(categoryId);
+    }
+
     private BaseDAO getObjectDAO(int id) {
         if (mdao.containsKey(id)) {
             return mdao.get(id);

@@ -32,7 +32,7 @@ public class SpiritsFilter extends Filter {
                 getContext().getString(R.string.filter_item_region),
                 FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.SPIRITS),
                 RegionSqlWhereClauseBuilder.INSTANCE));
-        filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price"));
+        filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price", this));
         return filterItems;
     }
 }

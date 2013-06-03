@@ -60,10 +60,10 @@ public class CatalogListActivity extends BaseListActivity {
     }
 
     @Override
-    protected void onResume () {
+    protected void onResume() {
         super.onResume();
         ListView listView = getListView();
-        if( mHeader != null) {
+        if (mHeader != null) {
             listView.removeHeaderView(mHeader);
         }
         mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
@@ -75,7 +75,7 @@ public class CatalogListActivity extends BaseListActivity {
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if( product.getInt(13) > 1){
+        if (product.getInt(13) > 1) {
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
             CatalogSubCategory.backActivity = CatalogListActivity.class;
@@ -136,7 +136,7 @@ public class CatalogListActivity extends BaseListActivity {
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                
+
                 return true;
             }
         });
@@ -146,28 +146,7 @@ public class CatalogListActivity extends BaseListActivity {
 
     public void onClickCategoryButt(View v) {
         Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
-        Integer category  = null;
-        switch (v.getId())
-        {
-            case R.id.category_wine_butt:
-                category = DrinkCategory.WINE.ordinal();
-                break;
-            case R.id.category_spirits_butt:
-                category = DrinkCategory.SPIRITS.ordinal();
-                break;
-            case R.id.category_sparkling_butt:
-                category = DrinkCategory.SPARKLING.ordinal();
-                break;
-            case R.id.category_porto_heres_butt:
-                category = DrinkCategory.PORTO.ordinal();
-                break;
-            case R.id.category_sake_butt:
-                category = DrinkCategory.SAKE.ordinal();
-                break;
-            case R.id.category_water_butt:
-                category = DrinkCategory.WATER.ordinal();
-                break;
-        }
+        Integer category = DrinkCategory.getItemCategoryByButtonId(v.getId());
         startIntent.putExtra(CATEGORY_ID, category);
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);

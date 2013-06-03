@@ -36,7 +36,7 @@ public class SakeFilter extends Filter implements View.OnClickListener {
                 getContext().getString(R.string.filter_item_premiality),
                 FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.SAKE),
                 ClassificationSqlWhereClauseBuilder.INSTANCE));
-        filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price"));
+        filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price", this));
         return filterItems;
     }
 }

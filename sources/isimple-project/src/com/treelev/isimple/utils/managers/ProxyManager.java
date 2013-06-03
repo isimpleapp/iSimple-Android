@@ -151,6 +151,10 @@ public class ProxyManager {
         return ((ChainDAO) getObjectDAO(ChainDAO.ID)).getChains();
     }
 
+    public Cursor getChains(String drinkId) {
+        return ((ChainDAO) getObjectDAO(ChainDAO.ID)).getChains(drinkId);
+    }
+
     public  List<AbsDistanceShop> getShopsByDrinkId(String drinkId, Location currentLocation){
         return ((ShopDAO) getObjectDAO(ShopDAO.ID)).getShopsByDrinkId(drinkId, currentLocation);
     }

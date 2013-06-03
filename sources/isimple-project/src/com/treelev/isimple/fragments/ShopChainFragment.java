@@ -1,19 +1,33 @@
 package com.treelev.isimple.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ChainStoresActivity;
+import com.treelev.isimple.activities.ProductInfoActivity;
 import com.treelev.isimple.adapters.ChainAdapter;
+import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.domain.db.Chain;
+import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.domain.ui.DistanceShopHeader;
+import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.app.ListFragment;
+import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.Toast;
+
+import java.util.Collections;
+import java.util.List;
 
 public class ShopChainFragment extends ListFragment {
 
@@ -43,10 +57,12 @@ public class ShopChainFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Cursor cursor = getProxyManager().getChains();
-        ChainAdapter adapter = new ChainAdapter(getActivity(), R.layout.item_chain_layout, cursor,
-                new String[] {Chain.UI_TAG_NAME_CHAIN}, new int[]{R.id.chain_item});
-        getListView().setAdapter(adapter);
+//        Cursor cursor = getProxyManager().getChains();
+//        ChainAdapter adapter = new ChainAdapter(getActivity(), R.layout.item_chain_layout, cursor,
+//                new String[] {Chain.UI_TAG_NAME_CHAIN}, new int[]{R.id.chain_item});
+//        getListView().setAdapter(adapter);
+        String itemId = getArguments().getString(ProductInfoActivity.ITEM_ID_TAG);
+        new SelectDataChain(getActivity(), itemId).execute();
     }
 
     @Override
@@ -57,5 +73,43 @@ public class ShopChainFragment extends ListFragment {
         startIntent.putExtra(ChainStoresActivity.ITEM_CHAIN_ID, iChain.getString(0));
         startActivity(startIntent);
         getActivity().overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+    }
+
+    private class SelectDataChain extends AsyncTask<Void, Void, Cursor> {
+
+        private Dialog mDialog;
+        private Context mContext;
+        private String mItemId;
+
+        private SelectDataChain(Context context, String itemId) {
+            mContext = context;
+            mItemId = itemId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+                    mContext.getString(R.string.dialog_select_data_message), false, false);
+        }
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            if(mItemId == null){
+                return getProxyManager().getChains();
+            } else {
+                return getProxyManager().getChains(mItemId);
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(Cursor items) {
+            ChainAdapter adapter = new ChainAdapter(getActivity(), R.layout.item_chain_layout, items,
+                    new String[] {Chain.UI_TAG_NAME_CHAIN}, new int[]{R.id.chain_item});
+            getListView().setAdapter(adapter);
+            mDialog.dismiss();
+        }
+
     }
 }

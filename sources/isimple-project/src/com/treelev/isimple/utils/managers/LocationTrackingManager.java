@@ -22,12 +22,15 @@ public class LocationTrackingManager {
 //        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 //        Criteria criteria = new Criteria();
 //        String provider = locationManager.getBestProvider(criteria, false);
-//        return locationManager.getLastKnownLocation(provider);
+//        mLocation = locationManager.getLastKnownLocation(provider);
+//        mLocation.setAccuracy(0.0f);
+//        mLocation.setTime(0);
+//        return mLocation;
         float bestAccuracy = Float.MAX_VALUE;
         long bestTime = Long.MIN_VALUE;
         long minTime = 1000;
         Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAccuracy(Criteria.ACCURACY_LOW);
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         List<String> matchingProviders = locationManager.getAllProviders();
         for (String provider: matchingProviders) {

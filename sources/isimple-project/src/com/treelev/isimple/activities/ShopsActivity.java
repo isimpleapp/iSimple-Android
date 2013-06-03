@@ -32,6 +32,7 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
         bundle.putString(ProductInfoActivity.ITEM_ID_TAG, wineId);
         shopListFragment.setArguments(bundle);
         shopChainFragment = new ShopChainFragment();
+        shopChainFragment.setArguments(bundle);
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, shopListFragment);
         fragmentTransaction.commit();

@@ -89,6 +89,7 @@ public class ShopListFragment extends ListFragment {
                 }
             } else {
                 items = getProxyManager().getShopsByDrinkId(mItemId, location);
+                addHeader(items);
             }
             return items;
         }

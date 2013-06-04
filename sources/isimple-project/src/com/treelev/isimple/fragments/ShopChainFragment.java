@@ -56,11 +56,11 @@ public class ShopChainFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
 
-//        Cursor cursor = getProxyManager().getChains();
-//        ChainAdapter adapter = new ChainAdapter(getActivity(), R.layout.item_chain_layout, cursor,
-//                new String[] {Chain.UI_TAG_NAME_CHAIN}, new int[]{R.id.chain_item});
-//        getListView().setAdapter(adapter);
+    @Override
+    public void onStart() {
+        super.onStart();
         String itemId = getArguments().getString(ProductInfoActivity.ITEM_ID_TAG);
         new SelectDataChain(getActivity(), itemId).execute();
     }
@@ -90,7 +90,7 @@ public class ShopChainFragment extends ListFragment {
         protected void onPreExecute() {
             super.onPreExecute();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_select_data_message), false, false);
+                    mContext.getString(R.string.dialog_select_data_message), true, false);
         }
 
         @Override

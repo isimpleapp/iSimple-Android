@@ -75,7 +75,7 @@ public class ShopListFragment extends ListFragment {
         protected void onPreExecute() {
             super.onPreExecute();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_select_data_message), false, false);
+                    mContext.getString(R.string.dialog_select_data_message), true, false);
         }
 
         @Override

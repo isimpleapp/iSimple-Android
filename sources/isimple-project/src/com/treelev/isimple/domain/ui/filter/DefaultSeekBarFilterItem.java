@@ -16,12 +16,11 @@ import org.holoeverywhere.widget.LinearLayout;
 public class DefaultSeekBarFilterItem extends FilterItem {
     private static final int DEFAULT_MIN_VALUE = 0;
     private static final int DEFAULT_MAX_VALUE = 5000;
-    private static final int DEFAULT_VALUE = -1;
 
     private LayoutInflater layoutInflater;
 
-    private int minValue = DEFAULT_VALUE;
-    private int maxValue = DEFAULT_VALUE;
+    private int minValue;
+    private int maxValue;
     private String targetColumn;
     private Filter filterObject;
 
@@ -34,11 +33,13 @@ public class DefaultSeekBarFilterItem extends FilterItem {
 
     @Override
     public View renderView(View convertView, ViewGroup parent) {
-        minValue = DEFAULT_MIN_VALUE;
-        maxValue = getSeekBarMaxValue();
         if (convertView == null || !(convertView.getTag() instanceof RangeSeekBar)) {
+            if (minValue == 0 && maxValue == 0) {
+                minValue = DEFAULT_MIN_VALUE;
+                maxValue = getSeekBarMaxValue();
+            }
             convertView = layoutInflater.inflate(R.layout.category_filter_seekbar_item_layout, parent, false);
-            RangeSeekBar<Integer> seekBar = createSeekBar(maxValue);
+            RangeSeekBar<Integer> seekBar = createSeekBar(getSeekBarMaxValue());
             LinearLayout seekBarLayout = (LinearLayout) convertView.findViewById(R.id.seek_bar_layout);
             seekBarLayout.addView(seekBar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
@@ -53,7 +54,7 @@ public class DefaultSeekBarFilterItem extends FilterItem {
 
     @Override
     public String getSQLWhereClause() {
-        return (minValue == -1 || maxValue == -1) ? "" :
+        return (minValue == 0 && maxValue == 0) ? "" :
                 String.format("(%1$s >= %2$s and %1$s <= %3$s)", targetColumn, minValue, maxValue);
     }
 

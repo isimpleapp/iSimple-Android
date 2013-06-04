@@ -29,7 +29,7 @@ import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.ListView;
 
 public class CatalogByCategoryActivity extends BaseListActivity implements RadioGroup.OnCheckedChangeListener,
-        ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener {
+        ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener {
 
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
@@ -268,6 +268,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, filter);
         filterListView = (ExpandableListView) findViewById(R.id.filtration_view);
         filterListView.setOnGroupExpandListener(this);
+        filterListView.setOnGroupCollapseListener(this);
         filterListView.setOnChildClickListener(this);
         filterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -303,6 +304,11 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
             footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
         }
     };
+
+    @Override
+    public void onGroupCollapse(int groupPosition) {
+        mExpandFiltr = false;
+    }
 
     private class SortTask extends AsyncTask<Integer, Void, Cursor> {
 

@@ -53,8 +53,10 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     private ProxyManager mProxyManager;
     private com.treelev.isimple.filter.Filter filter;
     private static final int ANIMATION_DURATION_IN_MILLIS = 500;
+    private int mSortBy = ProxyManager.SORT_NAME_AZ;
     public final static String EXTRA_RESULT_CHECKED = "isChecked";
     public final static String EXTRA_CHILD_POSITION = "position";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         filter = initFilter();
         initFilterListView();
-        new SelectDataTask(this, filter.getSQLWhereClause(), mLocationId).execute(mCategoryID);
+        new SelectDataTask(this, filter.getSQLWhereClause(), mLocationId).execute(mCategoryID, mSortBy);
     }
 
     @Override
@@ -96,18 +98,17 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
-        int sortBy = 0;
         switch (rgb) {
             case R.id.alphabet_sort:
-                sortBy = ProxyManager.SORT_NAME_AZ;
+                mSortBy = ProxyManager.SORT_NAME_AZ;
                 break;
             case R.id.price_sort:
-                sortBy = ProxyManager.SORT_PRICE_UP;
+                mSortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
         stopManagingCursor(cItems);
         cItems.close();
-        new SortTask(this, filter.getSQLWhereClause(), mLocationId).execute(sortBy);
+        new SortTask(this, filter.getSQLWhereClause(), mLocationId).execute(mSortBy);
     }
 
     @Override
@@ -288,7 +289,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
                 stopManagingCursor(cItems);
                 cItems.close();
                 new SelectDataTask(CatalogByCategoryActivity.this, filter.getSQLWhereClause(), mLocationId)
-                        .execute(mCategoryID);
+                        .execute(mCategoryID, mSortBy);
             }
         }
 
@@ -369,15 +370,15 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         protected Cursor doInBackground(Integer... params) {
             if (!TextUtils.isEmpty(mFilterWhereClause))  {
                 if(TextUtils.isEmpty(mLocationId)) {
-                    return getProxyManager().getFilteredItemsByCategory(params[0], mFilterWhereClause, ProxyManager.SORT_NAME_AZ);
+                    return getProxyManager().getFilteredItemsByCategory(params[0], mFilterWhereClause, params[1]);
                 } else{
-                    return getProxyManager().getFilteredItemsByCategory(params[0], mLocationId, mFilterWhereClause, ProxyManager.SORT_NAME_AZ);
+                    return getProxyManager().getFilteredItemsByCategory(params[0], mLocationId, mFilterWhereClause, params[1]);
                 }
             } else {
                 if(TextUtils.isEmpty(mLocationId)) {
-                    return getProxyManager().getFeaturedItemsByCategory(params[0], ProxyManager.SORT_NAME_AZ);
+                    return getProxyManager().getFeaturedItemsByCategory(params[0], params[1]);
                 } else{
-                    return getProxyManager().getFeaturedItemsByCategory(params[0], mLocationId, ProxyManager.SORT_NAME_AZ);
+                    return getProxyManager().getFeaturedItemsByCategory(params[0], mLocationId, params[1]);
                 }
             }
         }

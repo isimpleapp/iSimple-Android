@@ -9,7 +9,6 @@ import com.treelev.isimple.domain.db.DeprecatedItem;
 import com.treelev.isimple.domain.db.FeaturedItem;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.ItemPrice;
-import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
@@ -372,19 +371,19 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public List<String> getYearsByCategory(int categoryId) {
+    public List<Integer> getYearsByCategory(int categoryId) {
         open();
-        List<String> years = new ArrayList<String>();
-        String sqlQueryString = String.format("select distinct %1$s from %2$s where drink_category=%3$s order by %1$s",
+        List<Integer> years = new ArrayList<Integer>();
+        String sqlQueryString = String.format("select distinct %1$s from %2$s where drink_category=%3$s order by %1$s desc",
                 DatabaseSqlHelper.ITEM_YEAR,
                 DatabaseSqlHelper.ITEM_TABLE,
                 categoryId);
         Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                String str = cursor.getString(0);
-                if (str != null && !TextUtils.isEmpty(str.trim())) {
-                    years.add(str);
+                int yearValue = cursor.getInt(0);
+                if (yearValue != 0) {
+                    years.add(yearValue);
                 }
             }
             cursor.close();
@@ -430,12 +429,11 @@ public class ItemDAO extends BaseDAO {
     public Map<Integer, List<String>> getClassificationsByCategory(int categoryId) {
         open();
         Map<Integer, List<String>> classificationsByProductType = new HashMap<Integer, List<String>>();
-        String sqlQueryString = String.format("select distinct %1$s, %2$s from %3$s where drink_category=%4$s order by %2$s",
+        String sqlQueryString = String.format("select distinct %1$s, %2$s from %3$s where drink_category=%4$s order by %2$s desc",
                 DatabaseSqlHelper.ITEM_CLASSIFICATION,
                 DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
                 DatabaseSqlHelper.ITEM_TABLE,
                 categoryId);
-
         Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {

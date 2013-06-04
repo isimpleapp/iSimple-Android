@@ -60,7 +60,7 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedMainItems();
     }
 
-    public List<String> getYearsByCategory(DrinkCategory category) {
+    public List<Integer> getYearsByCategory(DrinkCategory category) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getYearsByCategory(category.ordinal());
     }
 

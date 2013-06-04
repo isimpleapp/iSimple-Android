@@ -119,10 +119,10 @@ public class FilterItemData implements Parcelable {
 
     public static FilterItemData[] getAvailableYears(Context context, DrinkCategory category) {
         ProxyManager proxyManager = new ProxyManager(context);
-        List<String> years = proxyManager.getYearsByCategory(category);
+        List<Integer> years = proxyManager.getYearsByCategory(category);
         FilterItemData[] filterList = new FilterItemData[years.size()];
         for (int i = 0; i < years.size(); i++) {
-            filterList[i] = new FilterItemData(years.get(i));
+            filterList[i] = new FilterItemData(years.get(i).toString());
         }
         return filterList;
     }

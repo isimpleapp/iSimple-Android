@@ -6,4 +6,8 @@
     <string name="text_for_retail_price">Розничная цена: %s</string>
     <string name="dialog_massage">По данному штрихкоду ничего не найдено.</string>
     <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_yes">Да</string>
+    <string name="dialog_button_no">Нет</string>
+    <string name="title_dialog_instal_scaner">Установить Barcode Scanner?</string>
+    <string name="message_dialog_instal_scaner">Для этого приложения требуется сканер штрих-кода. Хотели бы Вы его установить?</string>
 </resources>

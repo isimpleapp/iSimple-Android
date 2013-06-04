@@ -18,7 +18,6 @@
     <orderEntry type="jdk" jdkName="Android 4.1.2 Google APIs" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="HoloEveryWhere" />
-    <orderEntry type="library" name="zxing-android-integration" level="project" />
   </component>
 </module>
 

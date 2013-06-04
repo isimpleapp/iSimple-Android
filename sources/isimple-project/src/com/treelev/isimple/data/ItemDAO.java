@@ -104,40 +104,44 @@ public class ItemDAO extends BaseDAO {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, orderByField);
         }
-        String from = String.format(FORMAT_FROM_TWO_TABLE,
-                DatabaseSqlHelper.ITEM_TABLE,
-                TABLE_ONE,
-                DatabaseSqlHelper.FEATURED_ITEM_TABLE,
-                TABLE_TWO);
-        String join = String.format(FORMAT_JOIN_TWO_TABLE,
-                TABLE_ONE,
-                DatabaseSqlHelper.ITEM_ID,
-                TABLE_TWO,
-                DatabaseSqlHelper.FEATURED_ITEM_ID);
-        String whereCategory = String.format(COMPARE,
-                DatabaseSqlHelper.FEATURED_ITEM_CATEGORY_ID,
-                categoryId);
-        String where = String.format(AND, join, whereCategory);
-        String selectSql = String.format(SELECT_ITEMS_FROM,
-                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_ID + " as _id",
-                DatabaseSqlHelper.ITEM_NAME,
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
-                DatabaseSqlHelper.ITEM_VOLUME,
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
-                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
-                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                "0 as image",
-                DatabaseSqlHelper.ITEM_PRICE,
-                DatabaseSqlHelper.ITEM_YEAR,
-                DatabaseSqlHelper.ITEM_QUANTITY,
-                DatabaseSqlHelper.ITEM_COLOR,
+//        String from = String.format(FORMAT_FROM_TWO_TABLE,
+//                DatabaseSqlHelper.ITEM_TABLE,
+//                TABLE_ONE,
+//                DatabaseSqlHelper.FEATURED_ITEM_TABLE,
+//                TABLE_TWO);
+//        String join = String.format(FORMAT_JOIN_TWO_TABLE,
+//                TABLE_ONE,
+//                DatabaseSqlHelper.ITEM_ID,
+//                TABLE_TWO,
+//                DatabaseSqlHelper.FEATURED_ITEM_ID);
+//        String whereCategory = String.format(COMPARE,
+//                DatabaseSqlHelper.FEATURED_ITEM_CATEGORY_ID,
+//                categoryId);
+//        String where = String.format(AND, join, whereCategory);
+//        String selectSql = String.format(SELECT_ITEMS_FROM,
+//                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_ID + " as _id",
+//                DatabaseSqlHelper.ITEM_NAME,
+//                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+//                DatabaseSqlHelper.ITEM_VOLUME,
+//                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+//                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+//                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+//                "0 as image",
+//                DatabaseSqlHelper.ITEM_PRICE,
+//                DatabaseSqlHelper.ITEM_YEAR,
+//                DatabaseSqlHelper.ITEM_QUANTITY,
+//                DatabaseSqlHelper.ITEM_COLOR,
+////                DatabaseSqlHelper.ITEM_DRINK_ID,
+//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id",
 //                DatabaseSqlHelper.ITEM_DRINK_ID,
-                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id",
-                DatabaseSqlHelper.ITEM_DRINK_ID,
-                from,
-                where,
-                DatabaseSqlHelper.ITEM_DRINK_ID,
-                orderBy);
+//                from,
+//                where,
+//                DatabaseSqlHelper.ITEM_DRINK_ID,
+//                orderBy);
+        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, drink_category, 0 as image, MIN(price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id,COUNT(drink_id) " +
+                "FROM item AS t1, (SELECT DISTINCT * FROM featured_item ) AS t2  " +
+                "WHERE t1.item_id = t2.item_id AND category_id = %s GROUP BY drink_id  %s";
+        String selectSql = String.format(formatScript, categoryId, orderBy);
         Log.v("SQL_QUERY getFeaturedItemsByCategory(int categoryId, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -149,44 +153,49 @@ public class ItemDAO extends BaseDAO {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
         }
-        String from = String.format(FORMAT_FROM_TWO_TABLE,
-                DatabaseSqlHelper.ITEM_TABLE,
-                TABLE_ONE,
-                DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE,
-                TABLE_TWO);
-        String join = String.format(FORMAT_JOIN_TWO_TABLE,
-                TABLE_ONE,
-                DatabaseSqlHelper.ITEM_ID,
-                TABLE_TWO,
-                DatabaseSqlHelper.ITEM_ID);
-        String whereCategory = String.format(COMPARE,
-                TABLE_ONE + "." +DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                categoryId);
-        String whereShop = String.format(COMPARE_STRING,
-                DatabaseSqlHelper.SHOP_LOCATION_ID,
-                locationId);
-        String where = String.format(AND, join, whereCategory);
-        where = String.format(AND, where, whereShop);
-        String selectSql = String.format(SELECT_ITEMS_FROM,
-                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_ID + " as _id",
-                DatabaseSqlHelper.ITEM_NAME,
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
-                DatabaseSqlHelper.ITEM_VOLUME,
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
-                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
-                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                "0 as image",
-                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_PRICE,
-                DatabaseSqlHelper.ITEM_YEAR,
-                DatabaseSqlHelper.ITEM_QUANTITY,
-                DatabaseSqlHelper.ITEM_COLOR,
+//        String from = String.format(FORMAT_FROM_TWO_TABLE,
+//                DatabaseSqlHelper.ITEM_TABLE,
+//                TABLE_ONE,
+//                DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE,
+//                TABLE_TWO);
+//        String join = String.format(FORMAT_JOIN_TWO_TABLE,
+//                TABLE_ONE,
+//                DatabaseSqlHelper.ITEM_ID,
+//                TABLE_TWO,
+//                DatabaseSqlHelper.ITEM_ID);
+//        String whereCategory = String.format(COMPARE,
+//                TABLE_ONE + "." +DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+//                categoryId);
+//        String whereShop = String.format(COMPARE_STRING,
+//                DatabaseSqlHelper.SHOP_LOCATION_ID,
+//                locationId);
+//        String where = String.format(AND, join, whereCategory);
+//        where = String.format(AND, where, whereShop);
+//        String selectSql = String.format(SELECT_ITEMS_FROM,
+//                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_ID + " as _id",
+//                DatabaseSqlHelper.ITEM_NAME,
+//                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+//                DatabaseSqlHelper.ITEM_VOLUME,
+//                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+//                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+//                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+//                "0 as image",
+//                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_PRICE,
+//                DatabaseSqlHelper.ITEM_YEAR,
+//                DatabaseSqlHelper.ITEM_QUANTITY,
+//                DatabaseSqlHelper.ITEM_COLOR,
+////                DatabaseSqlHelper.ITEM_DRINK_ID,
+//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id",
 //                DatabaseSqlHelper.ITEM_DRINK_ID,
-                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id",
-                DatabaseSqlHelper.ITEM_DRINK_ID,
-                from,
-                where,
-                DatabaseSqlHelper.ITEM_DRINK_ID,
-                orderBy);
+//                from,
+//                where,
+//                DatabaseSqlHelper.ITEM_DRINK_ID,
+//                orderBy);
+        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, t1.drink_category, 0 as image, MIN(t1.price) " +
+                "as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id,COUNT(drink_id) " +
+                "FROM item AS t1, (SELECT DISTINCT * FROM item_availability) AS t2 " +
+                "WHERE t1.item_id = t2.item_id AND t1.drink_category = %s AND location_id = '%s' GROUP BY drink_id  %s";
+        String selectSql = String.format(formatScript,categoryId, locationId, orderBy );
         Log.v("SQL_QUERY getFeaturedItemsByCategory(int categoryId, String locationId, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -927,39 +936,43 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getFeaturedMainItems() {
         open();
-        String from = String.format(FORMAT_FROM_TWO_TABLE,
-                DatabaseSqlHelper.ITEM_TABLE,
-                TABLE_ONE,
-                DatabaseSqlHelper.FEATURED_ITEM_TABLE,
-                TABLE_TWO);
-        String join = String.format(FORMAT_JOIN_TWO_TABLE,
-                TABLE_ONE,
-                DatabaseSqlHelper.ITEM_ID,
-                TABLE_TWO,
-                DatabaseSqlHelper.FEATURED_ITEM_ID);
-        String whereCategory = String.format(COMPARE,
-                DatabaseSqlHelper.FEATURED_ITEM_CATEGORY_ID,
-                RANDOM);
-        String where = String.format(AND, join, whereCategory);
-        String selectSql = String.format(SELECT_ITEMS_FROM_RANDOM,
-                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_ID + " as _id",
-                DatabaseSqlHelper.ITEM_NAME,
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
-                DatabaseSqlHelper.ITEM_VOLUME,
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
-                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
-                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                "0 as image",
-                DatabaseSqlHelper.ITEM_PRICE,
-                DatabaseSqlHelper.ITEM_YEAR,
-                DatabaseSqlHelper.ITEM_QUANTITY,
-                DatabaseSqlHelper.ITEM_COLOR,
+//        String from = String.format(FORMAT_FROM_TWO_TABLE,
+//                DatabaseSqlHelper.ITEM_TABLE,
+//                TABLE_ONE,
+//                DatabaseSqlHelper.FEATURED_ITEM_TABLE,
+//                TABLE_TWO);
+//        String join = String.format(FORMAT_JOIN_TWO_TABLE,
+//                TABLE_ONE,
+//                DatabaseSqlHelper.ITEM_ID,
+//                TABLE_TWO,
+//                DatabaseSqlHelper.FEATURED_ITEM_ID);
+//        String whereCategory = String.format(COMPARE,
+//                DatabaseSqlHelper.FEATURED_ITEM_CATEGORY_ID,
+//                RANDOM);
+//        String where = String.format(AND, join, whereCategory);
+//        String selectSql = String.format(SELECT_ITEMS_FROM_RANDOM,
+//                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_ID + " as _id",
+//                DatabaseSqlHelper.ITEM_NAME,
+//                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+//                DatabaseSqlHelper.ITEM_VOLUME,
+//                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+//                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+//                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+//                "0 as image",
+//                DatabaseSqlHelper.ITEM_PRICE,
+//                DatabaseSqlHelper.ITEM_YEAR,
+//                DatabaseSqlHelper.ITEM_QUANTITY,
+//                DatabaseSqlHelper.ITEM_COLOR,
+////                DatabaseSqlHelper.ITEM_DRINK_ID,
+//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id",
 //                DatabaseSqlHelper.ITEM_DRINK_ID,
-                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id",
-                DatabaseSqlHelper.ITEM_DRINK_ID,
-                from,
-                where,
-                DatabaseSqlHelper.ITEM_DRINK_ID);
+//                from,
+//                where,
+//                DatabaseSqlHelper.ITEM_DRINK_ID);
+        String selectSql = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, drink_category, 0 as image, MIN(price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, COUNT(drink_id) " +
+                "FROM item AS t1, (SELECT DISTINCT *  FROM featured_item )AS t2 " +
+                "WHERE t1.item_id = t2.item_id AND category_id = -1 " +
+                "GROUP BY drink_id";
         Log.v("SQL_QUERY getFeaturedMainItems()", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -978,12 +991,6 @@ public class ItemDAO extends BaseDAO {
 
     //TODO refactor: переименовать метод и переписать через String.format
     private String getWhereBySearch(String query) {
-//        String prepareQuery = " '%" + query + "%'";
-//        String result = "(" + DatabaseSqlHelper.ITEM_LOCALIZED_NAME + " LIKE" + prepareQuery + " or "
-//                + DatabaseSqlHelper.ITEM_NAME + " LIKE" + prepareQuery + ")";
-//        if (categoryId != null) {
-//            result = " and " + result;
-//        }
         String formatQuery = "%" + query + "%";
         String onePart = String.format(LIKE, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, formatQuery);
         String twoPart = String.format(LIKE, DatabaseSqlHelper.ITEM_NAME, formatQuery);

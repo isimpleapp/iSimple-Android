@@ -83,7 +83,7 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         String strDrinkCategory = DrinkCategory.getDrinkCategory(cursor.getInt(6)).getDescription();
         if( mYearEnable ) {
             String format = "%s %s";
-            strDrinkCategory = String.format(format, strDrinkCategory, cursor.getString(9));
+            strDrinkCategory = String.format(format, strDrinkCategory, cursor.getString(9) != null ? cursor.getString(9) : "");
         }
         itemProductType.setText(strDrinkCategory);
 

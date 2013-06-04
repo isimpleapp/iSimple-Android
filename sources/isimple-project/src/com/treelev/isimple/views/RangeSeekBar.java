@@ -373,8 +373,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
         paint.setTextSize(12);
         paint.setColor(Color.BLACK);
-        drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas);
-        drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas);
+        drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas, false);
+        drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas, true);
     }
 
     /**
@@ -414,8 +414,12 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         canvas.drawBitmap(pressed ? thumbPressedImage : thumbImage, screenCoord - thumbHalfWidth, (0.65f * getHeight()) - thumbHalfHeight, paint);
     }
 
-    private void drawText(float screenCoord, T value, Canvas canvas) {
-        canvas.drawText(String.format("%d", value), screenCoord - thumbWidth / 2.0f, (0.65f * getHeight()) - thumbHalfHeight, paint);
+    private void drawText(float screenCoord, T value, Canvas canvas, boolean isMaxValue) {
+        float padding = 3.0f;
+        if (isMaxValue) {
+            padding = - 10.0f;
+        }
+        canvas.drawText(String.format("%d", value), screenCoord - thumbWidth / 2.0f + padding, (0.65f * getHeight()) - thumbHalfHeight, paint);
     }
 
     /**

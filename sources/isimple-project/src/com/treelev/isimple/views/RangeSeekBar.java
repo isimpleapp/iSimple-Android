@@ -372,7 +372,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         drawThumb(normalizedToScreen(normalizedMaxValue), Thumb.MAX.equals(pressedThumb), canvas);
 
         paint.setTextSize(12);
-        paint.setColor(getResources().getColor(android.R.color.black));
+        paint.setColor(Color.BLACK);
         drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas);
         drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas);
     }
@@ -415,7 +415,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     }
 
     private void drawText(float screenCoord, T value, Canvas canvas) {
-        canvas.drawText(String.format("%d", value), screenCoord - thumbWidth / 2.0f , (0.65f * getHeight()) - thumbHalfHeight, paint);
+        canvas.drawText(String.format("%d", value), screenCoord - thumbWidth / 2.0f, (0.65f * getHeight()) - thumbHalfHeight, paint);
     }
 
     /**

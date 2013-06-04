@@ -19,8 +19,8 @@ public class ExpandableActivityFilterItem extends FilterItem {
     private SqlWhereClauseBuilder clauseBuilder;
 
     public ExpandableActivityFilterItem(Context context, String label, Map<String, FilterItemData[]> childData,
-                                        SqlWhereClauseBuilder clauseBuilder) {
-        super(context, ITEM_ACTIVITY, label, ExpandableListFilterActivity.class);
+                                        SqlWhereClauseBuilder clauseBuilder, int currentCategory) {
+        super(context, ITEM_ACTIVITY, label, ExpandableListFilterActivity.class, currentCategory);
         layoutInflater = LayoutInflater.from(context);
         String[] groups = childData.keySet().toArray(new String[0]);
         this.groupData = new FilterItemData[groups.length];

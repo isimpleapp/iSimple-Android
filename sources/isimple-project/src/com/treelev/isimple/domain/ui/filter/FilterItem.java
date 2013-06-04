@@ -11,18 +11,21 @@ import com.treelev.isimple.activities.CatalogByCategoryActivity;
 public abstract class FilterItem {
     public final static int ITEM_ACTIVITY = 1;
     public final static int ITEM_INLINE = 2;
+    public final static String CURRENT_CATEGORY = "current_category";
 
     private Context context;
     private int itemType;
     private String label;
     private Class activityClass;
     private int requestCode;
+    private int currentCategory;
 
-    protected FilterItem(Context context, int itemType, String label, Class activityClass) {
+    protected FilterItem(Context context, int itemType, String label, Class activityClass, int currentCategory) {
         this(context, itemType);
         this.label = label;
         this.activityClass = activityClass;
         this.requestCode = generateUniqueRequestCode();
+        this.currentCategory = currentCategory;
     }
 
     protected FilterItem(Context context, int itemType) {
@@ -47,7 +50,9 @@ public abstract class FilterItem {
     }
 
     protected Intent createIntent() {
-        return new Intent(getContext(), getActivityClass());
+        Intent newIntent = new Intent(getContext(), getActivityClass());
+        newIntent.putExtra(CURRENT_CATEGORY, currentCategory);
+        return newIntent;
     }
 
     public boolean process() {

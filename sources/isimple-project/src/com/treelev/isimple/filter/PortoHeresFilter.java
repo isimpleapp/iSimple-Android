@@ -13,8 +13,8 @@ public class PortoHeresFilter extends Filter {
 
     private List<FilterItem> filterItemList;
 
-    public PortoHeresFilter(Context context) {
-        super(context);
+    public PortoHeresFilter(Context context, int currentCategory) {
+        super(context, currentCategory);
         filterItemList = createFilterContent();
     }
 
@@ -29,15 +29,15 @@ public class PortoHeresFilter extends Filter {
         filterItems.add(new DefaultActivityFilterItem(
                 getContext(), getContext().getString(R.string.filter_item_sweetness),
                 FilterItemData.createFromPresentable(Sweetness.getPortoSweetness()),
-                SweetnessSqlWhereClauseBuilder.INSTANCE));
+                SweetnessSqlWhereClauseBuilder.INSTANCE, currentCategory));
         filterItems.add(new ExpandableActivityFilterItem(
                 getContext(), getContext().getString(R.string.filter_item_classifier),
                 FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.PORTO),
-                ClassificationSqlWhereClauseBuilder.INSTANCE));
+                ClassificationSqlWhereClauseBuilder.INSTANCE, currentCategory));
         filterItems.add(new ExpandableActivityFilterItem(
                 getContext(), getContext().getString(R.string.filter_item_region),
                 FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.PORTO),
-                RegionSqlWhereClauseBuilder.INSTANCE));
+                RegionSqlWhereClauseBuilder.INSTANCE, currentCategory));
         filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price", this));
         return filterItems;
     }

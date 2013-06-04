@@ -8,10 +8,12 @@ import java.util.List;
 
 public abstract class Filter {
 
+    protected int currentCategory;
     private Context context;
 
-    protected Filter(Context context) {
+    protected Filter(Context context, int currentCategory) {
         this.context = context;
+        this.currentCategory = currentCategory;
     }
 
     protected Context getContext() {

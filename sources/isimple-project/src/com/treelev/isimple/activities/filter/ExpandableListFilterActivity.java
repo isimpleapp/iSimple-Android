@@ -15,6 +15,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BaseExpandableListActivity;
+import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.widget.CheckBox;
@@ -53,11 +54,9 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
 
         RelativeLayout relative = new RelativeLayout(getSupportActionBarContext());
         org.holoeverywhere.widget.TextView title = new org.holoeverywhere.widget.TextView(getSupportActionBarContext());
-        title.setText("Test1");
         title.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
         title.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 27.0f);
@@ -66,6 +65,17 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         relative.addView(title);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(relative);
+        int currentCategory = getIntent().getIntExtra(FilterItem.CURRENT_CATEGORY, -1);
+        switch(currentCategory) {
+            case 0:
+                getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+                title.setText("Каталог");
+                break;
+            case 1:
+                getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+                title.setText("Магазины");
+                break;
+        }
     }
 
     @Override

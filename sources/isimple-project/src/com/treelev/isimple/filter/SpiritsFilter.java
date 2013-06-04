@@ -12,8 +12,8 @@ public class SpiritsFilter extends Filter {
 
     private List<FilterItem> filterItemList;
 
-    public SpiritsFilter(Context context) {
-        super(context);
+    public SpiritsFilter(Context context, int currentCategory) {
+        super(context, currentCategory);
         filterItemList = createFilterContent();
     }
 
@@ -27,11 +27,11 @@ public class SpiritsFilter extends Filter {
         filterItems.add(new ExpandableActivityFilterItem(getContext(),
                 getContext().getString(R.string.filter_item_classifier),
                 FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.SPIRITS),
-                ClassificationSqlWhereClauseBuilder.INSTANCE));
+                ClassificationSqlWhereClauseBuilder.INSTANCE,currentCategory ));
         filterItems.add(new ExpandableActivityFilterItem(getContext(),
                 getContext().getString(R.string.filter_item_region),
                 FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.SPIRITS),
-                RegionSqlWhereClauseBuilder.INSTANCE));
+                RegionSqlWhereClauseBuilder.INSTANCE,currentCategory ));
         filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price", this));
         return filterItems;
     }

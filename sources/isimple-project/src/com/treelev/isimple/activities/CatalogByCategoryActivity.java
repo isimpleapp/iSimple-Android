@@ -228,17 +228,17 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         DrinkCategory drinkCategory = DrinkCategory.getDrinkCategory(mCategoryID);
         switch (drinkCategory) {
             case WINE:
-                return new WineFilter(this);
+                return new WineFilter(this, mCurrentCategory);
             case SPIRITS:
-                return new SpiritsFilter(this);
+                return new SpiritsFilter(this, mCurrentCategory);
             case SPARKLING:
-                return new SparklingFilter(this);
+                return new SparklingFilter(this, mCurrentCategory);
             case SAKE:
-                return new SakeFilter(this);
+                return new SakeFilter(this, mCurrentCategory);
             case PORTO:
-                return new PortoHeresFilter(this);
+                return new PortoHeresFilter(this, mCurrentCategory);
             case WATER:
-                return new WaterFilter(this);
+                return new WaterFilter(this, mCurrentCategory);
             default:
                 return null;
         }

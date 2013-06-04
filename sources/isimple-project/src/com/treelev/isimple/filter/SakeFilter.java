@@ -14,8 +14,8 @@ public class SakeFilter extends Filter implements View.OnClickListener {
 
     private List<FilterItem> filterItemList;
 
-    public SakeFilter(Context context) {
-        super(context);
+    public SakeFilter(Context context, int currentCategory) {
+        super(context, currentCategory);
         filterItemList = createFilterContent();
     }
 
@@ -35,7 +35,7 @@ public class SakeFilter extends Filter implements View.OnClickListener {
         filterItems.add(new ExpandableActivityFilterItem(getContext(),
                 getContext().getString(R.string.filter_item_premiality),
                 FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.SAKE),
-                ClassificationSqlWhereClauseBuilder.INSTANCE));
+                ClassificationSqlWhereClauseBuilder.INSTANCE, currentCategory));
         filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price", this));
         return filterItems;
     }

@@ -18,7 +18,7 @@ import org.holoeverywhere.app.ListActivity;
 
 public class BaseListActivity extends ListActivity implements ActionBar.OnNavigationListener {
 
-    private int mCurrentCategory;
+    protected int mCurrentCategory;
     public final static String BARCODE = "barcode";
 
     @Override

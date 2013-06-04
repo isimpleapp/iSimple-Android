@@ -13,8 +13,8 @@ public class WineFilter extends Filter {
 
     private List<FilterItem> filterItemList;
 
-    public WineFilter(Context context) {
-        super(context);
+    public WineFilter(Context context, int currentCategory) {
+        super(context, currentCategory);
         filterItemList = createFilterContent();
     }
 
@@ -29,15 +29,15 @@ public class WineFilter extends Filter {
         filterItems.add(new DefaultActivityFilterItem(
                 getContext(), getContext().getString(R.string.filter_item_sweetness),
                 FilterItemData.createFromPresentable(Sweetness.getWineSweetness()),
-                SweetnessSqlWhereClauseBuilder.INSTANCE));
+                SweetnessSqlWhereClauseBuilder.INSTANCE, currentCategory));
         filterItems.add(new DefaultActivityFilterItem(
                 getContext(), getContext().getString(R.string.filter_item_year),
                 FilterItemData.getAvailableYears(getContext(), DrinkCategory.WINE),
-                YearSqlWhereClauseBuilder.INSTANCE));
+                YearSqlWhereClauseBuilder.INSTANCE, currentCategory));
         filterItems.add(new ExpandableActivityFilterItem(
                 getContext(), getContext().getString(R.string.filter_item_region),
                 FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.WINE),
-                RegionSqlWhereClauseBuilder.INSTANCE));
+                RegionSqlWhereClauseBuilder.INSTANCE, currentCategory));
         filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price", this));
         return filterItems;
     }

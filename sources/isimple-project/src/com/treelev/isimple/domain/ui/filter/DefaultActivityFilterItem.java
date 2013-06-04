@@ -10,16 +10,14 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
 import org.holoeverywhere.widget.TextView;
 
-import java.util.concurrent.Callable;
-
 public class DefaultActivityFilterItem extends FilterItem {
     private LayoutInflater layoutInflater;
     private FilterItemData[] filterData;
     private SqlWhereClauseBuilder clauseBuilder;
 
     public DefaultActivityFilterItem(Context context, String label, FilterItemData[] filterData,
-                                     SqlWhereClauseBuilder clauseBuilder) {
-        super(context, ITEM_ACTIVITY, label, DefaultListFilterActivity.class);
+                                     SqlWhereClauseBuilder clauseBuilder, int currentCategory) {
+        super(context, ITEM_ACTIVITY, label, DefaultListFilterActivity.class, currentCategory);
         layoutInflater = LayoutInflater.from(context);
         this.filterData = filterData;
         this.clauseBuilder = clauseBuilder;

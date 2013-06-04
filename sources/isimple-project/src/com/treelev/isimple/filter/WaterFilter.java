@@ -12,8 +12,8 @@ public class WaterFilter extends Filter {
 
     private List<FilterItem> filterItemList;
 
-    public WaterFilter(Context context) {
-        super(context);
+    public WaterFilter(Context context, int currentCategory) {
+        super(context, currentCategory);
         filterItemList = createFilterContent();
     }
 
@@ -27,11 +27,11 @@ public class WaterFilter extends Filter {
         filterItems.add(new ExpandableActivityFilterItem(
                 getContext(), getContext().getString(R.string.filter_item_type),
                 FilterItemData.getAvailableClassifications(getContext(), DrinkCategory.WATER),
-                ClassificationSqlWhereClauseBuilder.INSTANCE));
+                ClassificationSqlWhereClauseBuilder.INSTANCE, currentCategory));
         filterItems.add(new ExpandableActivityFilterItem(
                 getContext(), getContext().getString(R.string.filter_item_region),
                 FilterItemData.getAvailableCountryRegions(getContext(), DrinkCategory.WATER),
-                RegionSqlWhereClauseBuilder.INSTANCE));
+                RegionSqlWhereClauseBuilder.INSTANCE, currentCategory));
         filterItems.add(new DefaultSeekBarFilterItem(getContext(), "item.price", this));
         return filterItems;
     }

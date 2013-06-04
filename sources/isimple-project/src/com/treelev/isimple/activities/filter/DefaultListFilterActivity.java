@@ -13,6 +13,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BaseListActivity;
+import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.LayoutInflater;
@@ -36,17 +37,6 @@ public class DefaultListFilterActivity extends BaseListActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        getSupportMenuInflater().inflate(R.menu.title_filter_item, menu);
-//        MenuItem title = menu.findItem(R.id.title_filter_item);
-//        title.setTitle("Test");
-//        title.setTitleCondensed("Test1");
-//        RelativeLayout relative = new RelativeLayout(getSupportActionBarContext());
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     protected void createNavigationMenuBar() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -63,13 +53,15 @@ public class DefaultListFilterActivity extends BaseListActivity {
         relative.addView(title);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(relative);
-        int currentCategory = 0;
+        int currentCategory = getIntent().getIntExtra(FilterItem.CURRENT_CATEGORY, -1);
         switch(currentCategory) {
             case 0:
                 getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-                title.setText("Test");
+                title.setText("Каталог");
                 break;
             case 1:
+                getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+                title.setText("Магазины");
                 break;
         }
     }

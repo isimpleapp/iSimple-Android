@@ -3,8 +3,13 @@ package com.treelev.isimple.activities.filter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BaseListActivity;
@@ -31,11 +36,42 @@ public class DefaultListFilterActivity extends BaseListActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        getSupportMenuInflater().inflate(R.menu.title_filter_item, menu);
+//        MenuItem title = menu.findItem(R.id.title_filter_item);
+//        title.setTitle("Test");
+//        title.setTitleCondensed("Test1");
+//        RelativeLayout relative = new RelativeLayout(getSupportActionBarContext());
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     protected void createNavigationMenuBar() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+
+        RelativeLayout relative = new RelativeLayout(getSupportActionBarContext());
+        TextView title = new TextView(getSupportActionBarContext());
+
+        title.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        title.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 27.0f);
+        title.setTextColor(getResources().getColor(R.color.select_item_navigation));
+        title.setPadding(10, 0, 0, 0);
+        relative.addView(title);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(relative);
+        int currentCategory = 0;
+        switch(currentCategory) {
+            case 0:
+                getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+                title.setText("Test");
+                break;
+            case 1:
+                break;
+        }
     }
 
     @Override

@@ -50,6 +50,8 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     private Integer mCategoryID;
     private String mLocationId;
     private boolean mExpandFiltr = false;
+    private boolean mFiltrUse = false;
+    private String mFilterWhereClause;
     private ProxyManager mProxyManager;
     private com.treelev.isimple.filter.Filter filter;
     private static final int ANIMATION_DURATION_IN_MILLIS = 500;
@@ -108,7 +110,8 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         }
         stopManagingCursor(cItems);
         cItems.close();
-        new SortTask(this, filter.getSQLWhereClause(), mLocationId).execute(mSortBy);
+        mFilterWhereClause = mFiltrUse ? filter.getSQLWhereClause() : mFilterWhereClause;
+        new SortTask(this, mFilterWhereClause, mLocationId).execute(mSortBy);
     }
 
     @Override
@@ -285,11 +288,13 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         public void onClick(View view) {
             organizeView();
             filterListView.collapseGroup(0);
+            mFiltrUse = false;
             if (view.getId() == R.id.search_butt) {
                 stopManagingCursor(cItems);
                 cItems.close();
                 new SelectDataTask(CatalogByCategoryActivity.this, filter.getSQLWhereClause(), mLocationId)
                         .execute(mCategoryID, mSortBy);
+                mFiltrUse = true;
             }
         }
 

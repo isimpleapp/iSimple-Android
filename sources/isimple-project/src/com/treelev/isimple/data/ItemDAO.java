@@ -984,6 +984,14 @@ public class ItemDAO extends BaseDAO {
         return cursor.getCount() > 0;
     }
 
+    public boolean addFavorites(String itemId){
+        return false;
+    }
+
+    public boolean delFavorites(String itemId){
+        return false;
+    }
+
     private String createSelectScript(int scriptType, Object[] scriptParams) {
         String result = null;
         String formatQuery = FORMAT_QUERY_OTHER;
@@ -1003,6 +1011,5 @@ public class ItemDAO extends BaseDAO {
         String twoPart = String.format(LIKE, DatabaseSqlHelper.ITEM_NAME, formatQuery);
         return String.format(OR, onePart, twoPart);
     }
-
 
 }

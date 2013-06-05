@@ -200,6 +200,14 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemMaxPriceByCategory(categoryId);
     }
 
+    public boolean addFavorites(String itemId){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).addFavorites(itemId);
+    }
+
+    public boolean delFavorites(String itemId){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).delFavorites(itemId);
+    }
+
     private BaseDAO getObjectDAO(int id) {
         if (mdao.containsKey(id)) {
             return mdao.get(id);

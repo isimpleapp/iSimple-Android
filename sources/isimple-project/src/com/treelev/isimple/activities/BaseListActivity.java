@@ -46,10 +46,9 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case IntentIntegrator.REQUEST_CODE:
-
                     typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
                     codeInfo = data.getStringExtra("SCAN_RESULT");
-                    codeInfo = "9319002010094";
+//                    codeInfo = "9319002010094";
                     checkBarcodeResult(codeInfo);
                     break;
             }
@@ -134,8 +133,8 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
             case 1: //Shop
                 category = ShopsActivity.class;
                 break;
-            case 2: //Favorites
-                category = null;
+            case 2: //FavoritesActivity
+                category = FavoritesActivity.class;
                 break;
             case 3: //Basket
                 category = null;

@@ -46,6 +46,7 @@
         <activity android:name=".activities.ShopsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.ShopActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.ChainStoresActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.FavoritesActivity" android:screenOrientation="portrait"/>
         <uses-library android:name="com.google.android.maps" />
     </application>
 </manifest>

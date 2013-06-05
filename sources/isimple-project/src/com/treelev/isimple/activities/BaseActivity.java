@@ -75,8 +75,8 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
             case 1: //Shop
                 category = ShopsActivity.class;
                 break;
-            case 2: //Favorites
-                category = null;
+            case 2: //FavoritesActivity
+                category = FavoritesActivity.class;
                 break;
             case 3: //Basket
                 category = null;

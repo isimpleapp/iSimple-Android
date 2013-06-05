@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.ShareActionProvider;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
@@ -49,6 +51,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         mLocationId = getIntent().getStringExtra(ShopActivity.LOCATION_ID);
         if (mLocationId == null) {
             setCurrentCategory(0);
+        } else if(getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)){
+            setCurrentCategory(2);
         } else {
             setCurrentCategory(1);
         }
@@ -129,9 +133,30 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     @Override
     public void createNavigationMenuBar() {
         super.createNavigationMenuBar();
-        if (mLocationId != null) {
+//        if (mLocationId != null) {
+//            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+//        }
+        if (mLocationId == null) {
             getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+        } else if(getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)){
+            getSupportActionBar().setIcon(R.drawable.menu_ico_fav);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.menu_shared, menu);
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+//        ShareActionProvider myShareActionProvider = (ShareActionProvider)item.getActionProvider();
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.setType("text/plain");
+//        intent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+//        intent.putExtra(Intent.EXTRA_TEXT,"Extra Text");
+//        myShareActionProvider.setShareIntent(intent);
+//        myShareActionProvider.setShareHistoryFileName(
+//                ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+//        myShareActionProvider.setShareIntent(createShareIntent());
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

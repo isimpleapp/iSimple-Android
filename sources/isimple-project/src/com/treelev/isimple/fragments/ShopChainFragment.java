@@ -3,7 +3,6 @@ package com.treelev.isimple.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -13,21 +12,13 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ChainStoresActivity;
 import com.treelev.isimple.activities.ProductInfoActivity;
 import com.treelev.isimple.adapters.ChainAdapter;
-import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.domain.db.Chain;
-import com.treelev.isimple.domain.ui.AbsDistanceShop;
-import com.treelev.isimple.domain.ui.DistanceShopHeader;
-import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.Toast;
-
-import java.util.Collections;
-import java.util.List;
 
 public class ShopChainFragment extends ListFragment {
 
@@ -98,7 +89,7 @@ public class ShopChainFragment extends ListFragment {
             if(mItemId == null){
                 return getProxyManager().getChains();
             } else {
-                return getProxyManager().getChains(mItemId);
+                return getProxyManager().getChainsByItemId(mItemId);
             }
 
         }

@@ -30,6 +30,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private boolean notifyWhileDragging = false;
     private OnRangeSeekBarChangeListener<T> listener;
 
+    private Context context;
+
     /**
      * Default color of a {@link RangeSeekBar}, #FF33B5E5. This is also known as "Ice Cream Sandwich" blue.
      */
@@ -69,6 +71,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
      */
     public RangeSeekBar(T absoluteMinValue, T absoluteMaxValue, Context context) throws IllegalArgumentException {
         super(context);
+        this.context = context;
         this.absoluteMinValue = absoluteMinValue;
         this.absoluteMaxValue = absoluteMaxValue;
         absoluteMinValuePrim = absoluteMinValue.doubleValue();
@@ -371,7 +374,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         // draw maximum thumb
         drawThumb(normalizedToScreen(normalizedMaxValue), Thumb.MAX.equals(pressedThumb), canvas);
 
-        paint.setTextSize(12);
+        paint.setTextSize(context.getResources().getDimension(R.dimen.fontSizeTextValueSeekBar));
         paint.setColor(Color.BLACK);
         drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas, false);
         drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas, true);

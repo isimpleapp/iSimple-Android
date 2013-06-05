@@ -66,27 +66,13 @@ public class ChainDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getChains(String drinkId) {
+    public Cursor getChains(String itemId) {
         open();
-//        String formatSelectScript = "SELECT %s, %s, %s  FROM %s ORDER BY %s";
-        String formatSelectScript = "SELECT t3.%s, t3.%s, t3.%s FROM %s AS t1, %s AS t2, %s AS t3 WHERE (t1.%s = t2.%s AND t2.%s = t3.%s ) AND t1.%s = '%s' GROUP BY t3.%s ORDER BY %s";
-        //SELECT t1.item_id FROM item_availability AS t1, shop AS t2, chain AS t3 WHERE (t1.location_id = t2.location_id AND t2.chain_id = t3.chain_id ) AND t1.item_id = ''
-        String selectSql = String.format(formatSelectScript,
-                DatabaseSqlHelper.CHAIN_ID + " as _id",
-                DatabaseSqlHelper.CHAIN_NAME,
-                DatabaseSqlHelper.CHAIN_TYPE,
-                DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE,
-                DatabaseSqlHelper.SHOP_TABLE,
-                DatabaseSqlHelper.CHAIN_TABLE,
-                DatabaseSqlHelper.ITEM_AVAILABILITY_LOCATION_ID,
-                DatabaseSqlHelper.SHOP_LOCATION_ID,
-                DatabaseSqlHelper.SHOP_CHAIN_ID,
-                DatabaseSqlHelper.CHAIN_ID,
-                DatabaseSqlHelper.ITEM_AVAILABILITY_ITEM_ID,
-                drinkId,
-                DatabaseSqlHelper.CHAIN_ID,
-                DatabaseSqlHelper.CHAIN_NAME);
-        return getDatabase().rawQuery(selectSql, null);
+        String selectSql = "select chain.chain_id as _id, chain.chain_name, chain.chain_type from chain where chain.chain_id in (" +
+                "SELECT s.chain_id FROM shop as s inner join item_availability as a on a.location_id=s.location_id " +
+                "WHERE a.item_id='%s') order by chain.chain_name";
+
+        return getDatabase().rawQuery(String.format(selectSql, itemId), null);
     }
 
 

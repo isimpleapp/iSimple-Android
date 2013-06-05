@@ -975,6 +975,15 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
+    public boolean availibilityItem(String drinkID) {
+        String formatScript = "SELECT item_id FROM item_availability WHERE item_id = '%s'";
+        String selectSql =  String.format(formatScript, drinkID);
+        open();
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        cursor.moveToFirst();
+        return cursor.getCount() > 0;
+    }
+
     private String createSelectScript(int scriptType, Object[] scriptParams) {
         String result = null;
         String formatQuery = FORMAT_QUERY_OTHER;

@@ -71,6 +71,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             }
         }
 
+
         ExpandableListView listView = getExpandableListView();
         final View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
 //TODO: replace
@@ -117,6 +118,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             }
         });
 
+        Button btAddToBasket = (Button) headerView.findViewById(R.id.add_to_basket_butt);
+
+        if( !proxyManager.availibilityItem(mProduct.getDrinkID()) ){
+            btWhereToBuy.setVisibility(View.GONE);
+            btAddToBasket.setVisibility(View.GONE);
+        }
     }
 
     @Override

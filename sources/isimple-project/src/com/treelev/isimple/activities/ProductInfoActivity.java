@@ -60,7 +60,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
 
-        if (itemId != null) {
+        if (itemId != null && mBarcode == null) {
             mProduct = proxyManager.getItemById(itemId);
         } else {
 
@@ -80,7 +80,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         Log.e("!!!!!!!!!!!!!!!","mProduct = " + mProduct);
 
-        itemTitle.setText(mProduct.getProductType().getLabel());
+        itemTitle.setText(mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "");
 
         String colorStr = mProduct.getProductType().getColor();
         if (colorStr == null) {
@@ -111,10 +111,10 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         btWhereToBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Cursor iChain = (Cursor) l.getAdapter().getItem(position);
                 Intent newIntent = new Intent(mContext, ShopsActivity.class);
                 newIntent.putExtra(ShopsActivity.ITEM_PRODUCT_ID, itemId);
                 startActivity(newIntent);
+                overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
             }
         });
 
@@ -202,19 +202,20 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())));
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + "")));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear()!=null ?  String.valueOf(product.getYear()) : "");
-        if (priceLabel != null) {
-            ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, takeRetailPrice(product).toString())));
+        String strPriceLabel = takeRetailPrice(product) != null ? takeRetailPrice(product).toString() : "";
+        if (!TextUtils.isEmpty(strPriceLabel)) {
+            ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, strPriceLabel)));
         } else {
-            ((TextView) formView.findViewById(R.id.retail_price)).setText("");
+            ((TextView) formView.findViewById(R.id.retail_price)).setText(strPriceLabel);
         }
     }
 
     private Integer takeRetailPrice(Item product) {
         int retailPrice;
-        String strPriceLabel = String.valueOf(product.getPrice());
+        String strPriceLabel = product.getPrice() != null ? String.valueOf(product.getPrice()) : null;
         if(strPriceLabel != null){
         String priceLabel = Utils.organizePriceLabel(strPriceLabel);
-        if (priceLabel != null) {
+        if (!TextUtils.isEmpty(priceLabel)) {
             Scanner in = new Scanner(priceLabel).useDelimiter("[^0-9]+");
             int integerPriceLabel = in.nextInt();
             String priceMarkup = Utils.organizePriceLabel(product.getPriceMarkup() + "");

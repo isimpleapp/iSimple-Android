@@ -171,9 +171,9 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         protected Cursor doInBackground(String... params) {
             switch (mSelectWhere) {
                 case BARCODE:
-                    Cursor myCursor = getProxyManager().getItemByBarcode(mBarcode);
+                    Cursor myCursor = getProxyManager().getItemByBarcode(mBarcode, ProxyManager.SORT_NAME_AZ);
                     if(myCursor.getCount() == 0){
-                        myCursor = getProxyManager().getItemDeprecatedByBarcode(mBarcode);
+                        myCursor = getProxyManager().getItemDeprecatedByBarcode(mBarcode, ProxyManager.SORT_NAME_AZ);
                     }
                     return myCursor;
                 case DRINK_ID:
@@ -218,7 +218,11 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         protected Cursor doInBackground(Integer... params) {
             switch (mSelectWhere) {
                 case BARCODE:
-//                    return getProxyManager().getItemByBarcode(mBarcode, params[0]);
+                    Cursor myCursor = getProxyManager().getItemByBarcode(mBarcode, params[0]);
+                    if(myCursor.getCount() == 0){
+                        myCursor = getProxyManager().getItemDeprecatedByBarcode(mBarcode, params[0]);
+                    }
+                    return myCursor;
                 case DRINK_ID:
                     return getProxyManager().getItemsByDrinkId(mDrinkID, params[0]);
                 case FILTER_WHERE_CLAUSE:

@@ -25,6 +25,15 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+
+
+    @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Intent newIntent = getStartIntentByItemPosition(itemPosition);
         if (newIntent != null && mCurrentCategory != itemPosition) {
@@ -76,8 +85,8 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String codeInfo = "test";
-        String typeCode = "test";
+        String codeInfo;
+        String typeCode;
         if (resultCode == android.app.Activity.RESULT_OK) {
             switch (requestCode) {
                 case IntentIntegrator.REQUEST_CODE:

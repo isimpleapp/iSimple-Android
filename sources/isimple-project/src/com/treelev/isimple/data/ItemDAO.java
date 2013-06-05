@@ -715,9 +715,9 @@ public class ItemDAO extends BaseDAO {
         return item;
     }
 
-    public Cursor getItemByBarcode(String itemBarcode) {
+    public Cursor getItemByBarcode(String itemBarcode, String orderByFiled) {
         open();
-        String orderBy = "";
+        String orderBy = String.format(FORMAT_ORDER_BY, orderByFiled);
         String from = DatabaseSqlHelper.ITEM_TABLE;
         String where = String.format(COMPARE_STRING,
                 DatabaseSqlHelper.ITEM_BARCODE,
@@ -742,9 +742,9 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getItemDeprecatedByBarcode(String itemBarcode) {
+    public Cursor getItemDeprecatedByBarcode(String itemBarcode, String orderByFiled) {
         open();
-        String orderBy = "";
+        String orderBy = String.format(FORMAT_ORDER_BY, orderByFiled);
         String from = DatabaseSqlHelper.ITEM_DEPRECATED_TABLE;
         String where = String.format(COMPARE_STRING,
                 DatabaseSqlHelper.ITEM_BARCODE,

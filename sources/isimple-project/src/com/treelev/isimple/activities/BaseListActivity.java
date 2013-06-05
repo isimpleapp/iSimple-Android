@@ -22,6 +22,13 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
     public final static String BARCODE = "barcode";
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Intent newIntent = getStartIntentByItemPosition(itemPosition);
         if (newIntent != null && mCurrentCategory != itemPosition) {
@@ -34,8 +41,8 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String codeInfo = "test";
-        String typeCode = "test";
+        String codeInfo;
+        String typeCode;
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case IntentIntegrator.REQUEST_CODE:

@@ -18,9 +18,15 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     private int mCurrentCategory;
     public final static String BARCODE = "barcode";
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
     public void setCurrentCategory(int currentCategory) {
         mCurrentCategory = currentCategory;
-
     }
 
     @Override
@@ -36,8 +42,8 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String codeInfo = "test";
-        String typeCode = "test";
+        String codeInfo;
+        String typeCode;
         if (resultCode == android.app.Activity.RESULT_OK) {
             switch (requestCode) {
                 case IntentIntegrator.REQUEST_CODE:

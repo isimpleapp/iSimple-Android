@@ -45,7 +45,14 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         nameView.setText(organizeItemNameLabel(cursor.getString(1)));
         itemLocName.setText(organizeLocItemNameLabel(cursor.getString(2)));
         String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(3)));
-        String priceLabel = Utils.organizePriceLabel(cursor.getString(8));
+        String priceLabel = cursor.getString(8);
+        if(priceLabel != null ) {
+            if( priceLabel.equalsIgnoreCase("0")) {
+                priceLabel = "";
+            } else {
+                priceLabel = Utils.organizePriceLabel(priceLabel);
+            }
+        }
         Float quantity = cursor.getFloat(10);
         String formatVolume = "%.0f x %s";
         if( quantity != null && quantity > 1) {
@@ -82,8 +89,10 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
 //TODO:
         String strDrinkCategory = DrinkCategory.getDrinkCategory(cursor.getInt(6)).getDescription();
         if( mYearEnable ) {
-            String format = "%s %s";
-            strDrinkCategory = String.format(format, strDrinkCategory, cursor.getString(9) != null ? cursor.getString(9) : "");
+            if(cursor.getString(9) != null) {
+                String format = "%s %s";
+                strDrinkCategory = String.format(format, strDrinkCategory, cursor.getInt(9) != 0 ? cursor.getString(9) : "");
+            }
         }
         itemProductType.setText(strDrinkCategory);
 

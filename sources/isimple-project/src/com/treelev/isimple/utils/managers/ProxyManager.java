@@ -32,12 +32,18 @@ public class ProxyManager {
     public Item getItemById(String itemId) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemById(itemId);
     }
-    public Cursor getItemByBarcode(String barcode){
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemByBarcode(barcode);
+    public Cursor getItemByBarcode(String barcode, int sortType){
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemByBarcode(barcode, orderByField);
     }
 
-    public Cursor getItemDeprecatedByBarcode(String barcode){
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemDeprecatedByBarcode(barcode);
+    public Cursor getItemDeprecatedByBarcode(String barcode, int sortType){
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemDeprecatedByBarcode(barcode, orderByField);
     }
 
     public Item getItemByBarcodeTypeItem(String barcode){

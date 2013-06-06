@@ -130,6 +130,20 @@ public class ExpandableActivityFilterItem extends FilterItem {
         }
     }
 
+    @Override
+    public boolean isChangedState() {
+        boolean result = false;
+        for(FilterItemData item : groupData) {
+            result |= item.isChecked();
+        }
+        for(FilterItemData[] items : childData.values()){
+            for(FilterItemData item : items) {
+                result |= item.isChecked();
+            }
+        }
+        return result;
+    }
+
     public static interface SqlWhereClauseBuilder {
         String buildGroupClause(String groupName);
         String buildChildClause(String childName, String groupName);

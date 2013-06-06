@@ -74,6 +74,8 @@ public abstract class FilterItem {
 
     public abstract void reset();
 
+    public abstract boolean isChangedState();
+
     private int generateUniqueRequestCode() {
         return System.identityHashCode(this) & 0xFFFF;
     }

@@ -14,6 +14,7 @@ public class DefaultActivityFilterItem extends FilterItem {
     private LayoutInflater layoutInflater;
     private FilterItemData[] filterData;
     private SqlWhereClauseBuilder clauseBuilder;
+    private TextView text;
 
     public DefaultActivityFilterItem(Context context, String label, FilterItemData[] filterData,
                                      SqlWhereClauseBuilder clauseBuilder, int currentCategory) {
@@ -57,10 +58,10 @@ public class DefaultActivityFilterItem extends FilterItem {
     public View renderView(View convertView, ViewGroup parent) {
         if (convertView == null || !(convertView.getTag() instanceof TextView)) {
             convertView = layoutInflater.inflate(R.layout.category_filter_text_item_layout, parent, false);
-            TextView text = (TextView) convertView.findViewById(R.id.item_content);
+            text = (TextView) convertView.findViewById(R.id.item_content);
             convertView.setTag(text);
         }
-        TextView text = (TextView) convertView.getTag();
+        text = (TextView) convertView.getTag();
         text.setText(getLabel());
         text.setTextColor(isAnyItemChecked() ? Color.BLACK : Color.LTGRAY);
 
@@ -93,6 +94,16 @@ public class DefaultActivityFilterItem extends FilterItem {
         for(FilterItemData itemData : filterData){
             itemData.setChecked(false);
         }
+        text.setTextColor(Color.LTGRAY);
+    }
+
+    @Override
+    public boolean isChangedState() {
+        boolean result = false;
+        for(FilterItemData item : filterData){
+            result |= item.isChecked();
+        }
+        return result;
     }
 
     public static interface SqlWhereClauseBuilder {

@@ -290,20 +290,22 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
             switch(view.getId())
             {
                 case R.id.reset_butt:
-                    if(mFiltrUse) {
+                    if(filter.isChangeState()) {
                         filter.reset();
                     }else {
                         organizeView();
                         filterListView.collapseGroup(0);
                     }
+                    mFiltrUse = false;
                     break;
                 case R.id.search_butt:
                     stopManagingCursor(cItems);
                     cItems.close();
                     new SelectDataTask(CatalogByCategoryActivity.this, filter.getSQLWhereClause(), mLocationId)
                             .execute(mCategoryID, mSortBy);
-                    mFiltrUse = true;
                     organizeView();
+                    filterListView.collapseGroup(0);
+                    mFiltrUse = true;
                     break;
             }
         }

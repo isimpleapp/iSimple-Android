@@ -21,6 +21,7 @@ public class DefaultSeekBarFilterItem extends FilterItem {
 
     private int minValue;
     private int maxValue;
+    private int startMaxValue;
     private String targetColumn;
     private Filter filterObject;
     private RangeSeekBar<Integer> seekBar;
@@ -61,9 +62,16 @@ public class DefaultSeekBarFilterItem extends FilterItem {
 
     @Override
     public void reset() {
-        seekBar.setSelectedMinValue(DEFAULT_MIN_VALUE);
+        minValue = DEFAULT_MIN_VALUE;
+        maxValue = startMaxValue;
+        seekBar.setSelectedMinValue(minValue);
         seekBar.setSelectedMaxValue(maxValue);
         seekBar.invalidate();
+    }
+
+    @Override
+    public boolean isChangedState() {
+        return (minValue != DEFAULT_MIN_VALUE) || (startMaxValue != maxValue);
     }
 
     private RangeSeekBar<Integer> createSeekBar() {
@@ -87,6 +95,7 @@ public class DefaultSeekBarFilterItem extends FilterItem {
     }
 
     private int getSeekBarMaxValue() {
-        return new ProxyManager(getContext()).getMaxValuePriceByCategoryId(DrinkCategory.getItemCategoryByFilter(filterObject));
+        startMaxValue = new ProxyManager(getContext()).getMaxValuePriceByCategoryId(DrinkCategory.getItemCategoryByFilter(filterObject));
+        return startMaxValue;
     }
 }

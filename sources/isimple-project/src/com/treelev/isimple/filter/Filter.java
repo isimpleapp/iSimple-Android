@@ -43,4 +43,12 @@ public abstract class Filter {
            item.reset();
        }
     }
+
+    public boolean isChangeState(){
+        boolean result = false;
+        for(FilterItem item : filterItemList){
+            result |= item.isChangedState();
+        }
+        return result;
+    }
 }

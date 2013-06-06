@@ -71,6 +71,11 @@ public class PortoColorFilterItem extends FilterItem implements View.OnTouchList
         checkBox.setChecked(false);
     }
 
+    @Override
+    public boolean isChangedState() {
+        return red || white;
+    }
+
     private void setClickButt(int buttonId, int checkboxId) {
         TextView textView = (TextView) colorView.findViewById(buttonId);
         textView.setOnTouchListener(this);

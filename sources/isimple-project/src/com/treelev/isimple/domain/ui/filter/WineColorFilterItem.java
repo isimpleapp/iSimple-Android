@@ -85,6 +85,11 @@ public class WineColorFilterItem extends FilterItem implements View.OnTouchListe
         checkBox.setChecked(false);
     }
 
+    @Override
+    public boolean isChangedState() {
+        return red || white || pink;
+    }
+
     private void setClickButt(int buttonId, int checkboxId) {
         TextView textView = (TextView) colorView.findViewById(buttonId);
         textView.setOnTouchListener(this);

@@ -141,17 +141,24 @@
                             android:layout_marginLeft="3dip"
                             android:layout_marginRight="3dip"/>
                 </LinearLayout>
+                <RelativeLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/list_layout"
+                        android:layout_above="@+id/linear_for_two_button"
+                        android:layout_toLeftOf="@+id/product_image">
                 <TextView
                         android:id="@+id/retail_price"
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
                         android:text="@string/text_for_retail_price"
                         android:layout_alignParentLeft="true"
-                        android:layout_above="@+id/linear_for_two_button"
-                        android:layout_toLeftOf="@+id/product_image"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginTop="10dip"
                         android:layout_marginLeft="20dip"
                          />
+                </RelativeLayout>
             </RelativeLayout>
 
         </LinearLayout>

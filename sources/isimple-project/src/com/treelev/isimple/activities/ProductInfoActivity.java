@@ -127,6 +127,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         if( !proxyManager.availibilityItem(mProduct.getDrinkID()) ){
             btWhereToBuy.setVisibility(View.GONE);
             btAddToBasket.setVisibility(View.GONE);
+            headerView.findViewById(R.id.retail_price).setVisibility(View.GONE);
         }
     }
 
@@ -215,19 +216,19 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     private void populateFormsFields(View formView, Item product) {
         String priceLabel = Utils.organizePriceLabel(String.valueOf(product.getPrice()));
-        ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(product.getPrice() != null ? priceLabel : EMPTY_PRICE_LABEL);
+        ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(product.getPrice() != 0 ? priceLabel : EMPTY_PRICE_LABEL);
         ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
         ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product.getLocalizedName());
         ((TextView) formView.findViewById(R.id.product_item_id)).setText(product.getItemID());
-        organizeTextView((TextView) formView.findViewById(R.id.product_region), product.getRegion());
-        organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), product.getSweetness().getDescription());
+        organizeTextView((TextView) formView.findViewById(R.id.product_region), !product.getRegion().equals("-")? product.getRegion():"");
+        organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), !product.getSweetness().getDescription().isEmpty()? product.getSweetness().getDescription():"");
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())));
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), ! trimTrailingZeros(product.getAlcohol()).equals("0") ?  Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())):"");
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + "")));
-        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear()!=null ?  String.valueOf(product.getYear()) : "");
-        String strPriceLabel = takeRetailPrice(product) != null ? takeRetailPrice(product).toString() : "";
+        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear()!=0 ?  String.valueOf(product.getYear()) : "");
+        String strPriceLabel = takeRetailPrice(product) != 0 ? takeRetailPrice(product).toString() : "";
         if (!TextUtils.isEmpty(strPriceLabel)) {
             ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, strPriceLabel)));
         } else {

@@ -69,6 +69,7 @@ public class PortoColorFilterItem extends FilterItem implements View.OnTouchList
         checkBox.setChecked(false);
         checkBox = (CheckBox)colorView.findViewById(R.id.white_porto_heres_check);
         checkBox.setChecked(false);
+        colorView.refreshDrawableState();
     }
 
     @Override

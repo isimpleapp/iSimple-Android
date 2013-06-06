@@ -83,6 +83,7 @@ public class WineColorFilterItem extends FilterItem implements View.OnTouchListe
         checkBox.setChecked(false);
         checkBox = (CheckBox)colorView.findViewById(R.id.pink_wine_check);
         checkBox.setChecked(false);
+        colorView.refreshDrawableState();
     }
 
     @Override

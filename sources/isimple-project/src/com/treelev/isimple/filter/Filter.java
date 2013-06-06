@@ -9,6 +9,7 @@ import java.util.List;
 public abstract class Filter {
 
     protected int currentCategory;
+    protected List<FilterItem> filterItemList;
     private Context context;
 
     protected Filter(Context context, int currentCategory) {
@@ -35,5 +36,11 @@ public abstract class Filter {
             }
         }
         return sqlBuilder.toString();
+    }
+
+    public void reset(){
+       for(FilterItem item : filterItemList) {
+           item.reset();
+       }
     }
 }

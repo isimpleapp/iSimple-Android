@@ -23,6 +23,7 @@ public class DefaultSeekBarFilterItem extends FilterItem {
     private int maxValue;
     private String targetColumn;
     private Filter filterObject;
+    private RangeSeekBar<Integer> seekBar;
 
     public DefaultSeekBarFilterItem(Context context, String targetColumn, Filter filterObject) {
         super(context, ITEM_INLINE);
@@ -46,7 +47,7 @@ public class DefaultSeekBarFilterItem extends FilterItem {
                             getContext().getResources().getDisplayMetrics())));
             convertView.setTag(seekBar);
         }
-        RangeSeekBar<Integer> seekBar = (RangeSeekBar<Integer>) convertView.getTag();
+        seekBar = (RangeSeekBar<Integer>) convertView.getTag();
         seekBar.setSelectedMinValue(minValue);
         seekBar.setSelectedMaxValue(maxValue);
         return convertView;
@@ -56,6 +57,13 @@ public class DefaultSeekBarFilterItem extends FilterItem {
     public String getSQLWhereClause() {
         return (minValue == 0 && maxValue == 0) ? "" :
                 String.format("(%1$s >= %2$s and %1$s <= %3$s)", targetColumn, minValue, maxValue);
+    }
+
+    @Override
+    public void reset() {
+        seekBar.setSelectedMinValue(DEFAULT_MIN_VALUE);
+        seekBar.setSelectedMaxValue(maxValue);
+        seekBar.invalidate();
     }
 
     private RangeSeekBar<Integer> createSeekBar() {

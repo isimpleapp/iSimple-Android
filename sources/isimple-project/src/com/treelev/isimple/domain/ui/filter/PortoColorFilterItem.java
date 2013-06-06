@@ -61,6 +61,16 @@ public class PortoColorFilterItem extends FilterItem implements View.OnTouchList
         return sqlBuilder.toString();
     }
 
+    @Override
+    public void reset() {
+        white = false;
+        red = false;
+        CheckBox checkBox = (CheckBox)colorView.findViewById(R.id.red_porto_heres_check);
+        checkBox.setChecked(false);
+        checkBox = (CheckBox)colorView.findViewById(R.id.white_porto_heres_check);
+        checkBox.setChecked(false);
+    }
+
     private void setClickButt(int buttonId, int checkboxId) {
         TextView textView = (TextView) colorView.findViewById(buttonId);
         textView.setOnTouchListener(this);

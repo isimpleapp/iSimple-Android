@@ -88,6 +88,13 @@ public class DefaultActivityFilterItem extends FilterItem {
         return sqlBuilder.toString();
     }
 
+    @Override
+    public void reset() {
+        for(FilterItemData itemData : filterData){
+            itemData.setChecked(false);
+        }
+    }
+
     public static interface SqlWhereClauseBuilder {
         String buildClause(String filterName);
     }

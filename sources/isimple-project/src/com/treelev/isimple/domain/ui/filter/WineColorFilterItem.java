@@ -72,6 +72,19 @@ public class WineColorFilterItem extends FilterItem implements View.OnTouchListe
         return sqlBuilder.toString();
     }
 
+    @Override
+    public void reset() {
+        red = false;
+        white = false;
+        pink = false;
+        CheckBox checkBox = (CheckBox)colorView.findViewById(R.id.red_wine_check);
+        checkBox.setChecked(false);
+        checkBox = (CheckBox)colorView.findViewById(R.id.white_wine_check);
+        checkBox.setChecked(false);
+        checkBox = (CheckBox)colorView.findViewById(R.id.pink_wine_check);
+        checkBox.setChecked(false);
+    }
+
     private void setClickButt(int buttonId, int checkboxId) {
         TextView textView = (TextView) colorView.findViewById(buttonId);
         textView.setOnTouchListener(this);

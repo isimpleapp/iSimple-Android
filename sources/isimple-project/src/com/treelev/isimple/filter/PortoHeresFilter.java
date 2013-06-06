@@ -11,8 +11,6 @@ import java.util.List;
 
 public class PortoHeresFilter extends Filter {
 
-    private List<FilterItem> filterItemList;
-
     public PortoHeresFilter(Context context, int currentCategory) {
         super(context, currentCategory);
         filterItemList = createFilterContent();

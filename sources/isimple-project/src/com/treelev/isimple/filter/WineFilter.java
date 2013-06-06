@@ -11,8 +11,6 @@ import java.util.List;
 
 public class WineFilter extends Filter {
 
-    private List<FilterItem> filterItemList;
-
     public WineFilter(Context context, int currentCategory) {
         super(context, currentCategory);
         filterItemList = createFilterContent();

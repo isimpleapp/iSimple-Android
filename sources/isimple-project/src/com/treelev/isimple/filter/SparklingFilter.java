@@ -11,8 +11,6 @@ import java.util.List;
 
 public class SparklingFilter extends Filter {
 
-    private List<FilterItem> filterItemList;
-
     public SparklingFilter(Context context, int currentCategory) {
         super(context, currentCategory);
         filterItemList = createFilterContent();

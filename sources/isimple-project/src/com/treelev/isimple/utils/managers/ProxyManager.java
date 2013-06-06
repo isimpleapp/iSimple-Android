@@ -208,6 +208,10 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).delFavorites(itemId);
     }
 
+    public boolean isFavorites(String itemId){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).isFavorites(itemId);
+    }
+
     private BaseDAO getObjectDAO(int id) {
         if (mdao.containsKey(id)) {
             return mdao.get(id);

@@ -10,8 +10,6 @@ import java.util.List;
 
 public class SpiritsFilter extends Filter {
 
-    private List<FilterItem> filterItemList;
-
     public SpiritsFilter(Context context, int currentCategory) {
         super(context, currentCategory);
         filterItemList = createFilterContent();

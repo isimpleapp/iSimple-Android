@@ -147,12 +147,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.menu_shared, menu);
         MenuItem item = menu.findItem(R.id.menu_item_share);
-//        ShareActionProvider myShareActionProvider = (ShareActionProvider)item.getActionProvider();
-//        Intent intent = new Intent(Intent.ACTION_SEND);
-//        intent.setType("text/plain");
-//        intent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
-//        intent.putExtra(Intent.EXTRA_TEXT,"Extra Text");
-//        myShareActionProvider.setShareIntent(intent);
+        ShareActionProvider myShareActionProvider = (ShareActionProvider)item.getActionProvider();
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+        intent.putExtra(Intent.EXTRA_HTML_TEXT,"Extra Text");
+        myShareActionProvider.setShareIntent(intent);
 //        myShareActionProvider.setShareHistoryFileName(
 //                ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
 //        myShareActionProvider.setShareIntent(createShareIntent());

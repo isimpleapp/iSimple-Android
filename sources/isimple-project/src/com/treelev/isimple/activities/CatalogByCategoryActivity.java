@@ -287,15 +287,24 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     private View.OnClickListener footerButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            organizeView();
-            filterListView.collapseGroup(0);
-            mFiltrUse = false;
-            if (view.getId() == R.id.search_butt) {
-                stopManagingCursor(cItems);
-                cItems.close();
-                new SelectDataTask(CatalogByCategoryActivity.this, filter.getSQLWhereClause(), mLocationId)
-                        .execute(mCategoryID, mSortBy);
-                mFiltrUse = true;
+            switch(view.getId())
+            {
+                case R.id.reset_butt:
+                    if(mFiltrUse) {
+                        filter.reset();
+                    }else {
+                        organizeView();
+                        filterListView.collapseGroup(0);
+                    }
+                    break;
+                case R.id.search_butt:
+                    stopManagingCursor(cItems);
+                    cItems.close();
+                    new SelectDataTask(CatalogByCategoryActivity.this, filter.getSQLWhereClause(), mLocationId)
+                            .execute(mCategoryID, mSortBy);
+                    mFiltrUse = true;
+                    organizeView();
+                    break;
             }
         }
 

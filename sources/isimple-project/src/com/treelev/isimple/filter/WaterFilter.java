@@ -10,8 +10,6 @@ import java.util.List;
 
 public class WaterFilter extends Filter {
 
-    private List<FilterItem> filterItemList;
-
     public WaterFilter(Context context, int currentCategory) {
         super(context, currentCategory);
         filterItemList = createFilterContent();

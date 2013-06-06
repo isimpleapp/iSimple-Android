@@ -118,6 +118,18 @@ public class ExpandableActivityFilterItem extends FilterItem {
         return sqlBuilder.toString();
     }
 
+    @Override
+    public void reset() {
+        for(FilterItemData item : groupData) {
+            item.setChecked(false);
+        }
+        for(FilterItemData[] items : childData.values()){
+            for(FilterItemData item : items) {
+                item.setChecked(false);
+            }
+        }
+    }
+
     public static interface SqlWhereClauseBuilder {
         String buildGroupClause(String groupName);
         String buildChildClause(String childName, String groupName);

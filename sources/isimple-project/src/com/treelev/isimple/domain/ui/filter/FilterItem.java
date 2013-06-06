@@ -72,6 +72,8 @@ public abstract class FilterItem {
 
     public abstract String getSQLWhereClause();
 
+    public abstract void reset();
+
     private int generateUniqueRequestCode() {
         return System.identityHashCode(this) & 0xFFFF;
     }

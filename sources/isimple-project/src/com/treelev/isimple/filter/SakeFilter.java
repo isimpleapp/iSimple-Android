@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SakeFilter extends Filter implements View.OnClickListener {
 
-    private List<FilterItem> filterItemList;
+
 
     public SakeFilter(Context context, int currentCategory) {
         super(context, currentCategory);

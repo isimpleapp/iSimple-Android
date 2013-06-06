@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -98,6 +99,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
         listView.setAdapter(listAdapter);
+
 
 //        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 //        int widthDisplay = display.getWidth();

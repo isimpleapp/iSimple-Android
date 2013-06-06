@@ -2,7 +2,7 @@
 <org.holoeverywhere.widget.TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/item_content"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="13dip"
         android:background="@android:color/white"

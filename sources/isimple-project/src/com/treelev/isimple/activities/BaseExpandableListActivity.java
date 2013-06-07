@@ -56,9 +56,11 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     private Intent getStartIntentByItemPosition(int itemPosition) {
         Class category = null;
         Intent intent = null;
+        int flags = 0;
         switch (itemPosition) {
             case 0: //Catalog
                 category = CatalogListActivity.class;
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY;
                 break;
             case 1: //Shop
                 category = ShopsActivity.class;
@@ -79,6 +81,9 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         }
         if( !this.getClass().equals(category) && category != null){
             intent =  new Intent(this, category);
+            if(flags != 0) {
+                intent.setFlags(flags);
+            }
         }
         return intent;
     }

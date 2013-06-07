@@ -126,11 +126,13 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         Button btAddToBasket = (Button) headerView.findViewById(R.id.add_to_basket_butt);
 
-        if( !proxyManager.availibilityItem(mProduct.getDrinkID()) ){
-            btWhereToBuy.setVisibility(View.GONE);
-            btAddToBasket.setVisibility(View.GONE);
-            headerView.findViewById(R.id.retail_price).setVisibility(View.GONE);
-        }
+//        if( !proxyManager.availibilityItem(mProduct.getDrinkID()) ){
+//            btAddToBasket.setEnabled(false);
+//            btWhereToBuy.setEnabled(false);
+//            btWhereToBuy.setVisibility(View.GONE);
+//            btAddToBasket.setVisibility(View.GONE);
+//            headerView.findViewById(R.id.retail_price).setVisibility(View.GONE);
+//        }
     }
 
     @Override

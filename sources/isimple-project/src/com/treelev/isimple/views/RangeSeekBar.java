@@ -376,8 +376,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
         paint.setTextSize(context.getResources().getDimension(R.dimen.fontSizeTextValueSeekBar));
         paint.setColor(Color.BLACK);
-        drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas, false);
-        drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas, true);
+        drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas);
+        drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas);
     }
 
     /**
@@ -416,13 +416,27 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private void drawThumb(float screenCoord, boolean pressed, Canvas canvas) {
         canvas.drawBitmap(pressed ? thumbPressedImage : thumbImage, screenCoord - thumbHalfWidth, (0.65f * getHeight()) - thumbHalfHeight, paint);
     }
-
-    private void drawText(float screenCoord, T value, Canvas canvas, boolean isMaxValue) {
-        float padding = 3.0f;
-        if (isMaxValue) {
-            padding = - 10.0f;
+//    private void drawText(float screenCoord, T value, Canvas canvas, boolean isMaxValue) {
+    private void drawText(float screenCoord, T value, Canvas canvas) {
+//        float padding = 3.0f;
+//        if (isMaxValue) {
+//            padding = - 15.0f;
+//        }
+        float padding = 0.5f * thumbHalfWidth; //0..9
+        if(value.intValue() >= 10 && value.intValue() <= 99){
+            padding = thumbHalfWidth;
+        } else if(value.intValue() >= 100 && value.intValue() <= 999){
+            padding = 1.5f * thumbHalfWidth;
+        } else if(value.intValue() >= 1000 && value.intValue() <= 9999){
+            padding = 2.0f * thumbHalfWidth;
+        } else if(value.intValue() >= 10000 && value.intValue() <= 99999){
+            padding = 2.5f * thumbHalfWidth;
+        } else if(value.intValue() >= 100000 && value.intValue() <= 999999){
+            padding = 3.0f * thumbHalfWidth;
+        } else if(value.intValue() > 1000000){
+            padding = 3.5f * thumbHalfWidth;
         }
-        canvas.drawText(String.format("%d", value), screenCoord - thumbWidth / 2.0f + padding, (0.65f * getHeight()) - thumbHalfHeight, paint);
+        canvas.drawText(String.format("%d", value), screenCoord - padding, (0.65f * getHeight()) - thumbHalfHeight, paint);
     }
 
     /**

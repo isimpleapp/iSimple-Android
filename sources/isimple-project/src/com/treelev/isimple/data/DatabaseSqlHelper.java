@@ -12,6 +12,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
 
     public final static String ITEM_DEPRECATED_TABLE = "item_deprecated";
     public final static String ITEM_TABLE = "item";
+    public final static String FAVOURITE_ITEM_TABLE = "favourite_item";
 
     public final static String ITEM_ID = "item_id";
     public final static String ITEM_DRINK_ID = "drink_id";
@@ -69,6 +70,46 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_VOLUME + " float);";
 
     private final static String CREATE_TABLE_ITEM = "create table " + ITEM_TABLE + "( " +
+            ITEM_ID + " text primary key, " +
+            ITEM_DRINK_ID + " text, " +
+            ITEM_NAME + " text, " +
+            ITEM_LOCALIZED_NAME + " text, " +
+            ITEM_MANUFACTURER + " text, " +
+            ITEM_LOCALIZED_MANUFACTURER + " text, " +
+            ITEM_PRICE + " float, " +
+            ITEM_PRICE_MARKUP + " float, " +
+            ITEM_COUNTRY + " text, " +
+            ITEM_REGION + " text, " +
+            ITEM_BARCODE + " text, " +
+            ITEM_PRODUCT_TYPE + " integer, " +
+            ITEM_CLASSIFICATION + " text, " +
+            ITEM_DRINK_CATEGORY + " integer, " +
+            ITEM_COLOR + " integer, " +
+            ITEM_STYLE + " text, " +
+            ITEM_SWEETNESS + " integer, " +
+            ITEM_YEAR + " integer, " +
+            ITEM_VOLUME + " float, " +
+            ITEM_DRINK_TYPE + " text, " +
+            ITEM_ALCOHOL + " text, " +
+            ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME + " text, " +
+            ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME + " text, " +
+            ITEM_STYLE_DESCRIPTION + " text, " +
+            ITEM_APPELATION + " text, " +
+            ITEM_SERVING_TEMP_MIN + " text, " +
+            ITEM_SERVING_TEMP_MAX + " text, " +
+            ITEM_TASTE_QUALITIES + " text, " +
+            ITEM_VINTAGE_REPORT + " text, " +
+            ITEM_AGING_PROCESS + " text, " +
+            ITEM_PRODUCTION_PROCESS + " text, " +
+            ITEM_INTERESTING_FACTS + " text, " +
+            ITEM_LABEL_HISTORY + " text, " +
+            ITEM_GASTRONOMY + " text, " +
+            ITEM_VINEYARD + " text, " +
+            ITEM_GRAPES_USED + " text, " +
+            ITEM_RATING + " text, " +
+            ITEM_QUANTITY + " float);";
+
+    private final static String CREATE_TABLE_FAVOURITE_ITEM = "create table " + FAVOURITE_ITEM_TABLE + "( " +
             ITEM_ID + " text primary key, " +
             ITEM_DRINK_ID + " text, " +
             ITEM_NAME + " text, " +
@@ -179,16 +220,19 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SHOP);
         db.execSQL(CREATE_TABLE_ITEM_AVAILABILITY);
         db.execSQL(CREATE_TABLE_FEATURED_ITEM);
+        db.execSQL(CREATE_TABLE_FAVOURITE_ITEM);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + FEATURED_ITEM_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + ITEM_AVAILABILITY_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + CHAIN_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + SHOP_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + ITEM_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + ITEM_DEPRECATED_TABLE);
+        String dropTableText = "DROP TABLE IF EXISTS ";
+        db.execSQL(String.format(dropTableText, FEATURED_ITEM_TABLE));
+        db.execSQL(String.format(dropTableText, ITEM_AVAILABILITY_TABLE));
+        db.execSQL(String.format(dropTableText, CHAIN_TABLE));
+        db.execSQL(String.format(dropTableText, SHOP_TABLE));
+        db.execSQL(String.format(dropTableText, ITEM_TABLE));
+        db.execSQL(String.format(dropTableText, ITEM_DEPRECATED_TABLE));
+        db.execSQL(String.format(dropTableText, FAVOURITE_ITEM_TABLE));
         onCreate(db);
     }
 }

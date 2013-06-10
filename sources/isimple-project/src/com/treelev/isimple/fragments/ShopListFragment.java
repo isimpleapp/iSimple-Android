@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ProductInfoActivity;
-import com.treelev.isimple.activities.ShopActivity;
+import com.treelev.isimple.activities.ShopInfoActivity;
 import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
@@ -47,8 +47,8 @@ public class ShopListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         DistanceShop item = (DistanceShop) l.getAdapter().getItem(position);
-        Intent startIntent = new Intent(getActivity(), ShopActivity.class);
-        startIntent.putExtra(ShopActivity.SHOP, item.getShop());
+        Intent startIntent = new Intent(getActivity(), ShopInfoActivity.class);
+        startIntent.putExtra(ShopInfoActivity.SHOP, item.getShop());
         startActivity(startIntent);
         getActivity().overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }

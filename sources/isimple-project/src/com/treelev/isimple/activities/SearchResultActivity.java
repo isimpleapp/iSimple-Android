@@ -171,7 +171,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         }
-        startIntent.putExtra(ShopActivity.LOCATION_ID, locationId);
+        startIntent.putExtra(ShopInfoActivity.LOCATION_ID, locationId);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);

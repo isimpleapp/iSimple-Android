@@ -49,7 +49,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        mLocationId = getIntent().getStringExtra(ShopActivity.LOCATION_ID);
+        mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         if (mLocationId == null) {
             setCurrentCategory(0);
         } else if(getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)){
@@ -117,8 +117,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         btWhereToBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent newIntent = new Intent(mContext, ShopsActivity.class);
-                newIntent.putExtra(ShopsActivity.ITEM_PRODUCT_ID, itemId);
+                Intent newIntent = new Intent(mContext, ShopsFragmentActivity.class);
+                newIntent.putExtra(ShopsFragmentActivity.ITEM_PRODUCT_ID, itemId);
                 startActivity(newIntent);
                 overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
             }

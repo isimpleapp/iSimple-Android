@@ -65,8 +65,8 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
+        mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mViewActivity = findViewById(R.layout.catalog_category_layout);
-        mLocationId = getIntent().getStringExtra(ShopActivity.LOCATION_ID);
         if(mLocationId == null){
             setCurrentCategory(0);    //Catalog
         } else {
@@ -199,7 +199,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         }
-        startIntent.putExtra(ShopActivity.LOCATION_ID, mLocationId);
+        startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
         startIntent.putExtra(FILTER_WHERE_CLAUSE, filter.getSQLWhereClause());
 //        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startActivity(startIntent);

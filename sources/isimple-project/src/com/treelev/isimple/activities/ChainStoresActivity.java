@@ -41,8 +41,8 @@ public class ChainStoresActivity extends BaseListActivity {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         DistanceShop item = (DistanceShop) l.getAdapter().getItem(position);
-        Intent startIntent = new Intent(this, ShopActivity.class);
-        startIntent.putExtra(ShopActivity.SHOP, item.getShop());
+        Intent startIntent = new Intent(this, ShopInfoActivity.class);
+        startIntent.putExtra(ShopInfoActivity.SHOP, item.getShop());
         startActivity(startIntent);
         this.overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }

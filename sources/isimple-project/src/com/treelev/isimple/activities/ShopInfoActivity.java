@@ -9,7 +9,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Shop;
 import org.holoeverywhere.widget.TextView;
 
-public class ShopActivity extends BaseActivity implements View.OnClickListener {
+public class ShopInfoActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String SHOP = "SHOP";
     public static final String LOCATION_ID = "LOCATION_ID";

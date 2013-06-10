@@ -133,7 +133,7 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY;
                 break;
             case 1: //Shop
-                category = ShopsActivity.class;
+                category = ShopsFragmentActivity.class;
                 break;
             case 2: //FavoritesActivity
                 category = FavoritesActivity.class;

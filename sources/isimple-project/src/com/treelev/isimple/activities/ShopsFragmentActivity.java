@@ -4,38 +4,34 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.fragments.ShopChainFragment;
 import com.treelev.isimple.fragments.ShopListFragment;
+import com.treelev.isimple.fragments.ShopMapFragment;
 
-public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
 
     private Fragment shopListFragment;
     private Fragment shopMapFragment;
     private Fragment shopChainFragment;
     private FragmentTransaction fragmentTransaction;
     public final static String ITEM_PRODUCT_ID = "id";
-    private String wineId;
     private Cursor wineCursor;
+    private final static int CATEGORY_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shops_layout);
-        setCurrentCategory(1);
+        organizeFrameLayout();
         createNavigationMenuBar();
-        wineId = getIntent().getStringExtra(ProductInfoActivity.ITEM_ID_TAG);
-        shopListFragment = new ShopListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(ProductInfoActivity.ITEM_ID_TAG, wineId);
-        shopListFragment.setArguments(bundle);
-        shopChainFragment = new ShopChainFragment();
-        shopChainFragment.setArguments(bundle);
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, shopListFragment);
-        fragmentTransaction.commit();
+        String wineId = getIntent().getStringExtra(ProductInfoActivity.ITEM_ID_TAG);
+        Bundle bundle = createBundle(wineId);
+        initFragments(bundle);
+        organizeFragments();
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.shop_layout_radio_group);
         radioGroup.setOnCheckedChangeListener(this);
     }
@@ -60,12 +56,13 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Fragment mapFragment;
         switch (checkedId) {
             case R.id.group_shop_list:
                 fragmentTransaction.replace(R.id.fragment_container, shopListFragment);
                 break;
             case R.id.group_shop_map:
-                //fragmentTransaction.replace(R.id.fragment_container, shopMapFragment);
+                fragmentTransaction.replace(R.id.fragment_container, shopMapFragment);
                 break;
             case R.id.group_shop_network:
                 fragmentTransaction.replace(R.id.fragment_container, shopChainFragment);
@@ -75,8 +72,35 @@ public class ShopsActivity extends BaseActivity implements RadioGroup.OnCheckedC
     }
 
     @Override
-    protected  void createNavigationMenuBar() {
+    protected void createNavigationMenuBar() {
+        setCurrentCategory(CATEGORY_ID);
         super.createNavigationMenuBar();
         getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+    }
+
+    private void organizeFragments() {
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, shopListFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void initFragments(Bundle bundle) {
+        shopListFragment = new ShopListFragment();
+        shopListFragment.setArguments(bundle);
+        shopMapFragment = new ShopMapFragment();
+        shopChainFragment = new ShopChainFragment();
+        shopChainFragment.setArguments(bundle);
+    }
+
+    private void organizeFrameLayout() {
+        ViewGroup frameLayout = (ViewGroup) findViewById(R.id.fragment_container);
+        frameLayout.requestTransparentRegion(frameLayout);
+    }
+
+    private Bundle createBundle(String wineId) {
+        Bundle bundle = new Bundle();
+        bundle.putString(ProductInfoActivity.ITEM_ID_TAG, wineId);
+        return bundle;
     }
 }

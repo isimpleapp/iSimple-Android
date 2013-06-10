@@ -39,7 +39,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
-        mLocationId = getIntent().getStringExtra(ShopActivity.LOCATION_ID);
+        mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         if(mLocationId == null ){
             setCurrentCategory(0); //Catalog
         } else {
@@ -123,7 +123,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent = new Intent(this, ProductInfoActivity.class);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
-        startIntent.putExtra(ShopActivity.LOCATION_ID, mLocationId);
+        startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
         startIntent.putExtra(BaseListActivity.BARCODE, mBarcode);
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);

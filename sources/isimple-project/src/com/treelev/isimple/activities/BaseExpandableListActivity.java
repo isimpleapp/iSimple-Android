@@ -1,6 +1,5 @@
 package com.treelev.isimple.activities;
 
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -63,7 +62,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY;
                 break;
             case 1: //Shop
-                category = ShopsActivity.class;
+                category = ShopsFragmentActivity.class;
                 break;
             case 2: //FavoritesActivity
                 category = FavoritesActivity.class;

@@ -12,4 +12,7 @@
     <string name="message_dialog_instal_scaner">Для этого приложения требуется сканер штрих-кода. Хотели бы Вы его установить?</string>
     <string name="favorite_title">Избранное</string>
     <string name="send_mail_title">Mail</string>
+    <string name="subject_mail">Мне понравился напиток в приложении iSimple.</string>
+    <string name="text_mail"><![CDATA[Test<br>Message %s]]></string>
+    <string name="title_dialog_send_mail">Send mail</string>
 </resources>

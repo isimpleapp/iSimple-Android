@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -161,13 +162,21 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
                 return true;
             case R.id.menu_item_favorite:
-                Log.v("onOptionsItemSelected", "menu_item_favorite");
+
                 return true;
             case R.id.menu_item_send_mail:
-                Log.v("onOptionsItemSelected", "menu_item_send_mail");
+                Intent sendMail = new Intent(Intent.ACTION_SEND);
+                sendMail.setType("text/html");
+                sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
+                sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
+                startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getMailText(){
+        return String.format(getString(R.string.text_mail), mProduct.getName());
     }
 
     @Override

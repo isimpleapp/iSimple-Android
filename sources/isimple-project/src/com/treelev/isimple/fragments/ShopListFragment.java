@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ProductInfoActivity;
 import com.treelev.isimple.activities.ShopInfoActivity;
+import com.treelev.isimple.activities.ShopsFragmentActivity;
 import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
@@ -23,6 +24,7 @@ import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,6 +67,7 @@ public class ShopListFragment extends ListFragment {
         private Dialog mDialog;
         private Context mContext;
         private String mItemId;
+        private List<AbsDistanceShop> shopListForMap;
 
         private SelectDataShopDistance(Context context, String itemId) {
             mContext = context;
@@ -82,14 +85,17 @@ public class ShopListFragment extends ListFragment {
         protected List<AbsDistanceShop> doInBackground(Void... voids) {
             List<AbsDistanceShop> items = null;
             Location location = LocationTrackingManager.getCurrentLocation(getActivity());
-            if(mItemId == null) {
+            if (mItemId == null) {
                 if (location != null) {
                     items = getProxyManager().getNearestShops(location);
-                    addHeader(items);
                 }
             } else {
-                items = getProxyManager().getShopsByDrinkId(mItemId, location);
-                addHeader(items);
+                items = getProxyManager().getNearestShopsByItemId(mItemId, location);
+            }
+            if (items != null) {
+                shopListForMap = new ArrayList<AbsDistanceShop>();
+                shopListForMap.addAll(items);
+                organizeItemsByDistance(items);
             }
             return items;
         }
@@ -97,18 +103,19 @@ public class ShopListFragment extends ListFragment {
         @Override
         protected void onPostExecute(List<AbsDistanceShop> items) {
             if (items != null) {
+                ((ShopsFragmentActivity) getActivity()).setShopMapFragmentArguments(shopListForMap);
                 ShopsAdapter adapter = new ShopsAdapter(getActivity(), items);
                 getListView().setAdapter(adapter);
             }
             mDialog.dismiss();
-            if (items != null ) {
-                if(items.size() == 0){
+            if (items != null) {
+                if (items.size() == 0) {
                     Toast.makeText(mContext, mContext.getString(R.string.not_exsist_product), Toast.LENGTH_SHORT).show();
                 }
             }
         }
 
-        private void addHeader(List<AbsDistanceShop> items) {
+        private void organizeItemsByDistance(List<AbsDistanceShop> items) {
             DistanceShopHeader header1 = new DistanceShopHeader(0.0f, "НЕ ДАЛЕЕ 1 КМ");
             items.add(header1);
             DistanceShopHeader header2 = new DistanceShopHeader(1000.0f, "ДАЛЕЕ 1 КМ");

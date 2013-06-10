@@ -67,7 +67,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         setContentView(R.layout.catalog_category_layout);
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mViewActivity = findViewById(R.layout.catalog_category_layout);
-        if(mLocationId == null){
+        if (mLocationId == null) {
             setCurrentCategory(0);    //Catalog
         } else {
             setCurrentCategory(1); //Shop
@@ -83,9 +83,9 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     }
 
     @Override
-    public void createNavigationMenuBar(){
+    public void createNavigationMenuBar() {
         super.createNavigationMenuBar();
-        if(mLocationId != null) {
+        if (mLocationId != null) {
             getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
         }
     }
@@ -255,7 +255,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
     private void backOrCollapse() {
         if (mExpandFiltr) {
-            Button resetButton = (Button)footerView.findViewById(R.id.reset_butt);
+            Button resetButton = (Button) footerView.findViewById(R.id.reset_butt);
             if (resetButton != null) {
                 resetButton.performClick();
             }
@@ -289,13 +289,12 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     private View.OnClickListener footerButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            switch(view.getId())
-            {
+            switch (view.getId()) {
                 case R.id.reset_butt:
-                    if(filter.isChangeState()) {
+                    if (filter.isChangeState()) {
                         filter.reset();
                         filterListView.invalidate();
-                    }else {
+                    } else {
                         organizeView();
                         filterListView.collapseGroup(0);
                     }
@@ -346,16 +345,16 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         @Override
         protected Cursor doInBackground(Integer... params) {
-            if (!TextUtils.isEmpty(mFilterWhereClause))  {
-                if(TextUtils.isEmpty(mLocationId)) {
+            if (!TextUtils.isEmpty(mFilterWhereClause)) {
+                if (TextUtils.isEmpty(mLocationId)) {
                     return getProxyManager().getFilteredItemsByCategory(mCategoryID, mFilterWhereClause, params[0]);
-                } else{
+                } else {
                     return getProxyManager().getFilteredItemsByCategory(mCategoryID, mLocationId, mFilterWhereClause, params[0]);
                 }
             } else {
-                if(TextUtils.isEmpty(mLocationId)) {
+                if (TextUtils.isEmpty(mLocationId)) {
                     return getProxyManager().getFeaturedItemsByCategory(mCategoryID, params[0]);
-                } else{
+                } else {
                     return getProxyManager().getFeaturedItemsByCategory(mCategoryID, mLocationId, params[0]);
                 }
             }
@@ -393,16 +392,16 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
 
         @Override
         protected Cursor doInBackground(Integer... params) {
-            if (!TextUtils.isEmpty(mFilterWhereClause))  {
-                if(TextUtils.isEmpty(mLocationId)) {
+            if (!TextUtils.isEmpty(mFilterWhereClause)) {
+                if (TextUtils.isEmpty(mLocationId)) {
                     return getProxyManager().getFilteredItemsByCategory(params[0], mFilterWhereClause, params[1]);
-                } else{
+                } else {
                     return getProxyManager().getFilteredItemsByCategory(params[0], mLocationId, mFilterWhereClause, params[1]);
                 }
             } else {
-                if(TextUtils.isEmpty(mLocationId)) {
+                if (TextUtils.isEmpty(mLocationId)) {
                     return getProxyManager().getFeaturedItemsByCategory(params[0], params[1]);
-                } else{
+                } else {
                     return getProxyManager().getFeaturedItemsByCategory(params[0], mLocationId, params[1]);
                 }
             }

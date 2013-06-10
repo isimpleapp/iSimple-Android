@@ -1,24 +1,56 @@
 package com.treelev.isimple.fragments;
 
+import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.treelev.isimple.domain.db.Shop;
+import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.domain.ui.DistanceShop;
+import com.treelev.isimple.utils.managers.LocationTrackingManager;
 
-public class ShopMapFragment extends SupportMapFragment {
+import java.util.List;
 
-    private static final LatLng HAMBURG = new LatLng(53.558, 9.927);
+public class ShopMapFragment extends SupportMapFragment implements GoogleMap.OnMarkerClickListener {
+
+    private List<AbsDistanceShop> shopList;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.i(getClass().getName(), "onActivityCreated called!");
         super.onActivityCreated(savedInstanceState);
-        GoogleMap map = getMap();
-        map.addMarker(new MarkerOptions().title("Hamburg").position(HAMBURG));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(HAMBURG, 15));
-        map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+        addShopsMarkers();
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+
+    public void setNearestShopList(List<AbsDistanceShop> shopList) {
+        this.shopList = shopList;
+    }
+
+    private void addShopsMarkers() {
+        if (shopList != null) {
+            GoogleMap map = getMap();
+            Location currentLocation = LocationTrackingManager.getCurrentLocation(getActivity());
+            LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            map.addMarker(new MarkerOptions()
+                    .title("Location")
+                    .snippet("You are here")
+                    .position(currentLatLng));
+            for (AbsDistanceShop distanceShop : shopList) {
+                Shop shop = ((DistanceShop) distanceShop).getShop();
+                map.addMarker(new MarkerOptions()
+                        .title(shop.getLocationName())
+                        .snippet(shop.getLocationAddress())
+                        .position(new LatLng((double) shop.getLatitude(), (double) shop.getLongitude())));
+            }
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 5));
+        }
     }
 }

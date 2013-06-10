@@ -15,7 +15,7 @@ import java.util.List;
 public class ShopDAO extends BaseDAO {
 
     public final static int ID = 2;
-    public final static  int SHOP_LIMIT = 100;
+    public final static  int SHOP_LIMIT = 15;
 
     public ShopDAO(Context context) {
         super(context);

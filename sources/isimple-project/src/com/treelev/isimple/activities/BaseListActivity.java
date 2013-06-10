@@ -57,8 +57,7 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
 
     @Override
     public void onBackPressed() {
-
-        finish();
+        super.onBackPressed();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 

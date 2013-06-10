@@ -39,12 +39,13 @@ public class CatalogListActivity extends BaseListActivity {
     private RelativeLayout myLayout;
     private ProxyManager mProxyManager;
     private View mHeader;
+    private final static int NAVIGATE_CATEGORY_ID = 0;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
         setContentView(R.layout.catalog_list_layout);
-        setCurrentCategory(0);
+        setCurrentCategory(NAVIGATE_CATEGORY_ID);
         createNavigationMenuBar();
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);

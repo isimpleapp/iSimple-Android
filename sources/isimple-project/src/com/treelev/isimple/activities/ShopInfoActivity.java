@@ -22,7 +22,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.shop_layout);
         setCurrentCategory(1);
         createNavigationMenuBar();
-        mShop = (Shop)getIntent().getSerializableExtra(SHOP);
+        mShop = (Shop) getIntent().getSerializableExtra(SHOP);
         TextView tv = (TextView) findViewById(R.id.title_shop);
         tv.setText(mShop.getLocationName());
         tv = (TextView) findViewById(R.id.adress_shop);
@@ -59,7 +59,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    protected  void createNavigationMenuBar() {
+    protected void createNavigationMenuBar() {
         super.createNavigationMenuBar();
         getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
     }
@@ -67,9 +67,8 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         Intent startIntent = new Intent(this, CatalogByCategoryActivity.class);
-        Integer category  = null;
-        switch (view.getId())
-        {
+        Integer category = null;
+        switch (view.getId()) {
             case R.id.category_wine_butt:
                 category = 0;
                 break;

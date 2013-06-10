@@ -10,4 +10,6 @@
     <string name="dialog_button_no">Нет</string>
     <string name="title_dialog_instal_scaner">Установить Barcode Scanner?</string>
     <string name="message_dialog_instal_scaner">Для этого приложения требуется сканер штрих-кода. Хотели бы Вы его установить?</string>
+    <string name="favorite_title">Избранное</string>
+    <string name="send_mail_title">Mail</string>
 </resources>

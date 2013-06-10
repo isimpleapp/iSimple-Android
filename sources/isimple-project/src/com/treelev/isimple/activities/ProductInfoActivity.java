@@ -10,23 +10,18 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.ShareActionProvider;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.widget.BaseExpandableListAdapter;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.ExpandableListView;
-import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +137,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 //            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
 //        }
         if (mLocationId == null) {
-            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+            getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
         } else if(getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)){
             getSupportActionBar().setIcon(R.drawable.menu_ico_fav);
         }
@@ -151,16 +146,10 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.menu_shared, menu);
-        MenuItem item = menu.findItem(R.id.menu_item_share);
-        ShareActionProvider myShareActionProvider = (ShareActionProvider)item.getActionProvider();
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
-        intent.putExtra(Intent.EXTRA_HTML_TEXT,"Extra Text");
-        myShareActionProvider.setShareIntent(intent);
-//        myShareActionProvider.setShareHistoryFileName(
-//                ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
-//        myShareActionProvider.setShareIntent(createShareIntent());
+        MenuItem item = menu.findItem(R.id.menu_item_favorite);
+//        if(true){ //if favorite
+//            item.setIcon(R.drawable.not_favorite);
+//        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -170,7 +159,13 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             case android.R.id.home:
                 super.onBackPressed();
                 overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
-                break;
+                return true;
+            case R.id.menu_item_favorite:
+                Log.v("onOptionsItemSelected", "menu_item_favorite");
+                return true;
+            case R.id.menu_item_send_mail:
+                Log.v("onOptionsItemSelected", "menu_item_send_mail");
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

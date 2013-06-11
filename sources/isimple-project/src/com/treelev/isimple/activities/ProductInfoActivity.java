@@ -121,7 +121,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         });
 
         Button btAddToBasket = (Button) headerView.findViewById(R.id.add_to_basket_butt);
-
+// Hide buttons
 //        if( !proxyManager.availibilityItem(mProduct.getDrinkID()) ){
 //            btAddToBasket.setEnabled(false);
 //            btWhereToBuy.setEnabled(false);
@@ -176,7 +176,16 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     }
 
     private String getMailText(){
-        return String.format(getString(R.string.text_mail), mProduct.getName());
+        String name = mProduct.getName();
+        String localizedName = mProduct.getLocalizedName();
+        String typeProduct = mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "";
+        String country = mProduct.getCountry();
+        String volume = Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(mProduct.getVolume() + ""));
+        String alcohol = ! trimTrailingZeros(mProduct.getAlcohol()).equals("0") ?  Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(mProduct.getAlcohol())) : "";
+        String manufacturer = mProduct.getManufacturer();
+        String itemId = mProduct.getItemID();
+        String tmpFormatString = "<table border='0' cellpadding='0''><tbody><tr><td style='width:30.0\\u0025;padding:.75pt .75pt .75pt .75pt' valign='top' width='30\\u0025'><p class='MsoNormal' style='text-align:center' align='center'><u></u><u></u></p></td><td style='width:70.0\\u0025;padding:.75pt .75pt .75pt .75pt' width='70\\u0025'><h2 style='margin-bottom:0cm;margin-bottom:.0001pt'><span style='font-weight:normal'>%s<u></u><u></u></span></h2><p class='MsoNormal'><span style='color:#6f6f6f'>%s</span> <br><br><span style='color:#ec068d'>%s</span> <br><br>%s, - <br><br><span style='color:#6f6f6f'>Объем:</span> %s л. <br><br><span style='color:#6f6f6f'>Крепость:</span> %s об. <br><br><span style='color:#6f6f6f'>Производитель:</span> %s <br><br><span style='color:#6f6f6f'>Артикул:</span> %s <u></u><u></u></p><div><p class='MsoNormal'><br><br>Подробнее об этом напитке можно узнать на <a href='http://simplewine.ru/product_xml_id/%s/?doc_name=ISIMPLE' target='_blank'><span style='color:#ec068d'>сайте Simple</span></a>. <u></u><u></u></p></div></td></tr></tbody></table>";
+        return String.format(tmpFormatString, name, localizedName, typeProduct, country, volume, alcohol, manufacturer, itemId, itemId);
     }
 
     @Override

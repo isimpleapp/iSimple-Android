@@ -32,11 +32,13 @@
             <org.holoeverywhere.widget.Button
                     android:layout_width="180dip"
                     android:layout_height="50dip"
-                    android:id="@+id/get_direction"
+                    android:id="@+id/build_route_btn"
                     android:textSize="15dip"
-                    android:text="@string/get_direction"
+                    android:onClick="onBuildRouteButtonClick"
+                    android:text="@string/build_route_btn_label"
                     android:textColor="@android:color/black"
-                    android:layout_gravity="center_horizontal" android:layout_marginBottom="13dip"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="13dip"
                     android:layout_marginTop="10dip"/>
         </LinearLayout>
         <org.holoeverywhere.widget.TextView

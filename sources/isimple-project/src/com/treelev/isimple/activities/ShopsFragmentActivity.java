@@ -9,9 +9,9 @@ import android.widget.RadioGroup;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.fragments.MapFragment;
 import com.treelev.isimple.fragments.ShopChainFragment;
 import com.treelev.isimple.fragments.ShopListFragment;
-import com.treelev.isimple.fragments.ShopMapFragment;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
     public final static String ITEM_PRODUCT_ID = "id";
     public final static String NEAREST_SHOP_LIST_ID = "shops_list";
     private Cursor wineCursor;
-    private final static int NAVIGATE_CATEGORY_ID = 1;
+    public final static int NAVIGATE_CATEGORY_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
     }
 
     public void setShopMapFragmentArguments(List<AbsDistanceShop> shopList) {
-        ((ShopMapFragment) shopMapFragment).setNearestShopList(shopList);
+        ((MapFragment) shopMapFragment).setNearestShopList(shopList);
     }
 
     private void organizeFragments() {
@@ -95,7 +95,7 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
     private void initFragments(Bundle bundle) {
         shopListFragment = new ShopListFragment();
         shopListFragment.setArguments(bundle);
-        shopMapFragment = new ShopMapFragment();
+        shopMapFragment = new MapFragment();
         shopChainFragment = new ShopChainFragment();
         shopChainFragment.setArguments(bundle);
     }

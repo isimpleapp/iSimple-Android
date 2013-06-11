@@ -19,7 +19,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.shop_layout);
+        setContentView(R.layout.shop_info_layout);
         setCurrentCategory(1);
         createNavigationMenuBar();
         mShop = (Shop) getIntent().getSerializableExtra(SHOP);
@@ -90,6 +90,13 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
         }
         startIntent.putExtra(CatalogListActivity.CATEGORY_ID, category);
         startIntent.putExtra(LOCATION_ID, mShop.getLocationID());
+        startActivity(startIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+    }
+
+    public void onBuildRouteButtonClick(View view) {
+        Intent startIntent = new Intent(this, RouteDisplayActivity.class);
+        startIntent.putExtra(SHOP, mShop);
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }

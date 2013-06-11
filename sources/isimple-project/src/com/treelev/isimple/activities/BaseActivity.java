@@ -125,18 +125,18 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
                         intent.putExtra(BARCODE, code);
                         startActivity(intent);
                     } else {
-                        showAlertDialog(0, null, "По данному штрихкоду ничего не найдено.");
+                        showAlertDialog(null, "По данному штрихкоду ничего не найдено.");
                     }
                 }
             }
         }
     }
 
-    protected void showAlertDialog(int iconId, String title, String message) {
+    protected void showAlertDialog(String title, String message) {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle(title);
         adb.setMessage(message);
-        adb.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+        adb.setNeutralButton(getString(R.string.dialog_button_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

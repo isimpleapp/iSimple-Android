@@ -204,8 +204,8 @@ public class ProxyManager {
         return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).addFavoutites(item);
     }
 
-    public boolean delFavourites(String itemId){
-        return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).delFavourites(itemId);
+    public boolean delFavourites(List<String> listItemsId){
+        return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).delFavouriteItems(listItemsId);
     }
 
     public boolean isFavourites(String itemId){

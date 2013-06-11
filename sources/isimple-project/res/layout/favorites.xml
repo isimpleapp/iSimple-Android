@@ -10,4 +10,37 @@
             android:id="@android:id/list"
             android:listSelector="@drawable/product_list_item_selector"
             />
+
+    <RelativeLayout
+            android:id="@+id/not_favourite_items"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <org.holoeverywhere.widget.Button
+                    android:layout_width="180dip"
+                    android:layout_height="50dip"
+                    android:id="@+id/back_catalog"
+                    android:textSize="15dip"
+                    android:text="@string/button_catalog"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="13dip"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="10dip"
+                    android:onClick="backCatalog"/>
+
+        <org.holoeverywhere.widget.TextView
+                android:id="@+id/favourite_empty"
+                android:layout_width="match_parent"
+                android:text="@string/favourites_empty_items"
+                android:textSize="16dip"
+                android:gravity="center"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:layout_above="@id/back_catalog"
+                android:layout_centerInParent="true"
+                android:layout_height="match_parent"/>
+    </RelativeLayout>
 </LinearLayout>

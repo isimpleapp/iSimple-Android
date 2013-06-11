@@ -5,28 +5,26 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
+import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.TextView;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mhviedchenia
- * Date: 05.06.13
- * Time: 19:24
- * To change this template use File | Settings | File Templates.
- */
 public class FavoritesActivity extends BaseListActivity {
 
     public static final String FAVORITES = "favorites";
 
     private Cursor cItems;
     private ItemCursorAdapter mListAdapter;
+    private ProxyManager mProxyManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +32,7 @@ public class FavoritesActivity extends BaseListActivity {
         setContentView(R.layout.favorites);
         setCurrentCategory(2);
         createNavigationMenuBar();
+        new SelectByFavorites(this).execute();
     }
 
     @Override
@@ -70,6 +69,17 @@ public class FavoritesActivity extends BaseListActivity {
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
+    private ProxyManager getProxyManager() {
+        if (mProxyManager == null) {
+            mProxyManager = new ProxyManager(this);
+        }
+        return mProxyManager;
+    }
+
+    public void backCatalog(View view){
+        getSupportActionBar().setSelectedNavigationItem(0);
+    }
+
     private class SelectByFavorites extends AsyncTask<String, Void, Cursor> {
 
         private Dialog mDialog;
@@ -88,15 +98,22 @@ public class FavoritesActivity extends BaseListActivity {
 
         @Override
         protected Cursor doInBackground(String... params) {
-            return null;
+            return getProxyManager().getFavouriteItems();
         }
 
         @Override
         protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
-            startManagingCursor(cItems);
-            mListAdapter = new ItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
-            getListView().setAdapter(mListAdapter);
+            RelativeLayout layout = (RelativeLayout)findViewById(R.id.not_favourite_items);
+            if(cursor.getCount() > 0){
+                cItems = cursor;
+                startManagingCursor(cItems);
+                mListAdapter = new ItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
+                getListView().setAdapter(mListAdapter);
+                layout.setVisibility(View.GONE);
+            } else {
+                layout.setVisibility(View.VISIBLE);
+                TextView textView = (TextView) findViewById(R.id.favourite_empty);
+            }
             mDialog.dismiss();
         }
     }

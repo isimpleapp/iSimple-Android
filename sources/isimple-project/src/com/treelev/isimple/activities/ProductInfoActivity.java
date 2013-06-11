@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.Menu;
@@ -40,6 +41,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private String itemId;
     private Item mProduct;
     private Context mContext;
+    private boolean mIsFavourite;
+    private MenuItem mItemFavourite;
+    private View headerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         if (itemId != null && mBarcode == null) {
             mProduct = proxyManager.getItemById(itemId);
+            mIsFavourite = proxyManager.isFavourites(itemId);
         } else {
 
             if(proxyManager.getItemByBarcodeTypeItem(mBarcode) == null){
@@ -74,7 +79,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
 
         ExpandableListView listView = getExpandableListView();
-        final View headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
+        headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
 //TODO: replace
         TextView itemTitle = (TextView) findViewById(R.id.title_item);
 //        ProductType productType = mProduct.getProductType(); ProductType.getProductType(
@@ -129,6 +134,16 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 //            btAddToBasket.setVisibility(View.GONE);
 //            headerView.findViewById(R.id.retail_price).setVisibility(View.GONE);
 //        }
+        setFavouritesImage(mIsFavourite);
+    }
+
+    private void setFavouritesImage(boolean isFavourite){
+        ImageView image = (ImageView)headerView.findViewById(R.id.favourite_image);
+        if(isFavourite){
+            image.setVisibility(View.VISIBLE);
+        } else {
+            image.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -147,10 +162,10 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.menu_shared, menu);
-        MenuItem item = menu.findItem(R.id.menu_item_favorite);
-//        if(true){ //if favorite
-//            item.setIcon(R.drawable.not_favorite);
-//        }
+        mItemFavourite = menu.findItem(R.id.menu_item_favorite);
+        if(mIsFavourite){
+            mItemFavourite.setIcon(R.drawable.favorite);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -162,7 +177,19 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
                 return true;
             case R.id.menu_item_favorite:
-
+                ProxyManager proxyManager = new ProxyManager(this);
+                if(mIsFavourite){
+                    ArrayList listProduct =  new ArrayList<String>();
+                    listProduct.add(mProduct.getItemID());
+                    proxyManager.delFavourites(listProduct);
+                    mItemFavourite.setIcon(R.drawable.not_favorite);
+                    mIsFavourite = false;
+                } else {
+                    proxyManager.addFavourites(mProduct);
+                    mItemFavourite.setIcon(R.drawable.favorite);
+                    mIsFavourite = true;
+                }
+                setFavouritesImage(mIsFavourite);
                 return true;
             case R.id.menu_item_send_mail:
                 Intent sendMail = new Intent(Intent.ACTION_SEND);
@@ -184,7 +211,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String alcohol = ! trimTrailingZeros(mProduct.getAlcohol()).equals("0") ?  Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(mProduct.getAlcohol())) : "";
         String manufacturer = mProduct.getManufacturer();
         String itemId = mProduct.getItemID();
-//        String tmpFormatString = "<table border='0' cellpadding='0''><tbody><tr><td style='width:30.0%%;padding:.75pt .75pt .75pt .75pt' valign='top' width='30%%'><p class='MsoNormal' style='text-align:center' align='center'><u></u><u></u></p></td><td style='width:70.0%%;padding:.75pt .75pt .75pt .75pt' width='70%%'><h2 style='margin-bottom:0cm;margin-bottom:.0001pt'><span style='font-weight:normal'>%s<u></u><u></u></span></h2><p class='MsoNormal'><span style='color:#6f6f6f'>%s</span> <br><br><span style='color:#ec068d'>%s</span> <br><br>%s <br><br><span style='color:#6f6f6f'>Объем:</span> %s <br><br><span style='color:#6f6f6f'>Крепость:</span> %s об. <br><br><span style='color:#6f6f6f'>Производитель:</span> %s <br><br><span style='color:#6f6f6f'>Артикул:</span> %s <u></u><u></u></p><div><p class='MsoNormal'><br><br>Подробнее об этом напитке можно узнать на <a href='http://simplewine.ru/product_xml_id/%s/?doc_name=ISIMPLE' target='_blank'><span style='color:#ec068d'>сайте Simple</span></a>. <u></u><u></u></p></div></td></tr></tbody></table>";
         return String.format(getString(R.string.mail_tamplate), name, localizedName, typeProduct, country, volume, alcohol, manufacturer, itemId, itemId);
     }
 

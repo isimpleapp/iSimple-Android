@@ -102,6 +102,11 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
                colorStr = ItemColor.getColor(cursor.getInt(11)).getCode();
         }
         colorItem.setBackgroundColor(Color.parseColor(colorStr));
+
+        if(true){
+            ImageView imageViewFavourite = (ImageView) view.findViewById(R.id.item_image_favourite);
+            imageViewFavourite.setVisibility(View.VISIBLE);
+        }
     }
 
     private String organizeItemNameLabel(String itemName) {

@@ -36,22 +36,23 @@
                     <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                    <org.holoeverywhere.widget.TextView
-                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/product_manufacturer"
-                            android:textColor="@android:color/black"
-                            android:textStyle="bold"
-                            android:textSize="18dip"
-                            android:layout_marginTop="5dip"/>
-                        <ImageView
-                                android:id="@+id/favourite_image"
-                                android:src="@drawable/favorite"
-                                android:layout_height="32dip"
-                                android:layout_width="32dip"
-                                android:paddingLeft="5dip"
-                                />
+                            android:layout_marginTop="5dip">
+                        <org.holoeverywhere.widget.TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/product_manufacturer"
+                                android:textColor="@android:color/black"
+                                android:textStyle="bold"
+                                android:textSize="18dip"
+                                android:text="test" android:password="false"/>
+                            <ImageView
+                                    android:id="@+id/favourite_image"
+                                    android:src="@drawable/favorite"
+                                    android:layout_height="16dip"
+                                    android:layout_width="16dip"
+                                    android:paddingLeft="5dip"
+                                    android:layout_gravity="center_vertical"/>
                     </LinearLayout>
                     <org.holoeverywhere.widget.TextView
                             android:layout_width="wrap_content"

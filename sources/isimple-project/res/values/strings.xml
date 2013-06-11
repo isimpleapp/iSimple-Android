@@ -15,7 +15,10 @@
     <string name="subject_mail">Мне понравился напиток в приложении iSimple.</string>
     <string name="title_dialog_send_mail">Send mail</string>
     <string name="mail_tamplate" formatted="false" ><![CDATA[<table border="0" cellpadding="0"><tbody><tr><td style="width:30.0%%;padding:.75pt .75pt .75pt .75pt" valign="top" width="30%%"><p class="MsoNormal" style="text-align:center" align="center"><u></u><u></u></p></td><td style="width:70.0%%;padding:.75pt .75pt .75pt .75pt" width="70%%"><h2 style="margin-bottom:0cm;margin-bottom:.0001pt"><span style="font-weight:normal">%s<u></u><u></u></span></h2><p class="MsoNormal"><span style="color:#6f6f6f">%s</span> <br><br><span style="color:#ec068d">%s</span> <br><br>%s<br><br><span style="color:#6f6f6f">Объем:</span> %s <br><br><span style="color:#6f6f6f">Крепость:</span> %s <br><br><span style="color:#6f6f6f">Производитель:</span> %s <br><br><span style="color:#6f6f6f">Артикул:</span> %s <u></u><u></u></p><div><p class="MsoNormal"><br><br>Подробнее об этом напитке можно узнать на <a href="http://simplewine.ru/product_xml_id/%s/?doc_name=ISIMPLE" target="_blank"><span style="color:#ec068d">сайте Simple</span></a>. <u></u><u></u></p></div></td></tr></tbody></table>]]></string>
+    <string name="favourites_empty_items">Вы можете добавить в Избранное<br/>понравившиеся вам напитки,<br/>найденные через <font color="#fc0fc0">Каталог</font> или на<br/>страницах магазинов</string>
+    <string name="button_catalog">Каталог</string>
     <string name="load_route_dialog_progress_message">Идёт прокладывание маршрута…</string>
     <string name="error_dialog_title">Ошибка</string>
     <string name="error_route_create_dialog_message">Не удается проложить маршрут, проверьте подключение к интернету…</string>
+
 </resources>

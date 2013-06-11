@@ -200,16 +200,20 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemMaxPriceByCategory(categoryId);
     }
 
-    public boolean addFavorites(String itemId){
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).addFavorites(itemId);
+    public boolean addFavourites(Item item){
+        return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).addFavoutites(item);
     }
 
-    public boolean delFavorites(String itemId){
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).delFavorites(itemId);
+    public boolean delFavourites(String itemId){
+        return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).delFavourites(itemId);
     }
 
-    public boolean isFavorites(String itemId){
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).isFavorites(itemId);
+    public boolean isFavourites(String itemId){
+        return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).isFavourites(itemId);
+    }
+
+    public Cursor getFavouriteItems(){
+        return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).getFavouriteItems();
     }
 
     private BaseDAO getObjectDAO(int id) {
@@ -220,7 +224,8 @@ public class ProxyManager {
                     (id == ItemDAO.ID) ? new ItemDAO(context) :
                             (id == ItemAvailabilityDAO.ID) ? new ItemAvailabilityDAO(context) :
                                     (id == ShopDAO.ID) ? new ShopDAO(context) :
-                                            (id == ChainDAO.ID) ? new ChainDAO(context) : null;
+                                            (id == ChainDAO.ID) ? new ChainDAO(context) :
+                                                (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) : null;
             if (dao != null) {
                 mdao.put(id, dao);
                 return dao;

@@ -984,18 +984,6 @@ public class ItemDAO extends BaseDAO {
         return cursor.getCount() > 0;
     }
 
-    public boolean addFavorites(String itemId){
-        return false;
-    }
-
-    public boolean delFavorites(String itemId){
-        return false;
-    }
-
-    public boolean isFavorites(String itemId) {
-        return false;
-    }
-
     private String createSelectScript(int scriptType, Object[] scriptParams) {
         String result = null;
         String formatQuery = FORMAT_QUERY_OTHER;

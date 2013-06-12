@@ -157,9 +157,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     @Override
     public void createNavigationMenuBar() {
         super.createNavigationMenuBar();
-//        if (mLocationId != null) {
-//            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
-//        }
         if (mLocationId == null) {
             getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
         } else if(getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)){

@@ -53,7 +53,7 @@ public class Item implements Serializable {
     private String grapesUsed;
     private String rating;
     private Float quantity;
-    private Boolean isFavourite = new Boolean(false);
+    private Boolean isFavourite = false;
 
     public static String[] getUITags() {
         return new String[] { UI_TAG_IMAGE, UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE, UI_TAG_DRINK_CATEGORY };

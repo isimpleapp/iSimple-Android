@@ -1,7 +1,6 @@
 package com.treelev.isimple.data;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import com.treelev.isimple.domain.db.ItemAvailability;
 
@@ -20,18 +19,8 @@ public class ItemAvailabilityDAO extends BaseDAO {
         return getClass().getName();
     }
 
-    @Override
     public int getTableDataCount() {
-        int count = -1;
-        open();
-        String formatSelectScript = "select * from %s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE);
-        Cursor c = getDatabase().rawQuery(selectSql, null);
-        if (c != null) {
-            count = c.getCount();
-        }
-        close();
-        return count;
+        return getTableDataCount(DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE);
     }
 
     public void insertListData(List<ItemAvailability> items) {

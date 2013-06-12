@@ -1,7 +1,6 @@
 package com.treelev.isimple.data;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import com.treelev.isimple.domain.db.DeprecatedItem;
 
@@ -18,21 +17,8 @@ public class DeprecatedItemDAO extends BaseDAO {
         return getClass().getName();
     }
 
-    @Override
     public int getTableDataCount() {
-        int count = -1;
-        open();
-        String formatSelectScript = "select count(*) from %s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_DEPRECATED_TABLE);
-        Cursor c = getDatabase().rawQuery(selectSql, null);
-        if (c != null) {
-            if (c.moveToNext()) {
-                count = c.getInt(0);
-            }
-            c.close();
-        }
-        close();
-        return count;
+        return getTableDataCount(DatabaseSqlHelper.ITEM_DEPRECATED_TABLE);
     }
 
     public void insertListData(List<DeprecatedItem> deprecatedItems) {

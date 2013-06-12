@@ -83,9 +83,9 @@ public class UpdateDataLoadTask extends AsyncTask<String, Void, Void> {
 
     private String calculateDataTableTasks() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (BaseDAO dao : daoList) {
+        /*for (BaseDAO dao : daoList) {
             stringBuilder.append(dao.getClassName()).append(" ").append(dao.getTableDataCount()).append(" ");
-        }
+        }*/
         return stringBuilder.toString();
     }
 

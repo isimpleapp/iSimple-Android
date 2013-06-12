@@ -13,6 +13,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_DEPRECATED_TABLE = "item_deprecated";
     public final static String ITEM_TABLE = "item";
     public final static String FAVOURITE_ITEM_TABLE = "favourite_item";
+    public final static String SHOPPING_CART_ITEM_TABLE = "shopping_cart_item";
 
     public final static String ITEM_ID = "item_id";
     public final static String ITEM_DRINK_ID = "drink_id";
@@ -53,6 +54,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_RATING = "rating";
     public final static String ITEM_QUANTITY = "quantity";
     public final static String ITEM_IS_FAVOURITE = "is_favourite";
+    public final static String ITEM_SHOPPING_CART_COUNT = "item_count";
 
     private final static String CREATE_TABLE_ITEM_DEPRECATED = "create table " + ITEM_DEPRECATED_TABLE + "( " +
             ITEM_ID + " text primary key, " +
@@ -151,6 +153,47 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_RATING + " text, " +
             ITEM_QUANTITY + " float);";
 
+    private final static String CREATE_TABLE_SHOPPING_CART_ITEM = "create table " + SHOPPING_CART_ITEM_TABLE + "( " +
+            ITEM_ID + " text primary key, " +
+            ITEM_DRINK_ID + " text, " +
+            ITEM_NAME + " text, " +
+            ITEM_LOCALIZED_NAME + " text, " +
+            ITEM_MANUFACTURER + " text, " +
+            ITEM_LOCALIZED_MANUFACTURER + " text, " +
+            ITEM_PRICE + " float, " +
+            ITEM_PRICE_MARKUP + " float, " +
+            ITEM_COUNTRY + " text, " +
+            ITEM_REGION + " text, " +
+            ITEM_BARCODE + " text, " +
+            ITEM_PRODUCT_TYPE + " integer, " +
+            ITEM_CLASSIFICATION + " text, " +
+            ITEM_DRINK_CATEGORY + " integer, " +
+            ITEM_COLOR + " integer, " +
+            ITEM_STYLE + " text, " +
+            ITEM_SWEETNESS + " integer, " +
+            ITEM_YEAR + " integer, " +
+            ITEM_VOLUME + " float, " +
+            ITEM_DRINK_TYPE + " text, " +
+            ITEM_ALCOHOL + " text, " +
+            ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME + " text, " +
+            ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME + " text, " +
+            ITEM_STYLE_DESCRIPTION + " text, " +
+            ITEM_APPELATION + " text, " +
+            ITEM_SERVING_TEMP_MIN + " text, " +
+            ITEM_SERVING_TEMP_MAX + " text, " +
+            ITEM_TASTE_QUALITIES + " text, " +
+            ITEM_VINTAGE_REPORT + " text, " +
+            ITEM_AGING_PROCESS + " text, " +
+            ITEM_PRODUCTION_PROCESS + " text, " +
+            ITEM_INTERESTING_FACTS + " text, " +
+            ITEM_LABEL_HISTORY + " text, " +
+            ITEM_GASTRONOMY + " text, " +
+            ITEM_VINEYARD + " text, " +
+            ITEM_GRAPES_USED + " text, " +
+            ITEM_RATING + " text, " +
+            ITEM_QUANTITY + " float, " +
+            ITEM_SHOPPING_CART_COUNT + " integer);";
+
     public final static String ITEM_AVAILABILITY_TABLE = "item_availability";
     public final static String ITEM_AVAILABILITY_ID = BaseColumns._ID;
     public final static String ITEM_AVAILABILITY_ITEM_ID = "item_id";
@@ -223,6 +266,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_ITEM_AVAILABILITY);
         db.execSQL(CREATE_TABLE_FEATURED_ITEM);
         db.execSQL(CREATE_TABLE_FAVOURITE_ITEM);
+        db.execSQL(CREATE_TABLE_SHOPPING_CART_ITEM);
     }
 
     @Override
@@ -235,6 +279,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
         db.execSQL(String.format(dropTableText, ITEM_TABLE));
         db.execSQL(String.format(dropTableText, ITEM_DEPRECATED_TABLE));
         db.execSQL(String.format(dropTableText, FAVOURITE_ITEM_TABLE));
+        db.execSQL(String.format(dropTableText, SHOPPING_CART_ITEM_TABLE));
         onCreate(db);
     }
 }

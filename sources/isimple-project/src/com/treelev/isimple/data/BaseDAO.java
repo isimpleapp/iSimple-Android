@@ -1,6 +1,7 @@
 package com.treelev.isimple.data;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
@@ -64,7 +65,18 @@ public abstract class BaseDAO {
         return database;
     }
 
-    public abstract String getClassName();
+    protected int getTableDataCount(String tableName) {
+        int count = -1;
+        open();
+        String formatSelectScript = "select * from %s";
+        String selectSql = String.format(formatSelectScript, tableName);
+        Cursor c = getDatabase().rawQuery(selectSql, null);
+        if (c != null) {
+            count = c.getCount();
+        }
+        close();
+        return count;
+    }
 
-    public abstract int getTableDataCount();
+    public abstract String getClassName();
 }

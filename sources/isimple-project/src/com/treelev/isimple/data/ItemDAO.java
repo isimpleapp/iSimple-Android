@@ -80,21 +80,8 @@ public class ItemDAO extends BaseDAO {
         return getClass().getName();
     }
 
-    @Override
     public int getTableDataCount() {
-        int count = -1;
-        open();
-        String formatSelectScript = "select count(*) from %s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_TABLE);
-        Cursor c = getDatabase().rawQuery(selectSql, null);
-        if (c != null) {
-            if (c.moveToNext()) {
-                count = c.getInt(0);
-            }
-            c.close();
-        }
-        close();
-        return count;
+        return getTableDataCount(DatabaseSqlHelper.ITEM_TABLE);
     }
 
     public Cursor getFeaturedItemsByCategory(int categoryId, String orderByField) {
@@ -550,7 +537,6 @@ public class ItemDAO extends BaseDAO {
                 insertStatement = bindString(insertStatement, 37, item.getRating());
                 insertStatement = bindFloat(insertStatement, 38, item.getQuantity());
                 insertStatement = bindBoolean(insertStatement, 39, item.getFavourite());
-
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();

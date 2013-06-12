@@ -20,18 +20,8 @@ public class FavouriteItemDAO extends BaseDAO {
         return getClass().getName();
     }
 
-    @Override
     public int getTableDataCount() {
-        int count = -1;
-        open();
-        String formatSelectScript = "select * from %s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.FAVOURITE_ITEM_TABLE);
-        Cursor c = getDatabase().rawQuery(selectSql, null);
-        if (c != null) {
-            count = c.getCount();
-        }
-        close();
-        return count;
+        return getTableDataCount(DatabaseSqlHelper.FAVOURITE_ITEM_TABLE);
     }
 
     public boolean addFavoutites(Item item){

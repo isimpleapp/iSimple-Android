@@ -3,7 +3,6 @@ package com.treelev.isimple.data;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
-import android.location.Location;
 import com.treelev.isimple.domain.db.Chain;
 
 import java.util.List;
@@ -21,18 +20,8 @@ public class ChainDAO extends BaseDAO {
         return getClass().getName();
     }
 
-    @Override
     public int getTableDataCount() {
-        int count = -1;
-        open();
-        String formatSelectScript = "select * from %s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.CHAIN_TABLE);
-        Cursor c = getDatabase().rawQuery(selectSql, null);
-        if (c != null) {
-            count = c.getCount();
-        }
-        close();
-        return count;
+        return getTableDataCount(DatabaseSqlHelper.CHAIN_TABLE);
     }
 
     public void insertListData(List<Chain> items) {

@@ -36,6 +36,18 @@ public class FavoritesActivity extends BaseListActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        RelativeLayout layout = (RelativeLayout)findViewById(R.id.not_favourite_items);
+        if( getListView().getCount() > 0){
+            layout.setVisibility(View.GONE);
+        } else {
+            layout.setVisibility(View.VISIBLE);
+            TextView textView = (TextView) findViewById(R.id.favourite_empty);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

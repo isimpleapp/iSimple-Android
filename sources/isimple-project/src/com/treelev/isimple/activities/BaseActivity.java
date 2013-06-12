@@ -80,8 +80,8 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
             case 2: //FavoritesActivity
                 category = FavoritesActivity.class;
                 break;
-            case 3: //Basket
-                category = null;
+            case 3: //ShoppingCartActivity
+                category = ShoppingCartActivity.class;
                 break;
             case 4: //Scan Code
                 IntentIntegrator integrator = new IntentIntegrator(this);

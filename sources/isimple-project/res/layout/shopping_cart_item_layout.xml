@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="135dip"
+              android:background="@android:color/white">
+    <LinearLayout
+            android:id="@+id/color_item"
+            android:orientation="vertical"
+            android:layout_width="7dip"
+            android:layout_height="match_parent"
+            android:background="@color/product_wine_color"/>
+    <ImageView
+            android:layout_width="75dip"
+            android:contentDescription="@string/app_name"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_image"
+            android:scaleType="fitCenter"
+            android:paddingTop="7dip"
+            android:paddingBottom="7dip"/>
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="5dip">
+        <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_name" android:textColor="@android:color/black" android:textStyle="bold"
+                android:textSize="20sp" android:layout_marginTop="10dip" android:text="Delamotte Brut Rose"/>
+        <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_loc_name" android:textColor="@color/product_text_color"
+                android:layout_below="@+id/item_name" android:textSize="11sp"
+                android:layout_marginTop="7dip" android:text="Деламотт Брют Розе"/>
+        <org.holoeverywhere.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/product_category" android:layout_below="@+id/item_loc_name"
+                android:textColor="@color/product_category_color" android:textSize="11sp" android:layout_marginTop="12dip"
+                android:text="Артикул 76333   |   0,75   |   2008"/>
+        <LinearLayout
+                android:layout_below="@id/product_category"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" android:layout_marginBottom="10dip"
+                android:layout_marginTop="10dip" android:weightSum="80">
+            <org.holoeverywhere.widget.TextView
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dip"
+                    android:text="3 990.00"
+                    android:layout_weight="34" android:textColor="@color/product_price_color"/>
+            <org.holoeverywhere.widget.TextView
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dip"
+                    android:text="x"
+                    android:layout_weight="10" android:paddingBottom="3dip"/>
+            <org.holoeverywhere.widget.Button
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="0dip"
+                    android:layout_height="30dip" android:layout_weight="12"
+                    android:background="@drawable/shopping_cart_add"
+                    android:text="-"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dip"
+                    android:text="2"
+                    android:layout_weight="12"
+                    android:gravity="center" android:textStyle="bold"/>
+            <org.holoeverywhere.widget.Button
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="0dip"
+                    android:layout_height="30dip" android:layout_weight="12"
+                    android:background="@drawable/shopping_cart_add" android:text="+"/>
+                </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -164,7 +164,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         getSupportMenuInflater().inflate(R.menu.menu_shared, menu);
         mItemFavourite = menu.findItem(R.id.menu_item_favorite);
         if(mIsFavourite){
-            mItemFavourite.setIcon(R.drawable.favorite);
+            mItemFavourite.setIcon(R.drawable.product_icon_favorite);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -182,11 +182,11 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                     ArrayList listProduct =  new ArrayList<String>();
                     listProduct.add(mProduct.getItemID());
                     proxyManager.delFavourites(listProduct);
-                    mItemFavourite.setIcon(R.drawable.not_favorite);
+                    mItemFavourite.setIcon(R.drawable.product_icon_not_favorite);
                     mIsFavourite = false;
                 } else {
                     proxyManager.addFavourites(mProduct);
-                    mItemFavourite.setIcon(R.drawable.favorite);
+                    mItemFavourite.setIcon(R.drawable.product_icon_favorite);
                     mIsFavourite = true;
                 }
                 setFavouritesImage(mIsFavourite);

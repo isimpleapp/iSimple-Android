@@ -11,7 +11,7 @@
         <item>@drawable/menu_ico_catalog</item>
         <item>@drawable/menu_ico_shop</item>
         <item>@drawable/menu_ico_fav</item>
-        <item>@drawable/menu_ico_basket</item>
+        <item>@drawable/menu_ico_shopping_cart</item>
         <item>@drawable/menu_ico_scan</item>
     </array>
 </resources>

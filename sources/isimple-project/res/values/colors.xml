@@ -27,4 +27,5 @@
     <color name="reset_butt_label_color">#3e3e3e</color>
     <color name="filter_item_text_color">#a9a8a8</color>
     <color name="shop_separator">#707070</color>
+    <color name="shopping_cart_make_order_background_layout">#252525</color>
  </resources>

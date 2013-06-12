@@ -68,6 +68,7 @@ public class ShopListFragment extends ListFragment {
         private Context mContext;
         private String mItemId;
         private List<AbsDistanceShop> shopListForMap;
+        private Location location;
 
         private SelectDataShopDistance(Context context, String itemId) {
             mContext = context;
@@ -79,12 +80,12 @@ public class ShopListFragment extends ListFragment {
             super.onPreExecute();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.dialog_select_data_message), true, false);
+            location = LocationTrackingManager.getCurrentLocation(getActivity());
         }
 
         @Override
         protected List<AbsDistanceShop> doInBackground(Void... voids) {
             List<AbsDistanceShop> items = null;
-            Location location = LocationTrackingManager.getCurrentLocation(getActivity());
             if (mItemId == null) {
                 if (location != null) {
                     items = getProxyManager().getNearestShops(location);

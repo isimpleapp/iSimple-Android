@@ -30,10 +30,6 @@ public class Utils {
         }
     }
 
-//    public static Location getCurrentLocation(Context context) {
-//        return new LocationTrackingManager(context).getCurrentLocation();
-//    }
-
     public static Location getMoscowLocation() {
         Location location = new Location("moscow");
         location.setLatitude(55.755713);

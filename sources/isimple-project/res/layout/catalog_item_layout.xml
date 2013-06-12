@@ -72,7 +72,7 @@
         <ImageView
                 android:contentDescription="@string/app_name"
                 android:id="@+id/item_image_favourite"
-                android:src="@drawable/favorite"
+                android:src="@drawable/product_icon_favorite"
                 android:layout_width="16dip"
                 android:layout_height="16dip"
                 android:layout_alignParentTop="true"

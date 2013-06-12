@@ -30,8 +30,6 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-
-
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Intent newIntent = getStartIntentByItemPosition(itemPosition);
@@ -67,8 +65,8 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
             case 2: //FavoritesActivity
                 category = FavoritesActivity.class;
                 break;
-            case 3: //Basket
-                category = null;
+            case 3: //ShoppingCartActivity
+                category = ShoppingCartActivity.class;
                 break;
             case 4: //Scan Code
                 IntentIntegrator integrator = new IntentIntegrator(this);

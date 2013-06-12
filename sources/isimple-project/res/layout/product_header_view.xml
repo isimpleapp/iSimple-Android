@@ -105,7 +105,7 @@
                 </LinearLayout>
                 <ImageView
                         android:id="@+id/favourite_image"
-                        android:src="@drawable/favorite"
+                        android:src="@drawable/product_icon_not_favorite"
                         android:layout_height="16dip"
                         android:layout_width="16dip"
                         android:layout_gravity="center_vertical"
@@ -144,17 +144,17 @@
                             android:layout_height="match_parent"
                             android:id="@+id/add_to_basket_butt"
                             android:layout_weight="4"
-                            android:background="@drawable/product_info_basket_butt_selector"
+                            android:background="@drawable/product_info_shopping_cart_butt_selector"
                             android:layout_marginLeft="3dip"
                             android:layout_marginRight="3dip"
-                            android:drawableLeft="@drawable/add_basket_ico"
+                            android:drawableLeft="@drawable/shopping_cart_add_ico"
                             android:textColor="@color/product_price_color"/>
                     <org.holoeverywhere.widget.Button
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
                             android:text="Где купить?"
                             android:id="@+id/shops_butt" android:layout_weight="3"
-                            android:background="@drawable/product_info_basket_butt_selector"
+                            android:background="@drawable/product_info_shopping_cart_butt_selector"
                             android:layout_marginLeft="3dip"
                             android:layout_marginRight="3dip"/>
                 </LinearLayout>

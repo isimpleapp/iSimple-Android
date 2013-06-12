@@ -184,11 +184,6 @@ public class FavoritesActivity extends BaseListActivity {
         }
 
         private void deleteSelectedItems(){
-//            long[] checkedItemIds = getListView().getCheckedItemIds();
-//            ArrayList<String> deleteItemsId = new ArrayList<String>();
-//            for(long checkedId : checkedItemIds){
-//                deleteItemsId.add(String.valueOf(checkedId));
-//            }
             stopManagingCursor(cItems);
             getProxyManager().delFavourites(deleteItemsId);
             getProxyManager().setFavouriteItemTable(deleteItemsId, false);

@@ -4,6 +4,7 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;

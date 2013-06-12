@@ -987,7 +987,6 @@ public class ItemDAO extends BaseDAO {
             values.put(DatabaseSqlHelper.ITEM_IS_FAVOURITE, state ? 1 : 0);
             whereClause = String.format("item_id = '%s'", itemId);
             int count = getDatabase().update(DatabaseSqlHelper.ITEM_TABLE, values, whereClause, null);
-            Log.v("Update Favorites", String.valueOf(count));
         }
         close();
     }

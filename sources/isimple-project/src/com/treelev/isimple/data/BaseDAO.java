@@ -51,6 +51,15 @@ public abstract class BaseDAO {
         return sqLiteStatement;
     }
 
+    protected SQLiteStatement bindBoolean(SQLiteStatement sqLiteStatement, int index, Boolean value) {
+        if (value != null) {
+            sqLiteStatement.bindLong(index, value ? 1 : 0);
+        } else {
+            sqLiteStatement.bindNull(index);
+        }
+        return sqLiteStatement;
+    }
+
     protected SQLiteDatabase getDatabase() {
         return database;
     }

@@ -59,7 +59,7 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
             volumeLabel =  String.format(formatVolume, quantity, volumeLabel);
         }
         if( mGroup ) {
-            String strDrinkId = Utils.removeZeros(cursor.getString(13));
+            String strDrinkId = Utils.removeZeros(cursor.getString(14));
             int drinkId = strDrinkId != null && strDrinkId.length() != 0 ? Integer.valueOf(strDrinkId) : 1;
             if( drinkId > 1 && volumeLabel != null ) {
                 formatVolume = "%s товар%s";
@@ -103,7 +103,7 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         }
         colorItem.setBackgroundColor(Color.parseColor(colorStr));
 
-        if(true){
+        if(cursor.getInt(13) == 1){
             ImageView imageViewFavourite = (ImageView) view.findViewById(R.id.item_image_favourite);
             imageViewFavourite.setVisibility(View.VISIBLE);
         }

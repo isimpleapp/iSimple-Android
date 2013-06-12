@@ -1,5 +1,6 @@
 package com.treelev.isimple.data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
@@ -52,9 +53,9 @@ public class ItemDAO extends BaseDAO {
 
 
     private final static int RANDOM = -1;
-    private final static String SELECT_ITEMS_FROM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, %s, %s, %s,COUNT(%s) FROM %s  WHERE %s GROUP BY %s  %s";
+    private final static String SELECT_ITEMS_FROM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, %s, %s, %s, %s, COUNT(%s) FROM %s  WHERE %s GROUP BY %s  %s";
     private final static String SELECT_ITEMS_FROM_RANDOM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, %s, %s, %s, COUNT(%s) FROM %s WHERE %s GROUP BY %s";
-    private final static String SELECT_ITEMS_FROM_DRINK_ID = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,  %s, %s, %s FROM %s WHERE %s %s";
+    private final static String SELECT_ITEMS_FROM_DRINK_ID = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s FROM %s WHERE %s %s";
     private final static String SELECT_ITEMS_FROM_BARCODE = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s %s";
     private final static String FORMAT_ORDER_BY_MIN = "ORDER BY MIN(%s)";
     private final static String FORMAT_ORDER_BY = "ORDER BY %s";
@@ -137,7 +138,7 @@ public class ItemDAO extends BaseDAO {
 //                where,
 //                DatabaseSqlHelper.ITEM_DRINK_ID,
 //                orderBy);
-        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, drink_category, 0 as image, MIN(price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id,COUNT(drink_id) " +
+        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, drink_category, 0 as image, MIN(price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) " +
                 "FROM item AS t1, (SELECT DISTINCT * FROM featured_item ) AS t2  " +
                 "WHERE t1.item_id = t2.item_id AND category_id = %s GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript, categoryId, orderBy);
@@ -191,7 +192,7 @@ public class ItemDAO extends BaseDAO {
 //                DatabaseSqlHelper.ITEM_DRINK_ID,
 //                orderBy);
         String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, t1.drink_category, 0 as image, MIN(t1.price) " +
-                "as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id,COUNT(drink_id) " +
+                "as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) " +
                 "FROM item AS t1, (SELECT DISTINCT * FROM item_availability) AS t2 " +
                 "WHERE t1.item_id = t2.item_id AND t1.drink_category = %s AND location_id = '%s' GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript,categoryId, locationId, orderBy );
@@ -224,6 +225,7 @@ public class ItemDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_QUANTITY,
                 DatabaseSqlHelper.ITEM_COLOR,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
+                DatabaseSqlHelper.ITEM_IS_FAVOURITE,
                 from,
                 where,
                 orderBy);
@@ -240,7 +242,7 @@ public class ItemDAO extends BaseDAO {
         }
         String formatSelectScript = "SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, " +
                 "drink_category, 0 as image, price, year,  " +
-                "quantity, color, drink_id " +
+                "quantity, color, drink_id, is_favourite " +
                 "FROM item " +
                 "WHERE drink_id = '%s' AND (%s)" +
                 " %s";
@@ -256,7 +258,7 @@ public class ItemDAO extends BaseDAO {
         String selectSql = String.format(
                 "SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, " +
                     "drink_category, 0 as image, MIN(price) as price, year, quantity, color, " +
-                    "(case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, COUNT(drink_id) " +
+                    "(case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) " +
                     "FROM item WHERE drink_category=%1$s and %2$s GROUP BY drink_id ORDER BY %3$s",
                 categoryId, whereClause, orderByField);
         open();
@@ -311,6 +313,7 @@ public class ItemDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_COLOR,
 //                DatabaseSqlHelper.ITEM_DRINK_ID,
                 "(case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id",
+                DatabaseSqlHelper.ITEM_IS_FAVOURITE,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 from,
                 where,
@@ -362,6 +365,7 @@ public class ItemDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_COLOR,
 //                DatabaseSqlHelper.ITEM_DRINK_ID,
                 "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id",
+                DatabaseSqlHelper.ITEM_IS_FAVOURITE,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
                 from,
                 where,
@@ -501,9 +505,10 @@ public class ItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_VINEYARD + ", " +
                     DatabaseSqlHelper.ITEM_GRAPES_USED + ", " +
                     DatabaseSqlHelper.ITEM_RATING + ", " +
-                    DatabaseSqlHelper.ITEM_QUANTITY +
+                    DatabaseSqlHelper.ITEM_QUANTITY + ", " +
+                    DatabaseSqlHelper.ITEM_IS_FAVOURITE+
                     ") VALUES " +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (Item item : items) {
                 insertStatement = bindString(insertStatement, 1, item.getItemID());
@@ -544,6 +549,8 @@ public class ItemDAO extends BaseDAO {
                 insertStatement = bindString(insertStatement, 36, item.getGrapesUsed());
                 insertStatement = bindString(insertStatement, 37, item.getRating());
                 insertStatement = bindFloat(insertStatement, 38, item.getQuantity());
+                insertStatement = bindBoolean(insertStatement, 39, item.getFavourite());
+
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();
@@ -709,6 +716,7 @@ public class ItemDAO extends BaseDAO {
             item.setGrapesUsed(cursor.getString(35));
             item.setRating(cursor.getString(36));
             item.setQuantity(cursor.getFloat(37));
+            item.setFavourite(cursor.getInt(38) == 1 ? true : false);
             cursor.close();
         }
         close();
@@ -967,7 +975,7 @@ public class ItemDAO extends BaseDAO {
 //                from,
 //                where,
 //                DatabaseSqlHelper.ITEM_DRINK_ID);
-        String selectSql = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, drink_category, 0 as image, MIN(price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, COUNT(drink_id) " +
+        String selectSql = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, drink_category, 0 as image, MIN(price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) " +
                 "FROM item AS t1, (SELECT DISTINCT *  FROM featured_item )AS t2 " +
                 "WHERE t1.item_id = t2.item_id AND category_id = -1 " +
                 "GROUP BY drink_id";
@@ -984,6 +992,15 @@ public class ItemDAO extends BaseDAO {
         return cursor.getCount() > 0;
     }
 
+    public void setFavourite(String itemId, boolean state){
+        ContentValues values = new ContentValues();
+        values.put("", state);
+        String whereClause = String.format("item_id = '%s'", itemId);
+        open();
+        getDatabase().update(DatabaseSqlHelper.ITEM_TABLE, values, whereClause, null);
+        close();
+    }
+
     private String createSelectScript(int scriptType, Object[] scriptParams) {
         String result = null;
         String formatQuery = FORMAT_QUERY_OTHER;
@@ -995,6 +1012,8 @@ public class ItemDAO extends BaseDAO {
         }
         return result;
     }
+
+
 
     //TODO refactor: переименовать метод и переписать через String.format
     private String getWhereBySearch(String query) {

@@ -190,7 +190,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if (product.getInt(13) > 1) {
+        if (product.getInt(14) > 1) {
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = mCategoryID;
             CatalogSubCategory.backActivity = CatalogByCategoryActivity.class;

@@ -93,7 +93,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
         }
         if( !this.getClass().equals(category) && category != null){
             intent =  new Intent(this, category);
-            if(flags != 0) {
+            if(flags != 0 && mCurrentCategory != itemPosition) {
                 intent.setFlags(flags);
             }
         }

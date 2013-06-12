@@ -67,7 +67,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             setCurrentCategory(1);
         }
         createNavigationMenuBar();
-//        String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
+
         setContentView(R.layout.product_layout);
         ProxyManager proxyManager = new ProxyManager(this);
 
@@ -90,9 +90,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
 //TODO: replace
         TextView itemTitle = (TextView) findViewById(R.id.title_item);
-//        ProductType productType = mProduct.getProductType(); ProductType.getProductType(
-
-        Log.e("!!!!!!!!!!!!!!!","mProduct = " + mProduct);
 
         itemTitle.setText(mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "");
 
@@ -209,15 +206,17 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     }
 
     private String getMailText(){
+        String botleRes = mProduct.getBottleHiResolutionImageFilename();
         String name = mProduct.getName();
         String localizedName = mProduct.getLocalizedName();
         String typeProduct = mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "";
         String country = mProduct.getCountry();
+        String region = TextUtils.isEmpty(mProduct.getRegion()) ? "-" : mProduct.getRegion();
         String volume = Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(mProduct.getVolume() + ""));
         String alcohol = ! trimTrailingZeros(mProduct.getAlcohol()).equals("0") ?  Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(mProduct.getAlcohol())) : "";
         String manufacturer = mProduct.getManufacturer();
         String itemId = mProduct.getItemID();
-        return String.format(getString(R.string.mail_tamplate), name, localizedName, typeProduct, country, volume, alcohol, manufacturer, itemId, itemId);
+        return String.format(getString(R.string.mail_tamplate), botleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId, itemId);
     }
 
     @Override

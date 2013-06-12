@@ -978,12 +978,17 @@ public class ItemDAO extends BaseDAO {
         return cursor.getCount() > 0;
     }
 
-    public void setFavourite(String itemId, boolean state){
-        ContentValues values = new ContentValues();
-        values.put("", state);
-        String whereClause = String.format("item_id = '%s'", itemId);
+    public void setFavourite(List<String> itemsId, boolean state){
+        ContentValues values;
+        String whereClause;
         open();
-        getDatabase().update(DatabaseSqlHelper.ITEM_TABLE, values, whereClause, null);
+        for(String itemId: itemsId){
+            values = new ContentValues();
+            values.put(DatabaseSqlHelper.ITEM_IS_FAVOURITE, state ? 1 : 0);
+            whereClause = String.format("item_id = '%s'", itemId);
+            int count = getDatabase().update(DatabaseSqlHelper.ITEM_TABLE, values, whereClause, null);
+            Log.v("Update Favorites", String.valueOf(count));
+        }
         close();
     }
 

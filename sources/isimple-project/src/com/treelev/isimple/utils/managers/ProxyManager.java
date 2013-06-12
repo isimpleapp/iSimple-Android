@@ -200,8 +200,8 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemMaxPriceByCategory(categoryId);
     }
 
-    public void setFavouriteItemTable(String itemId, boolean state){
-        ((ItemDAO) getObjectDAO(ItemDAO.ID)).setFavourite(itemId, state);
+    public void setFavouriteItemTable(List<String> itemsId, boolean state){
+        ((ItemDAO) getObjectDAO(ItemDAO.ID)).setFavourite(itemsId, state);
     }
 
     public boolean addFavourites(Item item){

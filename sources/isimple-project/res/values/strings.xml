@@ -20,4 +20,5 @@
     <string name="load_route_dialog_progress_message">Идёт прокладывание маршрута…</string>
     <string name="error_dialog_title">Ошибка</string>
     <string name="error_route_create_dialog_message">Не удается проложить маршрут, проверьте подключение к интернету…</string>
+    <string name="delete">Удалить</string>
 </resources>

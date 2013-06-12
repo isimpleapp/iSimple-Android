@@ -5,18 +5,22 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ItemCursorAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
+
+import java.util.ArrayList;
 
 public class FavoritesActivity extends BaseListActivity {
 
@@ -25,6 +29,7 @@ public class FavoritesActivity extends BaseListActivity {
     private Cursor cItems;
     private ItemCursorAdapter mListAdapter;
     private ProxyManager mProxyManager;
+    private Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,19 +37,18 @@ public class FavoritesActivity extends BaseListActivity {
         setContentView(R.layout.favorites);
         setCurrentCategory(2);
         createNavigationMenuBar();
-        new SelectByFavorites(this).execute();
+        ListView listView = getListView();
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(multiChoiceModeListener);
+        mContext = this;
+        new SelectByFavorites(mContext).execute();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        RelativeLayout layout = (RelativeLayout)findViewById(R.id.not_favourite_items);
-        if( getListView().getCount() > 0){
-            layout.setVisibility(View.GONE);
-        } else {
-            layout.setVisibility(View.VISIBLE);
-            TextView textView = (TextView) findViewById(R.id.favourite_empty);
-        }
+        updateActivity();
+
     }
 
     @Override
@@ -115,18 +119,80 @@ public class FavoritesActivity extends BaseListActivity {
 
         @Override
         protected void onPostExecute(Cursor cursor) {
-            RelativeLayout layout = (RelativeLayout)findViewById(R.id.not_favourite_items);
-            if(cursor.getCount() > 0){
-                cItems = cursor;
-                startManagingCursor(cItems);
-                mListAdapter = new ItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
-                getListView().setAdapter(mListAdapter);
-                layout.setVisibility(View.GONE);
-            } else {
-                layout.setVisibility(View.VISIBLE);
-                TextView textView = (TextView) findViewById(R.id.favourite_empty);
-            }
+            cItems = cursor;
+            startManagingCursor(cItems);
+            mListAdapter = new ItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
+            getListView().setAdapter(mListAdapter);
+            updateActivity();
             mDialog.dismiss();
         }
     }
+
+
+    private void updateActivity(){
+        RelativeLayout layout = (RelativeLayout)findViewById(R.id.not_favourite_items);
+        if( getListView().getCount() > 0){
+            layout.setVisibility(View.GONE);
+        } else {
+            layout.setVisibility(View.VISIBLE);
+            TextView textView = (TextView) findViewById(R.id.favourite_empty);
+        }
+    }
+
+    private ListView.MultiChoiceModeListener multiChoiceModeListener = new ListView.MultiChoiceModeListener() {
+
+        ArrayList<String> deleteItemsId;
+
+        @Override
+        public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+            Cursor cursor = (Cursor)getListView().getAdapter().getItem(position);
+            if(checked){
+                deleteItemsId.add(cursor.getString(0));
+            } else {
+                deleteItemsId.remove(cursor.getString(0));
+            }
+        }
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.action_mode_favourites, menu);
+            deleteItemsId = new ArrayList<String>();
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.discard_favorites:
+                    deleteSelectedItems();
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+        }
+
+        private void deleteSelectedItems(){
+//            long[] checkedItemIds = getListView().getCheckedItemIds();
+//            ArrayList<String> deleteItemsId = new ArrayList<String>();
+//            for(long checkedId : checkedItemIds){
+//                deleteItemsId.add(String.valueOf(checkedId));
+//            }
+            stopManagingCursor(cItems);
+            getProxyManager().delFavourites(deleteItemsId);
+            getProxyManager().setFavouriteItemTable(deleteItemsId, false);
+            new SelectByFavorites(mContext).execute();
+        }
+    };
 }

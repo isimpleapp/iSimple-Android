@@ -46,6 +46,14 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private View headerView;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        ProxyManager proxyManager = new ProxyManager(this);
+        mIsFavourite = proxyManager.isFavourites(itemId);
+        setFavouritesImage(mIsFavourite);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
@@ -67,7 +75,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         if (itemId != null && mBarcode == null) {
             mProduct = proxyManager.getItemById(itemId);
-            mIsFavourite = proxyManager.isFavourites(itemId);
         } else {
 
             if(proxyManager.getItemByBarcodeTypeItem(mBarcode) == null){
@@ -178,9 +185,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 return true;
             case R.id.menu_item_favorite:
                 ProxyManager proxyManager = new ProxyManager(this);
+                ArrayList listProduct =  new ArrayList<String>();
+                listProduct.add(mProduct.getItemID());
                 if(mIsFavourite){
-                    ArrayList listProduct =  new ArrayList<String>();
-                    listProduct.add(mProduct.getItemID());
                     proxyManager.delFavourites(listProduct);
                     mItemFavourite.setIcon(R.drawable.product_icon_favorite);
                     mIsFavourite = false;
@@ -190,6 +197,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                     mIsFavourite = true;
                 }
                 setFavouritesImage(mIsFavourite);
+                proxyManager.setFavouriteItemTable(listProduct, mIsFavourite);
                 return true;
             case R.id.menu_item_send_mail:
                 Intent sendMail = new Intent(Intent.ACTION_SEND);

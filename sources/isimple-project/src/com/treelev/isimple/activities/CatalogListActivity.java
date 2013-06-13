@@ -17,7 +17,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.ItemCursorAdapter;
+import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.util.ByteArrayBuffer;
@@ -185,7 +185,7 @@ public class CatalogListActivity extends BaseListActivity {
         protected void onPostExecute(Cursor cursor) {
             Cursor cItems = cursor;
             startManagingCursor(cItems);
-            SimpleCursorAdapter mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogListActivity.this, true, false);
+            SimpleCursorAdapter mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogListActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

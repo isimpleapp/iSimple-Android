@@ -13,7 +13,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.ItemCursorAdapter;
+import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -241,7 +241,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this, true, false);
+            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, SearchResultActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
             if(cItems.getCount() == 0) {
@@ -288,7 +288,7 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, SearchResultActivity.this, true, false);
+            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, SearchResultActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

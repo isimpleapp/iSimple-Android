@@ -12,7 +12,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.ItemCursorAdapter;
+import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -26,7 +26,7 @@ public class FavoritesActivity extends BaseListActivity {
     public static final String FAVORITES = "favorites";
 
     private Cursor cItems;
-    private ItemCursorAdapter mListAdapter;
+    private CatalogItemCursorAdapter mListAdapter;
     private ProxyManager mProxyManager;
     private Context mContext;
 
@@ -122,7 +122,7 @@ public class FavoritesActivity extends BaseListActivity {
             if(cursor.getCount() > 0){
                 cItems = cursor;
                 startManagingCursor(cItems);
-                mListAdapter = new ItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
+                mListAdapter = new CatalogItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
                 getListView().setAdapter(mListAdapter);
                 layout.setVisibility(View.GONE);
             } else {

@@ -11,7 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.ItemCursorAdapter;
+import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -190,7 +190,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogSubCategory.this, false, true);
+            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogSubCategory.this, false, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
@@ -236,7 +236,7 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogSubCategory.this, false, true);
+            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogSubCategory.this, false, true);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

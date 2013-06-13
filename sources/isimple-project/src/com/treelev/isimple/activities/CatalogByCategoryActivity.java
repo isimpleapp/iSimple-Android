@@ -14,7 +14,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.ItemCursorAdapter;
+import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
@@ -364,7 +364,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true, false);
+            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }
@@ -411,7 +411,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListCategoriesAdapter = new ItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true, false);
+            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true, false);
             getListView().setAdapter(mListCategoriesAdapter);
             mDialog.dismiss();
         }

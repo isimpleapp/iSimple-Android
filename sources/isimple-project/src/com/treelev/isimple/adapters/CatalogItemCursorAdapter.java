@@ -16,7 +16,7 @@ import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 
-public class ItemCursorAdapter extends SimpleCursorAdapter {
+public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
 
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
@@ -24,7 +24,7 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
     private boolean mGroup;
     private boolean mYearEnable;
 
-    public ItemCursorAdapter(Cursor c, Activity activity, boolean group, boolean yearEnable) {
+    public CatalogItemCursorAdapter(Cursor c, Activity activity, boolean group, boolean yearEnable) {
         super(activity, R.layout.catalog_item_layout, c, Item.getUITags(),
                 new int[]{R.id.item_image, R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category});
         mGroup = group;

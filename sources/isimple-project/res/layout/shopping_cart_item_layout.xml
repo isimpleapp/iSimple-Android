@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
@@ -16,6 +15,7 @@
             android:contentDescription="@string/app_name"
             android:layout_height="wrap_content"
             android:id="@+id/item_image"
+            android:src="@drawable/bottle_list_image_default"
             android:scaleType="fitCenter"
             android:paddingTop="7dip"
             android:paddingBottom="7dip"/>
@@ -28,98 +28,110 @@
         <org.holoeverywhere.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_name" android:textColor="@android:color/black" android:textStyle="bold"
-                android:textSize="20sp" android:layout_marginTop="10dip" />
+                android:id="@+id/item_name"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="10dip"/>
         <org.holoeverywhere.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/item_loc_name" android:textColor="@color/product_text_color"
-                android:layout_below="@+id/item_name" android:textSize="11sp"
-                android:layout_marginTop="7dip" />
+                android:id="@+id/item_loc_name"
+                android:textColor="@color/product_text_color"
+                android:layout_below="@+id/item_name"
+                android:textSize="11sp"
+                android:layout_marginTop="7dip"/>
         <LinearLayout
                 android:layout_below="@+id/item_loc_name"
                 android:orientation="horizontal"
                 android:id="@+id/product_label"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <org.holoeverywhere.widget.TextView
-                    android:layout_width="0dip"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/product_id"
                     android:textColor="@color/product_category_color"
                     android:textSize="11sp"
                     android:layout_marginTop="12dip"
-                    android:layout_weight="23"
                     android:text="Артикул 76333"/>
             <org.holoeverywhere.widget.TextView
-                    android:layout_width="0dip"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/product_category_color"
                     android:textSize="11sp"
                     android:layout_marginTop="12dip"
-                    android:layout_weight="1"
-                    android:text="|"/>
+                    android:text="|"
+                    android:layout_marginLeft="7dip"/>
             <org.holoeverywhere.widget.TextView
-                    android:layout_width="0dip"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/product_volume"
                     android:textColor="@color/product_category_color"
                     android:textSize="11sp"
                     android:layout_marginTop="12dip"
-                    android:layout_weight="6"
-                    android:text="0,75"/>
+                    android:text="0,75"
+                    android:gravity="center_horizontal"
+                    android:layout_marginLeft="7dip"
+                    android:layout_marginRight="7dip"/>
             <org.holoeverywhere.widget.TextView
-                    android:layout_width="0dip"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/product_category_color"
                     android:textSize="11sp"
                     android:layout_marginTop="12dip"
-                    android:layout_weight="1"
-                    android:text="|"/>
+                    android:text="|"
+                    android:layout_marginRight="7dip" android:id="@+id/shopping_cart_vol_year_separator"/>
             <org.holoeverywhere.widget.TextView
-                    android:layout_width="0dip"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/product_year"
                     android:textColor="@color/product_category_color"
                     android:textSize="11sp"
                     android:layout_marginTop="12dip"
-                    android:layout_weight="6"
-                    android:text="2008"/>
+                    android:text="2008"
+                    android:gravity="right"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_below="@id/product_label"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" android:layout_marginBottom="10dip"
-                android:layout_marginTop="10dip" android:weightSum="80">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="5dip"
+                android:weightSum="80">
             <org.holoeverywhere.widget.TextView
                     android:gravity="center_vertical"
                     android:layout_height="match_parent"
-                    android:layout_width="0dip"
-                    android:text="3 990.00"
-                    android:layout_weight="34" android:textColor="@color/product_price_color"/>
+                    android:layout_width="wrap_content"
+                    android:text="3 990 р."
+                    android:textColor="@color/product_price_color"
+                    android:id="@+id/product_price" android:layout_marginRight="20dip"/>
             <org.holoeverywhere.widget.TextView
                     android:gravity="center_vertical"
                     android:layout_height="match_parent"
-                    android:layout_width="0dip"
+                    android:layout_width="wrap_content"
                     android:text="x"
-                    android:layout_weight="10" android:paddingBottom="3dip"/>
+                    android:paddingBottom="3dip"
+                    android:id="@+id/multiply_symbol" android:layout_marginRight="15dip"/>
             <org.holoeverywhere.widget.Button
                     android:layout_gravity="center_vertical"
-                    android:layout_width="0dip"
-                    android:layout_height="30dip" android:layout_weight="12"
-                    android:background="@drawable/shopping_cart_add"
-                    android:text="-"/>
+                    android:layout_width="25dip"
+                    android:layout_height="25dip"
+                    android:background="@drawable/shopping_cart_count_btn_shape"/>
             <org.holoeverywhere.widget.TextView
                     android:layout_height="match_parent"
-                    android:layout_width="0dip"
+                    android:layout_width="wrap_content"
                     android:text="2"
-                    android:layout_weight="12"
-                    android:gravity="center" android:textStyle="bold"/>
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:id="@+id/product_count" android:layout_marginLeft="15dip"
+                    android:layout_marginRight="15dip"/>
             <org.holoeverywhere.widget.Button
                     android:layout_gravity="center_vertical"
-                    android:layout_width="0dip"
-                    android:layout_height="30dip" android:layout_weight="12"
-                    android:background="@drawable/shopping_cart_add" android:text="+"/>
-                </LinearLayout>
+                    android:layout_width="25dip"
+                    android:layout_height="25dip"
+                    android:text="+"
+                    android:background="@drawable/shopping_cart_count_btn_shape" android:layout_marginRight="5dip"/>
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

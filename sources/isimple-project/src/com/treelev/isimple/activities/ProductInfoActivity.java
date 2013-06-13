@@ -196,8 +196,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             case R.id.menu_item_favorite:
                 ProxyManager proxyManager = new ProxyManager(this);
                 ArrayList listProduct = new ArrayList<String>();
+                listProduct.add(mProduct.getItemID());
                 if (mIsFavourite) {
-                    listProduct.add(mProduct.getItemID());
                     proxyManager.delFavourites(listProduct);
                     mItemFavourite.setIcon(R.drawable.product_icon_favorite);
                     mIsFavourite = false;

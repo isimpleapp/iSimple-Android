@@ -28,4 +28,6 @@
     <color name="filter_item_text_color">#a9a8a8</color>
     <color name="shop_separator">#707070</color>
     <color name="shopping_cart_make_order_background_layout">#252525</color>
+    <color name="shopping_cart_count_btn_background">#eeeeee</color>
+    <color name="shopping_cart_count_btn_border">#aeaeae</color>
  </resources>

@@ -3,6 +3,7 @@ package com.treelev.isimple.data;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
+import android.provider.BaseColumns;
 import com.treelev.isimple.domain.db.Item;
 
 public class ShoppingCartDAO extends BaseDAO {
@@ -136,7 +137,10 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public Cursor getShoppingCartItems() {
         open();
-        String selectScript = "SELECT item_id as _id, name, localized_name, volume, year, price, item_count FROM shopping_cart_item";
-        return getDatabase().rawQuery(selectScript, null);
+        String formatSelectScript = "SELECT %s as %s, %s, %s, %s, %s, %s, %s FROM %s";
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, BaseColumns._ID, DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+                DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
+                DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
+        return getDatabase().rawQuery(selectSql, null);
     }
 }

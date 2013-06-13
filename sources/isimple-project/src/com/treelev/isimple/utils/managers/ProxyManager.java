@@ -32,6 +32,7 @@ public class ProxyManager {
     public Item getItemById(String itemId) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemById(itemId);
     }
+
     public Cursor getItemByBarcode(String barcode, int sortType){
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
@@ -229,7 +230,8 @@ public class ProxyManager {
                             (id == ItemAvailabilityDAO.ID) ? new ItemAvailabilityDAO(context) :
                                     (id == ShopDAO.ID) ? new ShopDAO(context) :
                                             (id == ChainDAO.ID) ? new ChainDAO(context) :
-                                                (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) : null;
+                                                (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) :
+                                                        (id == ShoppingCartDAO.ID) ? new ShoppingCartDAO(context) : null;
             if (dao != null) {
                 mdao.put(id, dao);
                 return dao;
@@ -237,6 +239,22 @@ public class ProxyManager {
                 return null;
             }
         }
+    }
+
+    public boolean isProductExistShoppingCart(String itemId) {
+        return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).isProductExistShoppingCart(itemId);
+    }
+
+    public long insertProductInShoppingCart(Item product) {
+        return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).insertItem(product);
+    }
+
+    public void addItemCount(String itemId) {
+        ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).addItemCount(itemId);
+    }
+
+    public Cursor getShoppingCartItems() {
+        return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getShoppingCartItems();
     }
 
     public void release() {

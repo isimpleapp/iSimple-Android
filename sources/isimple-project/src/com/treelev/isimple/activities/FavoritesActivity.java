@@ -3,11 +3,9 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -120,11 +118,17 @@ public class FavoritesActivity extends BaseListActivity {
 
         @Override
         protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
-            startManagingCursor(cItems);
-            mListAdapter = new ItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
-            getListView().setAdapter(mListAdapter);
-            updateActivity();
+            RelativeLayout layout = (RelativeLayout)findViewById(R.id.not_favourite_items);
+            if(cursor.getCount() > 0){
+                cItems = cursor;
+                startManagingCursor(cItems);
+                mListAdapter = new ItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
+                getListView().setAdapter(mListAdapter);
+                layout.setVisibility(View.GONE);
+            } else {
+                layout.setVisibility(View.VISIBLE);
+                TextView textView = (TextView) findViewById(R.id.favourite_empty);
+            }
             mDialog.dismiss();
         }
     }

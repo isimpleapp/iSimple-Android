@@ -103,13 +103,10 @@ public class ItemCursorAdapter extends SimpleCursorAdapter {
         }
         colorItem.setBackgroundColor(Color.parseColor(colorStr));
 
-        ImageView imageViewFavourite = (ImageView) view.findViewById(R.id.item_image_favourite);
         if(cursor.getInt(13) == 1){
+            ImageView imageViewFavourite = (ImageView) view.findViewById(R.id.item_image_favourite);
             imageViewFavourite.setVisibility(View.VISIBLE);
-        } else {
-            imageViewFavourite.setVisibility(View.GONE);
         }
-
     }
 
     private String organizeItemNameLabel(String itemName) {

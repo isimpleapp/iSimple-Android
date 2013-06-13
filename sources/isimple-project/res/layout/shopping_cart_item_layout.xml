@@ -29,21 +29,65 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_name" android:textColor="@android:color/black" android:textStyle="bold"
-                android:textSize="20sp" android:layout_marginTop="10dip" android:text="Delamotte Brut Rose"/>
+                android:textSize="20sp" android:layout_marginTop="10dip" />
         <org.holoeverywhere.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_loc_name" android:textColor="@color/product_text_color"
                 android:layout_below="@+id/item_name" android:textSize="11sp"
-                android:layout_marginTop="7dip" android:text="Деламотт Брют Розе"/>
-        <org.holoeverywhere.widget.TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/product_category" android:layout_below="@+id/item_loc_name"
-                android:textColor="@color/product_category_color" android:textSize="11sp" android:layout_marginTop="12dip"
-                android:text="Артикул 76333   |   0,75   |   2008"/>
+                android:layout_marginTop="7dip" />
         <LinearLayout
-                android:layout_below="@id/product_category"
+                android:layout_below="@+id/item_loc_name"
+                android:orientation="horizontal"
+                android:id="@+id/product_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_id"
+                    android:textColor="@color/product_category_color"
+                    android:textSize="11sp"
+                    android:layout_marginTop="12dip"
+                    android:layout_weight="23"
+                    android:text="Артикул 76333"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/product_category_color"
+                    android:textSize="11sp"
+                    android:layout_marginTop="12dip"
+                    android:layout_weight="1"
+                    android:text="|"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_volume"
+                    android:textColor="@color/product_category_color"
+                    android:textSize="11sp"
+                    android:layout_marginTop="12dip"
+                    android:layout_weight="6"
+                    android:text="0,75"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/product_category_color"
+                    android:textSize="11sp"
+                    android:layout_marginTop="12dip"
+                    android:layout_weight="1"
+                    android:text="|"/>
+            <org.holoeverywhere.widget.TextView
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/product_year"
+                    android:textColor="@color/product_category_color"
+                    android:textSize="11sp"
+                    android:layout_marginTop="12dip"
+                    android:layout_weight="6"
+                    android:text="2008"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_below="@id/product_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" android:layout_marginBottom="10dip"
                 android:layout_marginTop="10dip" android:weightSum="80">

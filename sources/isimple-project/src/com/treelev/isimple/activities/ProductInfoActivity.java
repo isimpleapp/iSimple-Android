@@ -4,7 +4,6 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -45,6 +44,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private boolean mIsFavourite;
     private MenuItem mItemFavourite;
     private View headerView;
+    private ProxyManager proxyManager;
 
     @Override
     protected void onResume() {
@@ -61,26 +61,27 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         if (mLocationId == null) {
             setCurrentCategory(0);
-        } else if(getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)){
+        } else if (getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)) {
             setCurrentCategory(2);
         } else {
             setCurrentCategory(1);
         }
         createNavigationMenuBar();
-
+//        String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         setContentView(R.layout.product_layout);
-        ProxyManager proxyManager = new ProxyManager(this);
+        proxyManager = new ProxyManager(this);
 
         itemId = getIntent().getStringExtra(ITEM_ID_TAG);
         mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
 
         if (itemId != null && mBarcode == null) {
             mProduct = proxyManager.getItemById(itemId);
+            mIsFavourite = proxyManager.isFavourites(itemId);
         } else {
 
-            if(proxyManager.getItemByBarcodeTypeItem(mBarcode) == null){
+            if (proxyManager.getItemByBarcodeTypeItem(mBarcode) == null) {
                 mProduct = proxyManager.getItemDeprecatedByBarcodeTypeItem(mBarcode);
-            } else{
+            } else {
                 mProduct = proxyManager.getItemByBarcodeTypeItem(mBarcode);
             }
         }
@@ -90,6 +91,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
 //TODO: replace
         TextView itemTitle = (TextView) findViewById(R.id.title_item);
+
+        Log.e("!!!!!!!!!!!!!!!", "mProduct = " + mProduct);
 
         itemTitle.setText(mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "");
 
@@ -131,6 +134,18 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         });
 
         Button btAddToBasket = (Button) headerView.findViewById(R.id.add_to_basket_butt);
+        btAddToBasket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isProductExistShoppingCart = proxyManager.isProductExistShoppingCart(itemId);
+                if (isProductExistShoppingCart) {
+                    proxyManager.addItemCount(itemId);
+                } else {
+                    proxyManager.insertProductInShoppingCart(mProduct);
+                }
+                Toast.makeText(ProductInfoActivity.this, "Товар добавлен в корзину", android.widget.Toast.LENGTH_LONG).show();
+            }
+        });
 // Hide buttons
 //        if( !proxyManager.availibilityItem(mProduct.getDrinkID()) ){
 //            btAddToBasket.setEnabled(false);
@@ -142,9 +157,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         setFavouritesImage(mIsFavourite);
     }
 
-    private void setFavouritesImage(boolean isFavourite){
-        ImageView image = (ImageView)headerView.findViewById(R.id.favourite_image);
-        if(isFavourite){
+    private void setFavouritesImage(boolean isFavourite) {
+        ImageView image = (ImageView) headerView.findViewById(R.id.favourite_image);
+        if (isFavourite) {
             image.setVisibility(View.VISIBLE);
         } else {
             image.setVisibility(View.GONE);
@@ -156,7 +171,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         super.createNavigationMenuBar();
         if (mLocationId == null) {
             getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-        } else if(getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)){
+        } else if (getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)) {
             getSupportActionBar().setIcon(R.drawable.menu_ico_fav);
         }
     }
@@ -165,7 +180,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.menu_shared, menu);
         mItemFavourite = menu.findItem(R.id.menu_item_favorite);
-        if(mIsFavourite){
+        if (mIsFavourite) {
             mItemFavourite.setIcon(R.drawable.product_icon_not_favorite);
         }
         return super.onCreateOptionsMenu(menu);
@@ -180,9 +195,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 return true;
             case R.id.menu_item_favorite:
                 ProxyManager proxyManager = new ProxyManager(this);
-                ArrayList listProduct =  new ArrayList<String>();
-                listProduct.add(mProduct.getItemID());
-                if(mIsFavourite){
+                if (mIsFavourite) {
+                    ArrayList listProduct = new ArrayList<String>();
+                    listProduct.add(mProduct.getItemID());
                     proxyManager.delFavourites(listProduct);
                     mItemFavourite.setIcon(R.drawable.product_icon_favorite);
                     mIsFavourite = false;
@@ -192,7 +207,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                     mIsFavourite = true;
                 }
                 setFavouritesImage(mIsFavourite);
-                proxyManager.setFavouriteItemTable(listProduct, mIsFavourite);
                 return true;
             case R.id.menu_item_send_mail:
                 Intent sendMail = new Intent(Intent.ACTION_SEND);
@@ -205,7 +219,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String getMailText(){
+    private String getMailText() {
         String botleRes = mProduct.getBottleHiResolutionImageFilename();
         String name = mProduct.getName();
         String localizedName = mProduct.getLocalizedName();
@@ -213,7 +227,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String country = mProduct.getCountry();
         String region = TextUtils.isEmpty(mProduct.getRegion()) ? "-" : mProduct.getRegion();
         String volume = Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(mProduct.getVolume() + ""));
-        String alcohol = ! trimTrailingZeros(mProduct.getAlcohol()).equals("0") ?  Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(mProduct.getAlcohol())) : "";
+        String alcohol = !trimTrailingZeros(mProduct.getAlcohol()).equals("0") ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(mProduct.getAlcohol())) : "";
         String manufacturer = mProduct.getManufacturer();
         String itemId = mProduct.getItemID();
         return String.format(getString(R.string.mail_tamplate), botleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId, itemId);
@@ -269,13 +283,13 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
         ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product.getLocalizedName());
         ((TextView) formView.findViewById(R.id.product_item_id)).setText(product.getItemID());
-        organizeTextView((TextView) formView.findViewById(R.id.product_region), !product.getRegion().equals("-")? product.getRegion():"");
-        organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), !product.getSweetness().getDescription().isEmpty()? product.getSweetness().getDescription():"");
+        organizeTextView((TextView) formView.findViewById(R.id.product_region), !product.getRegion().equals("-") ? product.getRegion() : "");
+        organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), !product.getSweetness().getDescription().isEmpty() ? product.getSweetness().getDescription() : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), ! trimTrailingZeros(product.getAlcohol()).equals("0") ?  Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())):"");
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), !trimTrailingZeros(product.getAlcohol()).equals("0") ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())) : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + "")));
-        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear()!=0 ?  String.valueOf(product.getYear()) : "");
+        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear() != 0 ? String.valueOf(product.getYear()) : "");
         String strPriceLabel = takeRetailPrice(product) != 0 ? takeRetailPrice(product).toString() : "";
         if (!TextUtils.isEmpty(strPriceLabel)) {
             ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, strPriceLabel)));
@@ -287,27 +301,28 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private Integer takeRetailPrice(Item product) {
         int retailPrice;
         String strPriceLabel = product.getPrice() != null ? String.valueOf(product.getPrice()) : null;
-        if(strPriceLabel != null){
-        String priceLabel = Utils.organizePriceLabel(strPriceLabel);
-        if (!TextUtils.isEmpty(priceLabel)) {
-            Scanner in = new Scanner(priceLabel).useDelimiter("[^0-9]+");
-            int integerPriceLabel = in.nextInt();
-            String priceMarkup = Utils.organizePriceLabel(product.getPriceMarkup() + "");
-            if (priceMarkup != null) {
-                Scanner intMarkup = new Scanner(priceMarkup).useDelimiter("[^0-9]+");
-                int integerPriceMarkup = intMarkup.nextInt();
-                retailPrice = integerPriceLabel * (integerPriceMarkup + 100) / 100;
+        if (strPriceLabel != null) {
+            String priceLabel = Utils.organizePriceLabel(strPriceLabel);
+            if (!TextUtils.isEmpty(priceLabel)) {
+                Scanner in = new Scanner(priceLabel).useDelimiter("[^0-9]+");
+                int integerPriceLabel = in.nextInt();
+                String priceMarkup = Utils.organizePriceLabel(product.getPriceMarkup() + "");
+                if (priceMarkup != null) {
+                    Scanner intMarkup = new Scanner(priceMarkup).useDelimiter("[^0-9]+");
+                    int integerPriceMarkup = intMarkup.nextInt();
+                    retailPrice = integerPriceLabel * (integerPriceMarkup + 100) / 100;
+                } else {
+                    retailPrice = integerPriceLabel;
+                }
+                return roundToTheTens(retailPrice);
             } else {
-                retailPrice = integerPriceLabel;
+                return null;
             }
-            return roundToTheTens(retailPrice);
         } else {
             return null;
         }
-    }else{
-            return null;
-        }
     }
+
     private int roundToTheTens(int price) {
         int newPrice = price;
         if ((price % 10) != 0) {

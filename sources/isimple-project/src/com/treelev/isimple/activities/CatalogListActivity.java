@@ -69,6 +69,7 @@ public class CatalogListActivity extends BaseListActivity {
         }
         mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
         listView.addHeaderView(mHeader, null, false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -211,9 +212,10 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 return true;
             case R.id.menu_item_send_mail:
                 Intent sendMail = new Intent(Intent.ACTION_SEND);
+
                 sendMail.setType("text/html");
                 sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
-                sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
+                sendMail.putExtra(Intent.EXTRA_STREAM, Html.fromHtml(getMailText()));
                 startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
                 return true;
         }

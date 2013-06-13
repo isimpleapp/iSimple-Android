@@ -730,6 +730,7 @@ public class ItemDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_QUANTITY,
                 DatabaseSqlHelper.ITEM_COLOR,
                 DatabaseSqlHelper.ITEM_DRINK_ID,
+                DatabaseSqlHelper.ITEM_IS_FAVOURITE,
                 from,
                 where,
                 orderBy);
@@ -758,6 +759,7 @@ public class ItemDAO extends BaseDAO {
                 "0 as quantity",
                 "0 as color",
                 DatabaseSqlHelper.ITEM_DRINK_ID,
+                DatabaseSqlHelper.ITEM_IS_FAVOURITE,
                 from,
                 where,
                 orderBy);

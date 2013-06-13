@@ -215,7 +215,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
                 sendMail.setType("text/html");
                 sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
-                sendMail.putExtra(Intent.EXTRA_STREAM, Html.fromHtml(getMailText()));
+                sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
                 startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
                 return true;
         }

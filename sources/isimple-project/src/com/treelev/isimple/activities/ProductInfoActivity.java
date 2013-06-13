@@ -195,8 +195,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 return true;
             case R.id.menu_item_favorite:
                 ProxyManager proxyManager = new ProxyManager(this);
+                ArrayList listProduct = new ArrayList<String>();
                 if (mIsFavourite) {
-                    ArrayList listProduct = new ArrayList<String>();
                     listProduct.add(mProduct.getItemID());
                     proxyManager.delFavourites(listProduct);
                     mItemFavourite.setIcon(R.drawable.product_icon_favorite);
@@ -206,6 +206,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                     mItemFavourite.setIcon(R.drawable.product_icon_not_favorite);
                     mIsFavourite = true;
                 }
+                proxyManager.setFavouriteItemTable(listProduct, mIsFavourite);
                 setFavouritesImage(mIsFavourite);
                 return true;
             case R.id.menu_item_send_mail:

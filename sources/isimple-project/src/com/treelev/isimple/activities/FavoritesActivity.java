@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -40,6 +41,7 @@ public class FavoritesActivity extends BaseListActivity {
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(multiChoiceModeListener);
         mContext = this;
+
         new SelectByFavorites(mContext).execute();
     }
 
@@ -50,12 +52,21 @@ public class FavoritesActivity extends BaseListActivity {
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        getSupportMenuInflater().inflate(R.menu.action_mode_favourites, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 super.onBackPressed();
                 overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+                return true;
+            case R.id.discard_favorites:
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -118,18 +129,13 @@ public class FavoritesActivity extends BaseListActivity {
 
         @Override
         protected void onPostExecute(Cursor cursor) {
-            RelativeLayout layout = (RelativeLayout)findViewById(R.id.not_favourite_items);
-            if(cursor.getCount() > 0){
-                cItems = cursor;
-                startManagingCursor(cItems);
-                mListAdapter = new CatalogItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
-                getListView().setAdapter(mListAdapter);
-                layout.setVisibility(View.GONE);
-            } else {
-                layout.setVisibility(View.VISIBLE);
-                TextView textView = (TextView) findViewById(R.id.favourite_empty);
-            }
+            cItems = cursor;
+            startManagingCursor(cItems);
+            mListAdapter = new CatalogItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
+            getListView().setAdapter(mListAdapter);
+            updateActivity();
             mDialog.dismiss();
+
         }
     }
 
@@ -151,10 +157,13 @@ public class FavoritesActivity extends BaseListActivity {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
             Cursor cursor = (Cursor)getListView().getAdapter().getItem(position);
+            ImageView dicsacrdContent = (ImageView) getListView().getChildAt(position).findViewById(R.id.item_image_delete);
             if(checked){
                 deleteItemsId.add(cursor.getString(0));
+                dicsacrdContent.setVisibility(View.VISIBLE);
             } else {
                 deleteItemsId.remove(cursor.getString(0));
+                dicsacrdContent.setVisibility(View.GONE);
             }
         }
 

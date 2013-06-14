@@ -44,8 +44,8 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter {
         }
         textView = (TextView) view.findViewById(R.id.product_price);
         textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE)));
-        /*textView = (TextView) view.findViewById(R.id.multiply_symbol);
-        textView.setText();*/
+        textView = (TextView) view.findViewById(R.id.multiply_symbol);
+        textView.setText("\u00D7");
         textView = (TextView) view.findViewById(R.id.product_count);
         textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT)));
     }

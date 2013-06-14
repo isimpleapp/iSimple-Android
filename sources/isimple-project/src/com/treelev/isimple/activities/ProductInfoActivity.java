@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
@@ -230,14 +227,16 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String type = "mail";
         boolean found = false;
         Intent sendMail = new Intent(Intent.ACTION_SEND);
-        sendMail.setType("message/rfc822");
+        sendMail.setType("text/html");
         List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(sendMail, 0);
         if (!resInfo.isEmpty()){
             for (ResolveInfo info : resInfo) {
                 if (info.activityInfo.packageName.toLowerCase().contains(type) ||
                         info.activityInfo.name.toLowerCase().contains(type) ) {
                     sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
-                    sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
+                    String mailText = getMailText();
+                    sendMail.putExtra(Intent.EXTRA_TEXT, mailText);
+                    sendMail.putExtra(Intent.EXTRA_HTML_TEXT, mailText);
                     sendMail.setPackage(info.activityInfo.packageName);
                     found = true;
                     break;
@@ -252,7 +251,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     }
 
     private String getMailText() {
-        String botleRes = mProduct.getBottleHiResolutionImageFilename();
+        String bottleRes = mProduct.getBottleHiResolutionImageFilename();
         String name = mProduct.getName();
         String localizedName = mProduct.getLocalizedName();
         String typeProduct = mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "";
@@ -262,7 +261,16 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String alcohol = !trimTrailingZeros(mProduct.getAlcohol()).equals("0") ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(mProduct.getAlcohol())) : "";
         String manufacturer = mProduct.getManufacturer();
         String itemId = mProduct.getItemID();
-        return String.format(getString(R.string.mail_tamplate), botleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId, itemId);
+        String str = "<html><body><div><p style=\"margin: 20px;; width: 80%%;\">Мне понравился напиток в приложении iSimple." +
+                "</p><div style=\"float: left;;\"><img src=\"http://s1.isimpleapp.ru/img/ver0/%1$s_product.jpg\" style=\"margin-top: 30px;; margin-right: 20px;;\">" +
+                "</div><table style=\"width: 50%%;;\"><tbody><tr><td width=\"30%%\" height=\"230px\" align=\"center\" vertical-align=\"top\" style=\"vertical-align: top\"></td>" +
+                "<td width=\"70%%\"><h2 style=\"margin-bottom: 0px; padding-bottom: 0px; font-weight: normal\">%2$s</h2>" +
+                "<span style=\"color: #6f6f6f\">%3$s</span><br><br><span style=\"color: #ec068d\">%4$s</span><br><br>%5$s, %6$s<br><br>" +
+                "<span style=\"color: #6f6f6f\">Объем:</span> %7$s л.<br><br><span style=\"color: #6f6f6f\">Крепость:</span> %8$s об.<br><br>" +
+                "<span style=\"color: #6f6f6f\">Производитель:</span> %9$s<br><br><span style=\"color: #6f6f6f\">Артикул:</span> %10$s<br><br><" +
+                "br>Подробнее об этом напитке можно узнать на " +
+                "<a href=\"http://simplewine.ru/product_xml_id/%10$s/?doc_name=ISIMPLE\" style=\"color: #ec068d\">сайте Simple</a>.</td></tr></tbody></table></div></body></html>";
+        return String.format(str, bottleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId);
     }
 
     @Override

@@ -72,7 +72,7 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnInfoW
         Location currentLocation = LocationTrackingManager.getCurrentLocation(getActivity());
         LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         markerShopMap = new HashMap<Marker, Shop>();
-        BitmapDescriptor  btmDescCurrentLoc = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        BitmapDescriptor btmDescCurrentLoc = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
         MarkerOptions userMarker = new MarkerOptions().position(currentLatLng).icon(btmDescCurrentLoc);
         map.addMarker(userMarker);
         Shop shop;

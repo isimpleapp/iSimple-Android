@@ -153,6 +153,7 @@ public class FavoritesActivity extends BaseListActivity {
     private ListView.MultiChoiceModeListener multiChoiceModeListener = new ListView.MultiChoiceModeListener() {
 
         ArrayList<String> deleteItemsId;
+        ArrayList<View> deleteItemView;
 
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
@@ -160,9 +161,11 @@ public class FavoritesActivity extends BaseListActivity {
             ImageView dicsacrdContent = (ImageView) getListView().getChildAt(position).findViewById(R.id.item_image_delete);
             if(checked){
                 deleteItemsId.add(cursor.getString(0));
+                deleteItemView.add(dicsacrdContent);
                 dicsacrdContent.setVisibility(View.VISIBLE);
             } else {
                 deleteItemsId.remove(cursor.getString(0));
+                deleteItemView.remove(dicsacrdContent);
                 dicsacrdContent.setVisibility(View.GONE);
             }
         }
@@ -172,6 +175,7 @@ public class FavoritesActivity extends BaseListActivity {
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.action_mode_favourites, menu);
             deleteItemsId = new ArrayList<String>();
+            deleteItemView = new ArrayList<View>();
             return true;
         }
 
@@ -194,7 +198,11 @@ public class FavoritesActivity extends BaseListActivity {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-
+            for(View itemView: deleteItemView){
+                if(itemView != null){
+                    itemView.setVisibility(View.GONE);
+                }
+            }
         }
 
         private void deleteSelectedItems(){

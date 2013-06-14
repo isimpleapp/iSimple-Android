@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
@@ -17,11 +18,11 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
 
     private int mCurrentCategory;
     public final static String BARCODE = "barcode";
-    private boolean mSetFlag = true;
 
     @Override
     protected void onResume(){
         super.onResume();
+
     }
 
     public void setCurrentCategory(int currentCategory) {
@@ -31,12 +32,10 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Intent newIntent = getStartIntentByItemPosition(itemPosition);
-        mSetFlag = false;
         if (newIntent != null && mCurrentCategory != itemPosition) {
             startActivity(newIntent);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
             getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
-            mSetFlag = true;
         }
         return false;
     }
@@ -73,7 +72,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
         switch (itemPosition) {
             case 0: //Catalog
                 category = CatalogListActivity.class;
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY;
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
                 break;
             case 1: //Shop
                 category = ShopsFragmentActivity.class;
@@ -94,7 +93,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
         }
         if( !this.getClass().equals(category) && category != null){
             intent =  new Intent(this, category);
-            if(flags != 0 && mSetFlag) {
+            if(flags != 0 && mCurrentCategory != itemPosition) {
                 intent.setFlags(flags);
             }
         }

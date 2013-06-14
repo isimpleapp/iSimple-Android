@@ -9,10 +9,7 @@ import android.os.Bundle;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.*;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.RouteDisplayActivity;
 import com.treelev.isimple.activities.ShopInfoActivity;
@@ -75,7 +72,9 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnInfoW
         Location currentLocation = LocationTrackingManager.getCurrentLocation(getActivity());
         LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         markerShopMap = new HashMap<Marker, Shop>();
-        map.addMarker(new MarkerOptions().position(currentLatLng));
+        BitmapDescriptor  btmDescCurrentLoc = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        MarkerOptions userMarker = new MarkerOptions().position(currentLatLng).icon(btmDescCurrentLoc);
+        map.addMarker(userMarker);
         Shop shop;
         if (!isRouteOverlay) {
             for (AbsDistanceShop distanceShop : shopList) {

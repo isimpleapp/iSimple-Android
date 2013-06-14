@@ -212,8 +212,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 return true;
             case R.id.menu_item_send_mail:
                 Intent sendMail = new Intent(Intent.ACTION_SEND);
-
-                sendMail.setType("text/html");
+                sendMail.setType("message/rfc822");
                 sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
                 sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
                 startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));

@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
@@ -161,10 +162,17 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     private void setFavouritesImage(boolean isFavourite) {
         ImageView image = (ImageView) headerView.findViewById(R.id.favourite_image);
+        TextView tv = (TextView) headerView.findViewById(R.id.product_manufacturer);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         if (isFavourite) {
             image.setVisibility(View.VISIBLE);
+            params.setMargins(0, 0, 0, 0);
+            tv.setLayoutParams(params);
         } else {
             image.setVisibility(View.GONE);
+            int marginLeft = (int)getResources().getDimension(R.dimen.marginLeft);
+            params.setMargins(marginLeft, 0, 0, 0);
+            tv.setLayoutParams(params);
         }
     }
 

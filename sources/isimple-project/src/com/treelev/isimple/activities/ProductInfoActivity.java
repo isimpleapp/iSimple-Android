@@ -3,6 +3,7 @@ package com.treelev.isimple.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -211,14 +212,35 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 setFavouritesImage(mIsFavourite);
                 return true;
             case R.id.menu_item_send_mail:
-                Intent sendMail = new Intent(Intent.ACTION_SEND);
-                sendMail.setType("message/rfc822");
-                sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
-                sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
-                startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
+                 initShareIntent();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initShareIntent() {
+        String type = "mail";
+        boolean found = false;
+        Intent sendMail = new Intent(Intent.ACTION_SEND);
+        sendMail.setType("message/rfc822");
+        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(sendMail, 0);
+        if (!resInfo.isEmpty()){
+            for (ResolveInfo info : resInfo) {
+                if (info.activityInfo.packageName.toLowerCase().contains(type) ||
+                        info.activityInfo.name.toLowerCase().contains(type) ) {
+                    sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
+                    sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
+                    sendMail.setPackage(info.activityInfo.packageName);
+                    found = true;
+                    break;
+                }
+            }
+            if (found){
+                startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
+            } else {
+                Toast.makeText(this, this.getString(R.string.not_found_mail_cleint), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private String getMailText() {

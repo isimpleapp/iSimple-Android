@@ -24,8 +24,7 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
     @Override
     protected void onResume(){
         super.onResume();
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
     }
 
     @Override

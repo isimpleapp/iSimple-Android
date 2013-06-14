@@ -26,8 +26,6 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     @Override
     protected void onResume(){
         super.onResume();
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override

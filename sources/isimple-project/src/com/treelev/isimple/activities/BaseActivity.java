@@ -17,12 +17,11 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
 
     private int mCurrentCategory;
     public final static String BARCODE = "barcode";
+    private boolean mSetFlag = true;
 
     @Override
     protected void onResume(){
         super.onResume();
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     public void setCurrentCategory(int currentCategory) {
@@ -32,10 +31,12 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Intent newIntent = getStartIntentByItemPosition(itemPosition);
+        mSetFlag = false;
         if (newIntent != null && mCurrentCategory != itemPosition) {
             startActivity(newIntent);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
             getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
+            mSetFlag = true;
         }
         return false;
     }
@@ -93,7 +94,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
         }
         if( !this.getClass().equals(category) && category != null){
             intent =  new Intent(this, category);
-            if(flags != 0 && mCurrentCategory != itemPosition) {
+            if(flags != 0 && mSetFlag) {
                 intent.setFlags(flags);
             }
         }

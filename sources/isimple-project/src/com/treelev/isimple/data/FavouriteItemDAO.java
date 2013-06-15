@@ -146,7 +146,8 @@ public class FavouriteItemDAO extends BaseDAO {
     public Cursor getFavouriteItems(){
 //        String sqlSelect = "SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, drink_category, 0 as image, price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, 0 as tmp2 " +
 //                "FROM favourite_item";
-        String sqlSelect ="SELECT item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, drink_category, 0 as image, price, year, quantity, color,  drink_id, 1 as is_favourite, 0 as tmp2 FROM favourite_item";
+        String sqlSelect ="SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
+                "drink_category, price, year, quantity, color, drink_id, 1 as is_favourite, 0 as tmp2 FROM favourite_item";
         open();
         return getDatabase().rawQuery(sqlSelect, null);
     }

@@ -4,32 +4,33 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.SimpleCursorAdapter;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
+import com.treelev.isimple.cursorloaders.SelectBySearch;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.Toast;
 
-public class SearchResultActivity extends BaseListActivity implements RadioGroup.OnCheckedChangeListener {
+public class SearchResultActivity extends BaseListActivity implements RadioGroup.OnCheckedChangeListener,
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     public static Integer categoryID;
-    public static Class backActivity;
+//    public static Class backActivity;
     public static String locationId;
-    private Cursor cItems;
-    private SimpleCursorAdapter mListCategoriesAdapter;
+    private CatalogItemCursorAdapter mListSearchAdapter;
     private String mQuery;
     private View darkView;
-    private ProxyManager mProxyManager;
+    private int mSortBy = ProxyManager.SORT_NAME_AZ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,14 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
             }
         });
         handledIntent(getIntent());
+        mListSearchAdapter = new CatalogItemCursorAdapter(null, SearchResultActivity.this, true, false);
+        getListView().setAdapter(mListSearchAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        getSupportLoaderManager().restartLoader(0, null, this);
+        super.onResume();
     }
 
     @Override
@@ -141,19 +150,19 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
-        int sortBy = 0;
+        int mS = 0;
         switch (rgb) {
             case R.id.alphabet_sort:
-                sortBy = ProxyManager.SORT_NAME_AZ;
+                mSortBy = ProxyManager.SORT_NAME_AZ;
                 break;
             case R.id.price_sort:
-                sortBy = ProxyManager.SORT_PRICE_UP;
+                mSortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
-        if(cItems.getCount() == 0) {
-            Toast.makeText(this, this.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
+        if(getListView().getCount() > 0) {
+            getSupportLoaderManager().restartLoader(0, null, this);
         } else {
-            new SortTask(this, categoryID, locationId, sortBy).execute(mQuery);
+//            Toast.makeText(this, this.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -181,8 +190,6 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String mDrinkId = intent.getStringExtra(CatalogByCategoryActivity.DRINK_ID);
             mQuery = intent.getStringExtra(SearchManager.QUERY);
-            Search search = new Search(this, categoryID, locationId);
-            search.execute(mQuery);
         }
     }
 
@@ -200,98 +207,23 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
 
     }
 
-    private ProxyManager getProxyManager() {
-        if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(this);
-        }
-        return mProxyManager;
+    private Dialog mDialog;
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        mDialog = ProgressDialog.show(this, this.getString(R.string.dialog_title),
+                this.getString(R.string.dialog_select_data_message), false, false);
+        return new SelectBySearch(this, mQuery, categoryID, locationId, mSortBy);
     }
 
-    private class Search extends AsyncTask<String, Void, Cursor> {
-
-        private Dialog mDialog;
-        private Context mContext;
-        private ProxyManager mProxyManager;
-        private Integer mCategoryId;
-        private String mLocationId;
-
-        private Search(Context context, Integer categoryId, String locationId) {
-            mContext = context;
-            mCategoryId = categoryId;
-            mLocationId = locationId;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_select_data_message), false, false);
-        }
-
-        @Override
-        protected Cursor doInBackground(String... params) {
-            if(mLocationId == null) {
-                return getProxyManager().getSearchItemsByCategory(mCategoryId, params[0], ProxyManager.SORT_NAME_AZ);
-            } else{
-                return getProxyManager().getSearchItemsByCategory(mCategoryId, mLocationId, params[0], ProxyManager.SORT_NAME_AZ);
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
-            startManagingCursor(cItems);
-            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, SearchResultActivity.this, true, false);
-            getListView().setAdapter(mListCategoriesAdapter);
-            mDialog.dismiss();
-            if(cItems.getCount() == 0) {
-                Toast.makeText(mContext, mContext.getString(R.string.message_not_found), Toast.LENGTH_LONG).show();
-            }
-        }
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mListSearchAdapter.swapCursor(cursor);
+        mDialog.dismiss();
     }
 
-    private class SortTask extends AsyncTask<String, Void, Cursor> {
-
-        private Dialog mDialog;
-        private Context mContext;
-        private Integer mCategoryId;
-        private int mSortBy;
-        private String mLocationId;
-
-        private SortTask(Context context, Integer categoryId, String locationId, int sortBy) {
-            mContext = context;
-            mCategoryId = categoryId;
-            mLocationId = locationId;
-            mSortBy = sortBy;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_select_data_message), false, false);
-            stopManagingCursor(cItems);
-            cItems.close();
-        }
-
-        @Override
-        protected Cursor doInBackground(String... params) {
-            if(mLocationId == null) {
-                return getProxyManager().getSearchItemsByCategory(mCategoryId, params[0], mSortBy);
-            } else {
-                return getProxyManager().getSearchItemsByCategory(mCategoryId, mLocationId, params[0], mSortBy);
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
-            startManagingCursor(cItems);
-            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, SearchResultActivity.this, true, false);
-            getListView().setAdapter(mListCategoriesAdapter);
-            mDialog.dismiss();
-        }
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mListSearchAdapter.swapCursor(null);
     }
-
 }

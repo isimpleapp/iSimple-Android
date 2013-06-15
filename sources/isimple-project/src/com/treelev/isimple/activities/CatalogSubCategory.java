@@ -1,39 +1,38 @@
 package com.treelev.isimple.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.SimpleCursorAdapter;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
+import com.treelev.isimple.cursorloaders.SelectItemsBySubCategory;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 
-public class CatalogSubCategory extends BaseListActivity implements RadioGroup.OnCheckedChangeListener {
+public class CatalogSubCategory extends BaseListActivity implements RadioGroup.OnCheckedChangeListener,
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     public static Class backActivity;
     public static Integer categoryID;
     private Integer mCategoryID;
     private Cursor cItems;
-    private SimpleCursorAdapter mListCategoriesAdapter;
+    private CatalogItemCursorAdapter mListSubCategoriesAdapter;
     private ProxyManager mProxyManager;
     private String mDrinkID;
+    private int mSortBy = ProxyManager.SORT_NAME_AZ;
     private String mFilterWhereClause;
     private String mLocationId;
     private String mBarcode;
     private String mBarcodeFromBaseActivity;
     private String mBarcodeFromBaseExpandListActivity;
-    private final static int BARCODE = 1;
-    private final static int DRINK_ID = 2;
-    private final static int FILTER_WHERE_CLAUSE = 3;
+    private Dialog mDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,21 +54,17 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
             public void onClick(View v) {
             }
         });
-
-//        mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
-//        mBarcodeFromBaseActivity = getIntent().getStringExtra(BaseActivity.BARCODE);
-//        mBarcodeFromBaseExpandListActivity = getIntent().getStringExtra(BaseExpandableListActivity.BARCODE);
         mDrinkID = getIntent().getStringExtra(CatalogByCategoryActivity.DRINK_ID);
         mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
         mFilterWhereClause = getIntent().getStringExtra(CatalogByCategoryActivity.FILTER_WHERE_CLAUSE);
-        if (mBarcode != null) {
-            new SelectBy(this, BARCODE).execute(mBarcode);
-        } else if(!TextUtils.isEmpty(mFilterWhereClause)) {
-            new SelectBy(this, FILTER_WHERE_CLAUSE).execute(mDrinkID, mFilterWhereClause);
-        } else {
-            new SelectBy(this, DRINK_ID).execute(mDrinkID);
-        }
+        mListSubCategoriesAdapter = new CatalogItemCursorAdapter(null, CatalogSubCategory.this, false, true);
+        getListView().setAdapter(mListSubCategoriesAdapter);
+    }
 
+    @Override
+    protected void onResume() {
+        getSupportLoaderManager().restartLoader(0, null, this);
+        super.onResume();
     }
 
     @Override
@@ -98,23 +93,15 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
-        int sortBy = 0;
         switch (rgb) {
             case R.id.alphabet_sort:
-                sortBy = ProxyManager.SORT_NAME_AZ;
+                mSortBy = ProxyManager.SORT_NAME_AZ;
                 break;
             case R.id.price_sort:
-                sortBy = ProxyManager.SORT_PRICE_UP;
+                mSortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
-
-        if (mBarcode != null) {
-            new SortTask(this, BARCODE).execute(sortBy);
-        } else if(!TextUtils.isEmpty(mFilterWhereClause)) {
-            new SortTask(this, FILTER_WHERE_CLAUSE).execute(sortBy);
-        } else {
-            new SortTask(this, DRINK_ID).execute(sortBy);
-        }
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
@@ -130,116 +117,20 @@ public class CatalogSubCategory extends BaseListActivity implements RadioGroup.O
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mProxyManager != null) {
-            mProxyManager.release();
-            mProxyManager = null;
-        }
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        mDialog = ProgressDialog.show(this, this.getString(R.string.dialog_title),
+                this.getString(R.string.dialog_select_data_message), false, false);
+        return new SelectItemsBySubCategory(this, mCategoryID, mDrinkID, mFilterWhereClause, mLocationId, mBarcode, mSortBy);
     }
 
-    private ProxyManager getProxyManager() {
-        if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(this);
-        }
-        return mProxyManager;
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mListSubCategoriesAdapter.swapCursor(cursor);
+        mDialog.dismiss();
     }
 
-    private class SelectBy extends AsyncTask<String, Void, Cursor> {
-
-        private final static int BARCODE = 1;
-        private final static int DRINK_ID = 2;
-
-        private Dialog mDialog;
-        private Context mContext;
-        private ProxyManager mProxyManager;
-        private int mSelectWhere;
-
-        private SelectBy(Context context, int select) {
-            mContext = context;
-            mSelectWhere = select;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_select_data_message), false, false);
-        }
-
-        @Override
-        protected Cursor doInBackground(String... params) {
-            switch (mSelectWhere) {
-                case BARCODE:
-                    Cursor myCursor = getProxyManager().getItemByBarcode(mBarcode, ProxyManager.SORT_NAME_AZ);
-                    if(myCursor.getCount() == 0){
-                        myCursor = getProxyManager().getItemDeprecatedByBarcode(mBarcode, ProxyManager.SORT_NAME_AZ);
-                    }
-                    return myCursor;
-                case DRINK_ID:
-                    return getProxyManager().getItemsByDrinkId(params[0], ProxyManager.SORT_NAME_AZ);
-                case FILTER_WHERE_CLAUSE:
-                    return getProxyManager().getItemsByDrinkId(params[0], params[1], ProxyManager.SORT_NAME_AZ);
-                default:
-                    return null;
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
-            startManagingCursor(cItems);
-            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogSubCategory.this, false, true);
-            getListView().setAdapter(mListCategoriesAdapter);
-            mDialog.dismiss();
-        }
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mListSubCategoriesAdapter.swapCursor(null);
     }
-
-    private class SortTask extends AsyncTask<Integer, Void, Cursor> {
-
-        private Dialog mDialog;
-        private Context mContext;
-        private int mSelectWhere;
-
-        private SortTask(Context context, int select) {
-            mContext = context;
-            mSelectWhere = select;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_sort_message), false, false);
-        }
-
-        @Override
-        protected Cursor doInBackground(Integer... params) {
-            switch (mSelectWhere) {
-                case BARCODE:
-                    Cursor myCursor = getProxyManager().getItemByBarcode(mBarcode, params[0]);
-                    if(myCursor.getCount() == 0){
-                        myCursor = getProxyManager().getItemDeprecatedByBarcode(mBarcode, params[0]);
-                    }
-                    return myCursor;
-                case DRINK_ID:
-                    return getProxyManager().getItemsByDrinkId(mDrinkID, params[0]);
-                case FILTER_WHERE_CLAUSE:
-                    return getProxyManager().getItemsByDrinkId(mDrinkID, mFilterWhereClause, params[0]);
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
-            startManagingCursor(cItems);
-            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogSubCategory.this, false, true);
-            getListView().setAdapter(mListCategoriesAdapter);
-            mDialog.dismiss();
-        }
-    }
-
 }

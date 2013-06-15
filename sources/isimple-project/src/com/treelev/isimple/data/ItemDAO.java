@@ -178,10 +178,9 @@ public class ItemDAO extends BaseDAO {
 //                where,
 //                DatabaseSqlHelper.ITEM_DRINK_ID,
 //                orderBy);
-        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, t1.drink_category, 0 as image, MIN(t1.price) " +
-                "as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) " +
-                "FROM item AS t1, (SELECT DISTINCT * FROM item_availability) AS t2 " +
-                "WHERE t1.item_id = t2.item_id AND t1.drink_category = %s AND location_id = '%s' GROUP BY drink_id  %s";
+        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_low_resolution, product_type, t1.drink_category, 0 as image, MIN(t1.price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) "+
+                "FROM item AS t1 INNER JOIN (SELECT DISTINCT * FROM item_availability) AS t2 ON t1.item_id = t2.item_id " +
+                "WHERE t1.drink_category = %s AND location_id = '%s' GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript,categoryId, locationId, orderBy );
         Log.v("SQL_QUERY getFeaturedItemsByCategory(int categoryId, String locationId, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
@@ -267,7 +266,6 @@ public class ItemDAO extends BaseDAO {
         return maxValuePrice;
     }
 
-    //TODO refactor: переименовать, заменить конкантенацию на String.format, метод дублируется с getItemsByCategory
     public Cursor getSearchItemsByCategory(Integer categoryId, String query, String orderByField) {
         open();
         String orderBy = "";

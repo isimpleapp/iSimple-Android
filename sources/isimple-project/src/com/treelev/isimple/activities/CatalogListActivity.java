@@ -6,23 +6,21 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
+import com.treelev.isimple.cursorloaders.SelectFeaturedMainItems;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.util.ByteArrayBuffer;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 
 import java.io.BufferedInputStream;
@@ -32,14 +30,15 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class CatalogListActivity extends BaseListActivity {
+public class CatalogListActivity extends BaseListActivity
+        implements LoaderManager.LoaderCallbacks<Cursor>  {
 
     public final static String CATEGORY_ID = "category_id";
     private View darkView;
     private RelativeLayout myLayout;
-    private ProxyManager mProxyManager;
     private View mHeader;
     private final static int NAVIGATE_CATEGORY_ID = 0;
+    private CatalogItemCursorAdapter mListCategoriesAdapter;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -50,7 +49,12 @@ public class CatalogListActivity extends BaseListActivity {
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
-        new SelectDataRandomTask(this).execute();
+        ListView listView = getListView();
+        mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
+        listView.addHeaderView(mHeader, null, false);
+        mListCategoriesAdapter = new CatalogItemCursorAdapter(null, CatalogListActivity.this, true, false);
+        getListView().setAdapter(mListCategoriesAdapter);
+//        new SelectDataRandomTask(this).execute();
     }
 
     @Override
@@ -62,13 +66,9 @@ public class CatalogListActivity extends BaseListActivity {
 
     @Override
     protected void onResume() {
+        getSupportLoaderManager().restartLoader(0, null, this);
         super.onResume();
-        ListView listView = getListView();
-        if (mHeader != null) {
-            listView.removeHeaderView(mHeader);
-        }
-        mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
-        listView.addHeaderView(mHeader, null, false);
+
     }
 
     @Override
@@ -102,7 +102,7 @@ public class CatalogListActivity extends BaseListActivity {
             public boolean onQueryTextSubmit(String query) {
                 if (query.trim().length() != 0) {
                     SearchResultActivity.categoryID = null;
-                    SearchResultActivity.backActivity = CatalogListActivity.class;
+//                    SearchResultActivity.backActivity = CatalogListActivity.class;
                     return false;
                 } else
                     return true;
@@ -153,42 +153,20 @@ public class CatalogListActivity extends BaseListActivity {
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
-    private ProxyManager getProxyManager() {
-        if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(this);
-        }
-        return mProxyManager;
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        return new SelectFeaturedMainItems(this);  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    private class SelectDataRandomTask extends AsyncTask<Void, Void, Cursor> {
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mListCategoriesAdapter.swapCursor(cursor);
 
-        private Dialog mDialog;
-        private Context mContext;
+    }
 
-        private SelectDataRandomTask(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_select_data_message), false, false);
-        }
-
-        @Override
-        protected Cursor doInBackground(Void... params) {
-            return getProxyManager().getFeaturedMainItems();
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            Cursor cItems = cursor;
-            startManagingCursor(cItems);
-            SimpleCursorAdapter mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogListActivity.this, true, false);
-            getListView().setAdapter(mListCategoriesAdapter);
-            mDialog.dismiss();
-        }
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mListCategoriesAdapter.swapCursor(null);
     }
 
     private static class ImageBinder implements SimpleAdapter.ViewBinder {

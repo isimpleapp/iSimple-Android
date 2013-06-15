@@ -1,12 +1,12 @@
 package com.treelev.isimple.activities;
 
+import android.support.v4.app.LoaderManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.Loader;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.*;
@@ -17,6 +17,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
+import com.treelev.isimple.cursorloaders.SelectItemsByCategory;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.filter.Filter;
@@ -29,14 +30,15 @@ import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.ListView;
 
 public class CatalogByCategoryActivity extends BaseListActivity implements RadioGroup.OnCheckedChangeListener,
-        ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener {
+        ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener,
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
     public final static String DRINK_ID = "drink_id";
     public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
     private Cursor cItems;
-    private SimpleCursorAdapter mListCategoriesAdapter;
+    private CatalogItemCursorAdapter mListCategoriesAdapter;
     private ExpandableListView filterListView;
     private View footerView;
     private View darkView;
@@ -52,13 +54,15 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     private boolean mExpandFiltr = false;
     private boolean mFiltrUse = false;
     private String mFilterWhereClause;
-    private ProxyManager mProxyManager;
     private com.treelev.isimple.filter.Filter filter;
     private static final int ANIMATION_DURATION_IN_MILLIS = 500;
     private int mSortBy = ProxyManager.SORT_NAME_AZ;
     private View mViewActivity;
+    private Context mContext;
     public final static String EXTRA_RESULT_CHECKED = "isChecked";
     public final static String EXTRA_CHILD_POSITION = "position";
+//    private final static int ID_LOADER_SORTBY = 101;
+//    private final static int ID_LOADER_SELECT_CATEGORY = 102;
 
 
     @Override
@@ -77,9 +81,18 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
+        mContext = this;
         filter = initFilter();
         initFilterListView();
-        new SelectDataTask(this, filter.getSQLWhereClause(), mLocationId).execute(mCategoryID, mSortBy);
+        mListCategoriesAdapter = new CatalogItemCursorAdapter(null, CatalogByCategoryActivity.this, true, false);
+        getListView().setAdapter(mListCategoriesAdapter);
+//        new SelectDataTask(this, filter.getSQLWhereClause(), mLocationId).execute(mCategoryID, mSortBy);
+    }
+
+    @Override
+    protected void onResume() {
+        initLoadManager();
+        super.onResume();
     }
 
     @Override
@@ -110,10 +123,11 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
                 mSortBy = ProxyManager.SORT_PRICE_UP;
                 break;
         }
-        stopManagingCursor(cItems);
-        cItems.close();
+//        stopManagingCursor(cItems);
+//        cItems.close();
         mFilterWhereClause = mFiltrUse ? filter.getSQLWhereClause() : mFilterWhereClause;
-        new SortTask(this, mFilterWhereClause, mLocationId).execute(mSortBy);
+//        new SortTask(this, mFilterWhereClause, mLocationId).execute(mSortBy);
+        initLoadManager();
     }
 
     @Override
@@ -127,7 +141,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                SearchResultActivity.backActivity = CatalogByCategoryActivity.class;
+//                SearchResultActivity.backActivity = CatalogByCategoryActivity.class;
                 SearchResultActivity.categoryID = mCategoryID;
                 SearchResultActivity.locationId = mLocationId;
                 return false;
@@ -207,15 +221,6 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mProxyManager != null) {
-            mProxyManager.release();
-            mProxyManager = null;
-        }
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         boolean processed;
@@ -244,13 +249,6 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
             default:
                 return null;
         }
-    }
-
-    private ProxyManager getProxyManager() {
-        if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(this);
-        }
-        return mProxyManager;
     }
 
     private void backOrCollapse() {
@@ -301,10 +299,12 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
                     mFiltrUse = false;
                     break;
                 case R.id.search_butt:
-                    stopManagingCursor(cItems);
-                    cItems.close();
-                    new SelectDataTask(CatalogByCategoryActivity.this, filter.getSQLWhereClause(), mLocationId)
-                            .execute(mCategoryID, mSortBy);
+//                    stopManagingCursor(cItems);
+//                    cItems.close();
+//                    new SelectDataTask(CatalogByCategoryActivity.this, filter.getSQLWhereClause(), mLocationId)
+//                            .execute(mCategoryID, mSortBy);
+                    mFilterWhereClause = filter.getSQLWhereClause();
+                    initLoadManager();
                     organizeView();
                     filterListView.collapseGroup(0);
                     mFiltrUse = true;
@@ -318,102 +318,33 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         }
     };
 
-    @Override
+     @Override
     public void onGroupCollapse(int groupPosition) {
         mExpandFiltr = false;
     }
 
-    private class SortTask extends AsyncTask<Integer, Void, Cursor> {
-
-        private Dialog mDialog;
-        private Context mContext;
-        private String mFilterWhereClause;
-        private String mLocationId;
-
-        private SortTask(Context context, String filterWhereClause, String locationId) {
-            mContext = context;
-            mFilterWhereClause = filterWhereClause;
-            mLocationId = locationId;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_sort_message), false, false);
-        }
-
-        @Override
-        protected Cursor doInBackground(Integer... params) {
-            if (!TextUtils.isEmpty(mFilterWhereClause)) {
-                if (TextUtils.isEmpty(mLocationId)) {
-                    return getProxyManager().getFilteredItemsByCategory(mCategoryID, mFilterWhereClause, params[0]);
-                } else {
-                    return getProxyManager().getFilteredItemsByCategory(mCategoryID, mLocationId, mFilterWhereClause, params[0]);
-                }
-            } else {
-                if (TextUtils.isEmpty(mLocationId)) {
-                    return getProxyManager().getFeaturedItemsByCategory(mCategoryID, params[0]);
-                } else {
-                    return getProxyManager().getFeaturedItemsByCategory(mCategoryID, mLocationId, params[0]);
-                }
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
-            startManagingCursor(cItems);
-            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true, false);
-            getListView().setAdapter(mListCategoriesAdapter);
-            mDialog.dismiss();
-        }
+    private void initLoadManager(){
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
-    private class SelectDataTask extends AsyncTask<Integer, Void, Cursor> {
+///Use LoaderManager
+    private Dialog mDialog;
 
-        private Dialog mDialog;
-        private Context mContext;
-        private String mFilterWhereClause;
-        private String mLocationId;
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+                mContext.getString(R.string.dialog_select_data_message), false, false);
+        return new SelectItemsByCategory(this, mCategoryID, mFilterWhereClause, mLocationId, mSortBy);
+    }
 
-        private SelectDataTask(Context context, String filterWhereClause, String locationId) {
-            mContext = context;
-            mFilterWhereClause = filterWhereClause;
-            mLocationId = locationId;
-        }
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mListCategoriesAdapter.swapCursor(cursor);
+        mDialog.dismiss();
+    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_select_data_message), false, false);
-        }
-
-        @Override
-        protected Cursor doInBackground(Integer... params) {
-            if (!TextUtils.isEmpty(mFilterWhereClause)) {
-                if (TextUtils.isEmpty(mLocationId)) {
-                    return getProxyManager().getFilteredItemsByCategory(params[0], mFilterWhereClause, params[1]);
-                } else {
-                    return getProxyManager().getFilteredItemsByCategory(params[0], mLocationId, mFilterWhereClause, params[1]);
-                }
-            } else {
-                if (TextUtils.isEmpty(mLocationId)) {
-                    return getProxyManager().getFeaturedItemsByCategory(params[0], params[1]);
-                } else {
-                    return getProxyManager().getFeaturedItemsByCategory(params[0], mLocationId, params[1]);
-                }
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
-            startManagingCursor(cItems);
-            mListCategoriesAdapter = new CatalogItemCursorAdapter(cItems, CatalogByCategoryActivity.this, true, false);
-            getListView().setAdapter(mListCategoriesAdapter);
-            mDialog.dismiss();
-        }
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mListCategoriesAdapter.swapCursor(null);
     }
 }

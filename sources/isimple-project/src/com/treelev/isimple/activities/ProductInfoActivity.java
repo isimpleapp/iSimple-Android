@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
@@ -46,6 +49,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private View headerView;
     private ProxyManager proxyManager;
 
+    private DisplayImageOptions options;
+    private ImageLoader imageLoader;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -57,6 +63,16 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        imageLoader = Utils.getImageLoader(getApplicationContext());
+        options = new DisplayImageOptions.Builder()
+                .showStubImage(R.drawable.product_default_image)
+                .showImageForEmptyUri(R.drawable.product_default_image)
+                .showImageOnFail(R.drawable.product_default_image)
+                .cacheInMemory()
+                .cacheOnDisc()
+                .build();
+
         mContext = this;
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         if (mLocationId == null) {
@@ -330,6 +346,14 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), !trimTrailingZeros(product.getAlcohol()).equals("0") ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())) : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + "")));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear() != 0 ? String.valueOf(product.getYear()) : "");
+
+        if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
+            ImageView productImage = (ImageView) formView.findViewById(R.id.product_image);
+            imageLoader.displayImage(
+                    String.format("http://s1.isimpleapp.ru/img/ver0/%s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/')),
+                    productImage, options);
+        }
+
         String strPriceLabel = takeRetailPrice(product) != 0 ? takeRetailPrice(product).toString() : "";
         if (!TextUtils.isEmpty(strPriceLabel)) {
             ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, strPriceLabel)));

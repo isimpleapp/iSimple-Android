@@ -3,7 +3,17 @@ package com.treelev.isimple.utils;
 import android.content.Context;
 import android.location.Location;
 import android.net.ConnectivityManager;
+import com.nostra13.universalimageloader.cache.disc.impl.TotalSizeLimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.treelev.isimple.parser.*;
+
+import java.io.File;
 
 public class Utils {
 
@@ -101,5 +111,25 @@ public class Utils {
     public static String ellipseString(String input, int maxCharactersNumber) {
         return (input.length() > maxCharactersNumber) ?
             input.substring(0, maxCharactersNumber - 2) + "..." : input;
+    }
+
+    private  static ImageLoader imageLoader;
+
+    public static ImageLoader getImageLoader(Context context) {
+        if (imageLoader == null) {
+            imageLoader = ImageLoader.getInstance();
+            File cacheDir = StorageUtils.getCacheDirectory(context);
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+                    .threadPoolSize(5)
+                    .threadPriority(Thread.MIN_PRIORITY + 2)
+                    .denyCacheImageMultipleSizesInMemory()
+                    .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // 2 Mb
+                    .discCache(new TotalSizeLimitedDiscCache(cacheDir, new HashCodeFileNameGenerator(), 40 * 1024 * 1024))  // 40 Mb
+                    .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)
+                    .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+                    .build();
+            imageLoader.init(config);
+        }
+        return imageLoader;
     }
 }

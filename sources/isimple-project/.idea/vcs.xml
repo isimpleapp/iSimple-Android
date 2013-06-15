@@ -3,7 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/../HoloEveryWhere" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/../Sherlock" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/../google-play-services_lib" vcs="svn" />
     <mapping directory="$PROJECT_DIR$" vcs="svn" />
   </component>
 </project>

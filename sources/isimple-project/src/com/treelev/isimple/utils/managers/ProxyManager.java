@@ -67,10 +67,6 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedMainItems();
     }
 
-    public boolean availibilityItem(String drinkId){
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).availibilityItem(drinkId);
-    }
-
     public List<Integer> getYearsByCategory(DrinkCategory category) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getYearsByCategory(category.ordinal());
     }

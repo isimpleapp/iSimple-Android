@@ -1,17 +1,16 @@
 package com.treelev.isimple.adapters;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.db.Item;
@@ -47,10 +46,10 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
             .cacheOnDisc()
             .build();
 
-        int screenMask = activity.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+        DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
         sizePrefix =
-                screenMask == Configuration.SCREENLAYOUT_SIZE_LARGE ? "_hdpi" :
-                screenMask == Configuration.SCREENLAYOUT_SIZE_XLARGE ? "_xhdpi" : "";
+                metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
+                metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH? "_xhdpi" : "";
     }
 
     @Override

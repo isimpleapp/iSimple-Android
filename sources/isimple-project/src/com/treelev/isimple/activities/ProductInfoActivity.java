@@ -4,12 +4,10 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,7 +18,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
@@ -348,10 +345,10 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
             ImageView productImage = (ImageView) formView.findViewById(R.id.product_image);
-            int screenMask = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
             String sizePrefix =
-                screenMask == Configuration.SCREENLAYOUT_SIZE_LARGE ? "_hdpi" :
-                screenMask == Configuration.SCREENLAYOUT_SIZE_XLARGE ? "_xhdpi" : "";
+                metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
+                metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH? "_xhdpi" : "";
 
             imageLoader.displayImage(
                 String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix),

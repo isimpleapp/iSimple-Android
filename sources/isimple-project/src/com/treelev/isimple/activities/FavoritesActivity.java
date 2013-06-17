@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -30,8 +29,7 @@ public class FavoritesActivity extends BaseListActivity {
     private CatalogItemCursorAdapter mListAdapter;
     private ProxyManager mProxyManager;
     private Context mContext;
-    private ArrayList<String> mDleteItemsId;
-    private ArrayList<View> mDeleteItemView;
+    private ArrayList<String> mDeleteItemsId;
     private ActionMode mActionMode;
 
     @Override
@@ -44,8 +42,7 @@ public class FavoritesActivity extends BaseListActivity {
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(multiChoiceModeListener);
         mContext = this;
-        mDleteItemsId = new ArrayList<String>();
-        mDeleteItemView = new ArrayList<View>();
+        mDeleteItemsId = new ArrayList<String>();
         new SelectByFavorites(mContext).execute();
     }
 
@@ -100,21 +97,12 @@ public class FavoritesActivity extends BaseListActivity {
             startActivity(startIntent);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         } else if(mListAdapter != null){
-//            View viewItem = getListView().getChildAt(position);
-            View viewItem = mListAdapter.getView(position, null, null);
-//            ImageView dicsacrdContent = (ImageView) getListView().getChildAt(position).findViewById(R.id.item_image_delete);
-            ImageView dicsacrdContent = (ImageView) viewItem.findViewById(R.id.item_image_delete);
-            if(dicsacrdContent.getVisibility() == View.GONE){
-                mDleteItemsId.add(product.getString(0));
-                mDeleteItemView.add(dicsacrdContent);
-                dicsacrdContent.setVisibility(View.VISIBLE);
-                viewItem.setSelected(true);
+            if(!mDeleteItemsId.contains(product.getString(0))){
+                mDeleteItemsId.add(product.getString(0));
             } else {
-                mDleteItemsId.remove(product.getString(0));
-                mDeleteItemView.remove(dicsacrdContent);
-                dicsacrdContent.setVisibility(View.GONE);
-                viewItem.setSelected(false);
+                mDeleteItemsId.remove(product.getString(0));
             }
+            mListAdapter.notifyDataSetChanged();
         }
     }
 
@@ -154,7 +142,12 @@ public class FavoritesActivity extends BaseListActivity {
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            mListAdapter = new CatalogItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
+            if(mListAdapter == null) {
+                mListAdapter = new CatalogItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
+                mListAdapter.setDeleteItemsId(mDeleteItemsId);
+            } else {
+                mListAdapter.swapCursor(cItems);
+            }
             getListView().setAdapter(mListAdapter);
             updateActivity();
             mDialog.dismiss();
@@ -175,18 +168,13 @@ public class FavoritesActivity extends BaseListActivity {
 
     private void deleteSelectedItems(){
         stopManagingCursor(cItems);
-        getProxyManager().delFavourites(mDleteItemsId);
-        getProxyManager().setFavouriteItemTable(mDleteItemsId, false);
+        getProxyManager().delFavourites(mDeleteItemsId);
+        getProxyManager().setFavouriteItemTable(mDeleteItemsId, false);
+        mDeleteItemsId.clear();
         new SelectByFavorites(mContext).execute();
     }
 
-    private void clearDeleteItemView(){
-        for(View itemView: mDeleteItemView){
-            if(itemView != null){
-                itemView.setVisibility(View.GONE);
-            }
-        }
-    }
+
 
     private ListView.MultiChoiceModeListener multiChoiceModeListener = new ListView.MultiChoiceModeListener() {
 
@@ -194,16 +182,12 @@ public class FavoritesActivity extends BaseListActivity {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
             Cursor cursor = (Cursor)getListView().getAdapter().getItem(position);
-            ImageView dicsacrdContent = (ImageView) getListView().getChildAt(position).findViewById(R.id.item_image_delete);
             if(checked){
-                mDleteItemsId.add(cursor.getString(0));
-                mDeleteItemView.add(dicsacrdContent);
-                dicsacrdContent.setVisibility(View.VISIBLE);
+                mDeleteItemsId.add(cursor.getString(0));
             } else {
-                mDleteItemsId.remove(cursor.getString(0));
-                mDeleteItemView.remove(dicsacrdContent);
-                dicsacrdContent.setVisibility(View.GONE);
+                mDeleteItemsId.remove(cursor.getString(0));
             }
+            mListAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -232,7 +216,10 @@ public class FavoritesActivity extends BaseListActivity {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            clearDeleteItemView();
+            mDeleteItemsId.clear();
+            if(mListAdapter != null) {
+                mListAdapter.notifyDataSetChanged();
+            }
         }
 
     };
@@ -265,7 +252,10 @@ public class FavoritesActivity extends BaseListActivity {
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
-            clearDeleteItemView();
+            mDeleteItemsId.clear();
+            if(mListAdapter != null) {
+                mListAdapter.notifyDataSetChanged();
+            }
         }
     };
 }

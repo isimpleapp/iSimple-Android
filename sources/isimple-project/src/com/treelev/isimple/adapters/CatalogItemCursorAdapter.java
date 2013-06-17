@@ -21,6 +21,8 @@ import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 
+import java.util.ArrayList;
+
 public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
 
     private final static String FORMAT_TEXT_LABEL = "%s...";
@@ -31,6 +33,7 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
     private String sizePrefix;
+    private ArrayList<String> mDeleteItemsId;
 
     public CatalogItemCursorAdapter(Cursor c, Activity activity, boolean group, boolean yearEnable) {
         super(activity, R.layout.catalog_item_layout, c, Item.getUITags(),
@@ -50,6 +53,10 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         sizePrefix =
                 metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
                 metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH? "_xhdpi" : "";
+    }
+
+    public void setDeleteItemsId(ArrayList<String> list){
+        mDeleteItemsId = list;
     }
 
     @Override
@@ -152,6 +159,15 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
             imageViewFavourite.setVisibility(View.VISIBLE);
         }   else {
             imageViewFavourite.setVisibility(View.GONE);
+        }
+
+        if(mDeleteItemsId != null){
+            ImageView viewDiscard = (ImageView) view.findViewById(R.id.item_image_delete);
+            if(mDeleteItemsId.contains(cursor.getString(0))){
+                viewDiscard.setVisibility(View.VISIBLE);
+            } else {
+                viewDiscard.setVisibility(View.GONE);
+            }
         }
     }
 

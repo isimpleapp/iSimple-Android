@@ -18,6 +18,7 @@ import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.adapters.FilterAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.cursorloaders.SelectItemsByCategory;
+import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.filter.Filter;
@@ -201,11 +202,13 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if (product.getInt(14) > 1) {
+        int itemCountIndex = product.getColumnIndex("count");
+        int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
+        if (product.getInt(itemCountIndex) > 1) {
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = mCategoryID;
             CatalogSubCategory.backActivity = CatalogByCategoryActivity.class;
-            startIntent.putExtra(DRINK_ID, product.getString(12));
+            startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));

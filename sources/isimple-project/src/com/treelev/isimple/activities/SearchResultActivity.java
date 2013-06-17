@@ -15,6 +15,7 @@ import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.cursorloaders.SelectBySearch;
+import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -171,14 +172,15 @@ public class SearchResultActivity extends BaseListActivity implements RadioGroup
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if( product.getInt(14) > 1){
+        int itemCountIndex = product.getColumnIndex("count");
+        int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
+        if( product.getInt(itemCountIndex) > 1){
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = categoryID;
             CatalogSubCategory.backActivity = SearchResultActivity.class;
-            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(12));
+            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(itemDrinkIdIndex));
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
-            startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         }
         startIntent.putExtra(ShopInfoActivity.LOCATION_ID, locationId);
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));

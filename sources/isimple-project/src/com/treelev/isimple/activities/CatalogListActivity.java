@@ -102,6 +102,7 @@ public class CatalogListActivity extends BaseListActivity
             public boolean onQueryTextSubmit(String query) {
                 if (query.trim().length() != 0) {
                     SearchResultActivity.categoryID = null;
+                    SearchResultActivity.locationId = null;
 //                    SearchResultActivity.backActivity = CatalogListActivity.class;
                     return false;
                 } else

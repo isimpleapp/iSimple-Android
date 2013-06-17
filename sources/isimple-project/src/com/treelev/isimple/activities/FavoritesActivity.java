@@ -99,20 +99,21 @@ public class FavoritesActivity extends BaseListActivity {
             startIntent.putExtra(FAVORITES, true);
             startActivity(startIntent);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-        } else {
+        } else if(mListAdapter != null){
 //            View viewItem = getListView().getChildAt(position);
-
-            ImageView dicsacrdContent = (ImageView) getListView().getChildAt(position).findViewById(R.id.item_image_delete);
+            View viewItem = mListAdapter.getView(position, null, null);
+//            ImageView dicsacrdContent = (ImageView) getListView().getChildAt(position).findViewById(R.id.item_image_delete);
+            ImageView dicsacrdContent = (ImageView) viewItem.findViewById(R.id.item_image_delete);
             if(dicsacrdContent.getVisibility() == View.GONE){
                 mDleteItemsId.add(product.getString(0));
                 mDeleteItemView.add(dicsacrdContent);
                 dicsacrdContent.setVisibility(View.VISIBLE);
-                v.setSelected(true);
+                viewItem.setSelected(true);
             } else {
                 mDleteItemsId.remove(product.getString(0));
                 mDeleteItemView.remove(dicsacrdContent);
                 dicsacrdContent.setVisibility(View.GONE);
-                v.setSelected(false);
+                viewItem.setSelected(false);
             }
         }
     }

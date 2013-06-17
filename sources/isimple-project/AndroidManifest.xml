@@ -55,7 +55,7 @@
         <activity android:name=".activities.ChainStoresActivity" android:screenOrientation="portrait"/>
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBQrOUV3EyWZ8wgT23_IUO-Z6u3hCq8G3A"/>
         <activity android:name=".activities.FavoritesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.RouteDisplayActivity"/>
+        <activity android:name=".activities.RouteDisplayActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.ShoppingCartActivity"/>
         <uses-library android:name="com.google.android.maps" />
     </application>

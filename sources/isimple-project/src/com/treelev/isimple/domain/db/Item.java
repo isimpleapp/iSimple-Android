@@ -108,11 +108,16 @@ public class Item implements Serializable {
     }
 
     public Float getPrice() {
-        return price;
+        return price ;
     }
+
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public boolean hasPrice(){
+        return price != null;
     }
 
     public Float getPriceMarkup() {
@@ -199,6 +204,10 @@ public class Item implements Serializable {
         this.year = year;
     }
 
+    public boolean hasYear(){
+        return year != null ? year != 0 : false;
+    }
+
     public Float getVolume() {
         return volume;
     }
@@ -221,6 +230,10 @@ public class Item implements Serializable {
 
     public void setAlcohol(String alcohol) {
         this.alcohol = alcohol;
+    }
+
+    public boolean hasAlcohol(){
+        return alcohol != null ? ! alcohol.trim().equals("0") : false;
     }
 
     public String getBottleHiResolutionImageFilename() {

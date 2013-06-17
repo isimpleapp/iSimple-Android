@@ -52,7 +52,7 @@ public class Utils {
     }
 
     public static String organizePriceLabel(String price) {
-        String result = null;
+        String result = "";
         if (price != null) {
             String[] realPrice = price.split("\\.");
             result = String.format(FORMAT_PRICE_LABEL, realPrice[0]);

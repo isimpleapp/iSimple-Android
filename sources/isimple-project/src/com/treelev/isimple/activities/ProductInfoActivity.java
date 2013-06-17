@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -246,9 +247,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 if (info.activityInfo.packageName.toLowerCase().contains(type) ||
                         info.activityInfo.name.toLowerCase().contains(type) ) {
                     sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
-                    String mailText = getMailText();
-                    sendMail.putExtra(Intent.EXTRA_TEXT, mailText);
-                    sendMail.putExtra(Intent.EXTRA_HTML_TEXT, mailText);
+                    sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
                     sendMail.setPackage(info.activityInfo.packageName);
                     found = true;
                     break;
@@ -273,16 +272,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String alcohol = !trimTrailingZeros(mProduct.getAlcohol()).equals("0") ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(mProduct.getAlcohol())) : "";
         String manufacturer = mProduct.getManufacturer();
         String itemId = mProduct.getItemID();
-        String str = "<html><body><div><p style=\"margin: 20px;; width: 80%%;\">Мне понравился напиток в приложении iSimple." +
-                "</p><div style=\"float: left;;\"><img src=\"http://s1.isimpleapp.ru/img/ver0/%1$s_product.jpg\" style=\"margin-top: 30px;; margin-right: 20px;;\">" +
-                "</div><table style=\"width: 50%%;;\"><tbody><tr><td width=\"30%%\" height=\"230px\" align=\"center\" vertical-align=\"top\" style=\"vertical-align: top\"></td>" +
-                "<td width=\"70%%\"><h2 style=\"margin-bottom: 0px; padding-bottom: 0px; font-weight: normal\">%2$s</h2>" +
-                "<span style=\"color: #6f6f6f\">%3$s</span><br><br><span style=\"color: #ec068d\">%4$s</span><br><br>%5$s, %6$s<br><br>" +
-                "<span style=\"color: #6f6f6f\">Объем:</span> %7$s л.<br><br><span style=\"color: #6f6f6f\">Крепость:</span> %8$s об.<br><br>" +
-                "<span style=\"color: #6f6f6f\">Производитель:</span> %9$s<br><br><span style=\"color: #6f6f6f\">Артикул:</span> %10$s<br><br><" +
-                "br>Подробнее об этом напитке можно узнать на " +
-                "<a href=\"http://simplewine.ru/product_xml_id/%10$s/?doc_name=ISIMPLE\" style=\"color: #ec068d\">сайте Simple</a>.</td></tr></tbody></table></div></body></html>";
-        return String.format(str, bottleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId);
+        String str = getResources().getString(R.string.mail_tamplate);
+        return String.format(str, bottleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId, itemId);
     }
 
     @Override
@@ -330,7 +321,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     private void populateFormsFields(View formView, Item product) {
         String priceLabel = Utils.organizePriceLabel(String.valueOf(product.getPrice()));
-        ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(product.getPrice() != 0 ? priceLabel : EMPTY_PRICE_LABEL);
+        ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
         ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
         ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product.getLocalizedName());
@@ -339,9 +330,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), !product.getSweetness().getDescription().isEmpty() ? product.getSweetness().getDescription() : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
-        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), !trimTrailingZeros(product.getAlcohol()).equals("0") ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())) : "");
+        organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), product.hasAlcohol() ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())) : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + "")));
-        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.getYear() != 0 ? String.valueOf(product.getYear()) : "");
+        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.hasYear() ? String.valueOf(product.getYear()) : "");
 
         if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
             ImageView productImage = (ImageView) formView.findViewById(R.id.product_image);
@@ -355,7 +346,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 productImage, options);
         }
 
-        String strPriceLabel = takeRetailPrice(product) != 0 ? takeRetailPrice(product).toString() : "";
+        String strPriceLabel = takeRetailPrice(product) != null ? takeRetailPrice(product).toString() : "";
         if (!TextUtils.isEmpty(strPriceLabel)) {
             ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, strPriceLabel)));
         } else {

@@ -602,27 +602,35 @@ public class ItemDAO extends BaseDAO {
     public Cursor getItemByBarcode(String itemBarcode, String orderByFiled) {
         open();
         String orderBy = String.format(FORMAT_ORDER_BY, orderByFiled);
-        String from = DatabaseSqlHelper.ITEM_TABLE;
-        String where = String.format(COMPARE_STRING,
-                DatabaseSqlHelper.ITEM_BARCODE,
-                itemBarcode);
-        String selectSql = String.format(SELECT_ITEMS_FROM_DRINK_ID,
-                DatabaseSqlHelper.ITEM_ID + " as _id",
-                DatabaseSqlHelper.ITEM_NAME,
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
-                DatabaseSqlHelper.ITEM_VOLUME,
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
-                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
-                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                "0 as image",
-                DatabaseSqlHelper.ITEM_PRICE,
-                DatabaseSqlHelper.ITEM_YEAR,
-                DatabaseSqlHelper.ITEM_QUANTITY,
-                DatabaseSqlHelper.ITEM_COLOR,
-                DatabaseSqlHelper.ITEM_DRINK_ID,
-                DatabaseSqlHelper.ITEM_IS_FAVOURITE,
-                from,
-                where,
+//        String from = DatabaseSqlHelper.ITEM_TABLE;
+//        String where = String.format(COMPARE_STRING,
+//                DatabaseSqlHelper.ITEM_BARCODE,
+//                itemBarcode);
+//        String selectSql = String.format(SELECT_ITEMS_FROM_DRINK_ID,
+//                DatabaseSqlHelper.ITEM_ID + " as _id",
+//                DatabaseSqlHelper.ITEM_NAME,
+//                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+//                DatabaseSqlHelper.ITEM_VOLUME,
+//                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+//                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+//                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+//                "0 as image",
+//                DatabaseSqlHelper.ITEM_PRICE,
+//                DatabaseSqlHelper.ITEM_YEAR,
+//                DatabaseSqlHelper.ITEM_QUANTITY,
+//                DatabaseSqlHelper.ITEM_COLOR,
+//                DatabaseSqlHelper.ITEM_DRINK_ID,
+//                DatabaseSqlHelper.ITEM_IS_FAVOURITE,
+//                from,
+//                where,
+//                orderBy);
+        String formatScript = "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
+                "drink_category, price, year, "  +
+                "quantity, color, drink_id, is_favourite " +
+                "FROM item " +
+                "WHERE barcode = '%s' %s";
+        String selectSql = String.format(formatScript,
+                itemBarcode,
                 orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -631,27 +639,10 @@ public class ItemDAO extends BaseDAO {
         open();
         String orderBy = String.format(FORMAT_ORDER_BY, orderByFiled);
         String from = DatabaseSqlHelper.ITEM_DEPRECATED_TABLE;
-        String where = String.format(COMPARE_STRING,
-                DatabaseSqlHelper.ITEM_BARCODE,
-                itemBarcode);
-        String selectSql = String.format(SELECT_ITEMS_FROM_DRINK_ID,
-                DatabaseSqlHelper.ITEM_ID + " as _id",
-                DatabaseSqlHelper.ITEM_NAME,
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
-                DatabaseSqlHelper.ITEM_VOLUME,
-//                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
-                "0 as bottle_low_resolution",
-                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
-                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                "0 as image",
-                "0 as price",
-                "0 as year",
-                "0 as quantity",
-                "0 as color",
-                DatabaseSqlHelper.ITEM_DRINK_ID,
-                DatabaseSqlHelper.ITEM_IS_FAVOURITE,
-                from,
-                where,
+        String formatScript = "SELECT item_id as _id, name, localized_name, volume, 0 AS bottle_high_res, 0 AS bottle_low_resolution, product_type, drink_category, 0 AS image, 0 AS price, 0 AS year,  0 AS quantity, 0 AS color, drink_id, 0 AS is_favourite " +
+                "FROM item_deprecated WHERE barcode = '%s' %s";
+        String selectSql = String.format(formatScript,
+                itemBarcode,
                 orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }

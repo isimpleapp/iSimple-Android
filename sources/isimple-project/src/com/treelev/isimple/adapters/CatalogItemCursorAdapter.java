@@ -1,6 +1,7 @@
 package com.treelev.isimple.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
     private boolean mYearEnable;
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
+    private String sizePrefix;
 
     public CatalogItemCursorAdapter(Cursor c, Activity activity, boolean group, boolean yearEnable) {
         super(activity, R.layout.catalog_item_layout, c, Item.getUITags(),
@@ -44,6 +46,11 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
             .cacheInMemory()
             .cacheOnDisc()
             .build();
+
+        int screenMask = activity.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+        sizePrefix =
+                screenMask == Configuration.SCREENLAYOUT_SIZE_LARGE ? "_hdpi" :
+                screenMask == Configuration.SCREENLAYOUT_SIZE_XLARGE ? "_xhdpi" : "";
     }
 
     @Override
@@ -73,7 +80,7 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         String imageName = cursor.getString(itemHiImageIndex);
         if (!TextUtils.isEmpty(imageName)) {
             imageLoader.displayImage(
-                    String.format("http://s1.isimpleapp.ru/img/ver0/%s_listing.jpg", imageName.replace('\\', '/')),
+                    String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_listing.jpg", imageName.replace('\\', '/'), sizePrefix),
                     imageView, options);
         }
         else {

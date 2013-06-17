@@ -4,6 +4,7 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -347,9 +348,14 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
             ImageView productImage = (ImageView) formView.findViewById(R.id.product_image);
+            int screenMask = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+            String sizePrefix =
+                screenMask == Configuration.SCREENLAYOUT_SIZE_LARGE ? "_hdpi" :
+                screenMask == Configuration.SCREENLAYOUT_SIZE_XLARGE ? "_xhdpi" : "";
+
             imageLoader.displayImage(
-                    String.format("http://s1.isimpleapp.ru/img/ver0/%s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/')),
-                    productImage, options);
+                String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix),
+                productImage, options);
         }
 
         String strPriceLabel = takeRetailPrice(product) != 0 ? takeRetailPrice(product).toString() : "";

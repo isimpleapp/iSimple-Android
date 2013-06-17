@@ -108,8 +108,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 //TODO: replace
         TextView itemTitle = (TextView) findViewById(R.id.title_item);
 
-        Log.e("!!!!!!!!!!!!!!!", "mProduct = " + mProduct);
-
         itemTitle.setText(mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "");
 
         String colorStr = mProduct.getProductType().getColor();

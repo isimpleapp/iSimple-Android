@@ -54,7 +54,6 @@ public class CatalogListActivity extends BaseListActivity
         listView.addHeaderView(mHeader, null, false);
         mListCategoriesAdapter = new CatalogItemCursorAdapter(null, CatalogListActivity.this, true, false);
         getListView().setAdapter(mListCategoriesAdapter);
-//        new SelectDataRandomTask(this).execute();
     }
 
     @Override
@@ -76,7 +75,8 @@ public class CatalogListActivity extends BaseListActivity
         super.onListItemClick(l, v, position, id);
         Cursor product = (Cursor) l.getAdapter().getItem(position);
         Intent startIntent;
-        if (product.getInt(14) > 1) {
+        int itemCountIndex = product.getColumnIndex("count");
+        if (product.getInt(itemCountIndex) > 1) {
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
             CatalogSubCategory.backActivity = CatalogListActivity.class;

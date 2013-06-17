@@ -61,9 +61,6 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     private Context mContext;
     public final static String EXTRA_RESULT_CHECKED = "isChecked";
     public final static String EXTRA_CHILD_POSITION = "position";
-//    private final static int ID_LOADER_SORTBY = 101;
-//    private final static int ID_LOADER_SELECT_CATEGORY = 102;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -299,10 +296,6 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
                     mFiltrUse = false;
                     break;
                 case R.id.search_butt:
-//                    stopManagingCursor(cItems);
-//                    cItems.close();
-//                    new SelectDataTask(CatalogByCategoryActivity.this, filter.getSQLWhereClause(), mLocationId)
-//                            .execute(mCategoryID, mSortBy);
                     mFilterWhereClause = filter.getSQLWhereClause();
                     initLoadManager();
                     organizeView();

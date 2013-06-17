@@ -108,9 +108,9 @@ public class ItemDAO extends BaseDAO {
             orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
         }
 
-        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category, MIN(t1.price) as price, year, quantity, color, " +
+        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category as drink_category, MIN(t1.price) as price, year, quantity, color, " +
                 "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count "+
-                "FROM item AS t1 INNER JOIN (SELECT DISTINCT * FROM item_availability) AS t2 ON t1.item_id = t2.item_id " +
+                "FROM item AS t1 INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id " +
                 "WHERE t1.drink_category = %s AND location_id = '%s' GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript,categoryId, locationId, orderBy );
         Log.v("SQL_QUERY getFeaturedItemsByCategory(int categoryId, String locationId, String orderByField)", selectSql);

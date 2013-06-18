@@ -19,7 +19,8 @@
                     android:lines="2"
                     android:maxLines="2"
                     android:gravity="center"
-                    android:layout_gravity="center_horizontal" android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dip"
                     android:layout_marginBottom="5dip"/>
             <org.holoeverywhere.widget.TextView
@@ -37,6 +38,7 @@
                     android:onClick="onBuildRouteButtonClick"
                     android:text="@string/build_route_btn_label"
                     android:textColor="@android:color/black"
+                    android:background="@drawable/category_butt_selector"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="13dip"
                     android:layout_marginTop="10dip"/>

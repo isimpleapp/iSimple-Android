@@ -5,11 +5,6 @@
             <solid android:color="@color/product_background_press"/>
         </shape>
     </item>
-    <item     android:state_selected="true">
-        <shape>
-            <solid android:color="@color/product_background_press"/>
-        </shape>
-    </item>
     <item android:state_pressed="true">
         <shape>
             <solid android:color="@color/product_background_press"/>

@@ -24,6 +24,7 @@
                     android:textSize="15dip"
                     android:text="@string/button_catalog"
                     android:textColor="@android:color/black"
+                    android:background="@drawable/category_butt_selector"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="13dip"
                     android:layout_centerHorizontal="true"

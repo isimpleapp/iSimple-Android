@@ -156,7 +156,7 @@ public class CatalogListActivity extends BaseListActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new SelectFeaturedMainItems(this);  //To change body of implemented methods use File | Settings | File Templates.
+        return new SelectFeaturedMainItems(this);
     }
 
     @Override

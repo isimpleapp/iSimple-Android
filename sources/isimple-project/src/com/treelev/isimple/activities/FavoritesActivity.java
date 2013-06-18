@@ -3,8 +3,9 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.ActionMode;
@@ -13,6 +14,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
+import com.treelev.isimple.cursorloaders.DeleteFavouriteItems;
+import com.treelev.isimple.cursorloaders.SelectFavouriteItems;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -21,7 +24,8 @@ import org.holoeverywhere.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FavoritesActivity extends BaseListActivity {
+public class FavoritesActivity extends BaseListActivity
+        implements LoaderManager.LoaderCallbacks<Cursor>{
 
     public static final String FAVORITES = "favorites";
 
@@ -31,6 +35,10 @@ public class FavoritesActivity extends BaseListActivity {
     private Context mContext;
     private ArrayList<String> mDeleteItemsId;
     private ActionMode mActionMode;
+    private Dialog mDialog;
+
+    private final int LOAD_FAVOURITE_ITEMS = 1;
+    private final int DELETE_FAVOURITE_ITEMS = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,11 +51,14 @@ public class FavoritesActivity extends BaseListActivity {
         listView.setMultiChoiceModeListener(multiChoiceModeListener);
         mContext = this;
         mDeleteItemsId = new ArrayList<String>();
-        new SelectByFavorites(mContext).execute();
+        mListAdapter = new CatalogItemCursorAdapter(null, this, false, false);
+        mListAdapter.setDeleteItemsId(mDeleteItemsId);
+        getListView().setAdapter(mListAdapter);
     }
 
     @Override
     protected void onResume() {
+        getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
         super.onResume();
         updateActivity();
 
@@ -106,53 +117,34 @@ public class FavoritesActivity extends BaseListActivity {
         }
     }
 
-    private ProxyManager getProxyManager() {
-        if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(this);
-        }
-        return mProxyManager;
-    }
-
     public void backCatalog(View view){
         getSupportActionBar().setSelectedNavigationItem(0);
     }
 
-    private class SelectByFavorites extends AsyncTask<String, Void, Cursor> {
-
-        private Dialog mDialog;
-        private Context mContext;
-
-        private SelectByFavorites(Context context) {
-            mContext = context;
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        mDialog = ProgressDialog.show(this, this.getString(R.string.dialog_title),
+                this.getString(R.string.dialog_select_data_message), false, false);
+        switch (i){
+            case LOAD_FAVOURITE_ITEMS:
+                return new SelectFavouriteItems(this);
+            case DELETE_FAVOURITE_ITEMS:
+                return new DeleteFavouriteItems(this, mDeleteItemsId);
+            default:
+                return null;
         }
+    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_select_data_message), false, false);
-        }
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mListAdapter.swapCursor(cursor);
+        updateActivity();
+        mDialog.dismiss();
+    }
 
-        @Override
-        protected Cursor doInBackground(String... params) {
-            return getProxyManager().getFavouriteItems();
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            cItems = cursor;
-            startManagingCursor(cItems);
-            if(mListAdapter == null) {
-                mListAdapter = new CatalogItemCursorAdapter(cItems, FavoritesActivity.this, false, false);
-                mListAdapter.setDeleteItemsId(mDeleteItemsId);
-            } else {
-                mListAdapter.swapCursor(cItems);
-            }
-            getListView().setAdapter(mListAdapter);
-            updateActivity();
-            mDialog.dismiss();
-
-        }
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mListAdapter.swapCursor(null);
     }
 
 
@@ -160,21 +152,16 @@ public class FavoritesActivity extends BaseListActivity {
         RelativeLayout layout = (RelativeLayout)findViewById(R.id.not_favourite_items);
         if( getListView().getCount() > 0){
             layout.setVisibility(View.GONE);
-        } else {
+         } else {
             layout.setVisibility(View.VISIBLE);
-            TextView textView = (TextView) findViewById(R.id.favourite_empty);
         }
+        mDeleteItemsId.clear();
+        mListAdapter.notifyDataSetChanged();
     }
 
     private void deleteSelectedItems(){
-        stopManagingCursor(cItems);
-        getProxyManager().delFavourites(mDeleteItemsId);
-        getProxyManager().setFavouriteItemTable(mDeleteItemsId, false);
-        mDeleteItemsId.clear();
-        new SelectByFavorites(mContext).execute();
+        getSupportLoaderManager().restartLoader(DELETE_FAVOURITE_ITEMS, null, this);
     }
-
-
 
     private ListView.MultiChoiceModeListener multiChoiceModeListener = new ListView.MultiChoiceModeListener() {
 
@@ -216,10 +203,6 @@ public class FavoritesActivity extends BaseListActivity {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            mDeleteItemsId.clear();
-            if(mListAdapter != null) {
-                mListAdapter.notifyDataSetChanged();
-            }
         }
 
     };

@@ -4,17 +4,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CursorAdapter;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ShoppingCartCursorAdapter;
+import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.TextView;
 
 public class ShoppingCartActivity extends BaseListActivity {
 
     public final static int NAVIGATE_CATEGORY_ID = 3;
+    public final static String PRICE_LABEL_FORMAT = "%s р.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,10 @@ public class ShoppingCartActivity extends BaseListActivity {
         getSupportActionBar().setIcon(R.drawable.menu_ico_shopping_cart);
     }
 
+    public void clickCatalogButton(View view) {
+        getSupportActionBar().setSelectedNavigationItem(0);
+    }
+
     private class SelectDataShoppingCartTask extends AsyncTask<Void, Void, Cursor> {
 
         private Dialog mDialog;
@@ -74,8 +82,25 @@ public class ShoppingCartActivity extends BaseListActivity {
         protected void onPostExecute(Cursor cursor) {
             Cursor cItems = cursor;
             startManagingCursor(cItems);
-            CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems);
+            TextView shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
+            CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView);
+            int shoppingCartPrice = 0;
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    do {
+                        int count = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
+                        int itemPrice = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE));
+                        shoppingCartPrice += itemPrice * count;
+                    } while (cursor.moveToNext());
+                }
+                cursor.moveToFirst();
+            }
+            shoppingCartPriceTextView.setText(String.format(PRICE_LABEL_FORMAT, shoppingCartPrice));
             getListView().setAdapter(mListCategoriesAdapter);
+            if (getListView().getCount() == 0) {
+                findViewById(R.id.content_layout).setVisibility(View.GONE);
+                findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
+            }
             mDialog.dismiss();
         }
     }

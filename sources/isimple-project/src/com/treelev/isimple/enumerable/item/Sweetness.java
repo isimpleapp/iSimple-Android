@@ -5,7 +5,7 @@ import com.treelev.isimple.domain.ui.Presentable;
 import java.io.Serializable;
 
 public enum Sweetness implements Serializable, Presentable {
-    DRY("Cухое"), MEDIUM_DRY("Полусухое"),
+    DRY("Сухое"), MEDIUM_DRY("Полусухое"),
     MEDIUM_SWEET("Полусладкое"), SWEET("Сладкое"),
     CHAMPAGNE_BRUT("Брют"), CHAMPAGNE_XBRUT("Экстра брют"),
     PORTO_DRY("Сухой"), PORTO_SWEET("Сладкий"),
@@ -32,8 +32,11 @@ public enum Sweetness implements Serializable, Presentable {
 
     public static Sweetness getSweetness(String sweetnessId) {
         for (Sweetness sweetness : values()) {
-            if (sweetness.description != null && sweetness.description.equalsIgnoreCase(sweetnessId)) {
-                return sweetness;
+            if (sweetness.description != null) {
+                String description = sweetness.description.toLowerCase();
+                if (description.equals(sweetnessId)) {
+                    return sweetness;
+                }
             }
         }
         return OTHER;

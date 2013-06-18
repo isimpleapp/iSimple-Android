@@ -205,7 +205,7 @@ public class Item implements Serializable {
     }
 
     public boolean hasYear(){
-        return year != null ? year != 0 : false;
+        return year != null && year != 0;
     }
 
     public Float getVolume() {

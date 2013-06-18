@@ -253,6 +253,26 @@ public class ProxyManager {
         return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getShoppingCartItems();
     }
 
+    public void increaseItemCount(String itemId) {
+        ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).increaseItemCount(itemId);
+    }
+
+    public void decreaseItemCount(String itemId) {
+        ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).decreaseItemCount(itemId);
+    }
+
+    public void deleteItem(String itemId) {
+        ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).deleteItem(itemId);
+    }
+
+    public int getShoppingCartPrice() {
+        return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getShoppingCartPrice();
+    }
+
+    public int getItemCount(String itemId) {
+        return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getItemCount(itemId);
+    }
+
     public void release() {
         if (mdao.size() > 0) {
             for (BaseDAO dao : mdao.values()) {

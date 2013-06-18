@@ -22,4 +22,6 @@
     <string name="error_route_create_dialog_message">Не удается проложить маршрут, проверьте подключение к интернету…</string>
     <string name="delete">Удалить</string>
     <string name="not_found_mail_cleint">Нет почтовых клиентов</string>
+    <string name="empty_shopping_list">Вы ещё ничего не выбрали</string>
+    <string name="create_order_btn_label">Заказать</string>
 </resources>

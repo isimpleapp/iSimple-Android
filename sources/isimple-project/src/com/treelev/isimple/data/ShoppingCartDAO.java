@@ -137,10 +137,72 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public Cursor getShoppingCartItems() {
         open();
-        String formatSelectScript = "SELECT %s as %s, %s, %s, %s, %s, %s, %s FROM %s";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, BaseColumns._ID, DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
-                DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
-                DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
+        String formatSelectScript = "SELECT %s as %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s";
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, BaseColumns._ID,
+                DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
+                DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
+                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+                DatabaseSqlHelper.ITEM_COLOR, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
         return getDatabase().rawQuery(selectSql, null);
+    }
+
+    public void increaseItemCount(String itemId) {
+        String updateQueryFormat = "UPDATE %1$s SET %2$s = (SELECT %2$s FROM %1$s WHERE %3$s = %4$s) + 1 WHERE %3$s = %4$s";
+        String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
+        open();
+        getDatabase().execSQL(query);
+        close();
+    }
+
+    public void decreaseItemCount(String itemId) {
+        String updateQueryFormat = "UPDATE %1$s SET %2$s = (SELECT %2$s FROM %1$s WHERE %3$s = %4$s) - 1 WHERE %3$s = %4$s";
+        String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
+        open();
+        getDatabase().execSQL(query);
+        close();
+    }
+
+    public int getItemCount(String itemId) {
+        String formatQuery = "SELECT %s FROM %s WHERE %s = %s";
+        String query = String.format(formatQuery, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_ID, itemId);
+        open();
+        Cursor cursor = getDatabase().rawQuery(query, null);
+        int count = -1;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                count = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
+            }
+            cursor.close();
+        }
+        close();
+        return count;
+    }
+
+    public void deleteItem(String itemId) {
+        String formatQuery = "DELETE FROM %s WHERE %s = %s";
+        String query = String.format(formatQuery, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_ID, itemId);
+        open();
+        getDatabase().execSQL(query);
+        close();
+    }
+
+    public int getShoppingCartPrice() {
+        String formatQuery = "SELECT %s, %s FROM %s";
+        String query = String.format(formatQuery, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
+        open();
+        int shoppingCartPrice = 0;
+        Cursor cursor = getDatabase().rawQuery(query, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    int count = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
+                    int itemPrice = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE));
+                    shoppingCartPrice += itemPrice * count;
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        close();
+        return shoppingCartPrice;
     }
 }

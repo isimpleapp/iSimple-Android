@@ -11,6 +11,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ShoppingCartCursorAdapter;
 import com.treelev.isimple.data.DatabaseSqlHelper;
+import com.treelev.isimple.fragments.OrderDialogFragment;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -26,6 +27,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private String country;
     private String[] countries;
 
+    private OrderDialogFragment dlgMakeOrder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         createNavigationMenuBar();
         proxyManager = new ProxyManager(this);
         getListView().addFooterView(organizeFooterView());
+        dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.SELECT_TYPE);
         new SelectDataShoppingCartTask(this).execute();
     }
 
@@ -111,9 +115,11 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
 
         private Dialog mDialog;
         private Context mContext;
+        private ProxyManager proxyManager;
 
         private SelectDataShoppingCartTask(Context context) {
             mContext = context;
+            proxyManager = new ProxyManager(context);
         }
 
         @Override
@@ -156,4 +162,13 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             mDialog.dismiss();
         }
     }
+
+
+    public void onMakeOrder(View v){
+
+        dlgMakeOrder.setArguments(new Bundle());
+        dlgMakeOrder.show(getSupportFragmentManager(), "SELECT_TYPE");
+
+    }
+
 }

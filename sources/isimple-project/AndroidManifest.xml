@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.treelev.map.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".app.ISimpleApp"
                  android:theme="@style/iSimpleStyle">
         <activity android:name=".activities.CatalogListActivity" android:screenOrientation="portrait">

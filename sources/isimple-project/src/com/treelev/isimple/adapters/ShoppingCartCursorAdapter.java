@@ -31,9 +31,11 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     private final static String ITEM_ID_FORMAT = "Артикул %s";
     private ProxyManager proxyManager;
     private TextView shoppingCartPriceTextView;
+    private TextView shoppingCartFooterTextView;
+    private String country;
     private Context context;
 
-    public ShoppingCartCursorAdapter(Context context, Cursor cursor, TextView shoppingCartPriceTextView) {
+    public ShoppingCartCursorAdapter(Context context, Cursor cursor, TextView shoppingCartPriceTextView, TextView shoppingCartFooterTextView, String country) {
         super(context, R.layout.shopping_cart_item_layout, cursor, new String[]{
                 DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, BaseColumns._ID, DatabaseSqlHelper.ITEM_VOLUME,
                 DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
@@ -54,6 +56,8 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
         proxyManager = new ProxyManager(context);
         this.shoppingCartPriceTextView = shoppingCartPriceTextView;
+        this.shoppingCartFooterTextView = shoppingCartFooterTextView;
+        this.country = country;
         this.context = context;
     }
 
@@ -100,6 +104,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         int shoppingCartPrice = proxyManager.getShoppingCartPrice();
         String priceStr = String.format(ShoppingCartActivity.PRICE_LABEL_FORMAT, shoppingCartPrice);
         shoppingCartPriceTextView.setText(priceStr);
+        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
     }
 
     private void increaseItemCount(View view) {

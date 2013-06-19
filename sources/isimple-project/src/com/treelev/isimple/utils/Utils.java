@@ -35,6 +35,8 @@ public class Utils {
                 return new FeaturedItemsParser();
             case DeprecatedItemParser.DEPRECATED_ITEMS_PARSER_ID:
                 return new DeprecatedItemParser();
+            case DeliveryZoneParser.DELIVERY_ZONE_PARSER_ID:
+                return new DeliveryZoneParser();
             default:
                 return null;
         }

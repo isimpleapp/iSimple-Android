@@ -1,18 +1,12 @@
 package com.treelev.isimple.domain.db;
 
-import com.treelev.isimple.domain.PickupLocation;
-
 public class DeliveryZone {
 
     private String name;
-    private Integer pickupCost;
     private Integer pickupCondition;
-    private PickupLocation pickupLocation;
     private String pickupDesc;
-    private Integer deliveryCost;
     private Integer deliveryCondition;
     private String deliveryDesc;
-    private Integer specialCost;
     private Integer specialCondition;
     private String specialDesc;
 
@@ -24,14 +18,6 @@ public class DeliveryZone {
         this.name = name;
     }
 
-    public Integer getPickupCost() {
-        return pickupCost;
-    }
-
-    public void setPickupCost(Integer pickupCost) {
-        this.pickupCost = pickupCost;
-    }
-
     public Integer getPickupCondition() {
         return pickupCondition;
     }
@@ -40,28 +26,12 @@ public class DeliveryZone {
         this.pickupCondition = pickupCondition;
     }
 
-    public PickupLocation getPickupLocation() {
-        return pickupLocation;
-    }
-
-    public void setPickupLocation(PickupLocation pickupLocation) {
-        this.pickupLocation = pickupLocation;
-    }
-
     public String getPickupDesc() {
         return pickupDesc;
     }
 
     public void setPickupDesc(String pickupDesc) {
         this.pickupDesc = pickupDesc;
-    }
-
-    public Integer getDeliveryCost() {
-        return deliveryCost;
-    }
-
-    public void setDeliveryCost(Integer deliveryCost) {
-        this.deliveryCost = deliveryCost;
     }
 
     public Integer getDeliveryCondition() {
@@ -78,14 +48,6 @@ public class DeliveryZone {
 
     public void setDeliveryDesc(String deliveryDesc) {
         this.deliveryDesc = deliveryDesc;
-    }
-
-    public Integer getSpecialCost() {
-        return specialCost;
-    }
-
-    public void setSpecialCost(Integer specialCost) {
-        this.specialCost = specialCost;
     }
 
     public Integer getSpecialCondition() {

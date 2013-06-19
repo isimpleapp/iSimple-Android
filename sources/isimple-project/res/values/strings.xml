@@ -24,4 +24,6 @@
     <string name="not_found_mail_cleint">Нет почтовых клиентов</string>
     <string name="empty_shopping_list">Вы ещё ничего не выбрали</string>
     <string name="create_order_btn_label">Заказать</string>
+    <string name="shopping_cart_delete_all_btn_label">Очистить</string>
+    <string name="shopping_cart_delivery_btn_label">Delivery</string>
 </resources>

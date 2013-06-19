@@ -227,7 +227,8 @@ public class ProxyManager {
                                     (id == ShopDAO.ID) ? new ShopDAO(context) :
                                             (id == ChainDAO.ID) ? new ChainDAO(context) :
                                                 (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) :
-                                                        (id == ShoppingCartDAO.ID) ? new ShoppingCartDAO(context) : null;
+                                                        (id == ShoppingCartDAO.ID) ? new ShoppingCartDAO(context) :
+                                                                (id == DeliveryZoneDAO.ID) ? new DeliveryZoneDAO(context) : null;
             if (dao != null) {
                 mdao.put(id, dao);
                 return dao;
@@ -269,8 +270,20 @@ public class ProxyManager {
         return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getShoppingCartPrice();
     }
 
+    public void deleteAllShoppingCartData() {
+        ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).deleteAllData();
+    }
+
     public int getItemCount(String itemId) {
         return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getItemCount(itemId);
+    }
+
+    public String getDeliveryFirstCountry() {
+        return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getFirstCountryLabel();
+    }
+
+    public String getDeliveryMessage(String country, int price) {
+        return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getMessage(country, price);
     }
 
     public void release() {

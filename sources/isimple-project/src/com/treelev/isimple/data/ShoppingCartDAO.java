@@ -115,7 +115,7 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public void addItemCount(String itemId) {
         open();
-        String updateScript = "UPDATE %1$s SET %2$s = ((SELECT %2$s FROM %1$s WHERE %3$s = %4$s) + 1) WHERE %3$s = %4$s";
+        String updateScript = "UPDATE %1$s SET %2$s = ((SELECT %2$s FROM %1$s WHERE %3$s = '%4$s') + 1) WHERE %3$s = '%4$s'";
         String updateSql = String.format(updateScript, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE,
                 DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         getDatabase().execSQL(updateSql);
@@ -147,7 +147,7 @@ public class ShoppingCartDAO extends BaseDAO {
     }
 
     public void increaseItemCount(String itemId) {
-        String updateQueryFormat = "UPDATE %1$s SET %2$s = (SELECT %2$s FROM %1$s WHERE %3$s = %4$s) + 1 WHERE %3$s = %4$s";
+        String updateQueryFormat = "UPDATE %1$s SET %2$s = (SELECT %2$s FROM %1$s WHERE %3$s = '%4$s') + 1 WHERE %3$s = '%4$s'";
         String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
@@ -155,7 +155,7 @@ public class ShoppingCartDAO extends BaseDAO {
     }
 
     public void decreaseItemCount(String itemId) {
-        String updateQueryFormat = "UPDATE %1$s SET %2$s = (SELECT %2$s FROM %1$s WHERE %3$s = %4$s) - 1 WHERE %3$s = %4$s";
+        String updateQueryFormat = "UPDATE %1$s SET %2$s = (SELECT %2$s FROM %1$s WHERE %3$s = '%4$s') - 1 WHERE %3$s = '%4$s'";
         String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
@@ -163,7 +163,7 @@ public class ShoppingCartDAO extends BaseDAO {
     }
 
     public int getItemCount(String itemId) {
-        String formatQuery = "SELECT %s FROM %s WHERE %s = %s";
+        String formatQuery = "SELECT %s FROM %s WHERE %s = '%s'";
         String query = String.format(formatQuery, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         Cursor cursor = getDatabase().rawQuery(query, null);
@@ -179,8 +179,16 @@ public class ShoppingCartDAO extends BaseDAO {
     }
 
     public void deleteItem(String itemId) {
-        String formatQuery = "DELETE FROM %s WHERE %s = %s";
+        String formatQuery = "DELETE FROM %s WHERE %s = '%s'";
         String query = String.format(formatQuery, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_ID, itemId);
+        open();
+        getDatabase().execSQL(query);
+        close();
+    }
+
+    public void deleteAllData() {
+        String formatQuery = "DELETE FROM %s";
+        String query = String.format(formatQuery, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
         open();
         getDatabase().execSQL(query);
         close();

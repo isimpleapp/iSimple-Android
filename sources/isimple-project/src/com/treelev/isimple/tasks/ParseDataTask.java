@@ -69,6 +69,10 @@ public class ParseDataTask extends AsyncTask<File, Void, Void> {
                 break;
             case 5:
                 customDAOList = new BaseDAO[]{daoList[4]};
+                break;
+            case 6:
+                customDAOList = new BaseDAO[]{daoList[5]};
+                break;
         }
         return customDAOList;
     }
@@ -87,6 +91,8 @@ public class ParseDataTask extends AsyncTask<File, Void, Void> {
                 return FeaturedItemsParser.FEATURED_ITEMS_PARSER_ID;
             case 5:
                 return DeprecatedItemParser.DEPRECATED_ITEMS_PARSER_ID;
+            case 6:
+                return DeliveryZoneParser.DELIVERY_ZONE_PARSER_ID;
             default:
                 return -1;
         }

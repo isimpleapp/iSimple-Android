@@ -30,4 +30,5 @@
     <color name="shopping_cart_make_order_background_layout">#252525</color>
     <color name="shopping_cart_count_btn_background">#eeeeee</color>
     <color name="shopping_cart_count_btn_border">#aeaeae</color>
+    <color name="shopping_cart_delivery_label_color">#adadad</color>
  </resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" android:background="@color/catalog_header_background">
+        <org.holoeverywhere.widget.Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" android:layout_weight="1" android:layout_margin="3dip"
+                android:text="@string/shopping_cart_delete_all_btn_label" android:id="@+id/delete_all_btn"
+                android:textSize="15sp" android:drawableLeft="@drawable/shopping_cart_recycle_bin"/>
+        <org.holoeverywhere.widget.Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" android:layout_weight="1" android:layout_margin="3dip"
+                android:text="@string/shopping_cart_delivery_btn_label"
+                android:drawableLeft="@drawable/shopping_cart_change_city" android:textSize="15sp"
+                android:id="@+id/delivery_btn"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" android:background="@android:color/white">
+        <org.holoeverywhere.widget.TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Вы можете провести самовывоз или заказать доставку курьером за 300 р."
+                android:gravity="center" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"
+                android:layout_marginTop="5dip" android:layout_marginBottom="5dip" android:textSize="12sp"
+                android:textColor="@color/shopping_cart_delivery_label_color" android:id="@+id/footer_view_label"/>
+    </LinearLayout>
+</LinearLayout>

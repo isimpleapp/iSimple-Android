@@ -13,12 +13,16 @@ import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.TextView;
 
-public class ShoppingCartActivity extends BaseListActivity {
+public class ShoppingCartActivity extends BaseListActivity implements View.OnClickListener {
 
     public final static int NAVIGATE_CATEGORY_ID = 3;
     public final static String PRICE_LABEL_FORMAT = "%s р.";
+    private ProxyManager proxyManager;
+    private View footerView;
+    private String country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,8 @@ public class ShoppingCartActivity extends BaseListActivity {
         setContentView(R.layout.shopping_cart_layout);
         setCurrentCategory(NAVIGATE_CATEGORY_ID);
         createNavigationMenuBar();
+        proxyManager = new ProxyManager(this);
+        getListView().addFooterView(organizeFooterView());
         new SelectDataShoppingCartTask(this).execute();
     }
 
@@ -55,15 +61,44 @@ public class ShoppingCartActivity extends BaseListActivity {
         getSupportActionBar().setSelectedNavigationItem(0);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.delete_all_btn:
+                proxyManager.deleteAllShoppingCartData();
+                Cursor cursor = ((CursorAdapter) getListView().getAdapterSource()).getCursor();
+                if (cursor != null) {
+                    cursor.requery();
+                    if (cursor.getCount() == 0) {
+                        findViewById(R.id.content_layout).setVisibility(View.GONE);
+                        findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
+                    }
+                }
+                break;
+            case R.id.delivery_btn:
+
+                break;
+        }
+    }
+
+    private View organizeFooterView() {
+        footerView = getLayoutInflater().inflate(R.layout.shopping_cart_list_footer_layout, null, false);
+        Button button = (Button) footerView.findViewById(R.id.delete_all_btn);
+        button.setOnClickListener(this);
+        button = (Button) footerView.findViewById(R.id.delivery_btn);
+        country = proxyManager.getDeliveryFirstCountry();
+        button.setText(country);
+        button.setOnClickListener(this);
+        return footerView;
+    }
+
     private class SelectDataShoppingCartTask extends AsyncTask<Void, Void, Cursor> {
 
         private Dialog mDialog;
         private Context mContext;
-        private ProxyManager proxyManager;
 
         private SelectDataShoppingCartTask(Context context) {
             mContext = context;
-            proxyManager = new ProxyManager(context);
         }
 
         @Override
@@ -83,7 +118,8 @@ public class ShoppingCartActivity extends BaseListActivity {
             Cursor cItems = cursor;
             startManagingCursor(cItems);
             TextView shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
-            CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView);
+            TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
+            CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView, shoppingCartFooterTextView, country);
             int shoppingCartPrice = 0;
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
@@ -95,9 +131,10 @@ public class ShoppingCartActivity extends BaseListActivity {
                 }
                 cursor.moveToFirst();
             }
+            shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
             shoppingCartPriceTextView.setText(String.format(PRICE_LABEL_FORMAT, shoppingCartPrice));
             getListView().setAdapter(mListCategoriesAdapter);
-            if (getListView().getCount() == 0) {
+            if (cursor != null && cursor.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);
                 findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
             }

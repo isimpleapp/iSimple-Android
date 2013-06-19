@@ -57,6 +57,7 @@
         <activity android:name=".activities.FavoritesActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.RouteDisplayActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.ShoppingCartActivity" android:screenOrientation="portrait"/>
+
         <uses-library android:name="com.google.android.maps" />
     </application>
 </manifest>

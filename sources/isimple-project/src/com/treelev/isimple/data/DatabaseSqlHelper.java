@@ -244,7 +244,6 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             CHAIN_NAME + " text, " +
             CHAIN_TYPE + " integer);";
 
-
     public final static String FEATURED_ITEM_TABLE = "featured_item";
     public final static String FEATURED_ITEM_ID = "item_id";
     public final static String FEATURED_ITEM_CATEGORY_ID = "category_id";
@@ -252,6 +251,19 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     private final static String CREATE_TABLE_FEATURED_ITEM = "create table " + FEATURED_ITEM_TABLE + " ( " +
             FEATURED_ITEM_ID + " text, " +
             FEATURED_ITEM_CATEGORY_ID + " integer);";
+
+    public final static String DELIVERY_ITEM_TABLE = "delivery";
+    public final static String DELIVERY_NAME = "name";
+    public final static String DELIVERY_MIN_CONDITION = "min_condition";
+    public final static String DELIVERY_MAX_CONDITION = "max_condition";
+    public final static String DELIVERY_DESC = "pickup_desc";
+
+    private final static String CREATE_TABLE_DELIVERY_ITEM = "create table " + DELIVERY_ITEM_TABLE + " ( " +
+            BaseColumns._ID + " integer primary key autoincrement, " +
+            DELIVERY_NAME + " text, " +
+            DELIVERY_MIN_CONDITION + " integer, " +
+            DELIVERY_MAX_CONDITION + " integer, " +
+            DELIVERY_DESC + " text);";
 
     public DatabaseSqlHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -267,6 +279,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_FEATURED_ITEM);
         db.execSQL(CREATE_TABLE_FAVOURITE_ITEM);
         db.execSQL(CREATE_TABLE_SHOPPING_CART_ITEM);
+        db.execSQL(CREATE_TABLE_DELIVERY_ITEM);
     }
 
     @Override
@@ -280,6 +293,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
         db.execSQL(String.format(dropTableText, ITEM_DEPRECATED_TABLE));
         db.execSQL(String.format(dropTableText, FAVOURITE_ITEM_TABLE));
         db.execSQL(String.format(dropTableText, SHOPPING_CART_ITEM_TABLE));
+        db.execSQL(String.format(dropTableText, DELIVERY_ITEM_TABLE));
         onCreate(db);
     }
 }

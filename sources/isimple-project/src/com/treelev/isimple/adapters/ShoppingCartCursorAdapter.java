@@ -117,9 +117,9 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     private void decreaseItemCount(View view) {
         String itemId = (String) view.getTag();
         int count = proxyManager.getItemCount(itemId);
+        getCursor().requery();
         if (count == 1) {
             proxyManager.deleteItem(itemId);
-            getCursor().requery();
             notifyDataSetChanged();
             if (getCursor().getCount() == 0) {
                 ((Activity) context).findViewById(R.id.content_layout).setVisibility(View.GONE);
@@ -127,7 +127,6 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
             }
         } else {
             proxyManager.decreaseItemCount((String) view.getTag());
-            getCursor().requery();
             ((TextView) ((LinearLayout) view.getParent()).findViewById(R.id.product_count))
                     .setText(String.valueOf(getCursor().getInt(getCursor().getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT))));
         }

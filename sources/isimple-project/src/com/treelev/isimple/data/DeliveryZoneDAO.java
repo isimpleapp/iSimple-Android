@@ -83,6 +83,25 @@ public class DeliveryZoneDAO extends BaseDAO {
         return countryLabel;
     }
 
+    public String[] getCountries() {
+        String formatQuery = "SELECT DISTINCT %s FROM %s";
+        String query = String.format(formatQuery, DatabaseSqlHelper.DELIVERY_NAME, DatabaseSqlHelper.DELIVERY_ITEM_TABLE);
+        open();
+        Cursor cursor = getDatabase().rawQuery(query, null);
+        String[] countries = null;
+        if (cursor != null) {
+            countries = new String[cursor.getCount()];
+            cursor.moveToFirst();
+            for (int i = 0; i < cursor.getCount(); i++) {
+                countries[i] = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.DELIVERY_NAME));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        close();
+        return countries;
+    }
+
     public String getMessage(String country, int price) {
         String formatQuery = "SELECT %1$s FROM %2$s WHERE (%3$s = '%4$s') AND (%5$s >= %6$d OR %5$s IS NULL) AND (%7$s <= %6$d)";
         String query = String.format(formatQuery, DatabaseSqlHelper.DELIVERY_DESC, DatabaseSqlHelper.DELIVERY_ITEM_TABLE,

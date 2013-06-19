@@ -1,6 +1,7 @@
 package com.treelev.isimple.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private ProxyManager proxyManager;
     private View footerView;
     private String country;
+    private String[] countries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,20 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                 }
                 break;
             case R.id.delivery_btn:
-
+                org.holoeverywhere.app.AlertDialog.Builder builder = new org.holoeverywhere.app.AlertDialog.Builder(this);
+                builder.setTitle("Выберите зону доставки");
+                countries = proxyManager.getCountries();
+                builder.setItems(proxyManager.getCountries(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        country = countries[which];
+                        TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
+                        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, proxyManager.getShoppingCartPrice()));
+                        Button button = (Button) footerView.findViewById(R.id.delivery_btn);
+                        button.setText(country);
+                    }
+                });
+                builder.show();
                 break;
         }
     }

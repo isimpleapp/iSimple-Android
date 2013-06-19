@@ -282,6 +282,10 @@ public class ProxyManager {
         return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getFirstCountryLabel();
     }
 
+    public String[] getCountries() {
+        return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getCountries();
+    }
+
     public String getDeliveryMessage(String country, int price) {
         return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getMessage(country, price);
     }

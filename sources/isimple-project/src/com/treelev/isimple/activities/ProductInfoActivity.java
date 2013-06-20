@@ -105,7 +105,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         ExpandableListView listView = getExpandableListView();
         headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
 //TODO: replace
-        TextView itemTitle = (TextView) findViewById(R.id.title_item);
+        TextView itemTitle = (TextView) headerView.findViewById(R.id.title_item);
 
         itemTitle.setText(mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "");
 
@@ -172,7 +172,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     private void setFavouritesImage(boolean isFavourite) {
         ImageView image = (ImageView) headerView.findViewById(R.id.favourite_image);
-        TextView tv = (TextView) headerView.findViewById(R.id.product_manufacturer);
+        TextView tv = (TextView) headerView.findViewById(R.id.product_name);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         if (isFavourite) {
             image.setVisibility(View.VISIBLE);

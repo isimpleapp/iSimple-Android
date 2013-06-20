@@ -39,12 +39,12 @@ public class OrderDialogFragment extends DialogFragment
     public static final int PHONE_TYPE = 0;   //id item list
     public static final int EMAIL_TYPE = 1;   // id item list
 
-    public static final String PHONE = "PHONE";
     public static final String LIST_ORDERS = "LIST_ORDERS";
 
     private OrderDialogFragment mDialogFragment;
     private int mType;
     private String mContactInfo;
+    private EditText mEditContactInfo;
     private Button mBtnPositive;
     private Dialog mDialog;
 
@@ -55,9 +55,14 @@ public class OrderDialogFragment extends DialogFragment
     @Override
     public void onStart() {
         super.onStart();
-        EditText tvContactInfo = (EditText) mDialog.findViewById(R.id.contact_info);
-        if(tvContactInfo != null){
-            tvContactInfo.addTextChangedListener(this);
+        mEditContactInfo = (EditText) mDialog.findViewById(R.id.contact_info);
+        if(mEditContactInfo != null){
+            mEditContactInfo.addTextChangedListener(this);
+            if(mType == PHONE_TYPE){
+                String start = "+7 ";
+                mEditContactInfo.setText(start);
+                mEditContactInfo.setSelection(start.length());
+            }
         }
         mBtnPositive = ((AlertDialog) (mDialog)).getButton(AlertDialog.BUTTON_POSITIVE);
         if(mBtnPositive != null) {
@@ -123,9 +128,9 @@ public class OrderDialogFragment extends DialogFragment
         return mDialog;
     }
 
-     private void sendOrder(){
+    private void sendOrder(){
 
-     }
+    }
 
     private void postData() {
         // Create a new HttpClient and Post Header
@@ -180,9 +185,7 @@ public class OrderDialogFragment extends DialogFragment
     private String getListOrder(){
         StringBuffer sbListOrder = new StringBuffer();
         sbListOrder.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-        String phone = getArguments().getString(PHONE);
-        sbListOrder.append(String.format("<Order contactInfo = \"%s\">", phone));
-//        getArguments().getSerializable(LIST_ORDERS);
+        sbListOrder.append(String.format("<Order contactInfo = \"%s\">", mContactInfo));
         String itemID = "";
         String quantity = "";
         sbListOrder.append(String.format("<OrderItem><ItemID>%s</ItemID><Quantity>%s</Quantity></OrderItem>", itemID, quantity));
@@ -191,17 +194,19 @@ public class OrderDialogFragment extends DialogFragment
         return sbListOrder.toString();
     }
 
+    private boolean mFormatting;
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int coun) {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
         boolean enable = false;
         switch(mType){
             case PHONE_TYPE:
-                enable = false;
+                enable = s.length() == 16;
                 break;
             case EMAIL_TYPE:
                 enable = android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches();
@@ -214,6 +219,53 @@ public class OrderDialogFragment extends DialogFragment
 
     @Override
     public void afterTextChanged(Editable editable) {
+        switch (mType){
+            case PHONE_TYPE:
+                if(!mFormatting){
+                    mFormatting = true;
+                    mContactInfo = formatPhone(editable);
+                    mEditContactInfo.setText(mContactInfo);
+                    mEditContactInfo.setSelection(mContactInfo.length());
+                    mFormatting = false;
+                }
+                break;
+        }
+    }
 
+    private int mLengthOld = 3;
+
+    private String formatPhone(CharSequence s){
+        StringBuilder formatted = new StringBuilder();
+        int positionEnd = s.length()-1;
+        formatted.append("+7 ");
+        if (Character.isDigit(s.charAt(positionEnd)) && mLengthOld < (positionEnd+1)){
+            if(positionEnd > 2 && positionEnd < 16){
+                formatted.append(s.subSequence(3, positionEnd+1));
+                if(positionEnd == 5){
+                    formatted.append(" ");
+                } else if(positionEnd == 9 || positionEnd == 12){
+                    formatted.append("-");
+                }
+            } else {
+                formatted.append(s.subSequence(3, 16));
+            }
+        } else {
+            if(positionEnd > 2 && positionEnd < 16 ) {
+                if(positionEnd == 6 || positionEnd == 10 || positionEnd == 13){
+                    formatted.append(s.subSequence(3, positionEnd));
+                } else {
+                    if(!isSpecialCharacters(s.charAt(positionEnd))){
+                        formatted.append(s.subSequence(3, positionEnd+1));
+                    }
+                }
+            }
+        }
+        mLengthOld = formatted.length();
+        return formatted.toString();
+    }
+
+    private boolean isSpecialCharacters(char c){
+        return c == ' ' || c == '+' || c == '-' || c == '.' || c == '(' || c == ')' || c == '/' || c == ',' || c == '*' || c == '#'
+                || c == 'N';
     }
 }

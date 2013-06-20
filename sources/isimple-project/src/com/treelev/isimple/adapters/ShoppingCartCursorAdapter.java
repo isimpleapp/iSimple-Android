@@ -34,6 +34,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     private TextView shoppingCartPriceTextView;
     private TextView shoppingCartFooterTextView;
     private Context context;
+    private final static String PRICE_LABEL_FORMAT = "%s р.";
     private final static String WATER_LABEL_FORMAT = "%s \u00D7 %s";
 
     public ShoppingCartCursorAdapter(Context context, Cursor cursor, TextView shoppingCartPriceTextView, TextView shoppingCartFooterTextView) {
@@ -176,7 +177,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
             view.findViewById(R.id.shopping_cart_vol_year_separator).setVisibility(View.GONE);
         }
         textView = (TextView) view.findViewById(R.id.product_price);
-        textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE)));
+        textView.setText(String.format(PRICE_LABEL_FORMAT, cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE))));
         textView = (TextView) view.findViewById(R.id.multiply_symbol);
         textView.setText("\u00D7");
     }

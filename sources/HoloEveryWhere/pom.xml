@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.holoeverywhere</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.5.0</version>
+		<version>1.5.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -45,6 +45,8 @@
 						<file>strings.json:strings</file>
 						<file>styles-v7.json:styles</file>
 						<file>styles-v14.json:styles</file>
+						<file>styles-large.json:styles</file>
+						<file>dialogs.json:styles</file>
 						<file>attrs.json:attrs</file>
 					</inputFiles>
 				</configuration>

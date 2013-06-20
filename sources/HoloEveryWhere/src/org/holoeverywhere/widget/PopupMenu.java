@@ -38,7 +38,6 @@ public class PopupMenu implements MenuBuilder.Callback, MenuPresenter.Callback {
         mAnchor = anchor;
         mPopup = new PopupMenuHelper(context, mMenu, mAnchor);
         mPopup.setCallback(this);
-        mPopup.setForceShowIcon(true);
     }
 
     public void dismiss() {
@@ -69,7 +68,10 @@ public class PopupMenu implements MenuBuilder.Callback, MenuPresenter.Callback {
 
     @Override
     public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
-        return mMenuItemClickListener != null && mMenuItemClickListener.onMenuItemClick(item);
+        if (mMenuItemClickListener != null) {
+            return mMenuItemClickListener.onMenuItemClick(item);
+        }
+        return false;
     }
 
     @Override

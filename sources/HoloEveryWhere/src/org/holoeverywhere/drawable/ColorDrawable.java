@@ -16,7 +16,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
-public class ColorDrawable extends Drawable {
+public class ColorDrawable extends android.graphics.drawable.ColorDrawable {
     final static class ColorState extends ConstantState {
         int mBaseColor;
         int mChangingConfigurations;
@@ -46,7 +46,6 @@ public class ColorDrawable extends Drawable {
     }
 
     private final Paint mPaint = new Paint();
-
     private ColorState mState;
 
     public ColorDrawable() {
@@ -70,6 +69,7 @@ public class ColorDrawable extends Drawable {
         }
     }
 
+    @Override
     public int getAlpha() {
         return mState.mUseColor >>> 24;
     }
@@ -79,6 +79,7 @@ public class ColorDrawable extends Drawable {
         return super.getChangingConfigurations() | mState.mChangingConfigurations;
     }
 
+    @Override
     public int getColor() {
         return mState.mUseColor;
     }
@@ -123,6 +124,7 @@ public class ColorDrawable extends Drawable {
         }
     }
 
+    @Override
     public void setColor(int color) {
         if (mState.mBaseColor != color || mState.mUseColor != color) {
             invalidateSelf();

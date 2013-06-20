@@ -6,6 +6,9 @@
             "android:dialogTheme": "?dialogTheme", 
             "android:dividerHorizontal": "?dividerHorizontal", 
             "android:dividerVertical": "?dividerVertical", 
+            "android:itemBackground": "?selectableItemBackground", 
+            "android:windowMinWidthMajor": "?windowMinWidthMajor", 
+            "android:windowMinWidthMinor": "?windowMinWidthMinor", 
             "buttonBarButtonStyle": "?borderlessButtonStyle", 
             "buttonBarStyle": "@style/Holo.ButtonBar", 
             "datePickerStyle": "@style/Holo.DatePicker", 
@@ -25,9 +28,7 @@
             "panelMenuListWidth": "250dp", 
             "textAppearanceListItem": "?android:textAppearanceLarge", 
             "textAppearanceListItemSmall": "?android:attr/textAppearanceMedium", 
-            "timePickerStyle": "@style/Holo.TimePicker", 
-            "windowMinWidthMajor": "@dimen/dialog_min_width_major", 
-            "windowMinWidthMinor": "@dimen/dialog_min_width_minor"
+            "timePickerStyle": "@style/Holo.TimePicker"
         }, 
         "BaseDark | Base": {
             "alertDialogStyle": "@style/Holo.AlertDialog", 

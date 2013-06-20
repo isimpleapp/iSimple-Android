@@ -1,6 +1,13 @@
 
 package org.holoeverywhere;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -9,8 +16,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
-import java.util.*;
 
 public class ArrayAdapter<T> extends BaseAdapter implements Filterable {
     private class ArrayFilter extends Filter {

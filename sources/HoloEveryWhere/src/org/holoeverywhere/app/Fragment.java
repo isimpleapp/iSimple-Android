@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.addon.IAddon;
-import org.holoeverywhere.addon.IAddonAttacher;
 import org.holoeverywhere.addon.IAddonBasicAttacher;
 import org.holoeverywhere.addon.IAddonFragment;
 
@@ -55,7 +54,7 @@ public class Fragment extends _HoloFragment {
         }
     }
 
-    private final IAddonAttacher<IAddonFragment> mAttacher =
+    private final IAddonBasicAttacher<IAddonFragment, Fragment> mAttacher =
             new IAddonBasicAttacher<IAddonFragment, Fragment>(this);
 
     private LayoutInflater mLayoutInflater;
@@ -102,6 +101,7 @@ public class Fragment extends _HoloFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        mAttacher.reset();
         addon(activity.obtainAddonsList());
     }
 
@@ -123,20 +123,13 @@ public class Fragment extends _HoloFragment {
         });
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public void onDetach() {
-        ((IAddonBasicAttacher<IAddonFragment, Fragment>) mAttacher).reset();
-        super.onDetach();
-    }
-
-    @Override
-    public void onViewCreated(final View view) {
-        super.onViewCreated(view);
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         performAddonAction(new AddonCallback<IAddonFragment>() {
             @Override
             public void justAction(IAddonFragment addon) {
-                addon.onViewCreated(view);
+                addon.onViewCreated(view, savedInstanceState);
             }
         });
     }

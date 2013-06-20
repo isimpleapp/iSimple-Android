@@ -5,6 +5,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.holoeverywhere.HoloEverywhere;
 import org.holoeverywhere.HoloEverywhere.PreferenceImpl;
@@ -36,16 +38,18 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
 import com.actionbarsherlock.internal.view.menu.ContextMenuBackWrapper;
-import com.actionbarsherlock.internal.view.menu.ContextMenuBuilder;
 import com.actionbarsherlock.internal.view.menu.ContextMenuCallbackGetter;
+import com.actionbarsherlock.internal.view.menu.ContextMenuDecorView.ContextMenuListenersProvider;
 import com.actionbarsherlock.internal.view.menu.ContextMenuItemWrapper;
 import com.actionbarsherlock.internal.view.menu.ContextMenuListener;
 import com.actionbarsherlock.internal.view.menu.ContextMenuWrapper;
 import com.actionbarsherlock.view.ContextMenu;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public abstract class _HoloActivity extends Watson implements IHoloActivity {
+public abstract class _HoloActivity extends Watson implements IHoloActivity,
+        ContextMenuListenersProvider {
     public static class Holo implements Parcelable {
         public static final Parcelable.Creator<Holo> CREATOR = new Creator<Holo>() {
             @Override
@@ -79,7 +83,7 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
         public boolean ignoreThemeCheck = false;
         public boolean requireRoboguice = false;
         public boolean requireSherlock = true;
-        public boolean requireSlidingMenu = false;
+        public boolean requireSlider = false;
         private SparseIntArray windowFeatures;
 
         protected Holo copy(Holo holo) {
@@ -87,7 +91,7 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
             ignoreThemeCheck = holo.ignoreThemeCheck;
             ignoreApplicationInstanceCheck = holo.ignoreApplicationInstanceCheck;
             requireSherlock = holo.requireSherlock;
-            requireSlidingMenu = holo.requireSlidingMenu;
+            requireSlider = holo.requireSlider;
             requireRoboguice = holo.requireRoboguice;
             applyImmediately = holo.applyImmediately;
             windowFeatures = holo.windowFeatures == null ? null : holo.windowFeatures.clone();
@@ -99,7 +103,7 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
             ignoreThemeCheck = source.readInt() == 1;
             ignoreApplicationInstanceCheck = source.readInt() == 1;
             requireSherlock = source.readInt() == 1;
-            requireSlidingMenu = source.readInt() == 1;
+            requireSlider = source.readInt() == 1;
             requireRoboguice = source.readInt() == 1;
             applyImmediately = source.readInt() == 1;
             windowFeatures = source.readParcelable(SparseIntArray.class.getClassLoader());
@@ -124,7 +128,7 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
             dest.writeInt(ignoreThemeCheck ? 1 : 0);
             dest.writeInt(ignoreApplicationInstanceCheck ? 1 : 0);
             dest.writeInt(requireSherlock ? 1 : 0);
-            dest.writeInt(requireSlidingMenu ? 1 : 0);
+            dest.writeInt(requireSlider ? 1 : 0);
             dest.writeInt(requireRoboguice ? 1 : 0);
             dest.writeInt(applyImmediately ? 1 : 0);
             dest.writeParcelable(windowFeatures, flags);
@@ -145,9 +149,11 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
     private static final String CONFIG_KEY = "holo:config:activity";
     private Context mActionBarContext;
     private Holo mConfig;
+    private Map<View, ContextMenuListener> mContextMenuListeners;
     private boolean mForceThemeApply = false;
     private boolean mInited = false;
     private int mLastThemeResourceId = 0;
+    private MenuInflater mMenuInflater;
     private final List<WeakReference<OnWindowFocusChangeListener>> mOnWindowFocusChangeListeners = new ArrayList<WeakReference<OnWindowFocusChangeListener>>();
     private final String TAG = getClass().getSimpleName();
 
@@ -191,12 +197,6 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
         return mConfig;
     }
 
-    @Override
-    public void createContextMenu(ContextMenuBuilder contextMenuBuilder,
-            View view, ContextMenuInfo menuInfo, ContextMenuListener listener) {
-        listener.onCreateContextMenu(contextMenuBuilder, view, menuInfo);
-    }
-
     protected void forceInit(Bundle savedInstanceState) {
         if (mInited) {
             return;
@@ -210,6 +210,14 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
 
     public Holo getConfig() {
         return mConfig;
+    }
+
+    @Override
+    public ContextMenuListener getContextMenuListener(View view) {
+        if (mContextMenuListeners == null) {
+            return null;
+        }
+        return mContextMenuListeners.get(view);
     }
 
     @Override
@@ -248,10 +256,10 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
     public Context getSupportActionBarContext() {
         if (mActionBarContext == null) {
             int theme = ThemeManager.getThemeType(this);
-            if (theme == ThemeManager.INVALID || theme == ThemeManager.MIXED) {
+            if (theme != ThemeManager.LIGHT) {
                 theme = ThemeManager.DARK;
             }
-            theme = ThemeManager.getThemeResource(theme);
+            theme = ThemeManager.getThemeResource(theme, false);
             if (mLastThemeResourceId == theme) {
                 mActionBarContext = this;
             } else {
@@ -264,6 +272,15 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
     @Override
     public Application getSupportApplication() {
         return Application.getLastInstance();
+    }
+
+    @Override
+    public MenuInflater getSupportMenuInflater() {
+        if (mMenuInflater != null) {
+            return mMenuInflater;
+        }
+        mMenuInflater = new MenuInflater(getSupportActionBarContext(), this);
+        return mMenuInflater;
     }
 
     @Override
@@ -424,8 +441,8 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
             if (config.requireRoboguice) {
                 activity.addon(Activity.ADDON_ROBOGUICE);
             }
-            if (config.requireSlidingMenu) {
-                activity.addon(Activity.ADDON_SLIDING_MENU);
+            if (config.requireSlider) {
+                activity.addon(Activity.ADDON_SLIDER);
             }
             if (config.requireSherlock) {
                 activity.addonSherlock();
@@ -509,9 +526,28 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
 
     public View prepareDecorView(View v, ViewGroup.LayoutParams params) {
         if (v instanceof WindowDecorView) {
+            ((WindowDecorView) v).setProvider(this);
             return v;
         }
-        return new WindowDecorView(this, v, params, this);
+        WindowDecorView decor = new WindowDecorView(this, v, params);
+        decor.setProvider(this);
+        return decor;
+    }
+
+    @Override
+    public void registerForContextMenu(View view) {
+        if (HoloEverywhere.WRAP_TO_NATIVE_CONTEXT_MENU) {
+            super.registerForContextMenu(view);
+        } else {
+            registerForContextMenu(view, this);
+        }
+    }
+
+    public void registerForContextMenu(View view, ContextMenuListener listener) {
+        if (mContextMenuListeners == null) {
+            mContextMenuListeners = new WeakHashMap<View, ContextMenuListener>();
+        }
+        mContextMenuListeners.put(view, listener);
     }
 
     @Override
@@ -521,34 +557,35 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
         }
     }
 
-    @Override
-    public void setContentView(int layoutResID) {
-        setContentView(getLayoutInflater().inflate(layoutResID));
-    }
-
-    @Override
-    public void setContentView(View view) {
-        super.setContentView(prepareDecorView(view));
-    }
-
-    @Override
-    public void setContentView(View view, LayoutParams params) {
-        super.setContentView(prepareDecorView(view), params);
-    }
-
     public void setForceThemeApply(boolean forceThemeApply) {
         mForceThemeApply = forceThemeApply;
     }
 
     @Override
-    public synchronized void setTheme(int resid) {
+    public void setTheme(int resid) {
+        setTheme(resid, true);
+    }
+
+    public synchronized void setTheme(int resid, boolean modifyGlobal) {
         if (resid > ThemeManager._START_RESOURCES_ID) {
             if (mLastThemeResourceId != resid) {
                 mActionBarContext = null;
+                mMenuInflater = null;
                 super.setTheme(mLastThemeResourceId = resid);
             }
         } else {
-            setTheme(ThemeManager.getThemeResource(resid));
+            if ((resid & ThemeManager.COLOR_SCHEME_MASK) == 0) {
+                int theme = ThemeManager.getTheme(getIntent(), false)
+                        & ThemeManager.COLOR_SCHEME_MASK;
+                if (theme == 0) {
+                    theme = ThemeManager.getTheme(getParentActivityIntent(), false)
+                            & ThemeManager.COLOR_SCHEME_MASK;
+                }
+                if (theme != 0) {
+                    resid |= theme & ThemeManager.COLOR_SCHEME_MASK;
+                }
+            }
+            setTheme(ThemeManager.getThemeResource(resid, modifyGlobal));
         }
     }
 
@@ -615,6 +652,17 @@ public abstract class _HoloActivity extends Watson implements IHoloActivity {
     public void supportInvalidateOptionsMenu() {
         if (VERSION.SDK_INT >= 11) {
             super.invalidateOptionsMenu();
+        }
+    }
+
+    @Override
+    public void unregisterForContextMenu(View view) {
+        if (HoloEverywhere.WRAP_TO_NATIVE_CONTEXT_MENU) {
+            super.unregisterForContextMenu(view);
+        } else {
+            if (mContextMenuListeners != null) {
+                mContextMenuListeners.remove(view);
+            }
         }
     }
 }

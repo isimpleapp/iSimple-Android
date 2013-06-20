@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.data.DatabaseSqlHelper;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
@@ -33,12 +34,14 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     private TextView shoppingCartPriceTextView;
     private TextView shoppingCartFooterTextView;
     private Context context;
+    private final static String WATER_LABEL_FORMAT = "%s \u00D7 %s";
 
     public ShoppingCartCursorAdapter(Context context, Cursor cursor, TextView shoppingCartPriceTextView, TextView shoppingCartFooterTextView) {
         super(context, R.layout.shopping_cart_item_layout, cursor, new String[]{
                 DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, BaseColumns._ID, DatabaseSqlHelper.ITEM_VOLUME,
                 DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
-                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_PRODUCT_TYPE, DatabaseSqlHelper.ITEM_COLOR
+                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+                DatabaseSqlHelper.ITEM_DRINK_CATEGORY, DatabaseSqlHelper.ITEM_QUANTITY, DatabaseSqlHelper.ITEM_COLOR
         }, new int[]{
                 R.id.item_name, R.id.item_loc_name, R.id.product_id, R.id.product_volume, R.id.product_year, R.id.product_price,
                 R.id.product_count, R.id.item_image, R.id.color_item
@@ -161,9 +164,17 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_NAME)));
         textView = (TextView) view.findViewById(R.id.product_id);
         textView.setText(String.format(ITEM_ID_FORMAT, cursor.getString(cursor.getColumnIndex(BaseColumns._ID))));
+        int drinkCategory = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY));
         textView = (TextView) view.findViewById(R.id.product_volume);
-        textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VOLUME)));
-        organizeYearLabel(cursor, view);
+        if (drinkCategory != DrinkCategory.WATER.ordinal()) {
+            textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VOLUME)));
+            organizeYearLabel(cursor, view);
+        } else {
+            textView.setText(String.format(WATER_LABEL_FORMAT, cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_QUANTITY)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VOLUME))));
+            view.findViewById(R.id.product_year).setVisibility(View.GONE);
+            view.findViewById(R.id.shopping_cart_vol_year_separator).setVisibility(View.GONE);
+        }
         textView = (TextView) view.findViewById(R.id.product_price);
         textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE)));
         textView = (TextView) view.findViewById(R.id.multiply_symbol);

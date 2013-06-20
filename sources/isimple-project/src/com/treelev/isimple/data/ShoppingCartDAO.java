@@ -137,12 +137,13 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public Cursor getShoppingCartItems() {
         open();
-        String formatSelectScript = "SELECT %s as %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s";
+        String formatSelectScript = "SELECT %s as %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, BaseColumns._ID,
                 DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
                 DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
                 DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
-                DatabaseSqlHelper.ITEM_COLOR, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
+                DatabaseSqlHelper.ITEM_DRINK_CATEGORY, DatabaseSqlHelper.ITEM_QUANTITY, DatabaseSqlHelper.ITEM_COLOR,
+                DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
         return getDatabase().rawQuery(selectSql, null);
     }
 

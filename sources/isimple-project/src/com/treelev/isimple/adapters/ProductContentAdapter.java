@@ -93,7 +93,7 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
             childViewHolder = new ChildViewHolder();
             childViewHolder.text = (TextView) convertView.findViewById(R.id.item_content);
             convertView.setTag(childViewHolder);
-            convertView.setLayoutParams(new AbsListView.LayoutParams(widthDisplay, 0));
+            convertView.setLayoutParams(new AbsListView.LayoutParams(widthDisplay, ViewGroup.LayoutParams.WRAP_CONTENT));
         } else {
             ((AbsListView.LayoutParams) convertView.getLayoutParams()).width = widthDisplay;
             childViewHolder = (ChildViewHolder) convertView.getTag();

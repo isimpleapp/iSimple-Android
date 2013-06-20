@@ -34,7 +34,8 @@ public enum Sweetness implements Serializable, Presentable {
         for (Sweetness sweetness : values()) {
             if (sweetness.description != null) {
                 String description = sweetness.description.toLowerCase();
-                if (description.equals(sweetnessId)) {
+                String sweetnessIdLowerCase = sweetnessId.toLowerCase();
+                if (description.equals(sweetnessIdLowerCase)) {
                     return sweetness;
                 }
             }

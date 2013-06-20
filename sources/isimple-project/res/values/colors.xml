@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="select_item_navigation">#fc0fc0</color>
+    <color name="isimple_pink">#fc0fc0</color>
     <color name="catalog_header_background">#ebebeb</color>
     <color name="product_background">#fbfbfb</color>
     <color name="product_background_press">#4cea148c</color>

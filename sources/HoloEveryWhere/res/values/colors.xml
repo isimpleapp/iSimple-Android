@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- A pink iSimple-->
+    <color name="isimple_pink">#fc0fc0</color>
 	<!-- A light Holo shade of blue -->
 	<color name="holo_blue_light">#ff33b5e5</color>
 	<!-- A light Holo shade of green -->

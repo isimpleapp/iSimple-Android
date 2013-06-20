@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BaseExpandableListActivity;
@@ -60,7 +59,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         title.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
         title.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 27.0f);
-        title.setTextColor(getResources().getColor(R.color.select_item_navigation));
+        title.setTextColor(getResources().getColor(R.color.isimple_pink));
         title.setPadding(10, 0, 0, 0);
         relative.addView(title);
         getSupportActionBar().setDisplayShowCustomEnabled(true);

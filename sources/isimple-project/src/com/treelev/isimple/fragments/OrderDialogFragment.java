@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.ContextThemeWrapperPlus;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.widget.Button;
@@ -93,9 +94,8 @@ public class OrderDialogFragment extends DialogFragment
     }
 
     private Dialog createDialog(){
-        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = null;
+        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
         switch(mType){
             case SELECT_TYPE:
                 adb.setTitle(getString(R.string.title_first_step_order_dialog));
@@ -103,16 +103,14 @@ public class OrderDialogFragment extends DialogFragment
                 break;
             case PHONE_TYPE:
                 adb.setTitle(getString(R.string.title_contact_phone_order_dialog));
-                view = inflater.inflate(R.layout.dialog_order_phone, null);
-                adb.setView(view);
+                adb.setView(inflater.inflate(R.layout.dialog_order_phone, null));
                 adb.setPositiveButton(R.string.dialog_order_button_complite, this);
                 adb.setNegativeButton(R.string.dialog_order_button_cancel, this);
                 adb.setCancelable(false);
                 break;
             case EMAIL_TYPE:
                 adb.setTitle(getString(R.string.title_contact_email_order_dialog));
-                view = inflater.inflate(R.layout.dialog_order_email, null);
-                adb.setView(view);
+                adb.setView(inflater.inflate(R.layout.dialog_order_email, null));
                 adb.setPositiveButton(R.string.dialog_order_button_complite, this);
                 adb.setNegativeButton(R.string.dialog_order_button_cancel, this);
                 adb.setCancelable(false);

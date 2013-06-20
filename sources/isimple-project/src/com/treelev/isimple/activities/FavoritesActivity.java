@@ -17,6 +17,7 @@ import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.cursorloaders.DeleteFavouriteItems;
 import com.treelev.isimple.cursorloaders.SelectFavouriteItems;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
@@ -34,6 +35,7 @@ public class FavoritesActivity extends BaseListActivity
     private ProxyManager mProxyManager;
     private Context mContext;
     private ArrayList<String> mDeleteItemsId;
+    private ArrayList<String> mDeleteItemsIdCallBack;
     private ActionMode mActionMode;
     private Dialog mDialog;
 
@@ -129,7 +131,7 @@ public class FavoritesActivity extends BaseListActivity
             case LOAD_FAVOURITE_ITEMS:
                 return new SelectFavouriteItems(this);
             case DELETE_FAVOURITE_ITEMS:
-                return new DeleteFavouriteItems(this, mDeleteItemsId);
+                return new DeleteFavouriteItems(this, mDeleteItemsIdCallBack);
             default:
                 return null;
         }
@@ -160,6 +162,7 @@ public class FavoritesActivity extends BaseListActivity
     }
 
     private void deleteSelectedItems(){
+        mDeleteItemsIdCallBack = new ArrayList<String>(mDeleteItemsId);
         getSupportLoaderManager().restartLoader(DELETE_FAVOURITE_ITEMS, null, this);
     }
 
@@ -203,6 +206,11 @@ public class FavoritesActivity extends BaseListActivity
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            mDeleteItemsId.clear();
+            if(mListAdapter != null) {
+                mListAdapter.notifyDataSetChanged();
+            }
         }
 
     };

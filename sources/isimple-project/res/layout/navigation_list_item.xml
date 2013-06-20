@@ -12,5 +12,5 @@
             android:ellipsize="marquee"
             android:singleLine="true"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/select_item_navigation" android:textSize="27dip"/>
+            android:textColor="@color/isimple_pink" android:textSize="27dip"/>
 </LinearLayout>

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../HoloEveryWhere/HoloEveryWhere.iml" filepath="$PROJECT_DIR$/../HoloEveryWhere/HoloEveryWhere.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../HoloEveryWhere-prefs/HoloEveryWhere-prefs.iml" filepath="$PROJECT_DIR$/../HoloEveryWhere-prefs/HoloEveryWhere-prefs.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Sherlock/Sherlock.iml" filepath="$PROJECT_DIR$/../Sherlock/Sherlock.iml" />
       <module fileurl="file://$PROJECT_DIR$/iSimple.iml" filepath="$PROJECT_DIR$/iSimple.iml" />
     </modules>

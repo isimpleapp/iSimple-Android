@@ -32,10 +32,9 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     private ProxyManager proxyManager;
     private TextView shoppingCartPriceTextView;
     private TextView shoppingCartFooterTextView;
-    private String country;
     private Context context;
 
-    public ShoppingCartCursorAdapter(Context context, Cursor cursor, TextView shoppingCartPriceTextView, TextView shoppingCartFooterTextView, String country) {
+    public ShoppingCartCursorAdapter(Context context, Cursor cursor, TextView shoppingCartPriceTextView, TextView shoppingCartFooterTextView) {
         super(context, R.layout.shopping_cart_item_layout, cursor, new String[]{
                 DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, BaseColumns._ID, DatabaseSqlHelper.ITEM_VOLUME,
                 DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
@@ -57,7 +56,6 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         proxyManager = new ProxyManager(context);
         this.shoppingCartPriceTextView = shoppingCartPriceTextView;
         this.shoppingCartFooterTextView = shoppingCartFooterTextView;
-        this.country = country;
         this.context = context;
     }
 
@@ -104,7 +102,8 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         int shoppingCartPrice = proxyManager.getShoppingCartPrice();
         String priceStr = String.format(ShoppingCartActivity.PRICE_LABEL_FORMAT, shoppingCartPrice);
         shoppingCartPriceTextView.setText(priceStr);
-        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
+        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(
+                ((org.holoeverywhere.app.Activity) context).getPreferences(Context.MODE_PRIVATE).getString(ShoppingCartActivity.COUNTRY_LABEL, ""), shoppingCartPrice));
     }
 
     private void increaseItemCount(View view) {
@@ -117,9 +116,9 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     private void decreaseItemCount(View view) {
         String itemId = (String) view.getTag();
         int count = proxyManager.getItemCount(itemId);
-        getCursor().requery();
         if (count == 1) {
             proxyManager.deleteItem(itemId);
+            getCursor().requery();
             notifyDataSetChanged();
             if (getCursor().getCount() == 0) {
                 ((Activity) context).findViewById(R.id.content_layout).setVisibility(View.GONE);
@@ -127,6 +126,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
             }
         } else {
             proxyManager.decreaseItemCount((String) view.getTag());
+            getCursor().requery();
             ((TextView) ((LinearLayout) view.getParent()).findViewById(R.id.product_count))
                     .setText(String.valueOf(getCursor().getInt(getCursor().getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT))));
         }

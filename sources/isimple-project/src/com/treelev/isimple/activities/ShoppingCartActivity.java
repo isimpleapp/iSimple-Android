@@ -2,6 +2,7 @@ package com.treelev.isimple.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,8 +25,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     public final static String PRICE_LABEL_FORMAT = "%s р.";
     private ProxyManager proxyManager;
     private View footerView;
-    private String country;
     private String[] countries;
+    public final static String COUNTRY_LABEL = "country";
 
     private OrderDialogFragment dlgMakeOrder;
 
@@ -88,7 +89,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                 builder.setItems(proxyManager.getCountries(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        country = countries[which];
+                        String country = countries[which];
+                        putCountryInPref(country);
                         TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
                         shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, proxyManager.getShoppingCartPrice()));
                         Button button = (Button) footerView.findViewById(R.id.delivery_btn);
@@ -105,10 +107,21 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         Button button = (Button) footerView.findViewById(R.id.delete_all_btn);
         button.setOnClickListener(this);
         button = (Button) footerView.findViewById(R.id.delivery_btn);
-        country = proxyManager.getDeliveryFirstCountry();
+        String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, null);
+        if (country == null) {
+            country = proxyManager.getDeliveryFirstCountry();
+            putCountryInPref(country);
+        }
         button.setText(country);
         button.setOnClickListener(this);
         return footerView;
+    }
+
+    private void putCountryInPref(String country) {
+        SharedPreferences sharedPreference = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreference.edit();
+        editor.putString(COUNTRY_LABEL, country);
+        editor.commit();
     }
 
     private class SelectDataShoppingCartTask extends AsyncTask<Void, Void, Cursor> {
@@ -140,7 +153,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             startManagingCursor(cItems);
             TextView shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
             TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
-            CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView, shoppingCartFooterTextView, country);
+            String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
+            CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView, shoppingCartFooterTextView);
             int shoppingCartPrice = 0;
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
@@ -163,8 +177,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         }
     }
 
-
-    public void onMakeOrder(View v){
+    public void onMakeOrder(View v) {
 
         dlgMakeOrder.setArguments(new Bundle());
         dlgMakeOrder.show(getSupportFragmentManager(), "SELECT_TYPE");

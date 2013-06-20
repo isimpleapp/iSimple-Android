@@ -322,9 +322,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private void populateFormsFields(View formView, Item product) {
         String priceLabel = Utils.organizePriceLabel(String.valueOf(product.getPrice()));
         ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
-        ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
-        ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product.getLocalizedName());
+        ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
+        ((TextView) formView.findViewById(R.id.product_localizated_manufacturer)).setText(product.getLocalizedManufacturer());
         ((TextView) formView.findViewById(R.id.product_item_id)).setText(product.getItemID());
         organizeTextView((TextView) formView.findViewById(R.id.product_region), !product.getRegion().equals("-") ? product.getRegion() : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), !product.getSweetness().getDescription().isEmpty() ? product.getSweetness().getDescription() : "");

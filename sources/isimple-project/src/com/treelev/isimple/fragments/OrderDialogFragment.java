@@ -3,6 +3,8 @@ package com.treelev.isimple.fragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +32,7 @@ import java.util.List;
 
 public class OrderDialogFragment extends DialogFragment
         implements DialogInterface.OnClickListener,
-        org.holoeverywhere.widget.TextView.OnEditorActionListener{
+        TextWatcher{
 
     public static final int SELECT_TYPE = 2;
     public static final int PHONE_TYPE = 0;   //id item list
@@ -54,7 +56,7 @@ public class OrderDialogFragment extends DialogFragment
         super.onStart();
         EditText tvContactInfo = (EditText) mDialog.findViewById(R.id.contact_info);
         if(tvContactInfo != null){
-            tvContactInfo.setOnEditorActionListener(this);
+            tvContactInfo.addTextChangedListener(this);
         }
         mBtnPositive = ((AlertDialog) (mDialog)).getButton(AlertDialog.BUTTON_POSITIVE);
         if(mBtnPositive != null) {
@@ -192,14 +194,28 @@ public class OrderDialogFragment extends DialogFragment
     }
 
     @Override
-    public boolean onEditorAction(android.widget.TextView textView, int actionId, KeyEvent keyEvent) {
-        boolean handled = false;
-        if (actionId == EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) {
-            mBtnPositive.setEnabled(true);
-            handled = true;
-        }
-        return handled;
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int coun) {
+        boolean enable = false;
+        switch(mType){
+            case PHONE_TYPE:
+                enable = false;
+                break;
+            case EMAIL_TYPE:
+                enable = android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches();
+                break;
+        }
+        if(mBtnPositive != null ){
+            mBtnPositive.setEnabled(enable);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
 
     }
 }

@@ -34,7 +34,8 @@
                     <org.holoeverywhere.widget.TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/product_name" android:textColor="@color/product_text_color1"
+                            android:id="@+id/product_manufacturer"
+                            android:textColor="@color/product_text_color1"
                             android:layout_marginLeft="20dip"/>
                 <LinearLayout
                         android:orientation="horizontal"
@@ -53,7 +54,7 @@
                         <org.holoeverywhere.widget.TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/product_manufacturer"
+                                android:id="@+id/product_name"
                                 android:textColor="@android:color/black"
                                 android:textStyle="bold"
                                 android:textSize="18dip"
@@ -64,7 +65,7 @@
                     <org.holoeverywhere.widget.TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/product_localizated_name"
+                            android:id="@+id/product_localizated_manufacturer"
                             android:textColor="@color/product_text_color2" android:layout_marginTop="5dip"
                             android:layout_marginLeft="20dip"/>
                     <org.holoeverywhere.widget.TextView

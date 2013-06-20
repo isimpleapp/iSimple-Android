@@ -551,50 +551,7 @@ public class ItemDAO extends BaseDAO {
         String formatSelectScript = "select * from %1$s where %2$s = '%3$s'";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_ID, itemId);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
-        Item item = null;
-        if (cursor != null && cursor.moveToFirst()) {
-            item = new Item();
-            item.setItemID(cursor.getString(0));
-            item.setDrinkID(cursor.getString(1));
-            item.setName(cursor.getString(2));
-            item.setLocalizedName(cursor.getString(3));
-            item.setManufacturer(cursor.getString(4));
-            item.setLocalizedManufacturer(cursor.getString(5));
-            item.setPrice(cursor.getFloat(6));
-            item.setPriceMarkup(cursor.getFloat(7));
-            item.setCountry(cursor.getString(8));
-            item.setRegion(cursor.getString(9));
-            item.setBarcode(cursor.getString(10));
-            item.setProductType(ProductType.getProductType(cursor.getInt(11)));
-            item.setClassification(cursor.getString(12));
-            item.setDrinkCategory(DrinkCategory.getDrinkCategory(cursor.getInt(13)));
-            item.setColor(ItemColor.getColor(cursor.getInt(14)));
-            item.setStyle(cursor.getString(15));
-            item.setSweetness(Sweetness.getSweetness(cursor.getInt(16)));
-            item.setYear(cursor.getInt(17));
-            item.setVolume(cursor.getFloat(18));
-            item.setDrinkType(cursor.getString(19));
-            item.setAlcohol(cursor.getString(20));
-            item.setBottleHiResolutionImageFilename(cursor.getString(21));
-            item.setBottleLowResolutionImageFilename(cursor.getString(22));
-            item.setStyleDescription(cursor.getString(23));
-            item.setAppelation(cursor.getString(24));
-            item.setServingTempMin(cursor.getString(25));
-            item.setServingTempMax(cursor.getString(26));
-            item.setTasteQualities(cursor.getString(27));
-            item.setVintageReport(cursor.getString(28));
-            item.setAgingProcess(cursor.getString(29));
-            item.setProductionProcess(cursor.getString(30));
-            item.setInterestingFacts(cursor.getString(31));
-            item.setLabelHistory(cursor.getString(32));
-            item.setGastronomy(cursor.getString(33));
-            item.setVineyard(cursor.getString(34));
-            item.setGrapesUsed(cursor.getString(35));
-            item.setRating(cursor.getString(36));
-            item.setQuantity(cursor.getFloat(37));
-            item.setFavourite(cursor.getInt(38) == 1 ? true : false);
-            cursor.close();
-        }
+        Item item = createItem(cursor);
         close();
         return item;
     }
@@ -630,49 +587,7 @@ public class ItemDAO extends BaseDAO {
         String formatSelectScript = "select * from %1$s where %2$s = '%3$s'";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_TABLE, DatabaseSqlHelper.ITEM_BARCODE, itemBarcode);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
-        Item item = null;
-        if (cursor != null && cursor.moveToFirst()) {
-            item = new Item();
-            item.setItemID(cursor.getString(0));
-            item.setDrinkID(cursor.getString(1));
-            item.setName(cursor.getString(2));
-            item.setLocalizedName(cursor.getString(3));
-            item.setManufacturer(cursor.getString(4));
-            item.setLocalizedManufacturer(cursor.getString(5));
-            item.setPrice(cursor.getFloat(6));
-            item.setPriceMarkup(cursor.getFloat(7));
-            item.setCountry(cursor.getString(8));
-            item.setRegion(cursor.getString(9));
-            item.setBarcode(cursor.getString(10));
-            item.setProductType(ProductType.getProductType(cursor.getInt(11)));
-            item.setClassification(cursor.getString(12));
-            item.setDrinkCategory(DrinkCategory.getDrinkCategory(cursor.getInt(13)));
-            item.setColor(ItemColor.getColor(cursor.getInt(14)));
-            item.setStyle(cursor.getString(15));
-            item.setSweetness(Sweetness.getSweetness(cursor.getInt(16)));
-            item.setYear(cursor.getInt(17));
-            item.setVolume(cursor.getFloat(18));
-            item.setDrinkType(cursor.getString(19));
-            item.setAlcohol(cursor.getString(20));
-            item.setBottleHiResolutionImageFilename(cursor.getString(21));
-            item.setBottleLowResolutionImageFilename(cursor.getString(22));
-            item.setStyleDescription(cursor.getString(23));
-            item.setAppelation(cursor.getString(24));
-            item.setServingTempMin(cursor.getString(25));
-            item.setServingTempMax(cursor.getString(26));
-            item.setTasteQualities(cursor.getString(27));
-            item.setVintageReport(cursor.getString(28));
-            item.setAgingProcess(cursor.getString(29));
-            item.setProductionProcess(cursor.getString(30));
-            item.setInterestingFacts(cursor.getString(31));
-            item.setLabelHistory(cursor.getString(32));
-            item.setGastronomy(cursor.getString(33));
-            item.setVineyard(cursor.getString(34));
-            item.setGrapesUsed(cursor.getString(35));
-            item.setRating(cursor.getString(36));
-            item.setQuantity(cursor.getFloat(37));
-            cursor.close();
-        }
+        Item item = createItem(cursor);
         close();
         return item;
     }
@@ -801,6 +716,92 @@ public class ItemDAO extends BaseDAO {
     }
 
 
+    private Item createItem(Cursor cursor){
+        Item item = null;
+        int indexItemID = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_ID);
+        int indexDrinkID = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
+        int indexName = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_NAME);
+        int indexLocalizeName = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_NAME);
+        int indexManufacturer = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_MANUFACTURER);
+        int indexLocalizedManufacturer = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER);
+        int indexPrice = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE);
+        int indexPriceMarkup = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE_MARKUP);
+        int indexCountry = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_COUNTRY);
+        int indexRegion = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_REGION);
+        int indexBarcode = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BARCODE);
+        int indexProductType = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRODUCT_TYPE);
+        int indexClassification = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_CLASSIFICATION);
+        int indexDrinkCategory = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY);
+        int indexColor = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_COLOR);
+        int indexStyle = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_STYLE);
+        int indexSweetness = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SWEETNESS);
+        int indexYear = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_YEAR);
+        int indexVolume = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VOLUME);
+        int indexDrinkType = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_TYPE);
+        int indexAlcohol = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_ALCOHOL);
+        int indexBottleHiResolutionImageFilename = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME);
+        int indexBottleLowResolutionImageFilename = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME);
+        int indexStyleDescrition = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_STYLE_DESCRIPTION);
+        int indexAppelation = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_APPELATION);
+        int indexServingTempMin = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SERVING_TEMP_MIN);
+        int indexServingTempMax = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SERVING_TEMP_MAX);
+        int indexTasteQualities = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_TASTE_QUALITIES);
+        int indexVintageReport = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VINTAGE_REPORT);
+        int indexAgingProcess = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_AGING_PROCESS);
+        int indexProductionProcess = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRODUCTION_PROCESS);
+        int indexInterestingFacts = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_INTERESTING_FACTS);
+        int indexLabelHistory = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LABEL_HISTORY);
+        int indexGastronomy = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_GASTRONOMY);
+        int indexVineyard = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VINEYARD);
+        int indexGrapesUsed = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_GRAPES_USED);
+        int indexRating = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_RATING);
+        int indexQuantity = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_QUANTITY);
+        int indexFavourite = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_IS_FAVOURITE);
+        if (cursor != null && cursor.moveToFirst()) {
+            item = new Item();
+            item.setItemID(cursor.getString(indexItemID));
+            item.setDrinkID(cursor.getString(indexDrinkID));
+            item.setName(cursor.getString(indexName));
+            item.setLocalizedName(cursor.getString(indexLocalizeName));
+            item.setManufacturer(cursor.getString(indexManufacturer));
+            item.setLocalizedManufacturer(cursor.getString(indexLocalizedManufacturer));
+            item.setPrice(cursor.getFloat(indexPrice));
+            item.setPriceMarkup(cursor.getFloat(indexPriceMarkup));
+            item.setCountry(cursor.getString(indexCountry));
+            item.setRegion(cursor.getString(indexRegion));
+            item.setBarcode(cursor.getString(indexBarcode));
+            item.setProductType(ProductType.getProductType(cursor.getInt(indexProductType)));
+            item.setClassification(cursor.getString(indexClassification));
+            item.setDrinkCategory(DrinkCategory.getDrinkCategory(cursor.getInt(indexDrinkCategory)));
+            item.setColor(ItemColor.getColor(cursor.getInt(indexColor)));
+            item.setStyle(cursor.getString(indexStyle));
+            item.setSweetness(Sweetness.getSweetness(cursor.getInt(indexSweetness)));
+            item.setYear(cursor.getInt(indexYear));
+            item.setVolume(cursor.getFloat(indexVolume));
+            item.setDrinkType(cursor.getString(indexDrinkType));
+            item.setAlcohol(cursor.getString(indexAlcohol));
+            item.setBottleHiResolutionImageFilename(cursor.getString(indexBottleHiResolutionImageFilename));
+            item.setBottleLowResolutionImageFilename(cursor.getString(indexBottleLowResolutionImageFilename));
+            item.setStyleDescription(cursor.getString(indexStyleDescrition));
+            item.setAppelation(cursor.getString(indexAppelation));
+            item.setServingTempMin(cursor.getString(indexServingTempMin));
+            item.setServingTempMax(cursor.getString(indexServingTempMax));
+            item.setTasteQualities(cursor.getString(indexTasteQualities));
+            item.setVintageReport(cursor.getString(indexVintageReport));
+            item.setAgingProcess(cursor.getString(indexAgingProcess));
+            item.setProductionProcess(cursor.getString(indexProductionProcess));
+            item.setInterestingFacts(cursor.getString(indexInterestingFacts));
+            item.setLabelHistory(cursor.getString(indexLabelHistory));
+            item.setGastronomy(cursor.getString(indexGastronomy));
+            item.setVineyard(cursor.getString(indexVineyard));
+            item.setGrapesUsed(cursor.getString(indexGrapesUsed));
+            item.setRating(cursor.getString(indexRating));
+            item.setQuantity(cursor.getFloat(indexQuantity));
+            item.setFavourite(cursor.getInt(indexFavourite) == 1 ? true : false);
+            cursor.close();
+        }
+        return item;
+    }
 
     //TODO refactor: переименовать метод и переписать через String.format
     private String getWhereBySearch(String query) {

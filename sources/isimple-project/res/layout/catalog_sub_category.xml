@@ -5,37 +5,6 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
-    <RadioGroup
-            android:layout_width="match_parent"
-            android:id="@+id/sort_group"
-            android:visibility="visible"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-        <org.holoeverywhere.widget.RadioButton
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:id="@+id/alphabet_sort"
-                android:checked="true"
-                android:text="@string/sort_label_alphabet"
-                android:gravity="center"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:background="@drawable/tab_indicator_left"
-                android:button="@android:color/transparent"
-                android:paddingRight="1dip"/>
-
-
-        <org.holoeverywhere.widget.RadioButton
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:id="@+id/price_sort"
-                android:text="@string/sort_label_price"
-                android:gravity="center"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:background="@drawable/tab_indicator_right"
-                android:checked="false"
-                android:button="@android:color/transparent"/>
-    </RadioGroup>
     <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

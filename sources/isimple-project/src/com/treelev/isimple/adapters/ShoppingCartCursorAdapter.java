@@ -86,7 +86,6 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         Button increaseButton = (Button) view.findViewById(R.id.increase_butt);
         increaseButton.setOnClickListener(this);
         increaseButton.setTag(itemId);
-
     }
 
     @Override

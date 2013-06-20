@@ -91,9 +91,9 @@
                 android:layout_below="@id/product_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="5dip"
+                android:layout_marginBottom="4dip"
                 android:layout_marginTop="4dip"
-                android:weightSum="80" android:orientation="horizontal">
+                android:orientation="horizontal" android:gravity="center_vertical">
             <org.holoeverywhere.widget.TextView
                     android:gravity="center_vertical"
                     android:layout_height="match_parent"
@@ -106,16 +106,14 @@
                     android:gravity="center_vertical"
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
-                    android:text="x"
-                    android:paddingBottom="3dip"
-                    android:id="@+id/multiply_symbol" android:layout_marginRight="15dip"/>
+                    android:id="@+id/multiply_symbol" android:layout_marginRight="15dip"
+                    android:layout_gravity="center_vertical" android:text="x"/>
             <org.holoeverywhere.widget.Button
-                    android:contentDescription="@string/app_name"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="35dip"
                     android:layout_height="35dip"
                     android:background="@drawable/shopping_cart_item_butt_selector"
-                    android:id="@+id/decrease_butt"/>
+                    android:id="@+id/decrease_butt"
+                    />
             <org.holoeverywhere.widget.TextView
                     android:layout_height="match_parent"
                     android:layout_width="32dip"
@@ -125,7 +123,6 @@
                     android:id="@+id/product_count"
                     />
             <org.holoeverywhere.widget.Button
-                    android:layout_gravity="center_vertical"
                     android:layout_width="35dip"
                     android:layout_height="35dip"
                     android:text="+"

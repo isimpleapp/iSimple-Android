@@ -8,10 +8,12 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.domain.db.Order;
@@ -238,6 +240,7 @@ public class OrderDialogFragment extends DialogFragment
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            hideKeyBoard();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.registration_orders), false, false);
         }
@@ -280,6 +283,9 @@ public class OrderDialogFragment extends DialogFragment
                 nameValuePairs.add(new BasicNameValuePair("MD5", getMD5()));
                 nameValuePairs.add(new BasicNameValuePair("Order-Info", getListOrder()));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                Log.v("OrderSend", getDeviceID());
+                Log.v("OrderSend", getMD5());
+                Log.v("OrderSend", getListOrder());
                 // Execute HTTP Post Request
                 HttpResponse response = httpclient.execute(httppost);
 
@@ -329,6 +335,11 @@ public class OrderDialogFragment extends DialogFragment
             }
             sbListOrder.append("</Order>");
             return sbListOrder.toString();
+        }
+
+        private void hideKeyBoard(){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
     }
 }

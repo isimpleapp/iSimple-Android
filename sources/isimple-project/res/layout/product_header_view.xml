@@ -77,7 +77,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/product_localizated_manufacturer"
-                            android:textColor="@color/product_text_color2" android:layout_marginTop="5dip"
+                            android:textColor="@color/product_text_color2"
+                            android:layout_marginTop="5dip"
+                            android:layout_marginLeft="20dip"/>
+                    <org.holoeverywhere.widget.TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/product_localizated_name"
+                            android:textColor="@color/product_text_color2"
+                            android:layout_marginTop="5dip"
                             android:layout_marginLeft="20dip"/>
                     <org.holoeverywhere.widget.TextView
                             android:layout_width="wrap_content"

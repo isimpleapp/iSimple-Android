@@ -301,6 +301,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
         ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
         ((TextView) formView.findViewById(R.id.product_localizated_manufacturer)).setText(product.getLocalizedManufacturer());
+        ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product.getLocalizedName());
         ((TextView) formView.findViewById(R.id.product_item_id)).setText(product.getItemID());
         organizeTextView((TextView) formView.findViewById(R.id.product_region), !product.getRegion().equals("-") ? product.getRegion() : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), !product.getSweetness().getDescription().isEmpty() ? product.getSweetness().getDescription() : "");

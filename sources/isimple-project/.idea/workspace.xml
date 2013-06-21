@@ -28,14 +28,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Order.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/dialog_success_send_orders.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/data/ShoppingCartDAO.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/data/ShoppingCartDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/product_header_view.xml" afterPath="$PROJECT_DIR$/res/layout/product_header_view.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
@@ -681,7 +675,7 @@
     <file path="$PROJECT_DIR$/../../../TestAndroid/res/values/spinner_selector.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366467374503" ignored="false" />
     <file path="$PROJECT_DIR$/../../../TestAndroid/res/drawable/spinner_selector.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366469813901" ignored="false" />
     <file path="/product_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366473010655" ignored="false" />
-    <file path="/ProductInfoActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371714667412" ignored="false" />
+    <file path="/ProductInfoActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371810138870" ignored="false" />
     <file path="$PROJECT_DIR$/../Sherlock/gen/com/actionbarsherlock/R.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366477766225" ignored="false" />
     <file path="/search.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1370016847007" ignored="false" />
     <file path="/Search.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366827672202" ignored="false" />
@@ -787,7 +781,7 @@
     <file path="/item_background.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368024409704" ignored="false" />
     <file path="/list_selector_background_transition.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368024835038" ignored="false" />
     <file path="/RangeSeekBar.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1370610837552" ignored="false" />
-    <file path="/product_header_view.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371470423345" ignored="false" />
+    <file path="/product_header_view.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371810081304" ignored="false" />
     <file path="/ItemCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371044126727" ignored="false" />
     <file path="/CatalogSubCategory.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371715707149" ignored="false" />
     <file path="$PROJECT_DIR$/../../../iSimple_r100/sources/isimple-project/.idea/workspace.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369223842368" ignored="false" />
@@ -1341,15 +1335,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="OrderDialogFragment.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="OrderDialogFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="241" column="40" selection-start="8980" selection-end="8980" vertical-scroll-proportion="0.7751606">
+            <state line="220" column="0" selection-start="8195" selection-end="8232" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#9883#9898#0" expanded="true" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProductInfoActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="303" column="71" selection-start="13824" selection-end="13824" vertical-scroll-proportion="0.7206166">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="product_header_view.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/product_header_view.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="80" column="28" selection-start="4303" selection-end="4303" vertical-scroll-proportion="-7.76">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -1419,8 +1434,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/iSimple.iml" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/FavoritesActivity.java" />
         <option value="$PROJECT_DIR$/../HoloEveryWhere/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/../HoloEveryWhere/res/values/dialogs.xml" />
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
@@ -1435,6 +1448,8 @@
         <option value="$PROJECT_DIR$/res/layout/dialog_success_send_orders.xml" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/product_header_view.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java" />
       </list>
     </option>
   </component>
@@ -2760,7 +2775,11 @@
       <created>1371747785105</created>
       <updated>1371747785106</updated>
     </task>
-    <option name="localTasksCounter" value="147" />
+    <task id="LOCAL-00147" summary="IS - 16&#10;IS - 17&#10;fixed select cart item add NOT(item_id IS NULL)&#10;">
+      <created>1371809965117</created>
+      <updated>1371809965117</updated>
+    </task>
+    <option name="localTasksCounter" value="148" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2787,20 +2806,20 @@
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.7782427" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.76987445" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19525802" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22175732" sideWeight="0.1061693" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29428172" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29428172" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28120518" sideWeight="0.7057183" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22175732" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22596844" sideWeight="0.7782427" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28120518" sideWeight="0.76987445" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22175732" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22596844" sideWeight="0.76987445" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2913,13 +2932,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="13" selection-start="130" selection-end="130" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="810" column="7" selection-start="45695" selection-end="45695" vertical-scroll-proportion="0.7743363">
@@ -3017,20 +3029,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="13" selection-start="1110" selection-end="1110" vertical-scroll-proportion="-10.119914">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="241" column="40" selection-start="8980" selection-end="8980" vertical-scroll-proportion="0.7751606">
+        <state line="220" column="0" selection-start="8195" selection-end="8232" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#9883#9898#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/product_header_view.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="28" selection-start="4303" selection-end="4303" vertical-scroll-proportion="-7.76">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="303" column="71" selection-start="13824" selection-end="13824" vertical-scroll-proportion="0.7206166">
+          <folding />
         </state>
       </provider>
     </entry>

@@ -32,7 +32,7 @@
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:layout_marginTop="3dip" android:text="Hakushika Hana-Kohaku"/>
+                android:layout_marginTop="3dip" android:text="Baron Philippe de Rothschild Bordeaux R"/>
         <org.holoeverywhere.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:textColor="@color/product_text_color"
                 android:layout_below="@+id/item_name"
                 android:textSize="11sp"
-                android:layout_marginTop="2dip" android:text="Хакусика-Хана Кохаку"/>
+                android:layout_marginTop="2dip" android:text="Барон Филипп де Ротшильд Бордо Руж"/>
         <LinearLayout
                 android:layout_below="@+id/item_loc_name"
                 android:orientation="horizontal"

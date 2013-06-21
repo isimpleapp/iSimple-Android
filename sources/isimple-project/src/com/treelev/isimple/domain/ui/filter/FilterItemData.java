@@ -51,6 +51,7 @@ public class FilterItemData implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(name);
@@ -104,15 +105,14 @@ public class FilterItemData implements Parcelable {
 //        return null;
 //    }
 
-    public static FilterItemData[] createFromPresentable (Presentable[] array) {
+    public static FilterItemData[] createFromPresentable(Presentable[] array) {
         if (array != null) {
             FilterItemData[] filterData = new FilterItemData[array.length];
-            for(int i = 0; i < array.length; i++) {
+            for (int i = 0; i < array.length; i++) {
                 filterData[i] = new FilterItemData(array[i].getLabel());
             }
             return filterData;
-        }
-        else {
+        } else {
             return new FilterItemData[0];
         }
     }
@@ -160,8 +160,7 @@ public class FilterItemData implements Parcelable {
                 for (int i = 0; i < r.size(); i++) {
                     classificationsData[i] = new FilterItemData(r.get(i));
                 }
-            }
-            else {
+            } else {
                 classificationsData = new FilterItemData[0];
             }
             result.put(productType.getLabel(), classificationsData);

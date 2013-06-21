@@ -36,6 +36,9 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     private Context context;
     private final static String PRICE_LABEL_FORMAT = "%s р.";
     private final static String WATER_LABEL_FORMAT = "%s \u00D7 %s";
+    private final static String LONG_NAME_FORMAT = "%s...";
+    private final static int NAME_MAX_SYMBOLS = 38;
+    private final static int LOC_NAME_MAX_SYMBOLS = 31;
 
     public ShoppingCartCursorAdapter(Context context, Cursor cursor, TextView shoppingCartPriceTextView, TextView shoppingCartFooterTextView) {
         super(context, R.layout.shopping_cart_item_layout, cursor, new String[]{
@@ -159,9 +162,11 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
 
     private void organizeTextLabels(Cursor cursor, View view) {
         TextView textView = (TextView) view.findViewById(R.id.item_name);
-        textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_NAME)));
+        String name = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_NAME));
+        textView.setText(name.length() < NAME_MAX_SYMBOLS ? name : String.format(LONG_NAME_FORMAT, name.substring(0, NAME_MAX_SYMBOLS)));
         textView = (TextView) view.findViewById(R.id.item_loc_name);
-        textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_NAME)));
+        String locName = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_NAME));
+        textView.setText(locName.length() < LOC_NAME_MAX_SYMBOLS ? locName : locName.substring(0, LOC_NAME_MAX_SYMBOLS));
         textView = (TextView) view.findViewById(R.id.product_id);
         textView.setText(String.format(ITEM_ID_FORMAT, cursor.getString(cursor.getColumnIndex(BaseColumns._ID))));
         int drinkCategory = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY));

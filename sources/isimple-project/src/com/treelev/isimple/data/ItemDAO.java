@@ -281,7 +281,6 @@ public class ItemDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_COUNTRY,
                 DatabaseSqlHelper.ITEM_TABLE,
                 categoryId);
-
         Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -305,6 +304,40 @@ public class ItemDAO extends BaseDAO {
         }
         close();
         return regionsGroupByCountry;
+    }
+
+    public List<String> getCountriesByCategory(int categoryId) {
+        open();
+        List<String> countries = new ArrayList<String>();
+        String sqlQueryString = "SELECT country FROM item WHERE drink_category = " + categoryId + " GROUP BY country ORDER BY count(item_id) DESC";
+        Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
+        if (cursor != null) {
+            String country;
+            while (cursor.moveToNext()) {
+                country = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_COUNTRY));
+                countries.add(country);
+            }
+            cursor.close();
+        }
+        close();
+        return countries;
+    }
+
+    public List<String> getRegionsByCountriesCategory(String country, int categoryId) {
+        open();
+        List<String> regions = new ArrayList<String>();
+        String sqlQueryString = "SELECT DISTINCT region FROM [item] WHERE [drink_category] = " + categoryId + " AND [country] = '" + country + "' ORDER BY region";
+        Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
+        if (cursor != null) {
+            String region;
+            while (cursor.moveToNext()) {
+                region = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_REGION));
+                regions.add(region);
+            }
+            cursor.close();
+        }
+        close();
+        return regions;
     }
 
     public Map<Integer, List<String>> getClassificationsByCategory(int categoryId) {

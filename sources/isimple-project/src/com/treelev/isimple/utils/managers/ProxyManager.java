@@ -76,6 +76,14 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRegionsByCategory(category.ordinal());
     }
 
+    public List<String> getCountriesByCategory(DrinkCategory category) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getCountriesByCategory(category.ordinal());
+    }
+
+    public List<String> getRegionsByCountryCategory(String country, DrinkCategory category) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRegionsByCountriesCategory(country, category.ordinal());
+    }
+
     public Map<ProductType, List<String>> getClassificationsByCategory(DrinkCategory category) {
         HashMap<ProductType, List<String>> result = new HashMap<ProductType, List<String>>();
         Map<Integer, List<String>> classifications = ((ItemDAO) getObjectDAO(ItemDAO.ID))

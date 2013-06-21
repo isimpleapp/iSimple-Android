@@ -6,6 +6,7 @@ import android.location.Location;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.*;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ProductType;
@@ -278,6 +279,10 @@ public class ProxyManager {
         return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getItemCount(itemId);
     }
 
+    public List<Order> getOrders(){
+        return  ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getOrders();
+    }
+
     public String getDeliveryFirstCountry() {
         return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getFirstCountryLabel();
     }
@@ -289,6 +294,8 @@ public class ProxyManager {
     public String getDeliveryMessage(String country, int price) {
         return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getMessage(country, price);
     }
+
+
 
     public void release() {
         if (mdao.size() > 0) {

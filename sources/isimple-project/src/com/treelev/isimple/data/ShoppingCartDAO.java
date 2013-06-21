@@ -5,6 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.domain.db.Order;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingCartDAO extends BaseDAO {
 
@@ -137,7 +141,7 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public Cursor getShoppingCartItems() {
         open();
-        String formatSelectScript = "SELECT %s as %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s";
+        String formatSelectScript = "SELECT %s as %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE NOT(item_id IS NULL)";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, BaseColumns._ID,
                 DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
                 DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
@@ -213,5 +217,24 @@ public class ShoppingCartDAO extends BaseDAO {
         }
         close();
         return shoppingCartPrice;
+    }
+
+    public List<Order> getOrders(){
+        ArrayList<Order> orders = null;
+        String query = "SELECT item_id, item_count FROM shopping_cart_item WHERE NOT(item_id IS NULL)";
+        open();
+        Cursor cursor = getDatabase().rawQuery(query, null);
+        if(cursor != null){
+            if(cursor.moveToFirst()){
+                orders = new ArrayList<Order>();
+                Order orderItem;
+                do{
+                  orderItem = new Order(cursor.getString(0), cursor.getInt(1));
+                    orders.add(orderItem);
+                } while(cursor.moveToNext());
+            }
+        }
+        close();
+        return orders;
     }
 }

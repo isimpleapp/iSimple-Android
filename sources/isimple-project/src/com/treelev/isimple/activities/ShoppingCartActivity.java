@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,7 @@ import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.Toast;
 
 public class ShoppingCartActivity extends BaseListActivity implements View.OnClickListener {
 
@@ -178,10 +181,21 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     }
 
     public void onMakeOrder(View v) {
-
-        dlgMakeOrder.setArguments(new Bundle());
-        dlgMakeOrder.show(getSupportFragmentManager(), "SELECT_TYPE");
-
+        int count = getListView().getCount();
+        if( count > 0){
+            String cs = Context.CONNECTIVITY_SERVICE;
+            ConnectivityManager cm = (ConnectivityManager)this.getSystemService(cs);
+            NetworkInfo nInfoMobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            NetworkInfo nIfoWIFI = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if(nInfoMobile.getState() == NetworkInfo.State.CONNECTED || nIfoWIFI.getState() == NetworkInfo.State.CONNECTED) {
+                dlgMakeOrder.setArguments(new Bundle());
+                dlgMakeOrder.show(getSupportFragmentManager(), "SELECT_TYPE");
+            } else {
+                Toast.makeText(this, getString(R.string.message_offline), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.message_empty_orders), Toast.LENGTH_LONG).show();
+        }
     }
 
 }

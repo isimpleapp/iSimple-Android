@@ -33,7 +33,8 @@
     <string name="shared_secret">a338b2e5aa433f461398e4d5ccf64e33195dc4f4fc29f23086f8048de677216aaf5e27f868b74b3501605981997bb0620f047c3ecf2508b9bbf1eed12d07de27</string>
     <string name="url_send_order">https://www.simple.ru/isimple_service/order.php </string>
     <string name="registration_orders">Регистрация заказа</string>
-    <string name="message_success_send_orders"><![CDATA[<br><br>Спасибо за заказ!<br/><br/>Наши менеджеры скоро<br/>свяжуться с вами.<br/><br/>]]></string>
+    <string name="message_success_send_orders"><![CDATA[<br><br>Спасибо за заказ!<br><br>Наши менеджеры скоро<br/>свяжуться с вами.<br><br>]]></string>
+    <string name="message_not_success_send_orders"><![CDATA[<br><br>Извините!<br><br>Сервер перегружен<br>попробуйте позже.<br><br>]]></string>
 
     <string name="shopping_cart_delete_all_btn_label">Очистить</string>
     <string name="shopping_cart_delivery_btn_label">Delivery</string>

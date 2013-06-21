@@ -720,7 +720,7 @@ public class ItemDAO extends BaseDAO {
         int indexItemID = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_ID);
         int indexDrinkID = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
         int indexName = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_NAME);
-        int indexLocalizeName = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_NAME);
+        int indexLocalizeName = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_NAME);
         int indexManufacturer = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_MANUFACTURER);
         int indexLocalizedManufacturer = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER);
         int indexPrice = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE);

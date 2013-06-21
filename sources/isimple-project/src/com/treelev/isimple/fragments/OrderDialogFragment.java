@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import com.treelev.isimple.R;
+import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.HttpResponse;
@@ -51,9 +52,13 @@ public class OrderDialogFragment extends DialogFragment
     private EditText mEditContactInfo;
     private Button mBtnPositive;
     private Dialog mDialog;
+    private boolean mSuccess;
 
     public OrderDialogFragment(int typeDialog){
         mType = typeDialog;
+    }
+    public void setSuccess(boolean success){
+        mSuccess = success;
     }
 
     @Override
@@ -74,7 +79,11 @@ public class OrderDialogFragment extends DialogFragment
         }
         TextView tvSuccess = (TextView)mDialog.findViewById(R.id.message_success);
         if( tvSuccess != null ){
-            tvSuccess.setText(Html.fromHtml(getString(R.string.message_success_send_orders)));
+            if(mSuccess){
+                tvSuccess.setText(Html.fromHtml(getString(R.string.message_success_send_orders)));
+            } else {
+                tvSuccess.setText(Html.fromHtml(getString(R.string.message_not_success_send_orders)));
+            }
         }
     }
 
@@ -246,9 +255,10 @@ public class OrderDialogFragment extends DialogFragment
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             mDialog.dismiss();
-            if(result){
-                new OrderDialogFragment(SUCCESS_TYPE).show(((Activity)mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
-            }
+            ((ShoppingCartActivity)mContext).updateList();
+            OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE);
+            dialog.setSuccess(result);
+            dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
         }
 
         private ProxyManager getProxyManager() {

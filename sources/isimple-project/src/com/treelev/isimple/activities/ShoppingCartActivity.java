@@ -30,6 +30,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private View footerView;
     private String[] countries;
     public final static String COUNTRY_LABEL = "country";
+    private CursorAdapter mListCategoriesAdapter;
 
     private OrderDialogFragment dlgMakeOrder;
 
@@ -157,7 +158,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             TextView shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
             TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
             String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
-            CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView, shoppingCartFooterTextView);
+            mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView, shoppingCartFooterTextView);
             int shoppingCartPrice = 0;
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
@@ -178,6 +179,10 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             }
             mDialog.dismiss();
         }
+    }
+
+    public void updateList(){
+        new SelectDataShoppingCartTask(this).execute();
     }
 
     public void onMakeOrder(View v) {

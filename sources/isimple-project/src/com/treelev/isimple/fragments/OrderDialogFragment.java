@@ -258,7 +258,9 @@ public class OrderDialogFragment extends DialogFragment
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             mDialog.dismiss();
-            ((ShoppingCartActivity)mContext).updateList();
+            if(result){
+                ((ShoppingCartActivity)mContext).updateList();
+            }
             OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE);
             dialog.setSuccess(result);
             dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");

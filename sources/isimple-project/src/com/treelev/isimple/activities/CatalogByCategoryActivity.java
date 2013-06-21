@@ -1,15 +1,18 @@
 package com.treelev.isimple.activities;
 
-import android.support.v4.app.LoaderManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
@@ -21,7 +24,6 @@ import com.treelev.isimple.cursorloaders.SelectItemsByCategory;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.filter.Filter;
 import com.treelev.isimple.filter.*;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
@@ -32,7 +34,7 @@ import org.holoeverywhere.widget.ListView;
 
 public class CatalogByCategoryActivity extends BaseListActivity implements RadioGroup.OnCheckedChangeListener,
         ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener,
-        LoaderManager.LoaderCallbacks<Cursor>{
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
@@ -266,6 +268,8 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     private void initFilterListView() {
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, filter);
         filterListView = (ExpandableListView) findViewById(R.id.filtration_view);
+        //View headerView = LayoutInflater.from(this).inflate(R.layout.filter_header_layout);
+        //filterListView = (ExpandableListView) headerView.findViewById(R.id.filtration_view);
         filterListView.setOnGroupExpandListener(this);
         filterListView.setOnGroupCollapseListener(this);
         filterListView.setOnChildClickListener(this);
@@ -281,6 +285,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         footerView.findViewById(R.id.search_butt).setOnClickListener(footerButtonClick);
         filterListView.addFooterView(footerView, null, false);
         filterListView.setAdapter(filterAdapter);
+        //getListView().addHeaderView(headerView);
     }
 
     private View.OnClickListener footerButtonClick = new View.OnClickListener() {
@@ -313,16 +318,16 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         }
     };
 
-     @Override
+    @Override
     public void onGroupCollapse(int groupPosition) {
         mExpandFiltr = false;
     }
 
-    private void initLoadManager(){
+    private void initLoadManager() {
         getSupportLoaderManager().restartLoader(0, null, this);
     }
 
-///Use LoaderManager
+    ///Use LoaderManager
     private Dialog mDialog;
 
     @Override

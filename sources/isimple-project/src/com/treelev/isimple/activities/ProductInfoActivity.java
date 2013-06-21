@@ -4,6 +4,7 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -19,6 +20,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
@@ -44,9 +47,11 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private MenuItem mItemFavourite;
     private View headerView;
     private ProxyManager proxyManager;
+    private ProductContentAdapter mListAdapter;
 
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
+    private ImageView mProductImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,9 +66,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
         initProduct(mBarcode);
         organizeHeaderView();
-        List<ProductContent> productContentList = createExpandableItems(mProduct);
-        BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
-        getExpandableListView().setAdapter(listAdapter);
+
     }
 
     @Override
@@ -158,6 +161,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         headerView = getLayoutInflater().inflate(R.layout.product_header_view, getExpandableListView(), false);
         organizeHeaderTitle(headerView);
         getExpandableListView().addHeaderView(headerView, null, false);
+        List<ProductContent> productContentList = createExpandableItems(mProduct);
+        mListAdapter = new ProductContentAdapter(this, productContentList);
+        getExpandableListView().setAdapter(mListAdapter);
         populateFormsFields(headerView, mProduct);
         LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
         ((LinearLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
@@ -312,7 +318,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.hasYear() ? String.valueOf(product.getYear()) : "");
 
         if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
-            ImageView productImage = (ImageView) formView.findViewById(R.id.product_image);
+            mProductImage = (ImageView) formView.findViewById(R.id.product_image);
             DisplayMetrics metrics = getResources().getDisplayMetrics();
             String sizePrefix =
                     metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
@@ -320,7 +326,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
             imageLoader.displayImage(
                     String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix),
-                    productImage, options);
+                    mProductImage, options);
         }
 
         String strPriceLabel = takeRetailPrice(product) != null ? takeRetailPrice(product).toString() : "";

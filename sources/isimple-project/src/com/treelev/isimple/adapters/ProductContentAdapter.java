@@ -21,11 +21,13 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
     private List<ProductContent> productContentList;
     private LayoutInflater layoutInflater;
     private Display display;
+    private int mWidthScreenAfterRight;
 
     public ProductContentAdapter(Context context, List<ProductContent> productContentList) {
         layoutInflater = LayoutInflater.from(context);
         display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         this.productContentList = productContentList;
+        mWidthScreenAfterRight = 1000;
     }
 
     @Override
@@ -63,6 +65,10 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    public void setWidthScreenAfterRight(int width){
+        mWidthScreenAfterRight = width;
+    }
+
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         GroupViewHolder groupViewHolder;
@@ -73,8 +79,9 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
             groupViewHolder.arrow = (ImageView) convertView.findViewById(R.id.group_arrow);
             groupViewHolder.text = (TextView) convertView.findViewById(R.id.group_name);
             convertView.setTag(groupViewHolder);
+            convertView.setLayoutParams(new AbsListView.LayoutParams(widthDisplay + mWidthScreenAfterRight, ViewGroup.LayoutParams.WRAP_CONTENT));
         } else {
-            ((AbsListView.LayoutParams) convertView.getLayoutParams()).width = widthDisplay + 50;
+            ((AbsListView.LayoutParams) convertView.getLayoutParams()).width = widthDisplay + mWidthScreenAfterRight;
             groupViewHolder = (GroupViewHolder) convertView.getTag();
         }
         ProductContent productContent = getGroup(groupPosition);

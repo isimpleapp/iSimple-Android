@@ -20,7 +20,6 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
 
     public void setCurrentCategory(int currentCategory) {
         mCurrentCategory = currentCategory;
-
     }
 
     @Override

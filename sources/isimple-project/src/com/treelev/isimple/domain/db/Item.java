@@ -233,7 +233,7 @@ public class Item implements Serializable {
     }
 
     public boolean hasAlcohol(){
-        return alcohol != null ? ! alcohol.trim().equals("0") : false;
+        return alcohol != null && !alcohol.trim().equals("0") && !alcohol.equals("0.0");
     }
 
     public String getBottleHiResolutionImageFilename() {

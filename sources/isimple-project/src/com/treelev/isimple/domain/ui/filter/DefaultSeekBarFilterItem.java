@@ -57,7 +57,7 @@ public class DefaultSeekBarFilterItem extends FilterItem {
     @Override
     public String getSQLWhereClause() {
         return (minValue == 0 && maxValue == 0) ? "" :
-                String.format("(%1$s >= %2$s and %1$s <= %3$s)", targetColumn, minValue, maxValue);
+                String.format("((%1$s >= %2$s and %1$s <= %3$s) OR (%1$s ISNULL))", targetColumn, minValue, maxValue);
     }
 
     @Override

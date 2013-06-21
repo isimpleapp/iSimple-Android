@@ -38,11 +38,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private final static String EMPTY_PRICE_LABEL = "-";
     private final static String FORMAT_ALCOHOL = "%s%% алк.";
     private final static String FORMAT_VOLUME = "%s л.";
-    private String mLocationId;
-    private String mBarcode;
     private String itemId;
     private Item mProduct;
-    private Context mContext;
     private boolean mIsFavourite;
     private MenuItem mItemFavourite;
     private View headerView;
@@ -52,148 +49,29 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private ImageLoader imageLoader;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initImageLoader();
+        String locationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
+        initCurrentCategory(locationId);
+        createNavigationMenuBar(locationId);
+        setContentView(R.layout.product_layout);
+        proxyManager = new ProxyManager(this);
+        itemId = getIntent().getStringExtra(ITEM_ID_TAG);
+        String mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
+        initProduct(mBarcode);
+        organizeHeaderView();
+        List<ProductContent> productContentList = createExpandableItems(mProduct);
+        BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
+        getExpandableListView().setAdapter(listAdapter);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         ProxyManager proxyManager = new ProxyManager(this);
         mIsFavourite = proxyManager.isFavourites(itemId);
         setFavouritesImage(mIsFavourite);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        imageLoader = Utils.getImageLoader(getApplicationContext());
-        options = new DisplayImageOptions.Builder()
-                .showStubImage(R.drawable.product_default_image)
-                .showImageForEmptyUri(R.drawable.product_default_image)
-                .showImageOnFail(R.drawable.product_default_image)
-                .cacheInMemory()
-                .cacheOnDisc()
-                .build();
-
-        mContext = this;
-        mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
-        if (mLocationId == null) {
-            setCurrentCategory(0);
-        } else if (getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)) {
-            setCurrentCategory(2);
-        } else {
-            setCurrentCategory(1);
-        }
-        createNavigationMenuBar();
-//        String itemId = getIntent().getStringExtra(ITEM_ID_TAG);
-        setContentView(R.layout.product_layout);
-        proxyManager = new ProxyManager(this);
-
-        itemId = getIntent().getStringExtra(ITEM_ID_TAG);
-        mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
-
-        if (itemId != null && mBarcode == null) {
-            mProduct = proxyManager.getItemById(itemId);
-            mIsFavourite = proxyManager.isFavourites(itemId);
-        } else {
-
-            if (proxyManager.getItemByBarcodeTypeItem(mBarcode) == null) {
-                mProduct = proxyManager.getItemDeprecatedByBarcodeTypeItem(mBarcode);
-            } else {
-                mProduct = proxyManager.getItemByBarcodeTypeItem(mBarcode);
-            }
-        }
-
-
-        ExpandableListView listView = getExpandableListView();
-        headerView = getLayoutInflater().inflate(R.layout.product_header_view, listView, false);
-//TODO: replace
-        TextView itemTitle = (TextView) headerView.findViewById(R.id.title_item);
-
-        itemTitle.setText(mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "");
-
-        String colorStr = mProduct.getProductType().getColor();
-        if (colorStr == null) {
-            colorStr = mProduct.getColor().getCode();
-        }
-        itemTitle.setBackgroundColor(Color.parseColor(colorStr));
-
-        listView.addHeaderView(headerView, null, false);
-        populateFormsFields(headerView, mProduct);
-        List<ProductContent> productContentList = createExpandableItems(mProduct);
-
-        BaseExpandableListAdapter listAdapter = new ProductContentAdapter(this, productContentList);
-        listView.setAdapter(listAdapter);
-
-
-//        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-//        int widthDisplay = display.getWidth();
-        LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
-        final LinearLayout lin_for_two_button = (LinearLayout) headerView.findViewById(R.id.linear_for_two_button);
-        ((RelativeLayout.LayoutParams) lin_for_two_button.getLayoutParams()).width = widthDisplay();
-        ((RelativeLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
-        lin_for_two_button.requestLayout();
-
-//        TextView titleItem = (TextView)findViewById(R.id.title_item);
-//        titleItem.setPadding(0,0,getViewsWidth(headerView) - width,0);
-//        ((LinearLayout.LayoutParams) titleItem.getLayoutParams()).rightMargin = getViewsWidth(headerView) - width;
-
-        Button btWhereToBuy = (Button) headerView.findViewById(R.id.shops_butt);
-        btWhereToBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent newIntent = new Intent(mContext, ShopsFragmentActivity.class);
-                newIntent.putExtra(ShopsFragmentActivity.ITEM_PRODUCT_ID, itemId);
-                startActivity(newIntent);
-                overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-            }
-        });
-
-        Button btAddToBasket = (Button) headerView.findViewById(R.id.add_to_basket_butt);
-        btAddToBasket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isProductExistShoppingCart = proxyManager.isProductExistShoppingCart(itemId);
-                if (isProductExistShoppingCart) {
-                    proxyManager.addItemCount(itemId);
-                } else {
-                    proxyManager.insertProductInShoppingCart(mProduct);
-                }
-                Toast.makeText(ProductInfoActivity.this, "Товар добавлен в корзину", android.widget.Toast.LENGTH_LONG).show();
-            }
-        });
-// Hide buttons
-//        if( !proxyManager.availibilityItem(mProduct.getDrinkID()) ){
-//            btAddToBasket.setEnabled(false);
-//            btWhereToBuy.setEnabled(false);
-//            btWhereToBuy.setVisibility(View.GONE);
-//            btAddToBasket.setVisibility(View.GONE);
-//            headerView.findViewById(R.id.retail_price).setVisibility(View.GONE);
-//        }
-        setFavouritesImage(mIsFavourite);
-    }
-
-    private void setFavouritesImage(boolean isFavourite) {
-        ImageView image = (ImageView) headerView.findViewById(R.id.favourite_image);
-        TextView tv = (TextView) headerView.findViewById(R.id.product_name);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        if (isFavourite) {
-            image.setVisibility(View.VISIBLE);
-            params.setMargins(0, 0, 0, 0);
-            tv.setLayoutParams(params);
-        } else {
-            image.setVisibility(View.GONE);
-            int marginLeft = (int)getResources().getDimension(R.dimen.marginLeft);
-            params.setMargins(marginLeft, 0, 0, 0);
-            tv.setLayoutParams(params);
-        }
-    }
-
-    @Override
-    public void createNavigationMenuBar() {
-        super.createNavigationMenuBar();
-        if (mLocationId == null) {
-            getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-        } else if (getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)) {
-            getSupportActionBar().setIcon(R.drawable.menu_ico_fav);
-        }
     }
 
     @Override
@@ -230,10 +108,114 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 setFavouritesImage(mIsFavourite);
                 return true;
             case R.id.menu_item_send_mail:
-                 initShareIntent();
+                initShareIntent();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+    }
+
+    private void initImageLoader() {
+        imageLoader = Utils.getImageLoader(getApplicationContext());
+        options = new DisplayImageOptions.Builder()
+                .showStubImage(R.drawable.product_default_image)
+                .showImageForEmptyUri(R.drawable.product_default_image)
+                .showImageOnFail(R.drawable.product_default_image)
+                .cacheInMemory()
+                .cacheOnDisc()
+                .build();
+    }
+
+    private void initCurrentCategory(String locationId) {
+        if (locationId == null) {
+            setCurrentCategory(0);
+        } else if (getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)) {
+            setCurrentCategory(2);
+        } else {
+            setCurrentCategory(1);
+        }
+    }
+
+    private void initProduct(String mBarcode) {
+        if (itemId != null && mBarcode == null) {
+            mProduct = proxyManager.getItemById(itemId);
+            mIsFavourite = proxyManager.isFavourites(itemId);
+        } else {
+            if (proxyManager.getItemByBarcodeTypeItem(mBarcode) == null) {
+                mProduct = proxyManager.getItemDeprecatedByBarcodeTypeItem(mBarcode);
+            } else {
+                mProduct = proxyManager.getItemByBarcodeTypeItem(mBarcode);
+            }
+        }
+    }
+
+    private void organizeHeaderView() {
+        headerView = getLayoutInflater().inflate(R.layout.product_header_view, getExpandableListView(), false);
+        organizeHeaderTitle(headerView);
+        getExpandableListView().addHeaderView(headerView, null, false);
+        populateFormsFields(headerView, mProduct);
+        LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
+        ((RelativeLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
+        final LinearLayout lin_for_two_button = (LinearLayout) headerView.findViewById(R.id.linear_for_two_button);
+        ((RelativeLayout.LayoutParams) lin_for_two_button.getLayoutParams()).width = widthDisplay();
+        lin_for_two_button.requestLayout();
+        Float price = mProduct.getPrice();
+        Button btWhereToBuy = (Button) headerView.findViewById(R.id.shops_butt);
+        Button btAddToShoppingCart = (Button) headerView.findViewById(R.id.add_to_basket_butt);
+        if (price != null && price != 0.0f) {
+            btWhereToBuy.setOnClickListener(whereToBuyBtnClick);
+            btAddToShoppingCart.setOnClickListener(addToShoppingCartBtnClick);
+        } else {
+            btWhereToBuy.setVisibility(View.GONE);
+            btWhereToBuy.setOnClickListener(null);
+            btAddToShoppingCart.setVisibility(View.GONE);
+            btAddToShoppingCart.setOnClickListener(null);
+        }
+        setFavouritesImage(mIsFavourite);
+    }
+
+    private void organizeHeaderTitle(View headerView) {
+        TextView itemTitle = (TextView) headerView.findViewById(R.id.title_item);
+        itemTitle.setText(mProduct.getProductType().getLabel());
+        itemTitle.setBackgroundColor(Color.parseColor(getColorTitleString()));
+    }
+
+    private String getColorTitleString() {
+        String colorStr = mProduct.getProductType().getColor();
+        if (colorStr == null) {
+            colorStr = mProduct.getColor().getCode();
+        }
+        return colorStr;
+    }
+
+    private void createNavigationMenuBar(String locationId) {
+        super.createNavigationMenuBar();
+        if (locationId == null) {
+            getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+        } else if (getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)) {
+            getSupportActionBar().setIcon(R.drawable.menu_ico_fav);
+        }
+    }
+
+    private void setFavouritesImage(boolean isFavourite) {
+        ImageView image = (ImageView) headerView.findViewById(R.id.favourite_image);
+        TextView tv = (TextView) headerView.findViewById(R.id.product_name);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        if (isFavourite) {
+            image.setVisibility(View.VISIBLE);
+            params.setMargins(0, 0, 0, 0);
+            tv.setLayoutParams(params);
+        } else {
+            image.setVisibility(View.GONE);
+            int marginLeft = (int) getResources().getDimension(R.dimen.marginLeft);
+            params.setMargins(marginLeft, 0, 0, 0);
+            tv.setLayoutParams(params);
+        }
     }
 
     private void initShareIntent() {
@@ -242,10 +224,10 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         Intent sendMail = new Intent(Intent.ACTION_SEND);
         sendMail.setType("text/html");
         List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(sendMail, 0);
-        if (!resInfo.isEmpty()){
+        if (!resInfo.isEmpty()) {
             for (ResolveInfo info : resInfo) {
                 if (info.activityInfo.packageName.toLowerCase().contains(type) ||
-                        info.activityInfo.name.toLowerCase().contains(type) ) {
+                        info.activityInfo.name.toLowerCase().contains(type)) {
                     sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
                     sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
                     sendMail.setPackage(info.activityInfo.packageName);
@@ -253,7 +235,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                     break;
                 }
             }
-            if (found){
+            if (found) {
                 startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
             } else {
                 Toast.makeText(this, this.getString(R.string.not_found_mail_cleint), Toast.LENGTH_SHORT).show();
@@ -274,12 +256,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String itemId = mProduct.getItemID();
         String str = getResources().getString(R.string.mail_tamplate);
         return String.format(str, bottleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId, itemId);
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
     private int widthDisplay() {
@@ -338,19 +314,25 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             ImageView productImage = (ImageView) formView.findViewById(R.id.product_image);
             DisplayMetrics metrics = getResources().getDisplayMetrics();
             String sizePrefix =
-                metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
-                metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH? "_xhdpi" : "";
+                    metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
+                            metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
 
             imageLoader.displayImage(
-                String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix),
-                productImage, options);
+                    String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix),
+                    productImage, options);
         }
 
         String strPriceLabel = takeRetailPrice(product) != null ? takeRetailPrice(product).toString() : "";
+        TextView retailPrice = (TextView) formView.findViewById(R.id.retail_price);
         if (!TextUtils.isEmpty(strPriceLabel)) {
-            ((TextView) formView.findViewById(R.id.retail_price)).setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, strPriceLabel)));
+            retailPrice.setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, strPriceLabel)));
         } else {
-            ((TextView) formView.findViewById(R.id.retail_price)).setText(strPriceLabel);
+            retailPrice.setText(strPriceLabel);
+        }
+        if (mProduct.getPrice() != null && mProduct.getPrice() != 0.0f) {
+            retailPrice.setVisibility(View.VISIBLE);
+        } else {
+            retailPrice.setVisibility(View.GONE);
         }
     }
 
@@ -398,4 +380,35 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private String trimTrailingZeros(String number) {
         return number != null ? Utils.removeZeros(number) : null;
     }
+
+    private View.OnClickListener whereToBuyBtnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            whereToBuyClick();
+        }
+
+        private void whereToBuyClick() {
+            Intent newIntent = new Intent(ProductInfoActivity.this, ShopsFragmentActivity.class);
+            newIntent.putExtra(ShopsFragmentActivity.ITEM_PRODUCT_ID, itemId);
+            startActivity(newIntent);
+            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+        }
+    };
+
+    private View.OnClickListener addToShoppingCartBtnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            addToShoppingCartClick();
+        }
+
+        private void addToShoppingCartClick() {
+            boolean isProductExistShoppingCart = proxyManager.isProductExistShoppingCart(itemId);
+            if (isProductExistShoppingCart) {
+                proxyManager.addItemCount(itemId);
+            } else {
+                proxyManager.insertProductInShoppingCart(mProduct);
+            }
+            Toast.makeText(ProductInfoActivity.this, "Товар добавлен в корзину", android.widget.Toast.LENGTH_LONG).show();
+        }
+    };
 }

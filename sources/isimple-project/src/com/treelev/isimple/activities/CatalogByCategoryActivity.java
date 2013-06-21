@@ -58,7 +58,6 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
     private com.treelev.isimple.filter.Filter filter;
     private static final int ANIMATION_DURATION_IN_MILLIS = 500;
     private int mSortBy = ProxyManager.SORT_NAME_AZ;
-    private View mViewActivity;
     private Context mContext;
     public final static String EXTRA_RESULT_CHECKED = "isChecked";
     public final static String EXTRA_CHILD_POSITION = "position";
@@ -68,7 +67,7 @@ public class CatalogByCategoryActivity extends BaseListActivity implements Radio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout);
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
-        mViewActivity = findViewById(R.layout.catalog_category_layout);
+        View mViewActivity = findViewById(R.layout.catalog_category_layout);
         if (mLocationId == null) {
             setCurrentCategory(0);    //Catalog
         } else {

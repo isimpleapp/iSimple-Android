@@ -160,9 +160,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         getExpandableListView().addHeaderView(headerView, null, false);
         populateFormsFields(headerView, mProduct);
         LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
-        ((RelativeLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
+        ((LinearLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
         final LinearLayout lin_for_two_button = (LinearLayout) headerView.findViewById(R.id.linear_for_two_button);
-        ((RelativeLayout.LayoutParams) lin_for_two_button.getLayoutParams()).width = widthDisplay();
+        ((LinearLayout.LayoutParams) lin_for_two_button.getLayoutParams()).width = widthDisplay();
         lin_for_two_button.requestLayout();
         Float price = mProduct.getPrice();
         Button btWhereToBuy = (Button) headerView.findViewById(R.id.shops_butt);

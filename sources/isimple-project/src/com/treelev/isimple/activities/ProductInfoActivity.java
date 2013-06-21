@@ -390,7 +390,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
         private void whereToBuyClick() {
             Intent newIntent = new Intent(ProductInfoActivity.this, ShopsFragmentActivity.class);
-            newIntent.putExtra(ShopsFragmentActivity.ITEM_PRODUCT_ID, itemId);
+            newIntent.putExtra(ShopsFragmentActivity.ITEM_PRODUCT_ID, mProduct.getItemID());
             startActivity(newIntent);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         }

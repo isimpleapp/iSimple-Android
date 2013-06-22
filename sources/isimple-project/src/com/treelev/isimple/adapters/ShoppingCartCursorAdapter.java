@@ -108,6 +108,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         int shoppingCartPrice = proxyManager.getShoppingCartPrice();
         String priceStr = String.format(ShoppingCartActivity.PRICE_LABEL_FORMAT, shoppingCartPrice);
         shoppingCartPriceTextView.setText(priceStr);
+        ((ShoppingCartActivity) context).organizeCreateOrderButton(shoppingCartPrice);
         shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(
                 ((org.holoeverywhere.app.Activity) context).getPreferences(Context.MODE_PRIVATE).getString(ShoppingCartActivity.COUNTRY_LABEL, ""), shoppingCartPrice));
     }

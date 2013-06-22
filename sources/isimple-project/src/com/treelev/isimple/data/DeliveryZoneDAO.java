@@ -119,6 +119,22 @@ public class DeliveryZoneDAO extends BaseDAO {
         return desc;
     }
 
+    public int getMinPriceByCountry(String country) {
+        String formatQuery = "SELECT MIN(max_condition) as min_price FROM [delivery] WHERE [name] = '%s'";
+        String query = String.format(formatQuery, country);
+        open();
+        Cursor cursor = getDatabase().rawQuery(query, null);
+        int minPrice = -1;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                minPrice = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+        close();
+        return minPrice;
+    }
+
     private String getStartDescByName(int minPrice) {
         return String.format(START_DESC_FORMAT, minPrice);
     }

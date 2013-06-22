@@ -4,7 +4,6 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -15,20 +14,19 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.widget.*;
+import org.holoeverywhere.widget.Button;
+import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +45,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private MenuItem mItemFavourite;
     private View headerView;
     private ProxyManager proxyManager;
-    private ProductContentAdapter mListAdapter;
 
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
-    private ImageView mProductImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -162,7 +158,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeHeaderTitle(headerView);
         getExpandableListView().addHeaderView(headerView, null, false);
         List<ProductContent> productContentList = createExpandableItems(mProduct);
-        mListAdapter = new ProductContentAdapter(this, productContentList);
+        ProductContentAdapter mListAdapter = new ProductContentAdapter(this, productContentList);
         getExpandableListView().setAdapter(mListAdapter);
         populateFormsFields(headerView, mProduct);
         LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
@@ -316,19 +312,16 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), product.hasAlcohol() ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())) : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + "")));
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.hasYear() ? String.valueOf(product.getYear()) : "");
-
         if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
-            mProductImage = (ImageView) formView.findViewById(R.id.product_image);
+            ImageView mProductImage = (ImageView) formView.findViewById(R.id.product_image);
             DisplayMetrics metrics = getResources().getDisplayMetrics();
             String sizePrefix =
                     metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
                             metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
-
             imageLoader.displayImage(
                     String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix),
                     mProductImage, options);
         }
-
         String strPriceLabel = takeRetailPrice(product) != null ? takeRetailPrice(product).toString() : "";
         TextView retailPrice = (TextView) formView.findViewById(R.id.retail_price);
         if (!TextUtils.isEmpty(strPriceLabel)) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -30,7 +31,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private View footerView;
     private String[] countries;
     public final static String COUNTRY_LABEL = "country";
-    private CursorAdapter mListCategoriesAdapter;
+    private int shoppingCartPrice;
 
     private OrderDialogFragment dlgMakeOrder;
 
@@ -43,6 +44,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         proxyManager = new ProxyManager(this);
         getListView().addFooterView(organizeFooterView());
         dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.SELECT_TYPE);
+
         new SelectDataShoppingCartTask(this).execute();
     }
 
@@ -88,7 +90,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                 break;
             case R.id.delivery_btn:
                 org.holoeverywhere.app.AlertDialog.Builder builder = new org.holoeverywhere.app.AlertDialog.Builder(this);
-                builder.setTitle("Выберите зону доставки");
+                builder.setTitle(getString(R.string.delivery_dialog_title));
                 countries = proxyManager.getCountries();
                 builder.setItems(proxyManager.getCountries(), new DialogInterface.OnClickListener() {
                     @Override
@@ -97,6 +99,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                         putCountryInPref(country);
                         TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
                         shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, proxyManager.getShoppingCartPrice()));
+                        organizeCreateOrderButton(shoppingCartPrice);
                         Button button = (Button) footerView.findViewById(R.id.delivery_btn);
                         button.setText(country);
                     }
@@ -158,8 +161,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             TextView shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
             TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
             String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
-            mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView, shoppingCartFooterTextView);
-            int shoppingCartPrice = 0;
+            CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView, shoppingCartFooterTextView);
+            shoppingCartPrice = 0;
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
                     do {
@@ -172,12 +175,25 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             }
             shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
             shoppingCartPriceTextView.setText(String.format(PRICE_LABEL_FORMAT, shoppingCartPrice));
+            organizeCreateOrderButton(shoppingCartPrice);
             getListView().setAdapter(mListCategoriesAdapter);
             if (cursor != null && cursor.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);
                 findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
             }
             mDialog.dismiss();
+        }
+    }
+
+    public void organizeCreateOrderButton(int shoppingCartPrice) {
+        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
+        Button button = (Button) findViewById(R.id.create_order_btn);
+        if (shoppingCartPrice >= minPrice) {
+            button.setBackgroundColor(getResources().getColor(R.color.product_price_color));
+            button.setClickable(true);
+        } else {
+            button.setBackgroundColor(Color.GRAY);
+            button.setClickable(false);
         }
     }
 

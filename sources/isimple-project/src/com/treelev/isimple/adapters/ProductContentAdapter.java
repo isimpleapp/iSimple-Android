@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.ProductContent;
@@ -65,7 +64,7 @@ public class ProductContentAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public void setWidthScreenAfterRight(int width){
+    public void setWidthScreenAfterRight(int width) {
         mWidthScreenAfterRight = width;
     }
 

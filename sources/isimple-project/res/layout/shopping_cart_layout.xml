@@ -24,7 +24,8 @@
                     android:layout_alignParentRight="true" android:background="@color/product_price_color"
                     android:textColor="@android:color/white" android:textStyle="bold" android:textSize="16dip"
                     android:paddingLeft="18dip" android:paddingRight="18dip" android:layout_marginTop="20dip"
-                    android:layout_marginRight="10dip" android:onClick="onMakeOrder"/>
+                    android:layout_marginRight="10dip" android:onClick="onMakeOrder"
+                    android:id="@+id/create_order_btn"/>
         </RelativeLayout>
         <org.holoeverywhere.widget.ListView
                 android:id="@android:id/list"

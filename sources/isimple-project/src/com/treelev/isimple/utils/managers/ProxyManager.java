@@ -303,7 +303,9 @@ public class ProxyManager {
         return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getMessage(country, price);
     }
 
-
+    public int getMinPriceByCountry(String country) {
+        return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getMinPriceByCountry(country);
+    }
 
     public void release() {
         if (mdao.size() > 0) {

@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
@@ -37,6 +36,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class OrderDialogFragment extends DialogFragment
         implements DialogInterface.OnClickListener,
         TextWatcher{
@@ -44,7 +44,7 @@ public class OrderDialogFragment extends DialogFragment
     public static final int SELECT_TYPE = 2;
     public static final int PHONE_TYPE = 0;   //id item list
     public static final int EMAIL_TYPE = 1;   // id item list
-    private static final int SUCCESS_TYPE = 3;
+    public static final int SUCCESS_TYPE = 3;
 
     public static final String LIST_ORDERS = "LIST_ORDERS";
 
@@ -55,6 +55,7 @@ public class OrderDialogFragment extends DialogFragment
     private Button mBtnPositive;
     private Dialog mDialog;
     private boolean mSuccess;
+
 
     public OrderDialogFragment(int typeDialog){
         mType = typeDialog;
@@ -255,15 +256,19 @@ public class OrderDialogFragment extends DialogFragment
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        protected void onPostExecute(final Boolean result) {
             super.onPostExecute(result);
             mDialog.dismiss();
             if(result){
                 ((ShoppingCartActivity)mContext).updateList();
             }
-            OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE);
-            dialog.setSuccess(result);
-            dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
+            if(((ShoppingCartActivity)mContext).isIsSaveInstancceState()){
+                ((ShoppingCartActivity)mContext).setResultSendOrders(result);
+            } else {
+                OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE);
+                dialog.setSuccess(result);
+                dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
+            }
         }
 
         private ProxyManager getProxyManager() {

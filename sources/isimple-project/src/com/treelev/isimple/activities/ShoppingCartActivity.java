@@ -33,6 +33,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     public final static String COUNTRY_LABEL = "country";
     private boolean mResultSendOrders;
     private boolean mIsSaveInstancceState;
+    private boolean mSendOrders;
 
 
     private OrderDialogFragment dlgMakeOrder;
@@ -64,9 +65,11 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         if(mIsSaveInstancceState){
-            OrderDialogFragment dialog = new OrderDialogFragment(OrderDialogFragment.SUCCESS_TYPE);
-            dialog.setSuccess(mResultSendOrders);
-            dialog.show(getSupportFragmentManager(), "SUCCESS_TYPE");
+            if(mResultSendOrders){
+                OrderDialogFragment dialog = new OrderDialogFragment(OrderDialogFragment.SUCCESS_TYPE);
+                dialog.setSuccess(mResultSendOrders);
+                dialog.show(getSupportFragmentManager(), "SUCCESS_TYPE");
+            }
         }
         mIsSaveInstancceState = false;
     }
@@ -241,6 +244,10 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mIsSaveInstancceState = true;
+    }
+
+    public void sendOrderSetFlag(boolean flag){
+        mSendOrders = flag;
     }
     public boolean isIsSaveInstancceState(){
         return  mIsSaveInstancceState;

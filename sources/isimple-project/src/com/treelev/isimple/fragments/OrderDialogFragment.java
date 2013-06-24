@@ -23,8 +23,16 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.scheme.SocketFactory;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
 import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
@@ -244,6 +252,7 @@ public class OrderDialogFragment extends DialogFragment
             hideKeyBoard();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.registration_orders), false, false);
+            ((ShoppingCartActivity)mContext).setResultSendOrders(true);
         }
 
         @Override
@@ -268,6 +277,7 @@ public class OrderDialogFragment extends DialogFragment
                 OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE);
                 dialog.setSuccess(result);
                 dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
+                ((ShoppingCartActivity)mContext).setResultSendOrders(false);
             }
         }
 
@@ -280,7 +290,7 @@ public class OrderDialogFragment extends DialogFragment
 
         private boolean postData() {
             // Create a new HttpClient and Post Header
-            HttpClient httpclient = new DefaultHttpClient();
+
             HttpPost httppost = new HttpPost(mContext.getString(R.string.url_send_order).trim());
 
             try {
@@ -294,11 +304,34 @@ public class OrderDialogFragment extends DialogFragment
                 Log.v("OrderSend", getMD5());
                 Log.v("OrderSend", getListOrder());
                 // Execute HTTP Post Request
+
+//                SchemeRegistry schReg = new SchemeRegistry();
+//                schReg.register(new Scheme("http", SSLSocketFactory.getSocketFactory(), 80));
+//                schReg.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+//                SingleClientConnManager conMgr = new SingleClientConnManager(httppost.getParams(), schReg);
+                SchemeRegistry registry = new SchemeRegistry();
+                registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+                final SSLSocketFactory sslSocketFactory = SSLSocketFactory.getSocketFactory();
+                sslSocketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+                registry.register(new Scheme("https", sslSocketFactory, 443));
+
+                HttpClient httpclient = new DefaultHttpClient(
+                        new ThreadSafeClientConnManager((new BasicHttpParams()), registry), new BasicHttpParams() );
+
+//                HttpClient httpclient = new DefaultHttpClient(
+//                        new ThreadSafeClientConnManager((new BasicHttpParams()), schReg), new BasicHttpParams()
+//                );
+////                HttpClient httpclient = new DefaultHttpClient();
+//                httpclient.getConnectionManager().getSchemeRegistry().register(new Scheme("SSLSocketFactory", SSLSocketFactory.getSocketFactory(), 443));
                 HttpResponse response = httpclient.execute(httppost);
 
             } catch (ClientProtocolException e) {
+                Log.v("Error epick ClientProtocolException", e.getMessage());
+                Log.v("Error epick IOException", e.getStackTrace().toString());
                 return  false;
             } catch (IOException e) {
+                Log.v("Error epick IOException", e.getMessage());
+                Log.v("Error epick IOException", e.getStackTrace().toString());
                 return  false;
             }
             return true;

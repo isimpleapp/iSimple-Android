@@ -41,21 +41,21 @@ public class DeliveryZoneDAO extends BaseDAO {
             for (DeliveryZone deliveryZone : deliveryZones) {
                 insertStatement = bindString(insertStatement, 1, deliveryZone.getName());
                 insertStatement = bindInteger(insertStatement, 2, 0);
-                insertStatement = bindInteger(insertStatement, 3, deliveryZone.getPickupCondition());
+                insertStatement = bindInteger(insertStatement, 3, deliveryZone.getPickupCondition() - 1);
                 insertStatement = bindString(insertStatement, 4, getStartDescByName(deliveryZone.getPickupCondition()));
                 insertStatement.execute();
                 insertStatement = bindString(insertStatement, 1, deliveryZone.getName());
-                insertStatement = bindInteger(insertStatement, 2, deliveryZone.getPickupCondition() + 1);
-                insertStatement = bindInteger(insertStatement, 3, deliveryZone.getDeliveryCondition());
+                insertStatement = bindInteger(insertStatement, 2, deliveryZone.getPickupCondition());
+                insertStatement = bindInteger(insertStatement, 3, deliveryZone.getDeliveryCondition() - 1);
                 insertStatement = bindString(insertStatement, 4, deliveryZone.getPickupDesc());
                 insertStatement.execute();
                 insertStatement = bindString(insertStatement, 1, deliveryZone.getName());
-                insertStatement = bindInteger(insertStatement, 2, deliveryZone.getDeliveryCondition() + 1);
-                insertStatement = bindInteger(insertStatement, 3, deliveryZone.getSpecialCondition());
+                insertStatement = bindInteger(insertStatement, 2, deliveryZone.getDeliveryCondition());
+                insertStatement = bindInteger(insertStatement, 3, deliveryZone.getSpecialCondition() - 1);
                 insertStatement = bindString(insertStatement, 4, deliveryZone.getDeliveryDesc());
                 insertStatement.execute();
                 insertStatement = bindString(insertStatement, 1, deliveryZone.getName());
-                insertStatement = bindInteger(insertStatement, 2, deliveryZone.getSpecialCondition() + 1);
+                insertStatement = bindInteger(insertStatement, 2, deliveryZone.getSpecialCondition());
                 insertStatement = bindInteger(insertStatement, 3, null);
                 insertStatement = bindString(insertStatement, 4, deliveryZone.getSpecialDesc());
                 insertStatement.execute();

@@ -31,7 +31,6 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private View footerView;
     private String[] countries;
     public final static String COUNTRY_LABEL = "country";
-    private int shoppingCartPrice;
 
     private OrderDialogFragment dlgMakeOrder;
 
@@ -98,7 +97,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                         String country = countries[which];
                         putCountryInPref(country);
                         TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
-                        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, proxyManager.getShoppingCartPrice()));
+                        int shoppingCartPrice = proxyManager.getShoppingCartPrice();
+                        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
                         organizeCreateOrderButton(shoppingCartPrice);
                         Button button = (Button) footerView.findViewById(R.id.delivery_btn);
                         button.setText(country);
@@ -162,7 +162,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
             String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
             CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView, shoppingCartFooterTextView);
-            shoppingCartPrice = 0;
+            int shoppingCartPrice = 0;
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
                     do {

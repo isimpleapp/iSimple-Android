@@ -15,10 +15,8 @@ import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class ItemDAO extends BaseDAO {
 
@@ -306,21 +304,40 @@ public class ItemDAO extends BaseDAO {
         return regionsGroupByCountry;
     }
 
-    public List<String> getCountriesByCategory(int categoryId) {
+    public Map<String, Integer> getProductCountsByCountries(int categoryId) {
         open();
-        List<String> countries = new ArrayList<String>();
-        String sqlQueryString = "SELECT country FROM item WHERE drink_category = " + categoryId + " GROUP BY country ORDER BY count(item_id) DESC";
+        Map<String, Integer> countries = new HashMap<String, Integer>();
+        String sqlQueryString = "SELECT country, count(item_id) FROM item WHERE drink_category = " + categoryId + " GROUP BY country ORDER BY count(item_id) DESC";
         Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
         if (cursor != null) {
             String country;
             while (cursor.moveToNext()) {
                 country = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_COUNTRY));
-                countries.add(country);
+                countries.put(country, cursor.getInt(1));
             }
             cursor.close();
         }
         close();
-        return countries;
+        Map<String, Integer> sortedCountry = new ConcurrentSkipListMap<String, Integer>(new IntegerValueComparator(countries));
+        sortedCountry.putAll(countries);
+        return sortedCountry;
+    }
+
+    private class IntegerValueComparator implements Comparator<String> {
+
+        private Map<String, Integer> countries;
+
+        private IntegerValueComparator(Map<String, Integer> countries) {
+            this.countries = countries;
+        }
+
+        @Override
+        public int compare(String lhs, String rhs) {
+            Integer i1 = countries.get(lhs);
+            Integer i2 = countries.get(rhs);
+            int compareValues = i2.compareTo(i1);
+            return compareValues == 0 ? rhs.compareTo(lhs) : compareValues;
+        }
     }
 
     public List<String> getRegionsByCountriesCategory(String country, int categoryId) {

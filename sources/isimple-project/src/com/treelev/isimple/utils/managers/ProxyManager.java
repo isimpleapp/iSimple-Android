@@ -8,6 +8,7 @@ import com.treelev.isimple.data.*;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
@@ -34,33 +35,33 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemById(itemId);
     }
 
-    public Cursor getItemByBarcode(String barcode, int sortType){
+    public Cursor getItemByBarcode(String barcode, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemByBarcode(barcode, orderByField);
     }
 
-    public Cursor getItemDeprecatedByBarcode(String barcode, int sortType){
+    public Cursor getItemDeprecatedByBarcode(String barcode, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemDeprecatedByBarcode(barcode, orderByField);
     }
 
-    public Item getItemByBarcodeTypeItem(String barcode){
+    public Item getItemByBarcodeTypeItem(String barcode) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemByBarcodeTypeItem(barcode);
     }
 
-    public Item getItemDeprecatedByBarcodeTypeItem(String barcode){
+    public Item getItemDeprecatedByBarcodeTypeItem(String barcode) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemDeprecatedByBarcodeTypeItem(barcode);
     }
 
-    public int getCountBarcode(String barcode){
+    public int getCountBarcode(String barcode) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getCountBarcode(barcode);
     }
 
-    public int getCountBarcodeInDeprecatedTable(String barcode){
+    public int getCountBarcodeInDeprecatedTable(String barcode) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getCountBarcodeInDeprecatedTable(barcode);
     }
 
@@ -72,12 +73,55 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getYearsByCategory(category.ordinal());
     }
 
-    public Map<String, List<String>> getRegionsByCategory(DrinkCategory category) {
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRegionsByCategory(category.ordinal());
+    public Map<String, FilterItemData[]> getRegionsByCategory(DrinkCategory category) {
+        Map<String, List<String>> regionsByCategory = ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRegionsByCategory(category.ordinal());
+        Map<String, Integer> productCountByCountriesBy = ((ItemDAO) getObjectDAO(ItemDAO.ID)).getProductCountsByCountries(category.ordinal());
+        CountriesComparator countriesComparator = new CountriesComparator(productCountByCountriesBy);
+        Map<String, FilterItemData[]> result = new TreeMap<String, FilterItemData[]>(countriesComparator);
+        for (String country : regionsByCategory.keySet()) {
+            List<String> r = regionsByCategory.get(country);
+            FilterItemData[] regionsData;
+            if (r != null) {
+                regionsData = new FilterItemData[r.size()];
+                for (int i = 0; i < r.size(); i++) {
+                    regionsData[i] = new FilterItemData(r.get(i));
+                }
+            } else {
+                regionsData = new FilterItemData[0];
+            }
+            result.put(country, regionsData);
+        }
+        return result;
     }
 
-    public List<String> getCountriesByCategory(DrinkCategory category) {
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getCountriesByCategory(category.ordinal());
+    private class CountriesComparator implements Comparator<String> {
+
+        private Map<String, Integer> howSort;
+
+        private CountriesComparator(Map<String, Integer> howSort) {
+            this.howSort = howSort;
+        }
+
+        @Override
+        public int compare(String a, String b) {
+            Integer indexA = null;
+            Integer indexB = null;
+            Set<String> values = howSort.keySet();
+            int index = 0;
+            for (String country : values) {
+                if (country.equals(a)) {
+                    indexA = index;
+                } else if (country.equals(b)) {
+                    indexB = index;
+                }
+                index++;
+            }
+            if (indexA != null && indexB != null) {
+                int compareValue = indexA.compareTo(indexB);
+                return compareValue == 0 ? a.compareTo(b) : compareValue;
+            }
+            return 0;
+        }
     }
 
     public List<String> getRegionsByCountryCategory(String country, DrinkCategory category) {
@@ -122,7 +166,7 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkId(drinkId, filterQuery, orderByField);
     }
 
-    public Cursor getFilteredItemsByCategory(Integer categoryId,  String query, int sortType) {
+    public Cursor getFilteredItemsByCategory(Integer categoryId, String query, int sortType) {
         return getFilteredItemsByCategory(categoryId, null, query, sortType);
     }
 
@@ -190,7 +234,7 @@ public class ProxyManager {
         return ((ChainDAO) getObjectDAO(ChainDAO.ID)).getChains(itemId);
     }
 
-    public  List<AbsDistanceShop> getNearestShopsByItemId(String drinkId, Location currentLocation){
+    public List<AbsDistanceShop> getNearestShopsByItemId(String drinkId, Location currentLocation) {
         return ((ShopDAO) getObjectDAO(ShopDAO.ID)).getShopsByDrinkId(drinkId, currentLocation);
     }
 
@@ -206,23 +250,23 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemMaxPriceByCategory(categoryId);
     }
 
-    public void setFavouriteItemTable(List<String> itemsId, boolean state){
+    public void setFavouriteItemTable(List<String> itemsId, boolean state) {
         ((ItemDAO) getObjectDAO(ItemDAO.ID)).setFavourite(itemsId, state);
     }
 
-    public boolean addFavourites(Item item){
+    public boolean addFavourites(Item item) {
         return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).addFavoutites(item);
     }
 
-    public boolean delFavourites(List<String> listItemsId){
+    public boolean delFavourites(List<String> listItemsId) {
         return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).delFavouriteItems(listItemsId);
     }
 
-    public boolean isFavourites(String itemId){
+    public boolean isFavourites(String itemId) {
         return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).isFavourites(itemId);
     }
 
-    public Cursor getFavouriteItems(){
+    public Cursor getFavouriteItems() {
         return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).getFavouriteItems();
     }
 
@@ -235,9 +279,9 @@ public class ProxyManager {
                             (id == ItemAvailabilityDAO.ID) ? new ItemAvailabilityDAO(context) :
                                     (id == ShopDAO.ID) ? new ShopDAO(context) :
                                             (id == ChainDAO.ID) ? new ChainDAO(context) :
-                                                (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) :
-                                                        (id == ShoppingCartDAO.ID) ? new ShoppingCartDAO(context) :
-                                                                (id == DeliveryZoneDAO.ID) ? new DeliveryZoneDAO(context) : null;
+                                                    (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) :
+                                                            (id == ShoppingCartDAO.ID) ? new ShoppingCartDAO(context) :
+                                                                    (id == DeliveryZoneDAO.ID) ? new DeliveryZoneDAO(context) : null;
             if (dao != null) {
                 mdao.put(id, dao);
                 return dao;
@@ -287,8 +331,8 @@ public class ProxyManager {
         return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getItemCount(itemId);
     }
 
-    public List<Order> getOrders(){
-        return  ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getOrders();
+    public List<Order> getOrders() {
+        return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getOrders();
     }
 
     public String getDeliveryFirstCountry() {

@@ -129,23 +129,7 @@ public class FilterItemData implements Parcelable {
 
     public static Map<String, FilterItemData[]> getAvailableCountryRegions(Context context, DrinkCategory category) {
         ProxyManager proxyManager = new ProxyManager(context);
-        Map<String, List<String>> regions = proxyManager.getRegionsByCategory(category);
-        HashMap<String, FilterItemData[]> result = new HashMap<String, FilterItemData[]>();
-        for (String country : regions.keySet()) {
-            List<String> r = regions.get(country);
-            FilterItemData[] regionsData;
-            if (r != null) {
-                regionsData = new FilterItemData[r.size()];
-                for (int i = 0; i < r.size(); i++) {
-                    regionsData[i] = new FilterItemData(r.get(i));
-                }
-            }
-            else {
-                regionsData = new FilterItemData[0];
-            }
-            result.put(country, regionsData);
-        }
-        return result;
+        return proxyManager.getRegionsByCategory(category);
     }
 
     public static Map<String, FilterItemData[]> getAvailableClassifications(Context context, DrinkCategory category) {

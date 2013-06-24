@@ -25,13 +25,15 @@
     <string name="empty_shopping_list">Вы ещё ничего не выбрали</string>
     <string name="create_order_btn_label">Заказать</string>
 
+    <string name="not_found_barcode">По данному штрихкоду ничего не найдено.</string>
+
     <string name="title_first_step_order_dialog">Выберите способ связи</string>
     <string name="title_contact_phone_order_dialog">Контактный номер</string>
     <string name="title_contact_email_order_dialog">Контактный электронный адрес</string>
     <string name="dialog_order_button_complite">Готово</string>
     <string name="dialog_order_button_cancel">Отмена</string>
     <string name="shared_secret">a338b2e5aa433f461398e4d5ccf64e33195dc4f4fc29f23086f8048de677216aaf5e27f868b74b3501605981997bb0620f047c3ecf2508b9bbf1eed12d07de27</string>
-    <string name="url_send_order">https://www.simple.ru/isimple_service/order.php </string>
+    <string name="url_send_order">https://www.simple.ru/isimple_service/order.php</string>
     <string name="registration_orders">Регистрация заказа</string>
     <string name="message_success_send_orders"><![CDATA[<br><br>Спасибо за заказ!<br><br>Наши менеджеры скоро<br/>свяжутся с вами.<br><br>]]></string>
     <string name="message_not_success_send_orders"><![CDATA[<br><br>Извините!<br><br>Сервер перегружен<br>попробуйте позже.<br><br>]]></string>

@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.Window;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
@@ -18,10 +19,20 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
 
     private int mCurrentCategory;
     public final static String BARCODE = "barcode";
+    private boolean useBarcodeScaner;
+    private boolean backAfterBarcodeScaner;
 
     @Override
     protected void onResume(){
         super.onResume();
+//        this.supportInvalidateOptionsMenu();
+        if(useBarcodeScaner){
+            if(backAfterBarcodeScaner){
+                finish();
+                startActivity(getIntent());
+            }
+            backAfterBarcodeScaner = true;
+        }
 
     }
 
@@ -103,7 +114,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     private void checkBarcodeResult(String code) {
         ProxyManager proxyManager = new ProxyManager(this);
         int count = proxyManager.getCountBarcode(code);
-
+        useBarcodeScaner = true;
         if (count > 1) {
             Intent intent = new Intent(this, CatalogSubCategory.class);
             intent.putExtra(BARCODE, code);
@@ -125,7 +136,8 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
                         intent.putExtra(BARCODE, code);
                         startActivity(intent);
                     } else {
-                        showAlertDialog(null, "По данному штрихкоду ничего не найдено.");
+                        showAlertDialog(null, getString(R.string.not_found_barcode));
+                        useBarcodeScaner = false;
                     }
                 }
             }

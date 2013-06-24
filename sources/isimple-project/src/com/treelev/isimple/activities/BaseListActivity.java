@@ -1,6 +1,7 @@
 package com.treelev.isimple.activities;
 
 import android.app.Activity;
+import android.view.Window;
 import org.holoeverywhere.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,11 +21,20 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
 
     protected int mCurrentCategory;
     public final static String BARCODE = "barcode";
+    private boolean useBarcodeScaner;
+    private boolean backAfterBarcodeScaner;
 
     @Override
     protected void onResume(){
         super.onResume();
-
+//        this.supportInvalidateOptionsMenu();
+        if(useBarcodeScaner){
+            if(backAfterBarcodeScaner){
+                finish();
+                startActivity(getIntent());
+            }
+            backAfterBarcodeScaner = true;
+        }
     }
 
     @Override
@@ -92,7 +102,7 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
     private void checkBarcodeResult(String code) {
         ProxyManager proxyManager = new ProxyManager(this);
         int count = proxyManager.getCountBarcode(code);
-
+        useBarcodeScaner = true;
         if (count > 1) {
             Intent intent = new Intent(this, CatalogSubCategory.class);
             intent.putExtra(BARCODE, code);
@@ -114,7 +124,8 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                         intent.putExtra(BARCODE, code);
                         startActivity(intent);
                     } else {
-                        showAlertDialog(0, null, "По данному штрихкоду ничего не найдено.", "OK");
+                        showAlertDialog(0, null, getString(R.string.not_found_barcode), "OK");
+                        useBarcodeScaner = false;
                     }
                 }
             }

@@ -276,7 +276,7 @@ public class OrderDialogFragment extends DialogFragment
         private boolean postData() {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(mContext.getString(R.string.url_send_order));
+            HttpPost httppost = new HttpPost(mContext.getString(R.string.url_send_order).trim());
 
             try {
                 // Add your data
@@ -306,7 +306,7 @@ public class OrderDialogFragment extends DialogFragment
 
         private String getMD5() {
             try {
-                String s = String.format("%s%s", mContext.getString(R.string.shared_secret), getDeviceID());
+                String s = String.format("%s%s", mContext.getString(R.string.shared_secret).trim(), getDeviceID());
                 // Create MD5 Hash
                 MessageDigest digest = java.security.MessageDigest
                         .getInstance("MD5");

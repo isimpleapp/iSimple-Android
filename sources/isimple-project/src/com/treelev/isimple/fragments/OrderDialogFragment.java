@@ -16,6 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.domain.db.Order;
+import com.treelev.isimple.httpclient.HttpClientCert;
+import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -33,6 +35,7 @@ import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.util.EntityUtils;
 import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
@@ -273,6 +276,7 @@ public class OrderDialogFragment extends DialogFragment
             }
             if(((ShoppingCartActivity)mContext).isIsSaveInstancceState()){
                 ((ShoppingCartActivity)mContext).setResultSendOrders(result);
+                ((ShoppingCartActivity)mContext).sendOrderSetFlag(true);
             } else {
                 OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE);
                 dialog.setSuccess(result);
@@ -305,33 +309,19 @@ public class OrderDialogFragment extends DialogFragment
                 Log.v("OrderSend", getListOrder());
                 // Execute HTTP Post Request
 
-//                SchemeRegistry schReg = new SchemeRegistry();
-//                schReg.register(new Scheme("http", SSLSocketFactory.getSocketFactory(), 80));
-//                schReg.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
-//                SingleClientConnManager conMgr = new SingleClientConnManager(httppost.getParams(), schReg);
-                SchemeRegistry registry = new SchemeRegistry();
-                registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-                final SSLSocketFactory sslSocketFactory = SSLSocketFactory.getSocketFactory();
-                sslSocketFactory.setHostnameVerifier(SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
-                registry.register(new Scheme("https", sslSocketFactory, 443));
+                DefaultHttpClient httpclient = new HttpClientCert(mContext);
 
-                HttpClient httpclient = new DefaultHttpClient(
-                        new ThreadSafeClientConnManager((new BasicHttpParams()), registry), new BasicHttpParams() );
-
-//                HttpClient httpclient = new DefaultHttpClient(
-//                        new ThreadSafeClientConnManager((new BasicHttpParams()), schReg), new BasicHttpParams()
-//                );
-////                HttpClient httpclient = new DefaultHttpClient();
-//                httpclient.getConnectionManager().getSchemeRegistry().register(new Scheme("SSLSocketFactory", SSLSocketFactory.getSocketFactory(), 443));
                 HttpResponse response = httpclient.execute(httppost);
+                Log.v("Error epick ", EntityUtils.toString(response.getEntity()));
 
             } catch (ClientProtocolException e) {
                 Log.v("Error epick ClientProtocolException", e.getMessage());
                 Log.v("Error epick IOException", e.getStackTrace().toString());
                 return  false;
             } catch (IOException e) {
-                Log.v("Error epick IOException", e.getMessage());
-                Log.v("Error epick IOException", e.getStackTrace().toString());
+//                Log.v("Error epick IOException", e.getMessage());
+//                Log.v("Error epick IOException", e.getStackTrace().toString());
+                Log.v("Test test", e.getMessage() );
                 return  false;
             }
             return true;

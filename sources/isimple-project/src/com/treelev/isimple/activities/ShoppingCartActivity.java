@@ -65,10 +65,11 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         if(mIsSaveInstancceState){
-            if(mResultSendOrders){
+            if(mSendOrders){
                 OrderDialogFragment dialog = new OrderDialogFragment(OrderDialogFragment.SUCCESS_TYPE);
                 dialog.setSuccess(mResultSendOrders);
                 dialog.show(getSupportFragmentManager(), "SUCCESS_TYPE");
+                mSendOrders = false;
             }
         }
         mIsSaveInstancceState = false;

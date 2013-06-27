@@ -230,7 +230,9 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             ConnectivityManager cm = (ConnectivityManager)this.getSystemService(cs);
             NetworkInfo nInfoMobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
             NetworkInfo nIfoWIFI = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            if(nInfoMobile.getState() == NetworkInfo.State.CONNECTED || nIfoWIFI.getState() == NetworkInfo.State.CONNECTED) {
+            boolean mobile = nInfoMobile != null ? nInfoMobile.getState() == NetworkInfo.State.CONNECTED : false;
+            boolean wifi = nIfoWIFI != null ?  nIfoWIFI.getState() == NetworkInfo.State.CONNECTED : false;
+            if( mobile || wifi) {
                 dlgMakeOrder.setArguments(new Bundle());
                 dlgMakeOrder.show(getSupportFragmentManager(), "SELECT_TYPE");
             } else {

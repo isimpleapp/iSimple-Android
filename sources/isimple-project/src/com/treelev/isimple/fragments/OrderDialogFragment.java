@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
@@ -330,8 +331,13 @@ public class OrderDialogFragment extends DialogFragment
         }
 
         private String getDeviceID(){
+
             TelephonyManager telephonyManager = (TelephonyManager)mContext.getSystemService(mContext.TELEPHONY_SERVICE);
-            return telephonyManager.getDeviceId();
+            String imeiid = telephonyManager.getDeviceId();
+            if( imeiid == null){
+                imeiid = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            }
+            return imeiid;
         }
 
         private String getMD5() {

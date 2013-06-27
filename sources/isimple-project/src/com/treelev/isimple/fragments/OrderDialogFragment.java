@@ -25,6 +25,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
@@ -35,15 +36,16 @@ import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.TextView;
 
+import javax.security.cert.CertificateException;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -309,7 +311,7 @@ public class OrderDialogFragment extends DialogFragment
                 Log.v("OrderSend", getListOrder());
                 // Execute HTTP Post Request
 
-                DefaultHttpClient httpclient = new HttpClientCert(mContext);
+                HttpClientCert httpclient = new HttpClientCert(mContext);
 
                 HttpResponse response = httpclient.execute(httppost);
                 Log.v("Error epick ", EntityUtils.toString(response.getEntity()));

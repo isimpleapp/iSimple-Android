@@ -42,7 +42,7 @@ public class HttpClientCert extends DefaultHttpClient  {
             }
 //            SSLSocketFactory sf = new SSLSocketFactory(trusted);
 //            sf.setHostnameVerifier(SSLSocketFactory.STRICT_HOSTNAME_VERIFIER);
-            SSLSocketFactory sf =  new SSLSocketFactory(trusted);
+            SSLSocketFactory sf =  new AdditionalKeyStoresSSLSocketFactory(trusted);
             sf.setHostnameVerifier(SSLSocketFactory.STRICT_HOSTNAME_VERIFIER);
             return sf;
         } catch (Exception e) {

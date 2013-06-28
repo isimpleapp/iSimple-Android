@@ -14,6 +14,8 @@ import java.util.List;
 public class ItemPricesParser implements Parser {
 
     public final static int ITEM_PRICES_PARSER_ID = 1;
+    public final static String FILE_NAME = "Item-Prices.xml";
+
     private final static String ITEM_PRICE_OBJECT_TAG = "ItemPrice";
     private final static String ITEM_ID_VALUE_TAG = "ItemID";
     private final static String ITEM_PRICE_VALUE_TAG = "Price";
@@ -57,5 +59,4 @@ public class ItemPricesParser implements Parser {
             e.printStackTrace();
         }
     }
-
 }

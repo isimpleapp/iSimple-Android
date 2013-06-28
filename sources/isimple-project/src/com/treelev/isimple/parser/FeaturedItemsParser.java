@@ -13,9 +13,12 @@ import java.util.List;
 public class FeaturedItemsParser implements Parser {
 
     public final static int FEATURED_ITEMS_PARSER_ID = 5;
+    public final static String FILE_NAME = "Featured.xml";
+
     public final static String ITEM_ID_TAG = "ItemID";
     private final static String FEATURES_ROOT_TAG = "Features";
 
+    @Override
     public void parseXmlToDB(XmlPullParser xmlPullParser, BaseDAO... daoList) {
         try {
             List<FeaturedItem> featuredList = new ArrayList<FeaturedItem>();
@@ -40,7 +43,9 @@ public class FeaturedItemsParser implements Parser {
                 }
                 xmlPullParser.next();
             }
-            ((ItemDAO) daoList[0]).insertListFeaturedData(featuredList);
+            ItemDAO itemDAO = (ItemDAO) daoList[0];
+            itemDAO.deleteAllFeaturedItemData();
+            itemDAO.insertListFeaturedData(featuredList);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {

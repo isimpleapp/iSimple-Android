@@ -2,7 +2,6 @@ package com.treelev.isimple.httpclient;
 
 import android.content.Context;
 import com.treelev.isimple.R;
-import org.apache.http.HttpVersion;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
@@ -10,30 +9,25 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.HTTP;
 
 import java.io.InputStream;
 import java.security.KeyStore;
 
-public class HttpClientCert extends DefaultHttpClient  {
+public class HttpClientCert extends DefaultHttpClient {
 
-        final Context context;
+    final Context context;
 
-        public HttpClientCert(Context context) {
-            this.context = context;
-        }
+    public HttpClientCert(Context context) {
+        this.context = context;
+    }
 
-        @Override
-        protected ClientConnectionManager createClientConnectionManager() {
-            SchemeRegistry registry = new SchemeRegistry();
-            registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-            registry.register(new Scheme("https", newSslSocketFactory(), 443));
-            return new SingleClientConnManager(getParams(), registry);
-        }
+    @Override
+    protected ClientConnectionManager createClientConnectionManager() {
+        SchemeRegistry registry = new SchemeRegistry();
+        registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+        registry.register(new Scheme("https", newSslSocketFactory(), 443));
+        return new SingleClientConnManager(getParams(), registry);
+    }
 
     private SSLSocketFactory newSslSocketFactory() {
         try {
@@ -46,7 +40,7 @@ public class HttpClientCert extends DefaultHttpClient  {
             } finally {
                 in.close();
             }
-            SSLSocketFactory sf =  new SSLSocketFactory(trusted);
+            SSLSocketFactory sf = new SSLSocketFactory(trusted);
 //            sf.setHostnameVerifier(SSLSocketFactory.STRICT_HOSTNAME_VERIFIER);
             sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
             return sf;

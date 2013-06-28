@@ -64,5 +64,10 @@ public class ChainDAO extends BaseDAO {
         return getDatabase().rawQuery(String.format(selectSql, itemId), null);
     }
 
-
+    public void deleteAllData() {
+        open();
+        String deleteSql = " DELETE FROM chain";
+        getDatabase().execSQL(deleteSql);
+        close();
+    }
 }

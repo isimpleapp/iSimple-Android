@@ -14,6 +14,8 @@ import java.util.List;
 public class ItemAvailabilityParser implements Parser {
 
     public final static int ITEM_AVAILABILITY_PARSER_ID = 4;
+    public final static String FILE_NAME = "Item-Availability.xml";
+
     private final static String ITEM_AVAILABILITY_OBJECT_TAG = "Item";
     private final static String ITEM_AVAILABILITY_ID_VALUE_TAG = "ItemID";
     private final static String ITEM_AVAILABILITY_LOCATION_ID_VALUE_TAG = "LocationID";
@@ -21,6 +23,7 @@ public class ItemAvailabilityParser implements Parser {
     private final static String ITEM_AVAILABILITY_SHIPTO_CODE_ID_VALUE_TAG = "ShiptoCodeID";
     private final static String ITEM_AVAILABILITY_PRICE_VALUE_TAG = "Price";
 
+    @Override
     public void parseXmlToDB(XmlPullParser xmlPullParser, BaseDAO... daoList) {
         try {
             ItemAvailability itemAvailability;
@@ -53,6 +56,7 @@ public class ItemAvailabilityParser implements Parser {
                 }
                 xmlPullParser.next();
             }
+            itemAvailabilityDAO.deleteAllData();
             itemAvailabilityDAO.insertListData(itemAvailabilityList);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
@@ -60,4 +64,5 @@ public class ItemAvailabilityParser implements Parser {
             e.printStackTrace();
         }
     }
+
 }

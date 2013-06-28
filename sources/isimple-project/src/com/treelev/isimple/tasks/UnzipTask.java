@@ -1,84 +1,84 @@
 package com.treelev.isimple.tasks;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.TextView;
-import com.treelev.isimple.data.ItemDAO;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import android.util.Log;
+import com.treelev.isimple.R;
+import com.treelev.isimple.activities.CatalogListActivity;
+import com.treelev.isimple.service.UpdateDataService;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class UnzipTask extends AsyncTask<File, Integer, XmlPullParser> {
+public class UnzipTask extends AsyncTask<File, Void, File[]> {
 
-    private TextView startTime;
-    private TextView endTime;
-    private TextView startLoad;
-    private TextView endLoad;
-    private ItemDAO itemDAO;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private NotificationManager notificationManager;
+    private Context context;
 
-    public UnzipTask(TextView startTime, TextView endTime, TextView startLoad, TextView endLoad, ItemDAO itemDAO) {
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.startLoad = startLoad;
-        this.endLoad = endLoad;
-        this.itemDAO = itemDAO;
+
+    public UnzipTask(Context context) {
+        this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        startTime.setText("StartUnZip: " + dateFormat.format(Calendar.getInstance().getTime()));
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
-    protected XmlPullParser doInBackground(File... params) {
-        XmlPullParser xmlPullParser = null;
+    protected File[] doInBackground(File... params) {
         try {
-            ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(params[0]));
-            ZipEntry zipEntry = zipInputStream.getNextEntry();
-            File newFile = null;
-            byte[] buffer = new byte[4096];
-            while (zipEntry != null) {
-                String fileName = zipEntry.getName();
-                newFile = new File("/sdcard/" + fileName);
-                FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-                int len;
-                while ((len = zipInputStream.read(buffer)) > 0) {
-                    fileOutputStream.write(buffer, 0, len);
+            for (File file : params) {
+                ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
+                ZipEntry zipEntry = zipInputStream.getNextEntry();
+                byte[] buffer = new byte[4096];
+                FileOutputStream fileOutputStream = null;
+                if (zipEntry == null) {
+                    Log.i(getClass().getName(), "File " + file.getPath() + " don't unpack");
                 }
-                fileOutputStream.close();
-                zipEntry = zipInputStream.getNextEntry();
-            }
-            zipInputStream.closeEntry();
-            zipInputStream.close();
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            xmlPullParser = factory.newPullParser();
-            xmlPullParser.setInput(new FileInputStream(newFile), null);
-            if (newFile != null) {
-                newFile.delete();
+                while (zipEntry != null) {
+                    String fileName = zipEntry.getName();
+                    File newFile = new File(file.getParent() + File.separator + fileName);
+                    fileOutputStream = new FileOutputStream(newFile);
+                    int len;
+                    while ((len = zipInputStream.read(buffer)) > 0) {
+                        fileOutputStream.write(buffer, 0, len);
+                    }
+                    fileOutputStream.close();
+                    zipEntry = zipInputStream.getNextEntry();
+                }
+                zipInputStream.closeEntry();
+                zipInputStream.close();
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+                file.delete();
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
         }
-        return xmlPullParser;
+        return params;
     }
 
     @Override
-    protected void onPostExecute(XmlPullParser xmlPullParser) {
-        super.onPostExecute(xmlPullParser);
-        endTime.setText("EndUnZip: " + dateFormat.format(Calendar.getInstance().getTime()));
-        //new ParseDataTask(startLoad, endLoad, itemDAO).execute(xmlPullParser);
+    protected void onPostExecute(File[] aVoid) {
+        super.onPostExecute(aVoid);
+        Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
+        Intent newIntent = new Intent(context, CatalogListActivity.class);
+        newIntent.putExtra(UpdateDataService.NEED_DATA_UPDATE, true);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
+        notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_content_label), pIntent);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(1, notification);
     }
 }

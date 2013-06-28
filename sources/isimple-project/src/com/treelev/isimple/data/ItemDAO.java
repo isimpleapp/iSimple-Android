@@ -573,6 +573,13 @@ public class ItemDAO extends BaseDAO {
         close();
     }
 
+    public void deleteAllFeaturedItemData() {
+        open();
+        String deleteSql = " DELETE FROM featured_item";
+        getDatabase().execSQL(deleteSql);
+        close();
+    }
+
 //    public void updateFeaturedList(List<FeaturedItem> featuredList) {
 //        open();
 //        getDatabase().beginTransaction();
@@ -858,6 +865,13 @@ public class ItemDAO extends BaseDAO {
         String onePart = String.format(LIKE, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, formatQuery);
         String twoPart = String.format(LIKE, DatabaseSqlHelper.ITEM_NAME, formatQuery);
         return String.format(OR, onePart, twoPart);
+    }
+
+    public void deleteAllData() {
+        open();
+        String deleteSql = " DELETE FROM item";
+        getDatabase().execSQL(deleteSql);
+        close();
     }
 
 }

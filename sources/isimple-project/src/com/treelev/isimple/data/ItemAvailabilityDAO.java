@@ -52,16 +52,8 @@ public class ItemAvailabilityDAO extends BaseDAO {
 
     public void deleteAllData() {
         open();
-        getDatabase().beginTransaction();
-        try {
-            String deleteSql = "DELETE FROM " + DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE;
-            SQLiteStatement deleteStatement = getDatabase().compileStatement(deleteSql);
-            deleteStatement.execute();
-            getDatabase().delete(DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE, null, null);
-            getDatabase().setTransactionSuccessful();
-        } finally {
-            getDatabase().endTransaction();
-        }
+        String deleteSql = " DELETE FROM item_availability";
+        getDatabase().execSQL(deleteSql);
         close();
     }
 }

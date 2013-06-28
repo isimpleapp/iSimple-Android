@@ -119,6 +119,13 @@ public class DeliveryZoneDAO extends BaseDAO {
         return desc;
     }
 
+    public void deleteAllData() {
+        open();
+        String deleteSql = " DELETE FROM delivery";
+        getDatabase().execSQL(deleteSql);
+        close();
+    }
+
     public int getMinPriceByCountry(String country) {
         String formatQuery = "SELECT MIN(max_condition) as min_price FROM [delivery] WHERE [name] = '%s'";
         String query = String.format(formatQuery, country);

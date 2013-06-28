@@ -20,6 +20,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.cursorloaders.SelectFeaturedMainItems;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.service.UpdateDataService;
 import org.apache.http.util.ByteArrayBuffer;
 import org.holoeverywhere.widget.ListView;
 
@@ -36,7 +37,6 @@ public class CatalogListActivity extends BaseListActivity
     public final static String CATEGORY_ID = "category_id";
     private View darkView;
     private RelativeLayout myLayout;
-    private View mHeader;
     private final static int NAVIGATE_CATEGORY_ID = 0;
     private CatalogItemCursorAdapter mListCategoriesAdapter;
 
@@ -50,7 +50,7 @@ public class CatalogListActivity extends BaseListActivity
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
         ListView listView = getListView();
-        mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
+        View mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
         listView.addHeaderView(mHeader, null, false);
         mListCategoriesAdapter = new CatalogItemCursorAdapter(null, CatalogListActivity.this, true, false);
         getListView().setAdapter(mListCategoriesAdapter);
@@ -65,9 +65,14 @@ public class CatalogListActivity extends BaseListActivity
 
     @Override
     protected void onResume() {
-        getSupportLoaderManager().restartLoader(0, null, this);
+        boolean needUpdateData = getIntent().getBooleanExtra(UpdateDataService.NEED_DATA_UPDATE, false);
+        if (needUpdateData) {
+            startActivity(new Intent(this, UpdateDataActivity.class));
+        } else {
+            startUpdateService();
+            getSupportLoaderManager().restartLoader(0, null, this);
+        }
         super.onResume();
-
     }
 
     @Override
@@ -162,12 +167,15 @@ public class CatalogListActivity extends BaseListActivity
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mListCategoriesAdapter.swapCursor(cursor);
-
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mListCategoriesAdapter.swapCursor(null);
+    }
+
+    private void startUpdateService() {
+        startService(new Intent(getApplicationContext(), UpdateDataService.class));
     }
 
     private static class ImageBinder implements SimpleAdapter.ViewBinder {

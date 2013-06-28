@@ -13,6 +13,7 @@ import java.util.List;
 public class DeliveryZoneParser implements Parser {
 
     public final static int DELIVERY_ZONE_PARSER_ID = 7;
+    public final static String FILE_NAME = "Delivery.xml";
 
     @Override
     public void parseXmlToDB(XmlPullParser xmlPullParser, BaseDAO... daoList) {
@@ -49,7 +50,9 @@ public class DeliveryZoneParser implements Parser {
                 }
                 xmlPullParser.next();
             }
-            ((DeliveryZoneDAO) daoList[0]).insertListData(deliveryZones);
+            DeliveryZoneDAO deliveryZoneDAO = (DeliveryZoneDAO) daoList[0];
+            deliveryZoneDAO.deleteAllData();
+            deliveryZoneDAO.insertListData(deliveryZones);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {

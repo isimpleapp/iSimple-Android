@@ -18,6 +18,7 @@ import java.util.List;
 public class ShopAndChainsParser implements Parser {
 
     public final static int SHOP_AND_CHAINS_PARSER_ID = 2;
+    public final static String FILE_NAME = "Locations-And-Chains-Update.xml";
 
     private final static String CHAIN_OBJECT_TAG = "Chain";
     private final static String CHAIN_ID_VALUE_TAG = "ChainID";
@@ -38,6 +39,7 @@ public class ShopAndChainsParser implements Parser {
     private final static String LOCATION_TYPE_VALUE_TAG = "LocationType";
     private final static String LOCATION_PRESENCE_PERCENTAGE_VALUE_TAG = "PresencePercentage";
 
+    @Override
     public void parseXmlToDB(XmlPullParser xmlPullParser, BaseDAO...daoList) {
         try {
             Shop shop;
@@ -102,8 +104,12 @@ public class ShopAndChainsParser implements Parser {
                 }
                 xmlPullParser.next();
             }
-            ((ChainDAO) daoList[0]).insertListData(chainList);
-            ((ShopDAO) daoList[1]).insertListData(locationList);
+            ChainDAO chainDAO = (ChainDAO) daoList[0];
+            chainDAO.deleteAllData();
+            chainDAO.insertListData(chainList);
+            ShopDAO shopDAO = (ShopDAO) daoList[1];
+            shopDAO.deleteAllData();
+            shopDAO.insertListData(locationList);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {

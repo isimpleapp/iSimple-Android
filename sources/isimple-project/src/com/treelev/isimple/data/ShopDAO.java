@@ -194,4 +194,11 @@ public class ShopDAO extends BaseDAO {
         return distanceShopList;
     }
 
+    public void deleteAllData() {
+        open();
+        String deleteSql = " DELETE FROM shop";
+        getDatabase().execSQL(deleteSql);
+        close();
+    }
+
 }

@@ -19,6 +19,7 @@ import java.util.List;
 public class CatalogParser implements Parser {
 
     public final static int CATALOG_PARSER_ID = 3;
+    public final static String FILE_NAME = "Catalog-Update.xml";
 
     private final static String CATALOG_OBJECT_TAG = "Item";
     private final static String CATALOG_ITEM_ID_VALUE_TAG = "ItemID";
@@ -168,12 +169,13 @@ public class CatalogParser implements Parser {
                 }
                 xmlPullParser.next();
             }
-            ((ItemDAO) daoList[0]).insertListData(itemList);
+            ItemDAO itemDAO = (ItemDAO) daoList[0];
+            itemDAO.deleteAllData();
+            itemDAO.insertListData(itemList);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }

@@ -1,10 +1,12 @@
 package com.treelev.isimple.app;
 
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.location.Location;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import org.holoeverywhere.app.Application;
+import org.holoeverywhere.preference.PreferenceManager;
 
 import java.io.*;
 import java.util.List;
@@ -13,6 +15,15 @@ public class ISimpleApp extends Application {
 
     private List<AbsDistanceShop> distanceShopList;
     private Location currentLocation;
+    private final static String[] urlList = new String[]{
+            "http://s1.isimpleapp.ru/xml/ver0/Catalog-Update.xmlz",
+            "http://s1.isimpleapp.ru/xml/ver0/Item-Prices.xmlz",
+            "http://s1.isimpleapp.ru/xml/ver0/Item-Availability.xmlz",
+            "http://s1.isimpleapp.ru/xml/ver0/Locations-And-Chains-Update.xmlz",
+            "http://s1.isimpleapp.ru/xml/ver0/Delivery.xmlz",
+            "http://s2.isimpleapp.ru/xml/ver0/Featured.xmlz",
+            "http://s1.isimpleapp.ru/xml/ver0/Deprecated.xmlz"
+    };
 
     @Override
     public void onCreate() {
@@ -53,14 +64,25 @@ public class ISimpleApp extends Application {
             File dbFile = new File("/data/data/com.treelev.isimple/databases/iSimple.db");
             if (ovveride) {
                 createDb(dbFile, am);
+                putFileDatesInPref();
             } else {
                 if (!dbFile.exists()) {
                     createDb(dbFile, am);
+                    putFileDatesInPref();
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void putFileDatesInPref() {
+        SharedPreferences.Editor prefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        for (String url : urlList) {
+            prefEditor.putLong(url, System.currentTimeMillis());
+        }
+        //prefEditor.putLong(urlList[0], new Date(113, 3, 1).getTime());
+        prefEditor.commit();
     }
 
     private void createDb(File dbFile, AssetManager am) throws IOException {

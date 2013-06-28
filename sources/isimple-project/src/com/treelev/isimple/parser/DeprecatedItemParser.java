@@ -17,6 +17,8 @@ import java.util.List;
 public class DeprecatedItemParser implements Parser {
 
     public final static int DEPRECATED_ITEMS_PARSER_ID = 6;
+    public final static String FILE_NAME = "Deprecated.xml";
+
     private final static String DEPRECATED_ITEM_TAG = "Deprecated";
     private final static String DEPRECATED_ITEM_ID_TAG = "ItemID";
     private final static String DEPRECATED_DRINK_ID_TAG = "DrinkID";
@@ -89,7 +91,9 @@ public class DeprecatedItemParser implements Parser {
                 }
                 xmlPullParser.next();
             }
-            ((DeprecatedItemDAO) daoList[0]).insertListData(deprecatedItemList);
+            DeprecatedItemDAO deprecatedItemDAO = (DeprecatedItemDAO) daoList[0];
+            deprecatedItemDAO.deleteAllData();
+            deprecatedItemDAO.insertListData(deprecatedItemList);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {

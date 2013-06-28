@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import com.treelev.isimple.R;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.service.UpdateDataService;
@@ -47,7 +48,8 @@ public class UpdateDataActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = ProgressDialog.show(UpdateDataActivity.this, "Обновление данных iSimple", "Пожалуйста, подождите..", false, false);
+            progressDialog = ProgressDialog.show(UpdateDataActivity.this, getString(R.string.update_data_notify_label),
+                    getString(R.string.update_data_wait_label), false, false);
         }
 
         @Override

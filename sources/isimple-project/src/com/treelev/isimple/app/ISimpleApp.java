@@ -9,6 +9,7 @@ import org.holoeverywhere.app.Application;
 import org.holoeverywhere.preference.PreferenceManager;
 
 import java.io.*;
+import java.util.Date;
 import java.util.List;
 
 public class ISimpleApp extends Application {
@@ -78,10 +79,16 @@ public class ISimpleApp extends Application {
 
     private void putFileDatesInPref() {
         SharedPreferences.Editor prefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        for (String url : urlList) {
+        /*for (String url : urlList) {
             prefEditor.putLong(url, System.currentTimeMillis());
-        }
-        //prefEditor.putLong(urlList[0], new Date(113, 3, 1).getTime());
+        }*/
+        prefEditor.putLong(urlList[0], new Date(113, 5, 1).getTime());
+        prefEditor.putLong(urlList[1], new Date(113, 5, 28).getTime());
+        prefEditor.putLong(urlList[2], new Date(113, 5, 1).getTime());
+        prefEditor.putLong(urlList[3], new Date(113, 5, 1).getTime());
+        prefEditor.putLong(urlList[4], new Date(113, 5, 1).getTime());
+        prefEditor.putLong(urlList[5], new Date(113, 5, 1).getTime());
+        prefEditor.putLong(urlList[6], new Date(113, 5, 1).getTime());
         prefEditor.commit();
     }
 

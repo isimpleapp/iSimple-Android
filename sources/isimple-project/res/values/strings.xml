@@ -46,4 +46,5 @@
     <string name="delivery_dialog_title">Выберите зону доставки</string>
     <string name="update_data_notify_label">Обновление данных iSimple</string>
     <string name="update_data_content_label">Доступно обновление данных</string>
+    <string name="update_data_wait_label">Пожалуйста, подождите…</string>
 </resources>

@@ -32,13 +32,13 @@ public class ShopsAdapter extends ArrayAdapter {
         final AbsDistanceShop i = items.get(position);
         if (i != null) {
             if(i.isSection()){
-                v = inflater.inflate(R.layout.header_distance_shop, null);
+                v = inflater.inflate(R.layout.section_distance_shop, null);
 
                 v.setOnClickListener(null);
                 v.setOnLongClickListener(null);
                 v.setLongClickable(false);
 
-                final TextView sectionView = (TextView) v.findViewById(R.id.header_distance_shop);
+                final TextView sectionView = (TextView) v.findViewById(R.id.section_distance_shop);
                 sectionView.setText(i.getTitle());
             }else{
                 DistanceShop ei = (DistanceShop)i;

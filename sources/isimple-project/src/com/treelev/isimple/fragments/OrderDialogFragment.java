@@ -111,8 +111,6 @@ public class OrderDialogFragment extends DialogFragment
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-        View view = null;
-        LayoutInflater inflater = getActivity().getLayoutInflater();
         switch (i){
             case Dialog.BUTTON_POSITIVE:
                 new SendOrders(getActivity(), mContactInfo).execute();

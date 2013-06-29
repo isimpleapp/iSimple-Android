@@ -21,9 +21,12 @@ public class ProxyManager {
 
     public static final int SORT_NAME_AZ = 1;
     public static final int SORT_PRICE_UP = 2;
+    public static final int TYPE_SECTION_FILTRATION_SEARCH = 10;
+    public static final int TYPE_SECTION = 11;
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
     private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
+
 
     private HashMap<Integer, BaseDAO> mdao = new HashMap<Integer, BaseDAO>();
 
@@ -191,6 +194,20 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, locationId, query, orderByField);
     }
 
+    public Cursor getAllItems(int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getAllItems(orderByField);
+    }
+
+    public Cursor getAllItemsByCategory(Integer categoryId, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getAllItemsByCategory(categoryId, orderByField);
+    }
+
     private List<Map<String, ?>> convertItemsToUI(List<Item> itemList) {
         List<Map<String, ?>> uiDataList = new ArrayList<Map<String, ?>>();
         for (Item item : itemList) {
@@ -270,6 +287,11 @@ public class ProxyManager {
         return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).getFavouriteItems();
     }
 
+    public Cursor getSectionsItems(int typeSections) {
+        return ((SectionsItemsDAO) getObjectDAO(SectionsItemsDAO.ID)).getSectionsItems(typeSections);
+    }
+
+
     private BaseDAO getObjectDAO(int id) {
         if (mdao.containsKey(id)) {
             return mdao.get(id);
@@ -281,7 +303,8 @@ public class ProxyManager {
                                             (id == ChainDAO.ID) ? new ChainDAO(context) :
                                                     (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) :
                                                             (id == ShoppingCartDAO.ID) ? new ShoppingCartDAO(context) :
-                                                                    (id == DeliveryZoneDAO.ID) ? new DeliveryZoneDAO(context) : null;
+                                                                    (id == DeliveryZoneDAO.ID) ? new DeliveryZoneDAO(context) :
+                                                                            (id == SectionsItemsDAO.ID) ? new SectionsItemsDAO(context) : null;
             if (dao != null) {
                 mdao.put(id, dao);
                 return dao;

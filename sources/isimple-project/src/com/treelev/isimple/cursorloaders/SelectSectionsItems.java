@@ -3,29 +3,26 @@ package com.treelev.isimple.cursorloaders;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
-import java.util.ArrayList;
+public class SelectSectionsItems extends CursorLoader {
 
-public class DeleteFavouriteItems  extends CursorLoader{
-
-    private ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
+    private Loader.ForceLoadContentObserver mObserver = new Loader.ForceLoadContentObserver();
     private Context mContext;
     private ProxyManager mProxyManager;
-    private ArrayList<String> mDeleteItemsId;
+    private int mTypeSection;
 
 
-    public DeleteFavouriteItems(Context context, ArrayList<String> deleteItemsID) {
+    public SelectSectionsItems(Context context, int typeSection) {
         super(context);
         mContext = context;
-        mDeleteItemsId = deleteItemsID;
+        mTypeSection = typeSection;
     }
 
     @Override
     public Cursor loadInBackground() {
-        getProxyManager().delFavourites(mDeleteItemsId);
-        getProxyManager().setFavouriteItemTable(mDeleteItemsId, false);
-        Cursor cursor = getProxyManager().getFavouriteItems();
+        Cursor cursor = getProxyManager().getSectionsItems(mTypeSection);
         if(cursor != null){
             cursor.getCount();
             cursor.registerContentObserver(mObserver);

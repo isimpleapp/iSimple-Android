@@ -17,11 +17,9 @@ import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.cursorloaders.DeleteFavouriteItems;
 import com.treelev.isimple.cursorloaders.SelectFavouriteItems;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -65,7 +63,6 @@ public class FavoritesActivity extends BaseListActivity
         updateActivity();
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

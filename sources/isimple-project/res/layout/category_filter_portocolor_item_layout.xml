@@ -7,7 +7,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <TextView
+        <org.holoeverywhere.widget.TextView
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:id="@+id/red_color_butt"
@@ -16,7 +16,7 @@
                 android:text="@string/porto_type_red"
                 android:textColor="@android:color/white"
                 android:gravity="center"/>
-        <TextView
+        <org.holoeverywhere.widget.TextView
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:id="@+id/white_color_butt"
@@ -32,7 +32,7 @@
             android:layout_height="5dip"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
-        <CheckBox
+        <org.holoeverywhere.widget.CheckBox
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:id="@+id/red_porto_heres_check"
@@ -40,7 +40,7 @@
                 android:background="@drawable/filter_type_checkbox_selector"
                 android:checked="false"
                 android:button="@color/transparent"/>
-        <CheckBox
+        <org.holoeverywhere.widget.CheckBox
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:id="@+id/white_porto_heres_check"

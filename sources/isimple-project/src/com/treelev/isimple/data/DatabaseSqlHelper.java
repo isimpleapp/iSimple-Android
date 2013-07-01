@@ -55,6 +55,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_QUANTITY = "quantity";
     public final static String ITEM_IS_FAVOURITE = "is_favourite";
     public final static String ITEM_SHOPPING_CART_COUNT = "item_count";
+    public final static String ITEM_LEFT_OVERS = "item_left_overs";
 
     private final static String CREATE_TABLE_ITEM_DEPRECATED = "create table " + ITEM_DEPRECATED_TABLE + "( " +
             ITEM_ID + " text primary key, " +
@@ -111,7 +112,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_GRAPES_USED + " text, " +
             ITEM_RATING + " text, " +
             ITEM_QUANTITY + " float, " +
-            ITEM_IS_FAVOURITE + " integer);";
+            ITEM_IS_FAVOURITE + " integer, " +
+            ITEM_LEFT_OVERS + " integer);";
 
     private final static String CREATE_TABLE_FAVOURITE_ITEM = "create table " + FAVOURITE_ITEM_TABLE + "( " +
             ITEM_ID + " text primary key, " +

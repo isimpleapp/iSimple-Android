@@ -522,11 +522,11 @@ public class ItemDAO extends BaseDAO {
             String updateSqlFormat = "UPDATE item " +
                     "SET price = " +
                     "(CASE WHEN (SELECT drink_category FROM item WHERE item_id = '%1$s') = 5 THEN %2$s*(SELECT quantity FROM item WHERE item_id = '%1$s') ELSE %2$s END), " +
-                    "price_markup = %3$s " +
+                    "price_markup = %3$s, item_left_overs = %4$s " +
                     "WHERE item_id = '%1$s'";
             String updateSql;
             for (ItemPrice price : priceList) {
-                updateSql = String.format(updateSqlFormat, price.getItemID(), price.getPrice(), price.getPriceMarkup());
+                updateSql = String.format(updateSqlFormat, price.getItemID(), price.getPrice(), price.getPriceMarkup(), price.getLeftOvers());
                 getDatabase().execSQL(updateSql);
             }
             getDatabase().setTransactionSuccessful();

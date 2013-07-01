@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import com.treelev.isimple.R;
-import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.service.UpdateDataService;
 import org.holoeverywhere.app.Dialog;
@@ -57,6 +56,7 @@ public class UpdateDataActivity extends Activity {
             for (FileParseObject fileParseObject : fileParseObjects) {
                 fileParseObject.parseObjectDataToDB();
             }
+            deleteFileDir();
             return null;
         }
 
@@ -70,50 +70,8 @@ public class UpdateDataActivity extends Activity {
             startActivity(newIntent);
         }
 
-        private BaseDAO[] getDAOListByIndex(int index) {
-            BaseDAO[] customDAOList = null;
-            /*switch (index) {
-                case 0:
-                case 3:
-                case 4:
-                    customDAOList = new BaseDAO[]{daoList[0]};
-                    break;
-                case 1:
-                    customDAOList = new BaseDAO[]{daoList[1], daoList[2]};
-                    break;
-                case 2:
-                    customDAOList = new BaseDAO[]{daoList[3]};
-                    break;
-                case 5:
-                    customDAOList = new BaseDAO[]{daoList[4]};
-                    break;
-                case 6:
-                    customDAOList = new BaseDAO[]{daoList[5]};
-                    break;
-            }*/
-            return customDAOList;
-        }
-
-        private int getParserIdByIndex(String fileName) {
-            /*switch (index) {
-                case 0:
-                    return CatalogParser.CATALOG_PARSER_ID;
-                case 1:
-                    return ShopAndChainsParser.SHOP_AND_CHAINS_PARSER_ID;
-                case 2:
-                    return ItemAvailabilityParser.ITEM_AVAILABILITY_PARSER_ID;
-                case 3:
-                    return ItemPricesParser.ITEM_PRICES_PARSER_ID;
-                case 4:
-                    return FeaturedItemsParser.FEATURED_ITEMS_PARSER_ID;
-                case 5:
-                    return DeprecatedItemParser.DEPRECATED_ITEMS_PARSER_ID;
-                case 6:
-                    return DeliveryZoneParser.DELIVERY_ZONE_PARSER_ID;
-                default:
-                    return -1;
-            }*/
-            return -1;
+        private void deleteFileDir() {
+            new File(String.format(UpdateDataService.FILE_URL_FORMAT, Environment.getExternalStorageDirectory())).delete();
         }
     }
 }

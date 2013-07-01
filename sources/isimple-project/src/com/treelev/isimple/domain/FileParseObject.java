@@ -48,6 +48,7 @@ public class FileParseObject implements Comparable<FileParseObject> {
             XmlPullParser xmlPullParser = factory.newPullParser();
             xmlPullParser.setInput(new FileInputStream(file), null);
             parser.parseXmlToDB(xmlPullParser, daoList);
+            file.delete();
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {

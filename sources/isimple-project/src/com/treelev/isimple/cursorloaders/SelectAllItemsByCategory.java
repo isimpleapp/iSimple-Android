@@ -3,25 +3,26 @@ package com.treelev.isimple.cursorloaders;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
-public class SelectAllItems extends CursorLoader {
+public class SelectAllItemsByCategory extends CursorLoader {
 
-    private Loader.ForceLoadContentObserver mObserver = new Loader.ForceLoadContentObserver();
+    private ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
+    private Integer mCategoryID;
+    private int mSortBy;
     private Context mContext;
     private ProxyManager mProxyManager;
-    private int mSortBy;
 
-    public SelectAllItems(Context context, int sortBy) {
+    public SelectAllItemsByCategory(Context context, Integer categaryID,  int sortBy) {
         super(context);
         mContext = context;
+        mCategoryID = categaryID;
         mSortBy = sortBy;
     }
 
     @Override
     public Cursor loadInBackground() {
-        Cursor cursor = getProxyManager().getAllItems(mSortBy);
+        Cursor cursor = getProxyManager().getAllItemsByCategory(mCategoryID, mSortBy);
         if(cursor != null){
             cursor.getCount();
             cursor.registerContentObserver(mObserver);

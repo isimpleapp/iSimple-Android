@@ -6,22 +6,33 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
-public class SelectAllItems extends CursorLoader {
+public class SelectBySearchPreOrder extends CursorLoader{
 
     private Loader.ForceLoadContentObserver mObserver = new Loader.ForceLoadContentObserver();
+    private Integer mCategoryID;
+    private String mLocationId;
+    private int mSortBy;
     private Context mContext;
     private ProxyManager mProxyManager;
-    private int mSortBy;
+    private String mSearchQuery;
 
-    public SelectAllItems(Context context, int sortBy) {
+    public SelectBySearchPreOrder(Context context, String searchQuery, Integer categoryID, String locationId, int sortBy) {
         super(context);
         mContext = context;
+        mSearchQuery = searchQuery;
+        mCategoryID = categoryID;
+        mLocationId = locationId;
         mSortBy = sortBy;
     }
 
     @Override
     public Cursor loadInBackground() {
-        Cursor cursor = getProxyManager().getAllItems(mSortBy);
+        Cursor cursor = null;
+        if(mLocationId == null) {
+            cursor = getProxyManager().getSearchItemsByCategoryPreOrder(mCategoryID, mSearchQuery, mSortBy);
+        } else{
+            cursor = getProxyManager().getSearchItemsByCategoryPreOrder(mCategoryID, mLocationId, mSearchQuery, mSortBy);
+        }
         if(cursor != null){
             cursor.getCount();
             cursor.registerContentObserver(mObserver);

@@ -46,8 +46,10 @@
     <string name="delivery_dialog_title">Выберите зону доставки</string>
 
     <string name="section_featured">Витрина</string>
+    <string name="section_result_filtered_search">Результаты поиска</string>
     <string name="section_pre_order">Предзаказ</string>
     <string name="section_all_in_stock">Все в наличии</string>
+
     <string name="update_data_notify_label">Обновление данных iSimple</string>
     <string name="update_data_content_label">Доступно обновление данных</string>
     <string name="update_data_wait_label">Пожалуйста, подождите…</string>

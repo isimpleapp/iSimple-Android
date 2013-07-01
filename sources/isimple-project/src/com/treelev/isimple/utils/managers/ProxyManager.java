@@ -21,8 +21,10 @@ public class ProxyManager {
 
     public static final int SORT_NAME_AZ = 1;
     public static final int SORT_PRICE_UP = 2;
-    public static final int TYPE_SECTION_FILTRATION_SEARCH = 10;
-    public static final int TYPE_SECTION = 11;
+    public static final int TYPE_SECTION_MAIN = 10;
+    public static final int TYPE_SECTION_SHOP_MAIN = 11;
+    public static final int TYPE_SECTION_FILTRATION_SEARCH = 13;
+
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
     private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
@@ -148,6 +150,13 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId, orderByField);
     }
 
+    public Cursor getAllItemsByCategory(int categoryId, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getAllItemsByCategory(categoryId, orderByField);
+    }
+
     public Cursor getFeaturedItemsByCategory(int categoryId, String locationId, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
@@ -192,6 +201,20 @@ public class ProxyManager {
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, locationId, query, orderByField);
+    }
+
+    public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String query, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategoryPreOrder(categoryId, query, orderByField);
+    }
+
+    public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String locationId, String query, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategoryPreOrder(categoryId, locationId, query, orderByField);
     }
 
     public Cursor getAllItems(int sortType) {

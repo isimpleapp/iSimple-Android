@@ -1,4 +1,4 @@
-package com.treelev.isimple.adapters;
+package com.treelev.isimple.adapters.itemstreecursoradapter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,44 +8,40 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorTreeAdapter;
 import android.widget.ImageView;
 import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.treelev.isimple.R;
-import com.treelev.isimple.cursorloaders.SelectAllItems;
-import com.treelev.isimple.cursorloaders.SelectFeaturedMainItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
-
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.LinearLayout;
 
-public class CatalogItemTreeCursorAdapter extends SimpleCursorTreeAdapter
+public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         implements LoaderManager.LoaderCallbacks<Cursor>{
-
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
     private final static int FORMAT_LOC_NAME_MAX_LENGTH = 29;
 
-    private Context mContext;
-    private LoaderManager mManager;
-    private boolean mGroup;
-    private boolean mYearEnable;
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
     private String sizePrefix;
 
-    public CatalogItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, boolean group, boolean yearEnable) {
+    protected Context mContext;
+    protected LoaderManager mManager;
+    protected boolean mGroup;
+    protected boolean mYearEnable;
+    protected int mSortBy;
+
+    public AbsItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
         super(context, cursor, R.layout.section_items,
                 R.layout.section_items,
                 new String[] {"name"},
@@ -56,10 +52,9 @@ public class CatalogItemTreeCursorAdapter extends SimpleCursorTreeAdapter
 
         mContext = context;
         mManager = manager;
-        mGroup = group;
-        mYearEnable = yearEnable;
-
-
+        mGroup = true;
+        mYearEnable = false;
+        mSortBy = sortBy;
 
         imageLoader = Utils.getImageLoader(mContext.getApplicationContext());
         options = new DisplayImageOptions.Builder()
@@ -74,6 +69,11 @@ public class CatalogItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         sizePrefix =
                 metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
                         metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH? "_xhdpi" : "";
+    }
+
+
+    public void setSortBy(int sortBy){
+        mSortBy = sortBy;
     }
 
     @Override
@@ -211,14 +211,6 @@ public class CatalogItemTreeCursorAdapter extends SimpleCursorTreeAdapter
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        switch (i){
-            case 0:
-                return new SelectFeaturedMainItems(mContext);
-            case 1:
-                return new SelectFeaturedMainItems(mContext);
-            case 2:
-                return  new SelectAllItems(mContext);
-        }
         return null;
     }
 
@@ -247,4 +239,5 @@ public class CatalogItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         }
         return result;
     }
+
 }

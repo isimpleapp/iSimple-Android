@@ -7,18 +7,18 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
+import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.CatalogItemTreeCursorAdapter;
+import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogItemTreeCursorAdapter;
 
 public class CatalogListActivityNew extends BaseExpandableListActivity
         implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -43,8 +43,10 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
         ExpandableListView listView = getExpandableListView();
         mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
         listView.addHeaderView(mHeader, null, false);
-        mListCategoriesAdapter = new CatalogItemTreeCursorAdapter(CatalogListActivityNew.this, null, getSupportLoaderManager(), true, false);
+        mListCategoriesAdapter = new CatalogItemTreeCursorAdapter(CatalogListActivityNew.this, null,
+                getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
         listView.setAdapter(mListCategoriesAdapter);
+        listView.setOnChildClickListener(this);
     }
 
 
@@ -76,7 +78,6 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
                 if (query.trim().length() != 0) {
                     SearchResultActivity.categoryID = null;
                     SearchResultActivity.locationId = null;
-//                    SearchResultActivity.backActivity = CatalogListActivity.class;
                     return false;
                 } else
                     return true;
@@ -120,7 +121,7 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
     }
 
     public void onClickCategoryButt(View v) {
-        Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
+        Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivityNew.class);
         Integer category = DrinkCategory.getItemCategoryByButtonId(v.getId());
         startIntent.putExtra(CATEGORY_ID, category);
         startActivity(startIntent);
@@ -128,18 +129,36 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
     }
 
     @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        Cursor product = mListCategoriesAdapter.getChild(groupPosition, childPosition);
+        Intent startIntent;
+        int itemCountIndex = product.getColumnIndex("count");
+        if (product.getInt(itemCountIndex) > 1) {
+            int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
+            startIntent = new Intent(this, CatalogSubCategory.class);
+            CatalogSubCategory.categoryID = null;
+            CatalogSubCategory.backActivity = CatalogListActivity.class;
+            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(itemDrinkIdIndex));
+        } else {
+            startIntent = new Intent(this, ProductInfoActivity.class);
+            startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+        }
+        startActivity(startIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+        return super.onChildClick(parent, v, groupPosition, childPosition, id);
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new SelectSectionsItems(this, ProxyManager.TYPE_SECTION);
+        return new SelectSectionsItems(this, ProxyManager.TYPE_SECTION_MAIN);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mListCategoriesAdapter.setGroupCursor(cursor);
-        Log.v("Testting", "onLoadFinished");
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        Log.v("Testting", "onLoaderReset");
     }
 }

@@ -16,7 +16,7 @@ import org.holoeverywhere.app.AlertDialog;
 
 public class BaseExpandableListActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
 
-    private int mCurrentCategory;
+    protected int mCurrentCategory;
     public final static String BARCODE = "barcode";
     private boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;

@@ -50,9 +50,9 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
             public void onClick(View v) {
             }
         });
-        mDrinkID = getIntent().getStringExtra(CatalogListActivityNew.DRINK_ID);
+        mDrinkID = getIntent().getStringExtra(CatalogListActivity.DRINK_ID);
         mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
-        mFilterWhereClause = getIntent().getStringExtra(CatalogListActivityNew.FILTER_WHERE_CLAUSE);
+        mFilterWhereClause = getIntent().getStringExtra(CatalogListActivity.FILTER_WHERE_CLAUSE);
         mListSubCategoriesAdapter = new CatalogItemCursorAdapter(null, CatalogSubCategory.this, false, true);
         getListView().setAdapter(mListSubCategoriesAdapter);
     }

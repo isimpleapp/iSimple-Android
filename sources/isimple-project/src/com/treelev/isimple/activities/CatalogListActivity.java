@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogItemTreeCursorAdapter;
 
-public class CatalogListActivityNew extends BaseExpandableListActivity
+public class CatalogListActivity extends BaseExpandableListActivity
         implements LoaderManager.LoaderCallbacks<Cursor>{
 
 
@@ -36,7 +36,7 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
-        setContentView(R.layout.catalog_list_layout_new);
+        setContentView(R.layout.catalog_list_layout);
         setCurrentCategory(NAVIGATE_CATEGORY_ID);
         createNavigationMenuBar();
         darkView = findViewById(R.id.dark_view);
@@ -45,7 +45,7 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
         ExpandableListView expandableView = getExpandableListView();
         View mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, expandableView, false);
         expandableView.addHeaderView(mHeader, null, false);
-        mListCategoriesAdapter = new CatalogItemTreeCursorAdapter(CatalogListActivityNew.this, null,
+        mListCategoriesAdapter = new CatalogItemTreeCursorAdapter(CatalogListActivity.this, null,
                 getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
         expandableView.setAdapter(mListCategoriesAdapter);
         expandableView.setOnChildClickListener(this);
@@ -78,8 +78,8 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query.trim().length() != 0) {
-                    SearchResultActivityNew.categoryID = null;
-                    SearchResultActivityNew.locationId = null;
+                    SearchResultActivity.categoryID = null;
+                    SearchResultActivity.locationId = null;
                     return false;
                 } else
                     return true;
@@ -123,7 +123,7 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
     }
 
     public void onClickCategoryButt(View v) {
-        Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivityNew.class);
+        Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
         Integer category = DrinkCategory.getItemCategoryByButtonId(v.getId());
         startIntent.putExtra(CATEGORY_ID, category);
         startActivity(startIntent);
@@ -139,7 +139,7 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
             int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
-            CatalogSubCategory.backActivity = CatalogListActivityNew.class;
+            CatalogSubCategory.backActivity = CatalogListActivity.class;
             startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);

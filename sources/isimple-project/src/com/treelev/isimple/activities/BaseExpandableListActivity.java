@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.Window;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
@@ -66,7 +65,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         int flags = 0;
         switch (itemPosition) {
             case 0: //Catalog
-                category = CatalogListActivityNew.class;
+                category = CatalogListActivity.class;
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
                 break;
             case 1: //Shop
@@ -185,7 +184,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     }
 
     protected  void disableOnGroupClick(){
-        getExpandableListView().setOnGroupClickListener( new ExpandableListView.OnGroupClickListener() {
+        getExpandableListView().setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 return true;

@@ -19,7 +19,7 @@ import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ExpandableListView;
 
-public class SearchResultActivityNew extends  BaseExpandableListActivity
+public class SearchResultActivity extends  BaseExpandableListActivity
         implements RadioGroup.OnCheckedChangeListener,  LoaderManager.LoaderCallbacks<Cursor>{
 
     public static Integer categoryID;
@@ -33,7 +33,7 @@ public class SearchResultActivityNew extends  BaseExpandableListActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_result_new);
+        setContentView(R.layout.search_result);
         mLocationId = locationId;
         if(locationId == null ){
             setCurrentCategory(0);
@@ -174,8 +174,8 @@ public class SearchResultActivityNew extends  BaseExpandableListActivity
             int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
-            CatalogSubCategory.backActivity = CatalogListActivityNew.class;
-            startIntent.putExtra(CatalogByCategoryActivityNew.DRINK_ID, product.getString(itemDrinkIdIndex));
+            CatalogSubCategory.backActivity = CatalogListActivity.class;
+            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(itemDrinkIdIndex));
             startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
@@ -188,7 +188,7 @@ public class SearchResultActivityNew extends  BaseExpandableListActivity
 
     private void handledIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String mDrinkId = intent.getStringExtra(CatalogListActivityNew.DRINK_ID);
+            String mDrinkId = intent.getStringExtra(CatalogListActivity.DRINK_ID);
             mQuery = intent.getStringExtra(SearchManager.QUERY);
         }
     }

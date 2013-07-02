@@ -29,7 +29,7 @@ import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.ExpandableListView;
 
-public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
+public class CatalogByCategoryActivity extends BaseExpandableListActivity
         implements RadioGroup.OnCheckedChangeListener,
         ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener,
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -66,9 +66,9 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.catalog_category_layout_new);
+        setContentView(R.layout.catalog_category_layout);
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
-        mCategoryID = getIntent().getIntExtra(CatalogListActivityNew.CATEGORY_ID, -1);
+        mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         mContext = this;
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
         if (mLocationId == null) {
@@ -141,8 +141,8 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                SearchResultActivityNew.categoryID = mCategoryID;
-                SearchResultActivityNew.locationId = mLocationId;
+                SearchResultActivity.categoryID = mCategoryID;
+                SearchResultActivity.locationId = mLocationId;
                 return false;
             }
 
@@ -190,7 +190,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
             int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
-            CatalogSubCategory.backActivity = CatalogListActivityNew.class;
+            CatalogSubCategory.backActivity = CatalogListActivity.class;
             startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
             startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
             startIntent.putExtra(FILTER_WHERE_CLAUSE, mFilterWhereClause);

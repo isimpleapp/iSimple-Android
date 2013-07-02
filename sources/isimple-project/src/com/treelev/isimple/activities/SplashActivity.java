@@ -72,7 +72,7 @@ public class SplashActivity extends Activity {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             finish();
-            startActivity(new Intent(SplashActivity.this, CatalogListActivityNew.class));
+            startActivity(new Intent(SplashActivity.this, CatalogListActivity.class));
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         }
 
@@ -145,7 +145,7 @@ public class SplashActivity extends Activity {
             editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, false);
             editor.commit();
             finish();
-            Intent newIntent = new Intent(SplashActivity.this, CatalogListActivityNew.class);
+            Intent newIntent = new Intent(SplashActivity.this, CatalogListActivity.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(newIntent);
         }

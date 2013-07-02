@@ -137,7 +137,7 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         int flags = 0;
         switch (itemPosition) {
             case 0: //Catalog
-                category = CatalogListActivityNew.class;
+                category = CatalogListActivity.class;
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
                 break;
             case 1: //Shop

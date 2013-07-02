@@ -14,6 +14,7 @@ import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.service.UpdateDataService;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ExpandableListView;
 import android.widget.RelativeLayout;
@@ -50,7 +51,6 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
         disableOnGroupClick();
     }
 
-
     @Override
     protected void createNavigationMenuBar() {
         super.createNavigationMenuBar();
@@ -60,7 +60,13 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
 
     @Override
     protected void onResume() {
-        getSupportLoaderManager().restartLoader(0, null, this);
+        boolean needUpdateData = getIntent().getBooleanExtra(UpdateDataService.NEED_DATA_UPDATE, false);
+        if (needUpdateData) {
+            startActivity(new Intent(this, UpdateDataActivity.class));
+        } else {
+            startUpdateService();
+            getSupportLoaderManager().restartLoader(0, null, this);
+        }
         super.onResume();
 
     }
@@ -162,5 +168,9 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
+    }
+
+    private void startUpdateService() {
+        startService(new Intent(getApplicationContext(), UpdateDataService.class));
     }
 }

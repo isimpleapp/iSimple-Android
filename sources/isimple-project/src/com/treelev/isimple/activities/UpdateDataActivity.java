@@ -64,7 +64,7 @@ public class UpdateDataActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
-            Intent newIntent = new Intent(UpdateDataActivity.this, CatalogListActivity.class);
+            Intent newIntent = new Intent(UpdateDataActivity.this, CatalogListActivityNew.class);
             newIntent.putExtra(UpdateDataService.NEED_DATA_UPDATE, false);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(newIntent);

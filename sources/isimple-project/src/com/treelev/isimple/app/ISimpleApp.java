@@ -80,7 +80,7 @@ public class ISimpleApp extends Application {
     private void putFileDatesInPref() {
         SharedPreferences.Editor prefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         for (String url : urlList) {
-            prefEditor.putLong(url, new Date(113, 6, 1).getTime());
+            prefEditor.putLong(url, new Date(113, 7, 1).getTime());
         }
         prefEditor.commit();
     }

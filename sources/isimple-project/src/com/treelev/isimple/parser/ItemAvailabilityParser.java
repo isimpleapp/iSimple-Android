@@ -29,7 +29,7 @@ public class ItemAvailabilityParser implements Parser {
             ItemAvailability itemAvailability;
             List<ItemAvailability> itemAvailabilityList = new ArrayList<ItemAvailability>();
             ItemAvailabilityDAO itemAvailabilityDAO = (ItemAvailabilityDAO) daoList[0];
-            //itemAvailabilityDAO.deleteAllData();
+            itemAvailabilityDAO.deleteAllData();
             while (xmlPullParser.getEventType() != XmlPullParser.END_DOCUMENT) {
                 if (xmlPullParser.getEventType() == XmlPullParser.START_TAG && xmlPullParser.getName().equals(ITEM_AVAILABILITY_OBJECT_TAG)) {
                     itemAvailability = new ItemAvailability();
@@ -53,11 +53,15 @@ public class ItemAvailabilityParser implements Parser {
                         xmlPullParser.next();
                     }
                     itemAvailabilityList.add(itemAvailability);
+                    if (itemAvailabilityList.size() == 10000) {
+                        itemAvailabilityDAO.insertListData(itemAvailabilityList);
+                        itemAvailabilityList.clear();
+                    }
                 }
                 xmlPullParser.next();
             }
-            itemAvailabilityDAO.deleteAllData();
             itemAvailabilityDAO.insertListData(itemAvailabilityList);
+            itemAvailabilityList.clear();
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {

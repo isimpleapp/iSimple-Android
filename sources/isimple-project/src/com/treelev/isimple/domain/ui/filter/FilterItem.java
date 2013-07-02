@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
-import com.treelev.isimple.activities.CatalogByCategoryActivity;
 
 public abstract class FilterItem {
     public final static int ITEM_ACTIVITY = 1;

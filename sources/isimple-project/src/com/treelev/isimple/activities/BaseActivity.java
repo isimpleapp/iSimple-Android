@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.Window;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
@@ -82,7 +80,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
         int flags = 0;
         switch (itemPosition) {
             case 0: //Catalog
-                category = CatalogListActivity.class;
+                category = CatalogListActivityNew.class;
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
                 break;
             case 1: //Shop

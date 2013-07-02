@@ -29,6 +29,8 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
     private View darkView;
     private RelativeLayout myLayout;
     private final static int NAVIGATE_CATEGORY_ID = 0;
+    public final static String DRINK_ID = "drink_id";
+    public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
     private CatalogItemTreeCursorAdapter mListCategoriesAdapter;
 
     @Override
@@ -59,13 +61,6 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
 
     @Override
     protected void onResume() {
-        /*boolean needUpdateData = getIntent().getBooleanExtra(UpdateDataService.NEED_DATA_UPDATE, false);
-        if (needUpdateData) {
-            startActivity(new Intent(this, UpdateDataActivity.class));
-        } else {
-            startUpdateService();
-            getSupportLoaderManager().restartLoader(0, null, this);
-        }*/
         startUpdateService();
         getSupportLoaderManager().restartLoader(0, null, this);
         super.onResume();
@@ -144,8 +139,8 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
             int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
-            CatalogSubCategory.backActivity = CatalogListActivity.class;
-            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(itemDrinkIdIndex));
+            CatalogSubCategory.backActivity = CatalogListActivityNew.class;
+            startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));

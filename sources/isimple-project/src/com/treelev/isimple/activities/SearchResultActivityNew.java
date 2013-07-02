@@ -174,7 +174,7 @@ public class SearchResultActivityNew extends  BaseExpandableListActivity
             int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
-            CatalogSubCategory.backActivity = CatalogListActivity.class;
+            CatalogSubCategory.backActivity = CatalogListActivityNew.class;
             startIntent.putExtra(CatalogByCategoryActivityNew.DRINK_ID, product.getString(itemDrinkIdIndex));
             startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
         } else {
@@ -188,7 +188,7 @@ public class SearchResultActivityNew extends  BaseExpandableListActivity
 
     private void handledIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String mDrinkId = intent.getStringExtra(CatalogByCategoryActivity.DRINK_ID);
+            String mDrinkId = intent.getStringExtra(CatalogListActivityNew.DRINK_ID);
             mQuery = intent.getStringExtra(SearchManager.QUERY);
         }
     }

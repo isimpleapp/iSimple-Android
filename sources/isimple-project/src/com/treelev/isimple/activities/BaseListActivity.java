@@ -1,8 +1,6 @@
 package com.treelev.isimple.activities;
 
 import android.app.Activity;
-import android.view.Window;
-import org.holoeverywhere.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +13,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.ListActivity;
 
 public class BaseListActivity extends ListActivity implements ActionBar.OnNavigationListener {
@@ -138,7 +137,7 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         int flags = 0;
         switch (itemPosition) {
             case 0: //Catalog
-                category = CatalogListActivity.class;
+                category = CatalogListActivityNew.class;
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
                 break;
             case 1: //Shop

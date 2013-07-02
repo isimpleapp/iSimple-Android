@@ -70,7 +70,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mCategoryID = getIntent().getIntExtra(CatalogListActivityNew.CATEGORY_ID, -1);
         mContext = this;
-        View mViewActivity = findViewById(R.layout.catalog_category_layout);
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
         if (mLocationId == null) {
             setCurrentCategory(0);    //Catalog
@@ -191,7 +190,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
             int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
-            CatalogSubCategory.backActivity = CatalogListActivity.class;
+            CatalogSubCategory.backActivity = CatalogListActivityNew.class;
             startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
             startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
             startIntent.putExtra(FILTER_WHERE_CLAUSE, mFilterWhereClause);

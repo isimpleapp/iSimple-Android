@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.View;
-import android.widget.RadioGroup;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
@@ -51,9 +50,9 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
             public void onClick(View v) {
             }
         });
-        mDrinkID = getIntent().getStringExtra(CatalogByCategoryActivity.DRINK_ID);
+        mDrinkID = getIntent().getStringExtra(CatalogListActivityNew.DRINK_ID);
         mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
-        mFilterWhereClause = getIntent().getStringExtra(CatalogByCategoryActivity.FILTER_WHERE_CLAUSE);
+        mFilterWhereClause = getIntent().getStringExtra(CatalogListActivityNew.FILTER_WHERE_CLAUSE);
         mListSubCategoriesAdapter = new CatalogItemCursorAdapter(null, CatalogSubCategory.this, false, true);
         getListView().setAdapter(mListSubCategoriesAdapter);
     }

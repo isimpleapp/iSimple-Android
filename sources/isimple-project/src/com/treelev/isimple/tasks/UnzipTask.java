@@ -9,7 +9,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.treelev.isimple.R;
-import com.treelev.isimple.activities.UpdateDataActivity;
+import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.service.UpdateDataService;
 
 import java.io.File;
@@ -77,7 +77,7 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
         android.content.SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, true);
         editor.commit();
-        Intent newIntent = new Intent(context, UpdateDataActivity.class);
+        Intent newIntent = new Intent(context, SplashActivity.class);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
         notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_content_label), pIntent);

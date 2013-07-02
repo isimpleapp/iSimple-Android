@@ -28,7 +28,6 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
     public final static String CATEGORY_ID = "category_id";
     private View darkView;
     private RelativeLayout myLayout;
-    private View mHeader;
     private final static int NAVIGATE_CATEGORY_ID = 0;
     private CatalogItemTreeCursorAdapter mListCategoriesAdapter;
 
@@ -42,7 +41,7 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
         ExpandableListView expandableView = getExpandableListView();
-        mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, expandableView, false);
+        View mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, expandableView, false);
         expandableView.addHeaderView(mHeader, null, false);
         mListCategoriesAdapter = new CatalogItemTreeCursorAdapter(CatalogListActivityNew.this, null,
                 getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
@@ -60,15 +59,16 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
 
     @Override
     protected void onResume() {
-        boolean needUpdateData = getIntent().getBooleanExtra(UpdateDataService.NEED_DATA_UPDATE, false);
+        /*boolean needUpdateData = getIntent().getBooleanExtra(UpdateDataService.NEED_DATA_UPDATE, false);
         if (needUpdateData) {
             startActivity(new Intent(this, UpdateDataActivity.class));
         } else {
             startUpdateService();
             getSupportLoaderManager().restartLoader(0, null, this);
-        }
+        }*/
+        startUpdateService();
+        getSupportLoaderManager().restartLoader(0, null, this);
         super.onResume();
-
     }
 
     @Override

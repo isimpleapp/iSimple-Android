@@ -957,7 +957,7 @@ public class ItemDAO extends BaseDAO {
             item.setGrapesUsed(cursor.getString(indexGrapesUsed));
             item.setRating(cursor.getString(indexRating));
             item.setQuantity(cursor.getFloat(indexQuantity));
-            item.setFavourite(cursor.getInt(indexFavourite) == 1 ? true : false);
+            item.setFavourite(cursor.getInt(indexFavourite) == 1);
             cursor.close();
         }
         return item;

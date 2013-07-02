@@ -4,5 +4,6 @@ import com.treelev.isimple.data.BaseDAO;
 import org.xmlpull.v1.XmlPullParser;
 
 public interface Parser {
+    public final static int MAX_SIZE_DATA_TO_LIST = 10000;
     public void parseXmlToDB(XmlPullParser xmlPullParser, BaseDAO...daoList);
 }

@@ -53,7 +53,7 @@ public class ItemAvailabilityParser implements Parser {
                         xmlPullParser.next();
                     }
                     itemAvailabilityList.add(itemAvailability);
-                    if (itemAvailabilityList.size() == 10000) {
+                    if (itemAvailabilityList.size() == MAX_SIZE_DATA_TO_LIST) {
                         itemAvailabilityDAO.insertListData(itemAvailabilityList);
                         itemAvailabilityList.clear();
                     }

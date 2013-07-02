@@ -67,6 +67,7 @@ public class CatalogParser implements Parser {
             Item item;
             List<Item> itemList = new ArrayList<Item>();
             String tempStr;
+            ItemDAO itemDAO = (ItemDAO) daoList[0];
             while (xmlPullParser.getEventType() != XmlPullParser.END_DOCUMENT) {
                 if (xmlPullParser.getEventType() == XmlPullParser.START_TAG && xmlPullParser.getName().equals(CATALOG_OBJECT_TAG)) {
                     item = new Item();
@@ -166,12 +167,16 @@ public class CatalogParser implements Parser {
                         xmlPullParser.next();
                     }
                     itemList.add(item);
+                    /*if (itemList.size() == MAX_SIZE_DATA_TO_LIST) {
+                        itemDAO.insertListData(itemList);
+                        itemList.clear();
+                    }*/
                 }
                 xmlPullParser.next();
             }
-            ItemDAO itemDAO = (ItemDAO) daoList[0];
             itemDAO.deleteAllData();
             itemDAO.insertListData(itemList);
+            itemList.clear();
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {

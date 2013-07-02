@@ -6,9 +6,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import com.treelev.isimple.R;
-import com.treelev.isimple.activities.CatalogListActivity;
+import com.treelev.isimple.activities.UpdateDataActivity;
 import com.treelev.isimple.service.UpdateDataService;
 
 import java.io.File;
@@ -73,8 +74,10 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
     protected void onPostExecute(File[] aVoid) {
         super.onPostExecute(aVoid);
         Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
-        Intent newIntent = new Intent(context, CatalogListActivity.class);
-        newIntent.putExtra(UpdateDataService.NEED_DATA_UPDATE, true);
+        android.content.SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, true);
+        editor.commit();
+        Intent newIntent = new Intent(context, UpdateDataActivity.class);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
         notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_content_label), pIntent);

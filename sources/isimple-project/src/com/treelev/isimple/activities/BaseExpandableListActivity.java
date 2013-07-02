@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.view.Window;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -13,6 +14,7 @@ import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.ExpandableListActivity;
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.widget.ExpandableListView;
 
 public class BaseExpandableListActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
 
@@ -171,5 +173,23 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
         getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
+    }
+
+    protected void expandAllGroup(){
+        ExpandableListView expandView = getExpandableListView();
+        int countGroup = expandView.getExpandableListAdapter().getGroupCount();
+// because in the first application Parent invisible and empty. see implemantation SelectSectionsItems, AbsItemTreeCursorAdapter
+        for(int position = 1; position < countGroup; ++position){
+            expandView.expandGroup(position);
+        }
+    }
+
+    protected  void disableOnGroupClick(){
+        getExpandableListView().setOnGroupClickListener( new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return true;
+            }
+        });
     }
 }

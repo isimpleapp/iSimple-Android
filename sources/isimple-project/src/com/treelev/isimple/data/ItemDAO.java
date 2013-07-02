@@ -191,8 +191,8 @@ public class ItemDAO extends BaseDAO {
         }
         whereClause = whereClause.replace("item", "t1");
         String selectSql = String.format(
-                "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, " +
-                        "t1.drink_category, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, " +
+                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
+                        "drink_category, MIN(price) as price, year, quantity, color, " +
                         "(case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, COUNT(t1.drink_id) as count " +
                         "FROM item AS t1 %4$s " +
                         "WHERE t1.drink_category=%1$s AND %2$s " +

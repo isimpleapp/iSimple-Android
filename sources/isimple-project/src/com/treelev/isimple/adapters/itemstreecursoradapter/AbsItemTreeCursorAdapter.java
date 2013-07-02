@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,10 +24,13 @@ import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Dialog;
+import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.LinearLayout;
 
 public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         implements LoaderManager.LoaderCallbacks<Cursor>{
+
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
     private final static int FORMAT_LOC_NAME_MAX_LENGTH = 29;
@@ -35,11 +39,15 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     private ImageLoader imageLoader;
     private String sizePrefix;
 
+    private Dialog mDialog;
+    private Integer mCountCallBack;
+
     protected Context mContext;
     protected LoaderManager mManager;
     protected boolean mGroup;
     protected boolean mYearEnable;
     protected int mSortBy;
+    protected String mFilterWhereClause;
 
     public AbsItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
         super(context, cursor, R.layout.section_items,
@@ -55,6 +63,8 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         mGroup = true;
         mYearEnable = false;
         mSortBy = sortBy;
+
+        mCountCallBack = 0;
 
         imageLoader = Utils.getImageLoader(mContext.getApplicationContext());
         options = new DisplayImageOptions.Builder()
@@ -76,6 +86,10 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         mSortBy = sortBy;
     }
 
+    public  void setFilterWhereClause(String filterWhereClause){
+        mFilterWhereClause = filterWhereClause;
+    }
+
     @Override
     protected Cursor getChildrenCursor(Cursor cursor) {
         int position = cursor.getInt(cursor.getColumnIndex("_id"));
@@ -85,6 +99,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         else {
             mManager.initLoader(position, null, this);
         }
+        startDialog();
         return null;
     }
 
@@ -217,11 +232,46 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         setChildrenCursor(cursorLoader.getId(), cursor);
-    }
+        stopDialog();
+   }
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
+    }
+
+    private void startDialog(){
+        if(mCountCallBack == 0 && mDialog == null){
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+            mContext.getString(R.string.dialog_select_data_message), false, false);
+            Log.v("Dialog FUCK", "Start Dialog");
+            if(this instanceof CatalogByCategoryItemTreeCursorAdapterOld){
+                Log.v("Dialog FUCK", "CatalogByCategoryItemTreeCursorAdapterOld");
+            } else {
+                Log.v("Dialog FUCK", "");
+            }
+        }
+        ++mCountCallBack;
+    }
+
+    private void stopDialog(){
+        --mCountCallBack;
+        Log.v("Dialog FUCK", "Stop...");
+        if(this instanceof CatalogByCategoryItemTreeCursorAdapterOld){
+            Log.v("Dialog FUCK", "CatalogByCategoryItemTreeCursorAdapterOld");
+        } else {
+            Log.v("Dialog FUCK", "123");
+        }
+        if(mCountCallBack == 0 && mDialog != null){
+            mDialog.dismiss();
+            mDialog = null;
+            Log.v("Dialog FUCK", "Stop!!!");
+            if(this instanceof CatalogByCategoryItemTreeCursorAdapterOld){
+                Log.v("Dialog FUCK", "CatalogByCategoryItemTreeCursorAdapterOld");
+            } else {
+                Log.v("Dialog FUCK", "123___");
+            }
+        }
     }
 
     private String organizeItemNameLabel(String itemName) {

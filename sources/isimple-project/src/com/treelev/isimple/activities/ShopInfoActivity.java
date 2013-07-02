@@ -66,7 +66,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        Intent startIntent = new Intent(this, CatalogByCategoryActivity.class);
+        Intent startIntent = new Intent(this, CatalogByCategoryActivityNew.class);
         Integer category = null;
         switch (view.getId()) {
             case R.id.category_wine_butt:
@@ -88,7 +88,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
                 category = 5;
                 break;
         }
-        startIntent.putExtra(CatalogListActivity.CATEGORY_ID, category);
+        startIntent.putExtra(CatalogListActivityNew.CATEGORY_ID, category);
         startIntent.putExtra(LOCATION_ID, mShop.getLocationID());
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);

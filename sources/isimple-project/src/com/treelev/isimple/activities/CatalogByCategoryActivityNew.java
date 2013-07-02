@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -17,22 +18,15 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.adapters.FilterAdapter;
-import com.treelev.isimple.adapters.itemstreecursoradapter.AbsItemTreeCursorAdapter;
-import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogByCategoryByShopItemTreeCursorAdapter;
-import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogByCategoryItemTreeCursorAdapter;
-import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogFilteredByCategoryItemTreeCursorAdapter;
+import com.treelev.isimple.adapters.itemstreecursoradapter.*;
 import com.treelev.isimple.animation.AnimationWithMargins;
-import com.treelev.isimple.cursorloaders.SelectItemsByCategory;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.filter.*;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.ExpandableListView;
 
@@ -46,7 +40,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     public final static String DRINK_ID = "drink_id";
     public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
     private Cursor cItems;
-    private AbsItemTreeCursorAdapter mTreeCategoriesAdapter;
+    private CatalogByCategoryItemTreeCursorAdapterNew mTreeCategoriesAdapter;
     private ExpandableListView filterListView;
     private View footerView;
     private View darkView;
@@ -65,6 +59,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     private com.treelev.isimple.filter.Filter filter;
     private static final int ANIMATION_DURATION_IN_MILLIS = 500;
     private int mSortBy = ProxyManager.SORT_NAME_AZ;
+    private int mTypeSection = ProxyManager.TYPE_SECTION_MAIN;
     private Context mContext;
     public final static String EXTRA_RESULT_CHECKED = "isChecked";
     public final static String EXTRA_CHILD_POSITION = "position";
@@ -77,15 +72,18 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         mContext = this;
         View mViewActivity = findViewById(R.layout.catalog_category_layout);
+        mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapterNew(mContext, null, getSupportLoaderManager(), mSortBy);
         if (mLocationId == null) {
             setCurrentCategory(0);    //Catalog
-            mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mCategoryID, mSortBy);
-            getExpandableListView().setAdapter(mTreeCategoriesAdapter);
+            mTreeCategoriesAdapter.initCategory(mCategoryID);
         } else {
             setCurrentCategory(1); //Shop
-            mTreeCategoriesAdapter = new CatalogByCategoryByShopItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mCategoryID, mLocationId, mSortBy);
-            getExpandableListView().setAdapter(mTreeCategoriesAdapter);
+            mTreeCategoriesAdapter.iniCategoryShop(mCategoryID, mLocationId);
         }
+        getExpandableListView().setAdapter(mTreeCategoriesAdapter);
+        disableOnGroupClick();
+        getExpandableListView().setOnGroupExpandListener(null);
+        getExpandableListView().setOnGroupCollapseListener(null);
         createNavigationMenuBar();
         darkView = findViewById(R.id.category_dark_view);
         darkView.setVisibility(View.GONE);
@@ -186,13 +184,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     }
 
     @Override
-    public void onGroupExpand(int groupPosition) {
-//        footerView.findViewById(R.id.sort_group).setVisibility(View.GONE);
-//        footerView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
-//        mExpandFiltr = true;
-    }
-
-    @Override
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         Cursor product = mTreeCategoriesAdapter.getChild(groupPosition, childPosition);
         Intent startIntent;
@@ -216,29 +207,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     public void onBackPressed() {
         backOrCollapse();
     }
-
-//    @Override
-//    protected void onListItemClick(ListView l, View v, int position, long id) {
-//        super.onListItemClick(l, v, position, id);
-//        Cursor product = (Cursor) l.getAdapter().getItem(position);
-//        Intent startIntent;
-//        int itemCountIndex = product.getColumnIndex("count");
-//        int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
-//        if (product.getInt(itemCountIndex) > 1) {
-//            startIntent = new Intent(this, CatalogSubCategory.class);
-//            CatalogSubCategory.categoryID = mCategoryID;
-//            CatalogSubCategory.backActivity = CatalogByCategoryActivity.class;
-//            startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
-//        } else {
-//            startIntent = new Intent(this, ProductInfoActivity.class);
-//            startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
-//        }
-//        startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
-//        startIntent.putExtra(FILTER_WHERE_CLAUSE, filter.getSQLWhereClause());
-////        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
-//        startActivity(startIntent);
-//        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -287,11 +255,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     private void initFilterListView() {
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, filter);
         filterListView = (ExpandableListView) findViewById(R.id.filtration_view);
-        //View headerView = LayoutInflater.from(this).inflate(R.layout.filter_header_layout);
-        //filterListView = (ExpandableListView) headerView.findViewById(R.id.filtration_view);
-//        filterListView.setOnGroupExpandListener(this);
         filterListView.setOnGroupCollapseListener(this);
-//        filterListView.setOnChildClickListener(this);
         filterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -358,33 +322,31 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     private void initLoadManager() {
         if(mFilterWhereClause == null){
             if(mLocationId == null){
-                getSupportLoaderManager().restartLoader(ProxyManager.TYPE_SECTION_MAIN, null, this);
+                mTypeSection = ProxyManager.TYPE_SECTION_MAIN;
             } else {
-                getSupportLoaderManager().restartLoader(ProxyManager.TYPE_SECTION_SHOP_MAIN, null, this);
+                mTypeSection = ProxyManager.TYPE_SECTION_SHOP_MAIN;
             }
-        } else {
-            getSupportLoaderManager().restartLoader(ProxyManager.TYPE_SECTION_FILTRATION_SEARCH, null, this);
-            mTreeCategoriesAdapter =
-                    new CatalogFilteredByCategoryItemTreeCursorAdapter(
-                            mContext, null, getSupportLoaderManager(), mCategoryID, mLocationId, mFilterWhereClause, mSortBy);
+        } else if(mTypeSection != ProxyManager.TYPE_SECTION_FILTRATION_SEARCH){
+            mTreeCategoriesAdapter.initFilterd(mFilterWhereClause, mLocationId, mSortBy);
+            mTypeSection = ProxyManager.TYPE_SECTION_FILTRATION_SEARCH;
         }
-        getExpandableListView().setAdapter(mTreeCategoriesAdapter);
+        if(mFilterWhereClause != null ){
+            mTreeCategoriesAdapter.setFilterWhereClause(mFilterWhereClause);
+        }
+        getSupportLoaderManager().restartLoader(mTypeSection, null, this);
     }
-
-    ///Use LoaderManager
-    private Dialog mDialog;
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                mContext.getString(R.string.dialog_select_data_message), false, false);
         return new SelectSectionsItems(mContext, i);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mTreeCategoriesAdapter.setGroupCursor(cursor);
-        mDialog.dismiss();
+        mTreeCategoriesAdapter.notifyDataSetChanged();
+        expandAllGroup();
+        Log.v("mCountCallBack", "onLoadFinished");
     }
 
     @Override

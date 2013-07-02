@@ -11,7 +11,6 @@ public class CatalogFilteredByCategoryItemTreeCursorAdapter extends AbsItemTreeC
 
     private Integer mCategoryID;
     private String mLocationID;
-    private String mFilterWhereClause;
 
     public CatalogFilteredByCategoryItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager,
                                                           Integer categoryID, String locationID, String filterWhereClause, int sortBy) {
@@ -23,6 +22,12 @@ public class CatalogFilteredByCategoryItemTreeCursorAdapter extends AbsItemTreeC
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new SelectFilteredByCategoryItems(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy);
+        switch (i){
+            case 1:
+                return new SelectFilteredByCategoryItems(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy);
+            case 2:
+                return new SelectFilteredByCategoryItems(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy);
+        }
+        return null;
     }
 }

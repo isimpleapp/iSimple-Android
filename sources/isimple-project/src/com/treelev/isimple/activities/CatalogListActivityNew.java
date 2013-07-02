@@ -40,13 +40,14 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
-        ExpandableListView listView = getExpandableListView();
-        mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, listView, false);
-        listView.addHeaderView(mHeader, null, false);
+        ExpandableListView expandableView = getExpandableListView();
+        mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, expandableView, false);
+        expandableView.addHeaderView(mHeader, null, false);
         mListCategoriesAdapter = new CatalogItemTreeCursorAdapter(CatalogListActivityNew.this, null,
                 getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
-        listView.setAdapter(mListCategoriesAdapter);
-        listView.setOnChildClickListener(this);
+        expandableView.setAdapter(mListCategoriesAdapter);
+        expandableView.setOnChildClickListener(this);
+        disableOnGroupClick();
     }
 
 
@@ -76,8 +77,8 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query.trim().length() != 0) {
-                    SearchResultActivity.categoryID = null;
-                    SearchResultActivity.locationId = null;
+                    SearchResultActivityNew.categoryID = null;
+                    SearchResultActivityNew.locationId = null;
                     return false;
                 } else
                     return true;
@@ -156,6 +157,7 @@ public class CatalogListActivityNew extends BaseExpandableListActivity
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mListCategoriesAdapter.setGroupCursor(cursor);
+        expandAllGroup();
     }
 
     @Override

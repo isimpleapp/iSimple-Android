@@ -53,6 +53,7 @@ public class SearchResultActivityNew extends  BaseExpandableListActivity
         mTreeSearchAdapter = new SearchItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mQuery, categoryID, locationId, mSortBy);
         getExpandableListView().setAdapter(mTreeSearchAdapter);
         getExpandableListView().setOnChildClickListener(this);
+        disableOnGroupClick();
     }
 
     @Override
@@ -202,6 +203,8 @@ public class SearchResultActivityNew extends  BaseExpandableListActivity
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mTreeSearchAdapter.setGroupCursor(cursor);
+        mTreeSearchAdapter.notifyDataSetChanged();
+        expandAllGroup();
     }
 
     @Override

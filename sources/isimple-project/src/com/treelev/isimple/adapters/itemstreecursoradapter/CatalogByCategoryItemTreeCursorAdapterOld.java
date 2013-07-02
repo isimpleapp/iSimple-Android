@@ -8,12 +8,12 @@ import android.support.v4.content.Loader;
 import com.treelev.isimple.cursorloaders.SelectAllItemsByCategory;
 import com.treelev.isimple.cursorloaders.SelectFeaturedByCategoryItems;
 
-public class CatalogByCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAdapter {
+public class CatalogByCategoryItemTreeCursorAdapterOld extends AbsItemTreeCursorAdapter {
 
     private Integer mCategoryID;
 
-    public CatalogByCategoryItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager,
-                                                  Integer categoryID, int sortBy) {
+    public CatalogByCategoryItemTreeCursorAdapterOld(Context context, Cursor cursor, LoaderManager manager,
+                                                     Integer categoryID, int sortBy) {
         super(context, cursor, manager, sortBy);
         mCategoryID = categoryID;
     }

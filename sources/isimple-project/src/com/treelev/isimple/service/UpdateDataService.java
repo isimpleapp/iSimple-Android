@@ -74,7 +74,7 @@ public class UpdateDataService extends Service {
         @Override
         protected void onPostExecute(List<File> fileList) {
             super.onPostExecute(fileList);
-            if (fileList.size() > 0) {
+            if (fileList != null && fileList.size() > 0) {
                 new UnzipTask(context).execute(fileList.toArray(new File[fileList.size()]));
             }
         }

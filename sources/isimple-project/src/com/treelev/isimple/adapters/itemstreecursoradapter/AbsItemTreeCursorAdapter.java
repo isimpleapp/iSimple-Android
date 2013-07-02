@@ -8,7 +8,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -244,33 +243,15 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         if(mCountCallBack == 0 && mDialog == null){
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
             mContext.getString(R.string.dialog_select_data_message), false, false);
-            Log.v("Dialog FUCK", "Start Dialog");
-            if(this instanceof CatalogByCategoryItemTreeCursorAdapterOld){
-                Log.v("Dialog FUCK", "CatalogByCategoryItemTreeCursorAdapterOld");
-            } else {
-                Log.v("Dialog FUCK", "");
-            }
         }
         ++mCountCallBack;
     }
 
     private void stopDialog(){
         --mCountCallBack;
-        Log.v("Dialog FUCK", "Stop...");
-        if(this instanceof CatalogByCategoryItemTreeCursorAdapterOld){
-            Log.v("Dialog FUCK", "CatalogByCategoryItemTreeCursorAdapterOld");
-        } else {
-            Log.v("Dialog FUCK", "123");
-        }
         if(mCountCallBack == 0 && mDialog != null){
             mDialog.dismiss();
             mDialog = null;
-            Log.v("Dialog FUCK", "Stop!!!");
-            if(this instanceof CatalogByCategoryItemTreeCursorAdapterOld){
-                Log.v("Dialog FUCK", "CatalogByCategoryItemTreeCursorAdapterOld");
-            } else {
-                Log.v("Dialog FUCK", "123___");
-            }
         }
     }
 

@@ -28,11 +28,13 @@ public class SearchResultActivityNew extends  BaseExpandableListActivity
     private String mQuery;
     private View darkView;
     private int mSortBy = ProxyManager.SORT_NAME_AZ;
+    private String mLocationId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result_new);
+        mLocationId = locationId;
         if(locationId == null ){
             setCurrentCategory(0);
         } else {
@@ -173,7 +175,8 @@ public class SearchResultActivityNew extends  BaseExpandableListActivity
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
             CatalogSubCategory.backActivity = CatalogListActivity.class;
-            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(itemDrinkIdIndex));
+            startIntent.putExtra(CatalogByCategoryActivityNew.DRINK_ID, product.getString(itemDrinkIdIndex));
+            startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));

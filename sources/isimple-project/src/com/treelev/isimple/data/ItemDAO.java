@@ -121,60 +121,51 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getItemsByDrinkId(String drinkId, String orderByField) {
+    public Cursor getItemsByDrinkId(String drinkId, String locationID, String orderByField) {
         open();
+        String strLocationID = "";
+        String strInnerJoin = "";
+        if(locationID != null){
+            strLocationID = String.format("AND location_id = '%s'", locationID);
+            strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id ";
+        }
         String orderBy = "";
         if (orderByField != null) {
-//            orderBy = String.format(FORMAT_ORDER_BY, orderByField);
             orderBy = "ORDER BY " + orderByField + ", year";
         }
-//        String from = DatabaseSqlHelper.ITEM_TABLE;
-//        String where = String.format(COMPARE_STRING,
-//                DatabaseSqlHelper.ITEM_DRINK_ID,
-//                drinkId);
-//        String selectSql = String.format(SELECT_ITEMS_FROM_DRINK_ID,
-//                DatabaseSqlHelper.ITEM_ID + " as _id",
-//                DatabaseSqlHelper.ITEM_NAME,
-//                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
-//                DatabaseSqlHelper.ITEM_VOLUME,
-//                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME,
-//                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
-//                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
-//                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-//                DatabaseSqlHelper.ITEM_PRICE,
-//                DatabaseSqlHelper.ITEM_YEAR,
-//                DatabaseSqlHelper.ITEM_QUANTITY,
-//                DatabaseSqlHelper.ITEM_COLOR,
-//                DatabaseSqlHelper.ITEM_DRINK_ID,
-//                DatabaseSqlHelper.ITEM_IS_FAVOURITE,
-//                from,
-//                where,
-//                orderBy);
-        String formatScript = "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year,  quantity, color, drink_id, is_favourite " +
-                "FROM item " +
+        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year,  quantity, color, drink_id, is_favourite " +
+                "FROM item AS t1 %S " +
                 "WHERE drink_id = '%s' " +
                 "AND NOT(item_left_overs IS NULL) " +
+                " %s " +
                 "%s";
-        String selectSql = String.format(formatScript, drinkId, orderBy);
+        String selectSql = String.format(formatScript, strInnerJoin, drinkId, strLocationID, orderBy);
         Log.v("SQL_QUERY getItemsByDrinkId(String drinkId, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getItemsByDrinkId(String drinkId, String filterQuery, String orderByField) {
+    public Cursor getItemsByDrinkId(String drinkId, String filterQuery, String locationID, String orderByField) {
         open();
+        String strLocationID = "";
+        String strInnerJoin = "";
+        if(locationID != null){
+            strLocationID = String.format("AND location_id = '%s'", locationID);
+            strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id ";
+        }
+
         String orderBy = "";
         if (orderByField != null) {
-//            orderBy = String.format(FORMAT_ORDER_BY, orderByField);
             orderBy = "ORDER BY " + orderByField + ", year";
         }
-        String formatSelectScript = "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
+        String formatSelectScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
                 "drink_category, price, year,  " +
                 "quantity, color, drink_id, is_favourite " +
-                "FROM item " +
+                "FROM item AS t1 %s " +
                 "WHERE drink_id = '%s' AND (%s) " +
                 "AND NOT(item_left_overs IS NULL) " +
+                " %s " +
                 " %s";
-        String selectSql = String.format(formatSelectScript, drinkId, filterQuery, orderBy);
+        String selectSql = String.format(formatSelectScript, strInnerJoin, drinkId, filterQuery, strLocationID, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
 

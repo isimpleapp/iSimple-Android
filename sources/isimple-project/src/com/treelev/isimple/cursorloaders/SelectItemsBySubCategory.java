@@ -38,9 +38,9 @@ public class SelectItemsBySubCategory extends CursorLoader {
                 cursor = getProxyManager().getItemDeprecatedByBarcode(mBarcode, mSortBy);
             }
         } else if(!TextUtils.isEmpty(mFilterWhereClause)) {
-            cursor = getProxyManager().getItemsByDrinkId(mDrinkID, mFilterWhereClause, mSortBy);
+            cursor = getProxyManager().getItemsByDrinkId(mDrinkID, mFilterWhereClause, mLocationId, mSortBy);
         } else {
-            cursor = getProxyManager().getItemsByDrinkId(mDrinkID, mSortBy);
+            cursor = getProxyManager().getItemsByDrinkId(mDrinkID, mLocationId, mSortBy);
         }
         if(cursor != null){
             cursor.getCount();

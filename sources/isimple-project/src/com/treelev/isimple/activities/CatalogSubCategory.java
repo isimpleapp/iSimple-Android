@@ -44,8 +44,6 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
             setCurrentCategory(1); //Shop
         }
         createNavigationMenuBar();
-//        RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
-//        rg.setOnCheckedChangeListener(this);
         View mDarkView = findViewById(R.id.category_dark_view);
         mDarkView.setVisibility(View.GONE);
         mDarkView.setOnClickListener(new View.OnClickListener() {
@@ -89,19 +87,6 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
-
-//    @Override
-//    public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
-//        switch (rgb) {
-//            case R.id.alphabet_sort:
-//                mSortBy = ProxyManager.SORT_NAME_AZ;
-//                break;
-//            case R.id.price_sort:
-//                mSortBy = ProxyManager.SORT_PRICE_UP;
-//                break;
-//        }
-//        getSupportLoaderManager().restartLoader(0, null, this);
-//    }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {

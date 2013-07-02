@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -40,7 +39,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     public final static String DRINK_ID = "drink_id";
     public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
     private Cursor cItems;
-    private CatalogByCategoryItemTreeCursorAdapterNew mTreeCategoriesAdapter;
+    private CatalogByCategoryItemTreeCursorAdapter mTreeCategoriesAdapter;
     private ExpandableListView filterListView;
     private View footerView;
     private View darkView;
@@ -69,10 +68,10 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout_new);
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
-        mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
+        mCategoryID = getIntent().getIntExtra(CatalogListActivityNew.CATEGORY_ID, -1);
         mContext = this;
         View mViewActivity = findViewById(R.layout.catalog_category_layout);
-        mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapterNew(mContext, null, getSupportLoaderManager(), mSortBy);
+        mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
         if (mLocationId == null) {
             setCurrentCategory(0);    //Catalog
             mTreeCategoriesAdapter.initCategory(mCategoryID);
@@ -193,7 +192,9 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
             startIntent = new Intent(this, CatalogSubCategory.class);
             CatalogSubCategory.categoryID = null;
             CatalogSubCategory.backActivity = CatalogListActivity.class;
-            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(itemDrinkIdIndex));
+            startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
+            startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
+            startIntent.putExtra(FILTER_WHERE_CLAUSE, mFilterWhereClause);
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
@@ -346,7 +347,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         mTreeCategoriesAdapter.setGroupCursor(cursor);
         mTreeCategoriesAdapter.notifyDataSetChanged();
         expandAllGroup();
-        Log.v("mCountCallBack", "onLoadFinished");
     }
 
     @Override

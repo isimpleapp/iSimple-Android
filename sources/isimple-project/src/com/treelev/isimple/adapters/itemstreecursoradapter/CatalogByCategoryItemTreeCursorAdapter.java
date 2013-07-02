@@ -10,13 +10,13 @@ import com.treelev.isimple.cursorloaders.SelectFeaturedByCategoryItems;
 import com.treelev.isimple.cursorloaders.SelectFilteredByCategoryItems;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
-public class CatalogByCategoryItemTreeCursorAdapterNew extends AbsItemTreeCursorAdapter{
+public class CatalogByCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAdapter{
 
     private Integer mCategoryID;
     private String mLocationID;
     private int mTypeSection;
 
-    public CatalogByCategoryItemTreeCursorAdapterNew(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
+    public CatalogByCategoryItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
         super(context, cursor, manager, sortBy);
     }
 

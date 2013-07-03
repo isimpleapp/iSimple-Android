@@ -55,12 +55,7 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
         mFilterWhereClause = getIntent().getStringExtra(CatalogListActivity.FILTER_WHERE_CLAUSE);
         mListSubCategoriesAdapter = new CatalogItemCursorAdapter(null, CatalogSubCategory.this, false, true);
         getListView().setAdapter(mListSubCategoriesAdapter);
-    }
-
-    @Override
-    protected void onResume() {
         getSupportLoaderManager().restartLoader(0, null, this);
-        super.onResume();
     }
 
     @Override

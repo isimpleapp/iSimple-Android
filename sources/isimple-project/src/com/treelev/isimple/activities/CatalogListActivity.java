@@ -50,6 +50,8 @@ public class CatalogListActivity extends BaseExpandableListActivity
         expandableView.setAdapter(mListCategoriesAdapter);
         expandableView.setOnChildClickListener(this);
         disableOnGroupClick();
+
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
@@ -62,7 +64,6 @@ public class CatalogListActivity extends BaseExpandableListActivity
     @Override
     protected void onResume() {
         startUpdateService();
-        getSupportLoaderManager().restartLoader(0, null, this);
         super.onResume();
     }
 

@@ -127,14 +127,14 @@ public class ItemDAO extends BaseDAO {
         String strInnerJoin = "";
         if(locationID != null){
             strLocationID = String.format("AND location_id = '%s'", locationID);
-            strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id ";
+            strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t0 ON item.item_id = t0.item_id ";
         }
         String orderBy = "";
         if (orderByField != null) {
             orderBy = "ORDER BY " + orderByField + ", year";
         }
-        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year,  quantity, color, drink_id, is_favourite " +
-                "FROM item AS t1 %S " +
+        String formatScript = "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year,  quantity, color, drink_id, is_favourite " +
+                "FROM item %S " +
                 "WHERE drink_id = '%s' " +
                 "AND NOT(item_left_overs IS NULL) " +
                 " %s " +
@@ -150,17 +150,17 @@ public class ItemDAO extends BaseDAO {
         String strInnerJoin = "";
         if(locationID != null){
             strLocationID = String.format("AND location_id = '%s'", locationID);
-            strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id ";
+            strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t0 ON item.item_id = t0.item_id ";
         }
 
         String orderBy = "";
         if (orderByField != null) {
             orderBy = "ORDER BY " + orderByField + ", year";
         }
-        String formatSelectScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
+        String formatSelectScript = "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
                 "drink_category, price, year,  " +
                 "quantity, color, drink_id, is_favourite " +
-                "FROM item AS t1 %s " +
+                "FROM item %s " +
                 "WHERE drink_id = '%s' AND (%s) " +
                 "AND NOT(item_left_overs IS NULL) " +
                 " %s " +

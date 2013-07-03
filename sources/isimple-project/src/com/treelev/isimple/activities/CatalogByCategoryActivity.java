@@ -88,13 +88,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         darkView.setOnClickListener(null);
         filter = initFilter();
         initFilterListView();
-
-    }
-
-    @Override
-    protected void onResume() {
         initLoadManager();
-        super.onResume();
     }
 
     @Override

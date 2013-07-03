@@ -56,12 +56,7 @@ public class SearchResultActivity extends  BaseExpandableListActivity
         getExpandableListView().setAdapter(mTreeSearchAdapter);
         getExpandableListView().setOnChildClickListener(this);
         disableOnGroupClick();
-    }
-
-    @Override
-    protected void onResume() {
         getSupportLoaderManager().restartLoader(0, null, this);
-        super.onResume();
     }
 
     @Override

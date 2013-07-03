@@ -54,15 +54,15 @@ public class FavoritesActivity extends BaseListActivity
         mListAdapter = new CatalogItemCursorAdapter(null, this, false, false);
         mListAdapter.setDeleteItemsId(mDeleteItemsId);
         getListView().setAdapter(mListAdapter);
-    }
-
-    @Override
-    protected void onResume() {
         getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
-        super.onResume();
-        updateActivity();
-
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        updateActivity();
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

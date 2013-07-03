@@ -321,13 +321,13 @@ public class ProxyManager {
         } else {
             BaseDAO dao =
                     (id == ItemDAO.ID) ? new ItemDAO(context) :
-                            (id == ItemAvailabilityDAO.ID) ? new ItemAvailabilityDAO(context) :
-                                    (id == ShopDAO.ID) ? new ShopDAO(context) :
-                                            (id == ChainDAO.ID) ? new ChainDAO(context) :
-                                                    (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) :
-                                                            (id == ShoppingCartDAO.ID) ? new ShoppingCartDAO(context) :
-                                                                    (id == DeliveryZoneDAO.ID) ? new DeliveryZoneDAO(context) :
-                                                                            (id == SectionsItemsDAO.ID) ? new SectionsItemsDAO(context) : null;
+                    (id == ItemAvailabilityDAO.ID) ? new ItemAvailabilityDAO(context) :
+                    (id == ShopDAO.ID) ? new ShopDAO(context) :
+                    (id == ChainDAO.ID) ? new ChainDAO(context) :
+                    (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) :
+                    (id == ShoppingCartDAO.ID) ? new ShoppingCartDAO(context) :
+                    (id == DeliveryZoneDAO.ID) ? new DeliveryZoneDAO(context) :
+                    (id == SectionsItemsDAO.ID) ? new SectionsItemsDAO(context) : null;
             if (dao != null) {
                 mdao.put(id, dao);
                 return dao;
@@ -404,5 +404,11 @@ public class ProxyManager {
             }
             mdao.clear();
         }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        release();
     }
 }

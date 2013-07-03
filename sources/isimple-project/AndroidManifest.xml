@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.treelev.map.permission.MAPS_RECEIVE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".app.ISimpleApp"
                  android:theme="@style/iSimpleStyle">
         <activity android:name=".activities.CatalogListActivity" android:screenOrientation="portrait">
@@ -61,6 +62,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="org.acra.CrashReportDialog"
+                  android:theme="@android:style/Theme.Dialog"
+                  android:launchMode="singleInstance"
+                  android:excludeFromRecents="true"
+                  android:finishOnTaskLaunch="true" />
         <!--<activity android:name=".activities.TestParsingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

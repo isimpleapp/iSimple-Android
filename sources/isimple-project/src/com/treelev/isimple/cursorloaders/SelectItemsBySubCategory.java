@@ -2,11 +2,9 @@ package com.treelev.isimple.cursorloaders;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.content.CursorLoader;
 import android.text.TextUtils;
-import com.treelev.isimple.utils.managers.ProxyManager;
 
-public class SelectItemsBySubCategory extends CursorLoader {
+public class SelectItemsBySubCategory extends BaseCursorLoader {
 
     private ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
     private Integer mCategoryID;
@@ -14,14 +12,11 @@ public class SelectItemsBySubCategory extends CursorLoader {
     private String mFilterWhereClause;
     private String mLocationId;
     private int mSortBy;
-    private Context mContext;
-    private ProxyManager mProxyManager;
     private String mBarcode;
 
-    public SelectItemsBySubCategory(Context context, Integer categaryID, String drinkID, String filterWhereClause, String locationId, String barcode, int sortBy) {
+    public SelectItemsBySubCategory(Context context, Integer categoryID, String drinkID, String filterWhereClause, String locationId, String barcode, int sortBy) {
         super(context);
-        mContext = context;
-        mCategoryID = categaryID;
+        mCategoryID = categoryID;
         mDrinkID = drinkID;
         mFilterWhereClause = filterWhereClause;
         mLocationId = locationId;
@@ -47,12 +42,5 @@ public class SelectItemsBySubCategory extends CursorLoader {
             cursor.registerContentObserver(mObserver);
         }
         return cursor;
-    }
-
-    private ProxyManager getProxyManager() {
-        if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(mContext);
-        }
-        return mProxyManager;
     }
 }

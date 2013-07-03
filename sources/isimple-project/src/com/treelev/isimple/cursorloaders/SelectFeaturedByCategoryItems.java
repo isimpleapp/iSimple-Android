@@ -2,23 +2,18 @@ package com.treelev.isimple.cursorloaders;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.content.CursorLoader;
 import android.text.TextUtils;
-import com.treelev.isimple.utils.managers.ProxyManager;
 
-public class SelectFeaturedByCategoryItems  extends CursorLoader {
+public class SelectFeaturedByCategoryItems extends BaseCursorLoader {
 
     private ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
     private Integer mCategoryID;
     private String mFilterWhereClause;
     private String mLocationId;
     private int mSortBy;
-    private Context mContext;
-    private ProxyManager mProxyManager;
 
     public SelectFeaturedByCategoryItems(Context context, Integer categaryID, String locationId, int sortBy) {
         super(context);
-        mContext = context;
         mCategoryID = categaryID;
         mLocationId = locationId;
         mSortBy = sortBy;
@@ -37,12 +32,5 @@ public class SelectFeaturedByCategoryItems  extends CursorLoader {
             cursor.registerContentObserver(mObserver);
         }
         return cursor;
-    }
-
-    private ProxyManager getProxyManager() {
-        if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(mContext);
-        }
-        return mProxyManager;
     }
 }

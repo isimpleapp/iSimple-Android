@@ -90,7 +90,7 @@ public class ShopAndChainsParser implements Parser {
                                 } else if (xmlPullParser.getName().equals(LOCATION_CHAIN_ID_VALUE_TAG)) {
                                     shop.setChainID(xmlPullParser.nextText());
                                 } else if (xmlPullParser.getName().equals(LOCATION_TYPE_VALUE_TAG)) {
-                                    shop.setLocationType(LocationType.getLocationType(xmlPullParser.nextText()));
+                                    shop.setLocationType(LocationType.getLocationType(Utils.parseInteger(xmlPullParser.nextText())));
                                 } else if (xmlPullParser.getName().equals(LOCATION_PRESENCE_PERCENTAGE_VALUE_TAG)) {
                                     shop.setPresencePercentage(Utils.parseFloat(xmlPullParser.nextText()));
                                 } else {

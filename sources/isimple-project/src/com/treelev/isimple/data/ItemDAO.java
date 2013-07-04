@@ -73,14 +73,26 @@ public class ItemDAO extends BaseDAO {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, orderByField);
         }
-        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, MIN(price) as price, year, quantity, color, " +
-                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count " +
-                "FROM item AS t1, (SELECT DISTINCT * FROM featured_item ) AS t2  " +
-                "WHERE t1.item_id = t2.item_id AND category_id = %s " +
-                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
-                "GROUP BY drink_id  %s";
+        String formatScript = "SELECT * " +
+                "FROM " +
+                    "(" +
+                        "SELECT t0.*, MIN(price) AS price, COUNT(t0.drink_id) AS count " +
+                        "FROM " +
+                        "(" +
+                            "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs FROM item AS t1, (SELECT DISTINCT * FROM featured_item ) AS t2 WHERE t1.item_id = t2.item_id AND category_id = %s" +
+                        ") " +
+                        "AS t0 " +
+                        "GROUP BY t0.drink_id " +
+                    ") " +
+                "WHERE item_left_overs > 0 " +
+                "%s";
+//                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, MIN(price) as price, year, quantity, color, " +
+//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count " +
+//                "FROM item AS t1, (SELECT DISTINCT * FROM featured_item ) AS t2  " +
+//                "WHERE t1.item_id = t2.item_id AND category_id = %s " +
+//                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
+//                "GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript, categoryId, orderBy);
-        Log.v("SQL_QUERY getFeaturedItemsByCategory(int categoryId, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -91,14 +103,25 @@ public class ItemDAO extends BaseDAO {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, orderByField);
         }
-        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, MIN(price) as price, year, quantity, color, " +
-                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count " +
-                "FROM item AS t1 " +
-                "WHERE category_id = %s " +
-                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
-                "GROUP BY drink_id  %s";
+        String formatScript = "SELECT * " +
+                "FROM " +
+                        "(" +
+                        "SELECT t0.*, MIN(price) AS price, COUNT(t0.drink_id) AS count " +
+                        "FROM " +
+                            "(" +
+                                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs FROM item AS t1 WHERE category_id = %s" +
+                            ") AS t0 " +
+                        "GROUP BY t0.drink_id " +
+                        ") " +
+                "WHERE item_left_overs > 0 " +
+                "%s";
+//                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, MIN(price) as price, year, quantity, color, " +
+//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count " +
+//                "FROM item AS t1 " +
+//                "WHERE category_id = %s " +
+//                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
+//                "GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript, categoryId, orderBy);
-        Log.v("SQL_QUERY getFeaturedItemsByCategory(int categoryId, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -110,13 +133,25 @@ public class ItemDAO extends BaseDAO {
             orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
         }
 
-        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category as drink_category, MIN(t1.price) as price, year, quantity, color, " +
-                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, " +
-                "COUNT(drink_id) as count " +
-                "FROM item AS t1 INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id " +
-                "WHERE t1.drink_category = %s AND location_id = '%s' " +
-                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
-                "GROUP BY drink_id  %s";
+        String formatScript = "SELECT * " +
+                "FROM " +
+                    "(" +
+                        "SELECT t0.*, MIN(price) AS price, COUNT(t0.drink_id) AS count " +
+                        "FROM " +
+                        "(" +
+                            "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category as drink_category, t1.price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs FROM item AS t1 INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id WHERE t1.drink_category = %s AND location_id = '%s' " +
+                        ") AS t0 " +
+                        "GROUP BY t0.drink_id " +
+                    ") " +
+                "WHERE item_left_overs > 0 " +
+                "%s";
+//                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category as drink_category, MIN(t1.price) as price, year, quantity, color, " +
+//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, " +
+//                "COUNT(drink_id) as count " +
+//                "FROM item AS t1 INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id " +
+//                "WHERE t1.drink_category = %s AND location_id = '%s' " +
+//                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
+//                "GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript, categoryId, locationId, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -136,7 +171,6 @@ public class ItemDAO extends BaseDAO {
         String formatScript = "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year,  quantity, color, drink_id, is_favourite " +
                 "FROM item %S " +
                 "WHERE drink_id = '%s' " +
-                "AND NOT(item_left_overs IS NULL) " +
                 " %s " +
                 "%s";
         String selectSql = String.format(formatScript, strInnerJoin, drinkId, strLocationID, orderBy);
@@ -162,7 +196,6 @@ public class ItemDAO extends BaseDAO {
                 "quantity, color, drink_id, is_favourite " +
                 "FROM item %s " +
                 "WHERE drink_id = '%s' AND (%s) " +
-                "AND NOT(item_left_overs IS NULL) " +
                 " %s " +
                 " %s";
         String selectSql = String.format(formatSelectScript, strInnerJoin, drinkId, filterQuery, strLocationID, orderBy);
@@ -181,15 +214,55 @@ public class ItemDAO extends BaseDAO {
             strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id ";
         }
         whereClause = whereClause.replace("item", "t1");
-        String selectSql = String.format(
-                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
-                        "drink_category, MIN(price) as price, year, quantity, color, " +
-                        "(case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, COUNT(t1.drink_id) as count " +
-                        "FROM item AS t1 %4$s " +
-                        "WHERE t1.drink_category=%1$s AND %2$s " +
-                        "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
-                        " %5$s" +
-                        "GROUP BY drink_id ORDER BY %3$s",
+        String formatScript = "SELECT * " +
+                "FROM " +
+                    "(" +
+                    "SELECT t0.*, MIN(price) AS price, COUNT(t0.drink_id) AS count " +
+                    "FROM " +
+                        "(SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs FROM item AS t1 %4$s WHERE t1.drink_category=%1$s AND %2$s %5$s) AS t0 GROUP BY t0.drink_id " +
+                    ")" +
+                "WHERE item_left_overs > 0 " +
+                "ORDER BY %3$s";
+//        "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
+//                "drink_category, MIN(price) as price, year, quantity, color, " +
+//                "(case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, COUNT(t1.drink_id) as count " +
+//                "FROM item AS t1 %4$s " +
+//                "WHERE t1.drink_category=%1$s AND %2$s " +
+//                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
+//                " %5$s" +
+//                "GROUP BY drink_id ORDER BY %3$s";
+                String selectSql = String.format(formatScript,
+                categoryId, whereClause, orderByField, strInnerJoin, strLocationID);
+        open();
+        return getDatabase().rawQuery(selectSql, null);
+    }
+
+    public Cursor getFilteredItemsByCategoryPreOrder(Integer categoryId, String locationId, String whereClause, String orderByField) {
+        String strLocationID = "";
+        String strInnerJoin = "";
+        if(locationId != null){
+            strLocationID = String.format("AND location_id = '%s'", locationId);
+            strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id ";
+        }
+        whereClause = whereClause.replace("item", "t1");
+        String formatScript = "SELECT * " +
+                "FROM " +
+                "(" +
+                    "SELECT t0.*, MIN(price) AS price, COUNT(t0.drink_id) AS count " +
+                    "FROM " +
+                        "(SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs FROM item AS t1 %4$s WHERE t1.drink_category=%1$s AND %2$s %5$s) AS t0 GROUP BY t0.drink_id " +
+                ")" +
+                "WHERE item_left_overs = 0 " +
+                "ORDER BY %3$s";
+//        "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
+//                "drink_category, MIN(price) as price, year, quantity, color, " +
+//                "(case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, COUNT(t1.drink_id) as count " +
+//                "FROM item AS t1 %4$s " +
+//                "WHERE t1.drink_category=%1$s AND %2$s " +
+//                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
+//                " %5$s" +
+//                "GROUP BY drink_id ORDER BY %3$s";
+        String selectSql = String.format(formatScript,
                 categoryId, whereClause, orderByField, strInnerJoin, strLocationID);
         open();
         return getDatabase().rawQuery(selectSql, null);
@@ -226,11 +299,15 @@ public class ItemDAO extends BaseDAO {
             where = String.format(HOOKS, where);
             where = String.format(AND, whereCategory, where);
         }
-        String formatScript = "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume,  t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, 0 as image, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, COUNT(t1.drink_id) AS count " +
-                "FROM item AS t1  " +
-                "WHERE %s AND " +
-                "EXISTS(SELECT 1 FROM item AS t2 WHERE t1.item_id=t2.item_id AND t2.drink_id = t2.drink_id AND t2.item_left_overs > 0)" +
-                "GROUP BY drink_id  %s";
+        String formatScript = "SELECT * " +
+                "FROM " +
+                "(" +
+                    "SELECT t0.*, MIN(price) AS price, COUNT(t0.drink_id) AS count " +
+                    "FROM (SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs FROM item  WHERE %s ) AS t0 " +
+                    "GROUP BY t0.drink_id " +
+                ")" +
+                " WHERE item_left_overs > 0 " +
+                "%s";
         String selectSql = String.format(formatScript,
                 where,
                 orderBy);
@@ -242,7 +319,7 @@ public class ItemDAO extends BaseDAO {
         String orderBy = "";
         if (orderByField != null) {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
+            orderBy = String.format(formatOrder, orderByField);
         }
         String join = String.format(FORMAT_JOIN_TWO_TABLE,
                 TABLE_ONE,
@@ -259,11 +336,14 @@ public class ItemDAO extends BaseDAO {
         where = String.format(AND, where, whereShop);
         String whereSearch = String.format(HOOKS, getWhereBySearch(query));
         where = String.format(AND, where, whereSearch);
-        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, MIN(t1.price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) AS count " +
-                "FROM item AS t1, item_availability AS t2 " +
-                " WHERE %s AND " +
-                "EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
-                "GROUP BY drink_id %s";
+        String formatScript = "SELECT * " +
+                "FROM " +
+                    "(SELECT t0.*, MIN(t0.price) AS price, COUNT(t0.drink_id) AS count " +
+                    "FROM (SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, t1.price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs FROM item AS t1, item_availability AS t2 WHERE %s ) AS t0 " +
+                    "GROUP BY t0.drink_id " +
+                ")" +
+                " WHERE item_left_overs > 0 " +
+                "%s";
         String selectSql = String.format(formatScript,
                 where,
                 orderBy);
@@ -286,12 +366,21 @@ public class ItemDAO extends BaseDAO {
             where = String.format(HOOKS, where);
             where = String.format(AND, whereCategory, where);
         }
-        String formatScript = "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume,  t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, 0 as image, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, COUNT(t1.drink_id) AS count " +
-                "FROM item AS t1  " +
-                "WHERE %s " +
-                "GROUP BY drink_id  " +
-                "HAVING t1.item_left_overs = 0 " +
-                "%s";
+        String formatScript = "SELECT * " +
+                        "FROM " +
+                        "(" +
+                        "SELECT t0.*, MIN(price) AS price, COUNT(t0.drink_id) AS count " +
+                        "FROM (SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs FROM item  WHERE %s ) AS t0 " +
+                        "GROUP BY t0.drink_id " +
+                        ")" +
+                        " WHERE item_left_overs = 0 " +
+                        "%s";
+//                "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume,  t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, 0 as image, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, COUNT(t1.drink_id) AS count " +
+//                "FROM item AS t1  " +
+//                "WHERE %s " +
+//                "GROUP BY drink_id  " +
+//                "HAVING t1.item_left_overs = 0 " +
+//                "%s";
         String selectSql = String.format(formatScript,
                 where,
                 orderBy);
@@ -303,7 +392,7 @@ public class ItemDAO extends BaseDAO {
         String orderBy = "";
         if (orderByField != null) {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
+            orderBy = String.format(formatOrder, orderByField);
         }
         String join = String.format(FORMAT_JOIN_TWO_TABLE,
                 TABLE_ONE,
@@ -320,12 +409,22 @@ public class ItemDAO extends BaseDAO {
         where = String.format(AND, where, whereShop);
         String whereSearch = String.format(HOOKS, getWhereBySearch(query));
         where = String.format(AND, where, whereSearch);
-        String formatScript = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, MIN(t1.price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) AS count " +
-                "FROM item AS t1, item_availability AS t2 " +
-                " WHERE %s " +
-                "GROUP BY drink_id " +
-                "HAVING t1.item_left_overs = 0 " +
+        String formatScript = "SELECT * " +
+                "FROM " +
+                    "(" +
+                    "SELECT t0.*, MIN(t0.price) AS price, COUNT(t0.drink_id) AS count " +
+                    "FROM " +
+                        "(SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, t1.price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs FROM item AS t1, item_availability AS t2 WHERE %s ) AS t0 " +
+                    "GROUP BY t0.drink_id " +
+                    ")" +
+                " WHERE item_left_overs = 0 " +
                 "%s";
+//                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, MIN(t1.price) as price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) AS count " +
+//                "FROM item AS t1, item_availability AS t2 " +
+//                " WHERE %s " +
+//                "GROUP BY drink_id " +
+//                "HAVING t1.item_left_overs = 0 " +
+//                "%s";
         String selectSql = String.format(formatScript,
                 where,
                 orderBy);
@@ -818,12 +917,19 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getFeaturedMainItems() {
         open();
-        String selectSql = "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, MIN(price) as price, year, quantity, color, " +
-                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count " +
-                "FROM item AS t1, (SELECT DISTINCT *  FROM featured_item ) AS t2 " +
-                "WHERE t1.item_id = t2.item_id AND category_id = -1 " +
-                "GROUP BY drink_id";
-        Log.v("SQL_QUERY getFeaturedMainItems()", selectSql);
+        String selectSql = "SELECT * " +
+                "FROM " +
+                "(" +
+                    "SELECT t0.*, MIN(price) as price, COUNT(t0.drink_id) AS count " +
+                     "FROM " +
+                        "(SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year, quantity, color,(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs FROM item AS t1, (SELECT DISTINCT *  FROM featured_item ) AS t2 WHERE t1.item_id = t2.item_id AND category_id = -1) AS t0 " +
+                    "GROUP BY t0.drink_id ) " +
+                "WHERE item_left_overs > 0";
+//                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, MIN(price) as price, year, quantity, color, " +
+//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count " +
+//                "FROM item AS t1, (SELECT DISTINCT *  FROM featured_item ) AS t2 " +
+//                "WHERE t1.item_id = t2.item_id AND category_id = -1 " +
+//                "GROUP BY drink_id";
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -833,15 +939,26 @@ public class ItemDAO extends BaseDAO {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, orderByField);
         }
-        String formatScript = "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, " +
-                "COUNT(t1.drink_id) as count " +
-                "FROM item AS t1 " +
-                "WHERE EXISTS(SELECT 1 FROM item AS t2 WHERE t1.item_id=t2.item_id AND t1.drink_id = t2.drink_id AND t2.item_left_overs > 0) " +
-                "GROUP BY t1.drink_id "+
+        String formatScript = "SELECT * " +
+                "FROM " +
+                    "(" +
+                    "SELECT t0.*, MIN(price) as price, COUNT(t0.drink_id) AS count " +
+                    "FROM " +
+                        "(SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs " +
+                        "FROM item ) " +
+                    " AS t0 " +
+                    "GROUP BY t0.drink_id " +
+                ") " +
+                "WHERE item_left_overs > 0 " +
                 "%s";
+//                "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, " +
+//                "COUNT(t1.drink_id) as count " +
+//                "FROM item AS t1 " +
+//                "WHERE EXISTS(SELECT 1 FROM item AS t2 WHERE t1.item_id=t2.item_id AND t1.drink_id = t2.drink_id AND t2.item_left_overs > 0) " +
+//                "GROUP BY t1.drink_id "+
+//                "%s";
         open();
         String selectSql = String.format(formatScript, orderBy);
-        Log.v("SQL_QUERY getFeaturedMainItems()", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -851,15 +968,26 @@ public class ItemDAO extends BaseDAO {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
             orderBy = String.format(formatOrder, orderByField);
         }
-        String formatScript = "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, COUNT(t1.drink_id) as count " +
-                "FROM item AS t1 " +
-                "WHERE EXISTS(SELECT 1 FROM item AS t2 WHERE t1.item_id=t2.item_id AND t1.drink_id = t2.drink_id AND t2.item_left_overs > 0) " +
-                "AND t1.drink_category = %s " +
-                "GROUP BY t1.drink_id " +
+        String formatScript = "SELECT * " +
+                "FROM " +
+                    "(" +
+                        "SELECT t0.*, MIN(price) AS price, COUNT(t0.drink_id) AS count " +
+                        "FROM " +
+                        "(" +
+                            "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, t1.price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, item_left_overs FROM item AS t1 WHERE t1.drink_category = %s" +
+                        ") AS t0 " +
+                        "GROUP BY t0.drink_id " +
+                    ") " +
+                "WHERE item_left_overs > 0 " +
                 "%s";
+//                "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, COUNT(t1.drink_id) as count " +
+//                "FROM item AS t1 " +
+//                "WHERE EXISTS(SELECT 1 FROM item AS t2 WHERE t1.item_id=t2.item_id AND t1.drink_id = t2.drink_id AND t2.item_left_overs > 0) " +
+//                "AND t1.drink_category = %s " +
+//                "GROUP BY t1.drink_id " +
+//                "%s";
         open();
         String selectSql = String.format(formatScript, categoryId, orderBy);
-        Log.v("SQL_QUERY getFeaturedMainItems()", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 

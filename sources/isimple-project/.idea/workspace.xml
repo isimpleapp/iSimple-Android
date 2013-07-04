@@ -28,24 +28,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="IS - 214">
-      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\adapters\itemstreecursoradapter\CatalogByCategoryByShopItemTreeCursorAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\adapters\itemstreecursoradapter\CatalogByCategoryItemTreeCursorAdapterOld.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivityNew.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivityNew.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItemsPreOrder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivityNew.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivityNew.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectItemsBySubCategory.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectItemsBySubCategory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/iSimple.iml" afterPath="$PROJECT_DIR$/iSimple.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\adapters\itemstreecursoradapter\CatalogByCategoryItemTreeCursorAdapterNew.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372512783499" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372696279129" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372781282921" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372937386529" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372065383426" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -97,7 +91,7 @@
     <file path="/DrinkType.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364545396341" ignored="false" />
     <file path="/DatabaseSqlHelper.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372419276313" ignored="false" />
     <file path="$PROJECT_DIR$/../PackTheSuitcase/src/com/omertex/android/suitcase/service/catalog/CatalogTable.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364810768036" ignored="false" />
-    <file path="/ItemDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372778447374" ignored="false" />
+    <file path="/ItemDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372932525917" ignored="false" />
     <file path="/Item.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371481030674" ignored="false" />
     <file path="/BaseDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371029645421" ignored="false" />
     <file path="/Shop.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369483424682" ignored="false" />
@@ -142,7 +136,7 @@
     <file path="/catalog_list_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1367083702794" ignored="false" />
     <file path="/catalog_list_resource.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365677978872" ignored="false" />
     <file path="/CatalogListActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372411175000" ignored="false" />
-    <file path="/ProxyManager.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372778129110" ignored="false" />
+    <file path="/ProxyManager.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372932715371" ignored="false" />
     <file path="/catalog_item_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371194932211" ignored="false" />
     <file path="/CatalogItem.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365692210869" ignored="false" />
     <file path="/catalog_list_header_view.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371465992739" ignored="false" />
@@ -1136,8 +1130,8 @@
     <file path="/AbsItemTreeCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372771222284" ignored="false" />
     <file path="/SearchItemTreeCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372683445063" ignored="false" />
     <file path="/SelectBySerchPreOrder.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372669252341" ignored="false" />
-    <file path="/CatalogByCategoryItemTreeCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372772933563" ignored="false" />
-    <file path="/SelectFilteredByCategoryItems.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372673896396" ignored="false" />
+    <file path="/CatalogByCategoryItemTreeCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372932580264" ignored="false" />
+    <file path="/SelectFilteredByCategoryItems.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372932558626" ignored="false" />
     <file path="/SelectAllItemsByCategory.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372679009605" ignored="false" />
     <file path="/CatalogByCategoryByShopItemTreeCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372683316505" ignored="false" />
     <file path="/CatalogFilteredByCategoryItemTreeCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372770496259" ignored="false" />
@@ -1145,6 +1139,8 @@
     <file path="/CatalogByCategoryActivityNew.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372780189579" ignored="false" />
     <file path="/ShopInfoActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372765092441" ignored="false" />
     <file path="/CatalogByCategoryItemTreeCursorAdapterNew.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372773863525" ignored="false" />
+    <file path="/splash_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372923119003" ignored="false" />
+    <file path="/SelectFilteredByCategoryItemsPreOrder.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372932677473" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1169,7 +1165,6 @@
     <sortChildren value="false" />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -1252,7 +1247,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java" line="176" class="com.treelev.isimple.activities.SearchResultActivity" package="com.treelev.isimple.activities">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java" line="169" class="com.treelev.isimple.activities.SearchResultActivity" package="com.treelev.isimple.activities">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1267,7 +1262,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFavouriteItems.java" line="22" class="com.treelev.isimple.cursorloaders.SelectFavouriteItems" package="com.treelev.isimple.cursorloaders">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFavouriteItems.java" line="17" class="com.treelev.isimple.cursorloaders.SelectFavouriteItems" package="com.treelev.isimple.cursorloaders">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1327,7 +1322,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseListActivity.java" line="54" class="com.treelev.isimple.activities.BaseListActivity" package="com.treelev.isimple.activities">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseListActivity.java" line="53" class="com.treelev.isimple.activities.BaseListActivity" package="com.treelev.isimple.activities">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1342,7 +1337,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseActivity.java" line="57" class="com.treelev.isimple.activities.BaseActivity" package="com.treelev.isimple.activities">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseActivity.java" line="55" class="com.treelev.isimple.activities.BaseActivity" package="com.treelev.isimple.activities">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1357,7 +1352,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseActivity.java" line="28" class="com.treelev.isimple.activities.BaseActivity" package="com.treelev.isimple.activities">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseActivity.java" line="27" class="com.treelev.isimple.activities.BaseActivity" package="com.treelev.isimple.activities">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1552,37 +1547,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivityNew.java" line="159" class="com.treelev.isimple.activities.SearchResultActivityNew" package="com.treelev.isimple.activities">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivityNew.java" line="207" class="com.treelev.isimple.activities.SearchResultActivityNew" package="com.treelev.isimple.activities">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectBySearch.java" line="29" class="com.treelev.isimple.cursorloaders.SelectBySearch" package="com.treelev.isimple.cursorloaders">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectBySearch.java" line="27" class="com.treelev.isimple.cursorloaders.SelectBySearch" package="com.treelev.isimple.cursorloaders">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1612,7 +1577,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivityNew.java" line="303" class="com.treelev.isimple.activities.CatalogByCategoryActivityNew$7" package="com.treelev.isimple.activities">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" line="100" class="com.treelev.isimple.activities.CatalogSubCategory" package="com.treelev.isimple.activities">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1627,37 +1592,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivityNew.java" line="341" class="com.treelev.isimple.activities.CatalogByCategoryActivityNew" package="com.treelev.isimple.activities">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" line="106" class="com.treelev.isimple.activities.CatalogSubCategory" package="com.treelev.isimple.activities">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectItemsBySubCategory.java" line="39" class="com.treelev.isimple.cursorloaders.SelectItemsBySubCategory" package="com.treelev.isimple.cursorloaders">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectItemsBySubCategory.java" line="37" class="com.treelev.isimple.cursorloaders.SelectItemsBySubCategory" package="com.treelev.isimple.cursorloaders">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1673,6 +1608,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -1681,7 +1617,120 @@
     <favorites_list name="iSimple" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="ItemDAO.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="method#getItemsByDrinkId#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getItemsByDrinkId#1;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getItemMaxPriceByCategory#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getSearchItemsByCategory#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getSearchItemsByCategory#1;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getSearchItemsByCategoryPreOrder#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getSearchItemsByCategoryPreOrder#1;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getYearsByCategory#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getRegionsByCategory#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getProductCountsByCountries#0;class#ItemDAO#0" expanded="false" />
+                <element signature="class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#compare#0;class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getRegionsByCountriesCategory#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getClassificationsByCategory#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#insertListData#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#insertListDeprecatedData#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#updatePriceList#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#insertListFeaturedData#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#deleteAllFeaturedItemData#0;class#ItemDAO#0" expanded="false" />
+                <element signature="e#43780#43851#0" expanded="false" />
+                <element signature="method#getItemById#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getItemByBarcode#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getItemDeprecatedByBarcode#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getItemByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getItemDeprecatedByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getCountBarcode#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getCountBarcodeInDeprecatedTable#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#getWinesGroupByDrinkId#0;class#ItemDAO#0" expanded="false" />
+                <element signature="method#createItem#0;class#ItemDAO#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="splash_layout.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/splash_layout.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CatalogByCategoryActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="26" selection-start="1882" selection-end="1882" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#6302#6803#0" expanded="true" />
+                <element signature="e#6792#6793#0" expanded="true" />
+                <element signature="e#11419#11715#0" expanded="true" />
+                <element signature="e#11704#11705#0" expanded="true" />
+                <element signature="e#11766#12132#0" expanded="true" />
+                <element signature="e#12121#12122#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CatalogByCategoryItemTreeCursorAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="56" column="53" selection-start="2331" selection-end="2331" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SelectFeaturedByCategoryItems.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFeaturedByCategoryItems.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="52" selection-start="949" selection-end="949" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SelectAllItemsByCategory.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectAllItemsByCategory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="53" selection-start="600" selection-end="600" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SelectFilteredByCategoryItems.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItems.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="42" selection-start="0" selection-end="42" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProxyManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="241" column="63" selection-start="11541" selection-end="11541" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -1705,22 +1754,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/layout/search_result_new.xml" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseExpandableListActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivityNew.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopInfoActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogFilteredByCategoryItemTreeCursorAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapterOld.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapterNew.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectItemsBySubCategory.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivityNew.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivityNew.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItems.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItemsPreOrder.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
+        <option value="$PROJECT_DIR$/res/layout/splash_layout.xml" />
       </list>
     </option>
   </component>
@@ -1883,62 +1932,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="adapters" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iSimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adapters" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="itemstreecursoradapter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iSimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="activities" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1961,10 +1954,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1986,12 +2011,12 @@
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="MyAvd0" />
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="Downloaded.Files.Path" value="D:\projects-android\iSimple\libs" />
+    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="options.lastSelected" value="preferences.sourceCode.XML" />
-    <property name="project.structure.side.proportion" value="0.26419467" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="project.structure.side.proportion" value="0.26419467" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="121" />
@@ -2010,20 +2035,20 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder5" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/jdom-2.0.5.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/acra-4.5.0.jar!/" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="isimple" />
     <property name="DEBUGGABLE_DEVICE" value="BX902TNSYY" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="Repository.Attach.Sources" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="Repository.Attach.Sources" value="true" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="116" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="796" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
+    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
-    <property name="AndroidLayoutSelectedEditor" value="android-designer" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="BX902TNSYY" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
@@ -2063,10 +2088,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
-            <PATH vcs="svn" revision="344">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\activities\CatalogListActivityNew.java</PATH>
-            <PATH vcs="svn" revision="344">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\activities\UpdateDataActivity.java</PATH>
-            <PATH vcs="svn" revision="344">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\app\ISimpleApp.java</PATH>
-            <PATH vcs="svn" revision="344">E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\parser\ItemAvailabilityParser.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -2074,6 +2095,13 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
+            <PATH vcs="svn" revision="354">E:\NewWork\iSimple\sources\isimple-project\res\drawable-hdpi\splash_image.png</PATH>
+            <PATH vcs="svn" revision="354">E:\NewWork\iSimple\sources\isimple-project\res\drawable-mdpi\splash_image.png</PATH>
+            <PATH vcs="svn" revision="354">E:\NewWork\iSimple\sources\isimple-project\res\drawable-mdpi\shopping_cart_change_city.png</PATH>
+            <PATH vcs="svn" revision="354">E:\NewWork\iSimple\sources\isimple-project\res\drawable-mdpi\shopping_cart_recycle_bin.png</PATH>
+            <PATH vcs="svn" revision="354">E:\NewWork\iSimple\sources\isimple-project\res\drawable-xhdpi\splash_image.png</PATH>
+            <PATH vcs="svn" revision="354">E:\NewWork\iSimple\sources\isimple-project\res\drawable-xhdpi\shopping_cart_change_city.png</PATH>
+            <PATH vcs="svn" revision="354">E:\NewWork\iSimple\sources\isimple-project\res\drawable-xhdpi\shopping_cart_recycle_bin.png</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -2196,6 +2224,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -2222,19 +2263,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -3045,7 +3073,11 @@
       <created>1372774456146</created>
       <updated>1372774456146</updated>
     </task>
-    <option name="localTasksCounter" value="166" />
+    <task id="LOCAL-00166" summary="IS - 247">
+      <created>1372781344295</created>
+      <updated>1372781344295</updated>
+    </task>
+    <option name="localTasksCounter" value="167" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3070,10 +3102,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.8270572" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22596844" sideWeight="0.8270572" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19386332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -3086,20 +3116,22 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22175732" sideWeight="0.1061693" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23672883" sideWeight="0.59693164" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24546723" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13668062" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22873083" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23849373" sideWeight="0.49928263" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26220363" sideWeight="0.49928263" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25968435" sideWeight="0.75453275" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25968435" sideWeight="0.73779637" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21896791" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.8270572" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22596844" sideWeight="0.8270572" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -3146,7 +3178,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IS - 214" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS - 247" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -3160,7 +3192,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="IS - 210" />
     <MESSAGE value="IS - 209" />
     <MESSAGE value="fixed UI" />
     <MESSAGE value="implements working with favouriteI items by means of cursorloader" />
@@ -3185,6 +3216,7 @@
     <MESSAGE value="fixed check network connectivity&#10;fixed getting IDs for devices without 3g module" />
     <MESSAGE value="IS - 214 IS - 215 IS - 216 IS - 217&#10;not final." />
     <MESSAGE value="IS - 214" />
+    <MESSAGE value="IS - 247" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -3198,129 +3230,156 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/DatabaseSqlHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="54" selection-start="1758" selection-end="1808" vertical-scroll-proportion="0.07543521">
+        <state line="33" column="21" selection-start="1392" selection-end="1392" vertical-scroll-proportion="0.2659176">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopInfoActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="69" selection-start="2808" selection-end="2808" vertical-scroll-proportion="0.38297874">
+        <state line="26" column="31" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.306">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItems.java">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="11" selection-start="603" selection-end="603" vertical-scroll-proportion="0.23782772">
+        <state line="24" column="67" selection-start="1609" selection-end="1609" vertical-scroll-proportion="0.5964912">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogFilteredByCategoryItemTreeCursorAdapter.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectBySearch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="11" selection-start="484" selection-end="484" vertical-scroll-proportion="0.30478087">
+        <state line="27" column="52" selection-start="933" selection-end="933" vertical-scroll-proportion="0.8565815">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogItemTreeCursorAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="377" selection-end="377" vertical-scroll-proportion="0.16504854">
+        <state line="23" column="36" selection-start="843" selection-end="843" vertical-scroll-proportion="0.41823444">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFeaturedMainItems.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="1470" selection-end="1470" vertical-scroll-proportion="0.39883268">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.3307393">
-          <folding>
-            <element signature="method#bindChildView#0;class#AbsItemTreeCursorAdapter#0" expanded="false" />
-            <element signature="method#organizeItemNameLabel#0;class#AbsItemTreeCursorAdapter#0" expanded="false" />
-            <element signature="method#organizeLocItemNameLabel#0;class#AbsItemTreeCursorAdapter#0" expanded="false" />
-            <element signature="method#organizeTextLabel#0;class#AbsItemTreeCursorAdapter#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="51" selection-start="558" selection-end="558" vertical-scroll-proportion="0.13229571">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="180" column="100" selection-start="7974" selection-end="7974" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="210" column="71" selection-start="8777" selection-end="8777" vertical-scroll-proportion="7.0633802">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivityNew.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="179" column="0" selection-start="6835" selection-end="6835" vertical-scroll-proportion="0.402863">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="0" selection-start="4229" selection-end="4229" vertical-scroll-proportion="0.32270917">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivityNew.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="4" selection-start="2384" selection-end="2411" vertical-scroll-proportion="0.26003823">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#onOptionsItemSelected#0;class#CatalogByCategoryActivityNew#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#CatalogByCategoryActivityNew#0" expanded="false" />
-            <element signature="method#onActivityResult#0;class#CatalogByCategoryActivityNew#0" expanded="false" />
-            <element signature="method#initFilter#0;class#CatalogByCategoryActivityNew#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectItemsBySubCategory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="1402" selection-end="1402" vertical-scroll-proportion="0.2">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="159" column="47" selection-start="9396" selection-end="9396" vertical-scroll-proportion="0.38235295">
+        <state line="15" column="50" selection-start="444" selection-end="444" vertical-scroll-proportion="0.34442836">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/SearchItemTreeCursorAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="1023" selection-end="1023" vertical-scroll-proportion="0.7476099">
+        <state line="29" column="36" selection-start="1059" selection-end="1059" vertical-scroll-proportion="0.5658466">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItemsPreOrder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="74" selection-start="1085" selection-end="1085" vertical-scroll-proportion="0.884">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItems.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="42" selection-start="0" selection-end="42" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="26" selection-start="1882" selection-end="1882" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#6302#6803#0" expanded="true" />
+            <element signature="e#6792#6793#0" expanded="true" />
+            <element signature="e#11419#11715#0" expanded="true" />
+            <element signature="e#11704#11705#0" expanded="true" />
+            <element signature="e#11766#12132#0" expanded="true" />
+            <element signature="e#12121#12122#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFeaturedByCategoryItems.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="52" selection-start="949" selection-end="949" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="53" selection-start="2331" selection-end="2331" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectAllItemsByCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="53" selection-start="600" selection-end="600" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="241" column="63" selection-start="11541" selection-end="11541" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="method#getItemsByDrinkId#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemsByDrinkId#1;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemMaxPriceByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getSearchItemsByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getSearchItemsByCategory#1;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getSearchItemsByCategoryPreOrder#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getSearchItemsByCategoryPreOrder#1;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getYearsByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getRegionsByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getProductCountsByCountries#0;class#ItemDAO#0" expanded="false" />
+            <element signature="class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#compare#0;class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getRegionsByCountriesCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getClassificationsByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#insertListData#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#insertListDeprecatedData#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#updatePriceList#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#insertListFeaturedData#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#deleteAllFeaturedItemData#0;class#ItemDAO#0" expanded="false" />
+            <element signature="e#43780#43851#0" expanded="false" />
+            <element signature="method#getItemById#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemByBarcode#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemDeprecatedByBarcode#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemDeprecatedByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getCountBarcode#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getCountBarcodeInDeprecatedTable#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getWinesGroupByDrinkId#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#createItem#0;class#ItemDAO#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/splash_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>
@@ -3376,7 +3435,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>iSimple</last-edited>
+          <last-edited>HoloEveryWhere</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -3400,7 +3459,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>jdom-2.0.5</last-edited>
+          <last-edited>acra-4.5.0</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

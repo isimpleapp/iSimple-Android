@@ -189,6 +189,17 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFilteredItemsByCategory(categoryId, locationId, query, orderByField);
     }
 
+    public Cursor getFilteredItemsByCategoryPreOrder(Integer categoryId, String query, int sortType) {
+        return getFilteredItemsByCategoryPreOrder(categoryId, null, query, sortType);
+    }
+
+    public Cursor getFilteredItemsByCategoryPreOrder(Integer categoryId, String locationId, String query, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFilteredItemsByCategoryPreOrder(categoryId, locationId, query, orderByField);
+    }
+
     public Cursor getSearchItemsByCategory(Integer categoryId, String query, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :

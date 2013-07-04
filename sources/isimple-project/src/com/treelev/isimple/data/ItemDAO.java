@@ -961,21 +961,43 @@ public class ItemDAO extends BaseDAO {
         close();
     }
 
-    public int getCountItemsByCategoryByShop(int cagegoryID, String locationID){
-        int countItem = 0;
-        String foramtSrctip = "SELECT COUNT(item.item_id) " +
-                "FROM item INNER JOIN item_availability ON item.item_id = item_availability.item_id " +
-                "WHERE drink_category = %s AND location_id = '%s'";
-        String selectSql = String.format(foramtSrctip, cagegoryID, locationID);
+    public List<Boolean> getCountItemsByCategoryByShop(String locationID){
+        ArrayList<Boolean> enableList = null;
+        String formatSrctip = "SELECT " +
+            "(SELECT COUNT(item.item_id) " +
+            "FROM item INNER JOIN item_availability ON item.item_id = item_availability.item_id " +
+            "WHERE drink_category = 0 AND location_id = '%1$s') AS C0, " +
+            "(SELECT COUNT(item.item_id) " +
+            "FROM item INNER JOIN item_availability ON item.item_id = item_availability.item_id " +
+            "WHERE drink_category = 1 AND location_id = '%1$s') AS C1, " +
+            "(SELECT COUNT(item.item_id) " +
+            "FROM item INNER JOIN item_availability ON item.item_id = item_availability.item_id " +
+            "WHERE drink_category = 2 AND location_id = '%1$s') AS C2, " +
+            "(SELECT COUNT(item.item_id) " +
+            "FROM item INNER JOIN item_availability ON item.item_id = item_availability.item_id " +
+            "WHERE drink_category = 3 AND location_id = '%1$s') AS C3, " +
+            "(SELECT COUNT(item.item_id) " +
+            "FROM item INNER JOIN item_availability ON item.item_id = item_availability.item_id " +
+            "WHERE drink_category = 4 AND location_id = '%1$s') AS C4, " +
+            "(SELECT COUNT(item.item_id) " +
+            "FROM item INNER JOIN item_availability ON item.item_id = item_availability.item_id " +
+            "WHERE drink_category = 5 AND location_id = '%1$s') AS C5";
+        String selectSql = String.format(formatSrctip,  locationID);
         open();
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         if(cursor != null){
             if(cursor.moveToFirst()){
-                countItem = cursor.getInt(0);
+                enableList = new ArrayList<Boolean>(6);
+                enableList.add(new Boolean(cursor.getInt(0) > 0));
+                enableList.add(new Boolean(cursor.getInt(1) > 0));
+                enableList.add(new Boolean(cursor.getInt(2) > 0));
+                enableList.add(new Boolean(cursor.getInt(3) > 0));
+                enableList.add(new Boolean(cursor.getInt(4) > 0));
+                enableList.add(new Boolean(cursor.getInt(5) > 0));
             }
         }
         close();
-        return countItem;
+        return enableList;
     }
 
     private Item createItem(Cursor cursor) {

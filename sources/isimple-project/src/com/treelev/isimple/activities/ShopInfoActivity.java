@@ -128,7 +128,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
                     idButton = R.id.category_spirits_butt;
                     break;
                 case 4:
-                    idButton = R.id.category_porto_heres_butt;
+                    idButton = R.id.category_sake_butt;
                     break;
                 case 5:
                     idButton = R.id.category_water_butt;
@@ -136,6 +136,9 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
             }
             btnCategory = (Button)findViewById(idButton);
             btnCategory.setEnabled(listEnable.get(categoryID));
+            if(listEnable.get(categoryID) == false){
+                btnCategory.setBackgroundResource(R.drawable.category_butt_disable_selector);
+            }
         }
 
     }
@@ -159,14 +162,9 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
 
         @Override
         protected List<Boolean> doInBackground(Shop... shops) {
-            ArrayList<Boolean> listEnableButton = null;
+            List<Boolean> listEnableButton = null;
             if(shops[0] != null){
-                listEnableButton = new ArrayList<Boolean>(6);
-                for(int categoryID = 0; categoryID < 6; ++categoryID){
-                    Boolean enable =
-                            getProxyManager().getCountItemsByCategoryByShop(categoryID,shops[0].getLocationID()) > 0;
-                    listEnableButton.add(enable);
-                }
+                listEnableButton = getProxyManager().getCountItemsByCategoryByShop(shops[0].getLocationID());
             }
             return listEnableButton;
         }

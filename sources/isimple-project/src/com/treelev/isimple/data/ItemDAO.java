@@ -86,12 +86,6 @@ public class ItemDAO extends BaseDAO {
                     ") " +
                 "WHERE item_left_overs > 0 " +
                 "%s";
-//                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, MIN(price) as price, year, quantity, color, " +
-//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count " +
-//                "FROM item AS t1, (SELECT DISTINCT * FROM featured_item ) AS t2  " +
-//                "WHERE t1.item_id = t2.item_id AND category_id = %s " +
-//                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
-//                "GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript, categoryId, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -115,12 +109,6 @@ public class ItemDAO extends BaseDAO {
                         ") " +
                 "WHERE item_left_overs > 0 " +
                 "%s";
-//                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, MIN(price) as price, year, quantity, color, " +
-//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count " +
-//                "FROM item AS t1 " +
-//                "WHERE category_id = %s " +
-//                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
-//                "GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript, categoryId, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -130,7 +118,7 @@ public class ItemDAO extends BaseDAO {
         String orderBy = "";
         if (orderByField != null) {
             String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, TABLE_ONE + "." + orderByField);
+            orderBy = String.format(formatOrder,  orderByField);
         }
 
         String formatScript = "SELECT * " +
@@ -145,13 +133,6 @@ public class ItemDAO extends BaseDAO {
                     ") " +
                 "WHERE item_left_overs > 0 " +
                 "%s";
-//                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category as drink_category, MIN(t1.price) as price, year, quantity, color, " +
-//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, " +
-//                "COUNT(drink_id) as count " +
-//                "FROM item AS t1 INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id " +
-//                "WHERE t1.drink_category = %s AND location_id = '%s' " +
-//                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
-//                "GROUP BY drink_id  %s";
         String selectSql = String.format(formatScript, categoryId, locationId, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -168,13 +149,12 @@ public class ItemDAO extends BaseDAO {
         if (orderByField != null) {
             orderBy = "ORDER BY " + orderByField + ", year";
         }
-        String formatScript = "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year,  quantity, color, drink_id, is_favourite " +
+        String formatScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year,  quantity, color, drink_id, is_favourite " +
                 "FROM item %S " +
                 "WHERE drink_id = '%s' " +
                 " %s " +
                 "%s";
         String selectSql = String.format(formatScript, strInnerJoin, drinkId, strLocationID, orderBy);
-        Log.v("SQL_QUERY getItemsByDrinkId(String drinkId, String orderByField)", selectSql);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -191,7 +171,7 @@ public class ItemDAO extends BaseDAO {
         if (orderByField != null) {
             orderBy = "ORDER BY " + orderByField + ", year";
         }
-        String formatSelectScript = "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
+        String formatSelectScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
                 "drink_category, price, year,  " +
                 "quantity, color, drink_id, is_favourite " +
                 "FROM item %s " +
@@ -223,14 +203,6 @@ public class ItemDAO extends BaseDAO {
                     ")" +
                 "WHERE item_left_overs > 0 " +
                 "ORDER BY %3$s";
-//        "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
-//                "drink_category, MIN(price) as price, year, quantity, color, " +
-//                "(case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, COUNT(t1.drink_id) as count " +
-//                "FROM item AS t1 %4$s " +
-//                "WHERE t1.drink_category=%1$s AND %2$s " +
-//                "AND EXISTS(SELECT 1 FROM item AS t3 WHERE t1.item_id=t3.item_id AND t1.drink_id = t3.drink_id AND t3.item_left_overs > 0) " +
-//                " %5$s" +
-//                "GROUP BY drink_id ORDER BY %3$s";
                 String selectSql = String.format(formatScript,
                 categoryId, whereClause, orderByField, strInnerJoin, strLocationID);
         open();

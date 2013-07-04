@@ -27,7 +27,8 @@
     </option>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="IS - 214&#10;IS - 217">
+    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Item.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Item.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -35,7 +36,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372512783499" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372696279129" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372939129761" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372939385582" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372065383426" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -87,8 +88,8 @@
     <file path="/DrinkType.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364545396341" ignored="false" />
     <file path="/DatabaseSqlHelper.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372419276313" ignored="false" />
     <file path="$PROJECT_DIR$/../PackTheSuitcase/src/com/omertex/android/suitcase/service/catalog/CatalogTable.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364810768036" ignored="false" />
-    <file path="/ItemDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372932525917" ignored="false" />
-    <file path="/Item.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371481030674" ignored="false" />
+    <file path="/ItemDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372940131628" ignored="false" />
+    <file path="/Item.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372940072746" ignored="false" />
     <file path="/BaseDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371029645421" ignored="false" />
     <file path="/Shop.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369483424682" ignored="false" />
     <file path="/ShopAndChainsParser.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364900875355" ignored="false" />
@@ -1629,10 +1630,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ItemDAO.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ItemDAO.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="156" column="55" selection-start="8789" selection-end="8789" vertical-scroll-proportion="0.0">
+            <state line="633" column="65" selection-start="35923" selection-end="35923" vertical-scroll-proportion="0.7473684">
               <folding>
                 <element signature="method#getItemMaxPriceByCategory#0;class#ItemDAO#0" expanded="false" />
                 <element signature="method#getSearchItemsByCategory#0;class#ItemDAO#0" expanded="false" />
@@ -1646,12 +1647,11 @@
                 <element signature="method#compare#0;class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
                 <element signature="method#getRegionsByCountriesCategory#0;class#ItemDAO#0" expanded="false" />
                 <element signature="method#getClassificationsByCategory#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#insertListData#0;class#ItemDAO#0" expanded="false" />
                 <element signature="method#insertListDeprecatedData#0;class#ItemDAO#0" expanded="false" />
                 <element signature="method#updatePriceList#0;class#ItemDAO#0" expanded="false" />
                 <element signature="method#insertListFeaturedData#0;class#ItemDAO#0" expanded="false" />
                 <element signature="method#deleteAllFeaturedItemData#0;class#ItemDAO#0" expanded="false" />
-                <element signature="e#40860#40931#0" expanded="false" />
+                <element signature="e#41008#41079#0" expanded="false" />
                 <element signature="method#getItemById#0;class#ItemDAO#0" expanded="false" />
                 <element signature="method#getItemByBarcode#0;class#ItemDAO#0" expanded="false" />
                 <element signature="method#getItemDeprecatedByBarcode#0;class#ItemDAO#0" expanded="false" />
@@ -1666,10 +1666,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SelectBySearch.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectBySearch.java">
+      <file leaf-file-name="Item.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Item.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="486" selection-end="486" vertical-scroll-proportion="0.6006192">
+            <state line="399" column="46" selection-start="9505" selection-end="9505" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1751,7 +1751,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogFilteredByCategoryItemTreeCursorAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapterOld.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapterNew.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java" />
@@ -1766,6 +1765,7 @@
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItemsPreOrder.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
         <option value="$PROJECT_DIR$/res/layout/splash_layout.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Item.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
       </list>
     </option>
@@ -3078,7 +3078,11 @@
       <created>1372937520104</created>
       <updated>1372937520104</updated>
     </task>
-    <option name="localTasksCounter" value="168" />
+    <task id="LOCAL-00168" summary="IS - 217">
+      <created>1372939398106</created>
+      <updated>1372939398106</updated>
+    </task>
+    <option name="localTasksCounter" value="169" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3103,7 +3107,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19386332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
@@ -3120,7 +3124,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13668062" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22873083" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.48396096" sideWeight="0.49928263" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.48396096" sideWeight="0.49928263" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -3179,7 +3183,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IS - 214&#10;IS - 217" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS - 217" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -3193,7 +3197,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="fixed UI" />
     <MESSAGE value="implements working with favouriteI items by means of cursorloader" />
     <MESSAGE value="IS - 16&#10;IS - 17" />
     <MESSAGE value="IS - 222&#10;" />
@@ -3218,6 +3221,7 @@
     <MESSAGE value="IS - 214" />
     <MESSAGE value="IS - 247" />
     <MESSAGE value="IS - 214&#10;IS - 217" />
+    <MESSAGE value="IS - 217" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -3231,20 +3235,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SearchResultActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="31" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.306">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="67" selection-start="1609" selection-end="1609" vertical-scroll-proportion="0.5964912">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogItemTreeCursorAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="36" selection-start="843" selection-end="843" vertical-scroll-proportion="0.41823444">
@@ -3304,41 +3294,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="55" selection-start="8789" selection-end="8789" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="method#getItemMaxPriceByCategory#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getSearchItemsByCategory#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getSearchItemsByCategory#1;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getSearchItemsByCategoryPreOrder#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getSearchItemsByCategoryPreOrder#1;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getYearsByCategory#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getRegionsByCategory#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getProductCountsByCountries#0;class#ItemDAO#0" expanded="false" />
-            <element signature="class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#compare#0;class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getRegionsByCountriesCategory#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getClassificationsByCategory#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#insertListData#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#insertListDeprecatedData#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#updatePriceList#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#insertListFeaturedData#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#deleteAllFeaturedItemData#0;class#ItemDAO#0" expanded="false" />
-            <element signature="e#40860#40931#0" expanded="false" />
-            <element signature="method#getItemById#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getItemByBarcode#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getItemDeprecatedByBarcode#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getItemByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getItemDeprecatedByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getCountBarcode#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getCountBarcodeInDeprecatedTable#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#getWinesGroupByDrinkId#0;class#ItemDAO#0" expanded="false" />
-            <element signature="method#createItem#0;class#ItemDAO#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectAllItemsByCategory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="53" selection-start="600" selection-end="600" vertical-scroll-proportion="0.45671642">
@@ -3378,6 +3333,54 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="0" selection-start="486" selection-end="486" vertical-scroll-proportion="0.6006192">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/DatabaseSqlHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="31" selection-start="3182" selection-end="3182" vertical-scroll-proportion="0.33126935">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Item.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="399" column="46" selection-start="9505" selection-end="9505" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="633" column="65" selection-start="35923" selection-end="35923" vertical-scroll-proportion="0.7473684">
+          <folding>
+            <element signature="method#getItemMaxPriceByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getSearchItemsByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getSearchItemsByCategory#1;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getSearchItemsByCategoryPreOrder#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getSearchItemsByCategoryPreOrder#1;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getYearsByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getRegionsByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getProductCountsByCountries#0;class#ItemDAO#0" expanded="false" />
+            <element signature="class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#compare#0;class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getRegionsByCountriesCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getClassificationsByCategory#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#insertListDeprecatedData#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#updatePriceList#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#insertListFeaturedData#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#deleteAllFeaturedItemData#0;class#ItemDAO#0" expanded="false" />
+            <element signature="e#41008#41079#0" expanded="false" />
+            <element signature="method#getItemById#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemByBarcode#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemDeprecatedByBarcode#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getItemDeprecatedByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getCountBarcode#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getCountBarcodeInDeprecatedTable#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#getWinesGroupByDrinkId#0;class#ItemDAO#0" expanded="false" />
+            <element signature="method#createItem#0;class#ItemDAO#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

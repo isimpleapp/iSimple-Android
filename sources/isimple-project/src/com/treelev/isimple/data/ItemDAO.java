@@ -587,8 +587,9 @@ public class ItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_RATING + ", " +
                     DatabaseSqlHelper.ITEM_QUANTITY + ", " +
                     DatabaseSqlHelper.ITEM_IS_FAVOURITE +
+                    DatabaseSqlHelper.ITEM_LEFT_OVERS +
                     ") VALUES " +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (Item item : items) {
                 insertStatement = bindString(insertStatement, 1, item.getItemID());
@@ -630,6 +631,7 @@ public class ItemDAO extends BaseDAO {
                 insertStatement = bindString(insertStatement, 37, item.getRating());
                 insertStatement = bindFloat(insertStatement, 38, item.getQuantity());
                 insertStatement = bindBoolean(insertStatement, 39, item.getFavourite());
+                insertStatement = bindInteger(insertStatement, 40, item.getLeftOvers());
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();

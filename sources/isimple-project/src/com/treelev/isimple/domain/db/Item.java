@@ -53,6 +53,7 @@ public class Item implements Serializable {
     private String grapesUsed;
     private String rating;
     private Float quantity;
+    private Integer leftOvers;
     private Boolean isFavourite = false;
 
     public static String[] getUITags() {
@@ -394,5 +395,9 @@ public class Item implements Serializable {
 
     public void setFavourite(Boolean favourite) {
         isFavourite= favourite;
+    }
+
+    public int getLeftOvers(){
+        return leftOvers != null ? leftOvers : 0;
     }
 }

@@ -69,7 +69,7 @@ public class ShopDAO extends BaseDAO {
     //TODO: for IS-108
     public List<String> getShopsWithWine(String wineId) {
         open();
-        String formatSelectScript = "select %1$s from %2$s join %3$s on %2$s.%4$s = %3$s.%5$s and %3$s.%6$s = %7$s";
+        String formatSelectScript = "SELECT %1$s FROM %2$s JOIN %3$s ON %2$s.%4$s = %3$s.%5$s AND %3$s.%6$s = %7$s ";
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.SHOP_LOCATION_NAME, DatabaseSqlHelper.SHOP_TABLE,
                 DatabaseSqlHelper.ITEM_AVAILABILITY_TABLE, DatabaseSqlHelper.SHOP_LOCATION_ID, DatabaseSqlHelper.ITEM_AVAILABILITY_LOCATION_ID,
                 DatabaseSqlHelper.ITEM_AVAILABILITY_ITEM_ID, wineId);
@@ -88,7 +88,7 @@ public class ShopDAO extends BaseDAO {
 
     public List<AbsDistanceShop> getShopsByDrinkId(String drinkId, Location currentLocation) {
         open();
-        String formatSelectScript = "SELECT t1.%s, t1.%s, t1.%s, t1.%s, t1.%s FROM %s AS t1, %s AS t2 WHERE t2.%s = '%s' AND t1.%s = t2.%s";
+        String formatSelectScript = "SELECT t1.%s, t1.%s, t1.%s, t1.%s, t1.%s FROM %s AS t1, %s AS t2 WHERE t2.%s = '%s' AND t1.%s = t2.%s AND t1.location_type = 1";
         String selectSql = String.format(formatSelectScript,
                 DatabaseSqlHelper.SHOP_LOCATION_ID,
                 DatabaseSqlHelper.SHOP_LOCATION_NAME,

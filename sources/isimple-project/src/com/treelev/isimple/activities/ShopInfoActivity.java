@@ -1,13 +1,21 @@
 package com.treelev.isimple.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Shop;
+import com.treelev.isimple.utils.managers.ProxyManager;
+import org.holoeverywhere.app.Dialog;
+import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShopInfoActivity extends BaseActivity implements View.OnClickListener {
 
@@ -39,6 +47,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
         btn.setOnClickListener(this);
         btn = (Button) findViewById(R.id.category_water_butt);
         btn.setOnClickListener(this);
+        new InitButtonCategory(this).execute(mShop);
     }
 
     @Override
@@ -99,5 +108,83 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
         startIntent.putExtra(SHOP, mShop);
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+    }
+
+    private void initButton(List<Boolean> listEnable){
+        int idButton = -1;
+        Button btnCategory;
+        for(int categoryID = 0; categoryID < 6; ++categoryID){
+            switch(categoryID) {
+                case 0:
+                    idButton = R.id.category_wine_butt;
+                    break;
+                case 1:
+                    idButton = R.id.category_sparkling_butt;
+                    break;
+                case 2:
+                    idButton = R.id.category_porto_heres_butt;
+                    break;
+                case 3:
+                    idButton = R.id.category_spirits_butt;
+                    break;
+                case 4:
+                    idButton = R.id.category_porto_heres_butt;
+                    break;
+                case 5:
+                    idButton = R.id.category_water_butt;
+                    break;
+            }
+            btnCategory = (Button)findViewById(idButton);
+            btnCategory.setEnabled(listEnable.get(categoryID));
+        }
+
+    }
+
+    private class InitButtonCategory extends AsyncTask<Shop, Void, List<Boolean>>{
+
+        private Context mContext;
+        private Dialog mDialog;
+        private ProxyManager mProxyManager;
+
+        public InitButtonCategory(Context context){
+            mContext = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+                    mContext.getString(R.string.dialog_select_data_message), false, false);
+        }
+
+        @Override
+        protected List<Boolean> doInBackground(Shop... shops) {
+            ArrayList<Boolean> listEnableButton = null;
+            if(shops[0] != null){
+                listEnableButton = new ArrayList<Boolean>(6);
+                for(int categoryID = 0; categoryID < 6; ++categoryID){
+                    Boolean enable =
+                            getProxyManager().getCountItemsByCategoryByShop(categoryID,shops[0].getLocationID()) > 0;
+                    listEnableButton.add(enable);
+                }
+            }
+            return listEnableButton;
+        }
+
+        @Override
+        protected void onPostExecute(List<Boolean> listEnable) {
+            super.onPostExecute(listEnable);
+            if(listEnable != null){
+                initButton(listEnable);
+            }
+            mDialog.dismiss();
+        }
+
+        protected ProxyManager getProxyManager() {
+            if (mProxyManager == null) {
+                mProxyManager = new ProxyManager(mContext);
+            }
+            return mProxyManager;
+        }
     }
 }

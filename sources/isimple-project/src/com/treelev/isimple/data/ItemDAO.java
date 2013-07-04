@@ -899,11 +899,6 @@ public class ItemDAO extends BaseDAO {
                         "(SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, price, year, quantity, color,(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs FROM item AS t1, (SELECT DISTINCT *  FROM featured_item ) AS t2 WHERE t1.item_id = t2.item_id AND category_id = -1) AS t0 " +
                     "GROUP BY t0.drink_id ) " +
                 "WHERE item_left_overs > 0";
-//                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, MIN(price) as price, year, quantity, color, " +
-//                "(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, COUNT(drink_id) as count " +
-//                "FROM item AS t1, (SELECT DISTINCT *  FROM featured_item ) AS t2 " +
-//                "WHERE t1.item_id = t2.item_id AND category_id = -1 " +
-//                "GROUP BY drink_id";
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -925,12 +920,6 @@ public class ItemDAO extends BaseDAO {
                 ") " +
                 "WHERE item_left_overs > 0 " +
                 "%s";
-//                "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, " +
-//                "COUNT(t1.drink_id) as count " +
-//                "FROM item AS t1 " +
-//                "WHERE EXISTS(SELECT 1 FROM item AS t2 WHERE t1.item_id=t2.item_id AND t1.drink_id = t2.drink_id AND t2.item_left_overs > 0) " +
-//                "GROUP BY t1.drink_id "+
-//                "%s";
         open();
         String selectSql = String.format(formatScript, orderBy);
         return getDatabase().rawQuery(selectSql, null);
@@ -954,12 +943,6 @@ public class ItemDAO extends BaseDAO {
                     ") " +
                 "WHERE item_left_overs > 0 " +
                 "%s";
-//                "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, MIN(t1.price) as price, t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, COUNT(t1.drink_id) as count " +
-//                "FROM item AS t1 " +
-//                "WHERE EXISTS(SELECT 1 FROM item AS t2 WHERE t1.item_id=t2.item_id AND t1.drink_id = t2.drink_id AND t2.item_left_overs > 0) " +
-//                "AND t1.drink_category = %s " +
-//                "GROUP BY t1.drink_id " +
-//                "%s";
         open();
         String selectSql = String.format(formatScript, categoryId, orderBy);
         return getDatabase().rawQuery(selectSql, null);
@@ -976,6 +959,23 @@ public class ItemDAO extends BaseDAO {
             int count = getDatabase().update(DatabaseSqlHelper.ITEM_TABLE, values, whereClause, null);
         }
         close();
+    }
+
+    public int getCountItemsByCategoryByShop(int cagegoryID, String locationID){
+        int countItem = 0;
+        String foramtSrctip = "SELECT COUNT(item.item_id) " +
+                "FROM item INNER JOIN item_availability ON item.item_id = item_availability.item_id " +
+                "WHERE drink_category = %s AND location_id = '%s'";
+        String selectSql = String.format(foramtSrctip, cagegoryID, locationID);
+        open();
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        if(cursor != null){
+            if(cursor.moveToFirst()){
+                countItem = cursor.getInt(0);
+            }
+        }
+        close();
+        return countItem;
     }
 
     private Item createItem(Cursor cursor) {

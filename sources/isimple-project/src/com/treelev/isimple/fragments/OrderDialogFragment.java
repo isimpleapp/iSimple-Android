@@ -10,14 +10,11 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.domain.db.Order;
-import com.treelev.isimple.httpclient.HttpClientCert;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.HttpResponse;
@@ -26,25 +23,13 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.scheme.SocketFactory;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.SingleClientConnManager;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.TextView;
 
-import javax.security.cert.CertificateException;
 import java.io.IOException;
 import java.security.*;
 import java.util.ArrayList;
@@ -59,8 +44,6 @@ public class OrderDialogFragment extends DialogFragment
     public static final int PHONE_TYPE = 0;   //id item list
     public static final int EMAIL_TYPE = 1;   // id item list
     public static final int SUCCESS_TYPE = 3;
-
-    public static final String LIST_ORDERS = "LIST_ORDERS";
 
     private OrderDialogFragment mDialogFragment;
     private int mType;
@@ -305,24 +288,15 @@ public class OrderDialogFragment extends DialogFragment
                 nameValuePairs.add(new BasicNameValuePair("MD5", getMD5()));
                 nameValuePairs.add(new BasicNameValuePair("Order-Info", getListOrder()));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                Log.v("OrderSend", getDeviceID());
-                Log.v("OrderSend", getMD5());
-                Log.v("OrderSend", getListOrder());
                 // Execute HTTP Post Request
 
-                HttpClientCert httpclient = new HttpClientCert(mContext);
+                HttpClient httpclient = Utils.newHttpClient();
 
                 HttpResponse response = httpclient.execute(httppost);
-                Log.v("Error epick ", EntityUtils.toString(response.getEntity()));
 
             } catch (ClientProtocolException e) {
-                Log.v("Error epick ClientProtocolException", e.getMessage());
-                Log.v("Error epick IOException", e.getStackTrace().toString());
                 return  false;
             } catch (IOException e) {
-//                Log.v("Error epick IOException", e.getMessage());
-//                Log.v("Error epick IOException", e.getStackTrace().toString());
-                Log.v("Test test", e.getMessage() );
                 return  false;
             }
             return true;

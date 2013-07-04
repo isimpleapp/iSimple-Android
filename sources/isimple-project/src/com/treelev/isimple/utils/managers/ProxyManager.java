@@ -305,6 +305,10 @@ public class ProxyManager {
         ((ItemDAO) getObjectDAO(ItemDAO.ID)).setFavourite(itemsId, state);
     }
 
+    public int getCountItemsByCategoryByShop(int categoryID, String locationID){
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getCountItemsByCategoryByShop(categoryID, locationID);
+    }
+
     public boolean addFavourites(Item item) {
         return ((FavouriteItemDAO) getObjectDAO(FavouriteItemDAO.ID)).addFavoutites(item);
     }

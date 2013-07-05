@@ -8,6 +8,7 @@ import android.support.v4.content.Loader;
 import com.treelev.isimple.cursorloaders.SelectAllItemsByCategory;
 import com.treelev.isimple.cursorloaders.SelectFeaturedByCategoryItems;
 import com.treelev.isimple.cursorloaders.SelectFilteredByCategoryItems;
+import com.treelev.isimple.cursorloaders.SelectFilteredByCategoryItemsPreOrder;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
 public class CatalogByCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAdapter{
@@ -46,7 +47,7 @@ public class CatalogByCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAda
                     case 1:
                         return new SelectFilteredByCategoryItems(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy);
                     case 2:
-                        return new SelectFilteredByCategoryItems(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy);
+                        return new SelectFilteredByCategoryItemsPreOrder(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy);
                 }
             break;
             case ProxyManager.TYPE_SECTION_MAIN:

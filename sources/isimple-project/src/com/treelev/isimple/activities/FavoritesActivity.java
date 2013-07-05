@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.ActionMode;
@@ -54,6 +56,7 @@ public class FavoritesActivity extends BaseListActivity
         mListAdapter = new CatalogItemCursorAdapter(null, this, false, false);
         mListAdapter.setDeleteItemsId(mDeleteItemsId);
         getListView().setAdapter(mListAdapter);
+        getListView().setOnTouchListener(mOnTouchListener);
         getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
     }
 
@@ -244,6 +247,41 @@ public class FavoritesActivity extends BaseListActivity
             if(mListAdapter != null) {
                 mListAdapter.notifyDataSetChanged();
             }
+        }
+    };
+
+
+    private View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
+
+        private final int DELTA = 50;
+        private float mHistoricX;
+        private float mHistoricY;
+
+
+        @Override
+        public boolean onTouch(View view, MotionEvent event) {
+            switch (event.getAction())
+            {
+                case MotionEvent.ACTION_DOWN:
+                    mHistoricX = event.getX();
+                    mHistoricY = event.getY();
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    if (event.getX() - mHistoricX < -DELTA)
+                    {
+//                        FunctionDeleteRowWhenSlidingLeft();
+                        Log.v("Delete items", "Left");
+                        return true;
+                    }
+                    else if (event.getX() - mHistoricX > DELTA)
+                    {
+//                        FunctionDeleteRowWhenSlidingRight();
+                        Log.v("Delete items", "Right");
+                        return true;
+                    } break;
+            }
+            return false;
         }
     };
 }

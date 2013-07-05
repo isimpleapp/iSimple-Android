@@ -35,7 +35,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private boolean mIsSaveInstancceState;
     private boolean mSendOrders;
     private Cursor cItems;
-    private CursorAdapter mListCategoriesAdapter;
+    private ShoppingCartCursorAdapter mListCategoriesAdapter;
     private TextView shoppingCartFooterTextView;
     private TextView shoppingCartPriceTextView;
 

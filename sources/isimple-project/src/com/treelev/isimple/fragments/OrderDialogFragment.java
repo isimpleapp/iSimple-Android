@@ -86,18 +86,6 @@ public class OrderDialogFragment extends DialogFragment
     }
 
     @Override
-    public void dismiss() {
-        super.dismiss();
-        switch (mType){
-            case SUCCESS_TYPE:
-                if(mSuccess){
-                    ((ShoppingCartActivity)getActivity()).updateList();
-                }
-                break;
-        }
-    }
-
-    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return createDialog();
     }
@@ -272,7 +260,8 @@ public class OrderDialogFragment extends DialogFragment
                 OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE);
                 dialog.setSuccess(result);
                 dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
-                ((ShoppingCartActivity)mContext).setResultSendOrders(false);
+                ((ShoppingCartActivity)mContext).setResultSendOrders(result);
+                ((ShoppingCartActivity)mContext).updateList();
             }
         }
 

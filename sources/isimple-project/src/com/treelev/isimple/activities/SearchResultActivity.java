@@ -52,6 +52,9 @@ public class SearchResultActivity extends  BaseExpandableListActivity
             }
         });
         handledIntent(getIntent());
+        mTreeSearchAdapter = new SearchItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mQuery, categoryID, locationId, mSortBy);
+        getExpandableListView().setAdapter(mTreeSearchAdapter);
+        getSupportLoaderManager().restartLoader(0, null, this);
         getExpandableListView().setOnChildClickListener(this);
         disableOnGroupClick();
     }
@@ -59,11 +62,13 @@ public class SearchResultActivity extends  BaseExpandableListActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if(mTreeSearchAdapter != null){
-            mTreeSearchAdapter = new SearchItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mQuery, categoryID, locationId, mSortBy);
-            getExpandableListView().setAdapter(mTreeSearchAdapter);
-            getSupportLoaderManager().restartLoader(0, null, this);
-        } else {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        boolean addFavourite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+        if(addFavourite){
             mTreeSearchAdapter.notifyDataSetChanged();
         }
     }
@@ -181,11 +186,12 @@ public class SearchResultActivity extends  BaseExpandableListActivity
             CatalogSubCategory.backActivity = CatalogListActivity.class;
             startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(itemDrinkIdIndex));
             startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
+            startActivity(startIntent);
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+            startActivityForResult(startIntent, 0);
         }
-        startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         return super.onChildClick(parent, v, groupPosition, childPosition, id);
     }

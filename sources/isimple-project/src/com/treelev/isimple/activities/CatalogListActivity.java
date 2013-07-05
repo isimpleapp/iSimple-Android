@@ -47,9 +47,10 @@ public class CatalogListActivity extends BaseExpandableListActivity
         expandableView.addHeaderView(mHeader, null, false);
         mListCategoriesAdapter = new CatalogItemTreeCursorAdapter(CatalogListActivity.this, null,
                 getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
-        expandableView.setAdapter(mListCategoriesAdapter);
+        getExpandableListView().setAdapter(mListCategoriesAdapter);
         expandableView.setOnChildClickListener(this);
         disableOnGroupClick();
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
@@ -62,8 +63,16 @@ public class CatalogListActivity extends BaseExpandableListActivity
     @Override
     protected void onResume() {
 //        startUpdateService();
-        getSupportLoaderManager().restartLoader(0, null, this);
         super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        boolean addFavorites = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+        if(addFavorites){
+            mListCategoriesAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -141,11 +150,12 @@ public class CatalogListActivity extends BaseExpandableListActivity
             CatalogSubCategory.categoryID = null;
             CatalogSubCategory.backActivity = CatalogListActivity.class;
             startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
+            startActivity(startIntent);
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+            startActivityForResult(startIntent, 0);
         }
-        startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         return super.onChildClick(parent, v, groupPosition, childPosition, id);
     }

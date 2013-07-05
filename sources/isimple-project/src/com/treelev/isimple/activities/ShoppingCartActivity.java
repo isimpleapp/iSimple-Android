@@ -110,15 +110,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.delete_all_btn:
-                proxyManager.deleteAllShoppingCartData();
-                Cursor cursor = ((CursorAdapter) getListView().getAdapterSource()).getCursor();
-                if (cursor != null) {
-                    cursor.requery();
-                    if (cursor.getCount() == 0) {
-                        findViewById(R.id.content_layout).setVisibility(View.GONE);
-                        findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
-                    }
-                }
+                new DeleteDataShoppingCartTask(this).execute();
                 break;
             case R.id.delivery_btn:
                 org.holoeverywhere.app.AlertDialog.Builder builder = new org.holoeverywhere.app.AlertDialog.Builder(this);
@@ -162,6 +154,40 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         SharedPreferences.Editor editor = sharedPreference.edit();
         editor.putString(COUNTRY_LABEL, country);
         editor.commit();
+    }
+
+    private class DeleteDataShoppingCartTask extends AsyncTask<Void, Void, Void>{
+
+        private Dialog mDialog;
+        private Context mContext;
+        private ProxyManager proxyManager;
+
+        private DeleteDataShoppingCartTask(Context context) {
+            mContext = context;
+            proxyManager = new ProxyManager(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
+                    mContext.getString(R.string.dialog_delete_data_message), false, false);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            proxyManager.deleteAllShoppingCartData();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mListCategoriesAdapter.swapCursor(null);
+            if (mListCategoriesAdapter.getCount() == 0) {
+                findViewById(R.id.content_layout).setVisibility(View.GONE);
+                findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
+            }
+            mDialog.dismiss();
+        }
     }
 
     private class SelectDataShoppingCartTask extends AsyncTask<Void, Void, Cursor> {

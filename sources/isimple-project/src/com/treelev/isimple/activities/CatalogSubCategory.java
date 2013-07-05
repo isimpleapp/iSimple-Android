@@ -55,13 +55,22 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
         mFilterWhereClause = getIntent().getStringExtra(CatalogListActivity.FILTER_WHERE_CLAUSE);
         mListSubCategoriesAdapter = new CatalogItemCursorAdapter(null, CatalogSubCategory.this, false, true);
         getListView().setAdapter(mListSubCategoriesAdapter);
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
 
     @Override
     protected void onResume() {
-        getSupportLoaderManager().restartLoader(0, null, this);
         super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        boolean addFavourite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+        if(addFavourite){
+            getSupportLoaderManager().restartLoader(0, null, this);
+        }
     }
 
     @Override
@@ -96,7 +105,7 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
         startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
         startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
         startIntent.putExtra(BaseListActivity.BARCODE, mBarcode);
-        startActivity(startIntent);
+        startActivityForResult(startIntent, 0);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 

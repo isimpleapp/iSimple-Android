@@ -34,6 +34,8 @@ import java.util.Scanner;
 
 public class ProductInfoActivity extends BaseExpandableListActivity {
 
+    public final static String CHANGE_FAVOURITE = "CHANGE_FAVOURITE";
+
     public final static String ITEM_ID_TAG = "id";
     private final static String FORMAT_FIELDS = "- %s";
     private final static String EMPTY_PRICE_LABEL = "-";
@@ -42,6 +44,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private String itemId;
     private Item mProduct;
     private boolean mIsFavourite;
+    private boolean mLastFavourite;
     private MenuItem mItemFavourite;
     private View headerView;
     private ProxyManager proxyManager;
@@ -70,6 +73,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         super.onResume();
         ProxyManager proxyManager = new ProxyManager(this);
         mIsFavourite = proxyManager.isFavourites(itemId);
+        mLastFavourite = mIsFavourite;
         setFavouritesImage(mIsFavourite);
     }
 
@@ -87,8 +91,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
-                overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+                onBackPressed();
+//                overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
                 return true;
             case R.id.menu_item_favorite:
                 ProxyManager proxyManager = new ProxyManager(this);
@@ -115,6 +119,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     @Override
     public void onBackPressed() {
+        Intent data = new Intent();
+        data.putExtra(CHANGE_FAVOURITE, mLastFavourite != mIsFavourite);
+        setResult(RESULT_OK, data);
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }

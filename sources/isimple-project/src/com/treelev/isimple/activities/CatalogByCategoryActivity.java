@@ -72,11 +72,11 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         mContext = this;
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
         if (mLocationId == null) {
-            setCurrentCategory(0);    //Catalog
             mTreeCategoriesAdapter.initCategory(mCategoryID);
+            setCurrentCategory(0);    //Catalog
         } else {
-            setCurrentCategory(1); //Shop
             mTreeCategoriesAdapter.iniCategoryShop(mCategoryID, mLocationId);
+            setCurrentCategory(1); //Shop
         }
         getExpandableListView().setAdapter(mTreeCategoriesAdapter);
         disableOnGroupClick();
@@ -88,14 +88,15 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         darkView.setOnClickListener(null);
         filter = initFilter();
         initFilterListView();
+        initLoadManager();
 
     }
 
     @Override
     protected void onResume() {
-        initLoadManager();
         super.onResume();
     }
+
 
     @Override
     public void createNavigationMenuBar() {
@@ -194,11 +195,12 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
             startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
             startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
             startIntent.putExtra(FILTER_WHERE_CLAUSE, mFilterWhereClause);
+            startActivity(startIntent);
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+            startActivityForResult(startIntent, 0);
         }
-        startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         return super.onChildClick(parent, v, groupPosition, childPosition, id);
     }
@@ -216,6 +218,10 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
             processed = filterItem.processResult(requestCode, resultCode, data);
             if (processed)
                 break;
+        }
+        boolean addFavorite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+        if(addFavorite){
+            mTreeCategoriesAdapter.notifyDataSetChanged();
         }
     }
 

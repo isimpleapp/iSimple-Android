@@ -60,6 +60,14 @@ public class SearchResultActivity extends  BaseExpandableListActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(mTreeSearchAdapter != null){
+            mTreeSearchAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
     public void createNavigationMenuBar() {
         super.createNavigationMenuBar();
         if( locationId != null ){

@@ -49,8 +49,8 @@ public class FavoritesActivity extends BaseListActivity
         setCurrentCategory(2);
         createNavigationMenuBar();
         ListView listView = getListView();
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setMultiChoiceModeListener(multiChoiceModeListener);
+//        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+//        listView.setMultiChoiceModeListener(multiChoiceModeListener);
         mContext = this;
         mDeleteItemsId = new ArrayList<String>();
         mListAdapter = new CatalogItemCursorAdapter(null, this, false, false);
@@ -281,6 +281,7 @@ public class FavoritesActivity extends BaseListActivity
                         return true;
                     } break;
             }
+            Log.v("Delete items type view", view.getClass().toString());
             return false;
         }
     };

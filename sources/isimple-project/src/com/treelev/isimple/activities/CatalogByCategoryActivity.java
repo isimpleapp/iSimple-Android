@@ -92,6 +92,14 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(mTreeCategoriesAdapter != null){
+            mTreeCategoriesAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
     public void createNavigationMenuBar() {
         super.createNavigationMenuBar();
         if (mLocationId != null) {

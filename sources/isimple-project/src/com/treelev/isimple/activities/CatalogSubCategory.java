@@ -58,6 +58,15 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
         getSupportLoaderManager().restartLoader(0, null, this);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mListSubCategoriesAdapter != null){
+            mListSubCategoriesAdapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void createNavigationMenuBar(){
         super.createNavigationMenuBar();

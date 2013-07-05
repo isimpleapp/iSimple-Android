@@ -26,21 +26,17 @@
       </GlobalState>
     </option>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="Delete items" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="DELETED" beforePath="E:\NewWork\iSimple\sources\isimple-project\src\com\treelev\isimple\adapters\itemstreecursoradapter\CatalogFilteredByCategoryItemTreeCursorAdapter.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/FavoritesActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/FavoritesActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373010677591" ignored="false" />
+    <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373014948961" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372696279129" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372959265611" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373011158454" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372065383426" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -1104,11 +1100,11 @@
     <file path="/shop_info_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371542240014" ignored="false" />
     <file path="/SelectFavouriteItems.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371543915591" ignored="false" />
     <file path="/DeleteFavouriteItems.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371544410773" ignored="false" />
-    <file path="/OrderDialogFragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372948725585" ignored="false" />
+    <file path="/OrderDialogFragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373014394406" ignored="false" />
     <file path="/items_order_dialog.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371629395923" ignored="false" />
     <file path="/dialog_order_phone.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371738487530" ignored="false" />
     <file path="/dialog_order_email.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371731224943" ignored="false" />
-    <file path="/ShoppingCartActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372325728097" ignored="false" />
+    <file path="/ShoppingCartActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373015194012" ignored="false" />
     <file path="/product_info_expandable_group_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371831324133" ignored="false" />
     <file path="/ProductContentAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371828424775" ignored="false" />
     <file path="/DummyFile.xpath" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371722064583" ignored="false" />
@@ -1265,7 +1261,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" line="20" class="OrderDialogFragment.java" package="">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" line="19" class="OrderDialogFragment.java" package="">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1355,52 +1351,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" line="260" class="com.treelev.isimple.fragments.OrderDialogFragment.SendOrders" package="com.treelev.isimple.fragments">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" line="247" class="com.treelev.isimple.fragments.OrderDialogFragment.SendOrders" package="com.treelev.isimple.fragments">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" line="256" class="com.treelev.isimple.fragments.OrderDialogFragment.SendOrders" package="com.treelev.isimple.fragments">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" line="288" class="com.treelev.isimple.fragments.OrderDialogFragment.SendOrders" package="com.treelev.isimple.fragments">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" line="295" class="com.treelev.isimple.fragments.OrderDialogFragment.SendOrders" package="com.treelev.isimple.fragments">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1730,6 +1681,81 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" line="232" class="com.treelev.isimple.activities.ShoppingCartActivity" package="com.treelev.isimple.activities">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ShoppingCartDAO.java" line="198" class="com.treelev.isimple.data.ShoppingCartDAO" package="com.treelev.isimple.data">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" line="210" class="com.treelev.isimple.activities.ShoppingCartActivity.SelectDataShoppingCartTask" package="com.treelev.isimple.activities">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" line="194" class="com.treelev.isimple.activities.ShoppingCartActivity.SelectDataShoppingCartTask" package="com.treelev.isimple.activities">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" line="89" class="com.treelev.isimple.fragments.OrderDialogFragment" package="com.treelev.isimple.fragments">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
     </line_breakpoints>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
@@ -1741,38 +1767,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ItemDAO.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
+      <file leaf-file-name="ShoppingCartActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="208" column="0" selection-start="11659" selection-end="11659" vertical-scroll-proportion="0.33179724">
-              <folding />
+            <state line="56" column="8" selection-start="2259" selection-end="2259" vertical-scroll-proportion="0.27419356">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#onMakeOrder#0;class#ShoppingCartActivity#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CatalogByCategoryItemTreeCursorAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java">
+      <file leaf-file-name="OrderDialogFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="73" selection-start="2027" selection-end="2027" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SelectFilteredByCategoryItemsPreOrder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItemsPreOrder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="57" selection-start="934" selection-end="934" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SelectFilteredByCategoryItems.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItems.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="50" selection-start="911" selection-end="911" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="272" column="0" selection-start="9949" selection-end="9949" vertical-scroll-proportion="-6.52">
+              <folding>
+                <element signature="method#createDialog#0;class#OrderDialogFragment#0" expanded="false" />
+                <element signature="method#formatPhone#0;class#OrderDialogFragment#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1780,16 +1794,7 @@
       <file leaf-file-name="ProxyManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="191" column="18" selection-start="8520" selection-end="8520" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbsItemTreeCursorAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="232" column="0" selection-start="10292" selection-end="10292" vertical-scroll-proportion="0.0">
+            <state line="387" column="64" selection-start="17652" selection-end="17652" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1819,10 +1824,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ShopDAO.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/httpclient/DefaultSSLSocketFactory.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/Utils.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" />
         <option value="$PROJECT_DIR$/res/drawable/category_butt_shape.xml" />
         <option value="$PROJECT_DIR$/res/drawable/categotry_butt_disable_shape.xml" />
         <option value="$PROJECT_DIR$/res/drawable/category_butt_disable_selector.xml" />
@@ -1835,6 +1838,8 @@
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/FavoritesActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogFilteredByCategoryItemTreeCursorAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" />
       </list>
     </option>
   </component>
@@ -1948,36 +1953,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iSimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="managers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3224,7 +3199,11 @@
       <created>1372959273132</created>
       <updated>1372959273132</updated>
     </task>
-    <option name="localTasksCounter" value="177" />
+    <task id="LOCAL-00177" summary="IS - 253&#10;">
+      <created>1373011191150</created>
+      <updated>1373011191150</updated>
+    </task>
+    <option name="localTasksCounter" value="178" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3257,7 +3236,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36959553" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31101814" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44211996" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31101814" sideWeight="0.26111907" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23672883" sideWeight="0.59693164" order="2" side_tool="true" content_ui="tabs" />
@@ -3265,14 +3244,14 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13668062" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22873083" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40167364" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41143653" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32496414" sideWeight="0.6889819" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21896791" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32496414" sideWeight="0.7810321" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21896791" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.7712692" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -3325,7 +3304,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IS - 173&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS - 253&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -3339,7 +3318,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="IS - 16&#10;IS - 17&#10;fixed select cart item add NOT(item_id IS NULL)&#10;" />
     <MESSAGE value="IS -16&#10;IS - 17&#10;IS - 223 fixed &#10;" />
     <MESSAGE value="IS -16&#10;IS - 17&#10;hide keayboard&#10;" />
     <MESSAGE value="IS - 223&#10;" />
@@ -3364,6 +3342,7 @@
     <MESSAGE value="IS - 241 &#10;delete raw - resource&#10;" />
     <MESSAGE value="IS - 225 &#10;&#10;" />
     <MESSAGE value="IS - 173&#10;" />
+    <MESSAGE value="IS - 253&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -3377,20 +3356,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/BaseCursorLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="22" selection-start="203" selection-end="203" vertical-scroll-proportion="0.1325536">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/SearchItemTreeCursorAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1145" selection-end="1255" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/parser/ShopAndChainsParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="92" column="98" selection-start="5939" selection-end="5939" vertical-scroll-proportion="0.0">
@@ -3435,13 +3400,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItems.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="50" selection-start="911" selection-end="911" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/FavoritesActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="273" column="31" selection-start="9382" selection-end="9394" vertical-scroll-proportion="0.738255">
@@ -3449,38 +3407,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="232" column="0" selection-start="10292" selection-end="10292" vertical-scroll-proportion="0.0">
+        <state line="49" column="73" selection-start="2027" selection-end="2027" vertical-scroll-proportion="0.4827586">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItemsPreOrder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="57" selection-start="934" selection-end="934" vertical-scroll-proportion="0.0">
+        <state line="26" column="57" selection-start="934" selection-end="934" vertical-scroll-proportion="0.6059113">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="191" column="18" selection-start="8520" selection-end="8520" vertical-scroll-proportion="0.0">
+        <state line="232" column="0" selection-start="10292" selection-end="10292" vertical-scroll-proportion="0.33723652">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectFilteredByCategoryItems.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="50" selection-start="911" selection-end="911" vertical-scroll-proportion="0.6627635">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="208" column="0" selection-start="11659" selection-end="11659" vertical-scroll-proportion="0.33179724">
+        <state line="208" column="0" selection-start="11659" selection-end="11659" vertical-scroll-proportion="0.33723652">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/CatalogByCategoryItemTreeCursorAdapter.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ShoppingCartDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="73" selection-start="2027" selection-end="2027" vertical-scroll-proportion="0.0">
+        <state line="85" column="31" selection-start="4422" selection-end="4424" vertical-scroll-proportion="0.33333334">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="387" column="64" selection-start="17652" selection-end="17652" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/OrderDialogFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="272" column="0" selection-start="9949" selection-end="9949" vertical-scroll-proportion="-6.52">
+          <folding>
+            <element signature="method#createDialog#0;class#OrderDialogFragment#0" expanded="false" />
+            <element signature="method#formatPhone#0;class#OrderDialogFragment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="8" selection-start="2259" selection-end="2259" vertical-scroll-proportion="0.27419356">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onMakeOrder#0;class#ShoppingCartActivity#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -34,6 +34,11 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private boolean mResultSendOrders;
     private boolean mIsSaveInstancceState;
     private boolean mSendOrders;
+    private Cursor cItems;
+    private CursorAdapter mListCategoriesAdapter;
+    private TextView shoppingCartFooterTextView;
+    private TextView shoppingCartPriceTextView;
+
 
 
     private OrderDialogFragment dlgMakeOrder;
@@ -47,7 +52,10 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         proxyManager = new ProxyManager(this);
         getListView().addFooterView(organizeFooterView());
         dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.SELECT_TYPE);
-
+        shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
+        shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
+        mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null, shoppingCartPriceTextView, shoppingCartFooterTextView);
+        getListView().setAdapter(mListCategoriesAdapter);
         new SelectDataShoppingCartTask(this).execute();
     }
 
@@ -64,15 +72,18 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
+        stopManagingCursor(cItems);
         if(mIsSaveInstancceState){
             if(mSendOrders){
                 OrderDialogFragment dialog = new OrderDialogFragment(OrderDialogFragment.SUCCESS_TYPE);
                 dialog.setSuccess(mResultSendOrders);
                 dialog.show(getSupportFragmentManager(), "SUCCESS_TYPE");
+                updateList();
                 mSendOrders = false;
             }
+            mIsSaveInstancceState = false;
         }
-        mIsSaveInstancceState = false;
+
     }
 
     public void setResultSendOrders(boolean resultSendOrders){
@@ -178,12 +189,10 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
 
         @Override
         protected void onPostExecute(Cursor cursor) {
-            Cursor cItems = cursor;
+            cItems = cursor;
             startManagingCursor(cItems);
-            TextView shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
-            TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
             String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
-            CursorAdapter mListCategoriesAdapter = new ShoppingCartCursorAdapter(mContext, cItems, shoppingCartPriceTextView, shoppingCartFooterTextView);
+            mListCategoriesAdapter.swapCursor(cItems);
             int shoppingCartPrice = 0;
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
@@ -220,6 +229,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     }
 
     public void updateList(){
+        stopManagingCursor(cItems);
         new SelectDataShoppingCartTask(this).execute();
     }
 
@@ -247,12 +257,13 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mIsSaveInstancceState = true;
+        stopManagingCursor(cItems);
     }
 
     public void sendOrderSetFlag(boolean flag){
         mSendOrders = flag;
     }
-    public boolean isIsSaveInstancceState(){
+    public boolean isSaveInstancceState(){
         return  mIsSaveInstancceState;
     }
 }

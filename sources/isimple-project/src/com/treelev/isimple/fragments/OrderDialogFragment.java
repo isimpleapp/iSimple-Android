@@ -9,7 +9,6 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
 import com.treelev.isimple.R;
@@ -24,7 +23,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.holoeverywhere.app.*;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
@@ -84,6 +82,18 @@ public class OrderDialogFragment extends DialogFragment
             } else {
                 tvSuccess.setText(Html.fromHtml(getString(R.string.message_not_success_send_orders)));
             }
+        }
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        switch (mType){
+            case SUCCESS_TYPE:
+                if(mSuccess){
+                    ((ShoppingCartActivity)getActivity()).updateList();
+                }
+                break;
         }
     }
 
@@ -255,10 +265,7 @@ public class OrderDialogFragment extends DialogFragment
         protected void onPostExecute(final Boolean result) {
             super.onPostExecute(result);
             mDialog.dismiss();
-            if(result){
-                ((ShoppingCartActivity)mContext).updateList();
-            }
-            if(((ShoppingCartActivity)mContext).isIsSaveInstancceState()){
+            if(((ShoppingCartActivity)mContext).isSaveInstancceState()){
                 ((ShoppingCartActivity)mContext).setResultSendOrders(result);
                 ((ShoppingCartActivity)mContext).sendOrderSetFlag(true);
             } else {

@@ -108,6 +108,7 @@ public class FileParseObject implements Comparable<FileParseObject> {
 
     @Override
     public int compareTo(FileParseObject another) {
-        return filePriority.getPriority().compareTo(another.filePriority.getPriority());
+        Integer compare  = another != null ? another.filePriority.getPriority() : 0;
+        return filePriority.getPriority().compareTo(compare);
     }
 }

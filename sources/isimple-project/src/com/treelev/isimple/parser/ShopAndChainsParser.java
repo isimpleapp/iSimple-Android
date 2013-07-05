@@ -59,7 +59,7 @@ public class ShopAndChainsParser implements Parser {
                                 } else if (xmlPullParser.getName().equals(CHAIN_NAME_VALUE_TAG)) {
                                     chain.setChainName(xmlPullParser.nextText());
                                 } else if (xmlPullParser.getName().equals(CHAIN_TYPE_VALUE_TAG)) {
-                                    chain.setChainType(ChainType.getChainType(xmlPullParser.nextText()));
+                                    chain.setChainType(ChainType.getChainType(Utils.parseInteger(xmlPullParser.nextText())));
                                 } else {
                                     xmlPullParser.nextText();
                                 }

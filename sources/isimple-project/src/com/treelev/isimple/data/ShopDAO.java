@@ -161,7 +161,7 @@ public class ShopDAO extends BaseDAO {
 
     public List<AbsDistanceShop> getShopByChain(Location currentLocation, String chainID) {
         open();
-        String formatSelectScript = "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = '%s AND location_type = 1'";
+        String formatSelectScript = "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' AND location_type = 1";
         String selectSql = String.format(formatSelectScript,
                 DatabaseSqlHelper.SHOP_LOCATION_ID,
                 DatabaseSqlHelper.SHOP_LOCATION_NAME,

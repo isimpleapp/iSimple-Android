@@ -52,17 +52,18 @@ public class SearchResultActivity extends  BaseExpandableListActivity
             }
         });
         handledIntent(getIntent());
-        mTreeSearchAdapter = new SearchItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mQuery, categoryID, locationId, mSortBy);
-        getExpandableListView().setAdapter(mTreeSearchAdapter);
         getExpandableListView().setOnChildClickListener(this);
         disableOnGroupClick();
-        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if(mTreeSearchAdapter != null){
+            mTreeSearchAdapter = new SearchItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mQuery, categoryID, locationId, mSortBy);
+            getExpandableListView().setAdapter(mTreeSearchAdapter);
+            getSupportLoaderManager().restartLoader(0, null, this);
+        } else {
             mTreeSearchAdapter.notifyDataSetChanged();
         }
     }

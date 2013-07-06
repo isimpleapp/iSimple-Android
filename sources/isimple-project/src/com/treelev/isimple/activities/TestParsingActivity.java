@@ -3,15 +3,9 @@ package com.treelev.isimple.activities;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.TextView;
-import com.treelev.isimple.R;
 import com.treelev.isimple.data.*;
-import com.treelev.isimple.domain.LoadFileData;
-import com.treelev.isimple.tasks.ParseDataTask;
-import com.treelev.isimple.utils.managers.WebServiceManager;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,14 +32,14 @@ public class TestParsingActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_layout);
-        new ParseDataTask((TextView) findViewById(R.id.textView), (TextView) findViewById(R.id.textView1), daoList).execute(files2);
-        List<LoadFileData> loadFileDataList = new WebServiceManager().getLoadFileData("http://s1.isimpleapp.ru/xml/ver0/Update-Index.xml");
+//        setContentView(R.layout.test_layout);
+//        new ParseDataTask((TextView) findViewById(R.id.textView), (TextView) findViewById(R.id.textView1), daoList).execute(files2);
+        /*List<LoadFileData> loadFileDataList = new WebServiceManager().getLoadFileData("http://s1.isimpleapp.ru/xml/ver0/Update-Index.xml");
         List<String> urlList = new ArrayList<String>();
         for (LoadFileData loadFileData : loadFileDataList) {
             urlList.add(loadFileData.getFileUrl());
         }
-        putFileDatesInPref(urlList);
+        putFileDatesInPref(urlList);*/
     }
 
     private void putFileDatesInPref(List<String> urlList) {

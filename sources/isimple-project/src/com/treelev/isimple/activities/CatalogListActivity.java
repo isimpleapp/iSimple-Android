@@ -22,7 +22,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogItemTreeCursorAdapter;
 
 public class CatalogListActivity extends BaseExpandableListActivity
-        implements LoaderManager.LoaderCallbacks<Cursor>{
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
     public final static String CATEGORY_ID = "category_id";
@@ -62,7 +62,7 @@ public class CatalogListActivity extends BaseExpandableListActivity
 
     @Override
     protected void onResume() {
-//        startUpdateService();
+        startUpdateService();
         super.onResume();
     }
 
@@ -70,7 +70,7 @@ public class CatalogListActivity extends BaseExpandableListActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         boolean addFavorites = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
-        if(addFavorites){
+        if (addFavorites) {
             mListCategoriesAdapter.notifyDataSetChanged();
         }
     }

@@ -6,11 +6,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.SplashActivity;
+import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.service.UpdateDataService;
+import org.holoeverywhere.preference.SharedPreferences;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,9 +75,11 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
     protected void onPostExecute(File[] aVoid) {
         super.onPostExecute(aVoid);
         Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
-        android.content.SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        //SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        Log.i(getClass().getName(), (context).getApplicationContext().getPackageName());
+        SharedPreferences.Editor editor = ((ISimpleApp) context).getSharedPreferences("iSimple_prefs", Context.MODE_PRIVATE).edit();
         editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, true);
-        editor.commit();
+        boolean commit = editor.commit();
         Intent newIntent = new Intent(context, SplashActivity.class);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);

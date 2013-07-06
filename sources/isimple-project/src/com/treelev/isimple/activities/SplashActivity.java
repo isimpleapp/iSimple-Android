@@ -1,18 +1,18 @@
 package com.treelev.isimple.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.service.UpdateDataService;
+import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.preference.PreferenceManager;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -37,8 +37,11 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
         AssetManager assetManager = getApplicationContext().getAssets();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean needUpdateData = android.preference.PreferenceManager.getDefaultSharedPreferences(this).getBoolean(UpdateDataService.NEED_DATA_UPDATE, false);
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Log.i(getClass().getName(), getApplicationContext().getPackageName());
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("iSimple_prefs", MODE_PRIVATE);
+        boolean needUpdateData = sharedPreferences.getBoolean(UpdateDataService.NEED_DATA_UPDATE, false);
+        Log.i(getClass().getName(), "Need update: " + (needUpdateData ? "true" : "false"));
         if (!needUpdateData) {
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
         } else {
@@ -88,6 +91,7 @@ public class SplashActivity extends Activity {
                 } else {
                     if (!dbFile.exists()) {
                         createDb(dbFile, am);
+                        Log.i(getClass().getName(), getApplicationContext().getPackageName());
                         putFileDatesInPref(params);
                     }
                 }
@@ -99,7 +103,7 @@ public class SplashActivity extends Activity {
         private void putFileDatesInPref(Object... params) {
             SharedPreferences.Editor prefEditor = ((SharedPreferences) params[1]).edit();
             for (String url : urlList) {
-                prefEditor.putLong(url, new Date(113, 6, 1).getTime());
+                prefEditor.putLong(url, new Date(113, 3, 1).getTime());
             }
             prefEditor.commit();
         }
@@ -141,7 +145,8 @@ public class SplashActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
-            android.content.SharedPreferences.Editor editor = android.preference.PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
+            //SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
+            SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences("iSimple_prefs", MODE_PRIVATE).edit();
             editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, false);
             editor.commit();
             finish();

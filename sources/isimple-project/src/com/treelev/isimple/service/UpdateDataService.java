@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
+import android.util.Log;
 import com.treelev.isimple.domain.LoadFileData;
 import com.treelev.isimple.tasks.UnzipTask;
 import com.treelev.isimple.utils.managers.WebServiceManager;
@@ -31,8 +31,10 @@ public class UpdateDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        new UpdateDataTask(this).execute(webServiceManager, sharedPreferences);
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Log.i(getClass().getName(), getApplicationContext().getPackageName());
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("iSimple_prefs", MODE_PRIVATE);
+        new UpdateDataTask(getApplicationContext()).execute(webServiceManager, sharedPreferences);
         stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -56,13 +58,13 @@ public class UpdateDataService extends Service {
             List<LoadFileData> loadFileDataList = webServiceManager.getLoadFileData(LOAD_FILE_DATA_URL);
             List<File> fileList = null;
             if (loadFileDataList.size() > 0) {
-                SharedPreferences preferenceManager = (SharedPreferences) params[1];
+                SharedPreferences sharedPreferences = (SharedPreferences) params[1];
                 fileList = new ArrayList<File>();
                 for (LoadFileData loadFileData : loadFileDataList) {
                     String fileUrl = loadFileData.getFileUrl();
-                    if (preferenceManager.getLong(fileUrl, -1) < loadFileData.getLoadDate().getTime()) {
+                    if (sharedPreferences.getLong(fileUrl, -1) < loadFileData.getLoadDate().getTime()) {
                         fileList.add(webServiceManager.downloadFile(fileUrl));
-                        SharedPreferences.Editor editor = preferenceManager.edit();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putLong(fileUrl, loadFileData.getLoadDate().getTime());
                         editor.commit();
                     }

@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -295,6 +296,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.reset_butt:
+                    view.setBackgroundColor(Color.MAGENTA);
                     if (filter.isChangeState()) {
                         filter.reset();
                         filterListView.invalidate();
@@ -302,13 +304,16 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                         organizeView();
                         filterListView.collapseGroup(0);
                     }
+                    view.setBackgroundResource(R.drawable.btn_filter_reset);
                     mFiltrUse = false;
                     break;
                 case R.id.search_butt:
+                    view.setBackgroundColor(Color.GRAY);
                     mFilterWhereClause = filter.getSQLWhereClause();
                     initLoadManager();
                     organizeView();
                     filterListView.collapseGroup(0);
+                    view.setBackgroundResource(R.drawable.btn_filter_find);
                     mFiltrUse = true;
                     break;
             }

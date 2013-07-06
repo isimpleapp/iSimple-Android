@@ -8,12 +8,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
@@ -26,12 +24,13 @@ import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.filter.*;
+import com.treelev.isimple.filter.Filter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.ExpandableListView;
 
 public class CatalogByCategoryActivity extends BaseExpandableListActivity
-        implements RadioGroup.OnCheckedChangeListener,
+        implements RadioGroup.OnCheckedChangeListener, AbsListView.OnScrollListener,
         ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -39,18 +38,16 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
     public final static String FILTER_DATA_TAG = "filter_data";
     public final static String DRINK_ID = "drink_id";
     public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
-    private Cursor cItems;
+
     private CatalogByCategoryItemTreeCursorAdapter mTreeCategoriesAdapter;
     private ExpandableListView filterListView;
-    private View footerView;
     private View darkView;
+    private View filterView;
     private RelativeLayout filterContainer;
     private AnimationWithMargins filterCollapseAnimation;
     private AnimationWithMargins filterExpandAnimation;
     private TranslateAnimation filterInstantAnimation;
-    int newLayoutHeight = 120;
-    int oldLayoutHeight = 350;
-    final int myGroupPosition = 0;
+
     private Integer mCategoryID;
     private String mLocationId;
     private boolean mExpandFiltr = false;
@@ -64,40 +61,45 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
     public final static String EXTRA_RESULT_CHECKED = "isChecked";
     public final static String EXTRA_CHILD_POSITION = "position";
 
+    private int DIP50_IN_PX;
+    private int DIP51_IN_PX;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DIP50_IN_PX = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+        DIP51_IN_PX = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 51, getResources().getDisplayMetrics());
+
         setContentView(R.layout.catalog_category_layout);
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         mContext = this;
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
+
         if (mLocationId == null) {
             mTreeCategoriesAdapter.initCategory(mCategoryID);
-            setCurrentCategory(0);    //Catalog
+            setCurrentCategory(0); //Catalog
         } else {
-            mTreeCategoriesAdapter.iniCategoryShop(mCategoryID, mLocationId);
+            mTreeCategoriesAdapter.initCategoryShop(mCategoryID, mLocationId);
             setCurrentCategory(1); //Shop
         }
-        getExpandableListView().setAdapter(mTreeCategoriesAdapter);
         disableOnGroupClick();
-        getExpandableListView().setOnGroupExpandListener(null);
-        getExpandableListView().setOnGroupCollapseListener(null);
+        getExpandableListView().setOnScrollListener(this);
         createNavigationMenuBar();
         darkView = findViewById(R.id.category_dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
         filter = initFilter();
         initFilterListView();
+        getExpandableListView().setAdapter(mTreeCategoriesAdapter);
         initLoadManager();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
     }
-
 
     @Override
     public void createNavigationMenuBar() {
@@ -129,6 +131,8 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         }
         mTreeCategoriesAdapter.setSortBy(mSortBy);
         mFilterWhereClause = mFiltrUse ? filter.getSQLWhereClause() : mFilterWhereClause;
+        if (filterListView.isGroupExpanded(0))
+            hideFilter();
         initLoadManager();
     }
 
@@ -248,7 +252,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private void backOrCollapse() {
         if (mExpandFiltr) {
-            Button resetButton = (Button) footerView.findViewById(R.id.reset_butt);
+            Button resetButton = (Button) filterView.findViewById(R.id.reset_butt);
             if (resetButton != null) {
                 resetButton.performClick();
             }
@@ -261,20 +265,18 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private void initFilterListView() {
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, filter);
-        filterListView = (ExpandableListView) findViewById(R.id.filtration_view);
+        filterView = getLayoutInflater().inflate(R.layout.category_filter_general_layout, getExpandableListView(), false);
+        filterListView = (ExpandableListView)filterView.findViewById(R.id.filtration_view);
         filterListView.setOnGroupCollapseListener(this);
-        filterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            }
-        });
-        footerView = getLayoutInflater().inflate(R.layout.category_filtration_button_bar_layout, filterListView, false);
-        ((RadioGroup) footerView.findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
-        footerView.findViewById(R.id.reset_butt).setOnClickListener(footerButtonClick);
-        footerView.findViewById(R.id.search_butt).setOnClickListener(footerButtonClick);
-        filterListView.addFooterView(footerView, null, false);
+        getExpandableListView().addHeaderView(filterView);
+
+        ((RadioGroup) filterView.findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
+        filterView.findViewById(R.id.reset_butt).setOnClickListener(footerButtonClick);
+        filterView.findViewById(R.id.search_butt).setOnClickListener(footerButtonClick);
+
         filterListView.setAdapter(filterAdapter);
+
         filterListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -284,8 +286,12 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         filterListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                footerView.findViewById(R.id.sort_group).setVisibility(View.GONE);
-                footerView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
+                filterView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
+//                filterListView.postInvalidate();
+                filterListView.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        filter.getFilterContent().size() * DIP51_IN_PX)
+                );
                 mExpandFiltr = true;
             }
         });
@@ -299,10 +305,12 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                     view.setBackgroundColor(Color.MAGENTA);
                     if (filter.isChangeState()) {
                         filter.reset();
-                        filterListView.invalidate();
+                        filterListView.postInvalidate();
                     } else {
-                        organizeView();
+                        filterView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
                         filterListView.collapseGroup(0);
+                        filterListView.setLayoutParams(new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT, DIP50_IN_PX));
                     }
                     view.setBackgroundResource(R.drawable.btn_filter_reset);
                     mFiltrUse = false;
@@ -310,18 +318,12 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                 case R.id.search_butt:
                     view.setBackgroundColor(Color.GRAY);
                     mFilterWhereClause = filter.getSQLWhereClause();
+                    hideFilter();
                     initLoadManager();
-                    organizeView();
-                    filterListView.collapseGroup(0);
                     view.setBackgroundResource(R.drawable.btn_filter_find);
                     mFiltrUse = true;
                     break;
             }
-        }
-
-        private void organizeView() {
-            footerView.findViewById(R.id.sort_group).setVisibility(View.VISIBLE);
-            footerView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
         }
     };
 
@@ -346,6 +348,32 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         }
         getSupportLoaderManager().restartLoader(mTypeSection, null, this);
     }
+
+    private boolean listIsAtTop()   {
+        return getExpandableListView().getChildAt(0).getTop() == 0;
+    }
+
+    private void hideFilter() {
+        filterListView.setVisibility(View.GONE);
+        filterView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
+    }
+
+    private void showFilter() {
+        filterListView.setVisibility(View.VISIBLE);
+        filterView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (scrollState == SCROLL_STATE_IDLE && listIsAtTop() && filterListView.getVisibility() != View.VISIBLE)   {
+            showFilter();
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+    }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {

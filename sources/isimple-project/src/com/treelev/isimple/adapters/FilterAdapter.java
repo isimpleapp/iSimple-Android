@@ -70,7 +70,7 @@ public class FilterAdapter extends BaseExpandableListAdapter {
         }
         else {
             if (emptyView == null) {
-                emptyView = layoutInflater.inflate(R.layout.empty_layout, parent, false);
+                emptyView = layoutInflater.inflate(R.layout.empty_item, parent, false);
             }
             return emptyView;
         }

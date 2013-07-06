@@ -26,7 +26,7 @@ public class CatalogByCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAda
         mTypeSection = ProxyManager.TYPE_SECTION_MAIN;
     }
 
-    public void iniCategoryShop(Integer categoryID, String locationID){
+    public void initCategoryShop(Integer categoryID, String locationID){
         mCategoryID = categoryID;
         mLocationID = locationID;
         mTypeSection = ProxyManager.TYPE_SECTION_SHOP_MAIN;

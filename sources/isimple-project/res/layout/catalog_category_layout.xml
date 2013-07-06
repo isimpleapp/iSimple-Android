@@ -1,30 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
-    <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:id="@+id/sort_control">
-        <org.holoeverywhere.widget.ExpandableListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/filtration_view"
-                android:groupIndicator="@null"/>
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
     <org.holoeverywhere.widget.ExpandableListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:groupIndicator="@null"
-            android:id="@android:id/list"
-            android:layout_below="@+id/sort_control" />
+            android:id="@android:id/list" />
     <View
             android:id="@+id/category_dark_view"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:background="@color/category_filter_text"/>
-</RelativeLayout>
+            android:background="@color/category_filter_text" />
+</LinearLayout>

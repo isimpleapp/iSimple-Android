@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="135dip">
+
+    <org.holoeverywhere.widget.Button
+            android:layout_width="wrap_content"
+            android:layout_height="135dip"
+            android:text="@string/cancel_delete_item"
+            android:id="@+id/cancel_delete"
+            android:layout_alignParentRight="true"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/layout_left"
+            android:layout_toLeftOf="@id/cancel_delete"/>
+
+
+
+
+</RelativeLayout>

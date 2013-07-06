@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.ActionMode;
@@ -18,9 +17,11 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.cursorloaders.DeleteFavouriteItems;
 import com.treelev.isimple.cursorloaders.SelectFavouriteItems;
+import com.treelev.isimple.listener.SwipeDismissListViewTouchListener;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.AdapterView;
 import org.holoeverywhere.widget.ListView;
 
 import java.util.ArrayList;
@@ -33,11 +34,11 @@ public class FavoritesActivity extends BaseListActivity
     private Cursor cItems;
     private CatalogItemCursorAdapter mListAdapter;
     private ProxyManager mProxyManager;
-    private Context mContext;
     private ArrayList<String> mDeleteItemsId;
     private ArrayList<String> mDeleteItemsIdCallBack;
     private ActionMode mActionMode;
     private Dialog mDialog;
+    private Context mContext;
 
     private final int LOAD_FAVOURITE_ITEMS = 1;
     private final int DELETE_FAVOURITE_ITEMS = 2;
@@ -56,16 +57,17 @@ public class FavoritesActivity extends BaseListActivity
         mListAdapter = new CatalogItemCursorAdapter(null, this, false, false);
         mListAdapter.setDeleteItemsId(mDeleteItemsId);
         getListView().setAdapter(mListAdapter);
-        getListView().setOnTouchListener(mOnTouchListener);
         getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        updateActivity();
-//
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        boolean addFavorites = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+        if(addFavorites){
+            getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,15 +109,15 @@ public class FavoritesActivity extends BaseListActivity
             Intent startIntent = new Intent(this, ProductInfoActivity.class);
             startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
             startIntent.putExtra(FAVORITES, true);
-            startActivity(startIntent);
+            startActivityForResult(startIntent, 0);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         } else if(mListAdapter != null){
-            if(!mDeleteItemsId.contains(product.getString(0))){
-                mDeleteItemsId.add(product.getString(0));
-            } else {
-                mDeleteItemsId.remove(product.getString(0));
-            }
-            mListAdapter.notifyDataSetChanged();
+//            if(!mDeleteItemsId.contains(product.getString(0))){
+//                mDeleteItemsId.add(product.getString(0));
+//            } else {
+//                mDeleteItemsId.remove(product.getString(0));
+//            }
+//            mListAdapter.notifyDataSetChanged();
         }
     }
 
@@ -220,6 +222,8 @@ public class FavoritesActivity extends BaseListActivity
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.action_mode_favourites, menu);
+            setOnTouchListener(getListView());
+            mListAdapter.enableDeleteMode();
             return true;
         }
 
@@ -232,7 +236,7 @@ public class FavoritesActivity extends BaseListActivity
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.discard_favorites:
-                    deleteSelectedItems();
+//                    deleteSelectedItems();
                     mode.finish();
                     return true;
                 default:
@@ -242,6 +246,8 @@ public class FavoritesActivity extends BaseListActivity
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+            getListView().setOnTouchListener(null);
+            mListAdapter.disableDeleteMode();
             mActionMode = null;
             mDeleteItemsId.clear();
             if(mListAdapter != null) {
@@ -250,39 +256,20 @@ public class FavoritesActivity extends BaseListActivity
         }
     };
 
-
-    private View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
-
-        private final int DELTA = 50;
-        private float mHistoricX;
-        private float mHistoricY;
-
-
-        @Override
-        public boolean onTouch(View view, MotionEvent event) {
-            switch (event.getAction())
-            {
-                case MotionEvent.ACTION_DOWN:
-                    mHistoricX = event.getX();
-                    mHistoricY = event.getY();
-                    break;
-
-                case MotionEvent.ACTION_UP:
-                    if (event.getX() - mHistoricX < -DELTA)
-                    {
-//                        FunctionDeleteRowWhenSlidingLeft();
-                        Log.v("Delete items", "Left");
-                        return true;
-                    }
-                    else if (event.getX() - mHistoricX > DELTA)
-                    {
-//                        FunctionDeleteRowWhenSlidingRight();
-                        Log.v("Delete items", "Right");
-                        return true;
-                    } break;
-            }
-            Log.v("Delete items type view", view.getClass().toString());
-            return false;
-        }
-    };
+    private void setOnTouchListener(ListView listView){
+        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(
+                        listView,
+                        new SwipeDismissListViewTouchListener.OnDismissCallback() {
+                            @Override
+                            public void onDismiss(android.widget.ListView listView, int[] reverseSortedPositions) {
+                                Log.v("Delete items", String.valueOf(reverseSortedPositions[0]));
+                                Cursor cursor = (Cursor) mListAdapter.getItem(reverseSortedPositions[0]);
+                                Log.v("Delete items", cursor.getString(0));
+                                mListAdapter.addDeleteItem(cursor.getString(0));
+                                mListAdapter.notifyDataSetChanged();
+                            }
+                        });
+        listView.setOnTouchListener(touchListener);
+    }
 }

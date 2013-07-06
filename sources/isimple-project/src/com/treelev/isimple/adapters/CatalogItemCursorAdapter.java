@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
+import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.LinearLayout;
 
@@ -34,6 +36,7 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
     private ImageLoader imageLoader;
     private String sizePrefix;
     private ArrayList<String> mDeleteItemsId;
+    private boolean mDeleteMode;
 
     public CatalogItemCursorAdapter(Cursor c, Activity activity, boolean group, boolean yearEnable) {
         super(activity, R.layout.catalog_item_layout, c, Item.getUITags(),
@@ -59,8 +62,47 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         mDeleteItemsId = list;
     }
 
+    public void addDeleteItem(String itemID){
+        if(mDeleteItemsId != null){
+            mDeleteItemsId.add(itemID);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void enableDeleteMode(){
+        mDeleteMode = true;
+        mDeleteItemsId = new ArrayList<String>(getCount());
+    }
+
+    public void disableDeleteMode(){
+        mDeleteMode = false;
+        mDeleteItemsId.clear();
+        mDeleteItemsId = null;
+    }
+
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        if(mDeleteMode){
+            if(mDeleteItemsId.contains(getItemID(position))){
+                convertView = inflater.inflate(mContext, R.layout.delete_item_layout);
+                convertView.setOnTouchListener(null);
+            } else {
+                convertView = inflater.inflate(mContext, R.layout.catalog_item_layout);
+                bindInfo(convertView, (Cursor)getItem(position));
+            }
+        } else {
+            convertView = inflater.inflate(mContext, R.layout.catalog_item_layout);
+            bindInfo(convertView, (Cursor)getItem(position));
+        }
+        return convertView;
+    }
+
+    private String getItemID(int position){
+        return ((Cursor)getItem(position)).getString(0);
+    }
+
+    private void bindInfo(View view, Cursor cursor){
         ImageView imageView = (ImageView) view.findViewById(R.id.item_image);
         TextView nameView = (TextView) view.findViewById(R.id.item_name);
         TextView itemLocName = (TextView) view.findViewById(R.id.item_loc_name);
@@ -118,13 +160,13 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
                     end = "ов";
 
                 } else if(strDrinkId.charAt(strDrinkId.length()-1) == '2' ||
-                    strDrinkId.charAt(strDrinkId.length()-1) == '3' ||
-                    strDrinkId.charAt(strDrinkId.length()-1) == '4' ) {
+                        strDrinkId.charAt(strDrinkId.length()-1) == '3' ||
+                        strDrinkId.charAt(strDrinkId.length()-1) == '4' ) {
                     end = "а";
                 }else if(strDrinkId.charAt(strDrinkId.length()-1) == '1') {
                     end = "";
                 }  else {    //5 - 9 last number
-                   end= "ов";
+                    end= "ов";
                 }
 
                 volumeLabel = String.format(formatVolume, drinkId, end);
@@ -150,7 +192,7 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         ProductType productType = ProductType.getProductType(cursor.getInt(itemProductTypeIndex));
         String colorStr = productType.getColor();
         if(colorStr == null ) {
-               colorStr = ItemColor.getColor(cursor.getInt(itemColorIndex)).getCode();
+            colorStr = ItemColor.getColor(cursor.getInt(itemColorIndex)).getCode();
         }
         colorItem.setBackgroundColor(Color.parseColor(colorStr));
 

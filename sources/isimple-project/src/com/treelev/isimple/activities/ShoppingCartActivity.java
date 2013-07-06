@@ -115,8 +115,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             case R.id.delivery_btn:
                 org.holoeverywhere.app.AlertDialog.Builder builder = new org.holoeverywhere.app.AlertDialog.Builder(this);
                 builder.setTitle(getString(R.string.delivery_dialog_title));
-                countries = proxyManager.getCountries();
-                builder.setItems(proxyManager.getCountries(), new DialogInterface.OnClickListener() {
+//                builder.setItems(proxyManager.getCountries(), new DialogInterface.OnClickListener() {
+                builder.setItems(countries, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String country = countries[which];
@@ -169,6 +169,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
 
         @Override
         protected void onPreExecute() {
+            stopManagingCursor(cItems);
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.dialog_delete_data_message), false, false);
         }
@@ -210,6 +211,9 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
 
         @Override
         protected Cursor doInBackground(Void... params) {
+            countries = proxyManager.getCountries();
+            mMinPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
+            mCountry = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
             return proxyManager.getShoppingCartItems();
         }
 
@@ -217,7 +221,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-            String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
+//            String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
             mListCategoriesAdapter.swapCursor(cItems);
             int shoppingCartPrice = 0;
             if (cursor != null) {
@@ -230,10 +234,10 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                 }
                 cursor.moveToFirst();
             }
-            shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
+//            shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
+            shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(mCountry, shoppingCartPrice));
             shoppingCartPriceTextView.setText(String.format(PRICE_LABEL_FORMAT, shoppingCartPrice));
             organizeCreateOrderButton(shoppingCartPrice);
-            getListView().setAdapter(mListCategoriesAdapter);
             if (cursor != null && cursor.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);
                 findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
@@ -242,10 +246,13 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         }
     }
 
+    private int mMinPrice;
+    private String mCountry;
+
     public void organizeCreateOrderButton(int shoppingCartPrice) {
-        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
+//        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
         Button button = (Button) findViewById(R.id.create_order_btn);
-        if (shoppingCartPrice >= minPrice) {
+        if (shoppingCartPrice >= mMinPrice) {
             button.setBackgroundColor(getResources().getColor(R.color.product_price_color));
             button.setClickable(true);
         } else {

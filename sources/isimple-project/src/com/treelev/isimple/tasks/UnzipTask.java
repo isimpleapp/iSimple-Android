@@ -79,7 +79,7 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
         Log.i(getClass().getName(), (context).getApplicationContext().getPackageName());
         SharedPreferences.Editor editor = ((ISimpleApp) context).getSharedPreferences("iSimple_prefs", Context.MODE_PRIVATE).edit();
         editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, true);
-        boolean commit = editor.commit();
+        editor.apply();
         Intent newIntent = new Intent(context, SplashActivity.class);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);

@@ -52,7 +52,8 @@ public class SplashActivity extends Activity {
     }
 
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+    }
 
     private List<FileParseObject> createFileList(File[] fileList) {
         List<FileParseObject> fileParseObjectList = new ArrayList<FileParseObject>();
@@ -148,7 +149,7 @@ public class SplashActivity extends Activity {
             //SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
             SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences("iSimple_prefs", MODE_PRIVATE).edit();
             editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, false);
-            editor.commit();
+            editor.apply();
             finish();
             Intent newIntent = new Intent(SplashActivity.this, CatalogListActivity.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

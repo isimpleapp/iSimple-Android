@@ -12,8 +12,11 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -48,6 +51,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private MenuItem mItemFavourite;
     private View headerView;
     private ProxyManager proxyManager;
+    private TextView animateFirstText;
+    private TextView animateSecondText;
 
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
@@ -169,7 +174,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         getExpandableListView().setAdapter(mListAdapter);
         populateFormsFields(headerView, mProduct);
         LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
-        ((LinearLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
+        ((RelativeLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);
         final LinearLayout lin_for_two_button = (LinearLayout) headerView.findViewById(R.id.linear_for_two_button);
         ((LinearLayout.LayoutParams) lin_for_two_button.getLayoutParams()).width = widthDisplay();
         lin_for_two_button.requestLayout();
@@ -307,6 +312,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private void populateFormsFields(View formView, Item product) {
         String priceLabel = Utils.organizePriceLabel(String.valueOf(product.getPrice()));
         ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
+        animateFirstText = (TextView) formView.findViewById(R.id.add_to_basket_animate_first_part);
+        animateFirstText.setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
+        animateFirstText.setVisibility(View.INVISIBLE);
+        animateSecondText = (TextView) formView.findViewById(R.id.add_to_basket_animate_second_part);
+        animateSecondText.setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
+        animateSecondText.setVisibility(View.INVISIBLE);
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
         ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
         ((TextView) formView.findViewById(R.id.product_localizated_manufacturer)).setText(product.getLocalizedManufacturer());
@@ -403,6 +414,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     };
 
     private View.OnClickListener addToShoppingCartBtnClick = new View.OnClickListener() {
+
         @Override
         public void onClick(View v) {
             addToShoppingCartClick();
@@ -415,7 +427,54 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             } else {
                 proxyManager.insertProductInShoppingCart(mProduct);
             }
-            Toast.makeText(ProductInfoActivity.this, "Товар добавлен в корзину", android.widget.Toast.LENGTH_LONG).show();
+            animateFirstText.setVisibility(View.VISIBLE);
+            animateFirstText.startAnimation(createFirstTranslateAnimation());
+        }
+
+        private Animation.AnimationListener translateFirstAnimationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                animateSecondText.setVisibility(View.VISIBLE);
+                animateSecondText.startAnimation(createSecondTranslateAnimation());
+                animateFirstText.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            private Animation createSecondTranslateAnimation() {
+                Animation translateAnimation = new TranslateAnimation(0.0f, 0.0f, 0.0f, -10000.0f);
+                translateAnimation.setDuration(2000);
+                translateAnimation.setAnimationListener(translateSecondAnimationListener);
+                return translateAnimation;
+            }
+
+            private Animation.AnimationListener translateSecondAnimationListener = new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    animateSecondText.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            };
+        };
+
+        private Animation createFirstTranslateAnimation() {
+            Animation translateAnimation = new TranslateAnimation(0.0f, 0.0f, 0.0f, -200.0f);
+            translateAnimation.setDuration(400);
+            translateAnimation.setAnimationListener(translateFirstAnimationListener);
+            return translateAnimation;
         }
     };
 }

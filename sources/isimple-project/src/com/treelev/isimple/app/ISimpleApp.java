@@ -4,12 +4,12 @@ import android.location.Location;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
 import org.holoeverywhere.app.Application;
 
 import java.util.List;
-
-import org.acra.*;
-import org.acra.annotation.*;
 
 @ReportsCrashes(
     formKey = "",

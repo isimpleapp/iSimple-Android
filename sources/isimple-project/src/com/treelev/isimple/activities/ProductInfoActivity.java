@@ -423,7 +423,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         private void addToShoppingCartClick() {
             boolean isProductExistShoppingCart = proxyManager.isProductExistShoppingCart(itemId);
             if (isProductExistShoppingCart) {
-                proxyManager.addItemCount(itemId);
+                proxyManager.increaseShopCardItemCount(itemId);
             } else {
                 proxyManager.insertProductInShoppingCart(mProduct);
             }

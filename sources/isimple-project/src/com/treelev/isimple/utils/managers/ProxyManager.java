@@ -360,27 +360,23 @@ public class ProxyManager {
         return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).insertItem(product);
     }
 
-    public void addItemCount(String itemId) {
-        ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).addItemCount(itemId);
-    }
-
     public Cursor getShoppingCartItems() {
         return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getShoppingCartItems();
     }
 
-    public int increaseItemCount(String itemId) {
+    public int increaseShopCardItemCount(String itemId) {
         ShoppingCartDAO dao = (ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID);
         dao.increaseItemCount(itemId);
         return dao.getItemCount(itemId);
     }
 
-    public int decreaseItemCount(String itemId) {
+    public int decreaseShopCardItemCount(String itemId) {
         ShoppingCartDAO dao = (ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID);
         dao.decreaseItemCount(itemId);
         return dao.getItemCount(itemId);
     }
 
-    public void deleteItem(String itemId) {
+    public void removeShopCardItem(String itemId) {
         ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).deleteItem(itemId);
     }
 

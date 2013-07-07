@@ -117,15 +117,6 @@ public class ShoppingCartDAO extends BaseDAO {
         return id;
     }
 
-    public void addItemCount(String itemId) {
-        open();
-        String updateScript = "UPDATE %1$s SET %2$s = ((SELECT %2$s FROM %1$s WHERE %3$s = '%4$s') + 1) WHERE %3$s = '%4$s'";
-        String updateSql = String.format(updateScript, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE,
-                DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
-        getDatabase().execSQL(updateSql);
-        close();
-    }
-
     public boolean isProductExistShoppingCart(String itemId) {
         boolean result = false;
         open();

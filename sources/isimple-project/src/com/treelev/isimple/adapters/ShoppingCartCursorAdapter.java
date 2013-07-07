@@ -66,6 +66,14 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         this.context = context;
     }
 
+    public void refresh() {
+        ((Activity)context).stopManagingCursor(getCursor());
+        getCursor().close();
+        Cursor cursor = proxyManager.getShoppingCartItems();
+        ((Activity)context).startManagingCursor(cursor);
+        swapCursor(cursor);
+    }
+
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         organizeTextLabels(cursor, view);
@@ -110,25 +118,25 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
                 ((org.holoeverywhere.app.Activity) context).getPreferences(Context.MODE_PRIVATE).getString(ShoppingCartActivity.COUNTRY_LABEL, ""), shoppingCartPrice));
     }
 
-    private void increaseItemCount(View view) {
+    private void increaseItemCount(final View view) {
         ShopCardItemHolder itemHolder = (ShopCardItemHolder)view.getTag();
-        int newCount = proxyManager.increaseItemCount(itemHolder.itemID);
+        int newCount = proxyManager.increaseShopCardItemCount(itemHolder.itemID);
         itemHolder.textView.setText(newCount + "");
     }
 
-    private void decreaseItemCount(View view) {
+    private void decreaseItemCount(final View view) {
         ShopCardItemHolder itemHolder = (ShopCardItemHolder)view.getTag();
         int count = proxyManager.getItemCount(itemHolder.itemID);
         if (count <= 1) {
-            proxyManager.deleteItem(itemHolder.itemID);
-            getCursor().requery();
+            proxyManager.removeShopCardItem(itemHolder.itemID);
+            refresh();
             notifyDataSetChanged();
             if (getCursor().getCount() == 0) {
                 ((Activity) context).findViewById(R.id.content_layout).setVisibility(View.GONE);
                 ((Activity) context).findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
             }
         } else {
-            int newCount = proxyManager.decreaseItemCount(itemHolder.itemID);
+            int newCount = proxyManager.decreaseShopCardItemCount(itemHolder.itemID);
             itemHolder.textView.setText(newCount + "");
         }
     }

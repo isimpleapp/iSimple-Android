@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -30,9 +31,7 @@ import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.ExpandableListView;
 
 public class CatalogByCategoryActivity extends BaseExpandableListActivity
-        implements RadioGroup.OnCheckedChangeListener, AbsListView.OnScrollListener,
-        ExpandableListView.OnGroupExpandListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener,
-        LoaderManager.LoaderCallbacks<Cursor> {
+        implements RadioGroup.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
@@ -77,6 +76,20 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         mContext = this;
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
 
+        mTreeCategoriesAdapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                if (filterListView.isGroupExpanded(0)) { // фильтр открыт
+                    getExpandableListView().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            getExpandableListView().setSelectionFromTop(2, DIP50_IN_PX);
+                        }
+                    });
+                }
+            }
+        });
+
         if (mLocationId == null) {
             mTreeCategoriesAdapter.initCategory(mCategoryID);
             setCurrentCategory(0); //Catalog
@@ -85,7 +98,6 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
             setCurrentCategory(1); //Shop
         }
         disableOnGroupClick();
-        getExpandableListView().setOnScrollListener(this);
         createNavigationMenuBar();
         darkView = findViewById(R.id.category_dark_view);
         darkView.setVisibility(View.GONE);
@@ -131,8 +143,6 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         }
         mTreeCategoriesAdapter.setSortBy(mSortBy);
         mFilterWhereClause = mFiltrUse ? filter.getSQLWhereClause() : mFilterWhereClause;
-        if (filterListView.isGroupExpanded(0))
-            hideFilter();
         initLoadManager();
     }
 
@@ -267,7 +277,6 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, filter);
         filterView = getLayoutInflater().inflate(R.layout.category_filter_general_layout, getExpandableListView(), false);
         filterListView = (ExpandableListView)filterView.findViewById(R.id.filtration_view);
-        filterListView.setOnGroupCollapseListener(this);
 
         getExpandableListView().addHeaderView(filterView);
 
@@ -283,11 +292,18 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                 return filter.getFilterContent().get(childPosition).process();
             }
         });
+
+//        filterListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+//            @Override
+//            public void onGroupCollapse(int groupPosition) {
+//                mExpandFiltr = false;
+//            }
+//        });
+
         filterListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
                 filterView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
-//                filterListView.postInvalidate();
                 filterListView.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         filter.getFilterContent().size() * DIP51_IN_PX)
@@ -318,7 +334,6 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                 case R.id.search_butt:
                     view.setBackgroundColor(Color.GRAY);
                     mFilterWhereClause = filter.getSQLWhereClause();
-                    hideFilter();
                     initLoadManager();
                     view.setBackgroundResource(R.drawable.btn_filter_find);
                     mFiltrUse = true;
@@ -326,11 +341,6 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
             }
         }
     };
-
-    @Override
-    public void onGroupCollapse(int groupPosition) {
-        mExpandFiltr = false;
-    }
 
     private void initLoadManager() {
         if(mFilterWhereClause == null){
@@ -340,40 +350,14 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                 mTypeSection = ProxyManager.TYPE_SECTION_SHOP_MAIN;
             }
         } else if(mTypeSection != ProxyManager.TYPE_SECTION_FILTRATION_SEARCH){
-            mTreeCategoriesAdapter.initFilterd(mFilterWhereClause, mLocationId, mSortBy);
+            mTreeCategoriesAdapter.initFilter(mFilterWhereClause, mLocationId, mSortBy);
             mTypeSection = ProxyManager.TYPE_SECTION_FILTRATION_SEARCH;
         }
-        if(mFilterWhereClause != null ){
+        if(mFilterWhereClause != null ) {
             mTreeCategoriesAdapter.setFilterWhereClause(mFilterWhereClause);
         }
         getSupportLoaderManager().restartLoader(mTypeSection, null, this);
     }
-
-    private boolean listIsAtTop()   {
-        return getExpandableListView().getChildAt(0).getTop() == 0;
-    }
-
-    private void hideFilter() {
-        filterListView.setVisibility(View.GONE);
-        filterView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
-    }
-
-    private void showFilter() {
-        filterListView.setVisibility(View.VISIBLE);
-        filterView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (scrollState == SCROLL_STATE_IDLE && listIsAtTop() && filterListView.getVisibility() != View.VISIBLE)   {
-            showFilter();
-        }
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-    }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {

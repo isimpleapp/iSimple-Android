@@ -32,7 +32,7 @@ public class CatalogByCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAda
         mTypeSection = ProxyManager.TYPE_SECTION_SHOP_MAIN;
     }
 
-    public void initFilterd(String filterWhereClause, String locationID, int sortBy){
+    public void initFilter(String filterWhereClause, String locationID, int sortBy){
         mFilterWhereClause = filterWhereClause;
         mLocationID = locationID;
         mSortBy = sortBy;

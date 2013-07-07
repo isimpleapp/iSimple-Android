@@ -152,7 +152,7 @@ public class ShoppingCartDAO extends BaseDAO {
     }
 
     public void increaseItemCount(String itemId) {
-        String updateQueryFormat = "UPDATE %1$s SET %2$s = (SELECT %2$s FROM %1$s WHERE %3$s = '%4$s') + 1 WHERE %3$s = '%4$s'";
+        String updateQueryFormat = "UPDATE %1$s SET %2$s = %2$s + 1 WHERE %3$s = '%4$s'";
         String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
@@ -160,7 +160,7 @@ public class ShoppingCartDAO extends BaseDAO {
     }
 
     public void decreaseItemCount(String itemId) {
-        String updateQueryFormat = "UPDATE %1$s SET %2$s = (SELECT %2$s FROM %1$s WHERE %3$s = '%4$s') - 1 WHERE %3$s = '%4$s'";
+        String updateQueryFormat = "UPDATE %1$s SET %2$s = %2$s - 1 WHERE %3$s = '%4$s'";
         String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);

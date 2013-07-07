@@ -71,24 +71,21 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         organizeTextLabels(cursor, view);
         organizeItemImageView(cursor, view);
         organizeItemColorView(cursor, view);
-        TextView textView = (TextView) view.findViewById(R.id.product_count);
-        int count = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
-        textView.setText(String.valueOf(count));
-        String itemId = getCursor().getString(getCursor().getColumnIndex(BaseColumns._ID));
+
         Button decreaseButton = (Button) view.findViewById(R.id.decrease_butt);
-        /*if (count == 1) {
-            decreaseButton.setBackgroundResource(R.drawable.shopping_cart_recycle_bin);
-            decreaseButton.set("");
-        } else {
-            decreaseButton.setBackgroundColor(Color.TRANSPARENT);
-            decreaseButton.setText("\u002D");
-        }*/
         decreaseButton.setText("\u002D");
-        decreaseButton.setOnClickListener(this);
-        decreaseButton.setTag(itemId);
         Button increaseButton = (Button) view.findViewById(R.id.increase_butt);
+        TextView textView = (TextView) view.findViewById(R.id.product_count);
+        String itemId = getCursor().getString(getCursor().getColumnIndex(BaseColumns._ID));
+
+        ShopCardItemHolder itemHolder = new ShopCardItemHolder(itemId, textView);
+        int count = proxyManager.getItemCount(itemId);
+        textView.setText(String.valueOf(count));
+
+        decreaseButton.setTag(itemHolder);
+        increaseButton.setTag(itemHolder);
+        decreaseButton.setOnClickListener(this);
         increaseButton.setOnClickListener(this);
-        increaseButton.setTag(itemId);
     }
 
     @Override
@@ -114,17 +111,16 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     }
 
     private void increaseItemCount(View view) {
-        proxyManager.increaseItemCount((String) view.getTag());
-        getCursor().requery();
-        ((TextView) ((LinearLayout) view.getParent()).findViewById(R.id.product_count))
-                .setText(String.valueOf(getCursor().getInt(getCursor().getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT))));
+        ShopCardItemHolder itemHolder = (ShopCardItemHolder)view.getTag();
+        int newCount = proxyManager.increaseItemCount(itemHolder.itemID);
+        itemHolder.textView.setText(newCount + "");
     }
 
     private void decreaseItemCount(View view) {
-        String itemId = (String) view.getTag();
-        int count = proxyManager.getItemCount(itemId);
-        if (count == 1) {
-            proxyManager.deleteItem(itemId);
+        ShopCardItemHolder itemHolder = (ShopCardItemHolder)view.getTag();
+        int count = proxyManager.getItemCount(itemHolder.itemID);
+        if (count <= 1) {
+            proxyManager.deleteItem(itemHolder.itemID);
             getCursor().requery();
             notifyDataSetChanged();
             if (getCursor().getCount() == 0) {
@@ -132,10 +128,8 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
                 ((Activity) context).findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
             }
         } else {
-            proxyManager.decreaseItemCount((String) view.getTag());
-            getCursor().requery();
-            ((TextView) ((LinearLayout) view.getParent()).findViewById(R.id.product_count))
-                    .setText(String.valueOf(getCursor().getInt(getCursor().getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT))));
+            int newCount = proxyManager.decreaseItemCount(itemHolder.itemID);
+            itemHolder.textView.setText(newCount + "");
         }
     }
 
@@ -198,6 +192,17 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
             textView.setVisibility(View.GONE);
             view.findViewById(R.id.shopping_cart_vol_year_separator).setVisibility(View.GONE);
         }
+    }
+
+    public class ShopCardItemHolder {
+
+        public ShopCardItemHolder(String itemID, TextView textView) {
+            this.itemID = itemID;
+            this.textView = textView;
+        }
+
+        String itemID;
+        TextView textView;
     }
 
 }

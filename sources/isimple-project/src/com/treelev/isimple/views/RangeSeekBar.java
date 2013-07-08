@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.*;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
@@ -507,7 +508,10 @@ public class RangeSeekBar<T extends Number> extends ImageView {
      */
     @SuppressWarnings("unchecked")
     private T normalizedToValue(double normalized) {
-        return (T) numberType.toNumber(absoluteMinValuePrim + normalized * (absoluteMaxValuePrim - absoluteMinValuePrim));
+        double value = Math.pow(normalized, 4.0) * absoluteMaxValuePrim;
+        Log.v("Value seek bar", String.valueOf(normalized));
+        return (T)  numberType.toNumber(value);
+//        return (T)  numberType.toNumber( absoluteMinValuePrim + normalized * (absoluteMaxValuePrim - absoluteMinValuePrim));
     }
 
     /**

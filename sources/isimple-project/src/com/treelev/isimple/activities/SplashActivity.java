@@ -6,7 +6,6 @@ import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.service.UpdateDataService;
@@ -38,11 +37,9 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
         AssetManager assetManager = getApplicationContext().getAssets();
-        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Log.i(getClass().getName(), getApplicationContext().getPackageName());
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("iSimple_prefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UpdateDataService.PREFS, MODE_MULTI_PROCESS);
         boolean needUpdateData = sharedPreferences.getBoolean(UpdateDataService.NEED_DATA_UPDATE, false);
-        Log.i(getClass().getName(), "Need update: " + (needUpdateData ? "true" : "false"));
+
         if (!needUpdateData) {
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
         } else {
@@ -87,21 +84,18 @@ public class SplashActivity extends Activity {
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         }
 
-        private void importDBFromFile(boolean ovveride, Object... params) {
+        private void importDBFromFile(boolean override, Object... params) {
             try {
                 AssetManager am = (AssetManager) params[0];
                 File file = new File("/data/data/com.treelev.isimple/databases/");
                 file.mkdir();
                 File dbFile = new File("/data/data/com.treelev.isimple/databases/iSimple.db");
-                if (ovveride) {
+                if (override) {
                     createDb(dbFile, am);
                     putFileDatesInPref(params);
-                } else {
-                    if (!dbFile.exists()) {
-                        createDb(dbFile, am);
-                        Log.i(getClass().getName(), getApplicationContext().getPackageName());
-                        putFileDatesInPref(params);
-                    }
+                } else if (!dbFile.exists()) {
+                    createDb(dbFile, am);
+                    putFileDatesInPref(params);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -153,10 +147,11 @@ public class SplashActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
-            //SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
-            SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences("iSimple_prefs", MODE_PRIVATE).edit();
+
+            SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(UpdateDataService.PREFS, MODE_MULTI_PROCESS).edit();
             editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, false);
-            editor.apply();
+            editor.commit();
+
             finish();
             Intent newIntent = new Intent(SplashActivity.this, CatalogListActivity.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

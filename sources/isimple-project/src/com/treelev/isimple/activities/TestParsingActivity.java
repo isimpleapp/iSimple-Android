@@ -43,7 +43,7 @@ public class TestParsingActivity extends Activity {
     }
 
     private void putFileDatesInPref(List<String> urlList) {
-        SharedPreferences.Editor prefEditor = getPreferences(MODE_PRIVATE).edit();
+        SharedPreferences.Editor prefEditor = getPreferences(MODE_MULTI_PROCESS).edit();
         for (String url : urlList) {
             prefEditor.putLong(url, new Date().getTime());
         }

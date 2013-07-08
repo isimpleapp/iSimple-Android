@@ -10,6 +10,7 @@ import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.service.UpdateDataService;
+import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -62,6 +63,12 @@ public class SplashActivity extends Activity {
         }
         Collections.sort(fileParseObjectList);
         return fileParseObjectList;
+    }
+
+    @Override
+    protected void onDestroy() {
+       Utils.updateStateCart(this);
+       super.onDestroy();
     }
 
     private class ImportDBFromFileTask extends AsyncTask {

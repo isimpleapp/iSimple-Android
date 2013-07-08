@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.treelev.isimple.httpclient.DefaultSSLSocketFactory;
 import com.treelev.isimple.parser.*;
+import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
@@ -35,6 +36,25 @@ public class Utils {
     private final static String FORMAT_PRICE_LABEL = "%s р.";
     private final static String FORMAT_VOLUME_LABEL = "%sл";
     private final static String REPLACE_STRING_ZEROS = "\\.?0*$";
+
+    private static Boolean mIsCartActive;
+
+    public static void updateStateCart(Context context){
+        mIsCartActive = new ProxyManager(context).getCountOrders() > 0;
+    }
+
+    public static void setActiveCartState(){
+        mIsCartActive = true;
+    }
+
+    public static void setDisactiveCartState(){
+        mIsCartActive = false;
+    }
+
+    public static boolean getStateCart(){
+        return mIsCartActive;
+    }
+
 
     public static Parser getXmlParser(int parserId) {
         switch (parserId) {

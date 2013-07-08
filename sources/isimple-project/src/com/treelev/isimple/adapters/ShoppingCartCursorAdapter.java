@@ -134,6 +134,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
             if (getCursor().getCount() == 0) {
                 ((Activity) context).findViewById(R.id.content_layout).setVisibility(View.GONE);
                 ((Activity) context).findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
+                Utils.setDisactiveCartState();
             }
         } else {
             int newCount = proxyManager.decreaseShopCardItemCount(itemHolder.itemID);

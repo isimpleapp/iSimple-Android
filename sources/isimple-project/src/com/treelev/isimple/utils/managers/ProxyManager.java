@@ -364,6 +364,10 @@ public class ProxyManager {
         return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getShoppingCartItems();
     }
 
+    public int getCountOrders() {
+        return ((ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID)).getCountOrder();
+    }
+
     public int increaseShopCardItemCount(String itemId) {
         ShoppingCartDAO dao = (ShoppingCartDAO) getObjectDAO(ShoppingCartDAO.ID);
         dao.increaseItemCount(itemId);

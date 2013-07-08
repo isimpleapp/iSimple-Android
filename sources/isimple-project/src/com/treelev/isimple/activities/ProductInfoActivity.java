@@ -427,6 +427,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             } else {
                 proxyManager.insertProductInShoppingCart(mProduct);
             }
+            Utils.setActiveCartState();
             animateFirstText.setVisibility(View.VISIBLE);
             animateFirstText.startAnimation(createFirstTranslateAnimation());
         }

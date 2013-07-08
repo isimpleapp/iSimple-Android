@@ -16,6 +16,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ShoppingCartCursorAdapter;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.fragments.OrderDialogFragment;
+import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -186,6 +187,9 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             if (mListCategoriesAdapter.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);
                 findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
+                Utils.setDisactiveCartState();
+            } else {
+                Utils.setActiveCartState();
             }
             mDialog.dismiss();
         }
@@ -241,6 +245,9 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             if (cursor != null && cursor.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);
                 findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
+                Utils.setDisactiveCartState();
+            } else {
+                Utils.setActiveCartState();
             }
             mDialog.dismiss();
         }

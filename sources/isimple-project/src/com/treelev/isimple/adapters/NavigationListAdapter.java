@@ -9,17 +9,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.utils.Utils;
 
 public class NavigationListAdapter extends BaseAdapter {
 
     private Drawable[] mIcons;
     private String[] mTitles;
     private LayoutInflater mInflator;
+    private Context mContext;
 
     public NavigationListAdapter(Context context, Drawable[] icons, String[] titles) {
         mInflator = LayoutInflater.from(context);
         mIcons = icons;
         mTitles = titles;
+        mContext = context;
     }
 
     @Override
@@ -63,6 +66,11 @@ public class NavigationListAdapter extends BaseAdapter {
         holder.title.setText(mTitles[position]);
         if (isDropDownView) {
             holder.icon.setImageDrawable(mIcons[position]);
+            if(position == 3 ) {  //Shop Cart
+                if(Utils.getStateCart()){
+                    holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.menu_ico_shopping_cart_active));
+                }
+            }
         }
         return convertView;
     }

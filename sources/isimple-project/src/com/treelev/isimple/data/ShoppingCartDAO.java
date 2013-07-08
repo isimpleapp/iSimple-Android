@@ -182,6 +182,20 @@ public class ShoppingCartDAO extends BaseDAO {
         close();
     }
 
+    public int getCountOrder(){
+        int result = 0;
+        String query = "SELECT COUNT(*) FROM shopping_cart_item";
+        open();
+        Cursor cursor = getDatabase().rawQuery(query, null);
+        if(cursor != null){
+            if(cursor.moveToFirst()){
+                result = cursor.getInt(0);
+            }
+        }
+        close();
+        return result;
+    }
+
     public void deleteAllData() {
         String formatQuery = "DELETE FROM %s";
         String query = String.format(formatQuery, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);

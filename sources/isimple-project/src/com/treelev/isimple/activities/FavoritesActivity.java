@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.ActionMode;
@@ -21,7 +20,6 @@ import com.treelev.isimple.listener.SwipeDismissListViewTouchListener;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.AdapterView;
 import org.holoeverywhere.widget.ListView;
 
 import java.util.ArrayList;
@@ -34,11 +32,11 @@ public class FavoritesActivity extends BaseListActivity
     private Cursor cItems;
     private CatalogItemCursorAdapter mListAdapter;
     private ProxyManager mProxyManager;
-    private ArrayList<String> mDeleteItemsId;
-    private ArrayList<String> mDeleteItemsIdCallBack;
     private ActionMode mActionMode;
     private Dialog mDialog;
+    private SwipeDismissListViewTouchListener mTouchListener;
     private Context mContext;
+    private ArrayList<String> mDeleteItemsId;
 
     private final int LOAD_FAVOURITE_ITEMS = 1;
     private final int DELETE_FAVOURITE_ITEMS = 2;
@@ -52,11 +50,9 @@ public class FavoritesActivity extends BaseListActivity
         ListView listView = getListView();
 //        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 //        listView.setMultiChoiceModeListener(multiChoiceModeListener);
-        mContext = this;
+//        mContext = this;
         mDeleteItemsId = new ArrayList<String>();
-        mListAdapter = new CatalogItemCursorAdapter(null, this, false, false);
-        mListAdapter.setDeleteItemsId(mDeleteItemsId);
-        getListView().setAdapter(mListAdapter);
+        initListView();
         getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
     }
 
@@ -83,7 +79,11 @@ public class FavoritesActivity extends BaseListActivity
                 overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
                 return true;
             case R.id.discard_favorites:
-                mActionMode = startActionMode(mActionCallback);
+                if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB){
+                    mActionMode = startActionMode(mActionCallbackBeforeV11);
+                } else {
+                    mActionMode = startActionMode(mActionCallbackAfterV11);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -112,12 +112,14 @@ public class FavoritesActivity extends BaseListActivity
             startActivityForResult(startIntent, 0);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         } else if(mListAdapter != null){
-//            if(!mDeleteItemsId.contains(product.getString(0))){
-//                mDeleteItemsId.add(product.getString(0));
-//            } else {
-//                mDeleteItemsId.remove(product.getString(0));
-//            }
-//            mListAdapter.notifyDataSetChanged();
+            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB){
+                if(!mListAdapter.containsDeleteItemID(product.getString(0))){
+                    mListAdapter.addDeleteItem(product.getString(0));
+                } else {
+                    mListAdapter.removeDeleteItemsID(product.getString(0));
+                }
+                mListAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -133,7 +135,7 @@ public class FavoritesActivity extends BaseListActivity
             case LOAD_FAVOURITE_ITEMS:
                 return new SelectFavouriteItems(this);
             case DELETE_FAVOURITE_ITEMS:
-                return new DeleteFavouriteItems(this, mDeleteItemsIdCallBack);
+                return new DeleteFavouriteItems(this, mListAdapter.getDeleteItemsId());
             default:
                 return null;
         }
@@ -159,12 +161,10 @@ public class FavoritesActivity extends BaseListActivity
          } else {
             layout.setVisibility(View.VISIBLE);
         }
-        mDeleteItemsId.clear();
         mListAdapter.notifyDataSetChanged();
     }
 
     private void deleteSelectedItems(){
-        mDeleteItemsIdCallBack = new ArrayList<String>(mDeleteItemsId);
         getSupportLoaderManager().restartLoader(DELETE_FAVOURITE_ITEMS, null, this);
     }
 
@@ -175,9 +175,9 @@ public class FavoritesActivity extends BaseListActivity
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
             Cursor cursor = (Cursor)getListView().getAdapter().getItem(position);
             if(checked){
-                mDeleteItemsId.add(cursor.getString(0));
+//                mDeleteItemsId.add(cursor.getString(0));
             } else {
-                mDeleteItemsId.remove(cursor.getString(0));
+//                mDeleteItemsId.remove(cursor.getString(0));
             }
             mListAdapter.notifyDataSetChanged();
         }
@@ -209,7 +209,7 @@ public class FavoritesActivity extends BaseListActivity
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             mActionMode = null;
-            mDeleteItemsId.clear();
+//            mDeleteItemsId.clear();
             if(mListAdapter != null) {
                 mListAdapter.notifyDataSetChanged();
             }
@@ -217,12 +217,12 @@ public class FavoritesActivity extends BaseListActivity
 
     };
 
-    private ActionMode.Callback mActionCallback = new ActionMode.Callback() {
+    private ActionMode.Callback mActionCallbackAfterV11 = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.action_mode_favourites, menu);
-            setOnTouchListener(getListView());
+            mTouchListener.setEnabled(true);
             mListAdapter.enableDeleteMode();
             return true;
         }
@@ -236,7 +236,7 @@ public class FavoritesActivity extends BaseListActivity
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.discard_favorites:
-//                    deleteSelectedItems();
+                    deleteSelectedItems();
                     mode.finish();
                     return true;
                 default:
@@ -246,30 +246,75 @@ public class FavoritesActivity extends BaseListActivity
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            getListView().setOnTouchListener(null);
+            mTouchListener.setEnabled(false);
             mListAdapter.disableDeleteMode();
             mActionMode = null;
-            mDeleteItemsId.clear();
             if(mListAdapter != null) {
                 mListAdapter.notifyDataSetChanged();
             }
         }
     };
 
-    private void setOnTouchListener(ListView listView){
-        SwipeDismissListViewTouchListener touchListener =
+
+    private void initListView(){
+        ListView listView = getListView();
+        mListAdapter = new CatalogItemCursorAdapter(null, this, false, false);
+        mListAdapter.setOnCancelDismiss(new CatalogItemCursorAdapter.OnCancelDismis() {
+            @Override
+            public void cancelDeleteItem(int position) {
+                mTouchListener.removePrepareDeletePosition(position);
+            }
+        });
+        listView.setAdapter(mListAdapter);
+        mTouchListener =
                 new SwipeDismissListViewTouchListener(
-                        listView,
+                        getListView(),
                         new SwipeDismissListViewTouchListener.OnDismissCallback() {
                             @Override
                             public void onDismiss(android.widget.ListView listView, int[] reverseSortedPositions) {
-                                Log.v("Delete items", String.valueOf(reverseSortedPositions[0]));
                                 Cursor cursor = (Cursor) mListAdapter.getItem(reverseSortedPositions[0]);
-                                Log.v("Delete items", cursor.getString(0));
                                 mListAdapter.addDeleteItem(cursor.getString(0));
                                 mListAdapter.notifyDataSetChanged();
                             }
                         });
-        listView.setOnTouchListener(touchListener);
+        listView.setOnTouchListener(mTouchListener);
+        mTouchListener.setEnabled(false);
     }
+
+
+    private ActionMode.Callback mActionCallbackBeforeV11 = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.action_mode_favourites, menu);
+            mListAdapter.enableDeleteMode();
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.discard_favorites:
+                    deleteSelectedItems();
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+            mListAdapter.disableDeleteMode();
+            if(mListAdapter != null) {
+                mListAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 }

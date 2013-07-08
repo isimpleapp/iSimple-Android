@@ -38,6 +38,8 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
     private View mDownView;
     private boolean mPaused;
 
+    private List<Integer> mDeletePrepare;
+
     /**
      * The callback interface used by {@link SwipeDismissListViewTouchListener} to inform its client
      * about a successful dismissal of one or more list item positions.
@@ -70,6 +72,11 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
                 android.R.integer.config_shortAnimTime);
         mListView = listView;
         mCallback = callback;
+        mDeletePrepare = new ArrayList<Integer>();
+    }
+
+    public boolean removePrepareDeletePosition(Integer position){
+        return mDeletePrepare.remove(position);
     }
 
     /**
@@ -79,6 +86,9 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
      */
     public void setEnabled(boolean enabled) {
         mPaused = !enabled;
+        if(enabled){
+            mDeletePrepare.clear();
+        }
     }
 
     /**
@@ -138,9 +148,10 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
                 if (mDownView != null) {
                     mDownX = motionEvent.getRawX();
                     mDownPosition = mListView.getPositionForView(mDownView);
-
-                    mVelocityTracker = VelocityTracker.obtain();
-                    mVelocityTracker.addMovement(motionEvent);
+                    if( !mDeletePrepare.contains(mDownPosition)){
+                        mVelocityTracker = VelocityTracker.obtain();
+                        mVelocityTracker.addMovement(motionEvent);
+                    }
                 }
                 view.onTouchEvent(motionEvent);
                 return true;
@@ -181,6 +192,7 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
                                     performDismiss(downView, downPosition);
                                 }
                             });
+                    mDeletePrepare.add(mDownPosition);
                 } else {
 // cancel
                     mDownView.animate()
@@ -188,6 +200,7 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
                             .alpha(1)
                             .setDuration(mAnimationTime)
                             .setListener(null);
+                    mDeletePrepare.remove(new Integer(mDownPosition));
                 }
                 mVelocityTracker = null;
                 mDownX = 0;

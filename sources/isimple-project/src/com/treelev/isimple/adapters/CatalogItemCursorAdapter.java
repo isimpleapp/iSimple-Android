@@ -1,6 +1,5 @@
 package com.treelev.isimple.adapters;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -21,9 +20,11 @@ import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
 
@@ -35,8 +36,17 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
     private String sizePrefix;
-    private ArrayList<String> mDeleteItemsId;
+    private List<String> mDeleteItemsId;
     private boolean mDeleteMode;
+    private OnCancelDismis mCancelDismiss;
+
+    public interface OnCancelDismis {
+        void cancelDeleteItem(int position);
+    }
+
+    public void setOnCancelDismiss(OnCancelDismis cancelDismiss){
+        mCancelDismiss = cancelDismiss;
+    }
 
     public CatalogItemCursorAdapter(Cursor c, Activity activity, boolean group, boolean yearEnable) {
         super(activity, R.layout.catalog_item_layout, c, Item.getUITags(),
@@ -58,7 +68,16 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
                 metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH? "_xhdpi" : "";
     }
 
-    public void setDeleteItemsId(ArrayList<String> list){
+    public List<String> getDeleteItemsId(){
+        return new ArrayList<String>(mDeleteItemsId);
+    }
+
+
+    public boolean removeDeleteItemsID(String itemID){
+        return mDeleteItemsId.remove(itemID);
+    }
+
+    public void addDeleteItemsID(List<String> list){
         mDeleteItemsId = list;
     }
 
@@ -67,6 +86,10 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
             mDeleteItemsId.add(itemID);
             notifyDataSetChanged();
         }
+    }
+
+    public boolean containsDeleteItemID(String itemID){
+        return mDeleteItemsId.contains(itemID);
     }
 
     public void enableDeleteMode(){
@@ -84,9 +107,9 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         if(mDeleteMode){
-            if(mDeleteItemsId.contains(getItemID(position))){
+            if(mDeleteItemsId.contains(getItemID(position))  &&  android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.HONEYCOMB){
                 convertView = inflater.inflate(mContext, R.layout.delete_item_layout);
-                convertView.setOnTouchListener(null);
+                initButtonCancel(convertView, position);
             } else {
                 convertView = inflater.inflate(mContext, R.layout.catalog_item_layout);
                 bindInfo(convertView, (Cursor)getItem(position));
@@ -96,6 +119,22 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
             bindInfo(convertView, (Cursor)getItem(position));
         }
         return convertView;
+    }
+
+    private void initButtonCancel(View view, int position){
+        Button btn = (Button) view.findViewById(R.id.cancel_delete);
+        final int positionItem = position;
+        final String itemID = getItemID(positionItem);
+        btn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDeleteItemsId.remove(itemID);
+                if(mCancelDismiss != null){
+                    mCancelDismiss.cancelDeleteItem(positionItem);
+                }
+                notifyDataSetChanged();
+            }
+        });
     }
 
     private String getItemID(int position){

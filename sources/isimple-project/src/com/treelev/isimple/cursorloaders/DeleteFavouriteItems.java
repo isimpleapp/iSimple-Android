@@ -4,14 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DeleteFavouriteItems extends BaseCursorLoader {
 
     private ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
-    private ArrayList<String> mDeleteItemsId;
+    private List<String> mDeleteItemsId;
 
 
-    public DeleteFavouriteItems(Context context, ArrayList<String> deleteItemsID) {
+    public DeleteFavouriteItems(Context context, List<String> deleteItemsID) {
         super(context);
         mDeleteItemsId = deleteItemsID;
     }

@@ -51,8 +51,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private MenuItem mItemFavourite;
     private View headerView;
     private ProxyManager proxyManager;
-    private TextView animateFirstText;
-    private TextView animateSecondText;
+    private TextView animateText;
 
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
@@ -70,7 +69,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
         initProduct(mBarcode);
         organizeHeaderView();
-
     }
 
     @Override
@@ -312,12 +310,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private void populateFormsFields(View formView, Item product) {
         String priceLabel = Utils.organizePriceLabel(String.valueOf(product.getPrice()));
         ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
-        animateFirstText = (TextView) formView.findViewById(R.id.add_to_basket_animate_first_part);
-        animateFirstText.setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
-        animateFirstText.setVisibility(View.INVISIBLE);
-        animateSecondText = (TextView) formView.findViewById(R.id.add_to_basket_animate_second_part);
-        animateSecondText.setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
-        animateSecondText.setVisibility(View.INVISIBLE);
+        animateText = (TextView) formView.findViewById(R.id.add_to_shopping_cart_animate);
+        animateText.setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
+        animateText.setVisibility(View.INVISIBLE);
         ((TextView) formView.findViewById(R.id.product_manufacturer)).setText(product.getManufacturer());
         ((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
         ((TextView) formView.findViewById(R.id.product_localizated_manufacturer)).setText(product.getLocalizedManufacturer());
@@ -428,53 +423,29 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 proxyManager.insertProductInShoppingCart(mProduct);
             }
             Utils.setActiveCartState();
-            animateFirstText.setVisibility(View.VISIBLE);
-            animateFirstText.startAnimation(createFirstTranslateAnimation());
+            animateText.setVisibility(View.VISIBLE);
+            animateText.startAnimation(createTranslateAnimation());
         }
 
-        private Animation.AnimationListener translateFirstAnimationListener = new Animation.AnimationListener() {
+        private Animation.AnimationListener translateAnimationListener = new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                animateSecondText.setVisibility(View.VISIBLE);
-                animateSecondText.startAnimation(createSecondTranslateAnimation());
-                animateFirstText.setVisibility(View.GONE);
+                animateText.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
-
-            private Animation createSecondTranslateAnimation() {
-                Animation translateAnimation = new TranslateAnimation(0.0f, 0.0f, 0.0f, -10000.0f);
-                translateAnimation.setDuration(2000);
-                translateAnimation.setAnimationListener(translateSecondAnimationListener);
-                return translateAnimation;
-            }
-
-            private Animation.AnimationListener translateSecondAnimationListener = new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    animateSecondText.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-            };
         };
 
-        private Animation createFirstTranslateAnimation() {
-            Animation translateAnimation = new TranslateAnimation(0.0f, 0.0f, 0.0f, -200.0f);
-            translateAnimation.setDuration(400);
-            translateAnimation.setAnimationListener(translateFirstAnimationListener);
+        private Animation createTranslateAnimation() {
+            Animation translateAnimation = new TranslateAnimation(0.0f, 0.0f, 0.0f, -10000.0f);
+            translateAnimation.setDuration(5000);
+            translateAnimation.setAnimationListener(translateAnimationListener);
             return translateAnimation;
         }
     };

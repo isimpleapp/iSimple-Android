@@ -24,6 +24,7 @@ public class ProxyManager {
     public static final int TYPE_SECTION_MAIN = 10;
     public static final int TYPE_SECTION_SHOP_MAIN = 11;
     public static final int TYPE_SECTION_FILTRATION_SEARCH = 13;
+    public static final int TYPE_SECTION_SUB_CATEGORY = 14;
 
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
@@ -176,6 +177,20 @@ public class ProxyManager {
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkId(drinkId, filterQuery, locationID, orderByField);
+    }
+
+    public Cursor getItemsByDrinkIdPreOrder(String drinkId, String filterQuery, String locationID, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkIdPreOrder(drinkId, filterQuery, locationID, orderByField);
+    }
+
+    public Cursor getItemsByDrinkIdPreOrder(String drinkId, String locationID, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkIdPreOrder(drinkId, locationID, orderByField);
     }
 
     public Cursor getFilteredItemsByCategory(Integer categoryId, String query, int sortType) {

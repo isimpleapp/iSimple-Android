@@ -55,6 +55,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
+    private boolean mIsProductExistShoppingCart;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         setContentView(R.layout.product_layout);
         proxyManager = new ProxyManager(this);
         itemId = getIntent().getStringExtra(ITEM_ID_TAG);
+        mIsProductExistShoppingCart = proxyManager.isProductExistShoppingCart(itemId);
         String mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
         initProduct(mBarcode);
         organizeHeaderView();
@@ -416,11 +418,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         }
 
         private void addToShoppingCartClick() {
-            boolean isProductExistShoppingCart = proxyManager.isProductExistShoppingCart(itemId);
-            if (isProductExistShoppingCart) {
+//            boolean isProductExistShoppingCart = proxyManager.isProductExistShoppingCart(itemId);
+            if (mIsProductExistShoppingCart) {
                 proxyManager.increaseShopCardItemCount(itemId);
             } else {
                 proxyManager.insertProductInShoppingCart(mProduct);
+                mIsProductExistShoppingCart = true;
             }
             Utils.setActiveCartState();
             animateText.setVisibility(View.VISIBLE);

@@ -4,9 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import com.treelev.isimple.R;
 
-import static com.treelev.isimple.utils.managers.ProxyManager.TYPE_SECTION_MAIN;
-import static com.treelev.isimple.utils.managers.ProxyManager.TYPE_SECTION_FILTRATION_SEARCH;
-import static com.treelev.isimple.utils.managers.ProxyManager.TYPE_SECTION_SHOP_MAIN;
+import static com.treelev.isimple.utils.managers.ProxyManager.*;
 
 public class SectionsItemsDAO extends  BaseDAO{
 
@@ -44,6 +42,13 @@ public class SectionsItemsDAO extends  BaseDAO{
                         "UNION SELECT '1' AS _id, '%s' AS name " +
                         "UNION SELECT '2' AS _id, '%s' AS name ",
                         mContext.getString(R.string.section_result_filtered_search),
+                        mContext.getString(R.string.section_pre_order));
+                break;
+            case TYPE_SECTION_SUB_CATEGORY:
+                sqlSelect = String.format("SELECT '0' AS _id, 'empty' AS name " +
+                        "UNION SELECT '1' AS _id, '%s' AS name " +
+                        "UNION SELECT '2' AS _id, '%s' AS name ",
+                        mContext.getString(R.string.section_all_in_stock),
                         mContext.getString(R.string.section_pre_order));
                 break;
             default:

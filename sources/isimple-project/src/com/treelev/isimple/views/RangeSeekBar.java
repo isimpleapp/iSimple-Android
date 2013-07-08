@@ -509,7 +509,6 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     @SuppressWarnings("unchecked")
     private T normalizedToValue(double normalized) {
         double value = Math.pow(normalized, 4.0) * absoluteMaxValuePrim;
-        Log.v("Value seek bar", String.valueOf(normalized));
         return (T)  numberType.toNumber(value);
 //        return (T)  numberType.toNumber( absoluteMinValuePrim + normalized * (absoluteMaxValuePrim - absoluteMinValuePrim));
     }

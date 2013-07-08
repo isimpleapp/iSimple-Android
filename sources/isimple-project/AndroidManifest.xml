@@ -42,11 +42,8 @@
                     android:resource="@xml/searchable"/>
         </activity>
         <activity android:name=".activities.filter.DefaultListFilterActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.CatalogSubCategory" android:screenOrientation="portrait">
-            <meta-data
-                    android:name="android.app.default_searchable"
-                    android:value=".activities.SearchResultActivity"/>
-        </activity>
+        <activity android:name=".activities.CatalogSubCategory" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.CatalogSubCategoryTree" android:screenOrientation="portrait"/>
         <activity android:name=".activities.filter.ExpandableListFilterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.ShopsFragmentActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.ShopInfoActivity" android:screenOrientation="portrait"/>

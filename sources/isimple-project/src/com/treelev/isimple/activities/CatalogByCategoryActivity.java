@@ -204,9 +204,9 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         int itemCountIndex = product.getColumnIndex("count");
         if (product.getInt(itemCountIndex) > 1) {
             int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
-            startIntent = new Intent(this, CatalogSubCategory.class);
-            CatalogSubCategory.categoryID = null;
-            CatalogSubCategory.backActivity = CatalogListActivity.class;
+            startIntent = new Intent(this, CatalogSubCategoryTree.class);
+//            CatalogSubCategory.categoryID = null;
+//            CatalogSubCategory.backActivity = CatalogListActivity.class;
             startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
             startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
             startIntent.putExtra(FILTER_WHERE_CLAUSE, mFilterWhereClause);

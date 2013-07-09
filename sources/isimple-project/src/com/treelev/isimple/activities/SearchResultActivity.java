@@ -67,9 +67,11 @@ public class SearchResultActivity extends  BaseExpandableListActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        boolean addFavourite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
-        if(addFavourite){
-            mTreeSearchAdapter.notifyDataSetChanged();
+        if(data != null){
+            boolean addFavourite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+            if(addFavourite){
+                mTreeSearchAdapter.notifyDataSetChanged();
+            }
         }
     }
 

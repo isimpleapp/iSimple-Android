@@ -56,8 +56,9 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                 case IntentIntegrator.REQUEST_CODE:
                     typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
                     codeInfo = data.getStringExtra("SCAN_RESULT");
-//                    codeInfo = "9319002010094";
-                    checkBarcodeResult(codeInfo);
+                    if(codeInfo != null){
+                        checkBarcodeResult(codeInfo);
+                    }
                     break;
             }
         }

@@ -58,9 +58,11 @@ public class FavoritesActivity extends BaseListActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        boolean addFavorites = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
-        if(addFavorites){
-            getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
+        if(data != null){
+            boolean addFavorites = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+            if(addFavorites){
+                getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

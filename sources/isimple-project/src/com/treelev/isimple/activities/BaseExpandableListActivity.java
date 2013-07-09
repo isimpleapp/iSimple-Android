@@ -104,7 +104,9 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
 
                     typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
                     codeInfo = data.getStringExtra("SCAN_RESULT");
-                    checkBarcodeResult(codeInfo);
+                    if(codeInfo != null){
+                        checkBarcodeResult(codeInfo);
+                    }
                     break;
             }
         }

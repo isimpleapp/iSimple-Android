@@ -160,7 +160,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             if (proxyManager.getItemByBarcodeTypeItem(mBarcode) == null) {
                 mProduct = proxyManager.getItemDeprecatedByBarcodeTypeItem(mBarcode);
             } else {
-                mProduct = proxyManager.getItemByBarcodeTypeItem(mBarcode);
+                mProduct = proxyManager.getItemById(itemId);
+//                mProduct = proxyManager.getItemByBarcodeTypeItem(mBarcode);
             }
         }
     }

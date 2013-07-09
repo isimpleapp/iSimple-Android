@@ -44,9 +44,11 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        boolean addFavourite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
-        if(addFavourite){
-            getSupportLoaderManager().restartLoader(0, null, this);
+        if(data != null){
+            boolean addFavourite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+            if(addFavourite){
+                getSupportLoaderManager().restartLoader(0, null, this);
+            }
         }
     }
 

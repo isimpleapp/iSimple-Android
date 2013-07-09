@@ -178,7 +178,7 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(itemVolumeIndex)));
         String priceLabel = cursor.getString(itemPriceIndex);
         if(priceLabel != null ) {
-            if( priceLabel.equalsIgnoreCase("0")) {
+            if( priceLabel.equalsIgnoreCase("0") || priceLabel.equalsIgnoreCase("999999")) {
                 priceLabel = "";
             } else {
                 priceLabel = Utils.organizePriceLabel(priceLabel);
@@ -221,7 +221,7 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         String strDrinkCategory = DrinkCategory.getDrinkCategory(cursor.getInt(itemDrinkCategoryIndex)).getDescription();
         if( mYearEnable ) {
             if(cursor.getString(itemYearIndex) != null) {
-                String format = "%s %s";
+                String format = "%s, %s г";
                 strDrinkCategory = String.format(format, strDrinkCategory,
                         cursor.getInt(itemYearIndex) != 0 ? cursor.getString(itemYearIndex) : "");
             }

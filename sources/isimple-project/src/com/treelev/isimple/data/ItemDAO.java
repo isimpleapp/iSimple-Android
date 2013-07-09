@@ -68,11 +68,6 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getFeaturedItemsByCategory(int categoryId, String orderByField) {
         open();
-//        String orderBy = "";
-//        if (orderByField != null) {
-//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-//            orderBy = String.format(formatOrder, orderByField);
-//        }
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
@@ -94,11 +89,6 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getAllItemsByCategory(int categoryId, String orderByField) {
         open();
-//        String orderBy = "";
-//        if (orderByField != null) {
-//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-//            orderBy = String.format(formatOrder, orderByField);
-//        }
         String formatScript = "SELECT * " +
                 "FROM " +
                         "(" +
@@ -119,12 +109,6 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getFeaturedItemsByCategory(int categoryId, String locationId, String orderByField) {
         open();
-//        String orderBy = "";
-//        if (orderByField != null) {
-//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-//            orderBy = String.format(formatOrder,  orderByField);
-//        }
-
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
@@ -256,6 +240,7 @@ public class ItemDAO extends BaseDAO {
             strLocationID = String.format("AND location_id = '%s'", locationId);
             strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id ";
         }
+        whereClause = whereClause.length() > 0 ? "AND " + whereClause : "AND price < 0";
         whereClause = whereClause.replace("item", "t1");
         String formatScript = "SELECT * " +
                 "FROM " +
@@ -265,7 +250,7 @@ public class ItemDAO extends BaseDAO {
                     "(" +
                         "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
                     "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
-                    " year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s AND %2$s %5$s  ORDER BY t1.item_left_overs "+
+                    " year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs "+
                     ") AS t0 GROUP BY t0.drink_id " +
                     ")" +
                 "WHERE item_left_overs > 0 " +
@@ -283,6 +268,7 @@ public class ItemDAO extends BaseDAO {
             strLocationID = String.format("AND location_id = '%s'", locationId);
             strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id ";
         }
+        whereClause = whereClause.length() > 0 ? "AND " + whereClause : "AND price < 0";
         whereClause = whereClause.replace("item", "t1");
         String formatScript = "SELECT * " +
                 "FROM " +
@@ -292,7 +278,7 @@ public class ItemDAO extends BaseDAO {
                      "(" +
                         "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
                             "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
-                            "year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs as item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s AND %2$s %5$s " +
+                            "year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs as item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s " +
                      ") AS t0 GROUP BY t0.drink_id " +
                 ")" +
                 "WHERE item_left_overs = 0 " +
@@ -320,11 +306,6 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getSearchItemsByCategory(Integer categoryId, String query, String orderByField) {
         open();
-//        String orderBy = "";
-//        if (orderByField != null) {
-//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-//            orderBy = String.format(formatOrder, orderByField);
-//        }
         String whereCategory = "";
         String where = getWhereBySearch(query);
         if (categoryId != null) {
@@ -355,11 +336,6 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String query, String orderByField) {
         open();
-//        String orderBy = "";
-//        if (orderByField != null) {
-//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-//            orderBy = String.format(formatOrder, orderByField);
-//        }
         String join = String.format(FORMAT_JOIN_TWO_TABLE,
                 TABLE_ONE,
                 DatabaseSqlHelper.ITEM_ID,
@@ -395,11 +371,6 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String query, String orderByField) {
         open();
-//        String orderBy = "";
-//        if (orderByField != null) {
-//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-//            orderBy = String.format(formatOrder, orderByField);
-//        }
         String whereCategory = "";
         String where = getWhereBySearch(query);
         if (categoryId != null) {
@@ -430,11 +401,6 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String locationId, String query, String orderByField) {
         open();
-//        String orderBy = "";
-//        if (orderByField != null) {
-//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-//            orderBy = String.format(formatOrder, orderByField);
-//        }
         String join = String.format(FORMAT_JOIN_TWO_TABLE,
                 TABLE_ONE,
                 DatabaseSqlHelper.ITEM_ID,
@@ -973,11 +939,6 @@ public class ItemDAO extends BaseDAO {
     }
 
     public Cursor getAllItems(String orderByField) {
-//        String orderBy = "";
-//        if (orderByField != null) {
-//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-//            orderBy = String.format(formatOrder, orderByField);
-//        }
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
@@ -998,11 +959,6 @@ public class ItemDAO extends BaseDAO {
     }
 
     public Cursor getAllItemsByCategory(Integer categoryId, String orderByField) {
-//        String orderBy = "";
-//        if (orderByField != null) {
-//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-//            orderBy = String.format(formatOrder, orderByField);
-//        }
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +

@@ -63,18 +63,11 @@ public class CatalogListActivity extends BaseExpandableListActivity
     @Override
     protected void onResume() {
         startUpdateService();
-        super.onResume();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(data != null){
-            boolean addFavorites = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
-            if (addFavorites) {
-                mListCategoriesAdapter.notifyDataSetChanged();
-            }
+        if(mEventChangeDataBase){
+            mListCategoriesAdapter.notifyDataSetChanged();
+            mEventChangeDataBase = false;
         }
+        super.onResume();
     }
 
     @Override

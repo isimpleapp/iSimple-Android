@@ -27,6 +27,7 @@ import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.utils.observer.ObserverDataChanged;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.TextView;
 import org.holoeverywhere.widget.Toast;
@@ -127,6 +128,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         Intent data = new Intent();
         data.putExtra(CHANGE_FAVOURITE, mLastFavourite != mIsFavourite);
         setResult(RESULT_OK, data);
+        if(mLastFavourite != mIsFavourite){
+            ObserverDataChanged.getInstant().sendEvent();
+        }
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }

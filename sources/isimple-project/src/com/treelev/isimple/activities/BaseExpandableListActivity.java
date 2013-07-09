@@ -5,22 +5,41 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.View;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.utils.observer.Observer;
+import com.treelev.isimple.utils.observer.ObserverDataChanged;
 import org.holoeverywhere.app.ExpandableListActivity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.widget.ExpandableListView;
 
-public class BaseExpandableListActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener {
+public class BaseExpandableListActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener,
+        Observer{
+
+    protected boolean mEventChangeDataBase;
 
     protected int mCurrentCategory;
     public final static String BARCODE = "barcode";
     private boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ObserverDataChanged.getInstant().addObserver(this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ObserverDataChanged.getInstant().removeObserver(this);
+    }
 
     public void setCurrentCategory(int currentCategory) {
         mCurrentCategory = currentCategory;
@@ -192,5 +211,10 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
                 return true;
             }
         });
+    }
+
+    @Override
+    public void dataChanged() {
+        mEventChangeDataBase = true;
     }
 }

@@ -48,22 +48,22 @@ public class FavoritesActivity extends BaseListActivity
         setCurrentCategory(2);
         createNavigationMenuBar();
         ListView listView = getListView();
-//        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-//        listView.setMultiChoiceModeListener(multiChoiceModeListener);
-//        mContext = this;
         mDeleteItemsId = new ArrayList<String>();
         initListView();
         getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data != null){
-            boolean addFavorites = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
-            if(addFavorites){
-                getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
-            }
+    protected void onResume() {
+        if(mEventChangeDataBase){
+            getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
+            mEventChangeDataBase = false;
         }
+        super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -170,54 +170,7 @@ public class FavoritesActivity extends BaseListActivity
         getSupportLoaderManager().restartLoader(DELETE_FAVOURITE_ITEMS, null, this);
     }
 
-    private ListView.MultiChoiceModeListener multiChoiceModeListener = new ListView.MultiChoiceModeListener() {
 
-
-        @Override
-        public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-            Cursor cursor = (Cursor)getListView().getAdapter().getItem(position);
-            if(checked){
-//                mDeleteItemsId.add(cursor.getString(0));
-            } else {
-//                mDeleteItemsId.remove(cursor.getString(0));
-            }
-            mListAdapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.action_mode_favourites, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.discard_favorites:
-                    deleteSelectedItems();
-                    mode.finish();
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-//            mDeleteItemsId.clear();
-            if(mListAdapter != null) {
-                mListAdapter.notifyDataSetChanged();
-            }
-        }
-
-    };
 
     private ActionMode.Callback mActionCallbackAfterV11 = new ActionMode.Callback() {
         @Override

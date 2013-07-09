@@ -60,18 +60,11 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
 
     @Override
     protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(data != null) {
-            boolean addFavourite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
-            if(addFavourite){
-                getSupportLoaderManager().restartLoader(0, null, this);
-            }
+        if(mEventChangeDataBase){
+            getSupportLoaderManager().restartLoader(0, null, this);
+            mEventChangeDataBase = false;
         }
+        super.onResume();
     }
 
     @Override

@@ -33,6 +33,8 @@ import org.holoeverywhere.widget.ExpandableListView;
 public class CatalogByCategoryActivity extends BaseExpandableListActivity
         implements RadioGroup.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
 
+    public boolean mEventChangeDataBase;
+
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
     public final static String DRINK_ID = "drink_id";
@@ -110,6 +112,10 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     @Override
     protected void onResume() {
+        if(mEventChangeDataBase){
+            mTreeCategoriesAdapter.notifyDataSetChanged();
+            mEventChangeDataBase = false;
+        }
         super.onResume();
     }
 
@@ -234,10 +240,10 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
             if (processed)
                 break;
         }
-        boolean addFavorite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
-        if(addFavorite){
-            mTreeCategoriesAdapter.notifyDataSetChanged();
-        }
+//        boolean addFavorite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+//        if(addFavorite){
+//            mTreeCategoriesAdapter.notifyDataSetChanged();
+//        }
     }
 
     private Filter initFilter() {

@@ -7,21 +7,40 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.utils.observer.Observer;
+import com.treelev.isimple.utils.observer.ObserverDataChanged;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.ListActivity;
 
-public class BaseListActivity extends ListActivity implements ActionBar.OnNavigationListener {
+public class BaseListActivity extends ListActivity implements ActionBar.OnNavigationListener,
+        Observer{
+
+    protected boolean mEventChangeDataBase;
 
     protected int mCurrentCategory;
     public final static String BARCODE = "barcode";
     private boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ObserverDataChanged.getInstant().addObserver(this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ObserverDataChanged.getInstant().removeObserver(this);
+    }
 
     @Override
     protected void onResume(){
@@ -183,5 +202,10 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
         getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
+    }
+
+    @Override
+    public void dataChanged() {
+        mEventChangeDataBase = true;
     }
 }

@@ -31,14 +31,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/data/ShopDAO.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/data/ShopDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373100131727" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373303225708" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373363300667" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373365262569" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372065383426" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -782,7 +782,7 @@
     <file path="/tab_indicator_left.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369298955539" ignored="false" />
     <file path="/item_background.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368024409704" ignored="false" />
     <file path="/list_selector_background_transition.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1368024835038" ignored="false" />
-    <file path="/RangeSeekBar.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373286802951" ignored="false" />
+    <file path="/RangeSeekBar.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373365664297" ignored="false" />
     <file path="/product_header_view.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371822109888" ignored="false" />
     <file path="/ItemCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371044126727" ignored="false" />
     <file path="/CatalogSubCategory.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373302668376" ignored="false" />
@@ -1674,29 +1674,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RangeSeekBar.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="RangeSeekBar.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="510" column="30" selection-start="19595" selection-end="19602" vertical-scroll-proportion="-6.72">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CatalogByCategoryActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ShopDAO.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ShopDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="130" column="62" selection-start="6205" selection-end="6205" vertical-scroll-proportion="0.86278194">
-              <folding />
+            <state line="527" column="67" selection-start="20290" selection-end="20290" vertical-scroll-proportion="0.64097744">
+              <folding>
+                <element signature="e#19488#19518#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1725,7 +1709,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectItemsBySubCategoryPreOrderTree.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
         <option value="$PROJECT_DIR$/res/layout/catalog_sub_category.xml" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java" />
@@ -1741,6 +1724,7 @@
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ShopDAO.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java" />
       </list>
     </option>
   </component>
@@ -3215,7 +3199,11 @@
       <created>1373363314102</created>
       <updated>1373363314102</updated>
     </task>
-    <option name="localTasksCounter" value="193" />
+    <task id="LOCAL-00193" summary="IS - 243">
+      <created>1373365270132</created>
+      <updated>1373365270132</updated>
+    </task>
+    <option name="localTasksCounter" value="194" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3316,7 +3304,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IS - 262" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS - 243" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -3330,7 +3318,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="IS - 247" />
     <MESSAGE value="IS - 214&#10;IS - 217" />
     <MESSAGE value="IS - 217" />
     <MESSAGE value="fixed. if item_left_overs = NULL then 0" />
@@ -3355,6 +3342,7 @@
     <MESSAGE value="IS - 254&#10;IS - 255&#10;" />
     <MESSAGE value="fixed sort by price&#10;" />
     <MESSAGE value="IS - 262" />
+    <MESSAGE value="IS - 243" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -3496,24 +3484,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ShopDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="510" column="30" selection-start="19595" selection-end="19602" vertical-scroll-proportion="-6.72">
+        <state line="130" column="62" selection-start="6205" selection-end="6205" vertical-scroll-proportion="0.86278194">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.5614679">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ShopDAO.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="62" selection-start="6205" selection-end="6205" vertical-scroll-proportion="0.86278194">
-          <folding />
+        <state line="527" column="67" selection-start="20290" selection-end="20290" vertical-scroll-proportion="0.64097744">
+          <folding>
+            <element signature="e#19488#19518#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

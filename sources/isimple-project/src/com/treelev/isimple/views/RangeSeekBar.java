@@ -525,7 +525,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             // prevent division by zero, simply return 0.
             return 0d;
         }
-        return (value.doubleValue() - absoluteMinValuePrim) / (absoluteMaxValuePrim - absoluteMinValuePrim);
+        return Math.pow( value.doubleValue() / absoluteMaxValuePrim, 0.25 );
+//        return (value.doubleValue() - absoluteMinValuePrim) / (absoluteMaxValuePrim - absoluteMinValuePrim);
     }
 
     /**

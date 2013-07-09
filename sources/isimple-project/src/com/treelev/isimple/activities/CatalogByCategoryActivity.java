@@ -49,8 +49,8 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private Integer mCategoryID;
     private String mLocationId;
-    private boolean mExpandFiltr = false;
-    private boolean mFiltrUse = false;
+    private boolean mExpandFilter = false;
+    private boolean mFilterUse = false;
     private String mFilterWhereClause;
     private com.treelev.isimple.filter.Filter filter;
     private static final int ANIMATION_DURATION_IN_MILLIS = 500;
@@ -142,7 +142,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                 break;
         }
         mTreeCategoriesAdapter.setSortBy(mSortBy);
-        mFilterWhereClause = mFiltrUse ? filter.getSQLWhereClause() : mFilterWhereClause;
+        mFilterWhereClause = mFilterUse ? filter.getSQLWhereClause() : mFilterWhereClause;
         initLoadManager();
     }
 
@@ -261,12 +261,12 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
     }
 
     private void backOrCollapse() {
-        if (mExpandFiltr) {
+        if (mExpandFilter) {
             Button resetButton = (Button) filterView.findViewById(R.id.reset_butt);
             if (resetButton != null) {
                 resetButton.performClick();
             }
-            mExpandFiltr = false;
+            mExpandFilter = false;
         } else {
             finish();
             overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
@@ -296,7 +296,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 //        filterListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
 //            @Override
 //            public void onGroupCollapse(int groupPosition) {
-//                mExpandFiltr = false;
+//                mExpandFilter = false;
 //            }
 //        });
 
@@ -308,7 +308,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         filter.getFilterContent().size() * DIP51_IN_PX)
                 );
-                mExpandFiltr = true;
+                mExpandFilter = true;
             }
         });
     }
@@ -327,16 +327,17 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                         filterListView.collapseGroup(0);
                         filterListView.setLayoutParams(new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT, DIP50_IN_PX));
+                        mExpandFilter = false;
                     }
                     view.setBackgroundResource(R.drawable.btn_filter_reset);
-                    mFiltrUse = false;
+                    mFilterUse = false;
                     break;
                 case R.id.search_butt:
                     view.setBackgroundColor(Color.GRAY);
                     mFilterWhereClause = filter.getSQLWhereClause();
                     initLoadManager();
                     view.setBackgroundResource(R.drawable.btn_filter_find);
-                    mFiltrUse = true;
+                    mFilterUse = true;
                     break;
             }
         }

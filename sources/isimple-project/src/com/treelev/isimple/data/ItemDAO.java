@@ -68,11 +68,11 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getFeaturedItemsByCategory(int categoryId, String orderByField) {
         open();
-        String orderBy = "";
-        if (orderByField != null) {
-            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, orderByField);
-        }
+//        String orderBy = "";
+//        if (orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder, orderByField);
+//        }
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
@@ -87,18 +87,18 @@ public class ItemDAO extends BaseDAO {
                         "GROUP BY t0.drink_id " +
                     ") " +
                 "WHERE item_left_overs > 0 " +
-                "%s";
-        String selectSql = String.format(formatScript, categoryId, orderBy);
+                "ORDER BY %s";
+        String selectSql = String.format(formatScript, categoryId, orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getAllItemsByCategory(int categoryId, String orderByField) {
         open();
-        String orderBy = "";
-        if (orderByField != null) {
-            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, orderByField);
-        }
+//        String orderBy = "";
+//        if (orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder, orderByField);
+//        }
         String formatScript = "SELECT * " +
                 "FROM " +
                         "(" +
@@ -112,18 +112,18 @@ public class ItemDAO extends BaseDAO {
                         "GROUP BY t0.drink_id " +
                         ") " +
                 "WHERE item_left_overs > 0 " +
-                "%s";
-        String selectSql = String.format(formatScript, categoryId, orderBy);
+                "ORDER BY %s";
+        String selectSql = String.format(formatScript, categoryId, orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getFeaturedItemsByCategory(int categoryId, String locationId, String orderByField) {
         open();
-        String orderBy = "";
-        if (orderByField != null) {
-            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder,  orderByField);
-        }
+//        String orderBy = "";
+//        if (orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder,  orderByField);
+//        }
 
         String formatScript = "SELECT * " +
                 "FROM " +
@@ -138,8 +138,8 @@ public class ItemDAO extends BaseDAO {
                         "GROUP BY t0.drink_id " +
                     ") " +
                 "WHERE item_left_overs > 0 " +
-                "%s";
-        String selectSql = String.format(formatScript, categoryId, locationId, orderBy);
+                "ORDER BY %s";
+        String selectSql = String.format(formatScript, categoryId, locationId, orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -162,7 +162,7 @@ public class ItemDAO extends BaseDAO {
                 "FROM item %s " +
                 "WHERE drink_id = '%s' AND item_left_overs > 0" +
                 " %s " +
-                "%s";
+                " %s";
         String selectSql = String.format(formatScript, strInnerJoin, drinkId, strLocationID, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -320,11 +320,11 @@ public class ItemDAO extends BaseDAO {
 
     public Cursor getSearchItemsByCategory(Integer categoryId, String query, String orderByField) {
         open();
-        String orderBy = "";
-        if (orderByField != null) {
-            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, orderByField);
-        }
+//        String orderBy = "";
+//        if (orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder, orderByField);
+//        }
         String whereCategory = "";
         String where = getWhereBySearch(query);
         if (categoryId != null) {
@@ -346,20 +346,20 @@ public class ItemDAO extends BaseDAO {
                     ") AS t0 GROUP BY t0.drink_id " +
                 ")" +
                 " WHERE item_left_overs > 0 " +
-                "%s";
+                "ORDER BY %s";
         String selectSql = String.format(formatScript,
                 where,
-                orderBy);
+                orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String query, String orderByField) {
         open();
-        String orderBy = "";
-        if (orderByField != null) {
-            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, orderByField);
-        }
+//        String orderBy = "";
+//        if (orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder, orderByField);
+//        }
         String join = String.format(FORMAT_JOIN_TWO_TABLE,
                 TABLE_ONE,
                 DatabaseSqlHelper.ITEM_ID,
@@ -386,20 +386,20 @@ public class ItemDAO extends BaseDAO {
                     ") AS t0 GROUP BY t0.drink_id " +
                 ")" +
                 " WHERE item_left_overs > 0 " +
-                "%s";
+                "ORDER BY %s";
         String selectSql = String.format(formatScript,
                 where,
-                orderBy);
+                orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String query, String orderByField) {
         open();
-        String orderBy = "";
-        if (orderByField != null) {
-            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, orderByField);
-        }
+//        String orderBy = "";
+//        if (orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder, orderByField);
+//        }
         String whereCategory = "";
         String where = getWhereBySearch(query);
         if (categoryId != null) {
@@ -421,20 +421,20 @@ public class ItemDAO extends BaseDAO {
                         ") AS t0 GROUP BY t0.drink_id " +
                         ")" +
                         " WHERE item_left_overs = 0 " +
-                        "%s";
+                        "ORDER BY %s";
         String selectSql = String.format(formatScript,
                 where,
-                orderBy);
+                orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String locationId, String query, String orderByField) {
         open();
-        String orderBy = "";
-        if (orderByField != null) {
-            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, orderByField);
-        }
+//        String orderBy = "";
+//        if (orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder, orderByField);
+//        }
         String join = String.format(FORMAT_JOIN_TWO_TABLE,
                 TABLE_ONE,
                 DatabaseSqlHelper.ITEM_ID,
@@ -462,10 +462,10 @@ public class ItemDAO extends BaseDAO {
                     "GROUP BY t0.drink_id " +
                     ")" +
                 " WHERE item_left_overs = 0 " +
-                "%s";
+                "ORDER BY %s";
         String selectSql = String.format(formatScript,
                 where,
-                orderBy);
+                orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -968,16 +968,16 @@ public class ItemDAO extends BaseDAO {
                         "year, quantity, color,(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1  FROM item AS t1, (SELECT DISTINCT *  FROM featured_item ) AS t2 WHERE t1.item_id = t2.item_id AND category_id = -1 ORDER BY t1.item_left_overs" +
                     ") AS t0 " +
                     "GROUP BY t0.drink_id ) " +
-                "WHERE item_left_overs > 0";
+                "WHERE item_left_overs > 0 ";
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getAllItems(String orderByField) {
-        String orderBy = "";
-        if (orderByField != null) {
-            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, orderByField);
-        }
+//        String orderBy = "";
+//        if (orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder, orderByField);
+//        }
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
@@ -991,18 +991,18 @@ public class ItemDAO extends BaseDAO {
                     "GROUP BY t0.drink_id " +
                 ") " +
                 "WHERE item_left_overs > 0 " +
-                "%s";
+                "ORDER BY %s";
         open();
-        String selectSql = String.format(formatScript, orderBy);
+        String selectSql = String.format(formatScript, orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getAllItemsByCategory(Integer categoryId, String orderByField) {
-        String orderBy = "";
-        if (orderByField != null) {
-            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
-            orderBy = String.format(formatOrder, orderByField);
-        }
+//        String orderBy = "";
+//        if (orderByField != null) {
+//            String formatOrder = orderByField.equals(DatabaseSqlHelper.ITEM_NAME) ? FORMAT_ORDER_BY : FORMAT_ORDER_BY_MIN;
+//            orderBy = String.format(formatOrder, orderByField);
+//        }
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
@@ -1016,9 +1016,9 @@ public class ItemDAO extends BaseDAO {
                         "GROUP BY t0.drink_id " +
                     ") " +
                 "WHERE item_left_overs > 0 " +
-                "%s";
+                "ORDER BY %s";
         open();
-        String selectSql = String.format(formatScript, categoryId, orderBy);
+        String selectSql = String.format(formatScript, categoryId, orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 

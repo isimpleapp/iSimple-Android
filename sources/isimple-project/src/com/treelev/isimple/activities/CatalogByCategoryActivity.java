@@ -271,8 +271,9 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
             Button resetButton = (Button) filterView.findViewById(R.id.reset_butt);
             if (resetButton != null) {
                 resetButton.performClick();
+            }  else {
+                mExpandFilter = false;
             }
-            mExpandFilter = false;
         } else {
             finish();
             overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);

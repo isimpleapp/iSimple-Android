@@ -21,6 +21,7 @@ import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.RouteManager;
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Application;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 
@@ -69,7 +70,7 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnInfoW
 
     private void createOverlays(boolean isRouteOverlay) {
         GoogleMap map = getMap();
-        Location currentLocation = LocationTrackingManager.getCurrentLocation(getActivity());
+        Location currentLocation = LocationTrackingManager.getInstante().getCurrentLocation(getActivity());
         LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         markerShopMap = new HashMap<Marker, Shop>();
         BitmapDescriptor btmDescCurrentLoc = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);

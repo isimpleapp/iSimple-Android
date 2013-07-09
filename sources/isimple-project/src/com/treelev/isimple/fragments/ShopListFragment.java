@@ -80,7 +80,7 @@ public class ShopListFragment extends ListFragment {
             super.onPreExecute();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.dialog_select_data_message), true, false);
-            location = LocationTrackingManager.getCurrentLocation(getActivity());
+            location = LocationTrackingManager.getInstante().getCurrentLocation(getActivity());
         }
 
         @Override

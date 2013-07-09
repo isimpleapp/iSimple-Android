@@ -162,10 +162,9 @@
                             android:textColor="@color/product_price_color"
                             android:layout_width="215dip"
                             android:layout_height="350dip"
-                            android:visibility="gone"
                             android:text="asdqw"
                             android:textSize="20sp"
-                            android:gravity="center_horizontal|bottom"/>
+                            android:visibility="gone" android:gravity="bottom"/>
                 </RelativeLayout>
 
                 <ImageView
@@ -221,7 +220,7 @@
                             <org.holoeverywhere.widget.Button
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:id="@+id/add_to_basket_butt"
+                                    android:id="@+id/add_to_shopping_cart_butt"
                                     android:background="@drawable/product_info_shopping_cart_butt_selector"
                                     android:drawableLeft="@drawable/shopping_cart_add_ico"
                                     android:textColor="@color/product_price_color"/>

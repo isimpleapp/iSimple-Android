@@ -180,7 +180,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         lin_for_two_button.requestLayout();
         Float price = mProduct.getPrice();
         Button btWhereToBuy = (Button) headerView.findViewById(R.id.shops_butt);
-        Button btAddToShoppingCart = (Button) headerView.findViewById(R.id.add_to_basket_butt);
+        Button btAddToShoppingCart = (Button) headerView.findViewById(R.id.add_to_shopping_cart_butt);
         if (price != null && price != 0.0f) {
             btWhereToBuy.setOnClickListener(whereToBuyBtnClick);
             btAddToShoppingCart.setOnClickListener(addToShoppingCartBtnClick);
@@ -311,7 +311,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     private void populateFormsFields(View formView, Item product) {
         String priceLabel = Utils.organizePriceLabel(String.valueOf(product.getPrice()));
-        ((Button) formView.findViewById(R.id.add_to_basket_butt)).setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
+        ((Button) formView.findViewById(R.id.add_to_shopping_cart_butt)).setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
         animateText = (TextView) formView.findViewById(R.id.add_to_shopping_cart_animate);
         animateText.setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
         animateText.setVisibility(View.INVISIBLE);

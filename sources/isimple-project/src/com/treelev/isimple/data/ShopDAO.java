@@ -137,7 +137,7 @@ public class ShopDAO extends BaseDAO {
                 DatabaseSqlHelper.SHOP_TABLE);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         List<AbsDistanceShop> distanceShopList = new ArrayList<AbsDistanceShop>();
-        if (cursor != null) {
+        if (cursor != null && currentLocation != null) {
             while (cursor.moveToNext()) {
                 Shop shop = new Shop();
                 shop.setLocationID(cursor.getString(0));
@@ -172,7 +172,7 @@ public class ShopDAO extends BaseDAO {
                 DatabaseSqlHelper.CHAIN_ID, chainID);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         List<AbsDistanceShop> distanceShopList = new ArrayList<AbsDistanceShop>();
-        if (cursor != null) {
+        if (cursor != null && currentLocation != null) {
             while (cursor.moveToNext()) {
                 Shop shop = new Shop();
                 shop.setLocationID(cursor.getString(0));

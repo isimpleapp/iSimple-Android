@@ -18,11 +18,13 @@ import com.treelev.isimple.cursorloaders.DeleteFavouriteItems;
 import com.treelev.isimple.cursorloaders.SelectFavouriteItems;
 import com.treelev.isimple.listener.SwipeDismissListViewTouchListener;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.utils.observer.ObserverDataChanged;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavoritesActivity extends BaseListActivity
         implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -137,7 +139,11 @@ public class FavoritesActivity extends BaseListActivity
             case LOAD_FAVOURITE_ITEMS:
                 return new SelectFavouriteItems(this);
             case DELETE_FAVOURITE_ITEMS:
-                return new DeleteFavouriteItems(this, mListAdapter.getDeleteItemsId());
+                List<String> deleteItems = mListAdapter.getDeleteItemsId();
+                if( deleteItems.size() > 0){
+                    ObserverDataChanged.getInstant().sendEvent();
+                }
+                return new DeleteFavouriteItems(this, deleteItems);
             default:
                 return null;
         }

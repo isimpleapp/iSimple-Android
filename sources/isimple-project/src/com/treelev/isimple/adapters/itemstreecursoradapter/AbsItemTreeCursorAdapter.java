@@ -27,6 +27,9 @@ import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.LinearLayout;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -40,6 +43,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
 
     private Dialog mDialog;
     private Integer mCountCallBack;
+    private Set<Integer> mEmptyGroupView;
 
     protected Context mContext;
     protected LoaderManager mManager;
@@ -47,6 +51,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     protected boolean mYearEnable;
     protected int mSortBy;
     protected String mFilterWhereClause;
+
 
     public AbsItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
         super(context, cursor, R.layout.section_items,
@@ -64,6 +69,8 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         mSortBy = sortBy;
 
         mCountCallBack = 0;
+
+        mEmptyGroupView = new HashSet<Integer>();
 
         imageLoader = Utils.getImageLoader(mContext.getApplicationContext());
         options = new DisplayImageOptions.Builder()
@@ -105,7 +112,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         View view;
-        if(groupPosition == 0){
+        if(groupPosition == 0 || mEmptyGroupView.contains(groupPosition)){
             view = LayoutInflater.from(mContext).inflate(R.layout.empty_item, null);
         } else {
             view = LayoutInflater.from(mContext).inflate(R.layout.section_items, null);
@@ -232,6 +239,9 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         setChildrenCursor(cursorLoader.getId(), cursor);
         stopDialog();
+        if(cursor.getCount() == 0) {
+            mEmptyGroupView.add(new Integer(cursorLoader.getId()));
+        }
    }
 
     @Override
@@ -270,5 +280,4 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         }
         return result;
     }
-
 }

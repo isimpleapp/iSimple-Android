@@ -103,7 +103,7 @@ public class ShopDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_AVAILABILITY_LOCATION_ID);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         List<AbsDistanceShop> distanceShopList = new ArrayList<AbsDistanceShop>();
-        if (cursor != null) {
+        if (cursor != null && currentLocation != null) {
             while (cursor.moveToNext()) {
                 Shop shop = new Shop();
                 shop.setLocationID(cursor.getString(0));

@@ -164,7 +164,7 @@
                             android:layout_height="350dip"
                             android:text="asdqw"
                             android:textSize="20sp"
-                            android:visibility="gone" android:gravity="bottom"/>
+                            android:visibility="gone" android:gravity="center_horizontal|bottom"/>
                 </RelativeLayout>
 
                 <ImageView

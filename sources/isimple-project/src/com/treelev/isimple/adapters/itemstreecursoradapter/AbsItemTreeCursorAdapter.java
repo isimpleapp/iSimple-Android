@@ -205,10 +205,12 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
 //TODO:
         String strDrinkCategory = DrinkCategory.getDrinkCategory(cursor.getInt(itemDrinkCategoryIndex)).getDescription();
         if( mYearEnable ) {
-            if(cursor.getString(itemYearIndex) != null) {
-                String format = "%s, %s г";
-                strDrinkCategory = String.format(format, strDrinkCategory,
-                        cursor.getInt(itemYearIndex) != 0 ? cursor.getString(itemYearIndex) : "");
+            String strYear = cursor.getString(itemYearIndex);
+            if( !TextUtils.isEmpty(strYear) ) {
+                if( !strYear.equalsIgnoreCase("0") ){
+                    String format = "%s, %s г";
+                    strDrinkCategory = String.format(format, strDrinkCategory, strYear);
+                }
             }
         }
         itemProductType.setText(strDrinkCategory);

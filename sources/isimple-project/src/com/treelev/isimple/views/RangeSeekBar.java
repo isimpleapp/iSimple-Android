@@ -224,6 +224,12 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                         final float x = event.getX(pointerIndex);
 
                         if (Math.abs(x - mDownMotionX) > mScaledTouchSlop) {
+                            //move to
+//                            if(Math.abs(absoluteMaxValuePrim - absoluteMinValuePrim) < 0.1f){
+//                                if(absoluteMaxValuePrim == 1d){
+//                                    absoluteMinValuePrim = 1f - 0.1f;
+//                                }
+//                            }
                             setPressed(true);
                             invalidate();
                             onStartTrackingTouch();

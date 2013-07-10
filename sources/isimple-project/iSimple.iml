@@ -25,6 +25,7 @@
     <orderEntry type="module" module-name="HoloEveryWhere" />
     <orderEntry type="library" name="jdom-2.0.5" level="project" />
     <orderEntry type="library" name="acra-4.5.0" level="project" />
+    <orderEntry type="library" name="lucene-analyzers-3.6.0" level="project" />
   </component>
 </module>
 

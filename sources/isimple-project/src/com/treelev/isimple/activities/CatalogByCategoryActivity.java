@@ -33,8 +33,6 @@ import org.holoeverywhere.widget.ExpandableListView;
 public class CatalogByCategoryActivity extends BaseExpandableListActivity
         implements RadioGroup.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
 
-    public boolean mEventChangeDataBase;
-
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
     public final static String DRINK_ID = "drink_id";

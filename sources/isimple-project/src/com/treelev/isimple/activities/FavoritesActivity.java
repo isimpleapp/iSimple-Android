@@ -219,7 +219,7 @@ public class FavoritesActivity extends BaseListActivity
 
     private void initListView(){
         ListView listView = getListView();
-        mListAdapter = new CatalogItemCursorAdapter(null, this, false, false);
+        mListAdapter = new CatalogItemCursorAdapter(null, this, false, true);
         mListAdapter.setOnCancelDismiss(new CatalogItemCursorAdapter.OnCancelDismis() {
             @Override
             public void cancelDeleteItem(int position) {

@@ -5,7 +5,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import org.holoeverywhere.app.Application;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class LocationTrackingManager implements LocationListener {
 
@@ -14,7 +19,6 @@ public class LocationTrackingManager implements LocationListener {
     private Context context;
     private LocationManager mLocationManager;
     private Location mLocationDefault;
-
 
     private LocationTrackingManager(Context context) {
         this.context = context;
@@ -36,25 +40,51 @@ public class LocationTrackingManager implements LocationListener {
     }
 
     private Location getCurrentLocation() {
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        Location current = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        return current != null ? current : mLocationDefault;
+//        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+//        Location current = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        List<String> providers = mLocationManager.getProviders(true);
+        float accuracy = mLocation != null ? mLocation.getAccuracy() : Float.MIN_VALUE;
+        float currentAccuracy;
+        Location currentLocation;
+        for(String provider : providers){
+            mLocationManager.requestLocationUpdates(provider, 0, 0, this);
+            currentLocation = mLocationManager.getLastKnownLocation(provider);
+            if(currentLocation != null){
+                currentAccuracy = currentLocation.getAccuracy();
+                if(currentAccuracy > accuracy){
+                    accuracy = currentAccuracy;
+                    mLocation = currentLocation;
+                }
+            }
+        }
+        return mLocation != null ? mLocation : mLocationDefault;
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.v("LocationTrackingManager ", "onLocationChanged");
         mLocation = location;
+        if(mLocation.getAccuracy() < location.getAccuracy()){
+            mLocation = location;
+        }
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.v("LocationTrackingManager ", "onStatusChanged");
+        Log.v("LocationTrackingManager ", provider);
+        Log.v("LocationTrackingManager", String.valueOf(status));
     }
 
     @Override
     public void onProviderEnabled(String provider) {
+        Log.v("LocationTrackingManager ", "onProviderEnabled");
+        Log.v("LocationTrackingManager", provider);
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+        Log.v("LocationTrackingManager ", "onProviderDisabled");
+        Log.v("LocationTrackingManager", provider);
     }
 }

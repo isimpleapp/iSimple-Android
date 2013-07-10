@@ -194,14 +194,18 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
                 }
 
                 volumeLabel = String.format(formatVolume, drinkId, end);
-                if(priceLabel != null) {
-                    String formatPrice = "от %s";
-                    priceLabel = String.format(formatPrice, priceLabel);
+                if(!TextUtils.isEmpty(priceLabel)) {
+                    if(priceLabel.equalsIgnoreCase("0") ||  priceLabel.equalsIgnoreCase("999999")){
+                        priceLabel = "";
+                    } else {
+                        String formatPrice = "от %s";
+                        priceLabel = String.format(formatPrice, priceLabel);
+                    }
                 }
             }
         }
         itemVolume.setText(volumeLabel != null ? volumeLabel : "");
-        itemPrice.setText(priceLabel != null ? priceLabel : "");
+        itemPrice.setText(priceLabel);
 //TODO:
         String strDrinkCategory = DrinkCategory.getDrinkCategory(cursor.getInt(itemDrinkCategoryIndex)).getDescription();
         if( mYearEnable ) {

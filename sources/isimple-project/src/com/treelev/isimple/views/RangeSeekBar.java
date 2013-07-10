@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.*;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.ImageView;
@@ -32,7 +31,6 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private OnRangeSeekBarChangeListener<T> listener;
     private float mPaddingTextMaxValue;
     private float mPaddingTextMinValue;
-    private float mLengthLinePix;
     private Context context;
 
     /**
@@ -80,7 +78,6 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         absoluteMinValuePrim = absoluteMinValue.doubleValue();
         absoluteMaxValuePrim = absoluteMaxValue.doubleValue();
         numberType = NumberType.fromNumber(absoluteMinValue);
-        mLengthLinePix = getWidth();//Math.abs(normalizedToScreen(1d) - normalizedToScreen(0d));
         // make RangeSeekBar focusable. This solves focus handling issues in case EditText widgets are being used along with the RangeSeekBar within ScollViews.
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -284,8 +281,6 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     }
 
     private double getSpaceThumbs(){
-        Log.v("Length 123 line", String.valueOf(getWidth()));
-        Log.v("Length 123 padding", String.valueOf(mPaddingTextMinValue + mPaddingTextMaxValue));
         return  (mPaddingTextMinValue + mPaddingTextMaxValue) / getWidth() ;
     }
 

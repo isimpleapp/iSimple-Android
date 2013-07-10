@@ -209,9 +209,13 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
                 }
 
                 volumeLabel = String.format(formatVolume, drinkId, end);
-                if(priceLabel != null) {
-                    String formatPrice = "от %s";
-                    priceLabel = String.format(formatPrice, priceLabel);
+                if(!TextUtils.isEmpty(priceLabel)) {
+                    if(priceLabel.equalsIgnoreCase("0") ||  priceLabel.equalsIgnoreCase("999999")){
+                        priceLabel = "";
+                    } else {
+                        String formatPrice = "от %s";
+                        priceLabel = String.format(formatPrice, priceLabel);
+                    }
                 }
             }
         }

@@ -30,7 +30,9 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private Thumb pressedThumb = null;
     private boolean notifyWhileDragging = false;
     private OnRangeSeekBarChangeListener<T> listener;
-
+    private float mPaddingTextMaxValue;
+    private float mPaddingTextMinValue;
+    private float mLengthLinePix;
     private Context context;
 
     /**
@@ -78,6 +80,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         absoluteMinValuePrim = absoluteMinValue.doubleValue();
         absoluteMaxValuePrim = absoluteMaxValue.doubleValue();
         numberType = NumberType.fromNumber(absoluteMinValue);
+        mLengthLinePix = getWidth();//Math.abs(normalizedToScreen(1d) - normalizedToScreen(0d));
         // make RangeSeekBar focusable. This solves focus handling issues in case EditText widgets are being used along with the RangeSeekBar within ScollViews.
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -224,12 +227,6 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                         final float x = event.getX(pointerIndex);
 
                         if (Math.abs(x - mDownMotionX) > mScaledTouchSlop) {
-                            //move to
-//                            if(Math.abs(absoluteMaxValuePrim - absoluteMinValuePrim) < 0.1f){
-//                                if(absoluteMaxValuePrim == 1d){
-//                                    absoluteMinValuePrim = 1f - 0.1f;
-//                                }
-//                            }
                             setPressed(true);
                             invalidate();
                             onStartTrackingTouch();
@@ -286,6 +283,35 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         return true;
     }
 
+    private double getSpaceThumbs(){
+        Log.v("Length 123 line", String.valueOf(getWidth()));
+        Log.v("Length 123 padding", String.valueOf(mPaddingTextMinValue + mPaddingTextMaxValue));
+        return  (mPaddingTextMinValue + mPaddingTextMaxValue) / getWidth() ;
+    }
+
+    private void maintainingSpaceThumb(){
+        if((Thumb.MAX.equals(pressedThumb))){
+            normalizedMinValue = normalizedMaxValue - getSpaceThumbs();
+        }
+        if((Thumb.MIN.equals(pressedThumb))){
+            normalizedMaxValue = normalizedMinValue + getSpaceThumbs();
+        }
+        if(normalizedMaxValue > 1d){
+           normalizedMaxValue = 1d;
+           normalizedMinValue = normalizedMaxValue - getSpaceThumbs();
+        }
+        if(normalizedMinValue < 0d){
+            normalizedMinValue = 0d;
+            normalizedMaxValue = normalizedMinValue + getSpaceThumbs();
+        }
+        setNormalizedMaxValue(normalizedMaxValue);
+        setNormalizedMinValue(normalizedMinValue);
+    }
+
+    private boolean checkBoundThumb(){
+        return Math.abs(normalizedMaxValue - normalizedMinValue) < getSpaceThumbs();
+    }
+
     private void onSecondaryPointerUp(MotionEvent ev) {
         final int pointerIndex = (ev.getAction() & ACTION_POINTER_INDEX_MASK) >> ACTION_POINTER_INDEX_SHIFT;
 
@@ -303,12 +329,21 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private void trackTouchEvent(MotionEvent event) {
         final int pointerIndex = event.findPointerIndex(mActivePointerId);
         final float x = event.getX(pointerIndex);
-
         if (Thumb.MIN.equals(pressedThumb)) {
-            setNormalizedMinValue(screenToNormalized(x));
+            normalizedMinValue = screenToNormalized(x);
+            if(checkBoundThumb()){
+                maintainingSpaceThumb();
+            } else {
+                setNormalizedMinValue(normalizedMinValue);
+            }
         }
         else if (Thumb.MAX.equals(pressedThumb)) {
-            setNormalizedMaxValue(screenToNormalized(x));
+            normalizedMaxValue = screenToNormalized(x);
+            if(checkBoundThumb()){
+                maintainingSpaceThumb();
+            } else {
+                setNormalizedMaxValue(normalizedMaxValue);
+            }
         }
     }
 
@@ -383,8 +418,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
         paint.setTextSize(context.getResources().getDimension(R.dimen.fontSizeTextValueSeekBar));
         paint.setColor(Color.BLACK);
-        drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas);
-        drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas);
+        mPaddingTextMinValue = drawText(normalizedToScreen(normalizedMinValue), getSelectedMinValue(), canvas);
+        mPaddingTextMaxValue = drawText(normalizedToScreen(normalizedMaxValue), getSelectedMaxValue(), canvas);
     }
 
     /**
@@ -424,7 +459,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
         canvas.drawBitmap(pressed ? thumbPressedImage : thumbImage, screenCoord - thumbHalfWidth, (0.65f * getHeight()) - thumbHalfHeight, paint);
     }
 //    private void drawText(float screenCoord, T value, Canvas canvas, boolean isMaxValue) {
-    private void drawText(float screenCoord, T value, Canvas canvas) {
+    private float drawText(float screenCoord, T value, Canvas canvas) {
 //        float padding = 3.0f;
 //        if (isMaxValue) {
 //            padding = - 15.0f;
@@ -444,6 +479,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             padding = 3.5f * thumbHalfWidth;
         }
         canvas.drawText(String.format("%d", value), screenCoord - padding, (0.65f * getHeight()) - thumbHalfHeight, paint);
+
+        return Math.max(padding * 1.15f, thumbHalfWidth * 1.1f);
     }
 
     /**

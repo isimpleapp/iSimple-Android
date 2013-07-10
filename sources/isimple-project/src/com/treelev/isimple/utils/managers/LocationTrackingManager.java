@@ -63,9 +63,10 @@ public class LocationTrackingManager implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.v("LocationTrackingManager ", "onLocationChanged");
-        mLocation = location;
-        if(mLocation.getAccuracy() < location.getAccuracy()){
-            mLocation = location;
+        if(mLocation != null){
+            if(mLocation.getAccuracy() < location.getAccuracy()){
+                mLocation = location;
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -112,7 +113,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         View view;
-        if(groupPosition == 0 || mEmptyGroupView.contains(groupPosition)){
+        if(groupPosition == 0 || mEmptyGroupView.contains(new Integer(groupPosition))){
             view = LayoutInflater.from(mContext).inflate(R.layout.empty_item, null);
         } else {
             view = LayoutInflater.from(mContext).inflate(R.layout.section_items, null);
@@ -124,6 +125,11 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         return view;
     }
 
+    @Override
+    public void setGroupCursor(Cursor cursor) {
+        mEmptyGroupView.clear();
+        super.setGroupCursor(cursor);
+    }
 
     @Override
     protected void bindChildView(View view, Context context, Cursor cursor, boolean isLastChild) {
@@ -253,6 +259,11 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
+    }
+
+    public void refresh(){
+        mEmptyGroupView.clear();
+        notifyDataSetChanged();
     }
 
     private void startDialog(){

@@ -44,7 +44,7 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
     @Override
     protected void onResume() {
         if(mEventChangeDataBase){
-            mTreeAdapter.notifyDataSetChanged();
+            mTreeAdapter.refresh();
             mEventChangeDataBase = false;
         }
         super.onResume();

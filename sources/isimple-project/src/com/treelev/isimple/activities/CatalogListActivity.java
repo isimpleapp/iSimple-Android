@@ -64,7 +64,7 @@ public class CatalogListActivity extends BaseExpandableListActivity
     protected void onResume() {
         startUpdateService();
         if(mEventChangeDataBase){
-            mListCategoriesAdapter.notifyDataSetChanged();
+            mListCategoriesAdapter.refresh();
             mEventChangeDataBase = false;
         }
         super.onResume();

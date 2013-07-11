@@ -111,7 +111,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
     @Override
     protected void onResume() {
         if(mEventChangeDataBase){
-            mTreeCategoriesAdapter.notifyDataSetChanged();
+            mTreeCategoriesAdapter.refresh();
             mEventChangeDataBase = false;
         }
         super.onResume();

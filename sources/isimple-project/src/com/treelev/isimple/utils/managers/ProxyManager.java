@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.location.Location;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.*;
+import com.treelev.isimple.data.lucenedao.LuceneDAO;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
@@ -219,28 +220,36 @@ public class ProxyManager {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, query, orderByField);
+        LuceneDAO luceneDAO = new LuceneDAO();
+        String rangeItemsID = luceneDAO.query(query);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, rangeItemsID, orderByField);
     }
 
     public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String query, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, locationId, query, orderByField);
+        LuceneDAO luceneDAO = new LuceneDAO();
+        String rangeItemsID = luceneDAO.query(query);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategory(categoryId, locationId, rangeItemsID, orderByField);
     }
 
     public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String query, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategoryPreOrder(categoryId, query, orderByField);
+        LuceneDAO luceneDAO = new LuceneDAO();
+        String rangeItemsID = luceneDAO.query(query);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategoryPreOrder(categoryId, rangeItemsID, orderByField);
     }
 
     public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String locationId, String query, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategoryPreOrder(categoryId, locationId, query, orderByField);
+        LuceneDAO luceneDAO = new LuceneDAO();
+        String rangeItemsID = luceneDAO.query(query);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getSearchItemsByCategoryPreOrder(categoryId, locationId, rangeItemsID, orderByField);
     }
 
     public Cursor getAllItems(int sortType) {
@@ -248,6 +257,10 @@ public class ProxyManager {
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getAllItems(orderByField);
+    }
+
+    public Cursor getItems() {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItems();
     }
 
     public Cursor getAllItemsByCategory(Integer categoryId, int sortType) {

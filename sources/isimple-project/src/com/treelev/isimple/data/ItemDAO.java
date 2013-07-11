@@ -304,10 +304,10 @@ public class ItemDAO extends BaseDAO {
         return maxValuePrice;
     }
 
-    public Cursor getSearchItemsByCategory(Integer categoryId, String query, String orderByField) {
+    public Cursor getSearchItemsByCategory(Integer categoryId, String rangeItemsId, String orderByField) {
         open();
         String whereCategory = "";
-        String where = getWhereBySearch(query);
+        String where = getWhereBySearch(rangeItemsId);
         if (categoryId != null) {
             whereCategory = String.format(COMPARE,
                     DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
@@ -334,7 +334,7 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String query, String orderByField) {
+    public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String rangeItemsID, String orderByField) {
         open();
         String join = String.format(FORMAT_JOIN_TWO_TABLE,
                 TABLE_ONE,
@@ -349,7 +349,7 @@ public class ItemDAO extends BaseDAO {
                 locationId);
         String where = String.format(AND, join, whereCategory);
         where = String.format(AND, where, whereShop);
-        String whereSearch = String.format(HOOKS, getWhereBySearch(query));
+        String whereSearch = String.format(HOOKS, getWhereBySearch(rangeItemsID));
         where = String.format(AND, where, whereSearch);
         String formatScript = "SELECT * " +
                 "FROM " +
@@ -369,10 +369,10 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String query, String orderByField) {
+    public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String rangeItemsID, String orderByField) {
         open();
         String whereCategory = "";
-        String where = getWhereBySearch(query);
+        String where = getWhereBySearch(rangeItemsID);
         if (categoryId != null) {
             whereCategory = String.format(COMPARE,
                     DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
@@ -1030,6 +1030,12 @@ public class ItemDAO extends BaseDAO {
         return enableList;
     }
 
+    public Cursor getItems(){
+        String selectSql = "SELECT item_id, name, localized_name, manufacturer, localized_manufacturer, country, region, style FROM item";
+        open();
+        return getDatabase().rawQuery(selectSql, null);
+    }
+
     private Item createItem(Cursor cursor) {
         Item item = null;
         int indexItemID = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_ID);
@@ -1118,11 +1124,12 @@ public class ItemDAO extends BaseDAO {
     }
 
     //TODO refactor: переименовать метод и переписать через String.format
-    private String getWhereBySearch(String query) {
-        String formatQuery = "%" + query + "%";
-        String onePart = String.format(LIKE, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, formatQuery);
-        String twoPart = String.format(LIKE, DatabaseSqlHelper.ITEM_NAME, formatQuery);
-        return String.format(OR, onePart, twoPart);
+    private String getWhereBySearch(String rangeItemsID) {
+        return String.format("item.item_id IN (%s)", rangeItemsID);
+//        String formatQuery = "%" + query + "%";
+//        String onePart = String.format(LIKE, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, formatQuery);
+//        String twoPart = String.format(LIKE, DatabaseSqlHelper.ITEM_NAME, formatQuery);
+//        return String.format(OR, onePart, twoPart);
     }
 
     public void deleteAllData() {

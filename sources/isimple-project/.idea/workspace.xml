@@ -27,14 +27,11 @@
     </option>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="exe" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="LocationTrackingManager" />
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategoryTree.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategoryTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/LocationTrackingManager.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/LocationTrackingManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/data/lucenedao/LuceneDAO.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/data/lucenedao/LuceneDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -42,7 +39,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373453315836" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373303225708" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373473699866" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373530336788" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373376508468" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -65,7 +62,7 @@
     <file path="/LocationDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364547293510" ignored="false" />
     <file path="/LocationAndChainsParser.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364547319816" ignored="false" />
     <file path="/ObjectDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364307013395" ignored="false" />
-    <file path="/a.dummy" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373380710627" ignored="false" />
+    <file path="/a.dummy" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373537433892" ignored="false" />
     <file path="/ChainType.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364312468616" ignored="false" />
     <file path="/LocationType.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364544537171" ignored="false" />
     <file path="/ItemAvailabilityDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365582368023" ignored="false" />
@@ -107,7 +104,7 @@
     <file path="/main_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365527138399" ignored="false" />
     <file path="/DistanceShop.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369479598364" ignored="false" />
     <file path="/LocationTrackingService.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365077965437" ignored="false" />
-    <file path="/LocationTrackingManager.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373462096453" ignored="false" />
+    <file path="/LocationTrackingManager.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373530908962" ignored="false" />
     <file path="/ShopListActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365426923021" ignored="false" />
     <file path="/ShopMapActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365599661566" ignored="false" />
     <file path="$PROJECT_DIR$/../GoogleMapsApp/src/com/example/GoogleMapsApp/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365162998877" ignored="false" />
@@ -1157,7 +1154,7 @@
     <file path="/CatalogSubCategoryTree.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373529544424" ignored="false" />
     <file path="/ObserverDataChanged.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373376469886" ignored="false" />
     <file path="/Observer.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373374786963" ignored="false" />
-    <file path="/LuceneDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373528833309" ignored="false" />
+    <file path="/LuceneDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373538790549" ignored="false" />
     <file path="$PROJECT_DIR$/../HoloEveryWhere-prefs/gen/org/holoeverywhere/preference/BuildConfig.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373524159350" ignored="false" />
     <file path="$PROJECT_DIR$/../Sherlock/gen/com/actionbarsherlock/BuildConfig.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373524159350" ignored="false" />
     <file path="$PROJECT_DIR$/../HoloEveryWhere/gen/org/holoeverywhere/BuildConfig.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373524159350" ignored="false" />
@@ -1699,69 +1696,59 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SplashActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="89" column="22" selection-start="3457" selection-end="3457" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LuceneDAO.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="LuceneDAO.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/lucenedao/LuceneDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="16" selection-start="3740" selection-end="3740" vertical-scroll-proportion="0.0">
+            <state line="127" column="63" selection-start="5874" selection-end="5874" vertical-scroll-proportion="0.64312977">
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="method#addElement#0;class#LuceneDAO#0" expanded="false" />
-                <element signature="method#getDirectory#0;class#LuceneDAO#0" expanded="false" />
+                <element signature="e#5297#5305#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbsItemTreeCursorAdapter.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java">
+      <file leaf-file-name="TopDocs.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/search/TopDocs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="131" column="0" selection-start="4841" selection-end="4841" vertical-scroll-proportion="1.108295">
-              <folding>
-                <element signature="method#bindChildView#0;class#AbsItemTreeCursorAdapter#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CatalogListActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="45" selection-start="2848" selection-end="2848" vertical-scroll-proportion="0.0">
+            <state line="32" column="17" selection-start="1213" selection-end="1221" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CatalogByCategoryActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
+      <file leaf-file-name="ScoreDoc.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/search/ScoreDoc.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="45" selection-start="4824" selection-end="4824" vertical-scroll-proportion="0.0">
+            <state line="21" column="13" selection-start="894" selection-end="894" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CatalogSubCategoryTree.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategoryTree.java">
+      <file leaf-file-name="Searcher.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/search/Searcher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="109" column="0" selection-start="4063" selection-end="4063" vertical-scroll-proportion="0.0">
+            <state line="81" column="39" selection-start="3212" selection-end="3212" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CatalogSubCategory.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategory.java">
+      <file leaf-file-name="Collector.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/search/Collector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="13" selection-start="643" selection-end="643" vertical-scroll-proportion="0.0">
+            <state line="122" column="22" selection-start="4483" selection-end="4483" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QueryParser.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/queryParser/QueryParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="181" column="9" selection-start="7247" selection-end="7247" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1800,13 +1787,13 @@
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/CatalogItemCursorAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/LocationTrackingManager.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/lucenedao/LuceneDAO.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogSubCategoryTree.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/itemstreecursoradapter/AbsItemTreeCursorAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/LocationTrackingManager.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/lucenedao/LuceneDAO.java" />
       </list>
     </option>
   </component>
@@ -2213,7 +2200,7 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="BX902TNSYY" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0149C7F018017015" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
@@ -3285,7 +3272,11 @@
       <created>1373473714131</created>
       <updated>1373473714131</updated>
     </task>
-    <option name="localTasksCounter" value="207" />
+    <task id="LOCAL-00207" summary="IS - 273">
+      <created>1373530354139</created>
+      <updated>1373530354139</updated>
+    </task>
+    <option name="localTasksCounter" value="208" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3310,7 +3301,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19386332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
@@ -3325,13 +3316,13 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33054394" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22594142" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32914925" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23291492" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29196557" sideWeight="0.67085075" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29196557" sideWeight="0.7670851" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22594142" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.7949791" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -3386,7 +3377,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IS - 189 not final" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS - 273" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -3400,7 +3391,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="IS - 238&#10;" />
     <MESSAGE value="fixed refresh after add favorites&#10;" />
     <MESSAGE value="fixed refresh after add favorites&#10;refresh data-base&#10;" />
     <MESSAGE value="fixed add favourites" />
@@ -3425,6 +3415,7 @@
     <MESSAGE value="IS - 267" />
     <MESSAGE value="IS - 267&#10;fixed NullPointerExeption" />
     <MESSAGE value="IS - 189 not final" />
+    <MESSAGE value="IS - 273" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -3438,92 +3429,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/android/view/View.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="273" column="16" selection-start="13911" selection-end="13911" vertical-scroll-proportion="0.33333334" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="0" selection-start="3339" selection-end="3339" vertical-scroll-proportion="0.72069824">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#onTouchEvent#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#onSecondaryPointerUp#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="e#20959#20989#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseExpandableListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="0" selection-start="4847" selection-end="4847" vertical-scroll-proportion="0.30917874">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/CatalogItemCursorAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="212" column="23" selection-start="9413" selection-end="9413" vertical-scroll-proportion="1.0242424">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/LocationTrackingManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="60" selection-start="3100" selection-end="3100" vertical-scroll-proportion="2.4285715">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="0" selection-start="1720" selection-end="1720" vertical-scroll-proportion="1.0759493">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/analysis/standard/StandardAnalyzer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="29" selection-start="3379" selection-end="3379" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="22" selection-start="3457" selection-end="3457" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/index/IndexWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2383" column="0" selection-start="88440" selection-end="88697" vertical-scroll-proportion="0.13274336">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/lucenedao/LuceneDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="16" selection-start="3740" selection-end="3740" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="method#addElement#0;class#LuceneDAO#0" expanded="false" />
-            <element signature="method#getDirectory#0;class#LuceneDAO#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/index/IndexWriterConfig.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="44" column="19" selection-start="1689" selection-end="1689" vertical-scroll-proportion="0.024602026">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="45" selection-start="2848" selection-end="2848" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -3554,6 +3462,87 @@
         <state line="131" column="0" selection-start="4841" selection-end="4841" vertical-scroll-proportion="1.108295">
           <folding>
             <element signature="method#bindChildView#0;class#AbsItemTreeCursorAdapter#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="45" selection-start="2848" selection-end="2848" vertical-scroll-proportion="0.43087557">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="89" column="22" selection-start="3457" selection-end="3457" vertical-scroll-proportion="0.03846154">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/LocationTrackingManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="38" selection-start="2422" selection-end="2445" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/queryParser/QueryParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="181" column="9" selection-start="7247" selection-end="7247" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/index/Term.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="9" selection-start="1540" selection-end="1540" vertical-scroll-proportion="0.33186814">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/search/IndexSearcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="113" column="9" selection-start="4816" selection-end="4816" vertical-scroll-proportion="1.0248868">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/search/Searcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="39" selection-start="3212" selection-end="3212" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/search/Collector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="22" selection-start="4483" selection-end="4483" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/search/ScoreDoc.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="13" selection-start="894" selection-end="894" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libs/lucene-core-3.6.0-sources.jar!/org/apache/lucene/search/TopDocs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="17" selection-start="1213" selection-end="1221" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/lucenedao/LuceneDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="127" column="63" selection-start="5874" selection-end="5874" vertical-scroll-proportion="0.64312977">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#addElement#0;class#LuceneDAO#0" expanded="false" />
+            <element signature="e#5297#5305#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -2,7 +2,6 @@ package com.treelev.isimple.utils.managers;
 
 import android.os.Environment;
 import com.treelev.isimple.domain.LoadFileData;
-import com.treelev.isimple.service.UpdateDataService;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -23,6 +22,7 @@ import java.util.regex.Pattern;
 
 public class WebServiceManager {
 
+    public final static String FILE_URL_FORMAT = "%s/Simple";
     private final static String REG_FILENAME_FORMAT = ".+/(.+.xmlz)";
     private final static String DEFAULT_FILENAME = "isimple_data.xmlz";
 
@@ -34,7 +34,7 @@ public class WebServiceManager {
             urlConnection.connect();
             int fileLength = urlConnection.getContentLength();
             InputStream input = new BufferedInputStream(downloadUrl.openStream());
-            File directory = new File(String.format(UpdateDataService.FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
+            File directory = new File(String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
             directory.mkdir();
             downloadingFile = new File(directory.getPath() + File.separator + getFileName(fileUrl));
             OutputStream output = new FileOutputStream(downloadingFile);
@@ -53,26 +53,31 @@ public class WebServiceManager {
         return downloadingFile;
     }
 
-    public List<LoadFileData> getLoadFileData(String requestString) {
-        List<LoadFileData> loadFileDataList = new ArrayList<LoadFileData>();
-        try {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(requestString);
-            HttpResponse httpResponse = httpClient.execute(httpGet);
-            Document document = new SAXBuilder().build(httpResponse.getEntity().getContent());
-            List<Element> contentList = document.getRootElement().getChildren();
-            for (Element element : contentList) {
-                Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);
-                Element dateElement = element.getChild(LoadFileData.FILE_DATE_TAG_NAME);
-                loadFileDataList.add(new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement.getValue()), urlElement.getValue()));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+    public static void deleteDownloadDirectory() {
+        File directory = getDownloadDirectory();
+        if (directory.exists()) {
+            directory.delete();
         }
+    }
+
+    public static File getDownloadDirectory() {
+        return new File(String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
+    }
+
+    public List<LoadFileData> getLoadFileData(String requestString) throws Exception {
+        List<LoadFileData> loadFileDataList = new ArrayList<LoadFileData>();
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(requestString);
+        HttpResponse httpResponse = httpClient.execute(httpGet);
+        Document document = new SAXBuilder().build(httpResponse.getEntity().getContent());
+        List<Element> contentList = document.getRootElement().getChildren();
+        for (Element element : contentList) {
+            Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);
+            Element dateElement = element.getChild(LoadFileData.FILE_DATE_TAG_NAME);
+            loadFileDataList.add(new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement.getValue()), urlElement.getValue()));
+        }
+
         return loadFileDataList;
     }
 

@@ -1,18 +1,22 @@
 package com.treelev.isimple.activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.lucenedao.LuceneDAO;
 import com.treelev.isimple.domain.FileParseObject;
-import com.treelev.isimple.service.UpdateDataService;
+import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.utils.managers.WebServiceManager;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -24,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 
 public class SplashActivity extends Activity {
+
+    public static final String FROM_NOTIFICATION = "from_notification";
 
     private final static String[] urlList = new String[]{
             "http://s1.isimpleapp.ru/xml/ver0/Catalog-Update.xmlz",
@@ -39,17 +45,44 @@ public class SplashActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
+
         AssetManager assetManager = getApplicationContext().getAssets();
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(UpdateDataService.PREFS, MODE_MULTI_PROCESS);
-        boolean needUpdateData = sharedPreferences.getBoolean(UpdateDataService.NEED_DATA_UPDATE, false);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
+
+        boolean needUpdateData = sharedPreferences.getBoolean(DownloadDataService.NEED_DATA_UPDATE, false);
+        boolean fromNotification = getIntent().getBooleanExtra(FROM_NOTIFICATION, false);
 
         if (!needUpdateData) {
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
-        } else {
-            File directory = new File(String.format(UpdateDataService.FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
-            List<FileParseObject> fileParseObjectList = createFileList(directory.listFiles());
-            new UpdateDataTask().execute(fileParseObjectList.toArray(new FileParseObject[fileParseObjectList.size()]));
         }
+        else if (fromNotification) {
+            File directory = WebServiceManager.getDownloadDirectory();
+            if (directory.exists()) {
+                List<FileParseObject> fileParseObjectList = createFileList(directory.listFiles());
+                new UpdateDataTask().execute(fileParseObjectList.toArray(new FileParseObject[fileParseObjectList.size()]));
+            }
+        }
+        else {
+            showNotification(getApplicationContext());
+            finish();
+            startActivity(new Intent(this, CatalogListActivity.class));
+            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+        }
+    }
+
+    public static void showNotification(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
+
+        Intent newIntent = new Intent(context, SplashActivity.class);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        newIntent.putExtra(SplashActivity.FROM_NOTIFICATION, true);
+
+        PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
+        notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_content_label), pIntent);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(1, notification);
     }
 
     @Override
@@ -70,6 +103,8 @@ public class SplashActivity extends Activity {
        Utils.updateStateCart(this);
        super.onDestroy();
     }
+
+
 
     private class ImportDBFromFileTask extends AsyncTask {
 
@@ -104,10 +139,7 @@ public class SplashActivity extends Activity {
                 File file = new File("/data/data/com.treelev.isimple/databases/");
                 file.mkdir();
                 File dbFile = new File("/data/data/com.treelev.isimple/databases/iSimple.db");
-                if (override) {
-                    createDb(dbFile, am);
-                    putFileDatesInPref(params);
-                } else if (!dbFile.exists()) {
+                if (override || !dbFile.exists()) {
                     createDb(dbFile, am);
                     putFileDatesInPref(params);
                 }
@@ -153,7 +185,7 @@ public class SplashActivity extends Activity {
             for (FileParseObject fileParseObject : fileParseObjects) {
                 fileParseObject.parseObjectDataToDB();
             }
-            deleteFileDir();
+            WebServiceManager.deleteDownloadDirectory();
             return null;
         }
 
@@ -162,18 +194,14 @@ public class SplashActivity extends Activity {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
 
-            SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(UpdateDataService.PREFS, MODE_MULTI_PROCESS).edit();
-            editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, false);
+            SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
+            editor.putBoolean(DownloadDataService.NEED_DATA_UPDATE, false);
             editor.commit();
 
             finish();
             Intent newIntent = new Intent(SplashActivity.this, CatalogListActivity.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(newIntent);
-        }
-
-        private void deleteFileDir() {
-            new File(String.format(UpdateDataService.FILE_URL_FORMAT, Environment.getExternalStorageDirectory())).delete();
         }
     }
 

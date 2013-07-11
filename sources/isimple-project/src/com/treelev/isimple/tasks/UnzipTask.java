@@ -10,34 +10,50 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.SplashActivity;
-import com.treelev.isimple.service.UpdateDataService;
+import com.treelev.isimple.service.DownloadDataService;
+import com.treelev.isimple.utils.managers.WebServiceManager;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class UnzipTask extends AsyncTask<File, Void, File[]> {
 
-    private NotificationManager notificationManager;
+    private static UnzipTask task;
+
+    private boolean running;
+    private boolean error;
+
     private Context context;
     private SharedPreferences sharedPreferences;
 
-    public UnzipTask(Context context, SharedPreferences sharedPreferences) {
+    public static UnzipTask getUnzipTask(Context context) {
+        if (task == null) {
+            task = new UnzipTask(context);
+        }
+        return task;
+    }
+
+    private UnzipTask(Context context) {
         this.context = context;
-        this.sharedPreferences = sharedPreferences;
+        this.sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, Context.MODE_MULTI_PROCESS);
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        error = false;
     }
 
     @Override
     protected File[] doInBackground(File... params) {
+        running = true;
         try {
             for (File file : params) {
                 ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
@@ -65,8 +81,12 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
                 }
                 file.delete();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            error = true;
+        }
+        finally {
+            running = false;
+            task = null;
         }
         return params;
     }
@@ -74,17 +94,12 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
     @Override
     protected void onPostExecute(File[] aVoid) {
         super.onPostExecute(aVoid);
-        Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
+        if (!error) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(DownloadDataService.NEED_DATA_UPDATE, true);
+            editor.commit();
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(UpdateDataService.NEED_DATA_UPDATE, true);
-        editor.commit();
-
-        Intent newIntent = new Intent(context, SplashActivity.class);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
-        notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_content_label), pIntent);
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(1, notification);
+            SplashActivity.showNotification(context);
+        }
     }
 }

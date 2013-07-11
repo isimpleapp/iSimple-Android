@@ -14,7 +14,7 @@ import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.service.UpdateDataService;
+import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ExpandableListView;
 import android.widget.RelativeLayout;
@@ -171,6 +171,6 @@ public class CatalogListActivity extends BaseExpandableListActivity
     }
 
     private void startUpdateService() {
-        startService(new Intent(getApplicationContext(), UpdateDataService.class));
+        startService(new Intent(getApplicationContext(), DownloadDataService.class));
     }
 }

@@ -1,18 +1,22 @@
 package com.treelev.isimple.data.lucenedao;
 
 import android.database.Cursor;
+
 import android.util.Log;
+
 import com.treelev.isimple.data.DatabaseSqlHelper;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.ru.RussianAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.*;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
-import org.tartarus.snowball.SnowballProgram;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +28,7 @@ public class LuceneDAO {
     private final String DIRECTORY_PATH = "/data/data/com.treelev.isimple/lucene/";
     private final Version VERSION = Version.LUCENE_31;
     private final float defaultMinSimilarity = 0.6f;
-    public final static int defaultPrefixLength = 3;
+    public final static int defaultPrefixLength = 0;
 
     public LuceneDAO(){
 
@@ -95,11 +99,11 @@ public class LuceneDAO {
     public String query(String query){
         try{
             Log.v("Lucene query", query);
-            BooleanQuery bq = getBooleanQuery(query);
+            Query queryObj = getQuery(query);
             Directory directory = getDirectory();
             IndexReader indexReader = IndexReader.open(directory);
             IndexSearcher indexSearcher = new IndexSearcher(indexReader);
-            TopDocs docs = indexSearcher.search(bq, 1000);
+            TopDocs docs = indexSearcher.search(queryObj, 1000);
             Document doc;
             List<String> listID = new ArrayList<String>();
             for(ScoreDoc scoreDoc : docs.scoreDocs){
@@ -121,61 +125,33 @@ public class LuceneDAO {
         return  FSDirectory.open(dir);
     }
 
-    private BooleanQuery  getBooleanQuery (String query ){
+    private Query  getQuery (String query ) {
         Analyzer analyzer = getAnalyzer();
 
-        Term name = new Term(DatabaseSqlHelper.ITEM_NAME, query);
-        Term localizedName = new Term(DatabaseSqlHelper.ITEM_LOCALIZED_NAME, query);
-        Term manufacture = new Term(DatabaseSqlHelper.ITEM_MANUFACTURER, query);
-        Term localizedManufacture = new Term(DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER, query);
-//        Term country = new Term(DatabaseSqlHelper.ITEM_COUNTRY, query);
-//        Term region = new Term(DatabaseSqlHelper.ITEM_REGION, query);
-//        Term style = new Term(DatabaseSqlHelper.ITEM_STYLE, query);
+        QueryParser parser = new QueryParser(VERSION, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, analyzer);
+        parser.setLowercaseExpandedTerms(true);
 
-        Query nameQuery = new FuzzyQuery(name, defaultMinSimilarity, defaultPrefixLength);
-        Query localizedNameQuery = new FuzzyQuery(localizedName, defaultMinSimilarity, defaultPrefixLength);
-        Query manufactureQuery = new FuzzyQuery(manufacture, defaultMinSimilarity, defaultPrefixLength);
-        Query localizedManufactureQuery = new FuzzyQuery(localizedManufacture, defaultMinSimilarity, defaultPrefixLength);
-//        Query countryQuery = new FuzzyQuery(country, defaultMinSimilarity);
-//        Query regionQuery = new FuzzyQuery(region, defaultMinSimilarity);
-//        Query styleQuery = new FuzzyQuery(style, defaultMinSimilarity);
+        Query queryObj = null;
+        try {
+           queryObj = parser.parse(getWildcardQuery(query));
+        } catch (ParseException e){
 
-        BooleanQuery bq = new BooleanQuery();
+        }
+        return queryObj;
+    }
 
-        bq.add(nameQuery, BooleanClause.Occur.SHOULD);
-        bq.add(localizedNameQuery, BooleanClause.Occur.SHOULD);
-        bq.add(manufactureQuery, BooleanClause.Occur.SHOULD);
-        bq.add(localizedManufactureQuery, BooleanClause.Occur.SHOULD);
-//        bq.add(countryQuery, BooleanClause.Occur.SHOULD);
-//        bq.add(regionQuery, BooleanClause.Occur.SHOULD);
-//        bq.add(styleQuery, BooleanClause.Occur.SHOULD);
-
-        return bq;
+    private String getWildcardQuery(String query){
+        String luceneQuery = String.format("%2$s: %1$s* OR %3$s: %1$s* OR %4$s: %1$s* OR %5$s: %1%s*",
+                query,
+                DatabaseSqlHelper.ITEM_NAME,
+                DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+                DatabaseSqlHelper.ITEM_MANUFACTURER,
+                DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER);
+        return luceneQuery;
     }
 
     private Analyzer getAnalyzer(){
         return new RussianAnalyzer(VERSION);
-    }
-
-    private PhraseQuery getPhraseQuery(String query){
-        Term name = new Term(DatabaseSqlHelper.ITEM_NAME, query);
-        Term localizedName = new Term(DatabaseSqlHelper.ITEM_LOCALIZED_NAME, query);
-        Term manufacture = new Term(DatabaseSqlHelper.ITEM_MANUFACTURER, query);
-        Term localizedManufacture = new Term(DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER, query);
-        Term country = new Term(DatabaseSqlHelper.ITEM_COUNTRY, query);
-        Term region = new Term(DatabaseSqlHelper.ITEM_REGION, query);
-        Term style = new Term(DatabaseSqlHelper.ITEM_STYLE, query);
-
-        PhraseQuery phraseQuery = new PhraseQuery();
-        phraseQuery.add(name);
-        phraseQuery.add(localizedName);
-        phraseQuery.add(manufacture);
-        phraseQuery.add(localizedManufacture);
-        phraseQuery.add(country);
-        phraseQuery.add(region);
-        phraseQuery.add(style);
-
-        return phraseQuery;
     }
 
     private String getStringIDs(List<String> listID){

@@ -10,6 +10,7 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.lucenedao.LuceneDAO;
 import com.treelev.isimple.domain.FileParseObject;
@@ -185,6 +186,7 @@ public class SplashActivity extends Activity {
             for (FileParseObject fileParseObject : fileParseObjects) {
                 fileParseObject.parseObjectDataToDB();
             }
+            updateLucene();
             WebServiceManager.deleteDownloadDirectory();
             return null;
         }
@@ -202,6 +204,11 @@ public class SplashActivity extends Activity {
             Intent newIntent = new Intent(SplashActivity.this, CatalogListActivity.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(newIntent);
+        }
+
+        private void updateLucene(){
+            ProxyManager proxyManager = new ProxyManager(getApplication());
+            new LuceneDAO().update(proxyManager.getItems());
         }
     }
 

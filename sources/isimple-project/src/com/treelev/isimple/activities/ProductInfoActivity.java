@@ -4,11 +4,16 @@ package com.treelev.isimple.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,6 +26,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.domain.db.Item;
@@ -32,6 +39,7 @@ import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.TextView;
 import org.holoeverywhere.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -57,6 +65,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
     private boolean mIsProductExistShoppingCart;
+    private Bitmap mBitMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -245,28 +254,34 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         boolean found = false;
         Intent sendMail = new Intent(Intent.ACTION_SEND);
         sendMail.setType("text/html");
-        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(sendMail, 0);
-        if (!resInfo.isEmpty()) {
-            for (ResolveInfo info : resInfo) {
-                if (info.activityInfo.packageName.toLowerCase().contains(type) ||
-                        info.activityInfo.name.toLowerCase().contains(type)) {
-                    sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
-                    sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
-                    sendMail.setPackage(info.activityInfo.packageName);
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
-            } else {
-                Toast.makeText(this, this.getString(R.string.not_found_mail_cleint), Toast.LENGTH_SHORT).show();
-            }
-        }
+        sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
+        sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText(), mImageGetter, null));
+        startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
+//        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(sendMail, 0);
+//        if (!resInfo.isEmpty()) {
+//            for (ResolveInfo info : resInfo) {
+//                if (info.activityInfo.packageName.toLowerCase().contains(type) ||
+//                        info.activityInfo.name.toLowerCase().contains(type)) {
+//                    sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
+//                    sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
+//                    sendMail.setPackage(info.activityInfo.packageName);
+//                    found = true;
+//                    break;
+//                }
+//            }
+//            if (found) {
+//                startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
+//            } else {
+//                Toast.makeText(this, this.getString(R.string.not_found_mail_cleint), Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
 
     private String getMailText() {
-        String bottleRes = mProduct.getBottleHiResolutionImageFilename();
+        String bottleRes = "";
+        if (!TextUtils.isEmpty(mProduct.getBottleHiResolutionImageFilename())){
+              bottleRes = "image_pic";
+        }
         String name = mProduct.getName();
         String localizedName = mProduct.getLocalizedName();
         String typeProduct = mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "";
@@ -277,7 +292,20 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String manufacturer = mProduct.getManufacturer();
         String itemId = mProduct.getItemID();
         String str = getResources().getString(R.string.mail_tamplate);
-        return String.format(str, bottleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId, itemId);
+//        return String.format(str, bottleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId, itemId);
+        return String.format("<img src=\"%s\"/>", bottleRes);
+    }
+
+    @Deprecated
+    private String bmpToBase64String(){
+        String strBitMap = null;
+        if(mBitMap != null){
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            mBitMap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] b = baos.toByteArray();
+            strBitMap = Base64.encodeToString(b, Base64.DEFAULT);
+        }
+        return strBitMap;
     }
 
     private int widthDisplay() {
@@ -343,7 +371,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                             metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
             imageLoader.displayImage(
                     String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix),
-                    mProductImage, options);
+                    mProductImage, options,   mImageLoadingListener);
         }
         String strPriceLabel = takeRetailPrice(product) != null ? takeRetailPrice(product).toString() : "";
         TextView retailPrice = (TextView) formView.findViewById(R.id.retail_price);
@@ -458,6 +486,41 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             translateAnimation.setDuration(5000);
             translateAnimation.setAnimationListener(translateAnimationListener);
             return translateAnimation;
+        }
+    };
+
+    private ImageLoadingListener mImageLoadingListener = new ImageLoadingListener() {
+        @Override
+        public void onLoadingStarted(String s, View view) {
+
+        }
+
+        @Override
+        public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+        }
+
+        @Override
+        public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+            mBitMap = bitmap;
+            Log.v("", "");
+        }
+
+        @Override
+        public void onLoadingCancelled(String s, View view) {
+
+        }
+    };
+
+    private Html.ImageGetter mImageGetter = new Html.ImageGetter() {
+        @Override
+        public Drawable getDrawable(String s) {
+            Drawable result = null;
+            if(mBitMap != null){
+                result = new BitmapDrawable(getResources(), mBitMap);
+                result.setBounds(0, 0, result.getIntrinsicWidth(), result.getIntrinsicHeight());
+            }
+            return result;
         }
     };
 }

@@ -81,12 +81,9 @@ public class CatalogListActivity extends BaseExpandableListActivity
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (query.trim().length() != 0) {
-                    SearchResultActivity.categoryID = null;
-                    SearchResultActivity.locationId = null;
-                    return false;
-                } else
-                    return true;
+                SearchResultActivity.categoryID = null;
+                SearchResultActivity.locationId = null;
+                return query.trim().length() < LENGTH_SEARCH_QUERY;
             }
 
             @Override

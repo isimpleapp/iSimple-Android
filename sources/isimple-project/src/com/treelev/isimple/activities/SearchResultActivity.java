@@ -93,7 +93,7 @@ public class SearchResultActivity extends  BaseExpandableListActivity
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return query.trim().length() == 0;
+                return query.trim().length() < LENGTH_SEARCH_QUERY;
             }
 
             @Override

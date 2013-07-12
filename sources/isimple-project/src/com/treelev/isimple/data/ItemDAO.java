@@ -1031,7 +1031,12 @@ public class ItemDAO extends BaseDAO {
     }
 
     public Cursor getItems(){
-        String selectSql = "SELECT item_id, name, localized_name, manufacturer, localized_manufacturer, country, region, style FROM item";
+        String selectSql = "SELECT " +
+                "item_id, name, localized_name, manufacturer, localized_manufacturer, " +
+                "country, region, style, drink_type, style_description, taste_qualities, " +
+                "vintage_report, aging_process, production_process, interesting_facts, " +
+                "label_history, gastronomy, vineyard, grapes_used " +
+                "FROM item";
         open();
         return getDatabase().rawQuery(selectSql, null);
     }

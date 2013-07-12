@@ -163,7 +163,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
             public boolean onQueryTextSubmit(String query) {
                 SearchResultActivity.categoryID = mCategoryID;
                 SearchResultActivity.locationId = mLocationId;
-                return false;
+                return query.trim().length() < LENGTH_SEARCH_QUERY;
             }
 
             @Override

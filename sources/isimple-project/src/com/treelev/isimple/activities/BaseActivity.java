@@ -19,10 +19,13 @@ import org.holoeverywhere.app.AlertDialog;
 public class BaseActivity extends Activity implements ActionBar.OnNavigationListener,
         Observer {
 
-    private int mCurrentCategory;
+
     public final static String BARCODE = "barcode";
+
+    private int mCurrentCategory;
     private boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;
+    protected final int LENGTH_SEARCH_QUERY = 4;
     protected boolean mEventChangeDataBase;
 
     @Override

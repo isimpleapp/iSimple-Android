@@ -3,17 +3,16 @@ package com.treelev.isimple.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,9 +36,8 @@ import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.TextView;
-import org.holoeverywhere.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -90,6 +88,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         mIsFavourite = proxyManager.isFavourites(itemId);
         mLastFavourite = mIsFavourite;
         setFavouritesImage(mIsFavourite);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        deleteTmpImage();
     }
 
     @Override
@@ -252,10 +256,14 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private void initShareIntent() {
         String type = "mail";
         boolean found = false;
-        Intent sendMail = new Intent(Intent.ACTION_SEND);
+        Intent sendMail = new Intent(Intent.ACTION_SEND_MULTIPLE);
         sendMail.setType("text/html");
         sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
-        sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText(), mImageGetter, null));
+        sendMail.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getMailText()));
+        ArrayList<Uri>  attachmentUri = getAttachmentImageUri();
+        if(attachmentUri != null){
+            sendMail.putParcelableArrayListExtra(Intent.EXTRA_STREAM, getAttachmentImageUri());
+        }
         startActivity(Intent.createChooser(sendMail, getString(R.string.title_dialog_send_mail)));
 //        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(sendMail, 0);
 //        if (!resInfo.isEmpty()) {
@@ -277,11 +285,48 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 //        }
     }
 
-    private String getMailText() {
-        String bottleRes = "";
-        if (!TextUtils.isEmpty(mProduct.getBottleHiResolutionImageFilename())){
-              bottleRes = "image_pic";
+    private ArrayList<Uri> getAttachmentImageUri(){
+        ArrayList<Uri> attachmentUri = null;
+        Uri image = getUriImage();
+        if (image != null){
+            attachmentUri = new ArrayList<Uri>();
+            attachmentUri.add(image);
         }
+        return attachmentUri;
+    }
+
+    private Uri getUriImage() {
+        Uri result = null;
+        try{
+            if(mBitMap != null){
+                File tmpDir = new File("/sdcard/Android/data/com.treelev.isimple/cache");
+                if(!tmpDir.isDirectory()){
+                    tmpDir.mkdir();
+                }
+                File tmpImage = new File(String.format("/sdcard/Android/data/com.treelev.isimple/cache/%s.png", mProduct.getItemID()));
+                OutputStream fOut = new FileOutputStream(tmpImage);
+                mBitMap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+                fOut.flush();
+                fOut.close();
+                result = Uri.fromFile(tmpImage);
+            }
+        } catch (IOException e){
+        } finally {
+            return result;
+        }
+
+    }
+
+    private void deleteTmpImage(){
+        if(mBitMap != null){
+            File tmpImage = new File(String.format("/sdcard/Android/data/com.treelev.isimple/cache/%s.png", mProduct.getItemID()));
+            if(tmpImage.exists()){
+                tmpImage.delete();
+            }
+        }
+    }
+
+    private String getMailText() {
         String name = mProduct.getName();
         String localizedName = mProduct.getLocalizedName();
         String typeProduct = mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "";
@@ -291,9 +336,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String alcohol = !trimTrailingZeros(mProduct.getAlcohol()).equals("0") ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(mProduct.getAlcohol())) : "";
         String manufacturer = mProduct.getManufacturer();
         String itemId = mProduct.getItemID();
-        String str = getResources().getString(R.string.mail_tamplate);
-//        return String.format(str, bottleRes, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId, itemId);
-        return String.format("<img src=\"%s\"/>", bottleRes);
+        String str = getResources().getString(R.string.mail_template);
+        return String.format(str, name, localizedName, typeProduct, country, region, volume, alcohol, manufacturer, itemId, itemId);
     }
 
     @Deprecated
@@ -503,7 +547,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         @Override
         public void onLoadingComplete(String s, View view, Bitmap bitmap) {
             mBitMap = bitmap;
-            Log.v("", "");
         }
 
         @Override
@@ -512,15 +555,4 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         }
     };
 
-    private Html.ImageGetter mImageGetter = new Html.ImageGetter() {
-        @Override
-        public Drawable getDrawable(String s) {
-            Drawable result = null;
-            if(mBitMap != null){
-                result = new BitmapDrawable(getResources(), mBitMap);
-                result.setBounds(0, 0, result.getIntrinsicWidth(), result.getIntrinsicHeight());
-            }
-            return result;
-        }
-    };
 }

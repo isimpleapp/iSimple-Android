@@ -112,7 +112,7 @@ public class SplashActivity extends Activity {
         @Override
         protected Object doInBackground(Object... params) {
             importDBFromFile(false, params);
-            importLucene();
+//            importLucene();
             return null;
         }
 
@@ -186,7 +186,7 @@ public class SplashActivity extends Activity {
             for (FileParseObject fileParseObject : fileParseObjects) {
                 fileParseObject.parseObjectDataToDB();
             }
-            updateLucene();
+//            updateLucene();
             WebServiceManager.deleteDownloadDirectory();
             return null;
         }

@@ -61,14 +61,11 @@ public class LuceneDAO {
                 }
             }
         } catch (IOException e){
-            Log.v("Lucene update", e.getMessage());
-
         }
     }
 
     public String query(String query){
         try{
-            Log.v("Lucene query", query);
             Directory directory = getDirectory();
             IndexReader indexReader = IndexReader.open(directory);
             List<String> listID = getListID(indexReader, TypeQuery.Primary, query);
@@ -83,7 +80,6 @@ public class LuceneDAO {
             }
             return getStringIDs(listID);
         } catch (IOException e){
-            Log.v("Lucene query", e.getMessage());
             return null;
         }
 
@@ -292,16 +288,14 @@ public class LuceneDAO {
         String stringIDs = "";
         if(listID != null){
             StringBuilder strBuilderResult = new StringBuilder();
-            Log.v("Lucene count", String.valueOf(listID.size()));
             for(int i = 0; i < listID.size() - 1; ++i){
-                strBuilderResult.append(String.format("%s, ", listID.get(i)));
+                strBuilderResult.append(String.format("'%s', ", listID.get(i)));
             }
             if(listID.size() - 1 > 0){
                 strBuilderResult.append(listID.get(listID.size() - 1));
             }
             stringIDs = strBuilderResult.toString();
         }
-        Log.v("Lucene find item", stringIDs);
         return  stringIDs;
     }
 }

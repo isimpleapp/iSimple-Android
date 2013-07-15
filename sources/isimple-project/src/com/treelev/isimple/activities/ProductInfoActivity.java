@@ -333,7 +333,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String country = mProduct.getCountry();
         String region = TextUtils.isEmpty(mProduct.getRegion()) ? "-" : mProduct.getRegion();
         String volume = Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(mProduct.getVolume() + ""));
-        String alcohol = !trimTrailingZeros(mProduct.getAlcohol()).equals("0") ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(mProduct.getAlcohol())) : "";
+        String alcohol = !trimTrailingZeros(mProduct.getAlcohol()).equals("0") ? trimTrailingZeros(mProduct.getAlcohol()) : "";
         String manufacturer = mProduct.getManufacturer();
         String itemId = mProduct.getItemID();
         String str = getResources().getString(R.string.mail_template);

@@ -52,7 +52,7 @@ public class Utils {
     }
 
     public static boolean getStateCart(){
-        return mIsCartActive;
+        return mIsCartActive != null ? mIsCartActive : false;
     }
 
 

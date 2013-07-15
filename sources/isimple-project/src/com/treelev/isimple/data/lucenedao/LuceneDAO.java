@@ -73,9 +73,9 @@ public class LuceneDAO {
                 listID = getListID(indexReader, TypeQuery.Secondary, query);
                 if(listID == null){
                     listID = getListID(indexReader, TypeQuery.Tertiary, query);
-                    if(listID == null){
-                        listID = getListID(indexReader, TypeQuery.Quaternary, query);
-                    }
+//                    if(listID == null){
+//                        listID = getListID(indexReader, TypeQuery.Quaternary, query);
+//                    }
                 }
             }
             return getStringIDs(listID);
@@ -112,14 +112,14 @@ public class LuceneDAO {
         int indexStyle = item.getColumnIndex(DatabaseSqlHelper.ITEM_STYLE);
         int indexDrinkType = item.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_TYPE);
         int indexStyleDescription = item.getColumnIndex(DatabaseSqlHelper.ITEM_STYLE_DESCRIPTION);
-        int indexTasteQualities = item.getColumnIndex(DatabaseSqlHelper.ITEM_TASTE_QUALITIES);
-        int indexVintageReport = item.getColumnIndex(DatabaseSqlHelper.ITEM_VINTAGE_REPORT);
-        int indexAgingProcess = item.getColumnIndex(DatabaseSqlHelper.ITEM_AGING_PROCESS);
-        int indexProductionProcess = item.getColumnIndex(DatabaseSqlHelper.ITEM_PRODUCTION_PROCESS);
-        int indexInterestingFacts = item.getColumnIndex(DatabaseSqlHelper.ITEM_INTERESTING_FACTS);
-        int indexLabelHistory = item.getColumnIndex(DatabaseSqlHelper.ITEM_LABEL_HISTORY);
-        int indexGastronomy = item.getColumnIndex(DatabaseSqlHelper.ITEM_GASTRONOMY);
-        int indexVineyard = item.getColumnIndex(DatabaseSqlHelper.ITEM_VINEYARD);
+//        int indexTasteQualities = item.getColumnIndex(DatabaseSqlHelper.ITEM_TASTE_QUALITIES);
+//        int indexVintageReport = item.getColumnIndex(DatabaseSqlHelper.ITEM_VINTAGE_REPORT);
+//        int indexAgingProcess = item.getColumnIndex(DatabaseSqlHelper.ITEM_AGING_PROCESS);
+//        int indexProductionProcess = item.getColumnIndex(DatabaseSqlHelper.ITEM_PRODUCTION_PROCESS);
+//        int indexInterestingFacts = item.getColumnIndex(DatabaseSqlHelper.ITEM_INTERESTING_FACTS);
+//        int indexLabelHistory = item.getColumnIndex(DatabaseSqlHelper.ITEM_LABEL_HISTORY);
+//        int indexGastronomy = item.getColumnIndex(DatabaseSqlHelper.ITEM_GASTRONOMY);
+//        int indexVineyard = item.getColumnIndex(DatabaseSqlHelper.ITEM_VINEYARD);
         int indexGrapesUsed = item.getColumnIndex(DatabaseSqlHelper.ITEM_GRAPES_USED);
 
         Field itemID  = new Field(DatabaseSqlHelper.ITEM_ID, checkData(item.getString(indexItemID)), Field.Store.YES, Field.Index.NOT_ANALYZED);
@@ -132,14 +132,14 @@ public class LuceneDAO {
         Field style = new Field(DatabaseSqlHelper.ITEM_STYLE, checkData(item.getString(indexStyle)), Field.Store.YES, Field.Index.ANALYZED);
         Field drinkType = new Field(DatabaseSqlHelper.ITEM_DRINK_TYPE, checkData(item.getString(indexDrinkType)), Field.Store.YES, Field.Index.ANALYZED);
         Field styleDescription = new Field(DatabaseSqlHelper.ITEM_STYLE_DESCRIPTION, checkData(item.getString(indexStyleDescription)), Field.Store.YES, Field.Index.ANALYZED);
-        Field tasteQualities = new Field(DatabaseSqlHelper.ITEM_TASTE_QUALITIES, checkData(item.getString(indexTasteQualities)), Field.Store.YES, Field.Index.ANALYZED);
-        Field vintageReport = new Field(DatabaseSqlHelper.ITEM_VINTAGE_REPORT, checkData(item.getString(indexVintageReport)), Field.Store.YES, Field.Index.ANALYZED);
-        Field agingProcess = new Field(DatabaseSqlHelper.ITEM_AGING_PROCESS, checkData(item.getString(indexAgingProcess)), Field.Store.YES, Field.Index.ANALYZED);
-        Field productionProcess = new Field(DatabaseSqlHelper.ITEM_PRODUCTION_PROCESS, checkData(item.getString(indexProductionProcess)), Field.Store.YES, Field.Index.ANALYZED);
-        Field interestingFacts = new Field(DatabaseSqlHelper.ITEM_INTERESTING_FACTS, checkData(item.getString(indexInterestingFacts)), Field.Store.YES, Field.Index.ANALYZED);
-        Field labelHistory = new Field(DatabaseSqlHelper.ITEM_LABEL_HISTORY, checkData(item.getString(indexLabelHistory)), Field.Store.YES, Field.Index.ANALYZED);
-        Field gastronomy = new Field(DatabaseSqlHelper.ITEM_GASTRONOMY, checkData(item.getString(indexGastronomy)), Field.Store.YES, Field.Index.ANALYZED);
-        Field vineyard = new Field(DatabaseSqlHelper.ITEM_VINEYARD, checkData(item.getString(indexVineyard)), Field.Store.YES, Field.Index.ANALYZED);
+//        Field tasteQualities = new Field(DatabaseSqlHelper.ITEM_TASTE_QUALITIES, checkData(item.getString(indexTasteQualities)), Field.Store.YES, Field.Index.ANALYZED);
+//        Field vintageReport = new Field(DatabaseSqlHelper.ITEM_VINTAGE_REPORT, checkData(item.getString(indexVintageReport)), Field.Store.YES, Field.Index.ANALYZED);
+//        Field agingProcess = new Field(DatabaseSqlHelper.ITEM_AGING_PROCESS, checkData(item.getString(indexAgingProcess)), Field.Store.YES, Field.Index.ANALYZED);
+//        Field productionProcess = new Field(DatabaseSqlHelper.ITEM_PRODUCTION_PROCESS, checkData(item.getString(indexProductionProcess)), Field.Store.YES, Field.Index.ANALYZED);
+//        Field interestingFacts = new Field(DatabaseSqlHelper.ITEM_INTERESTING_FACTS, checkData(item.getString(indexInterestingFacts)), Field.Store.YES, Field.Index.ANALYZED);
+//        Field labelHistory = new Field(DatabaseSqlHelper.ITEM_LABEL_HISTORY, checkData(item.getString(indexLabelHistory)), Field.Store.YES, Field.Index.ANALYZED);
+//        Field gastronomy = new Field(DatabaseSqlHelper.ITEM_GASTRONOMY, checkData(item.getString(indexGastronomy)), Field.Store.YES, Field.Index.ANALYZED);
+//        Field vineyard = new Field(DatabaseSqlHelper.ITEM_VINEYARD, checkData(item.getString(indexVineyard)), Field.Store.YES, Field.Index.ANALYZED);
         Field grapesUsed = new Field(DatabaseSqlHelper.ITEM_GRAPES_USED, checkData(item.getString(indexGrapesUsed)), Field.Store.YES, Field.Index.ANALYZED);
 
         Document doc = new Document();
@@ -154,14 +154,14 @@ public class LuceneDAO {
         doc.add(style);
         doc.add(drinkType);
         doc.add(styleDescription);
-        doc.add(tasteQualities);
-        doc.add(vintageReport);
-        doc.add(agingProcess);
-        doc.add(productionProcess);
-        doc.add(labelHistory);
-        doc.add(interestingFacts);
-        doc.add(gastronomy);
-        doc.add(vineyard);
+//        doc.add(tasteQualities);
+//        doc.add(vintageReport);
+//        doc.add(agingProcess);
+//        doc.add(productionProcess);
+//        doc.add(labelHistory);
+//        doc.add(interestingFacts);
+//        doc.add(gastronomy);
+//        doc.add(vineyard);
         doc.add(grapesUsed);
 
         indexWriter.addDocument(doc);
@@ -249,7 +249,7 @@ public class LuceneDAO {
         String luceneQuery = String.format("%2$s: %1$s* OR %3$s: %1$s* " +
                 "OR %4$s: %1$s* OR %5$s: %1$s* " +
                 "OR %6$s: %1$s* OR %7$s: %1$s* " +
-                "OR %8$s: %1$s*",
+                "OR %8$s: %1$s* OR %9$s: %1$s*",
                 query,
                 DatabaseSqlHelper.ITEM_TASTE_QUALITIES,
                 DatabaseSqlHelper.ITEM_VINTAGE_REPORT,
@@ -257,7 +257,8 @@ public class LuceneDAO {
                 DatabaseSqlHelper.ITEM_PRODUCTION_PROCESS,
                 DatabaseSqlHelper.ITEM_INTERESTING_FACTS,
                 DatabaseSqlHelper.ITEM_LABEL_HISTORY,
-                DatabaseSqlHelper.ITEM_GASTRONOMY);
+                DatabaseSqlHelper.ITEM_GASTRONOMY,
+                DatabaseSqlHelper.ITEM_VINEYARD);
         return luceneQuery;
     }
 

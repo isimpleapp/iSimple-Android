@@ -11,9 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.SimpleCursorTreeAdapter;
-import android.widget.TextView;
+import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.treelev.isimple.R;
@@ -23,16 +21,19 @@ import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
+import com.treelev.isimple.views.PinnedHeaderExpListView;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.ExpandableListView;
 import org.holoeverywhere.widget.LinearLayout;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
-        implements LoaderManager.LoaderCallbacks<Cursor>{
+        implements LoaderManager.LoaderCallbacks<Cursor>,
+        PinnedHeaderExpListView.PinnedHeaderAdapter, AbsListView.OnScrollListener {
 
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
@@ -297,4 +298,43 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         }
         return result;
     }
+
+    @Override
+    public void configurePinnedHeader(View v, int position, int alpha) {
+        TextView header = (TextView) v;
+        Cursor groupSection = getGroup(position);
+        if(groupSection != null){
+            final String title = groupSection.getString(1);
+
+            int mPinnedHeaderBackgroundColor = 255;
+            int mPinnedHeaderTextColor = 0;
+            header.setText(title);
+            if (alpha == 255) {
+                header.setBackgroundColor(mPinnedHeaderBackgroundColor);
+                header.setTextColor(mPinnedHeaderTextColor);
+            } else {
+                header.setBackgroundColor(Color.argb(alpha,
+                        Color.red(mPinnedHeaderBackgroundColor),
+                        Color.green(mPinnedHeaderBackgroundColor),
+                        Color.blue(mPinnedHeaderBackgroundColor)));
+                header.setTextColor(Color.argb(alpha,
+                        Color.red(mPinnedHeaderTextColor),
+                        Color.green(mPinnedHeaderTextColor),
+                        Color.blue(mPinnedHeaderTextColor)));
+            }
+        }
+    }
+
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (view instanceof PinnedHeaderExpListView) {
+            ((PinnedHeaderExpListView) view).configureHeaderView(firstVisibleItem);
+        }
+
+    }
+
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+
 }

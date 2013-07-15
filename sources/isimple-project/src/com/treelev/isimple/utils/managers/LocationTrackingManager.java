@@ -42,7 +42,7 @@ public class LocationTrackingManager implements LocationListener {
     private Location getCurrentLocation() {
 //        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 //        Location current = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        List<String> providers = mLocationManager.getAllProviders();
+        List<String> providers = mLocationManager.getProviders(true);
         float accuracy = mLocation != null ? mLocation.getAccuracy() : Float.MIN_VALUE;
         float currentAccuracy;
         Location currentLocation;

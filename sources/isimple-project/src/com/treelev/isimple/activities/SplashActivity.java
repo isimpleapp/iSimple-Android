@@ -7,17 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
-import com.treelev.isimple.data.lucenedao.LuceneDAO;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.service.DownloadDataService;
-import com.treelev.isimple.utils.Utils;
-import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Dialog;
@@ -113,7 +108,6 @@ public class SplashActivity extends Activity {
         @Override
         protected Object doInBackground(Object... params) {
             importDBFromFile(false, params);
-            importLucene();
             return null;
         }
 
@@ -123,16 +117,6 @@ public class SplashActivity extends Activity {
             finish();
             startActivity(new Intent(SplashActivity.this, CatalogListActivity.class));
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-        }
-
-        private void importLucene(){
-            LuceneDAO luceneDAO = new LuceneDAO();
-            if(!luceneDAO.isExist()){
-                ProxyManager proxyManager = new ProxyManager(getApplication());
-                Cursor cursor = proxyManager.getItems();
-                luceneDAO.update(cursor);
-                cursor.close();
-            }
         }
 
         private void importDBFromFile(boolean override, Object... params) {
@@ -187,7 +171,6 @@ public class SplashActivity extends Activity {
             for (FileParseObject fileParseObject : fileParseObjects) {
                 fileParseObject.parseObjectDataToDB();
             }
-            updateLucene();
             WebServiceManager.deleteDownloadDirectory();
             return null;
         }
@@ -207,10 +190,6 @@ public class SplashActivity extends Activity {
             startActivity(newIntent);
         }
 
-        private void updateLucene(){
-            ProxyManager proxyManager = new ProxyManager(getApplication());
-            new LuceneDAO().update(proxyManager.getItems());
-        }
     }
 
 }

@@ -278,7 +278,8 @@ public class ItemDAO extends BaseDAO {
                      "(" +
                         "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
                             "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
-                            "year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs as item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s " +
+                            "year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs as item_left_overs1 " +
+                "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s " +
                      ") AS t0 GROUP BY t0.drink_id " +
                 ")" +
                 "WHERE item_left_overs = 0 " +
@@ -304,16 +305,11 @@ public class ItemDAO extends BaseDAO {
         return maxValuePrice;
     }
 
-    public Cursor getSearchItemsByCategory(Integer categoryId, String rangeItemsId, String orderByField) {
+    public Cursor getSearchItemsByCategory(Integer categoryId, String query, String orderByField) {
         open();
-        String whereCategory = "";
-        String where = getWhereBySearch(rangeItemsId);
-        if (categoryId != null) {
-            whereCategory = String.format(COMPARE,
-                    DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                    categoryId);
-            where = String.format(HOOKS, where);
-            where = String.format(AND, whereCategory, where);
+        String formatWhereScript = "%s";
+        if(categoryId != null){
+            formatWhereScript = String.format("drink_category = %s AND %s", categoryId,  "(%s)");
         }
         String formatScript = "SELECT * " +
                 "FROM " +
@@ -323,34 +319,43 @@ public class ItemDAO extends BaseDAO {
                     "(" +
                         "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
                         "(case when ifnull(price, '') = '' then (999999) else price end) as price1," +
-                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item  WHERE %s " +
+                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 " +
+                "FROM item  WHERE %s " +
                     ") AS t0 GROUP BY t0.drink_id " +
                 ")" +
                 " WHERE item_left_overs > 0 " +
                 "ORDER BY %s";
-        String selectSql = String.format(formatScript,
-                where,
-                orderByField);
-        return getDatabase().rawQuery(selectSql, null);
+        String where = String.format(formatWhereScript, getWhereBySearchFirst(query));
+        String selectSql = String.format(formatScript, where, orderByField);
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        mSectionWhereForPreOrderSearch = 0;
+        if(cursor.getCount() == 0){
+            mSectionWhereForPreOrderSearch = 1;
+            where = String.format(formatWhereScript, getWhereBySearchSecond(query));
+            selectSql = String.format(formatScript, where, orderByField);
+            cursor = getDatabase().rawQuery(selectSql, null);
+            if(cursor.getCount() == 0){
+                mSectionWhereForPreOrderSearch = 2;
+                where = String.format(formatWhereScript, getWhereBySearchThird(query));
+                selectSql = String.format(formatScript, where, orderByField);
+                cursor = getDatabase().rawQuery(selectSql, null);
+                if(cursor.getCount() == 0) {
+                    mSectionWhereForPreOrderSearch = 3;
+                    where = String.format(formatWhereScript, getWhereBySearchFourth(query));
+                    selectSql = String.format(formatScript, where, orderByField);
+                    cursor = getDatabase().rawQuery(selectSql, null);
+                }
+            }
+
+        }
+        return cursor;
     }
 
-    public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String rangeItemsID, String orderByField) {
+    private static int mSectionWhereForPreOrderSearch;
+
+    public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String query, String orderByField) {
         open();
-        String join = String.format(FORMAT_JOIN_TWO_TABLE,
-                TABLE_ONE,
-                DatabaseSqlHelper.ITEM_ID,
-                TABLE_TWO,
-                DatabaseSqlHelper.ITEM_ID);
-        String whereCategory = String.format(COMPARE,
-                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                categoryId);
-        String whereShop = String.format(COMPARE_STRING,
-                DatabaseSqlHelper.SHOP_LOCATION_ID,
-                locationId);
-        String where = String.format(AND, join, whereCategory);
-        where = String.format(AND, where, whereShop);
-        String whereSearch = String.format(HOOKS, getWhereBySearch(rangeItemsID));
-        where = String.format(AND, where, whereSearch);
+        String formatWhereScript = String.format("t1.item_id = t2.item_id AND t1.drink_category = %s AND location_id = '%s' AND (%s)", categoryId, locationId, "%s");
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(SELECT t0.*, MIN(t0.price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) AS item_left_overs " +
@@ -358,27 +363,42 @@ public class ItemDAO extends BaseDAO {
                     "(" +
                         "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
                         "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1," +
-                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1  FROM item AS t1, item_availability AS t2 WHERE %s " +
+                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 " +
+                " FROM item AS t1, item_availability AS t2 WHERE %s " +
                     ") AS t0 GROUP BY t0.drink_id " +
                 ")" +
                 " WHERE item_left_overs > 0 " +
                 "ORDER BY %s";
-        String selectSql = String.format(formatScript,
-                where,
-                orderByField);
-        return getDatabase().rawQuery(selectSql, null);
+        String where = String.format(formatWhereScript, getWhereBySearchFirst(query));
+        String selectSql = String.format(formatScript, where, orderByField);
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        mSectionWhereForPreOrderSearch = 0;
+        if(cursor.getCount() == 0){
+            mSectionWhereForPreOrderSearch = 1;
+            where = String.format(formatWhereScript, getWhereBySearchSecond(query));
+            selectSql = String.format(formatScript, where, orderByField);
+            cursor = getDatabase().rawQuery(selectSql, null);
+            if(cursor.getCount() == 0){
+                mSectionWhereForPreOrderSearch = 2;
+                where = String.format(formatWhereScript, getWhereBySearchThird(query));
+                selectSql = String.format(formatScript, where, orderByField);
+                cursor = getDatabase().rawQuery(selectSql, null);
+                if(cursor.getCount() == 0) {
+                    mSectionWhereForPreOrderSearch = 3;
+                    where = String.format(formatWhereScript, getWhereBySearchFourth(query));
+                    selectSql = String.format(formatScript, where, orderByField);
+                    cursor = getDatabase().rawQuery(selectSql, null);
+                }
+            }
+        }
+        return cursor;
     }
 
-    public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String rangeItemsID, String orderByField) {
+    public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String query, String orderByField) {
         open();
-        String whereCategory = "";
-        String where = getWhereBySearch(rangeItemsID);
-        if (categoryId != null) {
-            whereCategory = String.format(COMPARE,
-                    DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                    categoryId);
-            where = String.format(HOOKS, where);
-            where = String.format(AND, whereCategory, where);
+        String formatWhereScript = "%s";
+        if(categoryId != null){
+            formatWhereScript = String.format("drink_category = %s AND %s", categoryId,  "(%s)");
         }
         String formatScript = "SELECT * " +
                         "FROM " +
@@ -388,34 +408,35 @@ public class ItemDAO extends BaseDAO {
                         "(" +
                             "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
                             "(case when ifnull(price, '') = '' then (999999) else price end) as price1," +
-                            " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item  WHERE %s " +
+                            " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 " +
+                "FROM item  WHERE %s " +
                         ") AS t0 GROUP BY t0.drink_id " +
                         ")" +
                         " WHERE item_left_overs = 0 " +
                         "ORDER BY %s";
-        String selectSql = String.format(formatScript,
-                where,
-                orderByField);
+        String where = "";
+        switch (mSectionWhereForPreOrderSearch){
+            case 0:
+                where = String.format(formatWhereScript, getWhereBySearchFirst(query));
+                break;
+            case 1:
+                where = String.format(formatWhereScript, getWhereBySearchSecond(query));
+                break;
+            case 2:
+                where = String.format(formatWhereScript, getWhereBySearchThird(query));
+                break;
+            case 3:
+                where = String.format(formatWhereScript, getWhereBySearchFourth(query));
+                break;
+        }
+        where = String.format(formatWhereScript, getWhereBySearchSecond(query));
+        String selectSql = String.format(formatScript, where, orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getSearchItemsByCategoryPreOrder(Integer categoryId, String locationId, String query, String orderByField) {
         open();
-        String join = String.format(FORMAT_JOIN_TWO_TABLE,
-                TABLE_ONE,
-                DatabaseSqlHelper.ITEM_ID,
-                TABLE_TWO,
-                DatabaseSqlHelper.ITEM_ID);
-        String whereCategory = String.format(COMPARE,
-                TABLE_ONE + "." + DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
-                categoryId);
-        String whereShop = String.format(COMPARE_STRING,
-                DatabaseSqlHelper.SHOP_LOCATION_ID,
-                locationId);
-        String where = String.format(AND, join, whereCategory);
-        where = String.format(AND, where, whereShop);
-        String whereSearch = String.format(HOOKS, getWhereBySearch(query));
-        where = String.format(AND, where, whereSearch);
+        String formatWhereScript = String.format("t1.item_id = t2.item_id AND t1.drink_category = %s AND location_id = '%s' AND (%s)", categoryId, locationId, "%s");
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
@@ -423,15 +444,30 @@ public class ItemDAO extends BaseDAO {
                     "FROM " +
                         "(SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
                         "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1," +
-                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1, item_availability AS t2 WHERE %s " +
+                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 " +
+                "FROM item AS t1, item_availability AS t2 WHERE %s " +
                     ") AS t0 " +
                     "GROUP BY t0.drink_id " +
                     ")" +
                 " WHERE item_left_overs = 0 " +
                 "ORDER BY %s";
-        String selectSql = String.format(formatScript,
-                where,
-                orderByField);
+        String where = "";
+        switch (mSectionWhereForPreOrderSearch){
+            case 0:
+                where = String.format(formatWhereScript, getWhereBySearchFirst(query));
+                break;
+            case 1:
+                where = String.format(formatWhereScript, getWhereBySearchSecond(query));
+                break;
+            case 2:
+                where = String.format(formatWhereScript, getWhereBySearchThird(query));
+                break;
+            case 3:
+                where = String.format(formatWhereScript, getWhereBySearchFourth(query));
+                break;
+        }
+        where = String.format(formatWhereScript, getWhereBySearchSecond(query));
+        String selectSql = String.format(formatScript, where, orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -1129,12 +1165,65 @@ public class ItemDAO extends BaseDAO {
     }
 
     //TODO refactor: переименовать метод и переписать через String.format
-    private String getWhereBySearch(String rangeItemsID) {
-        return String.format("item.item_id IN (%s)", rangeItemsID);
-//        String formatQuery = "%" + query + "%";
-//        String onePart = String.format(LIKE, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, formatQuery);
-//        String twoPart = String.format(LIKE, DatabaseSqlHelper.ITEM_NAME, formatQuery);
-//        return String.format(OR, onePart, twoPart);
+    private String getWhereBySearch(String query) {
+//        return String.format("item.item_id IN (%s)", rangeItemsID);
+        String formatQuery = "%" + query + "%";
+        String onePart = String.format(LIKE, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, formatQuery);
+        String twoPart = String.format(LIKE, DatabaseSqlHelper.ITEM_NAME, formatQuery);
+        return String.format(OR, onePart, twoPart);
+    }
+
+    private String getWhereBySearchFirst(String query){
+        String queryLowCase = query.toLowerCase();
+        char[] charQuery = query.toCharArray();
+        charQuery[0] = Character.toUpperCase(charQuery[0]);
+        String queryUpFirstChar = new String(charQuery);
+        return String.format("item.name LIKE '%%%1$s%%' OR item.manufacturer LIKE '%%%1$s%%' " +
+                "OR item.localized_name LIKE '%%%1$s%%' OR item.localized_name LIKE '%%%2$s%%' " +
+                "OR item.localized_manufacturer LIKE '%%%1$s%%' OR item.localized_manufacturer LIKE '%%%2$s%%'",
+                queryLowCase,
+                queryUpFirstChar);
+    }
+
+    private String getWhereBySearchSecond(String query){
+        String queryLowCase = query.toLowerCase();
+        char[] charQuery = query.toCharArray();
+        charQuery[0] = Character.toUpperCase(charQuery[0]);
+        String queryUpFirstChar = new String(charQuery);
+        return String.format("item.country LIKE '%%%1$s%%' OR item.country LIKE '%%%2$s%%' " +
+                "OR item.region LIKE '%%%1$s%%' OR item.region LIKE '%%%2$s%%'",
+                queryLowCase,
+                queryUpFirstChar);
+    }
+
+    private String getWhereBySearchThird(String query){
+        String queryLowCase = query.toLowerCase();
+        char[] charQuery = query.toCharArray();
+        charQuery[0] = Character.toUpperCase(charQuery[0]);
+        String queryUpFirstChar = new String(charQuery);
+        return String.format("style LIKE '%%%1$s%%' OR style LIKE '%%%2$s%%' " +
+                "OR drink_type LIKE '%%%1$s%%' OR drink_type LIKE '%%%2$s%%' " +
+                "OR style_description LIKE '%%%1$s%%' OR style_description LIKE '%%%2$s%%' " +
+                "OR grapes_used LIKE '%%%1$s%%' OR grapes_used LIKE '%%%2$s%%'",
+                queryLowCase,
+                queryUpFirstChar);
+    }
+
+
+    private String getWhereBySearchFourth(String query){
+        String queryLowCase = query.toLowerCase();
+        char[] charQuery = query.toCharArray();
+        charQuery[0] = Character.toUpperCase(charQuery[0]);
+        String queryUpFirstChar = new String(charQuery);
+        return String.format("taste_qualities LIKE '%%%1$s%%' OR taste_qualities LIKE '%%%2$s%%' " +
+                "OR vintage_report LIKE '%%%1$s%%' OR vintage_report LIKE '%%%2$s%%' " +
+                "OR aging_process LIKE '%%%1$s%%' OR aging_process LIKE '%%%2$s%%' " +
+                "OR interesting_facts LIKE '%%%1$s%%' OR interesting_facts LIKE '%%%2$s%%' " +
+                "OR label_history LIKE '%%%1$s%%' OR label_history LIKE '%%%2$s%%' " +
+                "OR gastronomy LIKE '%%%1$s%%' OR gastronomy LIKE '%%%2$s%%' " +
+                "OR vineyard LIKE '%%%1$s%%' OR vineyard LIKE '%%%2$s%%'",
+                queryLowCase,
+                queryUpFirstChar);
     }
 
     public void deleteAllData() {

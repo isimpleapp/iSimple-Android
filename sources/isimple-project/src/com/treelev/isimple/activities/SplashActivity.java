@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import com.treelev.isimple.R;
+import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.lucenedao.LuceneDAO;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.service.DownloadDataService;
@@ -101,7 +102,7 @@ public class SplashActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-       Utils.updateStateCart(this);
+        ((ISimpleApp)getApplication()).updateStateCart();
        super.onDestroy();
     }
 

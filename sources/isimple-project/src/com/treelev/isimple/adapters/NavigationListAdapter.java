@@ -9,7 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.utils.Utils;
+import org.holoeverywhere.app.Activity;
 
 public class NavigationListAdapter extends BaseAdapter {
 
@@ -67,9 +69,10 @@ public class NavigationListAdapter extends BaseAdapter {
         if (isDropDownView) {
             holder.icon.setImageDrawable(mIcons[position]);
             if(position == 3 ) {  //Shop Cart
-                if(Utils.getStateCart()){
-                    holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.menu_ico_shopping_cart_active));
+                if (!((ISimpleApp)((Activity)mContext).getApplication()).getStateCart()) {
+                    return convertView;
                 }
+                holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.menu_ico_shopping_cart_active));
             }
         }
         return convertView;

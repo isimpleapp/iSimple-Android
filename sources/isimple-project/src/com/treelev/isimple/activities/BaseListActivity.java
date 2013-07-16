@@ -10,9 +10,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.ActionMode;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
+import com.treelev.isimple.app.ISimpleApp;
+import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.observer.Observer;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
@@ -35,6 +38,21 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         super.onCreate(savedInstanceState);
         ObserverDataChanged.getInstant().addObserver(this);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ((ISimpleApp)getApplication()).incRefActivity();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ((ISimpleApp)getApplication()).decRefActivity();
+        if(((ISimpleApp)getApplication()).getCountRefActivity() == 0){
+            LocationTrackingManager.getInstante().stopLocationListener();
+        }
     }
 
     @Override

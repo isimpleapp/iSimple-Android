@@ -1,10 +1,13 @@
 package com.treelev.isimple.utils.managers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import org.holoeverywhere.app.Application;
 
@@ -60,6 +63,23 @@ public class LocationTrackingManager implements LocationListener {
         return mLocation != null ? mLocation : mLocationDefault;
     }
 
+    public  void stopLocationListener(){
+        mLocationManager.removeUpdates(this);
+//        turnGPSOff();
+    }
+
+    private void turnGPSOff(){
+        String provider = Settings.Secure.getString(Application.getLastInstance().getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if(provider.contains("gps")){
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            Application.getLastInstance().sendBroadcast(poke);
+        }
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         Log.v("LocationTrackingManager ", "onLocationChanged");
@@ -88,4 +108,6 @@ public class LocationTrackingManager implements LocationListener {
         Log.v("LocationTrackingManager ", "onProviderDisabled");
         Log.v("LocationTrackingManager", provider);
     }
+
+
 }

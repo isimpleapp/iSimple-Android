@@ -37,23 +37,23 @@ public class Utils {
     private final static String FORMAT_VOLUME_LABEL = "%sл";
     private final static String REPLACE_STRING_ZEROS = "\\.?0*$";
 
-    private static Boolean mIsCartActive;
-
-    public static void updateStateCart(Context context){
-        mIsCartActive = new ProxyManager(context).getCountOrders() > 0;
-    }
-
-    public static void setActiveCartState(){
-        mIsCartActive = true;
-    }
-
-    public static void setDisactiveCartState(){
-        mIsCartActive = false;
-    }
-
-    public static boolean getStateCart(){
-        return mIsCartActive != null ? mIsCartActive : false;
-    }
+//    private static Boolean mIsCartActive;
+//
+//    public static void updateStateCart(Context context){
+//        mIsCartActive = new ProxyManager(context).getCountOrders() > 0;
+//    }
+//
+//    public static void setActiveCartState(){
+//        mIsCartActive = true;
+//    }
+//
+//    public static void setDisactiveCartState(){
+//        mIsCartActive = false;
+//    }
+//
+//    public static boolean getStateCart(){
+//        return mIsCartActive != null ? mIsCartActive : false;
+//    }
 
 
     public static Parser getXmlParser(int parserId) {

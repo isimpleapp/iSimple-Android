@@ -14,6 +14,7 @@ import android.widget.CursorAdapter;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ShoppingCartCursorAdapter;
+import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.fragments.OrderDialogFragment;
 import com.treelev.isimple.utils.Utils;
@@ -187,9 +188,9 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             if (mListCategoriesAdapter.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);
                 findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
-                Utils.setDisactiveCartState();
+                ((ISimpleApp)getApplication()).setDisactiveCartState();
             } else {
-                Utils.setActiveCartState();
+                ((ISimpleApp)getApplication()).setActiveCartState();
             }
             mDialog.dismiss();
         }
@@ -245,9 +246,9 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             if (cursor != null && cursor.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);
                 findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
-                Utils.setDisactiveCartState();
+                ((ISimpleApp)getApplication()).setDisactiveCartState();
             } else {
-                Utils.setActiveCartState();
+                ((ISimpleApp)getApplication()).setActiveCartState();
             }
             mDialog.dismiss();
         }

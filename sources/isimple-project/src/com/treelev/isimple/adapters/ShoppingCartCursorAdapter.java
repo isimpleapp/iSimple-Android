@@ -14,6 +14,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
+import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
@@ -134,7 +135,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
             if (getCursor().getCount() == 0) {
                 ((Activity) context).findViewById(R.id.content_layout).setVisibility(View.GONE);
                 ((Activity) context).findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
-                Utils.setDisactiveCartState();
+                ((ISimpleApp)(((Activity) context).getApplication())).setDisactiveCartState();
             }
         } else {
             int newCount = proxyManager.decreaseShopCardItemCount(itemHolder.itemID);

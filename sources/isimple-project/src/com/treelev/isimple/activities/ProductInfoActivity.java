@@ -29,6 +29,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
+import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
 import com.treelev.isimple.utils.Utils;
@@ -505,7 +506,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 proxyManager.insertProductInShoppingCart(mProduct);
                 mIsProductExistShoppingCart = true;
             }
-            Utils.setActiveCartState();
+            ((ISimpleApp)getApplication()).setActiveCartState();
             animateText.setVisibility(View.VISIBLE);
             animateText.startAnimation(createTranslateAnimation());
         }

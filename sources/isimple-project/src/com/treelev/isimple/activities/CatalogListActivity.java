@@ -46,17 +46,17 @@ public class CatalogListActivity extends BaseExpandableListActivity
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
-        PinnedHeaderExpListView expandableView = (PinnedHeaderExpListView) getExpandableListView();
+        ExpandableListView expandableView = getExpandableListView();
         View mHeader = getLayoutInflater().inflate(R.layout.catalog_list_header_view, expandableView, false);
         expandableView.addHeaderView(mHeader, null, false);
         mListCategoriesAdapter = new CatalogItemTreeCursorAdapter(CatalogListActivity.this, null,
                 getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
         getExpandableListView().setAdapter(mListCategoriesAdapter);
         expandableView.setOnChildClickListener(this);
-        View h = LayoutInflater.from(this).inflate(R.layout.pinned_header, (ViewGroup) findViewById(android.R.id.list), false);
-        expandableView.setPinnedHeaderView(h);
-        expandableView.setOnScrollListener(mListCategoriesAdapter);
-        expandableView.setDividerHeight(0);
+//        View h = LayoutInflater.from(this).inflate(R.layout.pinned_header, (ViewGroup) findViewById(android.R.id.list), false);
+//        expandableView.setPinnedHeaderView(h);
+//        expandableView.setOnScrollListener(mListCategoriesAdapter);
+//        expandableView.setDividerHeight(0);
         disableOnGroupClick();
         getSupportLoaderManager().restartLoader(0, null, this);
     }

@@ -1,9 +1,11 @@
 package com.treelev.isimple.app;
 
+import android.content.Context;
 import android.location.Location;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.utils.managers.ProxyManager;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -47,5 +49,39 @@ public class ISimpleApp extends Application {
 
     public void setCurrentLocation(Location moscowLocation) {
         this.currentLocation = moscowLocation;
+    }
+
+//Cart
+    private  Boolean mIsCartActive;
+
+    public void updateStateCart(){
+        mIsCartActive = new ProxyManager(this).getCountOrders() > 0;
+    }
+
+    public void setActiveCartState(){
+        mIsCartActive = true;
+    }
+
+    public void setDisactiveCartState(){
+        mIsCartActive = false;
+    }
+
+    public boolean getStateCart(){
+        return mIsCartActive != null ? mIsCartActive : false;
+    }
+
+//track the status of the application is minimized or closed
+    private int mCountRefActivity;
+
+    public void incRefActivity(){
+        ++mCountRefActivity;
+    }
+
+    public void decRefActivity(){
+        --mCountRefActivity;
+    }
+
+    public int getCountRefActivity(){
+        return mCountRefActivity;
     }
 }

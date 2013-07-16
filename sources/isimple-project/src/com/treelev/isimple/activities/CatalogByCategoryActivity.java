@@ -323,7 +323,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.reset_butt:
-                    view.setBackgroundColor(Color.MAGENTA);
+//                    view.setBackgroundColor(Color.MAGENTA);
                     if (filter.isChangeState()) {
                         filter.reset();
                         filterListView.postInvalidate();
@@ -334,14 +334,14 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                                 LinearLayout.LayoutParams.MATCH_PARENT, DIP50_IN_PX));
                         mExpandFilter = false;
                     }
-                    view.setBackgroundResource(R.drawable.btn_filter_reset);
+//                    view.setBackgroundResource(R.drawable.btn_filter_reset);
                     mFilterUse = false;
                     break;
                 case R.id.search_butt:
-                    view.setBackgroundColor(Color.GRAY);
+//                    view.setBackgroundColor(Color.GRAY);
                     mFilterWhereClause = filter.getSQLWhereClause();
                     initLoadManager();
-                    view.setBackgroundResource(R.drawable.btn_filter_find);
+//                    view.setBackgroundResource(R.drawable.btn_filter_find);
                     mFilterUse = true;
                     break;
             }

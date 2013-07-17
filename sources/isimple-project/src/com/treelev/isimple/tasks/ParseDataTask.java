@@ -9,9 +9,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -49,6 +48,11 @@ public class ParseDataTask extends AsyncTask<File, Void, Void> {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+        }
+        try {
+            copy();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return null;
     }
@@ -102,5 +106,24 @@ public class ParseDataTask extends AsyncTask<File, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         endLoad.setText("Данные загружены в базу: " + dateFormat.format(Calendar.getInstance().getTime()));
+    }
+
+    public static void copy() throws IOException {
+        File source = new File("/data/data/com.treelev.isimple/databases/iSimple.db");
+        File dest = new File("/sdcard/iSimple/archive/iSimple.db");
+        if(!dest.exists()){
+            dest.createNewFile();
+        }
+        FileChannel sourceChannel = new FileInputStream(source).getChannel();
+        try {
+            FileChannel destChannel = new FileOutputStream(dest).getChannel();
+            try {
+                destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+            } finally {
+                destChannel.close();
+            }
+        } finally {
+            sourceChannel.close();
+        }
     }
 }

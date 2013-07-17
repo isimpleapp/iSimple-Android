@@ -27,19 +27,20 @@
     </option>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="exe" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="INFO" />
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/iSimple.db" afterPath="$PROJECT_DIR$/assets/iSimple.db" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/tasks/ParseDataTask.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/tasks/ParseDataTask.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373906912605" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373303225708" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373995911592" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374054242129" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373959742792" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -62,7 +63,7 @@
     <file path="/LocationDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364547293510" ignored="false" />
     <file path="/LocationAndChainsParser.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364547319816" ignored="false" />
     <file path="/ObjectDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364307013395" ignored="false" />
-    <file path="/a.dummy" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373991813843" ignored="false" />
+    <file path="/a.dummy" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374052344214" ignored="false" />
     <file path="/ChainType.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364312468616" ignored="false" />
     <file path="/LocationType.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364544537171" ignored="false" />
     <file path="/ItemAvailabilityDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365582368023" ignored="false" />
@@ -73,7 +74,7 @@
     <file path="/ItemAvailability.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364825011640" ignored="false" />
     <file path="/ItemAvailabilityParser.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365581569905" ignored="false" />
     <file path="/UnzipTask.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365498372551" ignored="false" />
-    <file path="/ParseDataTask.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365590467520" ignored="false" />
+    <file path="/ParseDataTask.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374052415071" ignored="false" />
     <file path="$PROJECT_DIR$/../Cornetto2/Cornetto/src/com/omertex/cornetto/activities/camera/SecondPhotoActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364484207051" ignored="false" />
     <file path="$PROJECT_DIR$/../Cornetto2/Cornetto/res/values/collage_message_exist_face.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364483934194" ignored="false" />
     <file path="/collage_message_exist_face.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364485092836" ignored="false" />
@@ -1158,8 +1159,8 @@
     <file path="$PROJECT_DIR$/../HoloEveryWhere-prefs/gen/org/holoeverywhere/preference/BuildConfig.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373524159350" ignored="false" />
     <file path="$PROJECT_DIR$/../Sherlock/gen/com/actionbarsherlock/BuildConfig.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373524159350" ignored="false" />
     <file path="$PROJECT_DIR$/../HoloEveryWhere/gen/org/holoeverywhere/BuildConfig.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373524159350" ignored="false" />
-    <file path="$PROJECT_DIR$/gen/com/treelev/isimple/BuildConfig.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373524159350" ignored="false" />
     <file path="/PinnedHeaderExpListView.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373902668547" ignored="false" />
+    <file path="/TestParsingActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374050665581" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1552,6 +1553,21 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" line="42" class="com.treelev.isimple.activities.TestParsingActivity" package="com.treelev.isimple.activities">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
     </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
@@ -1562,79 +1578,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CatalogByCategoryActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="317" column="11" selection-start="13302" selection-end="13302" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#3757#3988#0" expanded="false" />
-                <element signature="e#3965#3966#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#CatalogByCategoryActivity#0" expanded="false" />
-                <element signature="e#7040#7541#0" expanded="false" />
-                <element signature="e#7530#7531#0" expanded="false" />
-                <element signature="e#12173#12469#0" expanded="false" />
-                <element signature="e#12458#12459#0" expanded="false" />
-                <element signature="e#12783#13300#0" expanded="false" />
-                <element signature="e#13289#13290#0" expanded="false" />
-                <element signature="e#13363#14685#0" expanded="false" />
-                <element signature="e#14678#14679#0" expanded="false" />
-              </folding>
+      <file leaf-file-name="delete_item_layout.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/delete_item_layout.xml">
+          <provider editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ItemDAO.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="330" column="0" selection-start="19182" selection-end="19182" vertical-scroll-proportion="0.7493188">
-              <folding>
-                <element signature="method#ItemDAO#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getClassName#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getTableDataCount#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getFeaturedItemsByCategory#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getAllItemsByCategory#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getFeaturedItemsByCategory#1;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemsByDrinkId#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemsByDrinkId#1;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemsByDrinkIdPreOrder#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemsByDrinkIdPreOrder#1;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getFilteredItemsByCategory#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getFilteredItemsByCategory#1;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getFilteredItemsByCategoryPreOrder#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemMaxPriceByCategory#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getYearsByCategory#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getRegionsByCategory#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getProductCountsByCountries#0;class#ItemDAO#0" expanded="false" />
-                <element signature="class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#IntegerValueComparator#0;class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#compare#0;class#IntegerValueComparator#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getRegionsByCountriesCategory#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getClassificationsByCategory#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#insertListData#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#insertListDeprecatedData#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#updatePriceList#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#insertListFeaturedData#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#deleteAllFeaturedItemData#0;class#ItemDAO#0" expanded="false" />
-                <element signature="e#46022#46093#0" expanded="false" />
-                <element signature="method#getItemById#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemByBarcode#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemDeprecatedByBarcode#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItemDeprecatedByBarcodeTypeItem#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getCountBarcode#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getCountBarcodeInDeprecatedTable#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getWinesGroupByDrinkId#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getFeaturedMainItems#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getAllItems#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getAllItemsByCategory#1;class#ItemDAO#0" expanded="false" />
-                <element signature="method#setFavourite#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getCountItemsByCategoryByShop#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#getItems#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#createItem#0;class#ItemDAO#0" expanded="false" />
-                <element signature="method#deleteAllData#0;class#ItemDAO#0" expanded="false" />
-              </folding>
-            </state>
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -1662,9 +1614,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ShoppingCartCursorAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/NavigationListAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/Utils.java" />
@@ -1678,6 +1627,9 @@
         <option value="$PROJECT_DIR$/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/tasks/ParseDataTask.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -1732,6 +1684,96 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="iSimple" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1796,7 +1838,7 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
-    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
+    <property name="AndroidLayoutSelectedEditor" value="android-designer" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0149C7F018017015" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
@@ -1816,12 +1858,12 @@
       <recent name="D:\projects-android\iSimple\res\xml" />
       <recent name="D:\projects-android\iSimple\res\raw" />
     </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.treelev.isimple" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\projects-android\iSimple\res\layout" />
       <recent name="D:\projects-android\iSimple\res\layout\views" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.treelev.isimple" />
     </key>
   </component>
   <component name="RunManager" selected="Android Application.iSimple">
@@ -2922,7 +2964,11 @@
       <created>1373995899140</created>
       <updated>1373995899140</updated>
     </task>
-    <option name="localTasksCounter" value="220" />
+    <task id="LOCAL-00220" summary="IS - 275">
+      <created>1374047674125</created>
+      <updated>1374047674125</updated>
+    </task>
+    <option name="localTasksCounter" value="221" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2947,37 +2993,37 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964131" sideWeight="0.7740586" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19386332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.0" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31101814" sideWeight="0.26111907" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23672883" sideWeight="0.59693164" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10460251" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22594142" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43375173" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21377331" sideWeight="0.56624824" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21377331" sideWeight="0.56624824" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23709902" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.73779637" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22596844" sideWeight="0.7740586" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26220363" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914925" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23672883" sideWeight="0.59693164" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22594142" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43375173" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22596844" sideWeight="0.73779637" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26220363" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -3023,7 +3069,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete set background filter button" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new DATABASE&#10;add copy file database to /sdcard/iSimple/archive/iSimple.db&#10;copy to PC use  adb pull&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -3037,9 +3083,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="fixed sort by price&#10;" />
-    <MESSAGE value="IS - 262" />
-    <MESSAGE value="IS - 243" />
     <MESSAGE value="IS - 263&#10;IS - 268" />
     <MESSAGE value="IS - 183" />
     <MESSAGE value="IS - 221" />
@@ -3062,6 +3105,9 @@
     <MESSAGE value="IS - 275&#10;" />
     <MESSAGE value="IS - 264&#10;" />
     <MESSAGE value="delete set background filter button" />
+    <MESSAGE value="IS - 275" />
+    <MESSAGE value="add copy file database to /sdcard/iSimple/archive/iSimple.db&#10;copy to PC use  adb pull" />
+    <MESSAGE value="add new DATABASE&#10;add copy file database to /sdcard/iSimple/archive/iSimple.db&#10;copy to PC use  adb pull&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -3075,126 +3121,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/cursorloaders/SelectBySearch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="46" selection-start="1160" selection-end="1160" vertical-scroll-proportion="0.8495575" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="349" selection-end="349" vertical-scroll-proportion="0.15339233" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="208" selection-end="208" vertical-scroll-proportion="0.17221418">
-          <folding>
-            <element signature="method#ProxyManager#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemById#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemByBarcode#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemDeprecatedByBarcode#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemByBarcodeTypeItem#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemDeprecatedByBarcodeTypeItem#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getCountBarcode#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getCountBarcodeInDeprecatedTable#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getFeaturedMainItems#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getYearsByCategory#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getRegionsByCategory#0;class#ProxyManager#0" expanded="false" />
-            <element signature="class#CountriesComparator#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#CountriesComparator#0;class#CountriesComparator#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#compare#0;class#CountriesComparator#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getRegionsByCountryCategory#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getClassificationsByCategory#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getFeaturedItemsByCategory#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getAllItemsByCategory#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getFeaturedItemsByCategory#1;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemsByDrinkId#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemsByDrinkId#1;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemsByDrinkIdPreOrder#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemsByDrinkIdPreOrder#1;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getFilteredItemsByCategory#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getFilteredItemsByCategory#1;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getFilteredItemsByCategoryPreOrder#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getFilteredItemsByCategoryPreOrder#1;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getAllItems#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItems#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getAllItemsByCategory#1;class#ProxyManager#0" expanded="false" />
-            <element signature="method#convertItemsToUI#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#organizeItemNameLabel#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#organizeLocItemNameLabel#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#organizeTextLabel#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getChains#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getChainsByItemId#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getNearestShopsByItemId#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getShopByChain#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getNearestShops#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getMaxValuePriceByCategoryId#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#setFavouriteItemTable#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getCountItemsByCategoryByShop#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#addFavourites#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#delFavourites#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#isFavourites#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getFavouriteItems#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getSectionsItems#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getObjectDAO#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#isProductExistShoppingCart#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#insertProductInShoppingCart#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getShoppingCartItems#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getCountOrders#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#increaseShopCardItemCount#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#decreaseShopCardItemCount#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#removeShopCardItem#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getShoppingCartPrice#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#deleteAllShoppingCartData#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getItemCount#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getOrders#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getDeliveryFirstCountry#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getCountries#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getDeliveryMessage#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#getMinPriceByCountry#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#release#0;class#ProxyManager#0" expanded="false" />
-            <element signature="method#finalize#0;class#ProxyManager#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/DatabaseSqlHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="56" selection-start="2961" selection-end="2969" vertical-scroll-proportion="0.5455861">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/enumerable/item/ItemColor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="10" selection-start="199" selection-end="199" vertical-scroll-proportion="0.17" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/ico_btn_filter_reset.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/btn_filter_reset_press.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/btn_filter_reset.9.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/drawable/category_reset_butt_selector.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="43" selection-start="333" selection-end="333" vertical-scroll-proportion="0.14107884" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="32" selection-start="83" selection-end="83" vertical-scroll-proportion="0.065259114" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/category_filter_winecolor_item_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="63" selection-start="1607" selection-end="1607" vertical-scroll-proportion="0.20362903" />
@@ -3213,7 +3139,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/category_view_res.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="29" selection-start="1246" selection-end="1267" vertical-scroll-proportion="0.7504798" />
+        <state line="23" column="29" selection-start="1246" selection-end="1267" vertical-scroll-proportion="0.7504798">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/btn_filter_find.9.png">
@@ -3221,29 +3149,9 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="317" column="11" selection-start="13302" selection-end="13302" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#3757#3988#0" expanded="false" />
-            <element signature="e#3965#3966#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#CatalogByCategoryActivity#0" expanded="false" />
-            <element signature="e#7040#7541#0" expanded="false" />
-            <element signature="e#7530#7531#0" expanded="false" />
-            <element signature="e#12173#12469#0" expanded="false" />
-            <element signature="e#12458#12459#0" expanded="false" />
-            <element signature="e#12783#13300#0" expanded="false" />
-            <element signature="e#13289#13290#0" expanded="false" />
-            <element signature="e#13363#14685#0" expanded="false" />
-            <element signature="e#14678#14679#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ItemDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="330" column="0" selection-start="19182" selection-end="19182" vertical-scroll-proportion="0.7493188">
+        <state line="323" column="4" selection-start="18826" selection-end="18826" vertical-scroll-proportion="0.30232558">
           <folding>
             <element signature="method#ItemDAO#0;class#ItemDAO#0" expanded="false" />
             <element signature="method#getClassName#0;class#ItemDAO#0" expanded="false" />
@@ -3291,6 +3199,94 @@
             <element signature="method#deleteAllData#0;class#ItemDAO#0" expanded="false" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="317" column="11" selection-start="13302" selection-end="13302" vertical-scroll-proportion="0.28922495">
+          <folding>
+            <element signature="method#onCreateOptionsMenu#0;class#CatalogByCategoryActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/FavoritesActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="29" selection-start="1307" selection-end="1307" vertical-scroll-proportion="0.32136106">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/CatalogItemCursorAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="72" selection-start="4058" selection-end="4058" vertical-scroll-proportion="0.44990548">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/android/os/AsyncTask.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="62" selection-start="1458" selection-end="1458" vertical-scroll-proportion="0.33267716">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/tasks/ParseDataTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="31" selection-start="3914" selection-end="3914" vertical-scroll-proportion="0.7894737">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/TestParsingActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="22" selection-start="604" selection-end="645" vertical-scroll-proportion="-0.36842105">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1925#1933#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/test_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="24" selection-start="430" selection-end="430" vertical-scroll-proportion="0.42535213">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="0" selection-start="4417" selection-end="4742" vertical-scroll-proportion="0.3774648">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/WebServiceManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="89" selection-start="3221" selection-end="3221" vertical-scroll-proportion="1.1285444">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="126" column="40" selection-start="5144" selection-end="5195" vertical-scroll-proportion="0.30812854">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/delete_item_layout.xml">
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>

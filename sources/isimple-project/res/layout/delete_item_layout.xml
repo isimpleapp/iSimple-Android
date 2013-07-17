@@ -3,20 +3,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="135dip">
+              android:layout_height="138dip"
+              android:background="@color/category_butt_back">
+
 
     <org.holoeverywhere.widget.Button
             android:layout_width="wrap_content"
-            android:layout_height="135dip"
+            android:layout_height="138dip"
             android:text="@string/cancel_delete_item"
+            android:drawableLeft="@drawable/undo_button_selector"
             android:id="@+id/cancel_delete"
-            android:layout_alignParentRight="true"/>
+            style="@style/CategoryButtUndoStyle"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="4dip"/>
+
+    <View
+            android:layout_width="2dip"
+            android:layout_height="110dip"
+            android:layout_centerInParent="true"
+            android:id="@+id/separator"
+            android:layout_toLeftOf="@id/cancel_delete"
+            android:background="@color/category_butt_text_color"
+        />
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/layout_left"
-            android:layout_toLeftOf="@id/cancel_delete"/>
+            android:layout_toLeftOf="@id/separator"/>
 
 
 

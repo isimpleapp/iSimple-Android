@@ -25,8 +25,15 @@
         <item name="android:layout_margin">1dip</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">left|center_vertical</item>
-
     </style>
+
+    <style name="CategoryButtUndoStyle" parent="Holo.Button">
+        <item name="android:textColor">@color/category_butt_text_color</item>
+        <item name="android:background">@drawable/undo_button_style_selector</item>
+        <item name="android:layout_margin">1dip</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
     <style name="TitleBar">
         <item name="android:background">@drawable/main_menu_background_selector</item>
         <item name="android:dropDownSelector">@drawable/abs__list_selector_holo_light</item>

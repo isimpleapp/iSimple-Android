@@ -72,5 +72,6 @@
         <!--</activity>-->
         <uses-library android:name="com.google.android.maps"/>
         <service android:name=".service.DownloadDataService" android:process=":isimple_update_service" />
+        <service android:name=".service.UpdateDataService" android:process=":isimple_update_service" />
     </application>
 </manifest>

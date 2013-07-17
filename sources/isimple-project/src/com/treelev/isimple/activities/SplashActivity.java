@@ -9,24 +9,29 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.service.DownloadDataService;
+import com.treelev.isimple.service.UpdateDataService;
 import com.treelev.isimple.utils.managers.WebServiceManager;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class SplashActivity extends Activity {
 
     public static final String FROM_NOTIFICATION = "from_notification";
+    public static final String TIME_LAST_UPDATE = "time_last_update";
+
+    public static final int STATUS_FINISH = 101;
+    public static final int TASK_UPDATE = 305;
+    public static final long SECOND_TO_DAY = 86400000;
+    private Dialog mDialog;
 
     private final static String[] urlList = new String[]{
             "http://s1.isimpleapp.ru/xml/ver0/Catalog-Update.xmlz",
@@ -42,44 +47,57 @@ public class SplashActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
-
         AssetManager assetManager = getApplicationContext().getAssets();
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
 
-        boolean needUpdateData = sharedPreferences.getBoolean(DownloadDataService.NEED_DATA_UPDATE, false);
+        boolean firstStart = sharedPreferences.getBoolean(DownloadDataService.FIRST_START, true);
         boolean fromNotification = getIntent().getBooleanExtra(FROM_NOTIFICATION, false);
-
-        if (!needUpdateData) {
+        boolean updateReady = sharedPreferences.getBoolean(UpdateDataService.UPDATE_READY, false);
+        Log.v("Test log", String.valueOf(updateReady));
+        if (firstStart) {
+            Log.v("Test log", "First start");
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
-        }
-        else if (fromNotification) {
-            File directory = WebServiceManager.getDownloadDirectory();
-            if (directory.exists()) {
-                List<FileParseObject> fileParseObjectList = createFileList(directory.listFiles());
-                new UpdateDataTask().execute(fileParseObjectList.toArray(new FileParseObject[fileParseObjectList.size()]));
-            }
-        }
-        else {
+        } else if (fromNotification) {
+            Log.v("Test log", "startNotification");
+            startUpdate();
+        } else if(updateReady) {
+            Log.v("Test log", "update ready");
             showNotification(getApplicationContext());
-            finish();
-            startActivity(new Intent(this, CatalogListActivity.class));
-            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+            startApplication();
+        } else {
+            Log.v("Test log", "update working");
+            showDialog();
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+    public static boolean needNotification(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
+        long lastTimeUpdate = sharedPreferences.getLong(TIME_LAST_UPDATE, -1);
+        long currentTime = Calendar.getInstance().getTimeInMillis() / SECOND_TO_DAY;
+        return lastTimeUpdate != currentTime;
+    }
+
     public static void showNotification(Context context) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
+        if(needNotification(context)){
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
 
-        Intent newIntent = new Intent(context, SplashActivity.class);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        newIntent.putExtra(SplashActivity.FROM_NOTIFICATION, true);
+            Intent newIntent = new Intent(context, SplashActivity.class);
+            newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            newIntent.putExtra(SplashActivity.FROM_NOTIFICATION, true);
 
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
-        notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_content_label), pIntent);
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+            PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
+            notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_content_label), pIntent);
+            notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        notificationManager.notify(1, notification);
+            notificationManager.notify(1, notification);
+        }
     }
 
     @Override
@@ -98,12 +116,60 @@ public class SplashActivity extends Activity {
     @Override
     protected void onDestroy() {
         ((ISimpleApp)getApplication()).updateStateCart();
-       super.onDestroy();
+        super.onDestroy();
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.v("Test log", "onActivityResult");
+        if(resultCode == STATUS_FINISH){
+            switch (requestCode){
+                case TASK_UPDATE:
+                    Log.v("Test log", "TASK_UPDATE");
+                    hideDialog();
+                    startApplication();
+                break;
+            }
+            finish();
+        }
+    }
+
+    private void startApplication(){
+        finish();
+        Intent newIntent = new Intent(this, CatalogListActivity.class);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(newIntent);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+    }
+
+    private void startUpdate(){
+        Log.v("Test log", "start Update");
+
+        showDialog();
+
+        Intent updateServiceIntent = new Intent(this, UpdateDataService.class);
+        PendingIntent pi = createPendingResult(TASK_UPDATE, new Intent(), 0);
+        updateServiceIntent.putExtra(UpdateDataService.PARAM_PINTENT, pi);
+        startService(updateServiceIntent);
+    }
+
+    private void showDialog(){
+        if(mDialog == null){
+            mDialog = ProgressDialog.show(SplashActivity.this, getString(R.string.update_data_notify_label),
+                    getString(R.string.update_data_wait_label), false, false);
+        }
+    }
+
+    private void hideDialog(){
+        if(mDialog != null){
+            mDialog.dismiss();
+        }
+    }
 
     private class ImportDBFromFileTask extends AsyncTask {
+
 
         @Override
         protected Object doInBackground(Object... params) {
@@ -114,9 +180,7 @@ public class SplashActivity extends Activity {
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            finish();
-            startActivity(new Intent(SplashActivity.this, CatalogListActivity.class));
-            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+            startApplication();
         }
 
         private void importDBFromFile(boolean override, Object... params) {
@@ -139,6 +203,9 @@ public class SplashActivity extends Activity {
             for (String url : urlList) {
                 prefEditor.putLong(url, new Date(113, 3, 1).getTime());
             }
+            prefEditor.putLong(TIME_LAST_UPDATE, Calendar.getInstance().getTimeInMillis() / SECOND_TO_DAY - 1);
+            prefEditor.putBoolean(DownloadDataService.FIRST_START, false);
+            prefEditor.putBoolean(UpdateDataService.UPDATE_READY, true);
             prefEditor.commit();
         }
 
@@ -181,7 +248,7 @@ public class SplashActivity extends Activity {
             progressDialog.dismiss();
 
             SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
-            editor.putBoolean(DownloadDataService.NEED_DATA_UPDATE, false);
+            editor.putBoolean(DownloadDataService.FIRST_START, false);
             editor.commit();
 
             finish();

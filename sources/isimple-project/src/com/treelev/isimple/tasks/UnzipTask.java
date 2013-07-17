@@ -1,17 +1,12 @@
 package com.treelev.isimple.tasks;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
-import com.treelev.isimple.R;
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.service.DownloadDataService;
-import com.treelev.isimple.utils.managers.WebServiceManager;
+import com.treelev.isimple.service.UpdateDataService;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -95,11 +90,10 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
     protected void onPostExecute(File[] aVoid) {
         super.onPostExecute(aVoid);
         if (!error) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(DownloadDataService.NEED_DATA_UPDATE, true);
-            editor.commit();
-
-            SplashActivity.showNotification(context);
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putBoolean(DownloadDataService.FIRST_START, true);
+//            editor.commit();
+              SplashActivity.showNotification(context);
         }
     }
 }

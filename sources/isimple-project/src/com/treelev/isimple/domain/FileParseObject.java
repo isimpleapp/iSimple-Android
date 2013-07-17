@@ -10,10 +10,11 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileParseObject implements Comparable<FileParseObject> {
+public class FileParseObject implements Comparable<FileParseObject>, Serializable {
 
     private File file;
     private FilePriority filePriority;

@@ -319,7 +319,8 @@ public class ItemDAO extends BaseDAO {
                     "(" +
                         "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
                         "(case when ifnull(price, '') = '' then (999999) else price end) as price1," +
-                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 " +
+                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
+                        "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                 "FROM item  WHERE %s " +
                     ") AS t0 GROUP BY t0.drink_id " +
                 ")" +
@@ -363,29 +364,30 @@ public class ItemDAO extends BaseDAO {
                     "(" +
                         "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
                         "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1," +
-                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 " +
+                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
+                        "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                 " FROM item AS t1, item_availability AS t2 WHERE %s " +
                     ") AS t0 GROUP BY t0.drink_id " +
                 ")" +
                 " WHERE item_left_overs > 0 " +
                 "ORDER BY %s";
-        String where = String.format(formatWhereScript, getWhereBySearchFirst(query));
+        String where = String.format(formatWhereScript, getWhereBySearchFirst(query).replace("item", "t1"));
         String selectSql = String.format(formatScript, where, orderByField);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         mSectionWhereForPreOrderSearch = 0;
         if(cursor.getCount() == 0){
             mSectionWhereForPreOrderSearch = 1;
-            where = String.format(formatWhereScript, getWhereBySearchSecond(query));
+            where = String.format(formatWhereScript, getWhereBySearchSecond(query).replace("item", "t1"));
             selectSql = String.format(formatScript, where, orderByField);
             cursor = getDatabase().rawQuery(selectSql, null);
             if(cursor.getCount() == 0){
                 mSectionWhereForPreOrderSearch = 2;
-                where = String.format(formatWhereScript, getWhereBySearchThird(query));
+                where = String.format(formatWhereScript, getWhereBySearchThird(query).replace("item", "t1"));
                 selectSql = String.format(formatScript, where, orderByField);
                 cursor = getDatabase().rawQuery(selectSql, null);
                 if(cursor.getCount() == 0) {
                     mSectionWhereForPreOrderSearch = 3;
-                    where = String.format(formatWhereScript, getWhereBySearchFourth(query));
+                    where = String.format(formatWhereScript, getWhereBySearchFourth(query).replace("item", "t1"));
                     selectSql = String.format(formatScript, where, orderByField);
                     cursor = getDatabase().rawQuery(selectSql, null);
                 }
@@ -408,8 +410,9 @@ public class ItemDAO extends BaseDAO {
                         "(" +
                             "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
                             "(case when ifnull(price, '') = '' then (999999) else price end) as price1," +
-                            " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 " +
-                "FROM item  WHERE %s " +
+                            " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
+                            "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
+                        "FROM item  WHERE %s " +
                         ") AS t0 GROUP BY t0.drink_id " +
                         ")" +
                         " WHERE item_left_overs = 0 " +
@@ -429,7 +432,6 @@ public class ItemDAO extends BaseDAO {
                 where = String.format(formatWhereScript, getWhereBySearchFourth(query));
                 break;
         }
-        where = String.format(formatWhereScript, getWhereBySearchSecond(query));
         String selectSql = String.format(formatScript, where, orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -444,7 +446,8 @@ public class ItemDAO extends BaseDAO {
                     "FROM " +
                         "(SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
                         "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1," +
-                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 " +
+                        " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
+                        "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                 "FROM item AS t1, item_availability AS t2 WHERE %s " +
                     ") AS t0 " +
                     "GROUP BY t0.drink_id " +
@@ -454,19 +457,18 @@ public class ItemDAO extends BaseDAO {
         String where = "";
         switch (mSectionWhereForPreOrderSearch){
             case 0:
-                where = String.format(formatWhereScript, getWhereBySearchFirst(query));
+                where = String.format(formatWhereScript, getWhereBySearchFirst(query).replace("item", "t1"));
                 break;
             case 1:
-                where = String.format(formatWhereScript, getWhereBySearchSecond(query));
+                where = String.format(formatWhereScript, getWhereBySearchSecond(query).replace("item", "t1"));
                 break;
             case 2:
-                where = String.format(formatWhereScript, getWhereBySearchThird(query));
+                where = String.format(formatWhereScript, getWhereBySearchThird(query).replace("item", "t1"));
                 break;
             case 3:
-                where = String.format(formatWhereScript, getWhereBySearchFourth(query));
+                where = String.format(formatWhereScript, getWhereBySearchFourth(query).replace("item", "t1"));
                 break;
         }
-        where = String.format(formatWhereScript, getWhereBySearchSecond(query));
         String selectSql = String.format(formatScript, where, orderByField);
         return getDatabase().rawQuery(selectSql, null);
     }
@@ -1208,7 +1210,6 @@ public class ItemDAO extends BaseDAO {
                 queryLowCase,
                 queryUpFirstChar);
     }
-
 
     private String getWhereBySearchFourth(String query){
         String queryLowCase = query.toLowerCase();

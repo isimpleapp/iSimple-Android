@@ -149,6 +149,7 @@ public class SplashActivity extends Activity {
     private void startUpdate(){
         showDialog();
         SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
+        editor.putBoolean(UPDATE_DATA_READY, false);
         editor.putBoolean(UpdateDataService.UPDATE_READY, false);
         editor.commit();
         Intent updateServiceIntent = new Intent(this, UpdateDataService.class);

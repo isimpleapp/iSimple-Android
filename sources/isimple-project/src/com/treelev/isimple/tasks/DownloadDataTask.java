@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import com.treelev.isimple.domain.LoadFileData;
 import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.utils.managers.WebServiceManager;
+import org.holoeverywhere.app.Activity;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -27,6 +27,7 @@ public class SplashActivity extends Activity {
 
     public static final String FROM_NOTIFICATION = "from_notification";
     public static final String TIME_LAST_UPDATE = "time_last_update";
+    public static final String UPDATE_DATA_READY = "update_data_ready";
 
     public static final int STATUS_FINISH = 101;
     public static final int TASK_UPDATE = 305;
@@ -56,7 +57,7 @@ public class SplashActivity extends Activity {
         if (firstStart) {
             Log.v("Test log", "firstStart");
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
-        } else if (fromNotification && needNotification(this) && updateReady) {
+        } else if (fromNotification && updateDataReady(getApplication()) && updateReady) {
             Log.v("Test log", "StartUpdate");
             startUpdate();
         } else if(updateReady) {
@@ -79,8 +80,12 @@ public class SplashActivity extends Activity {
         SharedPreferences sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
         long lastTimeUpdate = sharedPreferences.getLong(TIME_LAST_UPDATE, -1);
         long currentTime = Calendar.getInstance().getTimeInMillis() / SECOND_TO_DAY;
-        boolean needUpdateData = WebServiceManager.getDownloadDirectory().exists();
-        return lastTimeUpdate != currentTime || needUpdateData;
+        return lastTimeUpdate != currentTime && updateDataReady(context);
+    }
+
+    public static boolean updateDataReady(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
+        return sharedPreferences.getBoolean(UPDATE_DATA_READY, false);
     }
 
     public static void showNotification(Context context) {

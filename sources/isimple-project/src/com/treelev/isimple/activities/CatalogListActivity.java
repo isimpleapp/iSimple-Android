@@ -166,7 +166,7 @@ public class CatalogListActivity extends BaseExpandableListActivity
     }
 
     private void startUpdateService() {
-        if(SplashActivity.needNotification(getApplication())){
+        if(!SplashActivity.updateDataReady(this)){
             startService(new Intent(getApplicationContext(), DownloadDataService.class));
         }
     }

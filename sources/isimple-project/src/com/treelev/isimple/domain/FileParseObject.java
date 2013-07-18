@@ -25,13 +25,13 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
     static {
         if (filePriorityList == null) {
             filePriorityList = new ArrayList<FilePriority>();
-            filePriorityList.add(new FilePriority("Catalog-Update.xml", 1));
-            filePriorityList.add(new FilePriority("Locations-And-Chains-Update.xml", 2));
-            filePriorityList.add(new FilePriority("Item-Availability.xml", 3));
-            filePriorityList.add(new FilePriority("Item-Prices.xml", 4));
-            filePriorityList.add(new FilePriority("Featured.xml", 5));
-            filePriorityList.add(new FilePriority("Deprecated.xml", 6));
-            filePriorityList.add(new FilePriority("Delivery.xml", 7));
+            filePriorityList.add(new FilePriority(CatalogParser.FILE_NAME, 1));
+            filePriorityList.add(new FilePriority(ShopAndChainsParser.FILE_NAME, 2));
+            filePriorityList.add(new FilePriority(ItemAvailabilityParser.FILE_NAME, 3));
+            filePriorityList.add(new FilePriority(ItemPricesParser.FILE_NAME, 4));
+            filePriorityList.add(new FilePriority(FeaturedItemsParser.FILE_NAME, 5));
+            filePriorityList.add(new FilePriority(DeprecatedItemParser.FILE_NAME, 6));
+            filePriorityList.add(new FilePriority(DeliveryZoneParser.FILE_NAME, 7));
         }
     }
 
@@ -44,12 +44,14 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
 
     public void parseObjectDataToDB() {
         try {
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            XmlPullParser xmlPullParser = factory.newPullParser();
-            xmlPullParser.setInput(new FileInputStream(file), null);
-            parser.parseXmlToDB(xmlPullParser, daoList);
-            file.delete();
+            if(parser != null){
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                XmlPullParser xmlPullParser = factory.newPullParser();
+                xmlPullParser.setInput(new FileInputStream(file), null);
+                parser.parseXmlToDB(xmlPullParser, daoList);
+                file.delete();
+            }
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {

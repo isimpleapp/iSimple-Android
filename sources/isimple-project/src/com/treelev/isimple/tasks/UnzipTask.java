@@ -17,6 +17,7 @@ import java.util.zip.ZipInputStream;
 public class UnzipTask extends AsyncTask<File, Void, File[]> {
 
     private static UnzipTask task;
+    private static int mCountExecute = 0;
 
     private boolean running;
     private boolean error;
@@ -29,6 +30,14 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
             task = new UnzipTask(context);
         }
         return task;
+    }
+
+    public synchronized static void incCountExecute(){
+        ++mCountExecute;
+    }
+
+    public synchronized static void decCountExecute(){
+        --mCountExecute;
     }
 
     private UnzipTask(Context context) {
@@ -48,6 +57,7 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
 
     @Override
     protected File[] doInBackground(File... params) {
+        incCountExecute();
         running = true;
         try {
             for (File file : params) {
@@ -82,6 +92,7 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
         finally {
             running = false;
             task = null;
+            decCountExecute();
         }
         return params;
     }
@@ -93,6 +104,13 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
 //            SharedPreferences.Editor editor = sharedPreferences.edit();
 //            editor.putBoolean(DownloadDataService.FIRST_START, true);
 //            editor.commit();
+             synchronized (this){
+                 if(mCountExecute == 0){
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(SplashActivity.UPDATE_DATA_READY, true);
+                    editor.commit();
+                 }
+             }
               SplashActivity.showNotification(context);
         }
     }

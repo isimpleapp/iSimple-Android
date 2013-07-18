@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.db.Item;
@@ -42,6 +43,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     private Dialog mDialog;
     private Integer mCountCallBack;
     private Set<Integer> mEmptyGroupView;
+    private Set<Integer> mUseSetImage;
 
     protected Context mContext;
     protected LoaderManager mManager;
@@ -68,6 +70,8 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
 
         mCountCallBack = 0;
 
+        mUseSetImage = new HashSet<Integer>();
+
         mEmptyGroupView = new HashSet<Integer>();
 
         imageLoader = Utils.getImageLoader(mContext.getApplicationContext());
@@ -75,8 +79,10 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
                 .showStubImage(R.drawable.bottle_list_image_default)
                 .showImageForEmptyUri(R.drawable.bottle_list_image_default)
                 .showImageOnFail(R.drawable.bottle_list_image_default)
-                .cacheInMemory()
-                .cacheOnDisc()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .resetViewBeforeLoading(false)
                 .build();
 
         DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
@@ -109,17 +115,17 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        View view;
+
         if(groupPosition == 0 || mEmptyGroupView.contains(new Integer(groupPosition))){
-            view = LayoutInflater.from(mContext).inflate(R.layout.empty_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.empty_item, null);
         } else {
-            view = LayoutInflater.from(mContext).inflate(R.layout.section_items, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.section_items, null);
             Cursor cursor = getGroup(groupPosition);
-            TextView sectionName = (TextView) view.findViewById(R.id.section_name);
+            TextView sectionName = (TextView) convertView.findViewById(R.id.section_name);
             int indexName = cursor.getColumnIndex("name");
             sectionName.setText(cursor.getString(indexName));
         }
-        return view;
+        return convertView;
     }
 
     @Override
@@ -129,7 +135,13 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     }
 
     @Override
-    protected void bindChildView(View view, Context context, Cursor cursor, boolean isLastChild) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_item_layout, null);
+        bindItemView(convertView, getChild(groupPosition, childPosition), childPosition);
+        return convertView;
+    }
+
+    private void bindItemView(View view, Cursor cursor, int childPosition){
         ImageView imageView = (ImageView) view.findViewById(R.id.item_image);
         TextView nameView = (TextView) view.findViewById(R.id.item_name);
         TextView itemLocName = (TextView) view.findViewById(R.id.item_loc_name);
@@ -235,8 +247,8 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         }   else {
             imageViewFavourite.setVisibility(View.GONE);
         }
-
     }
+
 
 
     @Override

@@ -11,6 +11,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.db.Item;
@@ -58,8 +59,9 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
             .showStubImage(R.drawable.bottle_list_image_default)
             .showImageForEmptyUri(R.drawable.bottle_list_image_default)
             .showImageOnFail(R.drawable.bottle_list_image_default)
-            .cacheInMemory()
-            .cacheOnDisc()
+            .displayer(new FadeInBitmapDisplayer(300))
+            .cacheInMemory(true)
+            .cacheOnDisc(true)
             .build();
 
         DisplayMetrics metrics = activity.getResources().getDisplayMetrics();

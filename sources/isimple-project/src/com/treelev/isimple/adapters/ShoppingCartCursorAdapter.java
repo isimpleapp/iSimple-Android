@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.support.v4.widget.SimpleCursorAdapter;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.app.ISimpleApp;
@@ -56,8 +57,9 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
                 .showStubImage(R.drawable.bottle_list_image_default)
                 .showImageForEmptyUri(R.drawable.bottle_list_image_default)
                 .showImageOnFail(R.drawable.bottle_list_image_default)
-                .cacheInMemory()
-                .cacheOnDisc()
+                .displayer(new FadeInBitmapDisplayer(300))
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
                 .build();
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";

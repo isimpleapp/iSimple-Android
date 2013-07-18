@@ -13,7 +13,6 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.treelev.isimple.httpclient.DefaultSSLSocketFactory;
 import com.treelev.isimple.parser.*;
-import com.treelev.isimple.utils.managers.ProxyManager;
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
@@ -163,7 +162,7 @@ public class Utils {
                     .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // 2 Mb
                     .discCache(new TotalSizeLimitedDiscCache(cacheDir, new HashCodeFileNameGenerator(), 40 * 1024 * 1024))  // 40 Mb
                     .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)
-                    .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+//                    .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
                     .build();
             imageLoader.init(config);
         }

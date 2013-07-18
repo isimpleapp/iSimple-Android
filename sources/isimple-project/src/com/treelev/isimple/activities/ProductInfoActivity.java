@@ -155,8 +155,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
                 .showStubImage(R.drawable.product_default_image)
                 .showImageForEmptyUri(R.drawable.product_default_image)
                 .showImageOnFail(R.drawable.product_default_image)
-                .cacheInMemory()
-                .cacheOnDisc()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
                 .build();
     }
 

@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.FileParseObject;
@@ -53,19 +52,14 @@ public class SplashActivity extends Activity {
         boolean firstStart = sharedPreferences.getBoolean(DownloadDataService.FIRST_START, true);
         boolean fromNotification = getIntent().getBooleanExtra(FROM_NOTIFICATION, false);
         boolean updateReady = sharedPreferences.getBoolean(UpdateDataService.UPDATE_READY, false);
-        Log.v("Test log", String.valueOf(updateReady));
         if (firstStart) {
-            Log.v("Test log", "First start");
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
-        } else if (fromNotification) {
-            Log.v("Test log", "startNotification");
+        } else if (fromNotification && needNotification(this)) {
             startUpdate();
         } else if(updateReady) {
-            Log.v("Test log", "update ready");
             showNotification(getApplicationContext());
             startApplication();
         } else {
-            Log.v("Test log", "update working");
             showDialog();
         }
     }
@@ -124,16 +118,13 @@ public class SplashActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.v("Test log", "onActivityResult");
         if(resultCode == STATUS_FINISH){
             switch (requestCode){
                 case TASK_UPDATE:
-                    Log.v("Test log", "TASK_UPDATE");
                     hideDialog();
-                    startApplication();
                 break;
             }
-            finish();
+            startApplication();
         }
     }
 
@@ -146,10 +137,7 @@ public class SplashActivity extends Activity {
     }
 
     private void startUpdate(){
-        Log.v("Test log", "start Update");
-
         showDialog();
-
         Intent updateServiceIntent = new Intent(this, UpdateDataService.class);
         PendingIntent pi = createPendingResult(TASK_UPDATE, new Intent(), 0);
         updateServiceIntent.putExtra(UpdateDataService.PARAM_PINTENT, pi);

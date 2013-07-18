@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.util.Log;
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.utils.managers.WebServiceManager;
@@ -28,8 +27,9 @@ public class UpdateDataService extends Service  {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mPi = intent.getParcelableExtra(PARAM_PINTENT);
-        Log.v("Test log", "onStartCommand " + mPi != null ? mPi.toString() : "fuckin intent"  );
-        new UpdateDataTask().execute();
+        if(mPi != null){
+            new UpdateDataTask().execute();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -55,10 +55,8 @@ public class UpdateDataService extends Service  {
                 editor.putLong(SplashActivity.TIME_LAST_UPDATE, Calendar.getInstance().getTimeInMillis() / SplashActivity.SECOND_TO_DAY);
                 editor.commit();
                 try {
-                    Log.v("Test log", "send "  );
                     mPi.send(UpdateDataService.this, SplashActivity.STATUS_FINISH, new Intent());
                 } catch (PendingIntent.CanceledException e) {
-                    Log.v("Test log",  e.getMessage()  );
                 }
             }
             stopSelf();

@@ -31,20 +31,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/service/UpdateDataService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/service/DownloadDataService.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/service/DownloadDataService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/domain/FileParseObject.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/domain/FileParseObject.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/WebServiceManager.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/WebServiceManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373906912605" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374066779126" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374057466150" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374082417762" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373959742792" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -1151,7 +1146,7 @@
     <file path="/SwipeDismissListViewTouchListener.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373277237603" ignored="false" />
     <file path="/delete_item_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374056686600" ignored="false" />
     <file path="/SwipeDismissTouchListener.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373116002626" ignored="false" />
-    <file path="/SplashActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374081951454" ignored="false" />
+    <file path="/SplashActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374134271006" ignored="false" />
     <file path="/CatalagSubCategoryTree.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373303244232" ignored="false" />
     <file path="/CatalogSubCategoryItemTreeCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373303706058" ignored="false" />
     <file path="/SelectItemsBySubCategoryTree.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373301747686" ignored="false" />
@@ -1192,6 +1187,7 @@
     <sortChildren value="false" />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -1574,21 +1570,6 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" line="126" class="com.treelev.isimple.activities.SplashActivity" package="com.treelev.isimple.activities">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" line="56" class="com.treelev.isimple.activities.SplashActivity" package="com.treelev.isimple.activities">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -1604,7 +1585,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" line="208" class="com.treelev.isimple.activities.SplashActivity.ImportDBFromFileTask" package="com.treelev.isimple.activities">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" line="209" class="com.treelev.isimple.activities.SplashActivity.ImportDBFromFileTask" package="com.treelev.isimple.activities">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -1634,23 +1615,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" line="79" class="com.treelev.isimple.activities.SplashActivity" package="com.treelev.isimple.activities">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
     </line_breakpoints>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -1663,7 +1628,7 @@
       <file leaf-file-name="DownloadDataService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/service/DownloadDataService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="53" selection-start="864" selection-end="864" vertical-scroll-proportion="0.0">
+            <state line="12" column="57" selection-start="405" selection-end="405" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1681,7 +1646,7 @@
       <file leaf-file-name="UpdateDataService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/service/UpdateDataService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="81" selection-start="1040" selection-end="1040" vertical-scroll-proportion="0.0">
+            <state line="45" column="59" selection-start="1400" selection-end="1400" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1690,7 +1655,7 @@
       <file leaf-file-name="WebServiceManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/WebServiceManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="23" selection-start="2062" selection-end="2062" vertical-scroll-proportion="0.0">
+            <state line="25" column="31" selection-start="734" selection-end="734" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1699,7 +1664,7 @@
       <file leaf-file-name="SplashActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="0" selection-start="3433" selection-end="3433" vertical-scroll-proportion="0.3325301">
+            <state line="83" column="62" selection-start="3579" selection-end="3579" vertical-scroll-proportion="0.8018868">
               <folding />
             </state>
           </provider>
@@ -1709,9 +1674,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="49" column="23" selection-start="2089" selection-end="2089" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1719,7 +1682,7 @@
       <file leaf-file-name="UnzipTask.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="95" column="0" selection-start="3118" selection-end="3118" vertical-scroll-proportion="-12.32">
+            <state line="95" column="0" selection-start="3118" selection-end="3118" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1760,10 +1723,10 @@
         <option value="$PROJECT_DIR$/res/layout/delete_item_layout.xml" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/domain/FileParseObject.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/service/DownloadDataService.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/WebServiceManager.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/service/UpdateDataService.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/service/DownloadDataService.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" />
       </list>
     </option>
@@ -3137,7 +3100,11 @@
       <created>1374057479131</created>
       <updated>1374057479131</updated>
     </task>
-    <option name="localTasksCounter" value="223" />
+    <task id="LOCAL-00223" summary="IS - 248&#10;">
+      <created>1374082431163</created>
+      <updated>1374082431163</updated>
+    </task>
+    <option name="localTasksCounter" value="224" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3162,21 +3129,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19386332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26220363" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38493723" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38493723" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31101814" sideWeight="0.26111907" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23672883" sideWeight="0.59693164" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10460251" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22454672" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22454672" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46582985" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -3193,6 +3159,7 @@
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22596844" sideWeight="0.76290095" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26220363" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -3238,7 +3205,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IS - 213 Android 4+ &#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS - 248&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -3252,7 +3219,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="IS - 183" />
     <MESSAGE value="IS - 221" />
     <MESSAGE value="IS - 267&#10;IS - 262 fixed closed filter" />
     <MESSAGE value="IS - 221 fixed update CatalogByCategoryActivity&#10;add visible year to favoutis" />
@@ -3277,6 +3243,7 @@
     <MESSAGE value="add copy file database to /sdcard/iSimple/archive/iSimple.db&#10;copy to PC use  adb pull" />
     <MESSAGE value="add new DATABASE&#10;add copy file database to /sdcard/iSimple/archive/iSimple.db&#10;copy to PC use  adb pull&#10;" />
     <MESSAGE value="IS - 213 Android 4+ &#10;" />
+    <MESSAGE value="IS - 248&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -3291,11 +3258,11 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/res/layout/delete_item_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="38" selection-start="445" selection-end="445" vertical-scroll-proportion="0.37701613" />
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
@@ -3332,44 +3299,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/FileParseObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="16" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.3327869">
-          <folding />
-        </state>
+        <state line="44" column="16" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.3327869" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="49" column="23" selection-start="2089" selection-end="2089" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/android/os/Environment.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="31" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.58176553">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/service/DownloadDataService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="53" selection-start="864" selection-end="864" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/WebServiceManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="23" selection-start="2062" selection-end="2062" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="32" column="31" selection-start="1529" selection-end="1529" vertical-scroll-proportion="0.58176553" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="0" selection-start="3118" selection-end="3118" vertical-scroll-proportion="-12.32">
+        <state line="95" column="0" selection-start="3118" selection-end="3118" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -3381,16 +3328,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/service/DownloadDataService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="57" selection-start="405" selection-end="405" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/WebServiceManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="31" selection-start="734" selection-end="734" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/service/UpdateDataService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="81" selection-start="1040" selection-end="1040" vertical-scroll-proportion="0.0">
+        <state line="45" column="59" selection-start="1400" selection-end="1400" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="0" selection-start="3433" selection-end="3433" vertical-scroll-proportion="0.3325301">
+        <state line="83" column="62" selection-start="3579" selection-end="3579" vertical-scroll-proportion="0.8018868">
           <folding />
         </state>
       </provider>

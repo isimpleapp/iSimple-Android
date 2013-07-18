@@ -10,7 +10,7 @@ import com.treelev.isimple.tasks.UnzipTask;
 public class DownloadDataService extends Service {
 
     public final static String LAST_UPDATED_DATE = "date_for_last_update";
-    public final static String FIRST_START = "need_data_to_update";
+    public final static String FIRST_START = "first_start";
     public final static String PREFS = "iSimple_prefs";
 
     @Override

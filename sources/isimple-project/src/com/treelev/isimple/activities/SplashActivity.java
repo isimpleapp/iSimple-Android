@@ -80,7 +80,8 @@ public class SplashActivity extends Activity {
         SharedPreferences sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
         long lastTimeUpdate = sharedPreferences.getLong(TIME_LAST_UPDATE, -1);
         long currentTime = Calendar.getInstance().getTimeInMillis() / SECOND_TO_DAY;
-        return lastTimeUpdate != currentTime;
+        boolean needUpdateData = WebServiceManager.getDownloadDirectory().exists();
+        return lastTimeUpdate != currentTime || needUpdateData;
     }
 
     public static void showNotification(Context context) {

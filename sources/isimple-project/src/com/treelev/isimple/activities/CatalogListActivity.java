@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
@@ -18,8 +16,6 @@ import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import com.treelev.isimple.views.PinnedHeaderExpListView;
-import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import com.treelev.isimple.R;
@@ -53,10 +49,6 @@ public class CatalogListActivity extends BaseExpandableListActivity
                 getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
         getExpandableListView().setAdapter(mListCategoriesAdapter);
         expandableView.setOnChildClickListener(this);
-//        View h = LayoutInflater.from(this).inflate(R.layout.pinned_header, (ViewGroup) findViewById(android.R.id.list), false);
-//        expandableView.setPinnedHeaderView(h);
-//        expandableView.setOnScrollListener(mListCategoriesAdapter);
-//        expandableView.setDividerHeight(0);
         disableOnGroupClick();
         getSupportLoaderManager().restartLoader(0, null, this);
     }
@@ -147,8 +139,6 @@ public class CatalogListActivity extends BaseExpandableListActivity
         if (product.getInt(itemCountIndex) > 1) {
             int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategoryTree.class);
-//            CatalogSubCategory.categoryID = null;
-//            CatalogSubCategory.backActivity = CatalogListActivity.class;
             startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
             startActivity(startIntent);
         } else {
@@ -176,6 +166,8 @@ public class CatalogListActivity extends BaseExpandableListActivity
     }
 
     private void startUpdateService() {
-        startService(new Intent(getApplicationContext(), DownloadDataService.class));
+        if(SplashActivity.needNotification(getApplication())){
+            startService(new Intent(getApplicationContext(), DownloadDataService.class));
+        }
     }
 }

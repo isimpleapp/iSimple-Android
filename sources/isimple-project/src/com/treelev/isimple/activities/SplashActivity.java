@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.FileParseObject;
@@ -53,13 +54,17 @@ public class SplashActivity extends Activity {
         boolean fromNotification = getIntent().getBooleanExtra(FROM_NOTIFICATION, false);
         boolean updateReady = sharedPreferences.getBoolean(UpdateDataService.UPDATE_READY, false);
         if (firstStart) {
+            Log.v("Test log", "firstStart");
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
-        } else if (fromNotification && needNotification(this)) {
+        } else if (fromNotification && needNotification(this) && updateReady) {
+            Log.v("Test log", "StartUpdate");
             startUpdate();
         } else if(updateReady) {
+            Log.v("Test log", "UpdateReady");
             showNotification(getApplicationContext());
             startApplication();
         } else {
+            Log.v("Test log", "UpdateGoing");
             showDialog();
         }
     }
@@ -138,6 +143,9 @@ public class SplashActivity extends Activity {
 
     private void startUpdate(){
         showDialog();
+        SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
+        editor.putBoolean(UpdateDataService.UPDATE_READY, false);
+        editor.commit();
         Intent updateServiceIntent = new Intent(this, UpdateDataService.class);
         PendingIntent pi = createPendingResult(TASK_UPDATE, new Intent(), 0);
         updateServiceIntent.putExtra(UpdateDataService.PARAM_PINTENT, pi);

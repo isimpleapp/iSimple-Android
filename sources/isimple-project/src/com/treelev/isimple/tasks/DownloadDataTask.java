@@ -1,6 +1,5 @@
 package com.treelev.isimple.tasks;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;

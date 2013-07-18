@@ -26,9 +26,11 @@ public class UpdateDataService extends Service  {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mPi = intent.getParcelableExtra(PARAM_PINTENT);
-        if(mPi != null){
+        if(intent != null){
+            mPi = intent.getParcelableExtra(PARAM_PINTENT);
             new UpdateDataTask().execute();
+        } else {
+            stopSelf();
         }
         return super.onStartCommand(intent, flags, startId);
     }

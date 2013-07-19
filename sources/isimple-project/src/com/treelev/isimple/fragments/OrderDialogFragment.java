@@ -150,6 +150,8 @@ public class OrderDialogFragment extends DialogFragment
     }
 
     private boolean mFormatting;
+    private int mPositionCursor = 3;
+    private int mBefore = 0;
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -161,6 +163,12 @@ public class OrderDialogFragment extends DialogFragment
         boolean enable = false;
         switch(mType){
             case PHONE_TYPE:
+                if(!mFormatting){
+                    mPositionCursor = start;
+                    mBefore = before;
+                    Log.v("Test log onTextChanged start", String.valueOf(start));
+                    Log.v("Test log onTextChanged before", String.valueOf(before));
+                }
                 enable = s.length() == 16;
                 break;
             case EMAIL_TYPE:
@@ -178,46 +186,167 @@ public class OrderDialogFragment extends DialogFragment
             case PHONE_TYPE:
                 if(!mFormatting){
                     mFormatting = true;
-                    mContactInfo = formatPhone(editable);
+                    mContactInfo = formatPhone(editable.toString());
                     mEditContactInfo.setText(mContactInfo);
-                    mEditContactInfo.setSelection(mContactInfo.length());
+                    setCursorPosition();
                     mFormatting = false;
                 }
                 break;
         }
     }
 
-    private int mLengthOld = 3;
-
-    private String formatPhone(CharSequence s){
-        StringBuilder formatted = new StringBuilder();
-        int positionEnd = s.length()-1;
-        formatted.append("+7 ");
-        if (Character.isDigit(s.charAt(positionEnd)) && mLengthOld < (positionEnd+1)){
-            if(positionEnd > 2 && positionEnd < 16){
-                formatted.append(s.subSequence(3, positionEnd+1));
-                if(positionEnd == 5){
-                    formatted.append(" ");
-                } else if(positionEnd == 9 || positionEnd == 12){
-                    formatted.append("-");
-                }
-            } else {
-                formatted.append(s.subSequence(3, 16));
+    private void setCursorPosition(){
+        int offset = 1;
+        int length = mContactInfo.length();
+        if(mBefore == 0 && length != 16) { //insert char
+            if(length == 8 || length == 12 || length == 15){
+                offset = 2;
             }
-        } else {
-            if(positionEnd > 2 && positionEnd < 16 ) {
-                if(positionEnd == 6 || positionEnd == 10 || positionEnd == 13){
-                    formatted.append(s.subSequence(3, positionEnd));
-                } else {
-                    if(!isSpecialCharacters(s.charAt(positionEnd))){
-                        formatted.append(s.subSequence(3, positionEnd+1));
-                    }
-                }
+            mEditContactInfo.setSelection(mPositionCursor + offset);
+        } else if(mContactInfo.length() > 3){//delete char
+            mEditContactInfo.setSelection(mPositionCursor);
+        } else if(length == 3) {
+            mEditContactInfo.setSelection(3);
+        }
+    }
+
+    private int mLengthOld = 3;
+    private String mOldPhoneNumber = "+7 ";
+
+    private String formatPhone(String s){
+        String newPhoneNumber = "";
+        int lengthNew = s.length();
+        if(lengthNew < 16 && lengthNew > 2){
+            if(mBefore  == 0 ){ //insert
+                newPhoneNumber = getFormattedAfterInsertChar(s);
+            } else if(mBefore == 1) {// delete 1 char
+                newPhoneNumber = getFormattedAfterDeleteChar(s);
             }
         }
-        mLengthOld = formatted.length();
-        return formatted.toString();
+        if(newPhoneNumber.length() > 0){
+            mOldPhoneNumber = newPhoneNumber;
+        }
+        return mOldPhoneNumber;
     }
+
+    private String getFormattedAfterInsertChar(String s){
+        String newPhoneNumber = "";
+        if (Character.isDigit(s.charAt(mPositionCursor)) && mPositionCursor > 2){
+            String str = new String(s);
+            str = str.replace("+", "").replace(" ", "").replace("-", "");
+            int length = str.length();
+            if(length > 1 && length < 5){
+                newPhoneNumber = String.format("+7 %s",
+                        str.substring(1));
+            } else if(length > 4 && length < 7){
+                newPhoneNumber = String.format("+7 %s %s",
+                        str.substring(1,4), str.substring(4));
+            } else if(length > 7 && length < 9){
+                newPhoneNumber = String.format("+7 %s %s-%s",
+                        str.substring(1,4), str.substring(4, 7),str.substring(7));
+            } else if(length > 8) {
+                newPhoneNumber = String.format("+7 %s %s-%s-%s",
+                        str.substring(1,4), str.substring(4, 7), str.substring(7, 9), str.substring(9));
+            }
+        }
+        return newPhoneNumber;
+    }
+
+    private String getFormattedAfterDeleteChar(String s){
+        String newPhoneNumber = "";
+        if (mPositionCursor > 2){
+            String str = new StringBuffer(s).toString();
+            if(mPositionCursor == 6 || mPositionCursor == 10 || mPositionCursor == 13){
+                Log.v("Test log str.length1=", String.valueOf(str.length()));
+                Log.v("Test log 456", str.substring(0, mPositionCursor-1));
+                if(mPositionCursor != str.length()){
+                    str = str.substring(0, mPositionCursor-1) + str.substring(mPositionCursor);
+                    Log.v("Test log str=", str);
+                }
+            }
+            str = str.replace("+", "").replace(" ", "").replace("-", "");
+            String newStr = new StringBuilder(str).toString();
+            Log.v("Test log str=", newStr);
+            Log.v("Test log str.length=", String.valueOf(newStr.length()));
+            int length = newStr.length();
+            if(length == 1){
+                newPhoneNumber = "+7 ";
+            } else if(length > 1 && length < 5){
+                newPhoneNumber = String.format("+7 %s",
+                        newStr.substring(1));
+            } else if(length > 4 && length < 8){
+                newPhoneNumber = String.format("+7 %s %s",
+                        newStr.substring(1,4), newStr.substring(4));
+            } else if(length > 7 && length <= 9){
+                newPhoneNumber = String.format("+7 %s %s-%s",
+                        newStr.substring(1,4), newStr.substring(4, 7), newStr.substring(7));
+//            } else if(length == 7){
+//                newPhoneNumber = String.format("+7 %s %s-%s",
+//                        newStr.substring(1,3), newStr.substring(3, 6), newStr.substring(6, 8));
+            } else if(length > 10) {
+                newPhoneNumber = String.format("+7 %s %s-%s-%s",
+                        newStr.substring(1,4), newStr.substring(4, 7), newStr.substring(7, 9), newStr.substring(9));
+            }
+        }
+        return newPhoneNumber;
+    }
+
+//    private String getFormattedPhoneNumber(CharSequence s){
+//        String newPhoneNumber = "";
+//        if (Character.isDigit(s.charAt(mPositionCursor)) && mPositionCursor > 2){
+//            String str = s.toString();
+//            str = str.replace("+", "").replace(" ", "").replace("-", "");
+//            int length = s.length();
+//            if(length > 2 && length < 5){
+//                newPhoneNumber = String.format("+7 %s",
+//                        str.substring(1));
+//            } else if(length > 4 && length < 8){
+//                newPhoneNumber = String.format("+7 %s %s",
+//                        str.substring(1,4), str.substring(4));
+//            } else if(length > 7 && length < 10){
+//                newPhoneNumber = String.format("+7 %s %s-%s",
+//                        str.substring(1,3), str.substring(4, 7),str.substring(8));
+//            } else {
+//                newPhoneNumber = String.format("+7 %s %s-%s-%s",
+//                        str.substring(1,3), str.substring(4, 7), str.substring(8, 9), str.substring(10));
+//            }
+//        }
+//        return newPhoneNumber;
+//    }
+
+//    private String getFormattedAfterDelete(CharSequence s){
+//        StringBuilder formatted = new StringBuilder("+7 ");
+//        return formatted.toString();
+//    }
+//    private String formatPhone(CharSequence s){
+//        StringBuilder formatted = new StringBuilder();
+//        int positionEnd = s.length()-1;
+//        formatted.append("+7 ");
+//        if (Character.isDigit(s.charAt(positionEnd)) && mLengthOld < (positionEnd+1)){
+//            if(positionEnd > 2 && positionEnd < 16){
+//                formatted.append(s.subSequence(3, positionEnd+1));
+//                if(positionEnd == 5){
+//                    formatted.append(" ");
+//                } else if(positionEnd == 9 || positionEnd == 12){
+//                    formatted.append("-");
+//                }
+//            } else {
+//                formatted.append(s.subSequence(3, 16));
+//            }
+//        } else {
+//            if(positionEnd > 2 && positionEnd < 16 ) {
+//                if(positionEnd == 6 || positionEnd == 10 || positionEnd == 13){
+//                    formatted.append(s.subSequence(3, positionEnd));
+//                } else {
+//                    if(!isSpecialCharacters(s.charAt(positionEnd))){
+//                        formatted.append(s.subSequence(3, positionEnd+1));
+//                    }
+//                }
+//            }
+//        }
+//        mLengthOld = formatted.length();
+//        return formatted.toString();
+//    }
 
     private boolean isSpecialCharacters(char c){
         return c == ' ' || c == '+' || c == '-' || c == '.' || c == '(' || c == ')' || c == '/' || c == ',' || c == '*' || c == '#'

@@ -43,7 +43,6 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     private Dialog mDialog;
     private Integer mCountCallBack;
     private Set<Integer> mEmptyGroupView;
-    private Set<Integer> mUseSetImage;
 
     protected Context mContext;
     protected LoaderManager mManager;
@@ -69,8 +68,6 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         mSortBy = sortBy;
 
         mCountCallBack = 0;
-
-        mUseSetImage = new HashSet<Integer>();
 
         mEmptyGroupView = new HashSet<Integer>();
 

@@ -162,7 +162,6 @@ public class Utils {
                     .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // 2 Mb
                     .discCache(new TotalSizeLimitedDiscCache(cacheDir, new HashCodeFileNameGenerator(), 40 * 1024 * 1024))  // 40 Mb
                     .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)
-//                    .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
                     .build();
             imageLoader.init(config);
         }

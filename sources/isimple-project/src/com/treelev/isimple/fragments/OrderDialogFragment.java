@@ -9,6 +9,7 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
 import com.treelev.isimple.R;
@@ -16,6 +17,7 @@ import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -28,7 +30,10 @@ import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -273,8 +278,7 @@ public class OrderDialogFragment extends DialogFragment
         }
 
         private boolean postData() {
-            // Create a new HttpClient and Post Header
-
+            boolean result = false;
             HttpPost httppost = new HttpPost(mContext.getString(R.string.url_send_order).trim());
 
             try {
@@ -289,23 +293,49 @@ public class OrderDialogFragment extends DialogFragment
                 HttpClient httpclient = Utils.newHttpClient();
 
                 HttpResponse response = httpclient.execute(httppost);
+                if(getResponseAnswer(response.getEntity()) > 0 ){
+                    result = true;
+                }
 
             } catch (ClientProtocolException e) {
-                return  false;
             } catch (IOException e) {
-                return  false;
+            } finally {
+                return result;
             }
-            return true;
+        }
+
+        private int getResponseAnswer(HttpEntity entity){
+            int result = 0;
+            try {
+                String answer = parserResponseAnswer(entity.getContent());
+                result = Integer.valueOf(answer);
+            } catch (Exception e) {
+            }
+            finally {
+                return result;
+            }
+        }
+
+        private String parserResponseAnswer(InputStream inputStream) throws IOException {
+            InputStreamReader is = new InputStreamReader(inputStream);
+            BufferedReader br = new BufferedReader(is);
+            StringBuilder stringBuilder = new StringBuilder();
+            String read = br.readLine();
+            while(read != null){
+                stringBuilder.append(read);
+                read = br.readLine();
+            }
+            return stringBuilder.toString();
         }
 
         private String getDeviceID(){
 
             TelephonyManager telephonyManager = (TelephonyManager)mContext.getSystemService(mContext.TELEPHONY_SERVICE);
-            String imeiid = telephonyManager.getDeviceId();
-            if( imeiid == null){
-                imeiid = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            String imeiID = telephonyManager.getDeviceId();
+            if( imeiID == null){
+                imeiID = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
             }
-            return imeiid;
+            return imeiID;
         }
 
         private String getMD5() {

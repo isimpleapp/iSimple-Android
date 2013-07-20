@@ -109,7 +109,7 @@
     </style>
 
     <style name="Widget.Sherlock.ActionButton" parent="Widget">
-        <item name="android:background">?attr/actionBarItemBackground</item>
+        <item name="android:background">@drawable/item_background_custom</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
 
         <item name="android:minWidth">@dimen/abs__action_button_min_width</item>
@@ -130,7 +130,7 @@
 
     <style name="Widget.Sherlock.ActionButton.Overflow">
         <item name="android:src">@drawable/abs__ic_menu_moreoverflow_holo_dark</item>
-        <item name="android:background">?attr/actionBarItemBackground</item>
+        <item name="android:background">@drawable/item_background_custom</item>
         <item name="android:contentDescription">@string/abs__action_menu_overflow_description</item>
     </style>
     <style name="Widget.Sherlock.Light.ActionButton.Overflow">

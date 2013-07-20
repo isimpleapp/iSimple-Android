@@ -19,7 +19,7 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:paddingRight="16dip"
-              android:background="?attr/actionBarItemBackground"
+              android:background="@drawable/item_background_custom"
               android:enabled="false">
 
     <ImageView android:id="@id/abs__up"

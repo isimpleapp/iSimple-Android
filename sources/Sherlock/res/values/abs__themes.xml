@@ -35,7 +35,7 @@
         <item name="actionMenuTextAppearance">@style/TextAppearance.Sherlock.Widget.ActionBar.Menu</item>
         <item name="actionMenuTextColor">?attr/textColorPrimary</item>
         <item name="actionBarDivider">?attr/dividerVertical</item>
-        <item name="actionBarItemBackground">?attr/selectableItemBackground</item>
+        <item name="actionBarItemBackground">@drawable/item_background_custom</item>
 
         <item name="buttonStyleSmall">@style/Widget.Sherlock.Button.Small</item>
 
@@ -103,7 +103,7 @@
         <item name="actionMenuTextAppearance">@style/TextAppearance.Sherlock.Widget.ActionBar.Menu</item>
         <item name="actionMenuTextColor">?attr/textColorPrimary</item>
         <item name="actionBarDivider">?attr/dividerVertical</item>
-        <item name="actionBarItemBackground">?attr/selectableItemBackground</item>
+        <item name="actionBarItemBackground">@drawable/item_background_custom</item>
 
         <item name="buttonStyleSmall">@style/Widget.Sherlock.Light.Button.Small</item>
 
@@ -164,7 +164,7 @@
         <item name="actionBarTabBarStyle">@style/Widget.Sherlock.Light.ActionBar.TabBar.Inverse</item>
         <item name="actionBarTabTextStyle">@style/Widget.Sherlock.Light.ActionBar.TabText.Inverse</item>
         <item name="actionBarDivider">@drawable/abs__list_divider_holo_dark</item>
-        <item name="actionBarItemBackground">@drawable/abs__item_background_holo_dark</item>
+        <item name="actionBarItemBackground">@drawable/item_background_custom</item>
         <item name="actionMenuTextColor">?attr/textColorPrimaryInverse</item>
         <item name="actionModeStyle">@style/Widget.Sherlock.Light.ActionMode.Inverse</item>
         <item name="actionModeCloseButtonStyle">@style/Widget.Sherlock.ActionButton.CloseMode</item>

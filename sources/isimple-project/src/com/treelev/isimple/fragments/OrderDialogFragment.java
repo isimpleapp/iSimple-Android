@@ -188,26 +188,32 @@ public class OrderDialogFragment extends DialogFragment
                     mFormatting = true;
                     mContactInfo = formatPhone(editable.toString());
                     mEditContactInfo.setText(mContactInfo);
-                    setCursorPosition();
+                    mEditContactInfo.setSelection(getFormattedCursorPosition());
                     mFormatting = false;
                 }
                 break;
         }
     }
 
-    private void setCursorPosition(){
-        int offset = 1;
+
+    private int getFormattedCursorPosition(){
+        int cursorPosition = 3;
+        int offset;
         int length = mContactInfo.length();
-        if(mBefore == 0 && length != 16) { //insert char
-            if(length == 8 || length == 12 || length == 15){
+        if(mBefore == 0 && mPositionCursor > 1) { //insert char
+            offset = 1;
+            if((length == 4 || length == 7 || length == 11 || length == 14) && mPositionCursor < length - 1){
                 offset = 2;
             }
-            mEditContactInfo.setSelection(mPositionCursor + offset);
-        } else if(mContactInfo.length() > 3){//delete char
-            mEditContactInfo.setSelection(mPositionCursor);
-        } else if(length == 3) {
-            mEditContactInfo.setSelection(3);
+            cursorPosition = mPositionCursor + offset;
+        } else if(length > 3 && mPositionCursor > 3){//delete char
+            offset = 0;
+            if(length == 6 || length == 10 || length == 13){
+                offset = 1;
+            }
+            cursorPosition = mPositionCursor - offset;
         }
+        return cursorPosition;
     }
 
     private int mLengthOld = 3;
@@ -216,7 +222,7 @@ public class OrderDialogFragment extends DialogFragment
     private String formatPhone(String s){
         String newPhoneNumber = "";
         int lengthNew = s.length();
-        if(lengthNew < 16 && lengthNew > 2){
+        if(lengthNew < 17 && lengthNew > 2){
             if(mBefore  == 0 ){ //insert
                 newPhoneNumber = getFormattedAfterInsertChar(s);
             } else if(mBefore == 1) {// delete 1 char
@@ -231,20 +237,30 @@ public class OrderDialogFragment extends DialogFragment
 
     private String getFormattedAfterInsertChar(String s){
         String newPhoneNumber = "";
-        if (Character.isDigit(s.charAt(mPositionCursor)) && mPositionCursor > 2){
+        if (Character.isDigit(s.charAt(mPositionCursor)) && mPositionCursor > 1){
             String str = new String(s);
             str = str.replace("+", "").replace(" ", "").replace("-", "");
             int length = str.length();
-            if(length > 1 && length < 5){
+            if(length > 1 && length < 4){
                 newPhoneNumber = String.format("+7 %s",
                         str.substring(1));
-            } else if(length > 4 && length < 7){
+            } else if(length == 4){
+                newPhoneNumber = String.format("+7 %s ",
+                        str.substring(1) );
+            }
+            else if(length > 4 && length < 7){
                 newPhoneNumber = String.format("+7 %s %s",
+                        str.substring(1,4), str.substring(4));
+            } else if(length == 7){
+                newPhoneNumber = String.format("+7 %s %s-",
                         str.substring(1,4), str.substring(4));
             } else if(length > 7 && length < 9){
                 newPhoneNumber = String.format("+7 %s %s-%s",
-                        str.substring(1,4), str.substring(4, 7),str.substring(7));
-            } else if(length > 8) {
+                        str.substring(1,4), str.substring(4, 7), str.substring(7));
+            } else if(length == 9){
+                newPhoneNumber = String.format("+7 %s %s-%s-",
+                        str.substring(1,4), str.substring(4, 7), str.substring(7));
+            } else if(length > 9) {
                 newPhoneNumber = String.format("+7 %s %s-%s-%s",
                         str.substring(1,4), str.substring(4, 7), str.substring(7, 9), str.substring(9));
             }
@@ -271,21 +287,19 @@ public class OrderDialogFragment extends DialogFragment
             int length = newStr.length();
             if(length == 1){
                 newPhoneNumber = "+7 ";
-            } else if(length > 1 && length < 5){
+            } if(length > 1 && length <= 4){
                 newPhoneNumber = String.format("+7 %s",
-                        newStr.substring(1));
-            } else if(length > 4 && length < 8){
+                        str.substring(1));
+            }
+            else if(length > 4 && length <= 7){
                 newPhoneNumber = String.format("+7 %s %s",
-                        newStr.substring(1,4), newStr.substring(4));
+                        str.substring(1,4), str.substring(4));
             } else if(length > 7 && length <= 9){
                 newPhoneNumber = String.format("+7 %s %s-%s",
-                        newStr.substring(1,4), newStr.substring(4, 7), newStr.substring(7));
-//            } else if(length == 7){
-//                newPhoneNumber = String.format("+7 %s %s-%s",
-//                        newStr.substring(1,3), newStr.substring(3, 6), newStr.substring(6, 8));
-            } else if(length > 10) {
+                        str.substring(1,4), str.substring(4, 7), str.substring(7));
+            } else if(length > 9) {
                 newPhoneNumber = String.format("+7 %s %s-%s-%s",
-                        newStr.substring(1,4), newStr.substring(4, 7), newStr.substring(7, 9), newStr.substring(9));
+                        str.substring(1,4), str.substring(4, 7), str.substring(7, 9), str.substring(9));
             }
         }
         return newPhoneNumber;

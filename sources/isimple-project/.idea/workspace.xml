@@ -27,7 +27,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/item_background.xml" afterPath="$PROJECT_DIR$/res/drawable/item_background.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -35,7 +34,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374308338570" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374141267358" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374330562947" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374334989208" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373959742792" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -1588,55 +1587,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="styles.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="44" selection-start="453" selection-end="477" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values-v14/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="53" selection-start="4521" selection-end="4521" vertical-scroll-proportion="-0.28">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="abs__themes.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../Sherlock/res/values/abs__themes.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="106" selection-start="7247" selection-end="7247" vertical-scroll-proportion="0.5290023">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles-core.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/resbuilder/styles-core.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="40" selection-start="422" selection-end="422" vertical-scroll-proportion="-5.230769">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="598" column="20" selection-start="34184" selection-end="34184" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="item_background.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/drawable/item_background.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="48" selection-start="726" selection-end="726" vertical-scroll-proportion="0.0">
+            <state line="7" column="0" selection-start="433" selection-end="433" vertical-scroll-proportion="0.2609649">
               <folding />
             </state>
           </provider>
@@ -1930,7 +1884,7 @@
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0149C7F018017015" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="S5570b556563f" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
@@ -3111,7 +3065,11 @@
       <created>1374330579131</created>
       <updated>1374330579131</updated>
     </task>
-    <option name="localTasksCounter" value="234" />
+    <task id="LOCAL-00234" summary="IS - 202 &#10;">
+      <created>1374334997120</created>
+      <updated>1374334997120</updated>
+    </task>
+    <option name="localTasksCounter" value="235" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3329,34 +3287,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/resbuilder/styles-core.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="40" selection-start="422" selection-end="422" vertical-scroll-proportion="-5.230769">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="598" column="20" selection-start="34184" selection-end="34184" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="44" selection-start="453" selection-end="477" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values-v14/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="53" selection-start="4521" selection-end="4521" vertical-scroll-proportion="-0.28">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Sherlock/res/drawable/abs__item_background_holo_light.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="124" selection-start="1541" selection-end="1541" vertical-scroll-proportion="0.6184834">
@@ -3364,9 +3294,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/resbuilder/styles-core.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="40" selection-start="422" selection-end="422" vertical-scroll-proportion="0.31627908">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../Sherlock/res/values/abs__themes.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="108" column="106" selection-start="7247" selection-end="7247" vertical-scroll-proportion="0.5290023">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="598" column="20" selection-start="34184" selection-end="34184" vertical-scroll-proportion="1.1008772">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../HoloEveryWhere/res/values-v14/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="53" selection-start="4521" selection-end="4521" vertical-scroll-proportion="0.016241299">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="433" selection-end="433" vertical-scroll-proportion="0.2609649">
           <folding />
         </state>
       </provider>

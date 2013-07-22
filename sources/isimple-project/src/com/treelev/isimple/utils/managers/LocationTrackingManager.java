@@ -82,7 +82,6 @@ public class LocationTrackingManager implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.v("LocationTrackingManager ", "onLocationChanged");
         if(mLocation != null){
             if(mLocation.getAccuracy() < location.getAccuracy()){
                 mLocation = location;
@@ -92,21 +91,14 @@ public class LocationTrackingManager implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.v("LocationTrackingManager ", "onStatusChanged");
-        Log.v("LocationTrackingManager ", provider);
-        Log.v("LocationTrackingManager", String.valueOf(status));
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        Log.v("LocationTrackingManager ", "onProviderEnabled");
-        Log.v("LocationTrackingManager", provider);
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        Log.v("LocationTrackingManager ", "onProviderDisabled");
-        Log.v("LocationTrackingManager", provider);
     }
 
 

@@ -55,17 +55,13 @@ public class SplashActivity extends Activity {
         boolean fromNotification = getIntent().getBooleanExtra(FROM_NOTIFICATION, false);
         boolean updateReady = sharedPreferences.getBoolean(UpdateDataService.UPDATE_READY, false);
         if (firstStart) {
-            Log.v("Test log", "firstStart");
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
         } else if (fromNotification && updateDataReady(getApplication()) && updateReady) {
-            Log.v("Test log", "StartUpdate");
             startUpdate();
         } else if(updateReady) {
-            Log.v("Test log", "UpdateReady");
             showNotification(getApplicationContext());
             startApplication();
         } else {
-            Log.v("Test log", "UpdateGoing");
             showDialog();
         }
     }

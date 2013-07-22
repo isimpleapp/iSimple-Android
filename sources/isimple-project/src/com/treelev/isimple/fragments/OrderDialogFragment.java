@@ -9,7 +9,6 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
 import com.treelev.isimple.R;
@@ -166,8 +165,6 @@ public class OrderDialogFragment extends DialogFragment
                 if(!mFormatting){
                     mPositionCursor = start;
                     mBefore = before;
-                    Log.v("Test log onTextChanged start", String.valueOf(start));
-                    Log.v("Test log onTextChanged before", String.valueOf(before));
                 }
                 enable = s.length() == 16;
                 break;
@@ -204,18 +201,19 @@ public class OrderDialogFragment extends DialogFragment
             cursorPosition = 16;
         } else if(mBefore == 0 && mPositionCursor > 1) { //insert char
             offset = 1;
-            if((length == 4 || length == 7 || length == 11 || length == 14) && mPositionCursor < length - 1){
+            if((length == 4 || length == 7 || length == 8 || length == 11 || length == 12 || length == 14 || length == 15)
+                    && mPositionCursor < length - 1){
                 offset = 2;
             }
             cursorPosition = mPositionCursor + offset;
         } else if(length > 3 && mPositionCursor > 3){//delete char
-            offset = 0;
             if(length == 6 || length == 10 || length == 13){
-                offset = 1;
+                cursorPosition = length;
+            } else {
+                cursorPosition = mPositionCursor;
             }
-            cursorPosition = mPositionCursor - offset;
         }
-        return cursorPosition;
+        return cursorPosition < length ? cursorPosition : length;
     }
 
     private int mLengthOld = 3;
@@ -275,17 +273,12 @@ public class OrderDialogFragment extends DialogFragment
         if (mPositionCursor > 2){
             String str = new StringBuffer(s).toString();
             if(mPositionCursor == 6 || mPositionCursor == 10 || mPositionCursor == 13){
-                Log.v("Test log str.length1=", String.valueOf(str.length()));
-                Log.v("Test log 456", str.substring(0, mPositionCursor-1));
                 if(mPositionCursor != str.length()){
                     str = str.substring(0, mPositionCursor-1) + str.substring(mPositionCursor);
-                    Log.v("Test log str=", str);
                 }
             }
             str = str.replace("+", "").replace(" ", "").replace("-", "");
             String newStr = new StringBuilder(str).toString();
-            Log.v("Test log str=", newStr);
-            Log.v("Test log str.length=", String.valueOf(newStr.length()));
             int length = newStr.length();
             if(length == 1){
                 newPhoneNumber = "+7 ";

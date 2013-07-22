@@ -56,9 +56,7 @@ public class WebServiceManager {
 
     public static void deleteDownloadDirectory() {
         File directory = getDownloadDirectory();
-        Log.v("Test log", "deleteDownloadDirectory");
         if (directory.exists()) {
-            Log.v("Test log", "delete");
             directory.delete();
         }
     }

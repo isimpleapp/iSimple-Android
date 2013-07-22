@@ -924,9 +924,7 @@ public class ItemDAO extends BaseDAO {
         String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_DEPRECATED_TABLE, DatabaseSqlHelper.ITEM_BARCODE, barcode);
         Cursor c = getDatabase().rawQuery(selectSql, null);
         if (c != null) {
-            Log.v("Cursor", String.valueOf(c.getCount()));
             c.moveToNext();
-            Log.v("Cursor", String.valueOf(c.getCount()));
             if (c.moveToFirst()) {
                 count = c.getInt(0);
             }

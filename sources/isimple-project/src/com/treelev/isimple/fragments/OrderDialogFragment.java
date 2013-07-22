@@ -200,7 +200,9 @@ public class OrderDialogFragment extends DialogFragment
         int cursorPosition = 3;
         int offset;
         int length = mContactInfo.length();
-        if(mBefore == 0 && mPositionCursor > 1) { //insert char
+        if(mPositionCursor > 15){
+            cursorPosition = 16;
+        } else if(mBefore == 0 && mPositionCursor > 1) { //insert char
             offset = 1;
             if((length == 4 || length == 7 || length == 11 || length == 14) && mPositionCursor < length - 1){
                 offset = 2;

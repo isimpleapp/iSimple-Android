@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.FileParseObject;

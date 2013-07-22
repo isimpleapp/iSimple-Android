@@ -99,7 +99,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         }
         disableOnGroupClick();
         createNavigationMenuBar();
-        darkView = findViewById(R.id.category_dark_view);
+        darkView = findViewById(R.id.category_dark_view_cat);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
         filter = initFilter();

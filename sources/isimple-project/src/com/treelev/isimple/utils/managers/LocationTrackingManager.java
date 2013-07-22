@@ -8,12 +8,10 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import org.holoeverywhere.app.Application;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 public class LocationTrackingManager implements LocationListener {
 

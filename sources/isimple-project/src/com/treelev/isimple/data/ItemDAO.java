@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
-import android.util.Log;
 import com.treelev.isimple.domain.db.DeprecatedItem;
 import com.treelev.isimple.domain.db.FeaturedItem;
 import com.treelev.isimple.domain.db.Item;
@@ -1173,11 +1172,43 @@ public class ItemDAO extends BaseDAO {
         return String.format(OR, onePart, twoPart);
     }
 
-    private String getWhereBySearchFirst(String query){
-        String queryLowCase = query.toLowerCase();
-        char[] charQuery = query.toCharArray();
+    private String getUpperCaseQuery(String query){
+        String queryLowerCase = query.toLowerCase();
+        StringBuilder queryRes = new StringBuilder();
+        String[] words = queryLowerCase.split(" ");
+        for(String word: words){
+            queryRes.append("%");
+            queryRes.append(getUpFirstChar(word));
+        }
+        queryRes.append("%");
+        return  queryRes.toString();
+    }
+
+    private String getUpFirstChar(String word){
+        char[] charQuery = word.toCharArray();
         charQuery[0] = Character.toUpperCase(charQuery[0]);
-        String queryUpFirstChar = new String(charQuery);
+        return new String(charQuery);
+    }
+
+    private String getLowerCaseQuery(String query){
+        String queryLowerCase = query.toLowerCase();
+        StringBuilder queryRes = new StringBuilder();
+        String[] words = queryLowerCase.split(" ");
+        for(String word: words){
+            queryRes.append("%");
+            queryRes.append(word);
+        }
+        queryRes.append("%");
+        return  queryRes.toString();
+    }
+
+    private String getWhereBySearchFirst(String query){
+//        String queryLowCase = query.toLowerCase();
+//        char[] charQuery = query.toCharArray();
+//        charQuery[0] = Character.toUpperCase(charQuery[0]);
+//        String queryUpFirstChar = new String(charQuery);
+        String queryLowCase = getLowerCaseQuery(query);
+        String queryUpFirstChar = getUpperCaseQuery(query);
         return String.format("item.name LIKE '%%%1$s%%' OR item.manufacturer LIKE '%%%1$s%%' " +
                 "OR item.localized_name LIKE '%%%1$s%%' OR item.localized_name LIKE '%%%2$s%%' " +
                 "OR item.localized_manufacturer LIKE '%%%1$s%%' OR item.localized_manufacturer LIKE '%%%2$s%%'",
@@ -1186,10 +1217,12 @@ public class ItemDAO extends BaseDAO {
     }
 
     private String getWhereBySearchSecond(String query){
-        String queryLowCase = query.toLowerCase();
-        char[] charQuery = query.toCharArray();
-        charQuery[0] = Character.toUpperCase(charQuery[0]);
-        String queryUpFirstChar = new String(charQuery);
+//        String queryLowCase = query.toLowerCase();
+//        char[] charQuery = query.toCharArray();
+//        charQuery[0] = Character.toUpperCase(charQuery[0]);
+//        String queryUpFirstChar = new String(charQuery);
+        String queryLowCase = getLowerCaseQuery(query);
+        String queryUpFirstChar = getUpperCaseQuery(query);
         return String.format("item.country LIKE '%%%1$s%%' OR item.country LIKE '%%%2$s%%' " +
                 "OR item.region LIKE '%%%1$s%%' OR item.region LIKE '%%%2$s%%'",
                 queryLowCase,
@@ -1197,10 +1230,12 @@ public class ItemDAO extends BaseDAO {
     }
 
     private String getWhereBySearchThird(String query){
-        String queryLowCase = query.toLowerCase();
-        char[] charQuery = query.toCharArray();
-        charQuery[0] = Character.toUpperCase(charQuery[0]);
-        String queryUpFirstChar = new String(charQuery);
+//        String queryLowCase = query.toLowerCase();
+//        char[] charQuery = query.toCharArray();
+//        charQuery[0] = Character.toUpperCase(charQuery[0]);
+//        String queryUpFirstChar = new String(charQuery);
+        String queryLowCase = getLowerCaseQuery(query);
+        String queryUpFirstChar = getUpperCaseQuery(query);
         return String.format("style LIKE '%%%1$s%%' OR style LIKE '%%%2$s%%' " +
                 "OR drink_type LIKE '%%%1$s%%' OR drink_type LIKE '%%%2$s%%' " +
                 "OR style_description LIKE '%%%1$s%%' OR style_description LIKE '%%%2$s%%' " +
@@ -1210,10 +1245,12 @@ public class ItemDAO extends BaseDAO {
     }
 
     private String getWhereBySearchFourth(String query){
-        String queryLowCase = query.toLowerCase();
-        char[] charQuery = query.toCharArray();
-        charQuery[0] = Character.toUpperCase(charQuery[0]);
-        String queryUpFirstChar = new String(charQuery);
+//        String queryLowCase = query.toLowerCase();
+//        char[] charQuery = query.toCharArray();
+//        charQuery[0] = Character.toUpperCase(charQuery[0]);
+//        String queryUpFirstChar = new String(charQuery);
+        String queryLowCase = getLowerCaseQuery(query);
+        String queryUpFirstChar = getUpperCaseQuery(query);
         return String.format("taste_qualities LIKE '%%%1$s%%' OR taste_qualities LIKE '%%%2$s%%' " +
                 "OR vintage_report LIKE '%%%1$s%%' OR vintage_report LIKE '%%%2$s%%' " +
                 "OR aging_process LIKE '%%%1$s%%' OR aging_process LIKE '%%%2$s%%' " +

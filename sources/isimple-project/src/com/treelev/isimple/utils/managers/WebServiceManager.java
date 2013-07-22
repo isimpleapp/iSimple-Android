@@ -1,7 +1,6 @@
 package com.treelev.isimple.utils.managers;
 
 import android.os.Environment;
-import android.util.Log;
 import com.treelev.isimple.domain.LoadFileData;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -9,13 +8,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;

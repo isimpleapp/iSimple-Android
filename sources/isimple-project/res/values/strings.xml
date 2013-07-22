@@ -57,4 +57,7 @@
     <string name="crash_dialog_title">Ошибка iSimple</string>
 
     <string name="cancel_delete_item">Отмена</string>
+
+    <string name="date_update">22.07.2013</string>
+    <string name="about_info" formatted="false"><![CDATA[<br>Номер версии: %s<br>Дата последнего обновления: %s<br>]]></string>
 </resources>

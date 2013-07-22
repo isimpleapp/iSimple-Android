@@ -4,17 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.ContextThemeWrapper;
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.ActionMode;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.app.ISimpleApp;
+import com.treelev.isimple.service.DownloadDataService;
+import com.treelev.isimple.service.UpdateDataService;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.observer.Observer;
@@ -193,6 +197,10 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                 integrator.initiateScan();
                 getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
+            case 5: //About
+                showAbout();
+                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
+                break;
             default:
                 category = null;
         }
@@ -203,6 +211,32 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
             }
         }
         return intent;
+    }
+
+    private void showAbout(){
+        String version = "";
+        try {
+            version = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
+            String dateUpdate = sharedPreferences.getString(UpdateDataService.DATE_UPDATE,
+                    getResources().getString(R.string.date_update));
+
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setTitle("Информация о программе");
+            String aboutInfo = String.format(getString(R.string.about_info), version, dateUpdate);
+            adb.setMessage(Html.fromHtml(aboutInfo));
+            adb.setNeutralButton(getString(R.string.dialog_button_ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            adb.show();
+        }
+
     }
 
     private Drawable[] getIconsList(TypedArray typedIconsArray, int navigationMenuBarLenght) {

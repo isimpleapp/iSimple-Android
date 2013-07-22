@@ -2,24 +2,27 @@ package com.treelev.isimple.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
-import android.widget.SectionIndexer;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.app.ISimpleApp;
+import com.treelev.isimple.service.DownloadDataService;
+import com.treelev.isimple.service.UpdateDataService;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.observer.Observer;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
-import org.holoeverywhere.app.ExpandableListActivity;
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.ExpandableListActivity;
 import org.holoeverywhere.widget.ExpandableListView;
 
 public class BaseExpandableListActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener,
@@ -120,6 +123,10 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
                 integrator.initiateScan();
                 getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
+            case 5: //About
+                showAbout();
+                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
+                break;
             default:
                 category = null;
         }
@@ -130,6 +137,32 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
             }
         }
         return intent;
+    }
+
+    private void showAbout(){
+        String version = "";
+        try {
+            version = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
+            String dateUpdate = sharedPreferences.getString(UpdateDataService.DATE_UPDATE,
+                    getResources().getString(R.string.date_update));
+
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setTitle("Информация о программе");
+            String aboutInfo = String.format(getString(R.string.about_info), version, dateUpdate);
+            adb.setMessage(Html.fromHtml(aboutInfo));
+            adb.setNeutralButton(getString(R.string.dialog_button_ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            adb.show();
+        }
+
     }
 
     @Override

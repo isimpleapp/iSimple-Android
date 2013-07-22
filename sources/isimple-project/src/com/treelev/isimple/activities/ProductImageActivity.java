@@ -25,13 +25,6 @@ public class ProductImageActivity extends BaseActivity {
         mImageFilename = getIntent().getStringExtra(HI_RESOLUTION_IMAGE_FILE_NAME);
         initImageLoader();
         setImage();
-//        Button btnBack = (Button) findViewById(R.id.btn_back);
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
     }
 
     private void setImage(){
@@ -55,37 +48,6 @@ public class ProductImageActivity extends BaseActivity {
                 .cacheOnDisc(true)
                 .build();
     }
-
-//    protected void createNavigationMenuBar() {
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        Resources resources = getResources();
-//        String[] mainMenuLabelsArray = resources.getStringArray(R.array.main_menu_items);
-//        TypedArray typedIconsArray = resources.obtainTypedArray(R.array.main_menu_icons);
-//        Drawable[] iconLocation = getIconsList(typedIconsArray, mainMenuLabelsArray.length);
-//        organizeNavigationMenu(iconLocation, mainMenuLabelsArray);
-//    }
-//
-//    private Drawable[] getIconsList(TypedArray typedIconsArray, int navigationMenuBarLenght) {
-//        Drawable[] iconLocation = new Drawable[typedIconsArray.length()];
-//        for (int i = 0; i < navigationMenuBarLenght; ++i) {
-//            iconLocation[i] = typedIconsArray.getDrawable(i);
-//        }
-//        return iconLocation;
-//    }
-//
-//    private void organizeNavigationMenu(Drawable[] iconLocation, String[] mainMenuLabelsArray) {
-//        NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, iconLocation, mainMenuLabelsArray);
-//        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-//        getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-//        getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
-//    }
-
-//    public void setCurrentCategory(int currentCategory) {
-//        mCurrentCategory = currentCategory;
-//    }
 
     @Override
     protected void createNavigationMenuBar() {

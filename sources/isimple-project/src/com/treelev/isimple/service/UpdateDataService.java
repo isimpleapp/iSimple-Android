@@ -11,6 +11,7 @@ import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.utils.managers.WebServiceManager;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -20,6 +21,7 @@ public class UpdateDataService extends Service  {
 
     public static final String UPDATE_READY = "update_ready";
     public static final String PARAM_PINTENT = "PENDING_INTENT";
+    public static final String DATE_UPDATE = "date_update";
 
 
     private PendingIntent mPi;
@@ -55,6 +57,8 @@ public class UpdateDataService extends Service  {
                 SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
                 editor.putBoolean(UPDATE_READY, true);
                 editor.putLong(SplashActivity.TIME_LAST_UPDATE, Calendar.getInstance().getTimeInMillis() / SplashActivity.SECOND_TO_DAY);
+                SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
+                editor.putString(DATE_UPDATE, formatDate.format(Calendar.getInstance().getTime()));
                 editor.commit();
                 try {
                     mPi.send(UpdateDataService.this, SplashActivity.STATUS_FINISH, new Intent());

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
@@ -390,7 +388,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         }
     }
 
-    private void populateFormsFields(View formView, Item product) {
+    private void populateFormsFields(View formView, final Item product) {
         String priceLabel = Utils.organizePriceLabel(String.valueOf(product.getPrice()));
         ((Button) formView.findViewById(R.id.add_to_shopping_cart_butt)).setText(product.hasPrice() ? priceLabel : EMPTY_PRICE_LABEL);
         animateText = (TextView) formView.findViewById(R.id.add_to_shopping_cart_animate);
@@ -417,6 +415,15 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             imageLoader.displayImage(
                     String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix),
                     mProductImage, options,   mImageLoadingListener);
+            mProductImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent imageIntent = new Intent(ProductInfoActivity.this,ProductImageActivity.class);
+                    imageIntent.putExtra(ProductImageActivity.HI_RESOLUTION_IMAGE_FILE_NAME, product.getBottleHiResolutionImageFilename());
+                    startActivity(imageIntent);
+                    overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+                }
+            });
         }
         String strPriceLabel = takeRetailPrice(product) != null ? takeRetailPrice(product).toString() : "";
         TextView retailPrice = (TextView) formView.findViewById(R.id.retail_price);

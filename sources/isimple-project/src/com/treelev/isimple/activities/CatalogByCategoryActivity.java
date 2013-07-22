@@ -31,7 +31,8 @@ import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.ExpandableListView;
 
 public class CatalogByCategoryActivity extends BaseExpandableListActivity
-        implements RadioGroup.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<Cursor> {
+        implements RadioGroup.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
+        SearchView.OnQueryTextListener{
 
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
@@ -62,6 +63,8 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private int DIP50_IN_PX;
     private int DIP51_IN_PX;
+
+    private SearchView mSearchView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -150,33 +153,47 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         initLoadManager();
     }
 
+    private SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            SearchResultActivity.categoryID = mCategoryID;
+            SearchResultActivity.locationId = mLocationId;
+            return query.trim().length() < LENGTH_SEARCH_QUERY;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            return false;
+        }
+    };
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onQueryTextSubmit(String query) {
+        SearchResultActivity.categoryID = null;
+        SearchResultActivity.locationId = null;
+        return query.trim().length() < LENGTH_SEARCH_QUERY;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
         final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                SearchResultActivity.categoryID = mCategoryID;
-                SearchResultActivity.locationId = mLocationId;
-                return query.trim().length() < LENGTH_SEARCH_QUERY;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        };
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     darkView.setVisibility(View.VISIBLE);
                     darkView.getBackground().setAlpha(150);
+                    mSearchView.setQuery(mSearchView.getQuery(), false);
                 } else {
                     darkView.setVisibility(View.GONE);
                     mItemSearch.collapseActionView();
@@ -197,7 +214,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                 return true;
             }
         });
-        mSearchView.setOnQueryTextListener(queryTextListener);
+        mSearchView.setOnQueryTextListener(this);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -22,7 +22,8 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogItemTreeCursorAdapter;
 
 public class CatalogListActivity extends BaseExpandableListActivity
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+        implements LoaderManager.LoaderCallbacks<Cursor>,
+        SearchView.OnQueryTextListener{
 
 
     public final static String CATEGORY_ID = "category_id";
@@ -32,6 +33,7 @@ public class CatalogListActivity extends BaseExpandableListActivity
     public final static String DRINK_ID = "drink_id";
     public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
     private CatalogItemTreeCursorAdapter mListCategoriesAdapter;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -71,32 +73,32 @@ public class CatalogListActivity extends BaseExpandableListActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onQueryTextSubmit(String query) {
+        SearchResultActivity.categoryID = null;
+        SearchResultActivity.locationId = null;
+        return query.trim().length() < LENGTH_SEARCH_QUERY;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
         final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                SearchResultActivity.categoryID = null;
-                SearchResultActivity.locationId = null;
-                return query.trim().length() < LENGTH_SEARCH_QUERY;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        };
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     darkView.setVisibility(View.VISIBLE);
                     darkView.getBackground().setAlpha(150);
+                    mSearchView.setQuery(mSearchView.getQuery(), false);
                 } else {
                     darkView.setVisibility(View.GONE);
                     mItemSearch.collapseActionView();
@@ -112,14 +114,12 @@ public class CatalogListActivity extends BaseExpandableListActivity
                 darkView.setVisibility(View.GONE);
                 return true; // Return true to collapse action view
             }
-
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-
                 return true;
             }
         });
-        mSearchView.setOnQueryTextListener(queryTextListener);
+        mSearchView.setOnQueryTextListener(this);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -170,4 +170,5 @@ public class CatalogListActivity extends BaseExpandableListActivity
             startService(new Intent(getApplicationContext(), DownloadDataService.class));
         }
     }
+
 }

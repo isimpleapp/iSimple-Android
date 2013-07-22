@@ -26,7 +26,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         Observer{
 
     protected boolean mEventChangeDataBase;
-    protected final int LENGTH_SEARCH_QUERY = 4;
+    protected final int LENGTH_SEARCH_QUERY = 3;
     protected int mCurrentCategory;
 
     public final static String BARCODE = "barcode";

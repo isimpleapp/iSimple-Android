@@ -20,11 +20,13 @@ import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ExpandableListView;
 
 public class SearchResultActivity extends  BaseExpandableListActivity
-        implements RadioGroup.OnCheckedChangeListener,  LoaderManager.LoaderCallbacks<Cursor>{
+        implements RadioGroup.OnCheckedChangeListener,  LoaderManager.LoaderCallbacks<Cursor>,
+        SearchView.OnQueryTextListener{
 
     public static Integer categoryID;
     public static String locationId;
     private SearchItemTreeCursorAdapter mTreeSearchAdapter;
+    private SearchView mSearchView;
     private String mQuery;
     private View darkView;
     private int mSortBy = ProxyManager.SORT_NAME_AZ;
@@ -84,29 +86,31 @@ public class SearchResultActivity extends  BaseExpandableListActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onQueryTextSubmit(String query) {
+        return query.trim().length() < LENGTH_SEARCH_QUERY;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
         final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
         SearchManager searcMenager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searcMenager.getSearchableInfo(getComponentName()));
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return query.trim().length() < LENGTH_SEARCH_QUERY;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        };
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setOnQueryTextFocusChangeListener( new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     darkView.setVisibility(View.VISIBLE);
                     darkView.getBackground().setAlpha(150);
+                    mSearchView.setQuery(mSearchView.getQuery(), true);
                 } else {
                     darkView.setVisibility(View.GONE);
                     mItemSearch.collapseActionView();
@@ -130,8 +134,7 @@ public class SearchResultActivity extends  BaseExpandableListActivity
                 return true;
             }
         });
-
-        mSearchView.setOnQueryTextListener(queryTextListener);
+        mSearchView.setOnQueryTextListener(this);
         return super.onCreateOptionsMenu(menu);
     }
 

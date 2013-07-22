@@ -27,7 +27,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     private int mCurrentCategory;
     private boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;
-    protected final int LENGTH_SEARCH_QUERY = 4;
+    protected final int LENGTH_SEARCH_QUERY = 3;
     protected boolean mEventChangeDataBase;
 
     @Override

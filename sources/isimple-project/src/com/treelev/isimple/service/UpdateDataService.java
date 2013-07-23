@@ -1,11 +1,15 @@
 package com.treelev.isimple.service;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import com.treelev.isimple.R;
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.parser.CatalogParser;
@@ -51,12 +55,15 @@ public class UpdateDataService extends Service  {
 
         @Override
         protected Void doInBackground(Void... params) {
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
+            boolean needUpdate = sharedPreferences.getBoolean(SplashActivity.UPDATE_DATA_READY, false);
+            String datePriceUpdate = "";
+            String dateCatalogUpdate = "";
+            SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
+            java.util.Date currentDate =  Calendar.getInstance().getTime();
             File directory = WebServiceManager.getDownloadDirectory();
-            if (directory.exists()) {
-                SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
-                java.util.Date currentDate =  Calendar.getInstance().getTime();
-                String datePriceUpdate = "";
-                String dateCatalogUpdate = "";
+            boolean updateDataReady = directory.exists();
+            if (updateDataReady) {
                 List<FileParseObject> fileParseObjectList = createFileList(directory.listFiles());
                 for (FileParseObject fileParseObject : fileParseObjectList) {
                     fileParseObject.parseObjectDataToDB();
@@ -68,23 +75,30 @@ public class UpdateDataService extends Service  {
                     }
                 }
                 WebServiceManager.deleteDownloadDirectory();
+            } else if(!updateDataReady) {
+                SplashActivity.showWarningNotification(getApplication());
+            }
+            try {
+                mPi.send(UpdateDataService.this, SplashActivity.STATUS_FINISH, new Intent());
+            } catch (PendingIntent.CanceledException e) {
+            }finally {
                 SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
-                editor.putBoolean(UPDATE_READY, true);
-                editor.putLong(SplashActivity.TIME_LAST_UPDATE, Calendar.getInstance().getTimeInMillis() / SplashActivity.SECOND_TO_DAY);
-                editor.putString(DATE_UPDATE, formatDate.format(currentDate));
-                if(dateCatalogUpdate.length() > 0){
-                    editor.putString(DATE_CATALOG_UPDATE, dateCatalogUpdate);
-                }
-                if(datePriceUpdate.length() > 0){
-                    editor.putString(DATE_PRICE_UPDATE, datePriceUpdate);
+                editor.putBoolean(SplashActivity.UPDATE_START, false);
+                if(!updateDataReady){
+                    editor.putBoolean(UPDATE_READY, true);
+                    editor.putBoolean(SplashActivity.UPDATE_DATA_READY, false);
+                    editor.putLong(SplashActivity.TIME_LAST_UPDATE, Calendar.getInstance().getTimeInMillis() / SplashActivity.SECOND_TO_DAY);
+                    editor.putString(DATE_UPDATE, formatDate.format(currentDate));
+                    if(dateCatalogUpdate.length() > 0){
+                        editor.putString(DATE_CATALOG_UPDATE, dateCatalogUpdate);
+                    }
+                    if(datePriceUpdate.length() > 0){
+                        editor.putString(DATE_PRICE_UPDATE, datePriceUpdate);
+                    }
                 }
                 editor.commit();
-                try {
-                    mPi.send(UpdateDataService.this, SplashActivity.STATUS_FINISH, new Intent());
-                } catch (PendingIntent.CanceledException e) {
-                }
+                stopSelf();
             }
-            stopSelf();
             return null;
         }
 
@@ -96,5 +110,6 @@ public class UpdateDataService extends Service  {
             Collections.sort(fileParseObjectList);
             return fileParseObjectList;
         }
+
     }
 }

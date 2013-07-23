@@ -52,6 +52,8 @@
 
     <string name="update_data_notify_label">Обновление данных iSimple</string>
     <string name="update_data_content_label">Доступно обновление данных</string>
+    <string name="update_data_notify_warning_label">SdCard извлечена!</string>
+    <string name="update_data_notify_content_warning">Обновление данных iSimple недоступно. SdCard извлечена!</string>
     <string name="update_data_wait_label">Пожалуйста, подождите…</string>
     <string name="crash_dialog_text">Упс! В работе программы iSimple произошла непредвиденная ошибка. Для отправки деталей об ошибке команде разработчиков нажмите кнопку "Да". Приносим свои извинения!</string>
     <string name="crash_dialog_title">Ошибка iSimple</string>

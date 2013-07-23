@@ -3,6 +3,7 @@ package com.treelev.isimple.tasks;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 import com.treelev.isimple.domain.LoadFileData;
 import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.utils.managers.WebServiceManager;
@@ -58,6 +59,7 @@ public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
                 fileList = new ArrayList<File>();
                 for (LoadFileData loadFileData : loadFileDataList) {
                     String fileUrl = loadFileData.getFileUrl();
+                    Log.v("Test log fileUrl", fileUrl);
                     if (sharedPreferences.getLong(fileUrl, -1) < loadFileData.getLoadDate().getTime()) {
                         fileList.add(webServiceManager.downloadFile(fileUrl));
                         SharedPreferences.Editor editor = sharedPreferences.edit();

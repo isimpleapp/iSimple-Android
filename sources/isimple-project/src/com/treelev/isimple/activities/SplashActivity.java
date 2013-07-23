@@ -27,6 +27,7 @@ public class SplashActivity extends Activity {
     public static final String FROM_NOTIFICATION = "from_notification";
     public static final String TIME_LAST_UPDATE = "time_last_update";
     public static final String UPDATE_DATA_READY = "update_data_ready";
+    public static final String UPDATE_START = "update_start";
 
     public static final int STATUS_FINISH = 101;
     public static final int TASK_UPDATE = 305;
@@ -53,15 +54,19 @@ public class SplashActivity extends Activity {
         boolean firstStart = sharedPreferences.getBoolean(DownloadDataService.FIRST_START, true);
         boolean fromNotification = getIntent().getBooleanExtra(FROM_NOTIFICATION, false);
         boolean updateReady = sharedPreferences.getBoolean(UpdateDataService.UPDATE_READY, false);
+        boolean updateStart = sharedPreferences.getBoolean(UPDATE_START, false);
         if (firstStart) {
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
         } else if (fromNotification && updateDataReady(getApplication()) && updateReady) {
             startUpdate();
         } else if(updateReady) {
-            showNotification(getApplicationContext());
+            showUpdateNotification(getApplicationContext());
             startApplication();
-        } else {
+        } else if(updateStart){
             showDialog();
+        } else {
+            showWarningNotification(getApplication());
+            startApplication();
         }
     }
 
@@ -78,12 +83,26 @@ public class SplashActivity extends Activity {
         return lastTimeUpdate != currentTime && updateDataReady(context);
     }
 
+    public static void showWarningNotification(Context context){
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_warning_label), System.currentTimeMillis());
+
+        Intent newIntent = new Intent(context, SplashActivity.class);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
+        notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_notify_content_warning), pIntent);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(1, notification);
+    }
+
     public static boolean updateDataReady(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
         return sharedPreferences.getBoolean(UPDATE_DATA_READY, false);
     }
 
-    public static void showNotification(Context context) {
+    public static void showUpdateNotification(Context context) {
         if(needNotification(context)){
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
@@ -97,6 +116,7 @@ public class SplashActivity extends Activity {
             notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
             notificationManager.notify(1, notification);
+
         }
     }
 
@@ -144,7 +164,7 @@ public class SplashActivity extends Activity {
     private void startUpdate(){
         showDialog();
         SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
-        editor.putBoolean(UPDATE_DATA_READY, false);
+        editor.putBoolean(UPDATE_START, true);
         editor.putBoolean(UpdateDataService.UPDATE_READY, false);
         editor.commit();
         Intent updateServiceIntent = new Intent(this, UpdateDataService.class);

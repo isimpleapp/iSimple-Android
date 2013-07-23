@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.service.DownloadDataService;
-import com.treelev.isimple.service.UpdateDataService;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -111,7 +110,7 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
                     editor.commit();
                  }
              }
-              SplashActivity.showNotification(context);
+              SplashActivity.showUpdateNotification(context);
         }
     }
 }

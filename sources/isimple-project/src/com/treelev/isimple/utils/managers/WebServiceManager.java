@@ -1,6 +1,7 @@
 package com.treelev.isimple.utils.managers;
 
 import android.os.Environment;
+import android.util.Log;
 import com.treelev.isimple.domain.LoadFileData;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -54,11 +55,13 @@ public class WebServiceManager {
     public static void deleteDownloadDirectory() {
         File directory = getDownloadDirectory();
         if (directory.exists()) {
-            directory.delete();
+            boolean flag = directory.delete();
+            Log.v("Test log delete directory", String.valueOf(flag) );
         }
     }
 
     public static File getDownloadDirectory() {
+        Log.v("Test log getDownloadDirectory", String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
         return new File(String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
     }
 
@@ -75,7 +78,6 @@ public class WebServiceManager {
             Element dateElement = element.getChild(LoadFileData.FILE_DATE_TAG_NAME);
             loadFileDataList.add(new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement.getValue()), urlElement.getValue()));
         }
-
         return loadFileDataList;
     }
 

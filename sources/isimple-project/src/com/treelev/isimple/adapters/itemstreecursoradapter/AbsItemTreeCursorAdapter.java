@@ -52,6 +52,22 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     protected String mFilterWhereClause;
 
 
+    private boolean mFirst;
+    private int itemNameIndex;
+    private int itemLocNameIndex;
+    private int itemVolumeIndex;
+    private int itemPriceIndex;
+    private int itemQuantityIndex;
+    private int itemHiImageIndex;
+    private int itemLowImageIndex;
+    private int itemCountIndex;
+    private int itemDrinkCategoryIndex;
+    private int itemYearIndex;
+    private int itemProductTypeIndex;
+    private int itemColorIndex;
+    private int itemFavouriteIndex;
+
+
     public AbsItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
         super(context, cursor, R.layout.section_items,
                 R.layout.section_items,
@@ -68,6 +84,8 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         mSortBy = sortBy;
 
         mCountCallBack = 0;
+
+        mFirst = true;
 
         mEmptyGroupView = new HashSet<Integer>();
 
@@ -133,45 +151,70 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_item_layout, null);
-        bindItemView(convertView, getChild(groupPosition, childPosition), childPosition);
+        ViewHolder viewHolder;
+        Cursor cursor = getChild(groupPosition, childPosition);
+        if(convertView == null){
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_item_layout, null);
+            viewHolder = getViewHolder(convertView);
+            convertView.setTag(viewHolder);
+
+            if(mFirst){
+                if(cursor != null){
+                    initIndexs(cursor);
+                    mFirst = false;
+                }
+            }
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        bindItemView(convertView, cursor, viewHolder);
         return convertView;
     }
 
-    private void bindItemView(View view, Cursor cursor, int childPosition){
-        ImageView imageView = (ImageView) view.findViewById(R.id.item_image);
-        TextView nameView = (TextView) view.findViewById(R.id.item_name);
-        TextView itemLocName = (TextView) view.findViewById(R.id.item_loc_name);
-        TextView itemVolume = (TextView) view.findViewById(R.id.item_volume);
-        TextView itemPrice = (TextView) view.findViewById(R.id.item_price);
-        TextView itemProductType = (TextView) view.findViewById(R.id.product_category);
-        LinearLayout colorItem = (LinearLayout) view.findViewById(R.id.color_item);
+    private void initIndexs(Cursor cursor){
+        itemNameIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_NAME);
+        itemLocNameIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_NAME);
+        itemVolumeIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VOLUME);
+        itemPriceIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE);
+        itemQuantityIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_QUANTITY);
+        itemHiImageIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME);
+        itemLowImageIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME);
+        itemCountIndex = cursor.getColumnIndex("count");
+        itemDrinkCategoryIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY);
+        itemYearIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_YEAR);
+        itemProductTypeIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRODUCT_TYPE);
+        itemColorIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_COLOR);
+        itemFavouriteIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_IS_FAVOURITE);
+    }
 
-        int itemNameIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_NAME);
-        int itemLocNameIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_NAME);
-        int itemVolumeIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VOLUME);
-        int itemPriceIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE);
-        int itemQuantityIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_QUANTITY);
-        int itemHiImageIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME);
-        int itemLowImageIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME);
-        int itemCountIndex = cursor.getColumnIndex("count");
-        int itemDrinkCategoryIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY);
-        int itemYearIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_YEAR);
-        int itemProductTypeIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRODUCT_TYPE);
-        int itemColorIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_COLOR);
-        int itemFavouriteIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_IS_FAVOURITE);
+    private ViewHolder getViewHolder(View view){
+        ViewHolder viewHolder = new ViewHolder();
+
+        viewHolder.imageView = (ImageView) view.findViewById(R.id.item_image);
+        viewHolder.nameView = (TextView) view.findViewById(R.id.item_name);
+        viewHolder.itemLocName = (TextView) view.findViewById(R.id.item_loc_name);
+        viewHolder.itemVolume = (TextView) view.findViewById(R.id.item_volume);
+        viewHolder.itemPrice = (TextView) view.findViewById(R.id.item_price);
+        viewHolder.itemProductType = (TextView) view.findViewById(R.id.product_category);
+        viewHolder.colorItem = (LinearLayout) view.findViewById(R.id.color_item);
+        viewHolder.imageViewFavourite = (ImageView) view.findViewById(R.id.item_image_favourite);
+
+        return viewHolder;
+    }
+
+    private void bindItemView(View view, Cursor cursor, ViewHolder viewHolder){
 
         String imageName = cursor.getString(itemHiImageIndex);
         if (!TextUtils.isEmpty(imageName)) {
             imageLoader.displayImage(
                     String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_listing.jpg", imageName.replace('\\', '/'), sizePrefix),
-                    imageView, options);
+                    viewHolder.imageView, options);
         }
         else {
-            imageView.setImageResource(R.drawable.bottle_list_image_default);
+            viewHolder.imageView.setImageResource(R.drawable.bottle_list_image_default);
         }
-        nameView.setText(organizeItemNameLabel(cursor.getString(itemNameIndex)));
-        itemLocName.setText(organizeLocItemNameLabel(cursor.getString(itemLocNameIndex)));
+        viewHolder.nameView.setText(organizeItemNameLabel(cursor.getString(itemNameIndex)));
+        viewHolder.itemLocName.setText(organizeLocItemNameLabel(cursor.getString(itemLocNameIndex)));
         String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(itemVolumeIndex)));
         String priceLabel = cursor.getString(itemPriceIndex);
         if(priceLabel != null ) {
@@ -216,8 +259,8 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
                 }
             }
         }
-        itemVolume.setText(volumeLabel != null ? volumeLabel : "");
-        itemPrice.setText(priceLabel);
+        viewHolder.itemVolume.setText(volumeLabel != null ? volumeLabel : "");
+        viewHolder.itemPrice.setText(priceLabel);
 //TODO:
         String strDrinkCategory = DrinkCategory.getDrinkCategory(cursor.getInt(itemDrinkCategoryIndex)).getDescription();
         if( mYearEnable ) {
@@ -229,24 +272,21 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
                 }
             }
         }
-        itemProductType.setText(strDrinkCategory);
+        viewHolder.itemProductType.setText(strDrinkCategory);
 
         ProductType productType = ProductType.getProductType(cursor.getInt(itemProductTypeIndex));
         String colorStr = productType.getColor();
         if(colorStr == null ) {
             colorStr = ItemColor.getColor(cursor.getInt(itemColorIndex)).getCode();
         }
-        colorItem.setBackgroundColor(Color.parseColor(colorStr));
+        viewHolder.colorItem.setBackgroundColor(Color.parseColor(colorStr));
 
-        ImageView imageViewFavourite = (ImageView) view.findViewById(R.id.item_image_favourite);
         if(cursor.getInt(itemFavouriteIndex) == 1){
-            imageViewFavourite.setVisibility(View.VISIBLE);
+            viewHolder.imageViewFavourite.setVisibility(View.VISIBLE);
         }   else {
-            imageViewFavourite.setVisibility(View.GONE);
+            viewHolder.imageViewFavourite.setVisibility(View.GONE);
         }
     }
-
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -304,4 +344,14 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         return result;
     }
 
+    private static class ViewHolder{
+        ImageView imageView;
+        TextView nameView;
+        TextView itemLocName;
+        TextView itemVolume;
+        TextView itemPrice;
+        TextView itemProductType;
+        LinearLayout colorItem;
+        ImageView imageViewFavourite;
+    }
 }

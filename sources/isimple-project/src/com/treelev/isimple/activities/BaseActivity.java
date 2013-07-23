@@ -168,10 +168,13 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
             String dateUpdate = sharedPreferences.getString(UpdateDataService.DATE_UPDATE,
                     getResources().getString(R.string.date_update));
-
+            String dateCatalogUpdate = sharedPreferences.getString(UpdateDataService.DATE_CATALOG_UPDATE,
+                    getResources().getString(R.string.date_update));
+            String datePriceUpdate = sharedPreferences.getString(UpdateDataService.DATE_PRICE_UPDATE,
+                    getResources().getString(R.string.date_update));
             AlertDialog.Builder adb = new AlertDialog.Builder(this);
-            adb.setTitle("Информация о программе");
-            String aboutInfo = String.format(getString(R.string.about_info), version, dateUpdate);
+            adb.setTitle(getString(R.string.title_about_info));
+            String aboutInfo = String.format(getString(R.string.about_info), version, dateCatalogUpdate, datePriceUpdate, dateUpdate);
             adb.setMessage(Html.fromHtml(aboutInfo));
             adb.setNeutralButton(getString(R.string.dialog_button_ok), new DialogInterface.OnClickListener() {
                 @Override
@@ -181,7 +184,6 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
             });
             adb.show();
         }
-
     }
 
     private void checkBarcodeResult(String code) {

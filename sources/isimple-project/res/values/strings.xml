@@ -58,6 +58,7 @@
 
     <string name="cancel_delete_item">Отмена</string>
 
+    <string name="title_about_info">Информация о программе</string>
     <string name="date_update">22.07.2013</string>
-    <string name="about_info" formatted="false"><![CDATA[<br>Номер версии: %s<br>Дата последнего обновления: %s<br>]]></string>
+    <string name="about_info" formatted="false"><![CDATA[<p><p>Версия приложения<br><b>Номер версии:</b> %s</p><p>Обновление каталога<br><b>Время:</b> %s</p><p>Обновление цен<br><b>Время:</b> %s</p><p>Последенее обновление<br><b>Время:</b> %s</p></p>]]></string>
 </resources>

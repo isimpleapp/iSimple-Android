@@ -22,8 +22,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogItemTreeCursorAdapter;
 
 public class CatalogListActivity extends BaseExpandableListActivity
-        implements LoaderManager.LoaderCallbacks<Cursor>,
-        SearchView.OnQueryTextListener{
+        implements LoaderManager.LoaderCallbacks<Cursor>{
 
 
     public final static String CATEGORY_ID = "category_id";
@@ -34,6 +33,7 @@ public class CatalogListActivity extends BaseExpandableListActivity
     public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
     private CatalogItemTreeCursorAdapter mListCategoriesAdapter;
     private SearchView mSearchView;
+    private android.widget.SearchView mSearchViewV11;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -72,20 +72,7 @@ public class CatalogListActivity extends BaseExpandableListActivity
         super.onResume();
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        SearchResultActivity.categoryID = null;
-        SearchResultActivity.locationId = null;
-        return query.trim().length() < LENGTH_SEARCH_QUERY;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    private void initSherlockSaerchView(Menu menu){
         getSupportMenuInflater().inflate(R.menu.search, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
@@ -119,7 +106,71 @@ public class CatalogListActivity extends BaseExpandableListActivity
                 return true;
             }
         });
-        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SearchResultActivity.categoryID = null;
+                SearchResultActivity.locationId = null;
+                return query.trim().length() < LENGTH_SEARCH_QUERY;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
+    private void initSearchView(Menu menu){
+        getSupportMenuInflater().inflate(R.menu.search_v11, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        mSearchViewV11 = (android.widget.SearchView) menu.findItem(R.id.menu_search).getActionView();
+        mSearchViewV11.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchViewV11.setIconifiedByDefault(false);
+        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
+        mSearchViewV11.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    darkView.setVisibility(View.VISIBLE);
+                    darkView.getBackground().setAlpha(150);
+                    mSearchViewV11.setQuery(mSearchView.getQuery(), false);
+                } else {
+                    darkView.setVisibility(View.GONE);
+                    mItemSearch.collapseActionView();
+                    mSearchViewV11.setQuery("", false);
+                }
+            }
+        });
+        MenuItem menuItem = menu.findItem(R.id.menu_search);
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                darkView.setVisibility(View.GONE);
+                return true; // Return true to collapse action view
+            }
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+        });
+        mSearchViewV11.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SearchResultActivity.categoryID = null;
+                SearchResultActivity.locationId = null;
+                return query.trim().length() < LENGTH_SEARCH_QUERY;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        initSherlockSaerchView(menu);
         return super.onCreateOptionsMenu(menu);
     }
 

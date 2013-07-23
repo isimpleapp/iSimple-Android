@@ -59,6 +59,10 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
         }
     }
 
+    public String getFileName(){
+        return file != null ? file.getName() : "";
+    }
+
     private BaseDAO[] getDaoListByName(String fileName, Context context) {
         List<BaseDAO> baseDAOList = new ArrayList<BaseDAO>();
         if (fileName.equals(ItemPricesParser.FILE_NAME)) {

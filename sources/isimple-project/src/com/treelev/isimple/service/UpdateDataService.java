@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.domain.FileParseObject;
+import com.treelev.isimple.parser.CatalogParser;
+import com.treelev.isimple.parser.ItemPricesParser;
 import com.treelev.isimple.utils.managers.WebServiceManager;
 
 import java.io.File;
@@ -22,6 +24,8 @@ public class UpdateDataService extends Service  {
     public static final String UPDATE_READY = "update_ready";
     public static final String PARAM_PINTENT = "PENDING_INTENT";
     public static final String DATE_UPDATE = "date_update";
+    public static final String DATE_PRICE_UPDATE = "date__price_update";
+    public static final String DATE_CATALOG_UPDATE = "date__catalog_update";
 
 
     private PendingIntent mPi;
@@ -49,16 +53,31 @@ public class UpdateDataService extends Service  {
         protected Void doInBackground(Void... params) {
             File directory = WebServiceManager.getDownloadDirectory();
             if (directory.exists()) {
+                SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
+                java.util.Date currentDate =  Calendar.getInstance().getTime();
+                String datePriceUpdate = "";
+                String dateCatalogUpdate = "";
                 List<FileParseObject> fileParseObjectList = createFileList(directory.listFiles());
                 for (FileParseObject fileParseObject : fileParseObjectList) {
                     fileParseObject.parseObjectDataToDB();
+                    if(fileParseObject.getFileName().equalsIgnoreCase(CatalogParser.FILE_NAME)){
+                        dateCatalogUpdate = formatDate.format(currentDate);
+                    }
+                    if(fileParseObject.getFileName().equalsIgnoreCase(ItemPricesParser.FILE_NAME)){
+                        datePriceUpdate = formatDate.format(currentDate);
+                    }
                 }
                 WebServiceManager.deleteDownloadDirectory();
                 SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
                 editor.putBoolean(UPDATE_READY, true);
                 editor.putLong(SplashActivity.TIME_LAST_UPDATE, Calendar.getInstance().getTimeInMillis() / SplashActivity.SECOND_TO_DAY);
-                SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
-                editor.putString(DATE_UPDATE, formatDate.format(Calendar.getInstance().getTime()));
+                editor.putString(DATE_UPDATE, formatDate.format(currentDate));
+                if(dateCatalogUpdate.length() > 0){
+                    editor.putString(DATE_CATALOG_UPDATE, dateCatalogUpdate);
+                }
+                if(datePriceUpdate.length() > 0){
+                    editor.putString(DATE_PRICE_UPDATE, datePriceUpdate);
+                }
                 editor.commit();
                 try {
                     mPi.send(UpdateDataService.this, SplashActivity.STATUS_FINISH, new Intent());

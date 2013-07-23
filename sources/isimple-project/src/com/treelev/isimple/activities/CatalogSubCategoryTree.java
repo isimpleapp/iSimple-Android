@@ -21,6 +21,7 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
     private int mSortBy = ProxyManager.SORT_PRICE_UP;
     private String mFilterWhereClause;
     private String mDrinkID;
+    private String mQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,8 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
         createNavigationMenuBar();
         mFilterWhereClause = getIntent().getStringExtra(CatalogListActivity.FILTER_WHERE_CLAUSE);
         mDrinkID = getIntent().getStringExtra(CatalogListActivity.DRINK_ID);
-        mTreeAdapter = new CatalogSubCategoryItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mDrinkID, mFilterWhereClause, mLocationId, mSortBy);
+        mQuery = getIntent().getStringExtra(SearchResultActivity.SEARCH_QUERY);
+        mTreeAdapter = new CatalogSubCategoryItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mDrinkID, mFilterWhereClause, mLocationId, mQuery, mSortBy);
         getExpandableListView().setAdapter(mTreeAdapter);
         disableOnGroupClick();
         getSupportLoaderManager().restartLoader(0, null, this);

@@ -126,13 +126,17 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getItemsByDrinkId(String drinkId, String locationID, String orderByField) {
+    public Cursor getItemsByDrinkId(String drinkId, String locationID, String query, boolean search, String orderByField) {
         open();
         String strLocationID = "";
         String strInnerJoin = "";
         if(locationID != null){
             strLocationID = String.format("AND location_id = '%s'", locationID);
             strInnerJoin = "INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t0 ON item.item_id = t0.item_id ";
+        }
+        String searchWhere = "";
+        if(search){
+            searchWhere = getSearchWhereByDrinkID(query);
         }
         String orderBy = "";
         if (orderByField != null) {
@@ -144,9 +148,10 @@ public class ItemDAO extends BaseDAO {
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
                 "FROM item %s " +
                 "WHERE drink_id = '%s' AND item_left_overs > 0" +
-                " %s " +
+                " %s " + //locationID
+                "  %s " + //search
                 " %s";
-        String selectSql = String.format(formatScript, strInnerJoin, drinkId, strLocationID, orderBy);
+        String selectSql = String.format(formatScript, strInnerJoin, drinkId, strLocationID, searchWhere, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
 
@@ -177,7 +182,7 @@ public class ItemDAO extends BaseDAO {
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getItemsByDrinkIdPreOrder(String drinkId, String locationID, String orderByField) {
+    public Cursor getItemsByDrinkIdPreOrder(String drinkId, String locationID, String query, boolean search, String orderByField) {
         open();
         String strLocationID = "";
         String strInnerJoin = "";
@@ -189,19 +194,24 @@ public class ItemDAO extends BaseDAO {
         if (orderByField != null) {
             orderBy = "ORDER BY " + orderByField + ", year";
         }
+        String searchWhere = "";
+        if(search){
+            searchWhere = searchWhere = getSearchWhereByDrinkID(query);
+        }
         String formatScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
                 "(case when ifnull(price, '') = '' then (999999) else price end) as price, " +
                 "year,  quantity, color, drink_id, is_favourite, " +
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
                 "FROM item %s " +
-                "WHERE drink_id = '%s' AND item_left_overs = 0" +
-                " %s " +
+                "WHERE drink_id = '%s' AND item_left_overs = 0 " +
+                " %s " + //locationID
+                "  %s " + //search
                 "%s";
-        String selectSql = String.format(formatScript, strInnerJoin, drinkId, strLocationID, orderBy);
+        String selectSql = String.format(formatScript, strInnerJoin, drinkId, strLocationID, searchWhere, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
 
-        public Cursor getItemsByDrinkIdPreOrder(String drinkId, String filterQuery, String locationID, String orderByField) {
+    public Cursor getItemsByDrinkIdPreOrder(String drinkId, String filterQuery, String locationID, String orderByField) {
             open();
             String strLocationID = "";
             String strInnerJoin = "";
@@ -226,6 +236,27 @@ public class ItemDAO extends BaseDAO {
                 " %s";
         String selectSql = String.format(formatSelectScript, strInnerJoin, drinkId, filterQuery, strLocationID, orderBy);
         return getDatabase().rawQuery(selectSql, null);
+    }
+
+    private String getSearchWhereByDrinkID(String query){
+        String searchWhere;
+        switch (mSectionWhereForPreOrderSearch){
+            case 0:
+                searchWhere = String.format("AND (%s)", getWhereBySearchFirst(query));
+                break;
+            case 1:
+                searchWhere = String.format("AND (%s)", getWhereBySearchSecond(query));
+                break;
+            case 2:
+                searchWhere = String.format("AND (%s)", getWhereBySearchThird(query));
+                break;
+            case 3:
+                searchWhere = String.format("AND (%s)", getWhereBySearchFourth(query));
+                break;
+            default:
+                searchWhere = "";
+        }
+        return searchWhere;
     }
 
     public Cursor getFilteredItemsByCategory(Integer categoryId, String query, String orderByField) {
@@ -1203,10 +1234,6 @@ public class ItemDAO extends BaseDAO {
     }
 
     private String getWhereBySearchFirst(String query){
-//        String queryLowCase = query.toLowerCase();
-//        char[] charQuery = query.toCharArray();
-//        charQuery[0] = Character.toUpperCase(charQuery[0]);
-//        String queryUpFirstChar = new String(charQuery);
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
         return String.format("item.name LIKE '%%%1$s%%' OR item.manufacturer LIKE '%%%1$s%%' " +
@@ -1217,10 +1244,6 @@ public class ItemDAO extends BaseDAO {
     }
 
     private String getWhereBySearchSecond(String query){
-//        String queryLowCase = query.toLowerCase();
-//        char[] charQuery = query.toCharArray();
-//        charQuery[0] = Character.toUpperCase(charQuery[0]);
-//        String queryUpFirstChar = new String(charQuery);
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
         return String.format("item.country LIKE '%%%1$s%%' OR item.country LIKE '%%%2$s%%' " +
@@ -1230,10 +1253,6 @@ public class ItemDAO extends BaseDAO {
     }
 
     private String getWhereBySearchThird(String query){
-//        String queryLowCase = query.toLowerCase();
-//        char[] charQuery = query.toCharArray();
-//        charQuery[0] = Character.toUpperCase(charQuery[0]);
-//        String queryUpFirstChar = new String(charQuery);
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
         return String.format("style LIKE '%%%1$s%%' OR style LIKE '%%%2$s%%' " +
@@ -1245,10 +1264,6 @@ public class ItemDAO extends BaseDAO {
     }
 
     private String getWhereBySearchFourth(String query){
-//        String queryLowCase = query.toLowerCase();
-//        char[] charQuery = query.toCharArray();
-//        charQuery[0] = Character.toUpperCase(charQuery[0]);
-//        String queryUpFirstChar = new String(charQuery);
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
         return String.format("taste_qualities LIKE '%%%1$s%%' OR taste_qualities LIKE '%%%2$s%%' " +

@@ -165,11 +165,18 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId, locationId, orderByField);
     }
 
-    public Cursor getItemsByDrinkId(String drinkId, String locationID, int sortType) {
+    public Cursor getItemsByDrinkId(String drinkId, String locationID, String query, boolean search, int sortType) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkId(drinkId, locationID, orderByField);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkId(drinkId, locationID, query, search, orderByField);
+    }
+
+    public Cursor getItemsByDrinkIdPreOrder(String drinkId, String locationID, String query, boolean search, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkIdPreOrder(drinkId, locationID, query, search, orderByField);
     }
 
     public Cursor getItemsByDrinkId(String drinkId, String filterQuery, String locationID, int sortType) {
@@ -184,13 +191,6 @@ public class ProxyManager {
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkIdPreOrder(drinkId, filterQuery, locationID, orderByField);
-    }
-
-    public Cursor getItemsByDrinkIdPreOrder(String drinkId, String locationID, int sortType) {
-        String orderByField =
-                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
-                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkIdPreOrder(drinkId, locationID, orderByField);
     }
 
     public Cursor getFilteredItemsByCategory(Integer categoryId, String query, int sortType) {

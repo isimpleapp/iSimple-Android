@@ -25,6 +25,7 @@ public class SearchResultActivity extends  BaseExpandableListActivity
 
     public static Integer categoryID;
     public static String locationId;
+    public static String SEARCH_QUERY = "search_query";
     private SearchItemTreeCursorAdapter mTreeSearchAdapter;
     private SearchView mSearchView;
     private String mQuery;
@@ -180,8 +181,7 @@ public class SearchResultActivity extends  BaseExpandableListActivity
         if (product.getInt(itemCountIndex) > 1) {
             int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategoryTree.class);
-//            CatalogSubCategory.categoryID = null;
-//            CatalogSubCategory.backActivity = CatalogListActivity.class;
+            startIntent.putExtra(SEARCH_QUERY, mQuery);
             startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(itemDrinkIdIndex));
             startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
             startActivity(startIntent);

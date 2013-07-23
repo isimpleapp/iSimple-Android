@@ -33,7 +33,7 @@ public class SelectItemsBySubCategory extends BaseCursorLoader {
         } else if(!TextUtils.isEmpty(mFilterWhereClause)) {
             cursor = getProxyManager().getItemsByDrinkId(mDrinkID, mFilterWhereClause, mLocationId, mSortBy);
         } else {
-            cursor = getProxyManager().getItemsByDrinkId(mDrinkID, mLocationId, mSortBy);
+            cursor = getProxyManager().getItemsByDrinkId(mDrinkID, mLocationId, "", false, mSortBy);
         }
         if(cursor != null){
             cursor.getCount();

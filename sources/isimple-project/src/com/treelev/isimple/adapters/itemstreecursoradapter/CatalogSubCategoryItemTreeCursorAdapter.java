@@ -12,13 +12,15 @@ public class CatalogSubCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAd
 
     private String mDrinkID;
     private String mLocationID;
+    private String mQuery;
 
     public CatalogSubCategoryItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager,
-                                                   String drinkID, String filterWhereClause, String locationID,  int sortBy) {
+                                                   String drinkID, String filterWhereClause, String locationID,  String query, int sortBy) {
         super(context, cursor, manager, sortBy);
         mDrinkID = drinkID;
         mFilterWhereClause = filterWhereClause;
         mLocationID = locationID;
+        mQuery = query;
 
         mGroup = false;
         mYearEnable = true;
@@ -28,9 +30,9 @@ public class CatalogSubCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAd
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         switch (i){
             case 1:
-                return new SelectItemsBySubCategoryTree(mContext, mDrinkID, mFilterWhereClause, mLocationID, mSortBy);
+                return new SelectItemsBySubCategoryTree(mContext, mDrinkID, mFilterWhereClause, mLocationID, mQuery, mSortBy);
             case 2:
-                return new SelectItemsBySubCategoryPreOrderTree(mContext, mDrinkID, mFilterWhereClause, mLocationID, mSortBy);
+                return new SelectItemsBySubCategoryPreOrderTree(mContext, mDrinkID, mFilterWhereClause, mLocationID, mQuery, mSortBy);
         }
         return null;
     }

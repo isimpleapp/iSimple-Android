@@ -19,6 +19,11 @@
                 android:drawableLeft="@drawable/shopping_cart_change_city" android:textSize="12sp"
                 android:id="@+id/delivery_btn" android:background="@drawable/category_butt_selector"/>
     </LinearLayout>
+    <com.treelev.isimple.views.PriceSlider
+            android:id="@+id/price_slider"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            />
     <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent" android:background="@android:color/white">

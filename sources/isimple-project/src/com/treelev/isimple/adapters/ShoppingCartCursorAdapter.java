@@ -28,6 +28,10 @@ import org.holoeverywhere.widget.TextView;
 
 public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements View.OnClickListener {
 
+    public interface OnChangePrice {
+        void changePrice(double price);
+    }
+
     private DisplayImageOptions options;
     private ImageLoader imageLoader;
     private String sizePrefix;
@@ -41,8 +45,9 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     private final static String LONG_NAME_FORMAT = "%s...";
     private final static int NAME_MAX_SYMBOLS = 38;
     private final static int LOC_NAME_MAX_SYMBOLS = 31;
+    private OnChangePrice mOnChangePrice;
 
-    public ShoppingCartCursorAdapter(Context context, Cursor cursor, TextView shoppingCartPriceTextView, TextView shoppingCartFooterTextView) {
+    public ShoppingCartCursorAdapter(Context context, Cursor cursor, TextView shoppingCartPriceTextView, TextView shoppingCartFooterTextView, OnChangePrice onChangePrice) {
         super(context, R.layout.shopping_cart_item_layout, cursor, new String[]{
                 DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, BaseColumns._ID, DatabaseSqlHelper.ITEM_VOLUME,
                 DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
@@ -67,6 +72,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         this.shoppingCartPriceTextView = shoppingCartPriceTextView;
         this.shoppingCartFooterTextView = shoppingCartFooterTextView;
         this.context = context;
+        mOnChangePrice = onChangePrice;
     }
 
     public void refresh() {
@@ -119,6 +125,9 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         ((ShoppingCartActivity) context).organizeCreateOrderButton(shoppingCartPrice);
         shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(
                 ((org.holoeverywhere.app.Activity) context).getPreferences(Context.MODE_PRIVATE).getString(ShoppingCartActivity.COUNTRY_LABEL, ""), shoppingCartPrice));
+        if(mOnChangePrice != null){
+            mOnChangePrice.changePrice(shoppingCartPrice);
+        }
     }
 
     private void increaseItemCount(final View view) {

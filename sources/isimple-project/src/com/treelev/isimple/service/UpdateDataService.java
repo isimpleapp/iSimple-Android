@@ -100,10 +100,12 @@ public class UpdateDataService extends Service  {
 
         private List<FileParseObject> createFileList(File[] fileList) {
             List<FileParseObject> fileParseObjectList = new ArrayList<FileParseObject>();
-            for (File file : fileList) {
-                fileParseObjectList.add(new FileParseObject(file, getApplication()));
+            if(fileList != null){
+                for (File file : fileList) {
+                    fileParseObjectList.add(new FileParseObject(file, getApplication()));
+                }
+                Collections.sort(fileParseObjectList);
             }
-            Collections.sort(fileParseObjectList);
             return fileParseObjectList;
         }
 

@@ -10,15 +10,14 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CursorAdapter;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ShoppingCartCursorAdapter;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.fragments.OrderDialogFragment;
-import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.views.PriceSlider;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.Button;
@@ -40,6 +39,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private ShoppingCartCursorAdapter mListCategoriesAdapter;
     private TextView shoppingCartFooterTextView;
     private TextView shoppingCartPriceTextView;
+    private PriceSlider mPriceSlider;
 
 
 
@@ -56,10 +56,20 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.SELECT_TYPE);
         shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
         shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
-        mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null, shoppingCartPriceTextView, shoppingCartFooterTextView);
+        mPriceSlider = (PriceSlider) footerView.findViewById(R.id.price_slider);
+        mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null, shoppingCartPriceTextView, shoppingCartFooterTextView, mOnChangePrice);
         getListView().setAdapter(mListCategoriesAdapter);
         new SelectDataShoppingCartTask(this).execute();
     }
+
+    private ShoppingCartCursorAdapter.OnChangePrice mOnChangePrice = new ShoppingCartCursorAdapter.OnChangePrice() {
+        @Override
+        public void changePrice(double price) {
+            if(mPriceSlider != null){
+                mPriceSlider.setValue(price);
+            }
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -242,6 +252,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
 //            shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
             shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(mCountry, shoppingCartPrice));
             shoppingCartPriceTextView.setText(String.format(PRICE_LABEL_FORMAT, shoppingCartPrice));
+            mPriceSlider.setValue(shoppingCartPrice);
             organizeCreateOrderButton(shoppingCartPrice);
             if (cursor != null && cursor.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);

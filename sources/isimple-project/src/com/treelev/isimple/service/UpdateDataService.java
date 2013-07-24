@@ -56,13 +56,12 @@ public class UpdateDataService extends Service  {
         @Override
         protected Void doInBackground(Void... params) {
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
-            boolean needUpdate = sharedPreferences.getBoolean(SplashActivity.UPDATE_DATA_READY, false);
+            boolean updateDataReady = sharedPreferences.getBoolean(SplashActivity.UPDATE_DATA_READY, false);
             String datePriceUpdate = "";
             String dateCatalogUpdate = "";
             SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
             java.util.Date currentDate =  Calendar.getInstance().getTime();
             File directory = WebServiceManager.getDownloadDirectory();
-            boolean updateDataReady = directory.exists();
             if (updateDataReady) {
                 List<FileParseObject> fileParseObjectList = createFileList(directory.listFiles());
                 for (FileParseObject fileParseObject : fileParseObjectList) {
@@ -74,7 +73,6 @@ public class UpdateDataService extends Service  {
                         datePriceUpdate = formatDate.format(currentDate);
                     }
                 }
-                WebServiceManager.deleteDownloadDirectory();
             } else if(!updateDataReady) {
                 SplashActivity.showWarningNotification(getApplication());
             }
@@ -84,17 +82,15 @@ public class UpdateDataService extends Service  {
             }finally {
                 SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
                 editor.putBoolean(SplashActivity.UPDATE_START, false);
-                if(!updateDataReady){
-                    editor.putBoolean(UPDATE_READY, true);
-                    editor.putBoolean(SplashActivity.UPDATE_DATA_READY, false);
-                    editor.putLong(SplashActivity.TIME_LAST_UPDATE, Calendar.getInstance().getTimeInMillis() / SplashActivity.SECOND_TO_DAY);
-                    editor.putString(DATE_UPDATE, formatDate.format(currentDate));
-                    if(dateCatalogUpdate.length() > 0){
-                        editor.putString(DATE_CATALOG_UPDATE, dateCatalogUpdate);
-                    }
-                    if(datePriceUpdate.length() > 0){
-                        editor.putString(DATE_PRICE_UPDATE, datePriceUpdate);
-                    }
+                editor.putBoolean(UPDATE_READY, true);
+                editor.putBoolean(SplashActivity.UPDATE_DATA_READY, false);
+                editor.putLong(SplashActivity.TIME_LAST_UPDATE, Calendar.getInstance().getTimeInMillis() / SplashActivity.SECOND_TO_DAY);
+                editor.putString(DATE_UPDATE, formatDate.format(currentDate));
+                if(dateCatalogUpdate.length() > 0){
+                    editor.putString(DATE_CATALOG_UPDATE, dateCatalogUpdate);
+                }
+                if(datePriceUpdate.length() > 0){
+                    editor.putString(DATE_PRICE_UPDATE, datePriceUpdate);
                 }
                 editor.commit();
                 stopSelf();

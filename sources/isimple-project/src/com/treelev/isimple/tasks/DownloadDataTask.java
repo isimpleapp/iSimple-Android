@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.domain.LoadFileData;
 import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.utils.managers.WebServiceManager;
@@ -88,6 +89,11 @@ public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
             if (!unzipTask.isRunning()) {
                 unzipTask.execute(fileList.toArray(new File[fileList.size()]));
             }
+        } else {
+            SharedPreferences.Editor editor = context.getSharedPreferences(DownloadDataService.PREFS, Context.MODE_MULTI_PROCESS).edit();
+            editor.putBoolean(SplashActivity.UPDATE_DATA_READY, true);
+            editor.commit();
+            SplashActivity.showUpdateNotification(context);
         }
     }
 }

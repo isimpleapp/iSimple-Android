@@ -404,7 +404,14 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle());
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
         organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), product.hasAlcohol() ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())) : "");
-        organizeTextView((TextView) formView.findViewById(R.id.product_volume), Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + "")));
+        String volumeLabel = "";
+        String formatVolume = "%.0f x %s л";
+        if( product.getQuantity() != null && product.getQuantity() > 1) {
+            volumeLabel =  String.format(formatVolume, product.getQuantity(), trimTrailingZeros(product.getVolume() + ""));
+        } else {
+            volumeLabel = Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + ""));
+        }
+        organizeTextView((TextView) formView.findViewById(R.id.product_volume), volumeLabel);
         organizeTextView((TextView) formView.findViewById(R.id.product_year), product.hasYear() ? String.valueOf(product.getYear()) : "");
         if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
             ImageView mProductImage = (ImageView) formView.findViewById(R.id.product_image);

@@ -84,7 +84,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         organizeItemColorView(cursor, view);
 
         Button decreaseButton = (Button) view.findViewById(R.id.decrease_butt);
-        decreaseButton.setText("\u002D");
+        decreaseButton.setText("\u2013");
         Button increaseButton = (Button) view.findViewById(R.id.increase_butt);
         TextView textView = (TextView) view.findViewById(R.id.product_count);
         String itemId = getCursor().getString(getCursor().getColumnIndex(BaseColumns._ID));

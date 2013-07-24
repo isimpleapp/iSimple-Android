@@ -61,12 +61,12 @@ public class SplashActivity extends Activity {
             startUpdate();
         } else if(updateReady) {
             showUpdateNotification(getApplicationContext());
-            startApplication();
+            startApplication(true);
         } else if(updateStart){
             showDialog();
         } else {
             showWarningNotification(getApplication());
-            startApplication();
+            startApplication(true);
         }
     }
 
@@ -149,16 +149,12 @@ public class SplashActivity extends Activity {
                     hideDialog();
                 break;
             }
-            startApplication();
+            startApplication(false);
         }
     }
 
-    private void startApplication(){
-        finish();
-        Intent newIntent = new Intent(this, CatalogListActivity.class);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(newIntent);
-        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+    private void startApplication(boolean sleep){
+        new StartApplication().execute(sleep);
     }
 
     private void startUpdate(){
@@ -198,7 +194,7 @@ public class SplashActivity extends Activity {
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            startApplication();
+            startApplication(false);
         }
 
         private void importDBFromFile(boolean override, Object... params) {
@@ -240,41 +236,28 @@ public class SplashActivity extends Activity {
         }
     }
 
-    private class UpdateDataTask extends AsyncTask<FileParseObject, Void, Void> {
-
-        private Dialog progressDialog;
+    private class StartApplication extends AsyncTask<Boolean, Void, Void>{
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show(SplashActivity.this, getString(R.string.update_data_notify_label),
-                    getString(R.string.update_data_wait_label), false, false);
-        }
-
-        @Override
-        protected Void doInBackground(FileParseObject... fileParseObjects) {
-            for (FileParseObject fileParseObject : fileParseObjects) {
-                fileParseObject.parseObjectDataToDB();
+        protected Void doInBackground(Boolean... booleans) {
+            if(booleans[0]){
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            WebServiceManager.deleteDownloadDirectory();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            progressDialog.dismiss();
-
-            SharedPreferences.Editor editor = SplashActivity.this.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
-            editor.putBoolean(DownloadDataService.FIRST_START, false);
-            editor.commit();
-
             finish();
             Intent newIntent = new Intent(SplashActivity.this, CatalogListActivity.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(newIntent);
+            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         }
-
     }
-
 }

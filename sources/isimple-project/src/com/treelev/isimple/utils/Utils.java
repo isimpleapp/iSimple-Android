@@ -33,7 +33,7 @@ import java.security.KeyStore;
 public class Utils {
 
     private final static String FORMAT_PRICE_LABEL = "%s р.";
-    private final static String FORMAT_VOLUME_LABEL = "%sл";
+    private final static String FORMAT_VOLUME_LABEL = "%s л";
     private final static String REPLACE_STRING_ZEROS = "\\.?0*$";
 
 //    private static Boolean mIsCartActive;

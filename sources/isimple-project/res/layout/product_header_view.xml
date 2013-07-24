@@ -16,17 +16,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical">
-        <org.holoeverywhere.widget.TextView
-                android:layout_width="fill_parent"
-                android:layout_height="30dip"
-                android:text=""
-                android:id="@+id/title_item"
-                android:background="@color/wine_type_pink"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:height="30dip"
-                android:textStyle="bold"
-                android:textSize="13dip"/>
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,10 +24,22 @@
                     android:id="@+id/list_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
                 <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+                    <org.holoeverywhere.widget.TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="30dip"
+                            android:text=""
+                            android:id="@+id/title_item"
+                            android:background="@color/wine_type_pink"
+                            android:gravity="center"
+                            android:textColor="@android:color/white"
+                            android:height="30dip"
+                            android:textStyle="bold"
+                            android:textSize="13dip"/>
                     <LinearLayout
                             android:id="@+id/list_layout"
                             android:orientation="vertical"
@@ -47,7 +48,8 @@
                             android:layout_alignParentLeft="true"
                             android:layout_marginTop="10dip"
                             android:layout_marginRight="20dip"
-                            android:background="@android:color/transparent" >
+                            android:background="@android:color/transparent"
+                            android:layout_below="@+id/title_item">
                         <org.holoeverywhere.widget.TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -165,20 +167,22 @@
                             android:text="asdqw"
                             android:textSize="20sp"
                             android:visibility="gone" android:gravity="center_horizontal|bottom"/>
+
+                    <ImageView
+                            android:contentDescription="@string/app_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/product_image"
+                            android:src="@drawable/product_default_image"
+                            android:scaleType="matrix"
+                            android:cropToPadding="true"
+
+                            android:adjustViewBounds="false"
+                            android:layout_marginLeft="15dip"
+                            android:layout_gravity="center_vertical"
+                            android:layout_below="@+id/title_item"
+                            android:layout_toRightOf="@+id/list_layout"/>
                 </RelativeLayout>
-
-                <ImageView
-                        android:contentDescription="@string/app_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/product_image"
-                        android:src="@drawable/product_default_image"
-                        android:scaleType="matrix"
-                        android:cropToPadding="true"
-
-                        android:adjustViewBounds="false"
-                        android:layout_marginLeft="15dip"
-                        android:layout_gravity="center_vertical"/>
             </LinearLayout>
             <RelativeLayout
                     android:layout_width="wrap_content"
@@ -250,6 +254,7 @@
                         android:id="@+id/add_to_basket_animate_first_part">
                 </TextView>
             </RelativeLayout>
+
 
         </RelativeLayout>
 

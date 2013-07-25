@@ -74,7 +74,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         setContentView(R.layout.product_layout);
         proxyManager = new ProxyManager(this);
         itemId = getIntent().getStringExtra(ITEM_ID_TAG);
-        mIsProductExistShoppingCart = proxyManager.isProductExistShoppingCart(itemId);
         String mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
         initProduct(mBarcode);
         organizeHeaderView();
@@ -87,6 +86,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         mIsFavourite = proxyManager.isFavourites(itemId);
         mLastFavourite = mIsFavourite;
         setFavouritesImage(mIsFavourite);
+        mIsProductExistShoppingCart = proxyManager.isProductExistShoppingCart(itemId);
     }
 
     @Override

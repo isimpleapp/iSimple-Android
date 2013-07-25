@@ -50,7 +50,7 @@ public class PriceSlider extends ImageView {
     private Region mRegion;
 
     private double mAbsoluteMinValue = 0.0f;
-    private double mAbsoluteMaxValue;
+    private double mAbsMaxValue;
     private double mMaxNormalized;
     private double mMinNormalized;
     private double mFirstBorderNormalized;
@@ -93,7 +93,7 @@ public class PriceSlider extends ImageView {
     }
 
     private void initMoscow(){
-        mAbsoluteMaxValue = 5000d;
+        mAbsMaxValue = 5000d;
         mAbsFirstBorder = 2000d;
         mAbsSecondBorder = 2500d;
         setValueMoscow();
@@ -101,7 +101,7 @@ public class PriceSlider extends ImageView {
     }
 
     private void initMoscowRegion(){
-        mAbsoluteMaxValue = 10000d;
+        mAbsMaxValue = 10000d;
         mAbsFirstBorder = 2000d;
         mAbsSecondBorder = 5000d;
         setValueMoscowRegion();
@@ -109,7 +109,7 @@ public class PriceSlider extends ImageView {
     }
 
     private void initStPetersburg(){
-        mAbsoluteMaxValue = 10000d;
+        mAbsMaxValue = 10000d;
         mAbsFirstBorder = 2500d;
         mAbsSecondBorder = 5000d;
         setValueStPetersburg();
@@ -117,7 +117,7 @@ public class PriceSlider extends ImageView {
     }
 
     private void initBorders(){
-        mMaxNormalized = valueToNormalized(mAbsoluteMaxValue);
+        mMaxNormalized = valueToNormalized(mAbsMaxValue);
         mFirstBorderNormalized = valueToNormalized(mAbsFirstBorder);
         mSecondBorderNormalized = valueToNormalized(mAbsSecondBorder);
     }
@@ -168,7 +168,7 @@ public class PriceSlider extends ImageView {
         } else if( mAbsValue >= 2500.0f && mAbsValue < 5000.0f){
             mAbsoluteMinValue = 2500.0f;
         } else if(mAbsValue >= 5000.0f && mAbsValue < 10000.0f ){
-            mAbsoluteMinValue = 10000.0f;
+            mAbsoluteMinValue = 5000.0f;
         }
         initMinBorderValue();
     }
@@ -197,8 +197,7 @@ public class PriceSlider extends ImageView {
     }
 
     private void setVisibleSlider(){
-        double price = normalizedToValue(mNormalizedValue);
-        if( price < mAbsoluteMaxValue){
+        if( mAbsValue < mAbsMaxValue){
             setVisibility(VISIBLE);
         } else {
             setVisibility(GONE);
@@ -237,7 +236,7 @@ public class PriceSlider extends ImageView {
         } else if( price >= 2500.0f && price < 5000.0f){
             drawSecondRange(canvas);
         } else if(price >= 5000.0f && price < 10000.0f ){
-
+           drawThirdRange(canvas);
         }
     }
 
@@ -264,7 +263,7 @@ public class PriceSlider extends ImageView {
         drawText(canvas, secondBorderCoord - mPaddingText, mAbsSecondBorder);
         float coordMax = normalizedToScreen(mMaxNormalized);
         canvas.drawCircle(coordMax, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordMax - mPaddingText, mAbsoluteMaxValue);
+        drawText(canvas, coordMax - mPaddingText, mAbsMaxValue);
     }
 
     private void drawSecondRange(Canvas canvas){
@@ -290,7 +289,7 @@ public class PriceSlider extends ImageView {
         drawText(canvas, secondBorderCoord - mPaddingText, mAbsSecondBorder);
         float coordMax = normalizedToScreen(mMaxNormalized);
         canvas.drawCircle(coordMax, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordMax - mPaddingText, mAbsoluteMaxValue);
+        drawText(canvas, coordMax - mPaddingText, mAbsMaxValue);
     }
 
     private void drawThirdRange(Canvas canvas){
@@ -313,7 +312,7 @@ public class PriceSlider extends ImageView {
         mPaint.setColor(COLOR_BACKGROUND);
         float coordMax = normalizedToScreen(mMaxNormalized);
         canvas.drawCircle(coordMax, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordMax - mPaddingText, mAbsoluteMaxValue);
+        drawText(canvas, coordMax - mPaddingText, mAbsMaxValue);
     }
 
     private void drawText(Canvas canvas, float coord, double value){
@@ -340,14 +339,14 @@ public class PriceSlider extends ImageView {
     }
 
     private double valueToNormalized(double value) {
-        if (0 == mAbsoluteMaxValue - mAbsoluteMinValue) {
+        if (0 == mAbsMaxValue - mAbsoluteMinValue) {
             return 0d;
         }
-        return (value - mAbsoluteMinValue) / (mAbsoluteMaxValue - mAbsoluteMinValue);
+        return (value - mAbsoluteMinValue) / (mAbsMaxValue - mAbsoluteMinValue);
     }
 
     private double normalizedToValue(double normalized) {
-        return  mAbsoluteMinValue + normalized * (mAbsoluteMaxValue - mAbsoluteMinValue);
+        return  mAbsoluteMinValue + normalized * (mAbsMaxValue - mAbsoluteMinValue);
     }
 
     private float normalizedToScreen(double normalizedCoord) {

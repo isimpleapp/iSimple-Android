@@ -24,7 +24,7 @@ public class PriceSlider extends ImageView {
     private float mHalfHeightLine;
     private float mPadding;
     private float mPaddingText;
-    private final float mSizeText = 14.0f;
+    private final float mSizeText = 12.0f;
 
     private double mAbsoluteMinValue = 0.0f;
     private double mAbsoluteMaxValue = 5000.0f;
@@ -99,13 +99,13 @@ public class PriceSlider extends ImageView {
         mPaint.setColor(COLOR_BACKGROUND);
         float coordCircle2000 = normalizedToScreen(valueToNormalized(2000.0f));
         canvas.drawCircle(coordCircle2000, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordCircle2000 - mPaddingText, "2 000");
+        drawText(canvas, coordCircle2000 - mPaddingText, "2000");
         float coordCircle2500 = normalizedToScreen(valueToNormalized(2500.0f));
         canvas.drawCircle(coordCircle2500, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordCircle2500 - mPaddingText, "2 500");
+        drawText(canvas, coordCircle2500 - mPaddingText, "2500");
         float coordMax = normalizedToScreen(mMaxNormalized);
         canvas.drawCircle(coordMax, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordMax - mPaddingText, "5 000");
+        drawText(canvas, coordMax - mPaddingText, "5000");
     }
 
     private void drawSecondRange(Canvas canvas){
@@ -117,7 +117,7 @@ public class PriceSlider extends ImageView {
 
         mPaint.setColor(COLOR_FOREGROUND);
         canvas.drawCircle(mPadding, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, mPadding / 1.5f, "2 000");
+        drawText(canvas, mPadding / 1.5f, "2000");
 
         rect.right = normalizedToScreen(mNormalizedValue);
         canvas.drawRect(rect, mPaint);
@@ -128,10 +128,10 @@ public class PriceSlider extends ImageView {
         mPaint.setColor(COLOR_BACKGROUND);
         float coordCircle2500 = normalizedToScreen(valueToNormalized(2500.0f));
         canvas.drawCircle(coordCircle2500, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordCircle2500 - mPaddingText, "2 500");
+        drawText(canvas, coordCircle2500 - mPaddingText, "2500");
         float coordMax = normalizedToScreen(mMaxNormalized);
         canvas.drawCircle(coordMax, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordMax - mPaddingText, "5 000");
+        drawText(canvas, coordMax - mPaddingText, "5000");
     }
 
     private void drawThirdRange(Canvas canvas){
@@ -146,7 +146,7 @@ public class PriceSlider extends ImageView {
         canvas.drawRect(rect, mPaint);
 
         canvas.drawCircle(mPadding, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, mPadding / 1.5f, "2 500");
+        drawText(canvas, mPadding / 1.5f, "2500");
 
         mPaint.setColor(COLOR_INNER_CIRCLE);
         canvas.drawCircle(mPadding, (float) getAxisLine(), mInnerCupRadius, mPaint);
@@ -154,7 +154,7 @@ public class PriceSlider extends ImageView {
         mPaint.setColor(COLOR_BACKGROUND);
         float coordMax = normalizedToScreen(mMaxNormalized);
         canvas.drawCircle(coordMax, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordMax - mPaddingText, "5 000");
+        drawText(canvas, coordMax - mPaddingText, "5000");
     }
 
     private double getAxisLine(){

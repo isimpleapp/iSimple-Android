@@ -27,7 +27,7 @@
     </option>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="IS - 110">
+    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/views/PriceSlider.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/views/PriceSlider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -35,7 +35,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374684775775" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374507884997" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374689136093" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374690473584" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374575642796" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -1239,7 +1239,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/data/ChainDAO.java" line="64" class="com.treelev.isimple.data.ChainDAO" package="com.treelev.isimple.data">
         <option name="ENABLED" value="true" />
@@ -1707,6 +1706,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -1719,7 +1719,7 @@
       <file leaf-file-name="PriceSlider.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/views/PriceSlider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="194" column="68" selection-start="7463" selection-end="7463" vertical-scroll-proportion="0.6243094">
+            <state line="101" column="59" selection-start="3499" selection-end="3499" vertical-scroll-proportion="-0.8855634">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#drawSlider#0;class#PriceSlider#0" expanded="false" />
@@ -1732,70 +1732,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="475" column="47" selection-start="18090" selection-end="18090" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="docComment;field#DEFAULT_COLOR#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;field#INVALID_POINTER_ID#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;field#mTouchProgressOffset#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#isNotifyWhileDragging#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#setNotifyWhileDragging#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#getAbsoluteMinValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#getAbsoluteMinValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#getAbsoluteMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#getAbsoluteMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#getSelectedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#setSelectedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#setSelectedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#getSelectedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#getSelectedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#setSelectedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#setSelectedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#setOnRangeSeekBarChangeListener#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#setOnRangeSeekBarChangeListener#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#onTouchEvent#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#onTouchEvent#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="e#8935#8993#0" expanded="false" />
-                <element signature="method#getSpaceThumbs#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#maintainingSpaceThumb#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#checkBoundThumb#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#onSecondaryPointerUp#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="e#11525#11572#0" expanded="false" />
-                <element signature="method#trackTouchEvent#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#attemptClaimDrag#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#attemptClaimDrag#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#onStartTrackingTouch#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#onStartTrackingTouch#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#onStopTrackingTouch#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#onStopTrackingTouch#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#onMeasure#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#onMeasure#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#onDraw#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#onSaveInstanceState#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#onRestoreInstanceState#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#drawThumb#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#drawThumb#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="e#17206#17237#0" expanded="false" />
-                <element signature="docComment;method#evalPressedThumb#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#evalPressedThumb#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#isInThumbRange#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#isInThumbRange#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#setNormalizedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#setNormalizedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#setNormalizedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#setNormalizedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#normalizedToValue#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#valueToNormalized#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#normalizedToScreen#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;method#screenToNormalized#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#screenToNormalized#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;class#OnRangeSeekBarChangeListener#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="class#OnRangeSeekBarChangeListener#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;class#Thumb#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="class#Thumb#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="docComment;class#NumberType#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="class#NumberType#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#fromNumber#0;class#NumberType#0;class#RangeSeekBar#0" expanded="false" />
-                <element signature="method#toNumber#0;class#NumberType#0;class#RangeSeekBar#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1813,9 +1750,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="80" column="0" selection-start="3322" selection-end="3322" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="method#doInBackground#0;class#ImportDBFromFileTask#0;class#SplashActivity#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1917,8 +1852,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2123,6 +2056,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2144,12 +2079,12 @@
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="MyAvd0" />
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="Downloaded.Files.Path" value="D:\projects-android\iSimple\libs" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="Downloaded.Files.Path" value="D:\projects-android\iSimple\libs" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="options.lastSelected" value="preferences.sourceCode.XML" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="project.structure.side.proportion" value="0.26419467" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="121" />
@@ -2173,15 +2108,15 @@
     <property name="DEBUGGABLE_DEVICE" value="0149C7F018017015" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="Repository.Attach.Sources" value="true" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="116" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="796" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
-    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
+    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0149C7F018017015" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
@@ -2243,19 +2178,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -2282,6 +2204,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -3424,7 +3359,11 @@
       <created>1374688345107</created>
       <updated>1374688345107</updated>
     </task>
-    <option name="localTasksCounter" value="249" />
+    <task id="LOCAL-00249" summary="IS - 110">
+      <created>1374690484129</created>
+      <updated>1374690484129</updated>
+    </task>
+    <option name="localTasksCounter" value="250" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3451,35 +3390,35 @@
     <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.67224544" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19386332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31101814" sideWeight="0.26111907" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34867504" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31101814" sideWeight="0.26111907" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23672883" sideWeight="0.59693164" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.0" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26220363" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32357043" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2876614" sideWeight="0.846583" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15341702" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35007173" sideWeight="0.67224544" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23570432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34867504" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23672883" sideWeight="0.59693164" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26220363" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32357043" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.67224544" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35007173" sideWeight="0.67224544" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23570432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -3593,16 +3532,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter/FilterItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="19" selection-start="1145" selection-end="1145" vertical-scroll-proportion="0.33285093">
-          <folding />
-        </state>
+        <state line="38" column="19" selection-start="1145" selection-end="1145" vertical-scroll-proportion="0.33285093" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/category_filter_seekbar_item_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
       <provider editor-type-id="android-designer">
         <state />
@@ -3610,9 +3545,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/shopping_cart_layout.xml">
       <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
       <provider selected="true" editor-type-id="android-designer">
         <state />
@@ -3620,16 +3553,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter/DefaultSeekBarFilterItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="80" selection-start="1609" selection-end="1609" vertical-scroll-proportion="-0.2301013">
-          <folding />
-        </state>
+        <state line="42" column="80" selection-start="1609" selection-end="1609" vertical-scroll-proportion="-0.2301013" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/shopping_cart_list_footer_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="41" selection-start="1448" selection-end="1448" vertical-scroll-proportion="0.5775701">
-          <folding />
-        </state>
+        <state line="22" column="41" selection-start="1448" selection-end="1448" vertical-scroll-proportion="0.5775701" />
       </provider>
       <provider editor-type-id="android-designer">
         <state />
@@ -3655,18 +3584,14 @@
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/adapters/ShoppingCartCursorAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="48" selection-start="1389" selection-end="1389" vertical-scroll-proportion="-4.746479">
-          <folding>
-            <marker date="1374680339799" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="80" column="0" selection-start="3322" selection-end="3322" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="method#doInBackground#0;class#ImportDBFromFileTask#0;class#SplashActivity#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3679,91 +3604,24 @@
     </entry>
     <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/android/view/View.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/java/text/DecimalFormat.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="24" selection-start="262" selection-end="275" vertical-scroll-proportion="0.317757">
-          <folding />
-        </state>
+        <state line="9" column="24" selection-start="262" selection-end="275" vertical-scroll-proportion="0.317757" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/views/RangeSeekBar.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="475" column="47" selection-start="18090" selection-end="18090" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="docComment;field#DEFAULT_COLOR#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;field#INVALID_POINTER_ID#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;field#mTouchProgressOffset#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#isNotifyWhileDragging#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#setNotifyWhileDragging#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#getAbsoluteMinValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#getAbsoluteMinValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#getAbsoluteMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#getAbsoluteMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#getSelectedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#setSelectedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#setSelectedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#getSelectedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#getSelectedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#setSelectedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#setSelectedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#setOnRangeSeekBarChangeListener#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#setOnRangeSeekBarChangeListener#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#onTouchEvent#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#onTouchEvent#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="e#8935#8993#0" expanded="false" />
-            <element signature="method#getSpaceThumbs#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#maintainingSpaceThumb#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#checkBoundThumb#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#onSecondaryPointerUp#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="e#11525#11572#0" expanded="false" />
-            <element signature="method#trackTouchEvent#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#attemptClaimDrag#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#attemptClaimDrag#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#onStartTrackingTouch#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#onStartTrackingTouch#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#onStopTrackingTouch#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#onStopTrackingTouch#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#onMeasure#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#onMeasure#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#onDraw#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#onSaveInstanceState#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#onRestoreInstanceState#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#drawThumb#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#drawThumb#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="e#17206#17237#0" expanded="false" />
-            <element signature="docComment;method#evalPressedThumb#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#evalPressedThumb#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#isInThumbRange#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#isInThumbRange#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#setNormalizedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#setNormalizedMinValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#setNormalizedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#setNormalizedMaxValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#normalizedToValue#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#valueToNormalized#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#normalizedToScreen#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;method#screenToNormalized#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#screenToNormalized#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;class#OnRangeSeekBarChangeListener#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="class#OnRangeSeekBarChangeListener#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;class#Thumb#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="class#Thumb#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="docComment;class#NumberType#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="class#NumberType#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#fromNumber#0;class#NumberType#0;class#RangeSeekBar#0" expanded="false" />
-            <element signature="method#toNumber#0;class#NumberType#0;class#RangeSeekBar#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/views/PriceSlider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="194" column="68" selection-start="7463" selection-end="7463" vertical-scroll-proportion="0.6243094">
+        <state line="101" column="59" selection-start="3499" selection-end="3499" vertical-scroll-proportion="-0.8855634">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#drawSlider#0;class#PriceSlider#0" expanded="false" />

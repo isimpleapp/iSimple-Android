@@ -92,6 +92,7 @@ public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
         } else if(WebServiceManager.getDownloadDirectory().exists()){
             SharedPreferences.Editor editor = context.getSharedPreferences(DownloadDataService.PREFS, Context.MODE_MULTI_PROCESS).edit();
             editor.putBoolean(SplashActivity.UPDATE_DATA_READY, true);
+            Log.v("Test log", "finish unzip");
             editor.commit();
             SplashActivity.showUpdateNotification(context);
         }

@@ -405,7 +405,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeTextView((TextView) formView.findViewById(R.id.product_grapes), product.getGrapesUsed());
         organizeTextView((TextView) formView.findViewById(R.id.product_alcohol), product.hasAlcohol() ? Utils.organizeProductLabel(FORMAT_ALCOHOL, trimTrailingZeros(product.getAlcohol())) : "");
         String volumeLabel = "";
-        String formatVolume = "%.0f x %s л";
+        String formatVolume = "%.0f x %s л.";
         if( product.getQuantity() != null && product.getQuantity() > 1) {
             volumeLabel =  String.format(formatVolume, product.getQuantity(), trimTrailingZeros(product.getVolume() + ""));
         } else {

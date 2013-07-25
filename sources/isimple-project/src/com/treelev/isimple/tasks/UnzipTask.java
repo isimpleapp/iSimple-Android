@@ -108,6 +108,7 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(SplashActivity.UPDATE_DATA_READY, true);
                     editor.commit();
+                    Log.v("Test log", "finish unzip");
                  }
              }
               SplashActivity.showUpdateNotification(context);

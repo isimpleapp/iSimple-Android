@@ -56,7 +56,6 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.SELECT_TYPE);
         shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
         shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
-        mPriceSlider = (PriceSlider) footerView.findViewById(R.id.price_slider);
         mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null, shoppingCartPriceTextView, shoppingCartFooterTextView, mOnChangePrice);
         getListView().setAdapter(mListCategoriesAdapter);
         new SelectDataShoppingCartTask(this).execute();
@@ -139,6 +138,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                         organizeCreateOrderButton(shoppingCartPrice);
                         Button button = (Button) footerView.findViewById(R.id.delivery_btn);
                         button.setText(country);
+                        mPriceSlider.setRegion(PriceSlider.Region.fromString(country.trim()));
+
                     }
                 });
                 builder.show();
@@ -158,6 +159,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         }
         button.setText(country);
         button.setOnClickListener(this);
+        mPriceSlider = (PriceSlider) footerView.findViewById(R.id.price_slider);
+        mPriceSlider.setRegion(PriceSlider.Region.fromString(country.trim()));
         return footerView;
     }
 

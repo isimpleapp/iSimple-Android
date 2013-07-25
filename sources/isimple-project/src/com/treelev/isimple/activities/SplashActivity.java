@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.FileParseObject;
@@ -59,8 +60,10 @@ public class SplashActivity extends Activity {
             new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
         } else if (fromNotification && updateDataReady(getApplication())) {
 //            && updateDataReady(getApplication()) && updateReady
+            Log.v("Test log", "SplashActivity start Update");
             startUpdate();
         } else if(updateReady) {
+            Log.v("Test log", "SplashActivity ");
             showUpdateNotification(getApplicationContext());
             startApplication(true);
         } else if(updateStart){
@@ -100,7 +103,7 @@ public class SplashActivity extends Activity {
 
     public static boolean updateDataReady(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
-        return sharedPreferences.getBoolean(UPDATE_DATA_READY, false);
+        return sharedPreferences.getBoolean(UPDATE_DATA_READY, false) && DownloadDataService.isExternalStorageAvailable();
     }
 
     public static void showUpdateNotification(Context context) {

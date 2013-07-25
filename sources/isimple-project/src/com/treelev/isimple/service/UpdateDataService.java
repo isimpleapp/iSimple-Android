@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.domain.FileParseObject;
@@ -80,6 +81,7 @@ public class UpdateDataService extends Service  {
                 mPi.send(UpdateDataService.this, SplashActivity.STATUS_FINISH, new Intent());
             } catch (PendingIntent.CanceledException e) {
             }finally {
+                Log.v("Test log", "Update server set preference");
                 SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
                 editor.putBoolean(SplashActivity.UPDATE_START, false);
                 editor.putBoolean(UPDATE_READY, true);

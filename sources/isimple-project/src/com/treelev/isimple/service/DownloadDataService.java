@@ -42,7 +42,7 @@ public class DownloadDataService extends Service {
 
 
 
-    private boolean isExternalStorageAvailable() {
+    public static boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();
         boolean externalStorageAvailable = false;
         boolean externalStorageWriteable = false;

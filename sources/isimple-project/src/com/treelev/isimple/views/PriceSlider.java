@@ -8,10 +8,32 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 
 public class PriceSlider extends ImageView {
+
+    public enum Region{Moscow("Москва"), MoscowRegion("Подмосковье"), StPetersburg("Санкт-Петербург");
+
+        private String value;
+
+        Region(String value) {
+            this.value = value;
+        }
+
+        public static Region fromString(String strValue) {
+            if (strValue != null) {
+                for (Region b : Region.values()) {
+                    if (strValue.equalsIgnoreCase(b.value)) {
+                        return b;
+                    }
+                }
+            }
+            return null;
+        }
+
+    }
 
     private static final int COLOR_FOREGROUND = Color.parseColor("#ea168c");
     private static final int COLOR_BACKGROUND = Color.GRAY;
@@ -25,53 +47,165 @@ public class PriceSlider extends ImageView {
     private float mPadding;
     private float mPaddingText;
     private final float mSizeText = 12.0f;
+    private Region mRegion;
 
     private double mAbsoluteMinValue = 0.0f;
-    private double mAbsoluteMaxValue = 5000.0f;
+    private double mAbsoluteMaxValue;
     private double mMaxNormalized;
     private double mMinNormalized;
+    private double mFirstBorderNormalized;
+    private double mSecondBorderNormalized;
+    private double mAbsFirstBorder;
+    private double mAbsSecondBorder;
 
     private double mNormalizedValue = 0d;
+    private double mAbsValue;
 
     public PriceSlider(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mMaxNormalized = valueToNormalized(mAbsoluteMaxValue);
-        setVisibility(GONE);
-        initSizetText();
+        initSizeText();
+        mRegion = Region.Moscow;
+        initMoscow();
     }
 
-    private void initSizetText(){
+    private void initSizeText(){
         float densityMultiplier = getContext().getResources().getDisplayMetrics().density;
         final float scaledPx = mSizeText * densityMultiplier;
         mPaint.setTextSize(scaledPx);
     }
 
-
-    public void setValue(double value){
-        setVisibility(VISIBLE);
-        if(value < 2000.0f){
-            mAbsoluteMinValue = 0.0f;
-        } else if( value >= 2000.0f && value < 2500.0f){
-            mAbsoluteMinValue = 2000.0f;
-        } else if(value >= 2500 && value < 5000 ){
-            mAbsoluteMinValue = 2500.0f;
-        } else if(value > 5000.0f){
-            setVisibility(GONE);
+    public void setRegion(Region region) {
+        mRegion = region;
+        switch (mRegion){
+            case Moscow:
+                initMoscow();
+                break;
+            case MoscowRegion:
+                initMoscowRegion();
+                break;
+            case StPetersburg:
+                initStPetersburg();
+                break;
+            default:
+                Log.v(this.toString(), "Error unknown region" );
         }
-        mMinNormalized = valueToNormalized(mAbsoluteMinValue);
-        mNormalizedValue = valueToNormalized(value);
         invalidate();
+    }
+
+    private void initMoscow(){
+        mAbsoluteMaxValue = 5000d;
+        mAbsFirstBorder = 2000d;
+        mAbsSecondBorder = 2500d;
+        setValueMoscow();
+        initBorders();
+    }
+
+    private void initMoscowRegion(){
+        mAbsoluteMaxValue = 10000d;
+        mAbsFirstBorder = 2000d;
+        mAbsSecondBorder = 5000d;
+        setValueMoscowRegion();
+        initBorders();
+    }
+
+    private void initStPetersburg(){
+        mAbsoluteMaxValue = 10000d;
+        mAbsFirstBorder = 2500d;
+        mAbsSecondBorder = 5000d;
+        setValueStPetersburg();
+        initBorders();
+    }
+
+    private void initBorders(){
+        mMaxNormalized = valueToNormalized(mAbsoluteMaxValue);
+        mFirstBorderNormalized = valueToNormalized(mAbsFirstBorder);
+        mSecondBorderNormalized = valueToNormalized(mAbsSecondBorder);
+    }
+
+    public void setValue(double value) {
+        mAbsValue = value;
+        switch (mRegion){
+            case Moscow:
+                setValueMoscow();
+                break;
+            case MoscowRegion:
+                setValueMoscowRegion();
+                break;
+            case StPetersburg:
+                setValueStPetersburg();
+                break;
+            default:
+                Log.v(this.toString(), "Error unknown region" );
+        }
+        invalidate();
+    }
+
+    private void setValueMoscow(){
+        if(mAbsValue < 2000.0f){
+            mAbsoluteMinValue = 0.0f;
+        } else if( mAbsValue >= 2000.0f && mAbsValue < 2500.0f){
+            mAbsoluteMinValue = 2000.0f;
+        } else if(mAbsValue >= 2500 && mAbsValue < 5000 ){
+            mAbsoluteMinValue = 2500.0f;
+        }
+        initMinBorderValue();
+    }
+
+    private void setValueMoscowRegion(){
+        if(mAbsValue < 2000.0f){
+            mAbsoluteMinValue = 0.0f;
+        } else if( mAbsValue >= 2000.0f && mAbsValue < 5000.0f){
+            mAbsoluteMinValue = 2000.0f;
+        } else if(mAbsValue >= 5000.0f && mAbsValue < 10000.0f ){
+            mAbsoluteMinValue = 5000.0f;
+        }
+        initMinBorderValue();
+    }
+
+    private void setValueStPetersburg(){
+        if(mAbsValue < 2500.0f){
+            mAbsoluteMinValue = 0.0f;
+        } else if( mAbsValue >= 2500.0f && mAbsValue < 5000.0f){
+            mAbsoluteMinValue = 2500.0f;
+        } else if(mAbsValue >= 5000.0f && mAbsValue < 10000.0f ){
+            mAbsoluteMinValue = 10000.0f;
+        }
+        initMinBorderValue();
+    }
+
+    private void initMinBorderValue(){
+        mMinNormalized = valueToNormalized(mAbsoluteMinValue);
+        mNormalizedValue = valueToNormalized(mAbsValue);
     }
 
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         initValues();
-        drawSlider(canvas);
-
+        setVisibleSlider();
+        switch (mRegion){
+            case Moscow:
+                drawSliderMoscow(canvas);
+                break;
+            case MoscowRegion:
+                drawSliderMoscowRegion(canvas);
+                break;
+            case StPetersburg:
+                drawSliderStPetersburg(canvas);
+                break;
+        }
     }
 
-    private void drawSlider(Canvas canvas){
+    private void setVisibleSlider(){
+        double price = normalizedToValue(mNormalizedValue);
+        if( price < mAbsoluteMaxValue){
+            setVisibility(VISIBLE);
+        } else {
+            setVisibility(GONE);
+        }
+    }
+//Moscow Slider
+    private void drawSliderMoscow(Canvas canvas){
         double price = normalizedToValue(mNormalizedValue);
         if(price < 2000.0f){
             drawFirstRange(canvas);
@@ -79,6 +213,31 @@ public class PriceSlider extends ImageView {
            drawSecondRange(canvas);
         } else if(price >= 2500 && price < 5000 ){
             drawThirdRange(canvas);
+        }
+    }
+
+ //MoscowRegion Slider
+    private void drawSliderMoscowRegion(Canvas canvas){
+        double price = normalizedToValue(mNormalizedValue);
+        if(price < 2000.0f){
+            drawFirstRange(canvas);
+        } else if( price >= 2000.0f && price < 2500.0f){
+            drawSecondRange(canvas);
+        } else if(price >= 2500 && price < 5000 ){
+            drawThirdRange(canvas);
+        }
+    }
+
+
+//St.Petersburg Slider
+    private void drawSliderStPetersburg(Canvas canvas){
+        double price = normalizedToValue(mNormalizedValue);
+        if(price < 2500.0f){
+            drawFirstRange(canvas);
+        } else if( price >= 2500.0f && price < 5000.0f){
+            drawSecondRange(canvas);
+        } else if(price >= 5000.0f && price < 10000.0f ){
+
         }
     }
 
@@ -91,21 +250,21 @@ public class PriceSlider extends ImageView {
 
         mPaint.setColor(COLOR_FOREGROUND);
         canvas.drawCircle(mPadding, (float) getAxisLine(), mArcRadius, mPaint);
-        drawText(canvas, mPadding / 1.5f, "0");
+        drawText(canvas, mPadding / 1.5f, mAbsoluteMinValue);
 
         rect.right = normalizedToScreen(mNormalizedValue);
         canvas.drawRect(rect, mPaint);
 
         mPaint.setColor(COLOR_BACKGROUND);
-        float coordCircle2000 = normalizedToScreen(valueToNormalized(2000.0f));
-        canvas.drawCircle(coordCircle2000, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordCircle2000 - mPaddingText, "2000");
-        float coordCircle2500 = normalizedToScreen(valueToNormalized(2500.0f));
-        canvas.drawCircle(coordCircle2500, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordCircle2500 - mPaddingText, "2500");
+        float firstBorderCoord = normalizedToScreen(mFirstBorderNormalized);
+        canvas.drawCircle(firstBorderCoord, (float) getAxisLine(), mCupRadius, mPaint);
+        drawText(canvas, firstBorderCoord - mPaddingText, mAbsFirstBorder);
+        float secondBorderCoord = normalizedToScreen(mSecondBorderNormalized);
+        canvas.drawCircle(secondBorderCoord, (float) getAxisLine(), mCupRadius, mPaint);
+        drawText(canvas, secondBorderCoord - mPaddingText, mAbsSecondBorder);
         float coordMax = normalizedToScreen(mMaxNormalized);
         canvas.drawCircle(coordMax, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordMax - mPaddingText, "5000");
+        drawText(canvas, coordMax - mPaddingText, mAbsoluteMaxValue);
     }
 
     private void drawSecondRange(Canvas canvas){
@@ -117,7 +276,7 @@ public class PriceSlider extends ImageView {
 
         mPaint.setColor(COLOR_FOREGROUND);
         canvas.drawCircle(mPadding, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, mPadding / 1.5f, "2000");
+        drawText(canvas, mPadding / 1.5f, mAbsoluteMinValue);
 
         rect.right = normalizedToScreen(mNormalizedValue);
         canvas.drawRect(rect, mPaint);
@@ -126,12 +285,12 @@ public class PriceSlider extends ImageView {
         canvas.drawCircle(mPadding, (float) getAxisLine(), mInnerCupRadius, mPaint);
 
         mPaint.setColor(COLOR_BACKGROUND);
-        float coordCircle2500 = normalizedToScreen(valueToNormalized(2500.0f));
-        canvas.drawCircle(coordCircle2500, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordCircle2500 - mPaddingText, "2500");
+        float secondBorderCoord = normalizedToScreen(mSecondBorderNormalized);
+        canvas.drawCircle(secondBorderCoord, (float) getAxisLine(), mCupRadius, mPaint);
+        drawText(canvas, secondBorderCoord - mPaddingText, mAbsSecondBorder);
         float coordMax = normalizedToScreen(mMaxNormalized);
         canvas.drawCircle(coordMax, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordMax - mPaddingText, "5000");
+        drawText(canvas, coordMax - mPaddingText, mAbsoluteMaxValue);
     }
 
     private void drawThirdRange(Canvas canvas){
@@ -146,7 +305,7 @@ public class PriceSlider extends ImageView {
         canvas.drawRect(rect, mPaint);
 
         canvas.drawCircle(mPadding, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, mPadding / 1.5f, "2500");
+        drawText(canvas, mPadding / 1.5f, mAbsoluteMinValue);
 
         mPaint.setColor(COLOR_INNER_CIRCLE);
         canvas.drawCircle(mPadding, (float) getAxisLine(), mInnerCupRadius, mPaint);
@@ -154,17 +313,17 @@ public class PriceSlider extends ImageView {
         mPaint.setColor(COLOR_BACKGROUND);
         float coordMax = normalizedToScreen(mMaxNormalized);
         canvas.drawCircle(coordMax, (float) getAxisLine(), mCupRadius, mPaint);
-        drawText(canvas, coordMax - mPaddingText, "5000");
+        drawText(canvas, coordMax - mPaddingText, mAbsoluteMaxValue);
+    }
+
+    private void drawText(Canvas canvas, float coord, double value){
+        String strValue = String.valueOf(new Double(value).intValue());
+        canvas.drawText(strValue, coord, (float)getAxisText(), mPaint);
     }
 
     private double getAxisLine(){
         return  getHeight() * 0.25f; // line y-axis 20% from the top to the bottom
     }
-
-    private void drawText(Canvas canvas, float coord, String text){
-        canvas.drawText(text, coord, (float)getAxisText(), mPaint);
-    }
-
 
     private double getAxisText(){
         return  getHeight() * 0.75f; // line y-axis 5% from the top to the bottom

@@ -16,6 +16,7 @@
     <color name="product_text_color1">#b0b0b0</color>
     <color name="product_text_color2">#807f7f</color>
     <color name="product_text_color3">#dadada</color>
+    <color name="product_text_color4">#555555</color>
     <color name="category_butt_back">#f1f1f1</color>
     <color name="category_butt_border">#afafaf</color>
     <color name="wine_type_red">#c21118</color>

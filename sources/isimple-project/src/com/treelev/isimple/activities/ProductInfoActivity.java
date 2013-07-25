@@ -46,8 +46,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     public final static String CHANGE_FAVOURITE = "CHANGE_FAVOURITE";
 
     public final static String ITEM_ID_TAG = "id";
-    private final static String FORMAT_FIELDS = "- %s";
-    private final static String EMPTY_PRICE_LABEL = "-";
+    private final static String FORMAT_FIELDS = "\u2013 %s";
+    private final static String EMPTY_PRICE_LABEL = "\u2013";
     private final static String FORMAT_ALCOHOL = "%s%% алк.";
     private final static String FORMAT_VOLUME = "%s л.";
     private String itemId;
@@ -330,7 +330,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String localizedName = mProduct.getLocalizedName();
         String typeProduct = mProduct.getProductType() != null ? mProduct.getProductType().getLabel() : "";
         String country = mProduct.getCountry();
-        String region = TextUtils.isEmpty(mProduct.getRegion()) ? "-" : mProduct.getRegion();
+        String region = TextUtils.isEmpty(mProduct.getRegion()) ? "\u2013" : mProduct.getRegion();
         String volume = Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(mProduct.getVolume() + ""));
         String alcohol = !trimTrailingZeros(mProduct.getAlcohol()).equals("0") ? trimTrailingZeros(mProduct.getAlcohol()) : "";
         String manufacturer = mProduct.getManufacturer();

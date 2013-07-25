@@ -89,6 +89,7 @@ public class PriceSlider extends ImageView {
             default:
                 Log.v(this.toString(), "Error unknown region" );
         }
+        setVisibleSlider();
         invalidate();
     }
 
@@ -137,6 +138,7 @@ public class PriceSlider extends ImageView {
             default:
                 Log.v(this.toString(), "Error unknown region" );
         }
+        setVisibleSlider();
         invalidate();
     }
 
@@ -182,7 +184,6 @@ public class PriceSlider extends ImageView {
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         initValues();
-        setVisibleSlider();
         switch (mRegion){
             case Moscow:
                 drawSliderMoscow(canvas);

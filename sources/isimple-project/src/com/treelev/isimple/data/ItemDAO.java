@@ -382,7 +382,7 @@ public class ItemDAO extends BaseDAO {
         return cursor;
     }
 
-    private static int mSectionWhereForPreOrderSearch;
+    private static int mSectionWhereForPreOrderSearch = 0;
 
     public Cursor getSearchItemsByCategory(Integer categoryId, String locationId, String query, String orderByField) {
         open();
@@ -1236,9 +1236,9 @@ public class ItemDAO extends BaseDAO {
     private String getWhereBySearchFirst(String query){
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
-        return String.format("item.name LIKE '%%%1$s%%' OR item.manufacturer LIKE '%%%1$s%%' " +
-                "OR item.localized_name LIKE '%%%1$s%%' OR item.localized_name LIKE '%%%2$s%%' " +
-                "OR item.localized_manufacturer LIKE '%%%1$s%%' OR item.localized_manufacturer LIKE '%%%2$s%%'",
+        return String.format("item.name LIKE '%1$s' OR item.manufacturer LIKE '%1$s' " +
+                "OR item.localized_name LIKE '%1$s' OR item.localized_name LIKE '%2$s' " +
+                "OR item.localized_manufacturer LIKE '%1$s' OR item.localized_manufacturer LIKE '%2$s'",
                 queryLowCase,
                 queryUpFirstChar);
     }
@@ -1246,8 +1246,8 @@ public class ItemDAO extends BaseDAO {
     private String getWhereBySearchSecond(String query){
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
-        return String.format("item.country LIKE '%%%1$s%%' OR item.country LIKE '%%%2$s%%' " +
-                "OR item.region LIKE '%%%1$s%%' OR item.region LIKE '%%%2$s%%'",
+        return String.format("item.country LIKE '%1$s' OR item.country LIKE '%2$s' " +
+                "OR item.region LIKE '%1$s' OR item.region LIKE '%2$s'",
                 queryLowCase,
                 queryUpFirstChar);
     }
@@ -1255,10 +1255,10 @@ public class ItemDAO extends BaseDAO {
     private String getWhereBySearchThird(String query){
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
-        return String.format("style LIKE '%%%1$s%%' OR style LIKE '%%%2$s%%' " +
-                "OR drink_type LIKE '%%%1$s%%' OR drink_type LIKE '%%%2$s%%' " +
-                "OR style_description LIKE '%%%1$s%%' OR style_description LIKE '%%%2$s%%' " +
-                "OR grapes_used LIKE '%%%1$s%%' OR grapes_used LIKE '%%%2$s%%'",
+        return String.format("style LIKE '%1$s' OR style LIKE '%2$s' " +
+                "OR drink_type LIKE '%1$s' OR drink_type LIKE '%2$s' " +
+                "OR style_description LIKE '%1$s' OR style_description LIKE '%2$s' " +
+                "OR grapes_used LIKE '%1$s' OR grapes_used LIKE '%2$s'",
                 queryLowCase,
                 queryUpFirstChar);
     }
@@ -1266,13 +1266,13 @@ public class ItemDAO extends BaseDAO {
     private String getWhereBySearchFourth(String query){
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
-        return String.format("taste_qualities LIKE '%%%1$s%%' OR taste_qualities LIKE '%%%2$s%%' " +
-                "OR vintage_report LIKE '%%%1$s%%' OR vintage_report LIKE '%%%2$s%%' " +
-                "OR aging_process LIKE '%%%1$s%%' OR aging_process LIKE '%%%2$s%%' " +
-                "OR interesting_facts LIKE '%%%1$s%%' OR interesting_facts LIKE '%%%2$s%%' " +
-                "OR label_history LIKE '%%%1$s%%' OR label_history LIKE '%%%2$s%%' " +
-                "OR gastronomy LIKE '%%%1$s%%' OR gastronomy LIKE '%%%2$s%%' " +
-                "OR vineyard LIKE '%%%1$s%%' OR vineyard LIKE '%%%2$s%%'",
+        return String.format("taste_qualities LIKE '%1$s' OR taste_qualities LIKE '%2$s' " +
+                "OR vintage_report LIKE '%1$s' OR vintag   e_report LIKE '%2$s' " +
+                "OR aging_process LIKE '%1$s' OR aging_process LIKE '%2$s' " +
+                "OR interesting_facts LIKE '%1$s' OR interesting_facts LIKE '%2$s' " +
+                "OR label_history LIKE '%1$s' OR label_history LIKE '%2$s' " +
+                "OR gastronomy LIKE '%1$s' OR gastronomy LIKE '%2$s' " +
+                "OR vineyard LIKE '%1$s' OR vineyard LIKE '%2$s'",
                 queryLowCase,
                 queryUpFirstChar);
     }

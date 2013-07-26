@@ -76,10 +76,10 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     }
 
     public void refresh() {
-        ((Activity)context).stopManagingCursor(getCursor());
-        getCursor().close();
+//        ((Activity)context).stopManagingCursor(getCursor());
+//        getCursor().close();
         Cursor cursor = proxyManager.getShoppingCartItems();
-        ((Activity)context).startManagingCursor(cursor);
+//        ((Activity)context).startManagingCursor(cursor);
         swapCursor(cursor);
     }
 

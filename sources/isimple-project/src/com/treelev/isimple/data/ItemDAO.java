@@ -1267,7 +1267,7 @@ public class ItemDAO extends BaseDAO {
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
         return String.format("taste_qualities LIKE '%1$s' OR taste_qualities LIKE '%2$s' " +
-                "OR vintage_report LIKE '%1$s' OR vintag   e_report LIKE '%2$s' " +
+                "OR vintage_report LIKE '%1$s' OR vintage_report LIKE '%2$s' " +
                 "OR aging_process LIKE '%1$s' OR aging_process LIKE '%2$s' " +
                 "OR interesting_facts LIKE '%1$s' OR interesting_facts LIKE '%2$s' " +
                 "OR label_history LIKE '%1$s' OR label_history LIKE '%2$s' " +

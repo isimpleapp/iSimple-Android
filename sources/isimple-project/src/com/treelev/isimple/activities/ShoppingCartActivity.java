@@ -83,7 +83,6 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        stopManagingCursor(cItems);
         if(mIsSaveInstancceState){
             if(mSendOrders){
                 OrderDialogFragment dialog = new OrderDialogFragment(OrderDialogFragment.SUCCESS_TYPE);
@@ -94,11 +93,21 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             }
             mIsSaveInstancceState = false;
         }
-
+        if(cItems != null){
+            startManagingCursor(cItems);
+        }
     }
 
     public void setResultSendOrders(boolean resultSendOrders){
         mResultSendOrders = resultSendOrders;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(cItems != null){
+            stopManagingCursor(cItems);
+        }
     }
 
     @Override

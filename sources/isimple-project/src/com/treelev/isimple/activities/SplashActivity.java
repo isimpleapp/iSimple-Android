@@ -165,7 +165,6 @@ public class SplashActivity extends Activity {
         showDialog();
         SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
         editor.putBoolean(UPDATE_START, true);
-        editor.putBoolean(UpdateDataService.UPDATE_READY, false);
         editor.commit();
         Intent updateServiceIntent = new Intent(this, UpdateDataService.class);
         PendingIntent pi = createPendingResult(TASK_UPDATE, new Intent(), 0);

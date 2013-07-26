@@ -98,7 +98,6 @@ public class PriceSlider extends ImageView {
         mAbsFirstBorder = 2000d;
         mAbsSecondBorder = 2500d;
         setValueMoscow();
-        initBorders();
     }
 
     private void initMoscowRegion(){
@@ -106,7 +105,6 @@ public class PriceSlider extends ImageView {
         mAbsFirstBorder = 2000d;
         mAbsSecondBorder = 5000d;
         setValueMoscowRegion();
-        initBorders();
     }
 
     private void initStPetersburg(){
@@ -114,7 +112,6 @@ public class PriceSlider extends ImageView {
         mAbsFirstBorder = 2500d;
         mAbsSecondBorder = 5000d;
         setValueStPetersburg();
-        initBorders();
     }
 
     private void initBorders(){
@@ -151,6 +148,7 @@ public class PriceSlider extends ImageView {
             mAbsoluteMinValue = 2500.0f;
         }
         initMinBorderValue();
+        initBorders();
     }
 
     private void setValueMoscowRegion(){
@@ -162,6 +160,7 @@ public class PriceSlider extends ImageView {
             mAbsoluteMinValue = 5000.0f;
         }
         initMinBorderValue();
+        initBorders();
     }
 
     private void setValueStPetersburg(){
@@ -173,6 +172,7 @@ public class PriceSlider extends ImageView {
             mAbsoluteMinValue = 5000.0f;
         }
         initMinBorderValue();
+        initBorders();
     }
 
     private void initMinBorderValue(){
@@ -221,9 +221,9 @@ public class PriceSlider extends ImageView {
         double price = normalizedToValue(mNormalizedValue);
         if(price < 2000.0f){
             drawFirstRange(canvas);
-        } else if( price >= 2000.0f && price < 2500.0f){
+        } else if( price >= 2000.0f && price < 5000.0f){
             drawSecondRange(canvas);
-        } else if(price >= 2500 && price < 5000 ){
+        } else if(price >= 5000.0f && price < 10000.0f ){
             drawThirdRange(canvas);
         }
     }

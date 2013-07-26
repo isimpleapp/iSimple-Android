@@ -467,13 +467,12 @@ public class OrderDialogFragment extends DialogFragment
         }
 
         private String getDeviceID(){
-
             TelephonyManager telephonyManager = (TelephonyManager)mContext.getSystemService(mContext.TELEPHONY_SERVICE);
-            String imeiID = telephonyManager.getDeviceId();
-            if( imeiID == null){
-                imeiID = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            String itemiID = telephonyManager.getDeviceId();
+            if( itemiID == null){
+                itemiID = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
             }
-            return imeiID;
+            return itemiID;
         }
 
         private String getMD5() {

@@ -249,8 +249,10 @@ public class PriceSlider extends ImageView {
         canvas.drawRect(rect, mPaint);
 
         mPaint.setColor(COLOR_FOREGROUND);
+        mPaint.setFakeBoldText(true);
         canvas.drawCircle(mPadding, (float) getAxisLine(), mArcRadius, mPaint);
         drawText(canvas, mPadding / 1.5f, mAbsoluteMinValue);
+        mPaint.setFakeBoldText(false);
 
         rect.right = normalizedToScreen(mNormalizedValue);
         canvas.drawRect(rect, mPaint);
@@ -275,8 +277,10 @@ public class PriceSlider extends ImageView {
         canvas.drawRect(rect, mPaint);
 
         mPaint.setColor(COLOR_FOREGROUND);
+        mPaint.setFakeBoldText(true);
         canvas.drawCircle(mPadding, (float) getAxisLine(), mCupRadius, mPaint);
         drawText(canvas, mPadding / 1.5f, mAbsoluteMinValue);
+        mPaint.setFakeBoldText(false);
 
         rect.right = normalizedToScreen(mNormalizedValue);
         canvas.drawRect(rect, mPaint);
@@ -304,8 +308,10 @@ public class PriceSlider extends ImageView {
         rect.right = normalizedToScreen(mNormalizedValue);
         canvas.drawRect(rect, mPaint);
 
+        mPaint.setFakeBoldText(true);
         canvas.drawCircle(mPadding, (float) getAxisLine(), mCupRadius, mPaint);
         drawText(canvas, mPadding / 1.5f, mAbsoluteMinValue);
+        mPaint.setFakeBoldText(false);
 
         mPaint.setColor(COLOR_INNER_CIRCLE);
         canvas.drawCircle(mPadding, (float) getAxisLine(), mInnerCupRadius, mPaint);
@@ -332,8 +338,8 @@ public class PriceSlider extends ImageView {
     private void initValues(){
         mPadding = getWidth() / 20; // 4%
         mHalfHeightLine = 0.075f * getHeight(); // height line 15% for all height view
-        mArcRadius = mHalfHeightLine;
-        mCupRadius = 2.0f * mArcRadius;
+        mArcRadius = 0.98f * mHalfHeightLine;
+        mCupRadius = 2.0f * mHalfHeightLine;
         mInnerCupRadius = 0.6f * mCupRadius;
         mPaddingText = mCupRadius * 2.5f;
 

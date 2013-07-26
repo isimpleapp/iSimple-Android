@@ -198,6 +198,11 @@ public class SearchResultActivity extends  BaseExpandableListActivity
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String mDrinkId = intent.getStringExtra(CatalogListActivity.DRINK_ID);
             mQuery = intent.getStringExtra(SearchManager.QUERY);
+
+            mQuery = mQuery.trim().
+                replace("_", "").
+                replace("%", "").
+                replace('\'', '_');
         }
     }
 

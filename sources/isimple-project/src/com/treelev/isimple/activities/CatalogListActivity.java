@@ -16,6 +16,7 @@ import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import org.holoeverywhere.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import com.treelev.isimple.R;
@@ -217,7 +218,7 @@ public class CatalogListActivity extends BaseExpandableListActivity
     }
 
     private void startUpdateService() {
-        if(!SplashActivity.updateDataReady(this)){
+        if(!SharedPreferencesManager.isPreparationUpdate(this)){
             startService(new Intent(getApplicationContext(), DownloadDataService.class));
         }
     }

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.service.DownloadDataService;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,37 +16,15 @@ import java.util.zip.ZipInputStream;
 
 public class UnzipTask extends AsyncTask<File, Void, File[]> {
 
-    private static UnzipTask task;
-    private static int mCountExecute = 0;
-
-    private boolean running;
     private boolean error;
 
     private Context context;
     private SharedPreferences sharedPreferences;
 
-    public static UnzipTask getUnzipTask(Context context) {
-        if (task == null) {
-            task = new UnzipTask(context);
-        }
-        return task;
-    }
 
-    public synchronized static void incCountExecute(){
-        ++mCountExecute;
-    }
-
-    public synchronized static void decCountExecute(){
-        --mCountExecute;
-    }
-
-    private UnzipTask(Context context) {
+    public UnzipTask(Context context) {
         this.context = context;
-        this.sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, Context.MODE_MULTI_PROCESS);
-    }
-
-    public boolean isRunning() {
-        return running;
+        this.sharedPreferences = SharedPreferencesManager.getSharedPreferences(context);
     }
 
     @Override
@@ -56,8 +35,6 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
 
     @Override
     protected File[] doInBackground(File... params) {
-        incCountExecute();
-        running = true;
         try {
             for (File file : params) {
                 ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
@@ -89,9 +66,7 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
             error = true;
         }
         finally {
-            running = false;
-            task = null;
-            decCountExecute();
+
         }
         return params;
     }
@@ -99,19 +74,12 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
     @Override
     protected void onPostExecute(File[] aVoid) {
         super.onPostExecute(aVoid);
+        Log.v("Test log unzip post", "_");
         if (!error) {
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//            editor.putBoolean(DownloadDataService.FIRST_START, true);
-//            editor.commit();
-             synchronized (this){
-                 if(mCountExecute == 0){
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean(SplashActivity.UPDATE_DATA_READY, true);
-                    editor.commit();
-                    Log.v("Test log", "finish unzip");
-                 }
-             }
-              SplashActivity.showUpdateNotification(context);
+            Log.v("Test log unzip post", "error = false");
+            SharedPreferencesManager.setUpdateReady(context, true);
+            SplashActivity.showUpdateNotification(context);
         }
+        SharedPreferencesManager.setPreparationUpdate(context, false);
     }
 }

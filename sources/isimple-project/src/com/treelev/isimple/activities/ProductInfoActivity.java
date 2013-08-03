@@ -50,6 +50,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
     private final static String EMPTY_PRICE_LABEL = "\u2013";
     private final static String FORMAT_ALCOHOL = "%s%% алк.";
     private final static String FORMAT_VOLUME = "%s л.";
+    private final static String PATH_TMP_IMAGE  = "/sdcard/Android/data/com.treelev.isimple/cache";
+    private final static String TMP_IMAGE  = "/sdcard/Android/data/com.treelev.isimple/cache/%s.png";
     private String itemId;
     private Item mProduct;
     private boolean mIsFavourite;
@@ -298,11 +300,11 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         Uri result = null;
         try{
             if(mBitMap != null){
-                File tmpDir = new File("/sdcard/Android/data/com.treelev.isimple/cache");
+                File tmpDir = new File(PATH_TMP_IMAGE);
                 if(!tmpDir.isDirectory()){
                     tmpDir.mkdir();
                 }
-                File tmpImage = new File(String.format("/sdcard/Android/data/com.treelev.isimple/cache/%s.png", mProduct.getItemID()));
+                File tmpImage = new File(String.format(TMP_IMAGE, mProduct.getItemID()));
                 OutputStream fOut = new FileOutputStream(tmpImage);
                 mBitMap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
                 fOut.flush();
@@ -318,7 +320,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
     private void deleteTmpImage(){
         if(mBitMap != null){
-            File tmpImage = new File(String.format("/sdcard/Android/data/com.treelev.isimple/cache/%s.png", mProduct.getItemID()));
+            File tmpImage = new File(String.format(TMP_IMAGE, mProduct.getItemID()));
             if(tmpImage.exists()){
                 tmpImage.delete();
             }

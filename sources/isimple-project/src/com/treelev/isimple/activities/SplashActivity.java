@@ -9,13 +9,13 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.FileParseObject;
-import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.service.UpdateDataService;
-import com.treelev.isimple.utils.managers.WebServiceManager;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
@@ -26,13 +26,9 @@ import java.util.*;
 public class SplashActivity extends Activity {
 
     public static final String FROM_NOTIFICATION = "from_notification";
-    public static final String TIME_LAST_UPDATE = "time_last_update";
-    public static final String UPDATE_DATA_READY = "update_data_ready";
-    public static final String UPDATE_START = "update_start";
 
     public static final int STATUS_FINISH = 101;
     public static final int TASK_UPDATE = 305;
-    public static final long SECOND_TO_DAY = 86400000;
     private Dialog mDialog;
 
     private final static String[] urlList = new String[]{
@@ -49,17 +45,19 @@ public class SplashActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
-        AssetManager assetManager = getApplicationContext().getAssets();
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
 
-        boolean firstStart = sharedPreferences.getBoolean(DownloadDataService.FIRST_START, true);
+        Context context = getApplication();
+
         boolean fromNotification = getIntent().getBooleanExtra(FROM_NOTIFICATION, false);
-        boolean updateReady = sharedPreferences.getBoolean(UpdateDataService.UPDATE_READY, false);
-        boolean updateStart = sharedPreferences.getBoolean(UPDATE_START, false);
+
+        boolean firstStart = SharedPreferencesManager.isFirstStart(context);
+        boolean updateReady = isUpdateReady(context);
+        boolean updateStart = SharedPreferencesManager.isStartUpdate(context);
+
         if (firstStart) {
-            new ImportDBFromFileTask().execute(assetManager, sharedPreferences);
-        } else if (fromNotification && updateDataReady(getApplication())) {
-//            && updateDataReady(getApplication()) && updateReady
+            AssetManager assetManager = getApplicationContext().getAssets();
+            new ImportDBFromFileTask().execute(assetManager, SharedPreferencesManager.getSharedPreferences(context));
+        } else if (fromNotification && updateReady && !updateStart) {
             Log.v("Test log", "SplashActivity start Update");
             startUpdate();
         } else if(updateReady) {
@@ -68,23 +66,21 @@ public class SplashActivity extends Activity {
             startApplication(true);
         } else if(updateStart){
             showDialog();
-        } else {
-            showWarningNotification(getApplication());
-            startApplication(true);
         }
+// else {
+//            showWarningNotification(getApplication());
+//            startApplication(true);
+//        }
+    }
+
+    private static boolean isUpdateReady(Context context){
+        return Environment.MEDIA_MOUNTED.equals(Environment.MEDIA_MOUNTED)
+                && SharedPreferencesManager.stateUpdateReady(context);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-
-    public static boolean needNotification(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
-        long lastTimeUpdate = sharedPreferences.getLong(TIME_LAST_UPDATE, -1);
-        long currentTime = Calendar.getInstance().getTimeInMillis() / SECOND_TO_DAY;
-        return lastTimeUpdate != currentTime && updateDataReady(context);
     }
 
     public static void showWarningNotification(Context context){
@@ -101,13 +97,8 @@ public class SplashActivity extends Activity {
         notificationManager.notify(1, notification);
     }
 
-    public static boolean updateDataReady(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
-        return sharedPreferences.getBoolean(UPDATE_DATA_READY, false) && DownloadDataService.isExternalStorageAvailable();
-    }
-
     public static void showUpdateNotification(Context context) {
-        if(needNotification(context)){
+        if(isUpdateReady(context)){
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
 
@@ -163,10 +154,6 @@ public class SplashActivity extends Activity {
 
     private void startUpdate(){
         showDialog();
-        SharedPreferences.Editor editor = getApplication().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS).edit();
-        editor.putBoolean(UPDATE_START, true);
-        editor.putBoolean(UpdateDataService.UPDATE_READY, false);
-        editor.commit();
         Intent updateServiceIntent = new Intent(this, UpdateDataService.class);
         PendingIntent pi = createPendingResult(TASK_UPDATE, new Intent(), 0);
         updateServiceIntent.putExtra(UpdateDataService.PARAM_PINTENT, pi);
@@ -221,9 +208,9 @@ public class SplashActivity extends Activity {
             for (String url : urlList) {
                 prefEditor.putLong(url, new Date(113, 3, 1).getTime());
             }
-            prefEditor.putLong(TIME_LAST_UPDATE, Calendar.getInstance().getTimeInMillis() / SECOND_TO_DAY - 1);
-            prefEditor.putBoolean(DownloadDataService.FIRST_START, false);
-            prefEditor.putBoolean(UpdateDataService.UPDATE_READY, true);
+            SharedPreferencesManager.setFirstStart(getApplication(), false);
+//            prefEditor.putBoolean(DownloadDataService.FIRST_START, false);
+//            prefEditor.putBoolean(UpdateDataService.UPDATE_READY, true);
             prefEditor.commit();
         }
 

@@ -19,6 +19,7 @@ import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.service.UpdateDataService;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.observer.Observer;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
 import org.holoeverywhere.app.AlertDialog;
@@ -146,13 +147,9 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         } finally {
-            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(DownloadDataService.PREFS, MODE_MULTI_PROCESS);
-            String dateUpdate = sharedPreferences.getString(UpdateDataService.DATE_UPDATE,
-                    getResources().getString(R.string.date_update));
-            String dateCatalogUpdate = sharedPreferences.getString(UpdateDataService.DATE_CATALOG_UPDATE,
-                    getResources().getString(R.string.date_update));
-            String datePriceUpdate = sharedPreferences.getString(UpdateDataService.DATE_PRICE_UPDATE,
-                    getResources().getString(R.string.date_update));
+            String dateUpdate = SharedPreferencesManager.getDateUpdate(this);
+            String dateCatalogUpdate = SharedPreferencesManager.getDateCatalogUpdate(this);
+            String datePriceUpdate = SharedPreferencesManager.getDatePriceUpdate(this);;
             AlertDialog.Builder adb = new AlertDialog.Builder(this);
             adb.setTitle(getString(R.string.title_about_info));
             String aboutInfo = String.format(getString(R.string.about_info), version, dateCatalogUpdate, datePriceUpdate, dateUpdate);

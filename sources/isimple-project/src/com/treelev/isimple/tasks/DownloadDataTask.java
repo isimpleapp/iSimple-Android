@@ -7,6 +7,7 @@ import android.util.Log;
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.domain.LoadFileData;
 import com.treelev.isimple.service.DownloadDataService;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
 import org.holoeverywhere.app.Activity;
 
@@ -18,30 +19,16 @@ public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
 
     private final static String LOAD_FILE_DATA_URL = "http://s1.isimpleapp.ru/xml/ver0/Update-Index.xml";
 
-    private static DownloadDataTask task;
-
     private Context context;
     private WebServiceManager webServiceManager;
     private SharedPreferences sharedPreferences;
 
-    private boolean running;
     private boolean error;
 
-    public static DownloadDataTask getDownloadDataTask(Context context) {
-        if (task == null) {
-            task = new DownloadDataTask(context);
-        }
-        return task;
-    }
-
-    private DownloadDataTask(Context context) {
+    public DownloadDataTask(Context context) {
         this.webServiceManager = new WebServiceManager();
-        this.sharedPreferences = context.getSharedPreferences(DownloadDataService.PREFS, Context.MODE_MULTI_PROCESS);
+        this.sharedPreferences = SharedPreferencesManager.getSharedPreferences(context);
         this.context = context;
-    }
-
-    public boolean isRunning() {
-        return running;
     }
 
     @Override
@@ -52,7 +39,6 @@ public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
 
     @Override
     protected List<File> doInBackground(Object... params) {
-        running = true;
         try {
             List<LoadFileData> loadFileDataList = webServiceManager.getLoadFileData(LOAD_FILE_DATA_URL);
             List<File> fileList = null;
@@ -75,26 +61,15 @@ public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
             error = true;
             return null;
         }
-        finally {
-            running = false;
-            task = null;
-        }
     }
 
     @Override
     protected void onPostExecute(List<File> fileList) {
         super.onPostExecute(fileList);
         if (fileList != null && fileList.size() > 0 && !error) {
-            UnzipTask unzipTask = UnzipTask.getUnzipTask(context);
-            if (!unzipTask.isRunning()) {
-                unzipTask.execute(fileList.toArray(new File[fileList.size()]));
-            }
-        } else if(WebServiceManager.getDownloadDirectory().exists()){
-            SharedPreferences.Editor editor = context.getSharedPreferences(DownloadDataService.PREFS, Context.MODE_MULTI_PROCESS).edit();
-            editor.putBoolean(SplashActivity.UPDATE_DATA_READY, true);
-            Log.v("Test log", "finish unzip");
-            editor.commit();
-            SplashActivity.showUpdateNotification(context);
+            new UnzipTask(context).execute(fileList.toArray(new File[fileList.size()]));
+        } else {
+            SharedPreferencesManager.setPreparationUpdate(context, false);
         }
     }
 }

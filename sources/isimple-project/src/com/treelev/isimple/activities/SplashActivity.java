@@ -67,10 +67,9 @@ public class SplashActivity extends Activity {
         } else if(updateStart){
             showDialog();
         }
-// else {
-//            showWarningNotification(getApplication());
-//            startApplication(true);
-//        }
+        else {
+          startApplication(true);
+        }
     }
 
     private static boolean isUpdateReady(Context context){
@@ -209,8 +208,6 @@ public class SplashActivity extends Activity {
                 prefEditor.putLong(url, new Date(113, 3, 1).getTime());
             }
             SharedPreferencesManager.setFirstStart(getApplication(), false);
-//            prefEditor.putBoolean(DownloadDataService.FIRST_START, false);
-//            prefEditor.putBoolean(UpdateDataService.UPDATE_READY, true);
             prefEditor.commit();
         }
 
@@ -233,7 +230,7 @@ public class SplashActivity extends Activity {
         protected Void doInBackground(Boolean... booleans) {
             if(booleans[0]){
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

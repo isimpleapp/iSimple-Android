@@ -37,30 +37,32 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
     protected File[] doInBackground(File... params) {
         try {
             for (File file : params) {
-                ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
-                ZipEntry zipEntry = zipInputStream.getNextEntry();
-                byte[] buffer = new byte[4096];
-                FileOutputStream fileOutputStream = null;
-                if (zipEntry == null) {
-                    Log.i(getClass().getName(), "File " + file.getPath() + " don't unpack");
-                }
-                while (zipEntry != null) {
-                    String fileName = zipEntry.getName();
-                    File newFile = new File(file.getParent() + File.separator + fileName);
-                    fileOutputStream = new FileOutputStream(newFile);
-                    int len;
-                    while ((len = zipInputStream.read(buffer)) > 0) {
-                        fileOutputStream.write(buffer, 0, len);
+                if(file != null){
+                    ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
+                    ZipEntry zipEntry = zipInputStream.getNextEntry();
+                    byte[] buffer = new byte[4096];
+                    FileOutputStream fileOutputStream = null;
+                    if (zipEntry == null) {
+                        Log.i(getClass().getName(), "File " + file.getPath() + " don't unpack");
                     }
-                    fileOutputStream.close();
-                    zipEntry = zipInputStream.getNextEntry();
+                    while (zipEntry != null) {
+                        String fileName = zipEntry.getName();
+                        File newFile = new File(file.getParent() + File.separator + fileName);
+                        fileOutputStream = new FileOutputStream(newFile);
+                        int len;
+                        while ((len = zipInputStream.read(buffer)) > 0) {
+                            fileOutputStream.write(buffer, 0, len);
+                        }
+                        fileOutputStream.close();
+                        zipEntry = zipInputStream.getNextEntry();
+                    }
+                    zipInputStream.closeEntry();
+                    zipInputStream.close();
+                    if (fileOutputStream != null) {
+                        fileOutputStream.close();
+                    }
+                    file.delete();
                 }
-                zipInputStream.closeEntry();
-                zipInputStream.close();
-                if (fileOutputStream != null) {
-                    fileOutputStream.close();
-                }
-                file.delete();
             }
         } catch (Exception e) {
             error = true;

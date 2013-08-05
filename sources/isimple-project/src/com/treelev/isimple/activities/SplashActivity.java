@@ -69,12 +69,15 @@ public class SplashActivity extends Activity {
         }
         else {
           startApplication(true);
+          if(!Environment.MEDIA_MOUNTED.equals(Environment.MEDIA_MOUNTED)){
+              showWarningNotification(getApplicationContext());
+          }
         }
     }
 
     private static boolean isUpdateReady(Context context){
         return Environment.MEDIA_MOUNTED.equals(Environment.MEDIA_MOUNTED)
-                && SharedPreferencesManager.stateUpdateReady(context);
+                && SharedPreferencesManager.isUpdateReady(context);
     }
 
     @Override
@@ -82,7 +85,7 @@ public class SplashActivity extends Activity {
         super.onResume();
     }
 
-    public static void showWarningNotification(Context context){
+    public void showWarningNotification(Context context){
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_warning_label), System.currentTimeMillis());
 

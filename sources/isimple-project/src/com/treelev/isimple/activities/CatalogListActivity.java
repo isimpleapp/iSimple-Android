@@ -218,7 +218,8 @@ public class CatalogListActivity extends BaseExpandableListActivity
     }
 
     private void startUpdateService() {
-        if(!SharedPreferencesManager.isPreparationUpdate(this)){
+        if(!SharedPreferencesManager.isPreparationUpdate(getApplicationContext())
+                && !SharedPreferencesManager.isUpdateReady(getApplicationContext())){
             startService(new Intent(getApplicationContext(), DownloadDataService.class));
         }
     }

@@ -30,16 +30,17 @@
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="Test log" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="fixed update">
+    <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/SharedPreferencesManager.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/SharedPreferencesManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374764634153" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1375274619746" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1375684642894" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1375685470130" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1375548149210" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -135,7 +136,7 @@
     <file path="/title_view.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374135726351" ignored="false" />
     <file path="/catalog_list_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373957661445" ignored="false" />
     <file path="/catalog_list_resource.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365677978872" ignored="false" />
-    <file path="/CatalogListActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1375549742905" ignored="false" />
+    <file path="/CatalogListActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1375686944209" ignored="false" />
     <file path="/ProxyManager.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374575028952" ignored="false" />
     <file path="/catalog_item_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374833955219" ignored="false" />
     <file path="/CatalogItem.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365692210869" ignored="false" />
@@ -1142,7 +1143,7 @@
     <file path="/SwipeDismissListViewTouchListener.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373277237603" ignored="false" />
     <file path="/delete_item_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374056686600" ignored="false" />
     <file path="/SwipeDismissTouchListener.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373116002626" ignored="false" />
-    <file path="/SplashActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1375550099876" ignored="false" />
+    <file path="/SplashActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1375686920665" ignored="false" />
     <file path="/CatalagSubCategoryTree.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373303244232" ignored="false" />
     <file path="/CatalogSubCategoryItemTreeCursorAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374575515537" ignored="false" />
     <file path="/SelectItemsBySubCategoryTree.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374575500306" ignored="false" />
@@ -1871,21 +1872,6 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" line="56" class="com.treelev.isimple.activities.SplashActivity" package="com.treelev.isimple.activities">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/tasks/DownloadDataTask.java" line="46" class="com.treelev.isimple.tasks.DownloadDataTask" package="com.treelev.isimple.tasks">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -1968,10 +1954,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UnzipTask.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="UnzipTask.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="14" selection-start="2518" selection-end="2518" vertical-scroll-proportion="1.379562">
+            <state line="73" column="5" selection-start="2556" selection-end="2576" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1980,7 +1966,7 @@
       <file leaf-file-name="SplashActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="0" selection-start="2794" selection-end="2794" vertical-scroll-proportion="0.0">
+            <state line="79" column="46" selection-start="3133" selection-end="3133" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1989,7 +1975,16 @@
       <file leaf-file-name="CatalogListActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="220" column="0" selection-start="9536" selection-end="9536" vertical-scroll-proportion="0.0">
+            <state line="206" column="105" selection-start="9227" selection-end="9227" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main_menu_item_res.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/values/main_menu_item_res.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="35" selection-start="367" selection-end="367" vertical-scroll-proportion="0.5862069">
               <folding />
             </state>
           </provider>
@@ -1998,7 +1993,7 @@
       <file leaf-file-name="SharedPreferencesManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/SharedPreferencesManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="89" column="36" selection-start="3282" selection-end="3282" vertical-scroll-proportion="0.0">
+            <state line="89" column="36" selection-start="3279" selection-end="3279" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -2048,11 +2043,11 @@
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ProductInfoActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/tasks/DownloadDataTask.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/service/UpdateDataService.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/SharedPreferencesManager.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/service/DownloadDataService.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java" />
       </list>
     </option>
   </component>
@@ -2101,7 +2096,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2438,7 +2433,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2460,12 +2455,12 @@
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="MyAvd0" />
     <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="Downloaded.Files.Path" value="D:\projects-android\iSimple\libs" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="Downloaded.Files.Path" value="D:\projects-android\iSimple\libs" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="options.lastSelected" value="preferences.sourceCode.XML" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="project.structure.side.proportion" value="0.26419467" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="121" />
@@ -2489,17 +2484,17 @@
     <property name="DEBUGGABLE_DEVICE" value="0149C7F018017015" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="Repository.Attach.Sources" value="true" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="116" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="796" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
-    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
+    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0149C7F018017015" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="BX902TNSYY" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
@@ -2559,19 +2554,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -2598,6 +2580,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -3788,7 +3783,11 @@
       <created>1375551932120</created>
       <updated>1375551932120</updated>
     </task>
-    <option name="localTasksCounter" value="261" />
+    <task id="LOCAL-00261" summary="fixed update">
+      <created>1375685485149</created>
+      <updated>1375685485149</updated>
+    </task>
+    <option name="localTasksCounter" value="262" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3813,28 +3812,28 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19386332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39051604" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39051604" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31101814" sideWeight="0.26111907" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23672883" sideWeight="0.59693164" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.0" sideWeight="0.49928263" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25941423" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25801954" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48953974" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.48953974" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22022955" sideWeight="0.51046026" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22022955" sideWeight="0.51046026" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39330545" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.74058574" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -3941,16 +3940,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/android/content/Context.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="28" selection-start="407" selection-end="407" vertical-scroll-proportion="0.2579666" />
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/android/content/SharedPreferences.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="60" selection-start="656" selection-end="656" vertical-scroll-proportion="0.30652505" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/BaseExpandableListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="151" column="87" selection-start="5756" selection-end="5756" vertical-scroll-proportion="0.3678862">
@@ -3983,7 +3972,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/SharedPreferencesManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="36" selection-start="3282" selection-end="3282" vertical-scroll-proportion="0.0">
+        <state line="89" column="36" selection-start="3279" selection-end="3279" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -3995,14 +3984,12 @@
     </entry>
     <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/java/util/zip/ZipInputStream.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="11" selection-start="226" selection-end="226" vertical-scroll-proportion="0.15178572">
-          <folding />
-        </state>
+        <state line="7" column="11" selection-start="226" selection-end="226" vertical-scroll-proportion="0.15178572" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/service/UpdateDataService.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="0" selection-start="2386" selection-end="2386" vertical-scroll-proportion="0.0">
+        <state line="73" column="5" selection-start="2556" selection-end="2576" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -4014,13 +4001,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/tasks/DownloadDataTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="0" selection-start="2464" selection-end="2464" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/service/DownloadDataService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="0" selection-start="546" selection-end="546" vertical-scroll-proportion="0.0">
@@ -4028,23 +4008,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/tasks/DownloadDataTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="220" column="0" selection-start="9536" selection-end="9536" vertical-scroll-proportion="0.0">
+        <state line="68" column="0" selection-start="2464" selection-end="2464" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/service/UpdateDataService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="0" selection-start="2386" selection-end="2386" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/SplashActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="0" selection-start="2794" selection-end="2794" vertical-scroll-proportion="0.0">
+        <state line="79" column="46" selection-start="3133" selection-end="3133" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/tasks/UnzipTask.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="14" selection-start="2518" selection-end="2518" vertical-scroll-proportion="1.379562">
+        <state line="206" column="105" selection-start="9227" selection-end="9227" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/drawable-hdpi/menu_ico_catalog.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/main_menu_item_res.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="35" selection-start="367" selection-end="367" vertical-scroll-proportion="0.5862069">
           <folding />
         </state>
       </provider>

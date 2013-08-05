@@ -27,7 +27,7 @@ public class SharedPreferencesManager {
         return context.getSharedPreferences(PREFS, context.MODE_MULTI_PROCESS);
     }
 
-    public static boolean stateUpdateReady(Context context){
+    public static boolean isUpdateReady(Context context){
         return getSharedPreferences(context).getBoolean(READY_UPDATE, false);
     }
 

@@ -1,26 +1,20 @@
 package com.treelev.isimple.fragments.filters;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import com.treelev.isimple.R;
+import com.treelev.isimple.domain.ui.filter_fragment.PriceItemFilter;
+import com.treelev.isimple.domain.ui.filter_fragment.WaterItemFilter;
 
-public class WaterFilter extends FilterFragment{
-
-    @Override
-    protected String getWhereClause() {
-        return null;
-    }
+public class WaterFilter extends FilterFragment {
 
     @Override
-    protected void resetFilter() {
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.water_filter_layout, container);
-        return view;
+    protected void initFilterItems() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        WaterItemFilter waterItem = new WaterItemFilter(inflater);
+        mLayout.addView(waterItem.getView());
+        mItems.add(waterItem);
+        PriceItemFilter priceItem = new PriceItemFilter(inflater, mMinPrice, mMaxPrice);
+        mLayout.addView(priceItem.getView());
+        mItems.add(priceItem);
+        mLayout.addView(getControlView());
     }
 }

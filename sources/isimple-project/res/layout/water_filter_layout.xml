@@ -1,64 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-    <TableLayout
+        android:layout_height="match_parent">
+    <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/wine_type_pink"
-                    android:id="@+id/rb_water"/>
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New RadioButton"
-                    android:id="@+id/rb_juice"/>
-        </TableRow>
-        <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New RadioButton"
-                    android:id="@+id/rb_energetik"/>
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New RadioButton"
-                    android:id="@+id/rb_bar"/>
-        </TableRow>
-    </TableLayout>
-
-    <View
-            android:id="@+id/price"
-            android:layout_height="50dip"
-            android:layout_width="match_parent"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-
+            android:layout_height="match_parent">
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:text="New Button"
-                android:id="@+id/button"/>
+                android:layout_weight="0.5"
+                android:text="@string/btn_water"
+                android:id="@+id/btn_water"/>
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:text="New Button"
-                android:id="@+id/button1"/>
-    </LinearLayout>
-
-</LinearLayout>
+                android:layout_weight="0.5"
+                android:text="@string/btn_juice"
+                android:id="@+id/btn_juice"/>
+    </TableRow>
+    <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/btn_energetik"
+                android:id="@+id/btn_energetik"/>
+        <Button
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/btn_bar"
+                android:id="@+id/btn_bar"/>
+    </TableRow>
+</TableLayout>

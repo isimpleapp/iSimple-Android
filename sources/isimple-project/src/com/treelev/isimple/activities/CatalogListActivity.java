@@ -176,7 +176,7 @@ public class CatalogListActivity extends BaseExpandableListActivity
     }
 
     public void onClickCategoryButt(View v) {
-        Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
+        Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivityNew.class);
         Integer category = DrinkCategory.getItemCategoryByButtonId(v.getId());
         startIntent.putExtra(CATEGORY_ID, category);
         startActivity(startIntent);

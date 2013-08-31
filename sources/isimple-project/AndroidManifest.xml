@@ -25,7 +25,14 @@
                     android:name="android.app.default_searchable"
                     android:value=".activities.SearchResultActivity"/>
         </activity>
+        <!-- Delete after New CatalogByCategory final -->
         <activity android:name=".activities.CatalogByCategoryActivity" android:screenOrientation="portrait">
+            <meta-data
+                    android:name="android.app.default_searchable"
+                    android:value=".activities.SearchResultActivity"/>
+        </activity>
+        <!--New CatalogByCategory  NOT FINAL-->
+        <activity android:name=".activities.CatalogByCategoryActivityNew" android:screenOrientation="portrait">
             <meta-data
                     android:name="android.app.default_searchable"
                     android:value=".activities.SearchResultActivity"/>

@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.RadioGroup;
@@ -22,12 +22,12 @@ import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.fragments.filters.FilterFragment;
+import com.treelev.isimple.fragments.filters.WaterFilter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ExpandableListView;
 
 public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
-
-        implements RadioGroup.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
+        implements  LoaderManager.LoaderCallbacks<Cursor>,
         SearchView.OnQueryTextListener{
 
     private final static String FIELD_TAG = "field_tag";
@@ -111,21 +111,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
-        switch (rgb) {
-            case R.id.alphabet_sort:
-                mSortBy = ProxyManager.SORT_NAME_AZ;
-                break;
-            case R.id.price_sort:
-                mSortBy = ProxyManager.SORT_PRICE_UP;
-                break;
-        }
-        mTreeCategoriesAdapter.setSortBy(mSortBy);
-//TODO        mFilterWhereClause = mFilterUse ? filter.getSQLWhereClause() : mFilterWhereClause;
-        initLoadManager();
     }
 
     private SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
@@ -221,26 +206,47 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private void initFilter() {
         DrinkCategory drinkCategory = DrinkCategory.getDrinkCategory(mCategoryID);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        View header = null;
+        FilterFragment.FilterType type = null;
         switch (drinkCategory) {
             case WINE:
+                header = getLayoutInflater().inflate(R.layout.wine_filter_fragment);
+
                 break;
             case SPIRITS:
+                header = getLayoutInflater().inflate(R.layout.spirits_filter_fragment);
                 break;
             case SPARKLING:
+                header = getLayoutInflater().inflate(R.layout.sparkilng_filter_fragment);
+
                 break;
             case SAKE:
+                header = getLayoutInflater().inflate(R.layout.sake_filter_fragment);
                 break;
             case PORTO:
+                header = getLayoutInflater().inflate(R.layout.porto_heres_filter_fragment);
                 break;
             case WATER:
-                mFilter = FilterFragment.newInstance(FilterFragment.FilterType.Water, 0, 10000);
+                header = getLayoutInflater().inflate(R.layout.water_filter_fragment);
+                initWaterFilter(header);
                 break;
             default:
                 return;
         }
-        fragmentTransaction.add(R.id.filter_fragment, mFilter);
-        fragmentTransaction.commit();
+        getExpandableListView().addHeaderView(header);
+    }
+
+    private void initWaterFilter(View view){
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        WaterFilter waterFilter = (WaterFilter) mFilter;
+        waterFilter.initFilterItems(0, 100000);
+        waterFilter.setOnChangeFilterListener(new FilterFragment.OnChangeStateListener() {
+            @Override
+            public void onChangeFilterState(String whereClause, boolean group) {
+                Log.v("WhereClause = ", whereClause);
+                initLoadManager();
+            }
+        });
     }
 
     private void backOrCollapse() {
@@ -249,6 +255,10 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     }
 
     private void initLoadManager() {
+//TODO
+        mFilterWhereClause = mFilter.getWhereClause();
+        mSortBy = mFilter.getSortBy();
+        mTreeCategoriesAdapter.setSortBy(mSortBy);
         if(mFilterWhereClause == null){
             if(mLocationId == null){
                 mTypeSection = ProxyManager.TYPE_SECTION_MAIN;

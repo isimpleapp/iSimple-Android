@@ -2,8 +2,13 @@ package com.treelev.isimple.fragments.filters;
 
 public class WineFilter extends FilterFragment{
 
+
+    public void initFilterItems() {
+
+    }
+
     @Override
-    protected void initFilterItems() {
+    public void onChangeFilterState() {
 
     }
 }

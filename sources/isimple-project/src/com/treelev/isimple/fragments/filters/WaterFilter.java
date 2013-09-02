@@ -6,15 +6,27 @@ import com.treelev.isimple.domain.ui.filter_fragment.WaterItemFilter;
 
 public class WaterFilter extends FilterFragment {
 
-    @Override
-    protected void initFilterItems() {
+    private PriceItemFilter mPriceItemFilter;
+
+
+    public void initFilterItems(int min, int max) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        WaterItemFilter waterItem = new WaterItemFilter(inflater);
+        WaterItemFilter waterItem = new WaterItemFilter(inflater, this);
         mLayout.addView(waterItem.getView());
         mItems.add(waterItem);
-        PriceItemFilter priceItem = new PriceItemFilter(inflater, mMinPrice, mMaxPrice);
+        PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
         mLayout.addView(priceItem.getView());
+        mPriceItemFilter = priceItem;
+        priceItem.setEnable(true);
         mItems.add(priceItem);
-        mLayout.addView(getControlView());
+        addControlView();
+        addSortControl();
+    }
+
+    @Override
+    public void onChangeFilterState() {
+        if(mListener != null){
+            mListener.onChangeFilterState(getWhereClause(), mPriceItemFilter.isInitialState());
+        }
     }
 }

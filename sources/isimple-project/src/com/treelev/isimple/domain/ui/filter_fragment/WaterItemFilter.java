@@ -6,16 +6,18 @@ import android.view.View;
 import android.widget.Button;
 import com.treelev.isimple.R;
 import com.treelev.isimple.enumerable.item.ProductType;
+import com.treelev.isimple.fragments.filters.FilterFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WaterItemFilter extends  ItemFilter{
+public class WaterItemFilter extends ItemInteractiveFilter {
 
     private List<Item> mItems;
 
-    public WaterItemFilter(android.view.LayoutInflater inflater) {
-        super(inflater);
+    public WaterItemFilter(android.view.LayoutInflater inflater, FilterFragment filter) {
+        super(inflater, filter);
+        initControl();
     }
 
     @Override
@@ -54,6 +56,7 @@ public class WaterItemFilter extends  ItemFilter{
                         item.setChecked(!item.isChecked);
                     }
                 }
+                onChangeStateItemFilter();
             }
         });
         mItems.add(item);

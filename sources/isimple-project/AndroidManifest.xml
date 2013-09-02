@@ -73,7 +73,6 @@
                   android:excludeFromRecents="true"
                   android:finishOnTaskLaunch="true" />
         <activity android:name=".activities.ProductImageActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.VersionInfoActivity"/>
         <!--<activity android:name=".activities.TestParsingActivity">-->
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN"/>-->

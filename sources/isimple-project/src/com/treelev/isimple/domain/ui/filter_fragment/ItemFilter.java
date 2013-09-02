@@ -11,7 +11,6 @@ public abstract class ItemFilter {
     protected ItemFilter(LayoutInflater inflater){
         mInflater = inflater;
         mView = createView();
-        initControl();
     }
 
     public abstract void reset();

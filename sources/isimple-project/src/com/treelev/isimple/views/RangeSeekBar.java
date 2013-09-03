@@ -547,8 +547,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     @SuppressWarnings("unchecked")
     private T normalizedToValue(double normalized) {
         double value = Math.pow(normalized, 4.0) * absoluteMaxValuePrim;
-        return (T)  numberType.toNumber(value);
-//        return (T)  numberType.toNumber( absoluteMinValuePrim + normalized * (absoluteMaxValuePrim - absoluteMinValuePrim));
+//        return (T)  numberType.toNumber(value);
+        return (T)  numberType.toNumber( absoluteMinValuePrim + normalized * (absoluteMaxValuePrim - absoluteMinValuePrim));
     }
 
     /**
@@ -563,8 +563,8 @@ public class RangeSeekBar<T extends Number> extends ImageView {
             // prevent division by zero, simply return 0.
             return 0d;
         }
-        return Math.pow( value.doubleValue() / absoluteMaxValuePrim, 0.25 );
-//        return (value.doubleValue() - absoluteMinValuePrim) / (absoluteMaxValuePrim - absoluteMinValuePrim);
+//        return Math.pow( value.doubleValue() / absoluteMaxValuePrim, 0.25 );
+        return (value.doubleValue() - absoluteMinValuePrim) / (absoluteMaxValuePrim - absoluteMinValuePrim);
     }
 
     /**

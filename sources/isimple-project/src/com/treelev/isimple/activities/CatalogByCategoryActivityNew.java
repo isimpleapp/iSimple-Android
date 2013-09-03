@@ -16,6 +16,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.itemstreecursoradapter.AbsItemTreeCursorAdapter;
 import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogByCategoryItemTreeCursorAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
@@ -60,6 +61,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     private int DIP51_IN_PX;
 
     private SearchView mSearchView;
+    private View mFooter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,16 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         mContext = this;
+        mFooter = getLayoutInflater().inflate(R.layout.not_found_layout, null);
+        mFooter.setVisibility(View.GONE);
+        getExpandableListView().addFooterView(mFooter);
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
+        mTreeCategoriesAdapter.setFinishListener(new AbsItemTreeCursorAdapter.FinishListener() {
+            @Override
+            public void onFinish() {
+                mFooter.setVisibility(mTreeCategoriesAdapter.isEmpty() ? View.VISIBLE : View.GONE);
+            }
+        });
         if (mLocationId == null) {
             mTreeCategoriesAdapter.initCategory(mCategoryID);
             setCurrentCategory(0); //Catalog
@@ -239,11 +250,13 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     private void initWaterFilter(View view){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
         WaterFilter waterFilter = (WaterFilter) mFilter;
-        waterFilter.initFilterItems(0, 100000);
+        ProxyManager proxyManager = new ProxyManager(this);
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        waterFilter.initFilterItems(min, max);
         waterFilter.setOnChangeFilterListener(new FilterFragment.OnChangeStateListener() {
             @Override
             public void onChangeFilterState(String whereClause, boolean group) {
-                Log.v("WhereClause = ", whereClause);
                 initLoadManager();
             }
         });
@@ -290,5 +303,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
     }
+
 
 }

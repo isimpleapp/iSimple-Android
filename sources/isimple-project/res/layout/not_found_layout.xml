@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/not_found_ico"
+            android:layout_centerInParent="true"
+            android:id="@+id/not_found_ico"
+            />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_not_found"
+            android:maxLines="2"
+            android:layout_below="@id/not_found_ico"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="30dip"
+            android:textSize="16dip"/>
+</RelativeLayout>

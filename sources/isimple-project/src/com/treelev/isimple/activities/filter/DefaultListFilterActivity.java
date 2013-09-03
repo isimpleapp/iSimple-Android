@@ -24,6 +24,7 @@ import java.util.Arrays;
 public class DefaultListFilterActivity extends BaseListActivity {
     private static final String BUNDLE_EXTRA = "bundle_extra";
     private static final String FILTER_DATA = "filter_data";
+    private final static String CURRENT_CATEGORY = "current_category";
 
     private FilterItemData[] filterData;
 
@@ -102,6 +103,16 @@ public class DefaultListFilterActivity extends BaseListActivity {
         if (bundle == null) {
             bundle = new Bundle();
             intent.putExtra(BUNDLE_EXTRA, bundle);
+        }
+        bundle.putParcelableArray(FILTER_DATA, filterData);
+    }
+
+    public static void putFilterData(Intent intent, FilterItemData[] filterData, int category) {
+        Bundle bundle = intent.getBundleExtra(BUNDLE_EXTRA);
+        if (bundle == null) {
+            bundle = new Bundle();
+            intent.putExtra(BUNDLE_EXTRA, bundle);
+            intent.putExtra(CURRENT_CATEGORY, category);
         }
         bundle.putParcelableArray(FILTER_DATA, filterData);
     }

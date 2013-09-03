@@ -11,7 +11,7 @@ import com.treelev.isimple.fragments.filters.FilterFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WaterItemFilter extends ItemInteractiveFilter {
+public class WaterItemFilter extends ItemFilter {
 
     private List<Item> mItems;
 
@@ -34,7 +34,7 @@ public class WaterItemFilter extends ItemInteractiveFilter {
 
     @Override
     protected void initControl() {
-//TODO check type
+//TODO check type SYRUP
         mItems = new ArrayList<Item>();
         initItem(R.id.btn_water, String.valueOf(ProductType.WATER.ordinal()));
         initItem(R.id.btn_juice, String.valueOf(ProductType.JUICE.ordinal()));

@@ -320,6 +320,10 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemMaxPriceByCategory(categoryId);
     }
 
+    public Integer getMinValuePriceByCategoryId(Integer categoryId) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemMinPriceByCategory(categoryId);
+    }
+
     public void setFavouriteItemTable(List<String> itemsId, boolean state) {
         ((ItemDAO) getObjectDAO(ItemDAO.ID)).setFavourite(itemsId, state);
     }

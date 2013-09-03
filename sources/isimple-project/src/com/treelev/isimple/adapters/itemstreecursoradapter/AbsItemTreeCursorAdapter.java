@@ -67,6 +67,14 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     private int itemColorIndex;
     private int itemFavouriteIndex;
 
+    private boolean mEmpty;
+    private FinishListener mListener;
+
+    public interface FinishListener {
+        void onFinish();
+    }
+
+
 
     public AbsItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
         super(context, cursor, R.layout.section_items,
@@ -107,6 +115,10 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     }
 
 
+    public void setFinishListener(FinishListener listener){
+        mListener = listener;
+    }
+
     public void setSortBy(int sortBy){
         mSortBy = sortBy;
     }
@@ -146,6 +158,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     @Override
     public void setGroupCursor(Cursor cursor) {
         mEmptyGroupView.clear();
+        mEmpty = true;
         super.setGroupCursor(cursor);
     }
 
@@ -297,6 +310,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         setChildrenCursor(cursorLoader.getId(), cursor);
         stopDialog();
+        mEmpty |= cursor.getCount() == 0;
         if(cursor.getCount() == 0) {
             mEmptyGroupView.add(new Integer(cursorLoader.getId()));
         }
@@ -325,7 +339,14 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         if(mCountCallBack == 0 && mDialog != null){
             mDialog.dismiss();
             mDialog = null;
+            if(mListener != null){
+                mListener.onFinish();
+            }
         }
+    }
+
+    public boolean isEmpty(){
+        return mEmpty;
     }
 
     private String organizeItemNameLabel(String itemName) {

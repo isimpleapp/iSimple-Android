@@ -1,6 +1,7 @@
 package com.treelev.isimple.fragments.filters;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -29,6 +30,7 @@ public abstract class FilterFragment extends Fragment {
     protected List<ItemFilter> mItems;
     protected LinearLayout mLayout;
     private int mSortBy;
+    private int mCategory;
 
     public FilterFragment(){
         mItems = new ArrayList<ItemFilter>();
@@ -43,6 +45,14 @@ public abstract class FilterFragment extends Fragment {
 
     public void setOnChangeFilterListener(OnChangeStateListener listener){
         mListener = listener;
+    }
+
+    public void setCategory(int category){
+        mCategory = category;
+    }
+
+    public int getCategory(){
+        return mCategory;
     }
 
     public abstract void onChangeFilterState();
@@ -121,5 +131,10 @@ public abstract class FilterFragment extends Fragment {
                         getActivity().getResources().getDisplayMetrics())));
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
 }
 

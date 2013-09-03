@@ -322,7 +322,7 @@ public class ItemDAO extends BaseDAO {
 
     public Integer getItemMaxPriceByCategory(Integer categoryId) {
         String selectSql = String.format(
-                "SELECT max(price) FROM item WHERE drink_category = %s", categoryId);
+                "SELECT MAX(price) FROM item WHERE drink_category = %s", categoryId);
         open();
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         Integer maxValuePrice = null;
@@ -334,6 +334,23 @@ public class ItemDAO extends BaseDAO {
         }
         return maxValuePrice;
     }
+
+    public Integer getItemMinPriceByCategory(Integer categoryId) {
+        String selectSql = String.format(
+            "SELECT MIN(price) FROM item WHERE drink_category = %s",
+                categoryId);
+        open();
+        Cursor cursor = getDatabase().rawQuery(selectSql, null);
+        Integer maxValuePrice = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                maxValuePrice = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+        return maxValuePrice;
+    }
+
 
     public Cursor getSearchItemsByCategory(Integer categoryId, String query, String orderByField) {
         open();

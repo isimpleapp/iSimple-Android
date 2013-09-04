@@ -158,7 +158,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     @Override
     public void setGroupCursor(Cursor cursor) {
         mEmptyGroupView.clear();
-        mEmpty = true;
+        mEmpty = false;
         super.setGroupCursor(cursor);
     }
 

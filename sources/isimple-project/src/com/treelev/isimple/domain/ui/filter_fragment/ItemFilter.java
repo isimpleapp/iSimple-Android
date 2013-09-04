@@ -34,6 +34,10 @@ public abstract class ItemFilter {
     protected abstract void initControl();
     public abstract String getWhereClause();
 
+    public  void onResult(int requestCode, int resultCode, Intent data) {
+
+    }
+
     public View getView(){
         return mView;
     }

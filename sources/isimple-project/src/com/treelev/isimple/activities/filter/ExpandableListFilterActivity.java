@@ -30,6 +30,8 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
     private final static String GROUP_NAME = "group";
     private final static String ITEM_NAME = "item";
 
+    private final static String CURRENT_CATEGORY = "current_category";
+
     private FilterItemData[] groupData;
     private Map<String, FilterItemData[]> childData;
 
@@ -170,6 +172,19 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         bundle.putParcelableArray(GROUP_DATA, groupData);
         for (FilterItemData group : groupData)
             bundle.putParcelableArray(group.getName(), childData.get(group.getName()));
+    }
+
+    public static void putFilterData(Intent intent, FilterItemData[] groupData, Map<String, FilterItemData[]> childData, int category) {
+        Bundle bundle = intent.getBundleExtra(BUNDLE_EXTRA);
+        if (bundle == null) {
+            bundle = new Bundle();
+            intent.putExtra(BUNDLE_EXTRA, bundle);
+        }
+        bundle.putParcelableArray(GROUP_DATA, groupData);
+        for (FilterItemData group : groupData) {
+            bundle.putParcelableArray(group.getName(), childData.get(group.getName()));
+        }
+        intent.putExtra(CURRENT_CATEGORY, category);
     }
 
     private FilterItemData[] getGroupData() {

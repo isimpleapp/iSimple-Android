@@ -16,7 +16,7 @@ public class PortoHeresColorItemFilter extends ItemFilter
     private CheckBox mWhite;
 
 
-    protected PortoHeresColorItemFilter(LayoutInflater inflater, FilterFragment filter) {
+    public PortoHeresColorItemFilter(LayoutInflater inflater, FilterFragment filter) {
         super(inflater, filter);
         initControl();
     }

@@ -13,7 +13,7 @@
             android:text="@string/lbl_porto"
             android:textColor="@color/product_text_color1"
             android:background="@android:color/white"
-            android:textSize="16dip"
+            android:textSize="20sp"
             android:gravity="center"
             android:id="@+id/chb_porto"
             android:button="@null"/>
@@ -39,7 +39,7 @@
             android:text="@string/lbl_heres"
             android:textColor="@color/product_text_color1"
             android:background="@android:color/white"
-            android:textSize="16dip"
+            android:textSize="20sp"
             android:gravity="center"
             android:id="@+id/chb_heres"
             android:button="@null"/>

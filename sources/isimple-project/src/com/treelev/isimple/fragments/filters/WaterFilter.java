@@ -12,13 +12,11 @@ public class WaterFilter extends FilterFragment {
     public void initFilterItems(int min, int max) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         WaterItemFilter waterItem = new WaterItemFilter(inflater, this);
-        mLayout.addView(waterItem.getView());
-        mItems.add(waterItem);
+        addItemFilter(waterItem);
         PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
-        mLayout.addView(priceItem.getView());
+        addItemFilter(priceItem);
         mPriceItemFilter = priceItem;
-        priceItem.setEnable(true);
-        mItems.add(priceItem);
+        mPriceItemFilter.setEnable(true);
         addControlView();
         addSortControl();
     }

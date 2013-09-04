@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -21,11 +22,15 @@ import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogByCategoryItem
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
+import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.fragments.filters.FilterFragment;
+import com.treelev.isimple.fragments.filters.PortoHeresFilter;
 import com.treelev.isimple.fragments.filters.WaterFilter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ExpandableListView;
+
+import java.util.List;
 
 public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         implements  LoaderManager.LoaderCallbacks<Cursor>,
@@ -71,13 +76,17 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         mContext = this;
         mFooter = getLayoutInflater().inflate(R.layout.not_found_layout, null);
-        mFooter.setVisibility(View.GONE);
-        getExpandableListView().addFooterView(mFooter);
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
         mTreeCategoriesAdapter.setFinishListener(new AbsItemTreeCursorAdapter.FinishListener() {
             @Override
             public void onFinish() {
-                mFooter.setVisibility(mTreeCategoriesAdapter.isEmpty() ? View.VISIBLE : View.GONE);
+                if(mTreeCategoriesAdapter.isEmpty()){
+                    if(getExpandableListView().getFooterViewsCount() == 0) {
+                        getExpandableListView().addFooterView(mFooter);
+                    }
+                } else {
+                    getExpandableListView().removeFooterView(mFooter);
+                }
             }
         });
         if (mLocationId == null) {
@@ -236,6 +245,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
                 break;
             case PORTO:
                 header = getLayoutInflater().inflate(R.layout.porto_heres_filter_fragment);
+                initPortoHeresFilter(header);
                 break;
             case WATER:
                 header = getLayoutInflater().inflate(R.layout.water_filter_fragment);
@@ -244,24 +254,43 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
             default:
                 return;
         }
+        mFilter.setCategory(mCategoryID);
         getExpandableListView().addHeaderView(header);
     }
 
     private void initWaterFilter(View view){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        WaterFilter waterFilter = (WaterFilter) mFilter;
         ProxyManager proxyManager = new ProxyManager(this);
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        WaterFilter waterFilter = (WaterFilter) mFilter;
         waterFilter.initFilterItems(min, max);
         waterFilter.setOnChangeFilterListener(new FilterFragment.OnChangeStateListener() {
             @Override
             public void onChangeFilterState(String whereClause, boolean group) {
+                mFilterWhereClause = mFilter.getWhereClause();
+                mSortBy = mFilter.getSortBy();
                 initLoadManager();
             }
         });
     }
 
+    private void initPortoHeresFilter(View view){
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        ProxyManager proxyManager = new ProxyManager(this);
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        PortoHeresFilter portoHeresFilter = (PortoHeresFilter) mFilter;
+        portoHeresFilter.initFilterItems(min, max, FilterItemData.getAvailableYears(this, DrinkCategory.PORTO));
+        portoHeresFilter.setOnChangeFilterListener(new FilterFragment.OnChangeStateListener(){
+            @Override
+            public void onChangeFilterState(String whereClause, boolean group) {
+                mFilterWhereClause = mFilter.getWhereClause();
+                mSortBy = mFilter.getSortBy();
+                initLoadManager();
+            }
+        });
+    }
     private void backOrCollapse() {
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
@@ -269,10 +298,8 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private void initLoadManager() {
 //TODO
-        mFilterWhereClause = mFilter.getWhereClause();
-        mSortBy = mFilter.getSortBy();
         mTreeCategoriesAdapter.setSortBy(mSortBy);
-        if(mFilterWhereClause == null){
+        if(TextUtils.isEmpty(mFilterWhereClause)){
             if(mLocationId == null){
                 mTypeSection = ProxyManager.TYPE_SECTION_MAIN;
             } else {
@@ -282,7 +309,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
             mTreeCategoriesAdapter.initFilter(mFilterWhereClause, mLocationId, mSortBy);
             mTypeSection = ProxyManager.TYPE_SECTION_FILTRATION_SEARCH;
         }
-        if(mFilterWhereClause != null ) {
+        if(!TextUtils.isEmpty(mFilterWhereClause)) {
             mTreeCategoriesAdapter.setFilterWhereClause(mFilterWhereClause);
         }
         getSupportLoaderManager().restartLoader(mTypeSection, null, this);
@@ -305,4 +332,9 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mFilter.onActivityResult(requestCode, resultCode, data);
+    }
 }

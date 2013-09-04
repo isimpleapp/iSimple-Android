@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.fragments.filters.FilterFragment;
 
@@ -13,7 +14,7 @@ public class PortoHeresTypeItemFilter extends ItemFilter {
     private CheckBox mHeres;
 
 
-    protected PortoHeresTypeItemFilter(LayoutInflater inflater, FilterFragment filter) {
+    public PortoHeresTypeItemFilter(LayoutInflater inflater, FilterFragment filter) {
         super(inflater, filter);
         initControl();
     }
@@ -36,7 +37,20 @@ public class PortoHeresTypeItemFilter extends ItemFilter {
         CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                compoundButton.setTextColor(checked ? R.color.isimple_pink : R.color.product_text_color1);
+                compoundButton.setTextColor(checked ?
+                        mFilter.getResources().getColor(R.color.isimple_pink)
+                        : mFilter.getResources().getColor(R.color.product_text_color1));
+                onChangeStateItemFilter();
+            }
+        };
+
+        View.OnClickListener newListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CheckBox checkBox = (CheckBox)view;
+                checkBox.setTextColor(checkBox.isChecked() ?
+                        mFilter.getResources().getColor(R.color.isimple_pink)
+                        : mFilter.getResources().getColor(R.color.product_text_color1));
                 onChangeStateItemFilter();
             }
         };
@@ -50,13 +64,13 @@ public class PortoHeresTypeItemFilter extends ItemFilter {
     public String getWhereClause() {
         StringBuilder sqlBuilder = new StringBuilder();
         if (mPorto.isChecked()) {
-            sqlBuilder.append("item.product = 3");
+            sqlBuilder.append("item.product_type = 3");
         }
         if (mHeres.isChecked()) {
             if (sqlBuilder.length() > 0) {
                 sqlBuilder.append(" OR ");
             }
-            sqlBuilder.append("item.product = 4" );
+            sqlBuilder.append("item.product_type = 4" );
         }
         if (sqlBuilder.length() > 0) {
             sqlBuilder.insert(0, '(');

@@ -74,6 +74,16 @@ public abstract class FilterFragment extends Fragment {
         return mSortBy;
     }
 
+    protected void addItemFilter(ItemFilter item){
+        mLayout.addView(item.getView());
+        mItems.add(item);
+    }
+
+    protected void addItemFilter(ItemFilter item, LinearLayout.LayoutParams params){
+        mLayout.addView(item.getView(), params);
+        mItems.add(item);
+    }
+
     protected void resetFilter(){
         for(ItemFilter item : mItems){
             item.reset();
@@ -134,7 +144,9 @@ public abstract class FilterFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        for(ItemFilter item : mItems){
+            item.onResult(requestCode, resultCode, data);
+        }
     }
 }
 

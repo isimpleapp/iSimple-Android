@@ -2,11 +2,13 @@ package com.treelev.isimple.domain.ui.filter_fragment;
 
 import android.view.LayoutInflater;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
+import com.treelev.isimple.enumerable.item.Sweetness;
 import com.treelev.isimple.fragments.filters.FilterFragment;
 
-public class YearItemFilter extends DefaultActivityItemFilter {
 
-    public YearItemFilter(LayoutInflater inflater, FilterFragment filter, FilterItemData[] filterData) {
+public class SweetnesItemFilter extends DefaultActivityItemFilter {
+
+    public SweetnesItemFilter(LayoutInflater inflater, FilterFragment filter,FilterItemData[] filterData) {
         super(inflater, filter, filterData);
     }
 
@@ -19,7 +21,7 @@ public class YearItemFilter extends DefaultActivityItemFilter {
                     if(sqlBuilder.length() > 0) {
                         sqlBuilder.append(" OR ");
                     }
-                    sqlBuilder.append(String.format("item.year=%s", item.getName()));
+                    sqlBuilder.append(String.format("item.sweetness=%s", Sweetness.getSweetness(item.getName()).ordinal()));
                 }
             }
         }

@@ -24,9 +24,8 @@ import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.fragments.filters.FilterFragment;
-import com.treelev.isimple.fragments.filters.PortoHeresFilter;
-import com.treelev.isimple.fragments.filters.WaterFilter;
+import com.treelev.isimple.enumerable.item.Sweetness;
+import com.treelev.isimple.fragments.filters.*;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ExpandableListView;
 
@@ -231,10 +230,11 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         switch (drinkCategory) {
             case WINE:
                 header = getLayoutInflater().inflate(R.layout.wine_filter_fragment);
-
+                initWineFilter();
                 break;
             case SPIRITS:
                 header = getLayoutInflater().inflate(R.layout.spirits_filter_fragment);
+
                 break;
             case SPARKLING:
                 header = getLayoutInflater().inflate(R.layout.sparkilng_filter_fragment);
@@ -242,6 +242,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
                 break;
             case SAKE:
                 header = getLayoutInflater().inflate(R.layout.sake_filter_fragment);
+                initSakeFilter();
                 break;
             case PORTO:
                 header = getLayoutInflater().inflate(R.layout.porto_heres_filter_fragment);
@@ -254,12 +255,30 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
             default:
                 return;
         }
-        mFilter.setCategory(mCategoryID);
         getExpandableListView().addHeaderView(header);
+    }
+
+    private void initWineFilter(){
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        mFilter.setCategory(mCategoryID);
+        ProxyManager proxyManager = new ProxyManager(this);
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        WineFilter wineFilter = (WineFilter) mFilter;
+        wineFilter.initFilterItems();
+        wineFilter.setOnChangeFilterListener(new FilterFragment.OnChangeStateListener(){
+            @Override
+            public void onChangeFilterState(String whereClause, boolean group) {
+                mFilterWhereClause = mFilter.getWhereClause();
+                mSortBy = mFilter.getSortBy();
+                initLoadManager();
+            }
+        });
     }
 
     private void initWaterFilter(View view){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        mFilter.setCategory(mCategoryID);
         ProxyManager proxyManager = new ProxyManager(this);
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
@@ -277,11 +296,15 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private void initPortoHeresFilter(View view){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        mFilter.setCategory(mCategoryID);
         ProxyManager proxyManager = new ProxyManager(this);
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
         PortoHeresFilter portoHeresFilter = (PortoHeresFilter) mFilter;
-        portoHeresFilter.initFilterItems(min, max, FilterItemData.getAvailableYears(this, DrinkCategory.PORTO));
+        portoHeresFilter.initFilterItems(min, max,
+                FilterItemData.createFromPresentable(Sweetness.getPortoSweetness()),
+                FilterItemData.getAvailableYears(this, DrinkCategory.PORTO),
+                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.PORTO));
         portoHeresFilter.setOnChangeFilterListener(new FilterFragment.OnChangeStateListener(){
             @Override
             public void onChangeFilterState(String whereClause, boolean group) {
@@ -291,6 +314,27 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
             }
         });
     }
+
+    private void initSakeFilter(){
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        mFilter.setCategory(mCategoryID);
+        ProxyManager proxyManager = new ProxyManager(this);
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        SakeFilter sakeFilter = (SakeFilter) mFilter;
+        sakeFilter.initFilterItems(min, max, FilterItemData.getAvailableClassifications(this, DrinkCategory.SAKE));
+        sakeFilter.setOnChangeFilterListener(new FilterFragment.OnChangeStateListener(){
+            @Override
+            public void onChangeFilterState(String whereClause, boolean group) {
+                mFilterWhereClause = mFilter.getWhereClause();
+                mSortBy = mFilter.getSortBy();
+                initLoadManager();
+            }
+        });
+    }
+
+
+
     private void backOrCollapse() {
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);

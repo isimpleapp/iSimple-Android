@@ -19,6 +19,7 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
 
     public ExpandableActivityItemFilter(LayoutInflater inflater, FilterFragment filter, Map<String, FilterItemData[]> childData) {
         super(inflater, filter);
+        initControl();
         initData(childData);
     }
 
@@ -61,7 +62,6 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
 
             }
         });
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_year_item));
     }
 
     @Override

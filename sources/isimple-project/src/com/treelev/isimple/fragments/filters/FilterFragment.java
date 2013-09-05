@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import com.treelev.isimple.R;
@@ -29,6 +30,7 @@ public abstract class FilterFragment extends Fragment {
     protected OnChangeStateListener mListener;
     protected List<ItemFilter> mItems;
     protected LinearLayout mLayout;
+    protected LinearLayout mLayoutExtend;
     private int mSortBy;
     private int mCategory;
 
@@ -81,6 +83,11 @@ public abstract class FilterFragment extends Fragment {
 
     protected void addItemFilter(ItemFilter item, LinearLayout.LayoutParams params){
         mLayout.addView(item.getView(), params);
+        mItems.add(item);
+    }
+
+    protected void addItemFilterExtend(ItemFilter item){
+        mLayoutExtend.addView(item.getView());
         mItems.add(item);
     }
 
@@ -139,6 +146,28 @@ public abstract class FilterFragment extends Fragment {
         mLayout.addView(getControlView(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
                         getActivity().getResources().getDisplayMetrics())));
+    }
+
+    protected void addControlViewExtendFilter(){
+        mLayoutExtend.addView(getControlView(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
+                        getActivity().getResources().getDisplayMetrics())));
+    }
+
+
+    protected void initExtendFilter(){
+        LinearLayout extendFilter = (LinearLayout)getActivity().getLayoutInflater().inflate(R.layout.filter_extend_layout, null);
+        mLayoutExtend = (LinearLayout)extendFilter.findViewById(R.id.content_extend_filter);
+        extendFilter.findViewById(R.id.show_extend_filter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//TODO
+                mLayoutExtend.setVisibility(View.VISIBLE);
+                Button btnShowExtend = (Button) view;
+                btnShowExtend.setText("");
+            }
+        });
+        mLayout.addView(extendFilter);
     }
 
     @Override

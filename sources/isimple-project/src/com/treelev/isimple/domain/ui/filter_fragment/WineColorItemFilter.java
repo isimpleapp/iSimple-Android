@@ -16,12 +16,7 @@ public class WineColorItemFilter extends ItemFilter
     private CheckBox mWhite;
     private CheckBox mPink;
 
-    protected WineColorItemFilter(LayoutInflater inflater, FilterFragment filter) {
-        super(inflater, filter);
-        initControl();
-    }
-
-    protected WineColorItemFilter(LayoutInflater inflater) {
+    public WineColorItemFilter(LayoutInflater inflater) {
         super(inflater);
         initControl();
     }

@@ -1,24 +1,25 @@
 package com.treelev.isimple.domain.ui.filter_fragment;
 
-
 import android.view.LayoutInflater;
 import android.widget.Button;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
+import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.fragments.filters.FilterFragment;
 
 import java.util.Map;
 
-public class CountryRegionItemFilter extends ExpandableActivityItemFilter {
+public class StyleSakeItemFilter extends ExpandableActivityItemFilter{
 
-    public CountryRegionItemFilter(LayoutInflater inflater, FilterFragment filter, Map<String, FilterItemData[]> childData) {
+
+    public StyleSakeItemFilter(LayoutInflater inflater, FilterFragment filter, Map<String, FilterItemData[]> childData) {
         super(inflater, filter, childData);
     }
 
     @Override
     protected void initControl() {
         super.initControl();
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_country_item));
+        ((Button)mView).setText(mFilter.getString(R.string.lbl_style_sake_item));
     }
 
     @Override
@@ -30,7 +31,7 @@ public class CountryRegionItemFilter extends ExpandableActivityItemFilter {
                     if(sqlBuilder.length() > 0) {
                         sqlBuilder.append(" OR ");
                     }
-                    sqlBuilder.append(String.format("item.country='%s'", item.getName()));
+                    sqlBuilder.append(String.format("item.product_type=%s", ProductType.getProductTypeByLabel(item.getName()).ordinal()));
                 }
             }
         }
@@ -42,7 +43,9 @@ public class CountryRegionItemFilter extends ExpandableActivityItemFilter {
                         if(sqlBuilder.length() > 0) {
                             sqlBuilder.append(" OR ");
                         }
-                        sqlBuilder.append(String.format("(item.country='%1$s' and item.region='%2$s')", item.getName(), groupName));
+                        sqlBuilder.append(
+                                String.format("(item.product_type=%1$s and item.classification='%2$s')",
+                                        ProductType.getProductTypeByLabel(groupName).ordinal(), groupName));
                     }
                 }
             }

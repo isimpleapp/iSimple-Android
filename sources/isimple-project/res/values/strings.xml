@@ -75,7 +75,11 @@
     <string name="lbl_porto">Порто</string>
     <string name="lbl_heres">Херес</string>
     <string name="lbl_year_item">Год урожая</string>
+    <string name="lbl_sweetnes_item">Тип вина</string>
     <string name="lbl_type_wine_item">Тип вина</string>
     <string name="lbl_country_item">Страна/Регион</string>
+    <string name="lbl_style_sake_item">Стиль/Премиальность</string>
+    <string name="lbl_extend_filter">Открыть дополнительные фильтры</string>
+
 
 </resources>

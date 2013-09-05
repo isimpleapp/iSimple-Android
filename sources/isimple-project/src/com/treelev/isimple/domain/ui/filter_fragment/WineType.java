@@ -8,8 +8,6 @@ import com.treelev.isimple.fragments.filters.FilterFragment;
 
 public class WineType extends ItemFilter {
 
-
-
     protected WineType(LayoutInflater inflater, FilterFragment filter) {
         super(inflater, filter);
     }

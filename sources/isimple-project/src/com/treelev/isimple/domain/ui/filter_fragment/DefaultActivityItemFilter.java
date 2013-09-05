@@ -47,7 +47,6 @@ public abstract class DefaultActivityItemFilter extends ItemFilter {
                     mFilter.getActivity().overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
             }
         });
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_year_item));
     }
 
 

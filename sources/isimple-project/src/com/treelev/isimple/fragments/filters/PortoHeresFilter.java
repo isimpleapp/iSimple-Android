@@ -5,16 +5,14 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
-import com.treelev.isimple.domain.ui.filter_fragment.DefaultActivityItemFilter;
-import com.treelev.isimple.domain.ui.filter_fragment.PortoHeresColorItemFilter;
-import com.treelev.isimple.domain.ui.filter_fragment.PortoHeresTypeItemFilter;
-import com.treelev.isimple.domain.ui.filter_fragment.YearItemFilter;
+import com.treelev.isimple.domain.ui.filter_fragment.*;
 
 import java.util.List;
+import java.util.Map;
 
 public class PortoHeresFilter extends FilterFragment {
 
-    public void initFilterItems(int min, int max, FilterItemData[] dataYear){
+    public void initFilterItems(int min, int max, FilterItemData[] dataSweetnes, FilterItemData[] dataYear, Map<String, FilterItemData[]> dataRegion){
         LayoutInflater inflater = getActivity().getLayoutInflater();
         PortoHeresColorItemFilter colorItem = new PortoHeresColorItemFilter(inflater, this);
         addItemFilter(colorItem , new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -23,11 +21,20 @@ public class PortoHeresFilter extends FilterFragment {
         PortoHeresTypeItemFilter typeItem = new PortoHeresTypeItemFilter(inflater, this);
         addItemFilter(typeItem);
 
+        initExtendFilter();
+
+        SweetnesItemFilter sweetnesItem = new SweetnesItemFilter(inflater, this, dataSweetnes);
+        addItemFilterExtend(sweetnesItem);
+        CountryRegionItemFilter countryRegionItem = new CountryRegionItemFilter(inflater, this, dataRegion);
+        addItemFilterExtend(countryRegionItem);
+        PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
+        addItemFilterExtend(priceItem);
         YearItemFilter yearItem = new YearItemFilter(inflater, this, dataYear);
-        addItemFilter(yearItem);
+        addItemFilterExtend(yearItem);
 
         addSortControl();
     }
+
 
     @Override
     public void onChangeFilterState() {

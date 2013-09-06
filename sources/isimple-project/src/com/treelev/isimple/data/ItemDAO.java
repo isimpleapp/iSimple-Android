@@ -259,11 +259,11 @@ public class ItemDAO extends BaseDAO {
         return searchWhere;
     }
 
-    public Cursor getFilteredItemsByCategory(Integer categoryId, String query, String orderByField) {
-        return getFilteredItemsByCategory(categoryId, null, query, orderByField);
+    public Cursor getFilteredItemsByCategory(Integer categoryId, String query, String orderByField, boolean group) {
+        return getFilteredItemsByCategory(categoryId, null, query, orderByField, group);
     }
 
-    public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId, String whereClause, String orderByField) {
+    public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId, String whereClause, String orderByField, boolean group) {
         String strLocationID = "";
         String strInnerJoin = "";
         if(locationId != null){
@@ -272,26 +272,37 @@ public class ItemDAO extends BaseDAO {
         }
         whereClause = whereClause.length() > 0 ? "AND " + whereClause : "AND price < 0";
         whereClause = whereClause.replace("item", "t1");
-        String formatScript = "SELECT * " +
-                "FROM " +
-                    "(" +
-                    "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs  " +
-                    "FROM " +
-                    "(" +
-                        "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
-                    " year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs "+
-                    ") AS t0 GROUP BY t0.drink_id " +
-                    ")" +
-                "WHERE item_left_overs > 0 " +
-                "ORDER BY %3$s";
+        String formatScript = getFormatScriptFilteredItemsByCategory(group);
                 String selectSql = String.format(formatScript,
                 categoryId, whereClause, orderByField, strInnerJoin, strLocationID);
         open();
         return getDatabase().rawQuery(selectSql, null);
     }
 
-    public Cursor getFilteredItemsByCategoryPreOrder(Integer categoryId, String locationId, String whereClause, String orderByField) {
+    private String getFormatScriptFilteredItemsByCategory(boolean group){
+        if(group){
+            return "SELECT * " +
+                    "FROM " +
+                    "(" +
+                    "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs  " +
+                    "FROM " +
+                    "(" +
+                    "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
+                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
+                    " year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs "+
+                    ") AS t0 GROUP BY t0.drink_id " +
+                    ")" +
+                    "WHERE item_left_overs > 0 " +
+                    "ORDER BY %3$s";
+        } else {
+            return "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
+                    "price, year, quantity, color, drink_id, is_favourite, t1.item_left_overs " +
+                    "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs ";
+//            return "SELECT * FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs ";
+        }
+    }
+
+    public Cursor getFilteredItemsByCategoryPreOrder(Integer categoryId, String locationId, String whereClause, String orderByField, boolean group) {
         String strLocationID = "";
         String strInnerJoin = "";
         if(locationId != null){
@@ -300,24 +311,35 @@ public class ItemDAO extends BaseDAO {
         }
         whereClause = whereClause.length() > 0 ? "AND " + whereClause : "AND price < 0";
         whereClause = whereClause.replace("item", "t1");
-        String formatScript = "SELECT * " +
-                "FROM " +
-                "(" +
-                    "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs " +
-                    "FROM " +
-                     "(" +
-                        "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                            "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
-                            "year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs as item_left_overs1 " +
-                "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s " +
-                     ") AS t0 GROUP BY t0.drink_id " +
-                ")" +
-                "WHERE item_left_overs = 0 " +
-                "ORDER BY %3$s";
+        String formatScript = getFormatScriptFilteredItemsByCategoryPreOrder(group);
         String selectSql = String.format(formatScript,
                 categoryId, whereClause, orderByField, strInnerJoin, strLocationID);
         open();
         return getDatabase().rawQuery(selectSql, null);
+    }
+
+    private String getFormatScriptFilteredItemsByCategoryPreOrder(boolean group){
+        if(group){
+            return "SELECT * " +
+                    "FROM " +
+                    "(" +
+                    "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs " +
+                    "FROM " +
+                    "(" +
+                    "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
+                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
+                    "year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs as item_left_overs1 " +
+                    "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s " +
+                    ") AS t0 GROUP BY t0.drink_id " +
+                    ")" +
+                    "WHERE item_left_overs = 0 " +
+                    "ORDER BY %3$s";
+        } else {
+            return "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
+                   "price, year, quantity, color, drink_id, is_favourite, item_left_overs " +
+                   "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s";
+//            return "SELECT * FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs ";
+        }
     }
 
     public Integer getItemMaxPriceByCategory(Integer categoryId) {
@@ -539,6 +561,27 @@ public class ItemDAO extends BaseDAO {
         }
         close();
         return years;
+    }
+
+    public List<String> getManufactureByCategory(int categoryId) {
+        open();
+        List<String> manufacutes = new ArrayList<String>();
+        String sqlQueryString = String.format("SELECT %1$s FROM %2$s WHERE drink_category=%3$s AND ifnull(%1$s, '') <> '' GROUP BY %1$s ORDER BY COUNT(%1$s) DESC",
+                DatabaseSqlHelper.ITEM_MANUFACTURER,
+                DatabaseSqlHelper.ITEM_TABLE,
+                categoryId);
+        Cursor cursor = getDatabase().rawQuery(sqlQueryString, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String manufactureValue = cursor.getString(0);
+                if(!TextUtils.isEmpty(manufactureValue)) {
+                    manufacutes.add(manufactureValue);
+                }
+            }
+            cursor.close();
+        }
+        close();
+        return manufacutes;
     }
 
     public Map<String, List<String>> getRegionsByCategory(int categoryId) {

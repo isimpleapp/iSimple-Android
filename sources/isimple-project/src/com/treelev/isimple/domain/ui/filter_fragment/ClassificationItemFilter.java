@@ -9,17 +9,20 @@ import com.treelev.isimple.fragments.filters.FilterFragment;
 
 import java.util.Map;
 
-public class StyleSakeItemFilter extends ExpandableActivityItemFilter{
+public class ClassificationItemFilter extends ExpandableActivityItemFilter{
 
+    private String mLabel;
 
-    public StyleSakeItemFilter(LayoutInflater inflater, FilterFragment filter, Map<String, FilterItemData[]> childData) {
+    public ClassificationItemFilter(LayoutInflater inflater, String label, FilterFragment filter, Map<String, FilterItemData[]> childData) {
         super(inflater, filter, childData);
+        ((Button)mView).setText(label);
+        mLabel = label;
     }
 
     @Override
-    protected void initControl() {
-        super.initControl();
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_style_sake_item));
+    public void reset() {
+        super.reset();
+        ((Button)mView).setText(mLabel);
     }
 
     @Override

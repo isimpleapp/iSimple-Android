@@ -22,6 +22,12 @@ public class CountryRegionItemFilter extends ExpandableActivityItemFilter {
     }
 
     @Override
+    public void reset() {
+        super.reset();
+        ((Button)mView).setText(mFilter.getString(R.string.lbl_country_item));
+    }
+
+    @Override
     public String getWhereClause() {
         StringBuilder sqlBuilder = new StringBuilder();
         if (mGroupData != null) {

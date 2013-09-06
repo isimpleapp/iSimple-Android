@@ -127,6 +127,10 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         mFilterWhereClause = filterWhereClause;
     }
 
+    public void setGroup(boolean enable){
+        mGroup = enable;
+    }
+
     @Override
     protected Cursor getChildrenCursor(Cursor cursor) {
         int position = cursor.getInt(cursor.getColumnIndex("_id"));
@@ -171,15 +175,17 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
             viewHolder = getViewHolder(convertView);
             convertView.setTag(viewHolder);
 
-            if(mFirst){
-                if(cursor != null){
-                    initIndexs(cursor);
-                    mFirst = false;
-                }
-            }
+//            if(mFirst){
+//                if(cursor != null){
+//                    initIndexs(cursor);
+//                    mFirst = false;
+//                }
+//            }
+
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        initIndexs(cursor);
         bindItemView(convertView, cursor, viewHolder);
         return convertView;
     }

@@ -21,6 +21,12 @@ public class SweetnesItemFilter extends DefaultActivityItemFilter {
     }
 
     @Override
+    public void reset() {
+        super.reset();
+        ((Button)mView).setText(mFilter.getString(R.string.lbl_sweetnes_item));
+    }
+
+    @Override
     public String getWhereClause() {
         StringBuilder sqlBuilder = new StringBuilder();
         if (mFilterData != null) {

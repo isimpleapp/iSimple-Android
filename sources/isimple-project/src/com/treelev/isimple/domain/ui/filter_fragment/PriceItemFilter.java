@@ -16,6 +16,7 @@ public class PriceItemFilter extends ItemFilter{
     private int mMaxCurrent;
     private boolean mEnable;
     RangeSeekBar<Integer> mRangeSeekBarr;
+    private boolean mReset;
 
     public PriceItemFilter(LayoutInflater inflater, int min, int max) {
         super(inflater);
@@ -31,6 +32,7 @@ public class PriceItemFilter extends ItemFilter{
         mRangeSeekBarr.setSelectedMinValue(mMin);
         mRangeSeekBarr.setSelectedMaxValue(mMax);
         mRangeSeekBarr.invalidate();
+        mReset = true;
     }
 
     @Override
@@ -46,20 +48,22 @@ public class PriceItemFilter extends ItemFilter{
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
                 mMinCurrent = minValue;
                 mMaxCurrent = maxValue;
+                mReset = false;
             }
         });
         ((LinearLayout)mView).addView(mRangeSeekBarr, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
                         mInflater.getContext().getResources().getDisplayMetrics())));
+        mReset = true;
     }
 
     @Override
     public String getWhereClause() {
-        return mEnable ? String.format("(item.price >= %d AND item.price <= %d)", mMinCurrent, mMaxCurrent) : "";
+        return mEnable || !mReset ? String.format("(item.price >= %d AND item.price <= %d)", mMinCurrent, mMaxCurrent) : "";
     }
 
-    public boolean isInitialState(){
-        return mMin == mMinCurrent && mMax == mMaxCurrent;
+    public boolean isReset(){
+        return mReset;
     }
 
     public void setEnable(boolean enable){

@@ -6,26 +6,23 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.fragments.filters.FilterFragment;
 
-public class YearItemFilter extends DefaultActivityItemFilter {
+public class ManufactureItemFilter extends DefaultActivityItemFilter{
 
-    private boolean mReset;
 
-    public YearItemFilter(LayoutInflater inflater, FilterFragment filter, FilterItemData[] filterData) {
+    public ManufactureItemFilter(LayoutInflater inflater, FilterFragment filter, FilterItemData[] filterData) {
         super(inflater, filter, filterData);
-   }
+    }
 
     @Override
     protected void initControl() {
         super.initControl();
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_year_item));
-        mReset = true;
+        ((Button)mView).setText(mFilter.getString(R.string.lbl_manufacture_item));
     }
 
     @Override
     public void reset() {
         super.reset();
-        mReset = true;
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_year_item));
+        ((Button)mView).setText(mFilter.getString(R.string.lbl_manufacture_item));
     }
 
     @Override
@@ -37,7 +34,7 @@ public class YearItemFilter extends DefaultActivityItemFilter {
                     if(sqlBuilder.length() > 0) {
                         sqlBuilder.append(" OR ");
                     }
-                    sqlBuilder.append(String.format("item.year=%s", item.getName()));
+                    sqlBuilder.append(String.format("item.manufacturer=%s", item.getName()));
                 }
             }
         }
@@ -45,11 +42,6 @@ public class YearItemFilter extends DefaultActivityItemFilter {
             sqlBuilder.insert(0, '(');
             sqlBuilder.append(')');
         }
-        mReset = sqlBuilder.toString().isEmpty();
         return sqlBuilder.toString();
-    }
-
-    public boolean isReset(){
-        return mReset;
     }
 }

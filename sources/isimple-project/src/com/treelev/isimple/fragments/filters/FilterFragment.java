@@ -34,6 +34,15 @@ public abstract class FilterFragment extends Fragment {
     private int mSortBy;
     private int mCategory;
 
+    protected abstract boolean isGroup();
+
+    public void onChangeFilterState(){
+        if(mListener != null){
+            mListener.onChangeFilterState(getWhereClause(), isGroup());
+        }
+    }
+
+
     public FilterFragment(){
         mItems = new ArrayList<ItemFilter>();
     }
@@ -56,8 +65,6 @@ public abstract class FilterFragment extends Fragment {
     public int getCategory(){
         return mCategory;
     }
-
-    public abstract void onChangeFilterState();
 
     public String getWhereClause(){
         StringBuilder sqlBuilder = new StringBuilder();
@@ -154,6 +161,9 @@ public abstract class FilterFragment extends Fragment {
                         getActivity().getResources().getDisplayMetrics())));
     }
 
+    protected void onShowExtendFilter(){
+
+    }
 
     protected void initExtendFilter(){
         LinearLayout extendFilter = (LinearLayout)getActivity().getLayoutInflater().inflate(R.layout.filter_extend_layout, null);
@@ -161,10 +171,11 @@ public abstract class FilterFragment extends Fragment {
         extendFilter.findViewById(R.id.show_extend_filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//TODO
                 mLayoutExtend.setVisibility(View.VISIBLE);
                 Button btnShowExtend = (Button) view;
                 btnShowExtend.setText("");
+                btnShowExtend.setOnClickListener(null);
+                onShowExtendFilter();
             }
         });
         mLayout.addView(extendFilter);

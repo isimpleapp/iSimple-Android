@@ -22,9 +22,7 @@ public class WaterFilter extends FilterFragment {
     }
 
     @Override
-    public void onChangeFilterState() {
-        if(mListener != null){
-            mListener.onChangeFilterState(getWhereClause(), mPriceItemFilter.isInitialState());
-        }
+    protected boolean isGroup() {
+        return mPriceItemFilter.isReset();
     }
 }

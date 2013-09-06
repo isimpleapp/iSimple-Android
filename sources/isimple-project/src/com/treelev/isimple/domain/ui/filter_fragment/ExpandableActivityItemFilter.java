@@ -42,7 +42,7 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
                 item.setChecked(false);
             }
         }
-        ((Button)mView).setTextColor(Color.LTGRAY);
+        ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
     }
 
     @Override
@@ -56,7 +56,7 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mFilter.getActivity(), ExpandableListFilterActivity.class);
-                ExpandableListFilterActivity.putFilterData(intent, mGroupData, mChildData);
+                ExpandableListFilterActivity.putFilterData(intent, mGroupData, mChildData, mFilter.getCategory());
                 mFilter.getActivity().startActivityForResult(intent, mRequestCode);
                 mFilter.getActivity().overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
 
@@ -69,6 +69,8 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
         if(requestCode == mRequestCode){
             mGroupData = ExpandableListFilterActivity.getGroupData(data);
             mChildData = ExpandableListFilterActivity.getChildData(data, mGroupData);
+//TODO
+            ((Button)mView).setTextColor(Color.BLACK);
         }
     }
 }

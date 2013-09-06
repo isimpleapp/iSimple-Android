@@ -7,10 +7,12 @@ import android.widget.LinearLayout;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.domain.ui.filter_fragment.*;
 
-import java.util.List;
 import java.util.Map;
 
 public class PortoHeresFilter extends FilterFragment {
+
+    private PriceItemFilter mPriceItem;
+    private YearItemFilter mYearItem;
 
     public void initFilterItems(int min, int max, FilterItemData[] dataSweetnes, FilterItemData[] dataYear, Map<String, FilterItemData[]> dataRegion){
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -29,18 +31,23 @@ public class PortoHeresFilter extends FilterFragment {
         addItemFilterExtend(countryRegionItem);
         PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
         addItemFilterExtend(priceItem);
+        mPriceItem = priceItem;
         YearItemFilter yearItem = new YearItemFilter(inflater, this, dataYear);
         addItemFilterExtend(yearItem);
-
+        mYearItem = yearItem;
+        addControlViewExtendFilter();
         addSortControl();
     }
 
+    @Override
+    protected void onShowExtendFilter() {
+        super.onShowExtendFilter();
+        mPriceItem.setEnable(true);
+    }
 
     @Override
-    public void onChangeFilterState() {
-        if(mListener != null){
-            //TODO flag true
-            mListener.onChangeFilterState(getWhereClause(), true);
-        }
+    protected boolean isGroup() {
+        return mPriceItem.isReset() && mYearItem.isReset();
     }
+
 }

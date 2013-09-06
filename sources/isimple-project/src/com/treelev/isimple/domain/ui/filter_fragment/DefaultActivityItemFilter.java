@@ -27,8 +27,7 @@ public abstract class DefaultActivityItemFilter extends ItemFilter {
         for(FilterItemData itemData : mFilterData){
             itemData.setChecked(false);
         }
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_year_item));
-        ((Button)mView).setTextColor(Color.LTGRAY);
+        ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
     }
 
     @Override

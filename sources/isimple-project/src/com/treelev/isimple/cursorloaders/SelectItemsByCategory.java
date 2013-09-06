@@ -11,13 +11,15 @@ public class SelectItemsByCategory extends BaseCursorLoader {
     private String mFilterWhereClause;
     private String mLocationId;
     private int mSortBy;
+    private boolean mGroup;
 
-    public SelectItemsByCategory(Context context, Integer categoryID, String filterWhereClause, String locationId, int sortBy) {
+    public SelectItemsByCategory(Context context, Integer categoryID, String filterWhereClause, String locationId, int sortBy, boolean group) {
         super(context);
         mCategoryID = categoryID;
         mFilterWhereClause = filterWhereClause;
         mLocationId = locationId;
         mSortBy = sortBy;
+        mGroup = group;
     }
 
     @Override
@@ -25,9 +27,9 @@ public class SelectItemsByCategory extends BaseCursorLoader {
         Cursor cursor = null;
         if (!TextUtils.isEmpty(mFilterWhereClause)) {
             if (TextUtils.isEmpty(mLocationId)) {
-                cursor = getProxyManager().getFilteredItemsByCategory(mCategoryID, mFilterWhereClause, mSortBy);
+                cursor = getProxyManager().getFilteredItemsByCategory(mCategoryID, mFilterWhereClause, mSortBy, mGroup);
             } else {
-                cursor = getProxyManager().getFilteredItemsByCategory(mCategoryID, mLocationId, mFilterWhereClause, mSortBy);
+                cursor = getProxyManager().getFilteredItemsByCategory(mCategoryID, mLocationId, mFilterWhereClause, mSortBy, mGroup);
             }
         } else {
             if (TextUtils.isEmpty(mLocationId)) {

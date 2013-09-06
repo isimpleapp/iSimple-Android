@@ -45,9 +45,9 @@ public class CatalogByCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAda
             case ProxyManager.TYPE_SECTION_FILTRATION_SEARCH:
                 switch (i){
                     case 1:
-                        return new SelectFilteredByCategoryItems(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy);
+                        return new SelectFilteredByCategoryItems(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy, mGroup);
                     case 2:
-                        return new SelectFilteredByCategoryItemsPreOrder(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy);
+                        return new SelectFilteredByCategoryItemsPreOrder(mContext, mCategoryID, mFilterWhereClause, mLocationID, mSortBy, mGroup);
                 }
             break;
             case ProxyManager.TYPE_SECTION_MAIN:

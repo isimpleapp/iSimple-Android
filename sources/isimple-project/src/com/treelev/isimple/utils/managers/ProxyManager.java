@@ -79,6 +79,10 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getYearsByCategory(category.ordinal());
     }
 
+    public List<String> getManufactureByCategory(DrinkCategory category) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getManufactureByCategory(category.ordinal());
+    }
+
     public Map<String, FilterItemData[]> getRegionsByCategory(DrinkCategory category) {
         Map<String, List<String>> regionsByCategory = ((ItemDAO) getObjectDAO(ItemDAO.ID)).getRegionsByCategory(category.ordinal());
         Map<String, Integer> productCountByCountriesBy = ((ItemDAO) getObjectDAO(ItemDAO.ID)).getProductCountsByCountries(category.ordinal());
@@ -193,26 +197,26 @@ public class ProxyManager {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByDrinkIdPreOrder(drinkId, filterQuery, locationID, orderByField);
     }
 
-    public Cursor getFilteredItemsByCategory(Integer categoryId, String query, int sortType) {
-        return getFilteredItemsByCategory(categoryId, null, query, sortType);
+    public Cursor getFilteredItemsByCategory(Integer categoryId, String query, int sortType, boolean group) {
+        return getFilteredItemsByCategory(categoryId, null, query, sortType, group);
     }
 
-    public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId, String query, int sortType) {
+    public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId, String query, int sortType, boolean group) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFilteredItemsByCategory(categoryId, locationId, query, orderByField);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFilteredItemsByCategory(categoryId, locationId, query, orderByField, group);
     }
 
-    public Cursor getFilteredItemsByCategoryPreOrder(Integer categoryId, String query, int sortType) {
-        return getFilteredItemsByCategoryPreOrder(categoryId, null, query, sortType);
+    public Cursor getFilteredItemsByCategoryPreOrder(Integer categoryId, String query, int sortType, boolean group) {
+        return getFilteredItemsByCategoryPreOrder(categoryId, null, query, sortType, group);
     }
 
-    public Cursor getFilteredItemsByCategoryPreOrder(Integer categoryId, String locationId, String query, int sortType) {
+    public Cursor getFilteredItemsByCategoryPreOrder(Integer categoryId, String locationId, String query, int sortType, boolean group) {
         String orderByField =
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFilteredItemsByCategoryPreOrder(categoryId, locationId, query, orderByField);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFilteredItemsByCategoryPreOrder(categoryId, locationId, query, orderByField, group);
     }
 
     public Cursor getSearchItemsByCategory(Integer categoryId, String query, int sortType) {

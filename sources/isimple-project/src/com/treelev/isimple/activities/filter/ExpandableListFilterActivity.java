@@ -66,7 +66,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         relative.addView(title);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(relative);
-        int currentCategory = getIntent().getIntExtra(FilterItem.CURRENT_CATEGORY, -1);
+        int currentCategory = getIntent().getIntExtra(CURRENT_CATEGORY, -1);
         switch(currentCategory) {
             case 0:
                 getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);

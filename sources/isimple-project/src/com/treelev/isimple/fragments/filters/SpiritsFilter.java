@@ -16,15 +16,17 @@ public class SpiritsFilter extends FilterFragment {
     public void initFilterItems(int min, int max, Map<String, FilterItemData[]> dataClassification, Map<String, FilterItemData[]> dataRegion, FilterItemData[] dataYear){
         LayoutInflater inflater = getActivity().getLayoutInflater();
         ClassificationItemFilter classificationItem =
-                new ClassificationItemFilter(inflater, getString(R.string.lbl_type_drink), this, dataClassification);
+                new ClassificationItemFilter(inflater, getString(R.string.lbl_type_drink), true, this,  dataClassification);
         addItemFilter(classificationItem);
 
         initExtendFilter();
-        CountryRegionItemFilter countryRegionItem = new CountryRegionItemFilter(inflater, this, dataRegion);
+        CountryRegionItemFilter countryRegionItem = new CountryRegionItemFilter(inflater, this, false, dataRegion);
         addItemFilterExtend(countryRegionItem);
+        addExtendHorizontalSeparator();
         PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
         addItemFilterExtend(priceItem);
         mPriceItem = priceItem;
+        addExtendHorizontalSeparator();
         YearItemFilter yearItem = new YearItemFilter(inflater, this, dataYear);
         addItemFilterExtend(yearItem);
         mYearItem = yearItem;

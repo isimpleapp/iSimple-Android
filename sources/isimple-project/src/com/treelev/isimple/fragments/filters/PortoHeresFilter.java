@@ -25,16 +25,20 @@ public class PortoHeresFilter extends FilterFragment {
 
         initExtendFilter();
 
-        SweetnesItemFilter sweetnesItem = new SweetnesItemFilter(inflater, this, dataSweetnes);
+        SweetnesItemFilter sweetnesItem = new SweetnesItemFilter(inflater, this, false, dataSweetnes);
         addItemFilterExtend(sweetnesItem);
-        CountryRegionItemFilter countryRegionItem = new CountryRegionItemFilter(inflater, this, dataRegion);
+        addExtendHorizontalSeparator();
+        CountryRegionItemFilter countryRegionItem = new CountryRegionItemFilter(inflater, this, false, dataRegion);
         addItemFilterExtend(countryRegionItem);
+        addExtendHorizontalSeparator();
         PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
         addItemFilterExtend(priceItem);
         mPriceItem = priceItem;
+        addExtendHorizontalSeparator();
         YearItemFilter yearItem = new YearItemFilter(inflater, this, dataYear);
         addItemFilterExtend(yearItem);
         mYearItem = yearItem;
+
         addControlViewExtendFilter();
         addSortControl();
     }

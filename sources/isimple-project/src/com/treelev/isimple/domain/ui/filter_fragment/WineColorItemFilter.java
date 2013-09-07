@@ -17,15 +17,15 @@ public class WineColorItemFilter extends ItemFilter
     private CheckBox mPink;
 
     public WineColorItemFilter(LayoutInflater inflater, FilterFragment filter) {
-        super(inflater, filter);
+        super(inflater, filter, true);
         initControl();
     }
 
     @Override
     public void reset() {
-        mRed.isChecked();
-        mWhite.isChecked();
-        mPink.isChecked();
+        mRed.setChecked(false);
+        mWhite.setChecked(false);
+        mPink.setChecked(false);
         mView.refreshDrawableState();
     }
 

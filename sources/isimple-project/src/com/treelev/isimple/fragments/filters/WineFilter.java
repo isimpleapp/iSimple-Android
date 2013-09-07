@@ -20,15 +20,17 @@ public class WineFilter extends FilterFragment{
         addItemFilter(wineColorItem, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
                         getActivity().getResources().getDisplayMetrics())));
-        SweetnesItemFilter sweetnesItem = new SweetnesItemFilter(inflater, this, dataSweetnes);
+        SweetnesItemFilter sweetnesItem = new SweetnesItemFilter(inflater, this, true, dataSweetnes);
         addItemFilter(sweetnesItem);
-        CountryRegionItemFilter countryRegionItem = new CountryRegionItemFilter(inflater, this, dataRegion);
+        addHorizontalSeparator();
+        CountryRegionItemFilter countryRegionItem = new CountryRegionItemFilter(inflater, this, true, dataRegion);
         addItemFilter(countryRegionItem);
 
         initExtendFilter();
         PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
         addItemFilterExtend(priceItem);
         mPriceItem = priceItem;
+        addExtendHorizontalSeparator();
         YearItemFilter yearItem = new YearItemFilter(inflater, this, dataYear);
         addItemFilterExtend(yearItem);
         mYearItem = yearItem;

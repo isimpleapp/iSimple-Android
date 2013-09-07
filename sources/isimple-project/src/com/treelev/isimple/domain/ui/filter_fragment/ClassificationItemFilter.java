@@ -13,8 +13,8 @@ public class ClassificationItemFilter extends ExpandableActivityItemFilter{
 
     private String mLabel;
 
-    public ClassificationItemFilter(LayoutInflater inflater, String label, FilterFragment filter, Map<String, FilterItemData[]> childData) {
-        super(inflater, filter, childData);
+    public ClassificationItemFilter(LayoutInflater inflater, String label, boolean interactive, FilterFragment filter, Map<String, FilterItemData[]> childData) {
+        super(inflater, filter, interactive, childData);
         ((Button)mView).setText(label);
         mLabel = label;
     }
@@ -47,7 +47,7 @@ public class ClassificationItemFilter extends ExpandableActivityItemFilter{
                             sqlBuilder.append(" OR ");
                         }
                         sqlBuilder.append(
-                                String.format("(item.product_type=%1$s and item.classification='%2$s')",
+                                String.format("(item.product_type=%1$s AND item.classification='%2$s')",
                                         ProductType.getProductTypeByLabel(groupName).ordinal(), groupName));
                     }
                 }

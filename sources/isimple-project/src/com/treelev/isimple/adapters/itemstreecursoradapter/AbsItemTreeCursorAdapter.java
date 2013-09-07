@@ -51,8 +51,6 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     protected int mSortBy;
     protected String mFilterWhereClause;
 
-
-    private boolean mFirst;
     private int itemNameIndex;
     private int itemLocNameIndex;
     private int itemVolumeIndex;
@@ -92,8 +90,6 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         mSortBy = sortBy;
 
         mCountCallBack = 0;
-
-        mFirst = true;
 
         mEmptyGroupView = new HashSet<Integer>();
 
@@ -174,14 +170,6 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
             convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_item_layout, null);
             viewHolder = getViewHolder(convertView);
             convertView.setTag(viewHolder);
-
-//            if(mFirst){
-//                if(cursor != null){
-//                    initIndexs(cursor);
-//                    mFirst = false;
-//                }
-//            }
-
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }

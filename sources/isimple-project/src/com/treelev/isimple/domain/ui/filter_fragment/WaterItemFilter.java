@@ -16,7 +16,7 @@ public class WaterItemFilter extends ItemFilter {
     private List<Item> mItems;
 
     public WaterItemFilter(android.view.LayoutInflater inflater, FilterFragment filter) {
-        super(inflater, filter);
+        super(inflater, filter, true);
         initControl();
     }
 
@@ -85,7 +85,7 @@ public class WaterItemFilter extends ItemFilter {
             if(isChecked){
                 button.setTextColor(Color.MAGENTA);
             } else {
-                button.setTextColor(Color.BLACK);
+                button.setTextColor(mFilter.getResources().getColor(R.color.product_text_color1));
             }
         }
 

@@ -15,8 +15,9 @@ public class SakeFilter extends FilterFragment{
     public void initFilterItems(int min, int max, Map<String, FilterItemData[]> dataClassification){
         LayoutInflater inflater = getActivity().getLayoutInflater();
         ClassificationItemFilter styleSakeItem =
-                new ClassificationItemFilter(inflater, getString(R.string.lbl_style_sake_item), this, dataClassification);
+                new ClassificationItemFilter(inflater, getString(R.string.lbl_style_sake_item), true, this, dataClassification);
         addItemFilter(styleSakeItem);
+        addHorizontalSeparator();
         PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
         addItemFilter(priceItem);
         mPriceItem = priceItem;

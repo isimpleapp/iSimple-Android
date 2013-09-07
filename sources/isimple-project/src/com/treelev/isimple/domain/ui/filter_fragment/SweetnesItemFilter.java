@@ -10,8 +10,8 @@ import com.treelev.isimple.fragments.filters.FilterFragment;
 
 public class SweetnesItemFilter extends DefaultActivityItemFilter {
 
-    public SweetnesItemFilter(LayoutInflater inflater, FilterFragment filter,FilterItemData[] filterData) {
-        super(inflater, filter, filterData);
+    public SweetnesItemFilter(LayoutInflater inflater, FilterFragment filter, boolean  interactive, FilterItemData[] filterData) {
+        super(inflater, filter,  interactive, filterData);
     }
 
     @Override

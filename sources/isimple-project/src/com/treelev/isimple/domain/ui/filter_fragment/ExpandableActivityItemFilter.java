@@ -17,8 +17,8 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
     protected FilterItemData[] mGroupData;
     protected Map<String, FilterItemData[]> mChildData;
 
-    public ExpandableActivityItemFilter(LayoutInflater inflater, FilterFragment filter, Map<String, FilterItemData[]> childData) {
-        super(inflater, filter);
+    public ExpandableActivityItemFilter(LayoutInflater inflater, FilterFragment filter, boolean interactive,Map<String, FilterItemData[]> childData) {
+        super(inflater, filter, interactive);
         initControl();
         initData(childData);
     }
@@ -71,6 +71,7 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
             mChildData = ExpandableListFilterActivity.getChildData(data, mGroupData);
 //TODO
             ((Button)mView).setTextColor(Color.BLACK);
+            onChangeStateItemFilter();
         }
     }
 }

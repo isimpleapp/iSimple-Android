@@ -11,7 +11,7 @@ public class YearItemFilter extends DefaultActivityItemFilter {
     private boolean mReset;
 
     public YearItemFilter(LayoutInflater inflater, FilterFragment filter, FilterItemData[] filterData) {
-        super(inflater, filter, filterData);
+        super(inflater, filter, false, filterData);
    }
 
     @Override

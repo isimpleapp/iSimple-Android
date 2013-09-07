@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.fragments.filters.FilterFragment;
 
@@ -15,7 +14,7 @@ public class PortoHeresTypeItemFilter extends ItemFilter {
 
 
     public PortoHeresTypeItemFilter(LayoutInflater inflater, FilterFragment filter) {
-        super(inflater, filter);
+        super(inflater, filter, true);
         initControl();
     }
 

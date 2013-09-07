@@ -33,6 +33,7 @@ public abstract class FilterFragment extends Fragment {
     protected LinearLayout mLayoutExtend;
     private int mSortBy;
     private int mCategory;
+    private View mSortControl;
 
     protected abstract boolean isGroup();
 
@@ -52,6 +53,12 @@ public abstract class FilterFragment extends Fragment {
         View view = inflater.inflate(R.layout.filter_fragment_layout, container, false);
         mLayout = (LinearLayout)view;
         return view;
+    }
+
+    public void setVisibleSortControl(boolean visible){
+        if(mSortControl != null){
+            mSortControl.setVisibility( visible ? View.VISIBLE : View.GONE);
+        }
     }
 
     public void setOnChangeFilterListener(OnChangeStateListener listener){
@@ -143,8 +150,9 @@ public abstract class FilterFragment extends Fragment {
     }
 
     protected void addSortControl(){
+        mSortControl = getSortControl();
         mSortBy = ProxyManager.SORT_NAME_AZ;
-        mLayout.addView(getSortControl(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        mLayout.addView(mSortControl, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
                         getActivity().getResources().getDisplayMetrics())));
     }
@@ -154,6 +162,7 @@ public abstract class FilterFragment extends Fragment {
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
                         getActivity().getResources().getDisplayMetrics())));
     }
+
 
     protected void addControlViewExtendFilter(){
         mLayoutExtend.addView(getControlView(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -168,6 +177,7 @@ public abstract class FilterFragment extends Fragment {
     protected void initExtendFilter(){
         LinearLayout extendFilter = (LinearLayout)getActivity().getLayoutInflater().inflate(R.layout.filter_extend_layout, null);
         mLayoutExtend = (LinearLayout)extendFilter.findViewById(R.id.content_extend_filter);
+        final View separator = extendFilter.findViewById(R.id.separator_extend_filter);
         extendFilter.findViewById(R.id.show_extend_filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,11 +185,23 @@ public abstract class FilterFragment extends Fragment {
                 Button btnShowExtend = (Button) view;
                 btnShowExtend.setText("");
                 btnShowExtend.setOnClickListener(null);
+                btnShowExtend.setVisibility(View.GONE);
+                separator.setVisibility(View.VISIBLE);
                 onShowExtendFilter();
             }
         });
         mLayout.addView(extendFilter);
     }
+
+    protected void addHorizontalSeparator(){
+      mLayout.addView(getActivity().getLayoutInflater().inflate(R.layout.separator_view, null));
+    }
+
+    protected void addExtendHorizontalSeparator(){
+        mLayoutExtend.addView(getActivity().getLayoutInflater().inflate(R.layout.separator_view, null));
+    }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

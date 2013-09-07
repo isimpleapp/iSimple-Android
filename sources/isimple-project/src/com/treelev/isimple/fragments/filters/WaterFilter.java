@@ -13,6 +13,7 @@ public class WaterFilter extends FilterFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         WaterItemFilter waterItem = new WaterItemFilter(inflater, this);
         addItemFilter(waterItem);
+        addHorizontalSeparator();
         PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
         addItemFilter(priceItem);
         mPriceItemFilter = priceItem;

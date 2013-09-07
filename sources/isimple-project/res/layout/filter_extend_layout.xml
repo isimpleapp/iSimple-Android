@@ -10,7 +10,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:text="@string/lbl_extend_filter"
+                android:textColor="@color/product_text_color2"
+                android:background="@color/product_text_color1"
                 android:textSize="14sp"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="25dip"
+                android:id="@+id/separator_extend_filter"
+                android:background="@color/product_text_color1"
+                android:visibility="gone"/>
+
 
         <LinearLayout
             android:id="@+id/content_extend_filter"

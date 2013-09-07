@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class CountryRegionItemFilter extends ExpandableActivityItemFilter {
 
-    public CountryRegionItemFilter(LayoutInflater inflater, FilterFragment filter, Map<String, FilterItemData[]> childData) {
-        super(inflater, filter, childData);
+    public CountryRegionItemFilter(LayoutInflater inflater, FilterFragment filter, boolean interactive, Map<String, FilterItemData[]> childData) {
+        super(inflater, filter, interactive, childData);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CountryRegionItemFilter extends ExpandableActivityItemFilter {
                         if(sqlBuilder.length() > 0) {
                             sqlBuilder.append(" OR ");
                         }
-                        sqlBuilder.append(String.format("(item.country='%1$s' and item.region='%2$s')", item.getName(), groupName));
+                        sqlBuilder.append(String.format("(item.country='%1$s' AND item.region='%2$s')", groupName, item.getName()));
                     }
                 }
             }

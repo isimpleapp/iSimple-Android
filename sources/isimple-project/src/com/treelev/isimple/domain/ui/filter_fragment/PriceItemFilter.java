@@ -59,7 +59,7 @@ public class PriceItemFilter extends ItemFilter{
 
     @Override
     public String getWhereClause() {
-        return mEnable || !mReset ? String.format("(item.price >= %d AND item.price <= %d)", mMinCurrent, mMaxCurrent) : "";
+        return mEnable && !mReset ? String.format("(item.price >= %d AND item.price <= %d)", mMinCurrent, mMaxCurrent) : "";
     }
 
     public boolean isReset(){

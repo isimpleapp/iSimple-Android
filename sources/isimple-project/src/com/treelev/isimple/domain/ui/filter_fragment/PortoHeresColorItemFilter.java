@@ -17,7 +17,7 @@ public class PortoHeresColorItemFilter extends ItemFilter
 
 
     public PortoHeresColorItemFilter(LayoutInflater inflater, FilterFragment filter) {
-        super(inflater, filter);
+        super(inflater, filter, true);
         initControl();
     }
 

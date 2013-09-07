@@ -21,16 +21,18 @@ public class SparklingFilter extends FilterFragment{
         addItemFilter(wineColorItem, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
                         getActivity().getResources().getDisplayMetrics())));
-        ManufactureItemFilter manufactureItem = new ManufactureItemFilter(inflater, this, dataManufacture);
+        ManufactureItemFilter manufactureItem = new ManufactureItemFilter(inflater, this, true, dataManufacture);
         addItemFilter(manufactureItem);
 
         initExtendFilter();
-        SweetnesItemFilter sweetnesItem = new SweetnesItemFilter(inflater, this, dataSweetnes);
+        SweetnesItemFilter sweetnesItem = new SweetnesItemFilter(inflater, this, false, dataSweetnes);
         addItemFilterExtend(sweetnesItem);
-        CountryRegionItemFilter countryRegionItem = new CountryRegionItemFilter(inflater, this, dataRegion);
+        addExtendHorizontalSeparator();
+        CountryRegionItemFilter countryRegionItem = new CountryRegionItemFilter(inflater, this, false, dataRegion);
         PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
         addItemFilterExtend(priceItem);
         mPriceItem = priceItem;
+        addExtendHorizontalSeparator();
         YearItemFilter yearItem = new YearItemFilter(inflater, this, dataYear);
         addItemFilterExtend(yearItem);
         mYearItem = yearItem;

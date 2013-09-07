@@ -1,5 +1,6 @@
 package com.treelev.isimple.domain.ui.filter_fragment;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import com.treelev.isimple.R;
@@ -9,8 +10,8 @@ import com.treelev.isimple.fragments.filters.FilterFragment;
 public class ManufactureItemFilter extends DefaultActivityItemFilter{
 
 
-    public ManufactureItemFilter(LayoutInflater inflater, FilterFragment filter, FilterItemData[] filterData) {
-        super(inflater, filter, filterData);
+    public ManufactureItemFilter(LayoutInflater inflater, FilterFragment filter, boolean interactive, FilterItemData[] filterData) {
+        super(inflater, filter, interactive, filterData);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class ManufactureItemFilter extends DefaultActivityItemFilter{
                     if(sqlBuilder.length() > 0) {
                         sqlBuilder.append(" OR ");
                     }
-                    sqlBuilder.append(String.format("item.manufacturer=%s", item.getName()));
+                    sqlBuilder.append(String.format("item.manufacturer LIKE '%%%s%%'", item.getName().replace("'", "''")));
                 }
             }
         }

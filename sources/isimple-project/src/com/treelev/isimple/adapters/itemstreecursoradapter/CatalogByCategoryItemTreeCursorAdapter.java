@@ -39,6 +39,11 @@ public class CatalogByCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAda
         mTypeSection = ProxyManager.TYPE_SECTION_FILTRATION_SEARCH;
     }
 
+    public void resetFilter(){
+        mFilterWhereClause = "";
+        mTypeSection = ProxyManager.TYPE_SECTION_MAIN;
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         switch (mTypeSection){

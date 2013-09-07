@@ -11,12 +11,14 @@ public abstract class ItemFilter {
     protected LayoutInflater mInflater;
     protected FilterFragment mFilter;
     protected int mRequestCode;
+    private boolean mInteractive;
 
-    protected ItemFilter(LayoutInflater inflater, FilterFragment filter) {
+    protected ItemFilter(LayoutInflater inflater, FilterFragment filter, boolean interactive) {
         mInflater = inflater;
         mView = createView();
         mRequestCode = generateUniqueRequestCode();
         mFilter = filter;
+        mInteractive = interactive;
 
     }
 
@@ -43,7 +45,7 @@ public abstract class ItemFilter {
     }
 
     protected void onChangeStateItemFilter(){
-        if(mFilter != null){
+        if(mFilter != null && mInteractive){
             mFilter.onChangeFilterState();
         }
     }

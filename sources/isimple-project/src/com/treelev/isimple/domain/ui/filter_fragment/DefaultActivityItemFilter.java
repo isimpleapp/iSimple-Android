@@ -10,14 +10,12 @@ import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.fragments.filters.FilterFragment;
 
-import java.util.List;
-
 public abstract class DefaultActivityItemFilter extends ItemFilter {
 
     protected FilterItemData[] mFilterData;
 
-    public DefaultActivityItemFilter(LayoutInflater inflater, FilterFragment filter, FilterItemData[] filterData) {
-        super(inflater, filter);
+    public DefaultActivityItemFilter(LayoutInflater inflater, FilterFragment filter, boolean interactive, FilterItemData[] filterData) {
+        super(inflater, filter, interactive);
         mFilterData = filterData;
         initControl();
     }
@@ -54,33 +52,38 @@ public abstract class DefaultActivityItemFilter extends ItemFilter {
         if(requestCode == mRequestCode){
             mFilterData = DefaultListFilterActivity.getFilterData(data);
             StringBuilder stringBuilder = new StringBuilder();
-            boolean isChecked = false;
             for(FilterItemData itemData : mFilterData){
                 if(itemData.isChecked()){
                     stringBuilder.append(itemData.getName());
                     stringBuilder.append(", ");
-                    isChecked = true;
                 }
             }
             String label = stringBuilder.toString();
-            if(isChecked && label.length() > 0){
+            if(label.length() > 0){
                 ((Button)mView).setText(formatLabel(label)); //delete separator(comma and space)
                 ((Button)mView).setTextColor(Color.BLACK);
             } else {
                 ((Button)mView).setText(mFilter.getString(R.string.lbl_year_item));
                 ((Button)mView).setTextColor(Color.LTGRAY);
             }
+            onChangeStateItemFilter();
         }
     }
 
     private String formatLabel(String label){
 //TODO
-        int maxLength = 36;
+        int maxLength = 27;
         String result;
         if(label.length() > maxLength){
-            result = String.format("%s...", label.substring(0, maxLength));
+            result = label.substring(0, maxLength);
+            int position = result.indexOf(",", result.length() - 2);
+            result = position > 0 ?
+                    String.format("%s", result.substring(0, position))
+                    :
+                    String.format("%s...", result);
         } else {
-            result = label;
+            int position = label.indexOf(",", label.length() - 2);
+            result = String.format("%s", label.substring(0, position));
         }
         return result;
     }

@@ -57,6 +57,6 @@ public enum Sweetness implements Serializable, Presentable {
     }
 
     public static Presentable[] getPortoSweetness() {
-        return new Sweetness[] { DRY, SWEET };
+        return new Sweetness[] { SWEET, DRY, MEDIUM_SWEET };
     }
 }

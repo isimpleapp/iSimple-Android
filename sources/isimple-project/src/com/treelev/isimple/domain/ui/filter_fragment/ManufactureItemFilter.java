@@ -12,12 +12,13 @@ public class ManufactureItemFilter extends DefaultActivityItemFilter{
 
     public ManufactureItemFilter(LayoutInflater inflater, FilterFragment filter, boolean interactive, FilterItemData[] filterData) {
         super(inflater, filter, interactive, filterData);
+        initControl();
     }
 
     @Override
     protected void initControl() {
+        mLabel = mFilter.getString(R.string.lbl_manufacture_item);
         super.initControl();
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_manufacture_item));
     }
 
     @Override

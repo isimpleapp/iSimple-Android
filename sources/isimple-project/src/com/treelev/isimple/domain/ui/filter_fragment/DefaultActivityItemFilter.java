@@ -14,10 +14,11 @@ public abstract class DefaultActivityItemFilter extends ItemFilter {
 
     protected FilterItemData[] mFilterData;
 
+    protected String mLabel;
+
     public DefaultActivityItemFilter(LayoutInflater inflater, FilterFragment filter, boolean interactive, FilterItemData[] filterData) {
         super(inflater, filter, interactive);
         mFilterData = filterData;
-        initControl();
     }
 
     @Override
@@ -26,6 +27,7 @@ public abstract class DefaultActivityItemFilter extends ItemFilter {
             itemData.setChecked(false);
         }
         ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
+        ((Button)mView).setText(mLabel);
     }
 
     @Override
@@ -44,6 +46,7 @@ public abstract class DefaultActivityItemFilter extends ItemFilter {
                     mFilter.getActivity().overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
             }
         });
+        ((Button)mView).setText(mLabel);
     }
 
 
@@ -60,32 +63,14 @@ public abstract class DefaultActivityItemFilter extends ItemFilter {
             }
             String label = stringBuilder.toString();
             if(label.length() > 0){
-                ((Button)mView).setText(formatLabel(label)); //delete separator(comma and space)
+                ((Button)mView).setText(label.substring(0, label.length() - 2)); //delete separator(comma and space)
                 ((Button)mView).setTextColor(Color.BLACK);
             } else {
-                ((Button)mView).setText(mFilter.getString(R.string.lbl_year_item));
-                ((Button)mView).setTextColor(Color.LTGRAY);
+                ((Button)mView).setText(mLabel);
+                ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
             }
             onChangeStateItemFilter();
         }
-    }
-
-    private String formatLabel(String label){
-//TODO
-        int maxLength = 27;
-        String result;
-        if(label.length() > maxLength){
-            result = label.substring(0, maxLength);
-            int position = result.indexOf(",", result.length() - 2);
-            result = position > 0 ?
-                    String.format("%s", result.substring(0, position))
-                    :
-                    String.format("%s...", result);
-        } else {
-            int position = label.indexOf(",", label.length() - 2);
-            result = String.format("%s", label.substring(0, position));
-        }
-        return result;
     }
 
 }

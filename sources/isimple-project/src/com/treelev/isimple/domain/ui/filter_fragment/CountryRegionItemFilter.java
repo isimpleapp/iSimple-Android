@@ -13,18 +13,8 @@ public class CountryRegionItemFilter extends ExpandableActivityItemFilter {
 
     public CountryRegionItemFilter(LayoutInflater inflater, FilterFragment filter, boolean interactive, Map<String, FilterItemData[]> childData) {
         super(inflater, filter, interactive, childData);
-    }
-
-    @Override
-    protected void initControl() {
-        super.initControl();
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_country_item));
-    }
-
-    @Override
-    public void reset() {
-        super.reset();
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_country_item));
+        mLabel = mFilter.getString(R.string.lbl_country_item);
+        initControl();
     }
 
     @Override

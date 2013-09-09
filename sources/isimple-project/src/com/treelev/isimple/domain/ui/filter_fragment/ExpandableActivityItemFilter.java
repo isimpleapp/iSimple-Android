@@ -8,6 +8,7 @@ import android.widget.Button;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.filter.ExpandableListFilterActivity;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
+import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.fragments.filters.FilterFragment;
 
 import java.util.Map;
@@ -16,10 +17,10 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
 
     protected FilterItemData[] mGroupData;
     protected Map<String, FilterItemData[]> mChildData;
+    protected String mLabel;
 
     public ExpandableActivityItemFilter(LayoutInflater inflater, FilterFragment filter, boolean interactive,Map<String, FilterItemData[]> childData) {
         super(inflater, filter, interactive);
-        initControl();
         initData(childData);
     }
 
@@ -43,6 +44,7 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
             }
         }
         ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
+        ((Button)mView).setText(mLabel);
     }
 
     @Override
@@ -62,6 +64,7 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
 
             }
         });
+       ((Button)mView).setText(mLabel);
     }
 
     @Override
@@ -70,7 +73,38 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
             mGroupData = ExpandableListFilterActivity.getGroupData(data);
             mChildData = ExpandableListFilterActivity.getChildData(data, mGroupData);
 //TODO
-            ((Button)mView).setTextColor(Color.BLACK);
+            StringBuilder stringBuilder = new StringBuilder();
+            for(FilterItemData itemData : mGroupData){
+                if(itemData.isChecked()){
+                    stringBuilder.append(itemData.getName());
+                    stringBuilder.append(", ");
+                }
+            }
+            String label = stringBuilder.toString();
+            boolean checkSubGroup;
+            for (String groupName : mChildData.keySet()) {
+                checkSubGroup = false;
+                if(!label.contains(groupName)){
+                    for (FilterItemData item : mChildData.get(groupName)) {
+                        if(item.isChecked()){
+                            checkSubGroup = true;
+                            break;
+                        }
+                    }
+                    if(checkSubGroup){
+                        stringBuilder.append(groupName);
+                        stringBuilder.append(", ");
+                    }
+                }
+            }
+            label = stringBuilder.toString();
+            if(label.length() > 0){
+                ((Button)mView).setText(label.substring(0, label.length() - 2)); //delete separator(comma and space)
+                ((Button)mView).setTextColor(Color.BLACK);
+            } else {
+                ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
+                ((Button)mView).setText(mLabel);
+            }
             onChangeStateItemFilter();
         }
     }

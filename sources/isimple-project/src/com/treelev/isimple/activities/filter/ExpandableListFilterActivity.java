@@ -8,17 +8,18 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BaseExpandableListActivity;
-import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.utils.Utils;
 import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.ExpandableListView;
+import org.holoeverywhere.widget.RadioButton;
 import org.holoeverywhere.widget.SimpleExpandableListAdapter;
 
 import java.util.*;
@@ -48,6 +49,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
                 R.layout.filter_item_view,
                 new String[] { ITEM_NAME },
                 new int[] { R.id.filter_data_name }));
+        hookRemoveArrowGroupItem();
     }
 
     @Override
@@ -201,7 +203,22 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         return childData;
     }
 
+    private void hookRemoveArrowGroupItem(){
+        ExpandableListView expandView = getExpandableListView();
+        CustomExpandableListAdapter adapter = (CustomExpandableListAdapter)expandView.getExpandableListAdapter();
+        int countGroup = adapter.getGroupCount();
+        for(int position = 0; position < countGroup; ++position){
+            expandView.expandGroup(position);
+            if(adapter.hasChildren(position)){
+                expandView.collapseGroup(position);
+            }
+        }
+    }
+
     private class CustomExpandableListAdapter extends SimpleExpandableListAdapter implements View.OnClickListener {
+
+        private List<View> mGroupViews;
+
 
         public CustomExpandableListAdapter(List<? extends Map<String, ?>> groupData,
                                            int groupLayout,
@@ -213,6 +230,11 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
                                            int[] childTo) {
             super(ExpandableListFilterActivity.this, groupData, groupLayout,
                     groupFrom, groupTo, childData, childLayout, childFrom, childTo);
+            mGroupViews = new ArrayList<View>();
+        }
+
+        public View getGroupView(int position){
+            return mGroupViews.get(position);
         }
 
         @Override
@@ -228,6 +250,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             viewHolder.textView = textView;
             viewHolder.checkBox = checkBox;
             groupView.setTag(viewHolder);
+            mGroupViews.add(groupView);
             return groupView;
         }
 
@@ -241,7 +264,14 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             FilterItemData filterData = getGroupData()[groupPosition];
             viewHolder.textView.setTextColor(filterData.isChecked() || isAnyItemChecked(filters) ? Color.BLACK : Color.LTGRAY);
             viewHolder.checkBox.setChecked(filterData.isChecked());
+            if(getFilterItems(groupPosition).length == 0 && isExpanded){
+                groupView.setOnClickListener(null);
+            }
             return groupView;
+        }
+
+        public boolean hasChildren(int groupPosition){
+            return getFilterItems(groupPosition).length > 0;
         }
 
         @Override
@@ -289,7 +319,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         private void processGroupViewClick(View v, int originalEventSourceId) {
             GroupViewHolder viewHolder = ((GroupViewHolder) v.getTag());
             if (originalEventSourceId != R.id.filter_data_check) {
-                if (viewHolder.listView.isGroupExpanded(viewHolder.groupPosition)) {
+                if (viewHolder.listView.isGroupExpanded(viewHolder.groupPosition) && hasChildren(viewHolder.groupPosition)) {
                     viewHolder.listView.collapseGroup(viewHolder.groupPosition);
                 } else {
                     viewHolder.listView.expandGroup(viewHolder.groupPosition);
@@ -306,7 +336,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
                         children[childPosition].setChecked(false);
                     }
 
-                    if (viewHolder.listView.isGroupExpanded(viewHolder.groupPosition)) {
+                    if (viewHolder.listView.isGroupExpanded(viewHolder.groupPosition) && hasChildren(viewHolder.groupPosition)) {
                         viewHolder.listView.collapseGroup(viewHolder.groupPosition);
                     }
                 }

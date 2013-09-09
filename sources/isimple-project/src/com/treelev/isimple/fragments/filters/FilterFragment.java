@@ -24,7 +24,7 @@ public abstract class FilterFragment extends Fragment {
     public enum FilterType{PortoHeres, Sake, Sparkling, Spirits, Water, Wine}
 
     public interface OnChangeStateListener{
-        public void onChangeFilterState(String whereClause, boolean group);
+        public void onChangeFilterState(String whereClause, boolean group, boolean clickFind);
     }
 
     protected OnChangeStateListener mListener;
@@ -34,12 +34,13 @@ public abstract class FilterFragment extends Fragment {
     private int mSortBy;
     private int mCategory;
     private View mSortControl;
+    private boolean mFind;
 
     protected abstract boolean isGroup();
 
     public void onChangeFilterState(){
         if(mListener != null){
-            mListener.onChangeFilterState(getWhereClause(), isGroup());
+            mListener.onChangeFilterState(getWhereClause(), isGroup(), mFind);
         }
     }
 
@@ -123,7 +124,9 @@ public abstract class FilterFragment extends Fragment {
         viewControl.findViewById(R.id.search_butt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mFind = true;
                 onChangeFilterState();
+                mFind = false;
             }
         });
         return viewControl;

@@ -8,11 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -29,8 +26,6 @@ import com.treelev.isimple.enumerable.item.Sweetness;
 import com.treelev.isimple.fragments.filters.*;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.widget.ExpandableListView;
-
-import java.util.List;
 
 public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         implements  LoaderManager.LoaderCallbacks<Cursor>,
@@ -64,6 +59,7 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private SearchView mSearchView;
     private View mFooter;
+    private boolean mClickFind;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,8 +81,9 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
                     getExpandableListView().removeFooterView(mFooter);
                     mFilter.setVisibleSortControl(true);
                 }
-                getExpandableListView().setSelectionAfterHeaderView();
-
+                if(mClickFind){
+                    getExpandableListView().setSelectionAfterHeaderView();
+                }
             }
         });
         if (mLocationId == null) {
@@ -259,7 +256,8 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         mFilter.setCategory(mLocationId == null ? 0 : 1);
         mFilter.setOnChangeFilterListener(new FilterFragment.OnChangeStateListener(){
             @Override
-            public void onChangeFilterState(String whereClause, boolean group) {
+            public void onChangeFilterState(String whereClause, boolean group, boolean clickFind) {
+                mClickFind = clickFind;
                 mFilterWhereClause = mFilter.getWhereClause();
                 mSortBy = mFilter.getSortBy();
                 mTreeCategoriesAdapter.setGroup(group);
@@ -271,7 +269,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private void initWineFilter(){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        mFilter.setCategory(mLocationId == null ? 0 : 1);
         ProxyManager proxyManager = new ProxyManager(this);
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
@@ -284,20 +281,17 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private void initSpiritsFilter(){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        mFilter.setCategory(mLocationId == null ? 0 : 1);
         ProxyManager proxyManager = new ProxyManager(this);
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
         SpiritsFilter spiritsFilter = (SpiritsFilter) mFilter;
         spiritsFilter.initFilterItems(min, max,
                 FilterItemData.getAvailableClassifications(this, DrinkCategory.SPIRITS),
-                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.SPIRITS),
                 FilterItemData.getAvailableYears(this, DrinkCategory.SPIRITS));
     }
 
     private void initSparklingFilter(){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        mFilter.setCategory(mLocationId == null ? 0 : 1);
         ProxyManager proxyManager = new ProxyManager(this);
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
@@ -311,7 +305,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private void initWaterFilter(View view){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        mFilter.setCategory(mLocationId == null ? 0 : 1);
         ProxyManager proxyManager = new ProxyManager(this);
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
@@ -321,7 +314,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private void initPortoHeresFilter(View view){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        mFilter.setCategory(mLocationId == null ? 0 : 1);
         ProxyManager proxyManager = new ProxyManager(this);
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
@@ -334,7 +326,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private void initSakeFilter(){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        mFilter.setCategory(mLocationId == null ? 0 : 1);
         ProxyManager proxyManager = new ProxyManager(this);
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);

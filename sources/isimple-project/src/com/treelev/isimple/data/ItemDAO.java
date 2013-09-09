@@ -296,8 +296,8 @@ public class ItemDAO extends BaseDAO {
                     "ORDER BY %3$s";
         } else {
             return "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                    "price, year, quantity, color, drink_id, is_favourite, t1.item_left_overs " +
-                    "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs ";
+                    "price, year, quantity, color, drink_id, is_favourite, t1.item_left_overs, 0 AS count " +
+                    "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY  %3$s";
 //            return "SELECT * FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs ";
         }
     }
@@ -336,8 +336,8 @@ public class ItemDAO extends BaseDAO {
                     "ORDER BY %3$s";
         } else {
             return "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                   "price, year, quantity, color, drink_id, is_favourite, item_left_overs " +
-                   "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s";
+                   "price, year, quantity, color, drink_id, is_favourite, item_left_overs, 0 AS count " +
+                   "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s ORDER BY %3$s";
 //            return "SELECT * FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs ";
         }
     }

@@ -19,9 +19,7 @@ public abstract class ItemFilter {
         mRequestCode = generateUniqueRequestCode();
         mFilter = filter;
         mInteractive = interactive;
-
     }
-
 
     protected ItemFilter(LayoutInflater inflater){
         mInflater = inflater;

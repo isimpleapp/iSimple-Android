@@ -11,18 +11,10 @@ import java.util.Map;
 
 public class ClassificationItemFilter extends ExpandableActivityItemFilter{
 
-    private String mLabel;
-
     public ClassificationItemFilter(LayoutInflater inflater, String label, boolean interactive, FilterFragment filter, Map<String, FilterItemData[]> childData) {
         super(inflater, filter, interactive, childData);
-        ((Button)mView).setText(label);
         mLabel = label;
-    }
-
-    @Override
-    public void reset() {
-        super.reset();
-        ((Button)mView).setText(mLabel);
+        initControl();
     }
 
     @Override
@@ -48,7 +40,7 @@ public class ClassificationItemFilter extends ExpandableActivityItemFilter{
                         }
                         sqlBuilder.append(
                                 String.format("(item.product_type=%1$s AND item.classification='%2$s')",
-                                        ProductType.getProductTypeByLabel(groupName).ordinal(), groupName));
+                                        ProductType.getProductTypeByLabel(groupName).ordinal(), item.getName()));
                     }
                 }
             }

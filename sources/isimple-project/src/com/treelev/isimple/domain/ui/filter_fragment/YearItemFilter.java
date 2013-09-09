@@ -12,20 +12,20 @@ public class YearItemFilter extends DefaultActivityItemFilter {
 
     public YearItemFilter(LayoutInflater inflater, FilterFragment filter, FilterItemData[] filterData) {
         super(inflater, filter, false, filterData);
+        initControl();
    }
 
     @Override
     protected void initControl() {
-        super.initControl();
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_year_item));
+        mLabel = mFilter.getString(R.string.lbl_year_item);
         mReset = true;
+        super.initControl();
     }
 
     @Override
     public void reset() {
         super.reset();
         mReset = true;
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_year_item));
     }
 
     @Override

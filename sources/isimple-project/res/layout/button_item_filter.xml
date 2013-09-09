@@ -8,8 +8,10 @@
               android:background="@drawable/list_navigation_selector"
               android:textColor="@color/filter_item_text_color"
               android:paddingLeft="10dip"
+              android:paddingRight="10dip"
               android:paddingBottom="13dip"
               android:paddingTop="10dip"
-              android:gravity="center_vertical">
+              android:gravity="center_vertical"
+              android:ellipsize="end"
+              android:maxLines="1"/>
 
-</Button>

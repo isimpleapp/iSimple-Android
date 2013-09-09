@@ -12,18 +12,13 @@ public class SweetnesItemFilter extends DefaultActivityItemFilter {
 
     public SweetnesItemFilter(LayoutInflater inflater, FilterFragment filter, boolean  interactive, FilterItemData[] filterData) {
         super(inflater, filter,  interactive, filterData);
+        initControl();
     }
 
     @Override
     protected void initControl() {
+        mLabel = mFilter.getString(R.string.lbl_sweetnes_item);
         super.initControl();
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_sweetnes_item));
-    }
-
-    @Override
-    public void reset() {
-        super.reset();
-        ((Button)mView).setText(mFilter.getString(R.string.lbl_sweetnes_item));
     }
 
     @Override

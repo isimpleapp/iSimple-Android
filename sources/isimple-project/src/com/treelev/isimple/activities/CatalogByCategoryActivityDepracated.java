@@ -4,31 +4,34 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.itemstreecursoradapter.AbsItemTreeCursorAdapter;
-import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogByCategoryItemTreeCursorAdapter;
+import com.treelev.isimple.adapters.FilterAdapter;
+import com.treelev.isimple.adapters.itemstreecursoradapter.*;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
-import com.treelev.isimple.domain.ui.filter.FilterItemData;
+import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.enumerable.item.Sweetness;
-import com.treelev.isimple.fragments.filters.*;
+import com.treelev.isimple.filter.*;
+import com.treelev.isimple.filter.Filter;
 import com.treelev.isimple.utils.managers.ProxyManager;
+import org.holoeverywhere.widget.BaseExpandableListAdapter;
 import org.holoeverywhere.widget.ExpandableListView;
 
-public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
-        implements  LoaderManager.LoaderCallbacks<Cursor>,
+public class CatalogByCategoryActivityDepracated extends BaseExpandableListActivity
+        implements RadioGroup.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
         SearchView.OnQueryTextListener{
 
     private final static String FIELD_TAG = "field_tag";
@@ -47,45 +50,49 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     private Integer mCategoryID;
     private String mLocationId;
+    private boolean mExpandFilter = false;
+    private boolean mFilterUse = false;
     private String mFilterWhereClause;
-
+    private com.treelev.isimple.filter.Filter filter;
     private static final int ANIMATION_DURATION_IN_MILLIS = 500;
     private int mSortBy = ProxyManager.SORT_NAME_AZ;
     private int mTypeSection = ProxyManager.TYPE_SECTION_MAIN;
     private Context mContext;
-    private FilterFragment mFilter;
     public final static String EXTRA_RESULT_CHECKED = "isChecked";
     public final static String EXTRA_CHILD_POSITION = "position";
 
+    private int DIP50_IN_PX;
+    private int DIP51_IN_PX;
+
     private SearchView mSearchView;
-    private View mFooter;
-    private boolean mClickFind;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.catalog_category_layout_new);
 
+        DIP50_IN_PX = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+        DIP51_IN_PX = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 51, getResources().getDisplayMetrics());
+
+        setContentView(R.layout.catalog_category_layout);
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         mContext = this;
-        mFooter = getLayoutInflater().inflate(R.layout.not_found_layout, null);
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
-        mTreeCategoriesAdapter.setFinishListener(new AbsItemTreeCursorAdapter.FinishListener() {
+
+        mTreeCategoriesAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
-            public void onFinish() {
-                if(mTreeCategoriesAdapter.isEmpty()){
-                    addFooter();
-                    mFilter.setVisibleSortControl(false);
-                } else {
-                    getExpandableListView().removeFooterView(mFooter);
-                    mFilter.setVisibleSortControl(true);
-                }
-                if(mClickFind){
-                    getExpandableListView().setSelectionAfterHeaderView();
+            public void onChanged() {
+                if (filterListView.isGroupExpanded(0)) { // фильтр открыт
+                    getExpandableListView().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            getExpandableListView().setSelectionFromTop(2, DIP50_IN_PX);
+                        }
+                    });
                 }
             }
         });
+
         if (mLocationId == null) {
             mTreeCategoriesAdapter.initCategory(mCategoryID);
             setCurrentCategory(0); //Catalog
@@ -98,7 +105,8 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         darkView = findViewById(R.id.category_dark_view_cat);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
-        initFilter();
+        filter = initFilter();
+        initFilterListView();
         getExpandableListView().setAdapter(mTreeCategoriesAdapter);
         initLoadManager();
     }
@@ -128,6 +136,21 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
+        switch (rgb) {
+            case R.id.alphabet_sort:
+                mSortBy = ProxyManager.SORT_NAME_AZ;
+                break;
+            case R.id.price_sort:
+                mSortBy = ProxyManager.SORT_PRICE_UP;
+                break;
+        }
+        mTreeCategoriesAdapter.setSortBy(mSortBy);
+        mFilterWhereClause = mFilterUse ? filter.getSQLWhereClause() : mFilterWhereClause;
+        initLoadManager();
     }
 
     private SearchView.OnQueryTextListener mQueryTextListener = new SearchView.OnQueryTextListener() {
@@ -221,139 +244,137 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
         backOrCollapse();
     }
 
-    private void initFilter() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        boolean processed;
+        for (FilterItem filterItem : filter.getFilterContent()) {
+            processed = filterItem.processResult(requestCode, resultCode, data);
+            if (processed)
+                break;
+        }
+//        boolean addFavorite = data.getBooleanExtra(ProductInfoActivity.CHANGE_FAVOURITE, false);
+//        if(addFavorite){
+//            mTreeCategoriesAdapter.notifyDataSetChanged();
+//        }
+    }
+
+    private Filter initFilter() {
         DrinkCategory drinkCategory = DrinkCategory.getDrinkCategory(mCategoryID);
-        View header = null;
-        FilterFragment.FilterType type = null;
         switch (drinkCategory) {
             case WINE:
-                header = getLayoutInflater().inflate(R.layout.wine_filter_fragment);
-                initWineFilter();
-                break;
+                return new WineFilter(this, mCurrentCategory);
             case SPIRITS:
-                header = getLayoutInflater().inflate(R.layout.spirits_filter_fragment);
-                initSpiritsFilter();
-                break;
+                return new SpiritsFilter(this, mCurrentCategory);
             case SPARKLING:
-                header = getLayoutInflater().inflate(R.layout.sparkilng_filter_fragment);
-                initSparklingFilter();
-                break;
+                return new SparklingFilter(this, mCurrentCategory);
             case SAKE:
-                header = getLayoutInflater().inflate(R.layout.sake_filter_fragment);
-                initSakeFilter();
-                break;
+                return new SakeFilter(this, mCurrentCategory);
             case PORTO:
-                header = getLayoutInflater().inflate(R.layout.porto_heres_filter_fragment);
-                initPortoHeresFilter(header);
-                break;
+                return new PortoHeresFilter(this, mCurrentCategory);
             case WATER:
-                header = getLayoutInflater().inflate(R.layout.water_filter_fragment);
-                initWaterFilter(header);
-                break;
+                return new WaterFilter(this, mCurrentCategory);
             default:
-                return;
+                return null;
         }
-        mFilter.setCategory(mLocationId == null ? 0 : 1);
-        mFilter.setOnChangeFilterListener(new FilterFragment.OnChangeStateListener(){
-            @Override
-            public void onChangeFilterState(String whereClause, boolean group, boolean clickFind) {
-                mClickFind = clickFind;
-                mFilterWhereClause = mFilter.getWhereClause();
-                mSortBy = mFilter.getSortBy();
-                mTreeCategoriesAdapter.setGroup(group);
-                initLoadManager();
-            }
-        });
-        getExpandableListView().addHeaderView(header);
     }
-
-    private void initWineFilter(){
-        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
-        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-        WineFilter wineFilter = (WineFilter) mFilter;
-        wineFilter.initFilterItems(min, max,
-                FilterItemData.createFromPresentable(Sweetness.getWineSweetness()),
-                FilterItemData.getAvailableYears(this, DrinkCategory.WINE),
-                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.WINE));
-    }
-
-    private void initSpiritsFilter(){
-        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
-        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-        SpiritsFilter spiritsFilter = (SpiritsFilter) mFilter;
-        spiritsFilter.initFilterItems(min, max,
-                FilterItemData.getAvailableClassifications(this, DrinkCategory.SPIRITS),
-                FilterItemData.getAvailableYears(this, DrinkCategory.SPIRITS));
-    }
-
-    private void initSparklingFilter(){
-        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
-        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-        SparklingFilter sparklingFilter = (SparklingFilter) mFilter;
-        sparklingFilter.initFilterItems(min, max,
-                FilterItemData.getAvailableManufacture(this, DrinkCategory.SPARKLING),
-                FilterItemData.createFromPresentable(Sweetness.getSparklingSweetness()),
-                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.SPARKLING),
-                FilterItemData.getAvailableYears(this, DrinkCategory.SPARKLING));
-    }
-
-    private void initWaterFilter(View view){
-        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
-        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-        WaterFilter waterFilter = (WaterFilter) mFilter;
-        waterFilter.initFilterItems(min, max);
-    }
-
-    private void initPortoHeresFilter(View view){
-        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
-        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-        PortoHeresFilter portoHeresFilter = (PortoHeresFilter) mFilter;
-        portoHeresFilter.initFilterItems(min, max,
-                FilterItemData.createFromPresentable(Sweetness.getPortoSweetness()),
-                FilterItemData.getAvailableYears(this, DrinkCategory.PORTO),
-                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.PORTO));
-    }
-
-    private void initSakeFilter(){
-        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
-        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-        SakeFilter sakeFilter = (SakeFilter) mFilter;
-        sakeFilter.initFilterItems(min, max, FilterItemData.getAvailableClassifications(this, DrinkCategory.SAKE));
-    }
-
-
 
     private void backOrCollapse() {
-        finish();
-        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+        if (mExpandFilter) {
+            Button resetButton = (Button) filterView.findViewById(R.id.reset_butt);
+            if (resetButton != null) {
+                resetButton.performClick();
+            }  else {
+                mExpandFilter = false;
+            }
+        } else {
+            finish();
+            overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+        }
     }
 
+    private void initFilterListView() {
+        BaseExpandableListAdapter filterAdapter = new FilterAdapter(this, filter);
+        filterView = getLayoutInflater().inflate(R.layout.category_filter_general_layout, getExpandableListView(), false);
+        filterListView = (ExpandableListView)filterView.findViewById(R.id.filtration_view);
+
+        getExpandableListView().addHeaderView(filterView);
+
+        ((RadioGroup) filterView.findViewById(R.id.sort_group)).setOnCheckedChangeListener(this);
+        filterView.findViewById(R.id.reset_butt).setOnClickListener(footerButtonClick);
+        filterView.findViewById(R.id.search_butt).setOnClickListener(footerButtonClick);
+
+        filterListView.setAdapter(filterAdapter);
+
+        filterListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                return filter.getFilterContent().get(childPosition).process();
+            }
+        });
+
+//        filterListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+//            @Override
+//            public void onGroupCollapse(int groupPosition) {
+//                mExpandFilter = false;
+//            }
+//        });
+
+        filterListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                filterView.findViewById(R.id.filter_button_bar).setVisibility(View.VISIBLE);
+                filterListView.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        filter.getFilterContent().size() * DIP51_IN_PX)
+                );
+                mExpandFilter = true;
+            }
+        });
+    }
+
+    private View.OnClickListener footerButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.reset_butt:
+//                    view.setBackgroundColor(Color.MAGENTA);
+                    if (filter.isChangeState()) {
+                        filter.reset();
+                        filterListView.postInvalidate();
+                    } else {
+                        filterView.findViewById(R.id.filter_button_bar).setVisibility(View.GONE);
+                        filterListView.collapseGroup(0);
+                        filterListView.setLayoutParams(new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT, DIP50_IN_PX));
+                        mExpandFilter = false;
+                    }
+//                    view.setBackgroundResource(R.drawable.btn_filter_reset);
+                    mFilterUse = false;
+                    break;
+                case R.id.search_butt:
+//                    view.setBackgroundColor(Color.GRAY);
+                    mFilterWhereClause = filter.getSQLWhereClause();
+                    initLoadManager();
+//                    view.setBackgroundResource(R.drawable.btn_filter_find);
+                    mFilterUse = true;
+                    break;
+            }
+        }
+    };
+
     private void initLoadManager() {
-        mTreeCategoriesAdapter.setSortBy(mSortBy);
-        if(TextUtils.isEmpty(mFilterWhereClause)){
+        if(mFilterWhereClause == null){
             if(mLocationId == null){
                 mTypeSection = ProxyManager.TYPE_SECTION_MAIN;
             } else {
                 mTypeSection = ProxyManager.TYPE_SECTION_SHOP_MAIN;
             }
-            mTreeCategoriesAdapter.resetFilter();
         } else if(mTypeSection != ProxyManager.TYPE_SECTION_FILTRATION_SEARCH){
             mTreeCategoriesAdapter.initFilter(mFilterWhereClause, mLocationId, mSortBy);
             mTypeSection = ProxyManager.TYPE_SECTION_FILTRATION_SEARCH;
         }
-        if(!TextUtils.isEmpty(mFilterWhereClause)) {
+        if(mFilterWhereClause != null ) {
             mTreeCategoriesAdapter.setFilterWhereClause(mFilterWhereClause);
         }
         getSupportLoaderManager().restartLoader(mTypeSection, null, this);
@@ -366,7 +387,6 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        getExpandableListView().removeFooterView(mFooter);
         mTreeCategoriesAdapter.setGroupCursor(cursor);
         mTreeCategoriesAdapter.notifyDataSetChanged();
         expandAllGroup();
@@ -375,17 +395,5 @@ public class CatalogByCategoryActivityNew extends BaseExpandableListActivity
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
     }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mFilter.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void addFooter(){
-        if(getExpandableListView().getFooterViewsCount() == 0){
-            getExpandableListView().addFooterView(mFooter);
-        }
-    }
 }
+

@@ -14,7 +14,6 @@ import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShopInfoActivity extends BaseActivity implements View.OnClickListener {

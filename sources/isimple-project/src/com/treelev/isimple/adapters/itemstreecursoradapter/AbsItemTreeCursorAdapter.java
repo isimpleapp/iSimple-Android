@@ -302,8 +302,8 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         setChildrenCursor(cursorLoader.getId(), cursor);
+        mEmpty &= cursor.getCount() == 0;
         stopDialog();
-        mEmpty |= cursor.getCount() == 0;
         if(cursor.getCount() == 0) {
             mEmptyGroupView.add(new Integer(cursorLoader.getId()));
         }
@@ -323,7 +323,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         if(mCountCallBack == 0 && mDialog == null){
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                             mContext.getString(R.string.dialog_select_data_message), false, false);
-            mEmpty = false;
+            mEmpty = true;
         }
         ++mCountCallBack;
     }

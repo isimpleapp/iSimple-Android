@@ -222,7 +222,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter
         viewHolder.nameView.setText(organizeItemNameLabel(cursor.getString(itemNameIndex)));
         viewHolder.itemLocName.setText(organizeLocItemNameLabel(cursor.getString(itemLocNameIndex)));
         String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(itemVolumeIndex)));
-        String priceLabel = cursor.getString(itemPriceIndex);
+        String priceLabel = String.valueOf(cursor.getInt(itemPriceIndex));
         if(priceLabel != null ) {
             if( priceLabel.equalsIgnoreCase("0") || priceLabel.equalsIgnoreCase("999999")) {
                 priceLabel = "";

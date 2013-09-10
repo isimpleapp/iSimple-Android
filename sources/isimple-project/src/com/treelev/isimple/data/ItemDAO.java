@@ -20,28 +20,8 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class ItemDAO extends BaseDAO {
 
     public final static int ID = 1;
-    private final static String FIRST_PART_SELECT_SCRIPT = "SELECT %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, COUNT(%s), %s FROM %s ";
-    private final static String SCRIPT_SELECT_RANDOM = "SELECT %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, COUNT(%s), %s FROM %s GROUP BY %s LIMIT 10 ";
-    private final static String SCRIPT_SELECT_DRINK_ID = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s = %s";
-    private final static int SCRIPT_TYPE_WINE = 2;
-    private final static int SCRIPT_TYPE_OTHERS = 3;
 
-    private final static String FORMAT_QUERY_WINE = " %s WHERE %s %s %s %s %s %s GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
-    private final static String FORMAT_QUERY_OTHER = " %s WHERE %s %s  GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
-    private final static String FORMAT_QUERY_WINE_SEARCH = " %s WHERE %s %s %s %s %s %s %s GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
-    private final static String FORMAT_QUERY_OTHER_SEARCH = " %s WHERE %s %s %s GROUP BY " + DatabaseSqlHelper.ITEM_DRINK_ID;
-    private final static String FORMAT_ORDER_BY_PRICE = " ORDER BY %s";
-    private final static String FORMAT_ORDER_BY_NAME = " ORDER BY %s";
-
-
-    private final static String SELECT_ITEMS_FROM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, %s, %s, %s, %s, COUNT(%s) FROM %s  WHERE %s GROUP BY %s  %s";
-    private final static String SELECT_ITEMS_FROM_RANDOM = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, MIN(%s) as price, %s, %s, %s, %s, COUNT(%s) FROM %s WHERE %s GROUP BY %s";
-    private final static String SELECT_ITEMS_FROM_DRINK_ID = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,  %s, %s, %s, %s FROM %s WHERE %s %s";
-    private final static String SELECT_ITEMS_FROM_BARCODE = "SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s %s";
-    private final static String FORMAT_ORDER_BY_MIN = "ORDER BY MIN(%s)";
     private final static String FORMAT_ORDER_BY = "ORDER BY %s";
-    private final static String FORMAT_FROM_TWO_TABLE = "%s AS %s, %s AS %s";
-    private final static String FORMAT_JOIN_TWO_TABLE = "%s.%s = %s.%s"; //[name table].[filed]
     private final static String TABLE_ONE = "t1";
     private final static String TABLE_TWO = "t2";
     private final static String COMPARE = "%s = %s";
@@ -50,7 +30,6 @@ public class ItemDAO extends BaseDAO {
     private final static String OR = "%s OR %s";
     private final static String HOOKS = "(%s)";
     private final static String LIKE = "%s LIKE '%s'";
-    private final static String DISTINC = "DISTINC %s";
 
     public ItemDAO(Context context) {
         super(context);
@@ -298,7 +277,6 @@ public class ItemDAO extends BaseDAO {
             return "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
                     "(case when ifnull(price, '') = '' then (999999) else price end) as price, year, quantity, color, drink_id, is_favourite, t1.item_left_overs, 0 AS count " +
                     "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s AND item_left_overs > 0 ORDER BY  %3$s";
-//            return "SELECT * FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs ";
         }
     }
 

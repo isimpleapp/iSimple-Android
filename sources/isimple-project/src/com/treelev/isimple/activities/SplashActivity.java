@@ -208,7 +208,12 @@ public class SplashActivity extends Activity {
         private void putFileDatesInPref(Object... params) {
             SharedPreferences.Editor prefEditor = ((SharedPreferences) params[1]).edit();
             for (String url : urlList) {
-                prefEditor.putLong(url, new Date(113, 3, 1).getTime());
+                prefEditor.putLong(url,
+                        new Date(
+                                getResources().getInteger(R.integer.year),
+                                getResources().getInteger(R.integer.month),
+                                getResources().getInteger(R.integer.day))
+                                .getTime());
             }
             SharedPreferencesManager.setFirstStart(getApplication(), false);
             prefEditor.commit();

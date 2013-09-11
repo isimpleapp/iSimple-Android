@@ -3,6 +3,7 @@ package com.treelev.isimple.utils.managers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.*;
+import android.content.res.Resources;
 import com.treelev.isimple.R;
 
 import java.text.SimpleDateFormat;
@@ -74,7 +75,8 @@ public class SharedPreferencesManager {
     }
 
     public static String getDateCatalogUpdate(Context context){
-        return getSharedPreferences(context).getString(DATE_CATALOG_UPDATE, context.getString(R.string.date_update));
+        return getSharedPreferences(context).getString(DATE_CATALOG_UPDATE,
+                context.getString(R.string.date_update));
     }
 
     public static boolean isStartUpdate(Context context){

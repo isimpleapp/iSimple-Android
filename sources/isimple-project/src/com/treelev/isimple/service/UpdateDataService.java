@@ -27,11 +27,6 @@ import java.util.List;
 
 public class UpdateDataService extends Service  {
 
-//    public static final String UPDATE_READY = "update_ready";
-
-//    public static final String DATE_UPDATE = "date_update";
-//    public static final String DATE_PRICE_UPDATE = "date__price_update";
-//    public static final String DATE_CATALOG_UPDATE = "date__catalog_update";
 
     public static final String PARAM_PINTENT = "PENDING_INTENT";
 

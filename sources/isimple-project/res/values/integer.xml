@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="year">2013</integer>
+    <integer name="month">9</integer>
+    <integer name="day">11</integer>
+</resources>

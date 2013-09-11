@@ -197,7 +197,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
             view.findViewById(R.id.shopping_cart_vol_year_separator).setVisibility(View.GONE);
         }
         textView = (TextView) view.findViewById(R.id.product_price);
-        textView.setText(String.format(PRICE_LABEL_FORMAT, cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE))));
+        textView.setText(String.format(PRICE_LABEL_FORMAT, cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE))));
         textView = (TextView) view.findViewById(R.id.multiply_symbol);
         textView.setText("\u00D7");
     }

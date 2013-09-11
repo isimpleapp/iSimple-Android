@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
@@ -74,15 +75,20 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         mTreeCategoriesAdapter.setFinishListener(new AbsItemTreeCursorAdapter.FinishListener() {
             @Override
             public void onFinish() {
-                if(mTreeCategoriesAdapter.isEmpty()){
+                boolean empty = mTreeCategoriesAdapter.isEmpty();
+                if(empty){
                     addFooter();
-                    mFilter.setVisibleSortControl(false);
                 } else {
                     getExpandableListView().removeFooterView(mFooter);
-                    mFilter.setVisibleSortControl(true);
                 }
+                mFilter.setVisibleSortControl(!empty);
                 if(mClickFind){
-                    getExpandableListView().setSelectionAfterHeaderView();
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            getExpandableListView().setSelectionAfterHeaderView();
+                        }
+                    });
                 }
             }
         });

@@ -20,7 +20,6 @@ public class SpiritsFilter extends FilterFragment {
         addItemFilter(classificationItem);
 
         initExtendFilter();
-        addExtendHorizontalSeparator();
         PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
         addItemFilterExtend(priceItem);
         mPriceItem = priceItem;

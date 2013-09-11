@@ -185,10 +185,8 @@ public abstract class FilterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mLayoutExtend.setVisibility(View.VISIBLE);
-                Button btnShowExtend = (Button) view;
-                btnShowExtend.setText("");
-                btnShowExtend.setOnClickListener(null);
-                btnShowExtend.setVisibility(View.GONE);
+                view.setOnClickListener(null);
+                view.setVisibility(View.GONE);
                 separator.setVisibility(View.VISIBLE);
                 onShowExtendFilter();
             }

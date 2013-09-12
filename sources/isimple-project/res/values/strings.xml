@@ -40,6 +40,7 @@
 
     <string name="shopping_cart_delete_all_btn_label">Очистить</string>
     <string name="shopping_cart_delivery_btn_label">Delivery</string>
+    <string name="lbl_where_place_cart">Где забрать свой заказ?</string>
 
     <string name="message_offline">Отсутствует подключение к интернет</string>
     <string name="message_empty_orders">Отсутвуют заказы</string>

@@ -6,7 +6,7 @@
               android:layout_height="53dip"
               android:textSize="20sp"
               android:background="@drawable/list_navigation_selector"
-              android:textColor="@color/filter_item_text_color"
+              android:textColor="@color/product_text_color1"
               android:paddingLeft="10dip"
               android:paddingRight="10dip"
               android:paddingBottom="13dip"

@@ -43,7 +43,7 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
                 item.setChecked(false);
             }
         }
-        ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
+        ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color1));
         ((Button)mView).setText(mLabel);
     }
 
@@ -102,7 +102,7 @@ public abstract class ExpandableActivityItemFilter extends ItemFilter{
                 ((Button)mView).setText(label.substring(0, label.length() - 2)); //delete separator(comma and space)
                 ((Button)mView).setTextColor(Color.BLACK);
             } else {
-                ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
+                ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color1));
                 ((Button)mView).setText(mLabel);
             }
             onChangeStateItemFilter();

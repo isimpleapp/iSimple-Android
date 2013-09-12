@@ -26,7 +26,7 @@ public abstract class DefaultActivityItemFilter extends ItemFilter {
         for(FilterItemData itemData : mFilterData){
             itemData.setChecked(false);
         }
-        ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
+        ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color1));
         ((Button)mView).setText(mLabel);
     }
 
@@ -67,7 +67,7 @@ public abstract class DefaultActivityItemFilter extends ItemFilter {
                 ((Button)mView).setTextColor(Color.BLACK);
             } else {
                 ((Button)mView).setText(mLabel);
-                ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color));
+                ((Button)mView).setTextColor(mFilter.getResources().getColor(R.color.product_text_color1));
             }
             onChangeStateItemFilter();
         }

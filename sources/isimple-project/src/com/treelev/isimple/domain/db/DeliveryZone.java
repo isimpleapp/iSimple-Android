@@ -9,6 +9,9 @@ public class DeliveryZone {
     private String deliveryDesc;
     private Integer specialCondition;
     private String specialDesc;
+    private String address;
+    private float latitude;
+    private float longitude;
 
     public String getName() {
         return name;
@@ -66,4 +69,27 @@ public class DeliveryZone {
         this.specialDesc = specialDesc;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
 }

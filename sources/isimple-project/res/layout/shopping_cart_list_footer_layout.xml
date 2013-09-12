@@ -25,8 +25,10 @@
             android:layout_height="50dip"
             />
     <LinearLayout
+            android:orientation="vertical"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent" android:background="@android:color/white">
+            android:layout_width="match_parent"
+            android:background="@android:color/white">
         <org.holoeverywhere.widget.TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -34,5 +36,14 @@
                 android:gravity="center" android:layout_marginLeft="10dip" android:layout_marginRight="10dip"
                 android:layout_marginTop="5dip" android:layout_marginBottom="5dip" android:textSize="12sp"
                 android:textColor="@color/shopping_cart_delivery_label_color" android:id="@+id/footer_view_label"/>
+        <org.holoeverywhere.widget.Button
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_margin="7dip"
+                android:text="@string/lbl_where_place_cart"
+                android:id="@+id/btn_where_store"
+                android:textSize="15sp"
+                android:background="@drawable/category_butt_selector"
+                android:layout_gravity="center"/>
     </LinearLayout>
 </LinearLayout>

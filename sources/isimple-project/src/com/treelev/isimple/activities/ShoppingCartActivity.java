@@ -2,6 +2,7 @@ package com.treelev.isimple.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -153,6 +154,12 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                 });
                 builder.show();
                 break;
+            case R.id.btn_where_store:
+                Intent intent = new Intent(this, PickupActivity.class);
+//TODO add location
+                startActivity(intent);
+                overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+                break;
         }
     }
 
@@ -170,6 +177,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         button.setOnClickListener(this);
         mPriceSlider = (PriceSlider) footerView.findViewById(R.id.price_slider);
         mPriceSlider.setRegion(PriceSlider.Region.fromString(country.trim()));
+        footerView.findViewById(R.id.btn_where_store).setOnClickListener(this);
         return footerView;
     }
 
@@ -283,12 +291,15 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     public void organizeCreateOrderButton(int shoppingCartPrice) {
 //        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
         Button button = (Button) findViewById(R.id.create_order_btn);
+        Button btnStore = (Button) footerView.findViewById(R.id.btn_where_store);
         if (shoppingCartPrice >= mMinPrice) {
             button.setBackgroundColor(getResources().getColor(R.color.product_price_color));
             button.setClickable(true);
+            btnStore.setVisibility(View.VISIBLE);
         } else {
             button.setBackgroundColor(Color.GRAY);
             button.setClickable(false);
+            btnStore.setVisibility(View.GONE);
         }
     }
 

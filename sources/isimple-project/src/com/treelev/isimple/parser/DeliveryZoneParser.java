@@ -42,7 +42,21 @@ public class DeliveryZoneParser implements Parser {
                                 deliveryZone.setSpecialCondition(Integer.parseInt(xmlPullParser.nextText()));
                             } else if (xmlPullParser.getName().equals("special_desc")) {
                                 deliveryZone.setSpecialDesc(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals("pickup_location")) {
+                                xmlPullParser.next();
+                                while(!"pickup_location".equals(xmlPullParser.getName())){
+                                    if(xmlPullParser.getName().equals("address")){
+                                        deliveryZone.setAddress(xmlPullParser.nextText());
+                                    } else if(xmlPullParser.getName().equals("location")) {
+                                        String locationStr = xmlPullParser.getText();
+                                        String locationArray[] = locationStr.split(",");
+                                        deliveryZone.setLatitude(Float.valueOf(locationArray[0]));
+                                        deliveryZone.setLongitude(Float.valueOf(locationArray[1]));
+                                    }
+                                    xmlPullParser.next();
+                                }
                             }
+
                         }
                         xmlPullParser.next();
                     }

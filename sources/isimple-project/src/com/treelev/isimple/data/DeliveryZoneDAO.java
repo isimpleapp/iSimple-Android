@@ -34,30 +34,45 @@ public class DeliveryZoneDAO extends BaseDAO {
                     DatabaseSqlHelper.DELIVERY_NAME + ", " +
                     DatabaseSqlHelper.DELIVERY_MIN_CONDITION + ", " +
                     DatabaseSqlHelper.DELIVERY_MAX_CONDITION + ", " +
-                    DatabaseSqlHelper.DELIVERY_DESC +
+                    DatabaseSqlHelper.DELIVERY_DESC + ", " +
+                    DatabaseSqlHelper.DELIVERY_ADDRESS + ", " +
+                    DatabaseSqlHelper.DELIVERY_LONGITUDE + ", " +
+                    DatabaseSqlHelper.DELIVERY_LATITUDE +
                     ") VALUES " +
-                    "(?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (DeliveryZone deliveryZone : deliveryZones) {
                 insertStatement = bindString(insertStatement, 1, deliveryZone.getName());
                 insertStatement = bindInteger(insertStatement, 2, 0);
                 insertStatement = bindInteger(insertStatement, 3, deliveryZone.getPickupCondition() - 1);
                 insertStatement = bindString(insertStatement, 4, getStartDescByName(deliveryZone.getPickupCondition()));
+                insertStatement = bindString(insertStatement, 5, deliveryZone.getAddress());
+                insertStatement = bindFloat(insertStatement, 6, deliveryZone.getLongitude());
+                insertStatement = bindFloat(insertStatement, 7, deliveryZone.getLatitude());
                 insertStatement.execute();
                 insertStatement = bindString(insertStatement, 1, deliveryZone.getName());
                 insertStatement = bindInteger(insertStatement, 2, deliveryZone.getPickupCondition());
                 insertStatement = bindInteger(insertStatement, 3, deliveryZone.getDeliveryCondition() - 1);
                 insertStatement = bindString(insertStatement, 4, deliveryZone.getPickupDesc());
+                insertStatement = bindString(insertStatement, 5, deliveryZone.getAddress());
+                insertStatement = bindFloat(insertStatement, 6, deliveryZone.getLongitude());
+                insertStatement = bindFloat(insertStatement, 7, deliveryZone.getLatitude());
                 insertStatement.execute();
                 insertStatement = bindString(insertStatement, 1, deliveryZone.getName());
                 insertStatement = bindInteger(insertStatement, 2, deliveryZone.getDeliveryCondition());
                 insertStatement = bindInteger(insertStatement, 3, deliveryZone.getSpecialCondition() - 1);
                 insertStatement = bindString(insertStatement, 4, deliveryZone.getDeliveryDesc());
+                insertStatement = bindString(insertStatement, 5, deliveryZone.getAddress());
+                insertStatement = bindFloat(insertStatement, 6, deliveryZone.getLongitude());
+                insertStatement = bindFloat(insertStatement, 7, deliveryZone.getLatitude());
                 insertStatement.execute();
                 insertStatement = bindString(insertStatement, 1, deliveryZone.getName());
                 insertStatement = bindInteger(insertStatement, 2, deliveryZone.getSpecialCondition());
                 insertStatement = bindInteger(insertStatement, 3, null);
                 insertStatement = bindString(insertStatement, 4, deliveryZone.getSpecialDesc());
+                insertStatement = bindString(insertStatement, 5, deliveryZone.getAddress());
+                insertStatement = bindFloat(insertStatement, 6, deliveryZone.getLongitude());
+                insertStatement = bindFloat(insertStatement, 7, deliveryZone.getLatitude());
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();
@@ -127,7 +142,7 @@ public class DeliveryZoneDAO extends BaseDAO {
     }
 
     public int getMinPriceByCountry(String country) {
-        String formatQuery = "SELECT MIN(max_condition) as min_price FROM [delivery] WHERE [name] = '%s'";
+        String formatQuery = "SELECT MIN(max_condition) as min_price FROM delivery WHERE [name] = '%s'";
         String query = String.format(formatQuery, country);
         open();
         Cursor cursor = getDatabase().rawQuery(query, null);
@@ -145,4 +160,23 @@ public class DeliveryZoneDAO extends BaseDAO {
     private String getStartDescByName(int minPrice) {
         return String.format(START_DESC_FORMAT, minPrice);
     }
+
+    public DeliveryZone getDeliveryZone(String name){
+        DeliveryZone deliveryZone = null;
+        open();
+        String formatQuery = "SELECT * FROM delivery WHERE name = '%s' LIMIT 0,1";
+        Cursor cursor = getDatabase().rawQuery(String.format(formatQuery, name), null);
+        if(cursor != null){
+            if(cursor.moveToFirst()){
+                deliveryZone = new DeliveryZone();
+                deliveryZone.setName(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.DELIVERY_NAME)));
+                deliveryZone.setAddress(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.DELIVERY_ADDRESS)));
+                deliveryZone.setLatitude(cursor.getFloat(cursor.getColumnIndex(DatabaseSqlHelper.DELIVERY_LATITUDE)));
+                deliveryZone.setLongitude(cursor.getFloat(cursor.getColumnIndex(DatabaseSqlHelper.DELIVERY_LONGITUDE)));
+            }
+        }
+        return deliveryZone;
+    }
+
+
 }

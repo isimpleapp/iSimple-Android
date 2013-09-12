@@ -6,7 +6,7 @@
               android:layout_height="match_parent">
 
     <org.holoeverywhere.widget.TextView
-            android:id="@+id/title_strore"
+            android:id="@+id/title_store"
             android:layout_width="match_parent"
             android:textSize="30dip"
             android:textStyle="bold"
@@ -18,9 +18,9 @@
             android:layout_marginTop="5dip"
             android:layout_marginBottom="5dip"/>
     <org.holoeverywhere.widget.TextView
-            android:id="@+id/adress_store"
+            android:id="@+id/address_store"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:textSize="15dip"
             android:gravity="center"
             android:layout_gravity="center_horizontal"/>
@@ -29,7 +29,6 @@
             android:layout_height="50dip"
             android:id="@+id/build_route_btn"
             android:textSize="15dip"
-            android:onClick="onBuildRouteButtonClick"
             android:text="@string/build_route_btn_label"
             android:textColor="@android:color/black"
             android:background="@drawable/category_butt_selector"
@@ -37,10 +36,10 @@
             android:layout_marginBottom="13dip"
             android:layout_marginTop="10dip"/>
 
-    <fragment
+    <FrameLayout
             android:id="@+id/map_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent">
+    </FrameLayout>
 
 </LinearLayout>

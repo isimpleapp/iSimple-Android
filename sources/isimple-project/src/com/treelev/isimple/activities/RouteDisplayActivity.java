@@ -12,7 +12,10 @@ public class RouteDisplayActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_display_layout);
-        setCurrentCategory(ShopsFragmentActivity.NAVIGATE_CATEGORY_ID);
+        boolean flag = getIntent().getBooleanExtra(PickupActivity.PLACE_STORE , false);
+        setCurrentCategory(flag ?
+                ShoppingCartActivity.NAVIGATE_CATEGORY_ID :
+                ShopsFragmentActivity.NAVIGATE_CATEGORY_ID);
         Shop shop = (Shop) getIntent().getSerializableExtra(ShopInfoActivity.SHOP);
         createNavigationMenuBar();
         organizeMapFragment(shop);

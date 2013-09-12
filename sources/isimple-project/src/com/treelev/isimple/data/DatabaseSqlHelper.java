@@ -259,13 +259,19 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String DELIVERY_MIN_CONDITION = "min_condition";
     public final static String DELIVERY_MAX_CONDITION = "max_condition";
     public final static String DELIVERY_DESC = "pickup_desc";
+    public final static String DELIVERY_ADDRESS = "address";
+    public final static String DELIVERY_LONGITUDE = "longitude";
+    public final static String DELIVERY_LATITUDE = "latitude";
 
     private final static String CREATE_TABLE_DELIVERY_ITEM = "create table " + DELIVERY_ITEM_TABLE + " ( " +
             BaseColumns._ID + " integer primary key autoincrement, " +
             DELIVERY_NAME + " text, " +
             DELIVERY_MIN_CONDITION + " integer, " +
             DELIVERY_MAX_CONDITION + " integer, " +
-            DELIVERY_DESC + " text);";
+            DELIVERY_DESC + " text, " +
+            DELIVERY_ADDRESS + " text, " +
+            DELIVERY_LONGITUDE + " float, " +
+            DELIVERY_LATITUDE + " float);";
 
     public DatabaseSqlHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

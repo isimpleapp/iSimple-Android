@@ -264,14 +264,16 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             FilterItemData filterData = getGroupData()[groupPosition];
             viewHolder.textView.setTextColor(filterData.isChecked() || isAnyItemChecked(filters) ? Color.BLACK : Color.LTGRAY);
             viewHolder.checkBox.setChecked(filterData.isChecked());
-            if(getFilterItems(groupPosition).length == 0 && isExpanded){
-                groupView.setOnClickListener(null);
+            if( !hasChildren(groupPosition) && !viewHolder.hook){
+//                groupView.setOnClickListener(null);
+                viewHolder.hook = true;
             }
             return groupView;
         }
 
         public boolean hasChildren(int groupPosition){
             return getFilterItems(groupPosition).length > 0;
+//            return getChildrenCount(groupPosition) > 0;
         }
 
         @Override
@@ -401,6 +403,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             CheckBox checkBox;
             TextView textView;
             int groupPosition;
+            boolean hook;
         }
     }
 }

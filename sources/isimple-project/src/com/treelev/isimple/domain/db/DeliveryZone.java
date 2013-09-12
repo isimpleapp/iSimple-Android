@@ -77,7 +77,7 @@ public class DeliveryZone {
         this.address = address;
     }
 
-    public double getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 

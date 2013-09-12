@@ -13,21 +13,22 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/category_reset_butt_selector"
-            android:gravity="center">
+            android:gravity="center"
+            android:id="@+id/reset_butt">
         <ImageView
                 android:contentDescription="@string/app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ico_btn_filter_reset"
                 android:layout_marginRight="7dip"/>
-        <org.holoeverywhere.widget.Button
+        <org.holoeverywhere.widget.TextView
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
-                android:id="@+id/reset_butt"
                 android:text="@string/filtration_butt_reset"
                 android:textColor="@color/reset_butt_label_color"
                 android:textSize="22dip"
-                android:background="@color/transparent"/>
+                android:background="@color/transparent"
+                android:gravity="center_vertical"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="horizontal"
@@ -35,21 +36,22 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="@drawable/category_find_butt_selector"
-            android:gravity="center">
+            android:gravity="center"
+            android:id="@+id/search_butt">
         <ImageView
                 android:contentDescription="@string/app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ico_btn_filter_find"
                 android:layout_marginRight="7dip"/>
-        <org.holoeverywhere.widget.Button
+        <org.holoeverywhere.widget.TextView
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
-                android:id="@+id/search_butt"
                 android:text="@string/filtration_butt_find"
                 android:textColor="@android:color/white"
                 android:textSize="22dip"
-                android:background="@color/transparent"/>
+                android:background="@color/transparent"
+                android:gravity="center_vertical"/>
     </LinearLayout>
 
 </LinearLayout>

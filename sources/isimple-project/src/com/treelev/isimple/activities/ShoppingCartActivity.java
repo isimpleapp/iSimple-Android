@@ -156,7 +156,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                 break;
             case R.id.btn_where_store:
                 Intent intent = new Intent(this, PickupActivity.class);
-//TODO add location
+                intent.putExtra(PickupActivity.PLACE_STORE, getCountry());
                 startActivity(intent);
                 overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
                 break;
@@ -168,11 +168,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         Button button = (Button) footerView.findViewById(R.id.delete_all_btn);
         button.setOnClickListener(this);
         button = (Button) footerView.findViewById(R.id.delivery_btn);
-        String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, null);
-        if (country == null) {
-            country = proxyManager.getDeliveryFirstCountry();
-            putCountryInPref(country);
-        }
+        String country = getCountry();
         button.setText(country);
         button.setOnClickListener(this);
         mPriceSlider = (PriceSlider) footerView.findViewById(R.id.price_slider);
@@ -186,6 +182,15 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         SharedPreferences.Editor editor = sharedPreference.edit();
         editor.putString(COUNTRY_LABEL, country);
         editor.commit();
+    }
+
+    private String getCountry(){
+        String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, null);
+        if (country == null) {
+            country = proxyManager.getDeliveryFirstCountry();
+            putCountryInPref(country);
+        }
+        return country;
     }
 
     private class DeleteDataShoppingCartTask extends AsyncTask<Void, Void, Void>{
@@ -289,10 +294,10 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private String mCountry;
 
     public void organizeCreateOrderButton(int shoppingCartPrice) {
-//        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
+        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
         Button button = (Button) findViewById(R.id.create_order_btn);
         Button btnStore = (Button) footerView.findViewById(R.id.btn_where_store);
-        if (shoppingCartPrice >= mMinPrice) {
+        if (shoppingCartPrice >= minPrice) {
             button.setBackgroundColor(getResources().getColor(R.color.product_price_color));
             button.setClickable(true);
             btnStore.setVisibility(View.VISIBLE);

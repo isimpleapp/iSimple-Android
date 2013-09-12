@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.location.Location;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.*;
+import com.treelev.isimple.domain.db.DeliveryZone;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
@@ -441,6 +442,10 @@ public class ProxyManager {
 
     public int getMinPriceByCountry(String country) {
         return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getMinPriceByCountry(country);
+    }
+
+    public DeliveryZone getDeliveryZone(String name) {
+        return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getDeliveryZone(name);
     }
 
     public void release() {

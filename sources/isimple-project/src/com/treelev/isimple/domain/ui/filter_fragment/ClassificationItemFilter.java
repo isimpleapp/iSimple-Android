@@ -40,7 +40,7 @@ public class ClassificationItemFilter extends ExpandableActivityItemFilter{
                         }
                         sqlBuilder.append(
                                 String.format("(item.product_type=%1$s AND item.classification='%2$s')",
-                                        ProductType.getProductTypeByLabel(groupName).ordinal(), item.getName()));
+                                        ProductType.getProductTypeByLabel(groupName).ordinal(), item.getName().replace("'", "''")));
                     }
                 }
             }

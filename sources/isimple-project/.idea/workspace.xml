@@ -26,28 +26,29 @@
       </GlobalState>
     </option>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="exe" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/PickupActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/layout/pickup_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/DefaultActivityItemFilter.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/DefaultActivityItemFilter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/fragments/MapStoreFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/iSimple.db" afterPath="$PROJECT_DIR$/assets/iSimple.db" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ClassificationItemFilter.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ClassificationItemFilter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/data/DatabaseSqlHelper.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/data/DatabaseSqlHelper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/DeliveryZone.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/DeliveryZone.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/parser/DeliveryZoneParser.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/parser/DeliveryZoneParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ExpandableActivityItemFilter.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ExpandableActivityItemFilter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/data/DeliveryZoneDAO.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/data/DeliveryZoneDAO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/filter/ExpandableListFilterActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/filter/ExpandableListFilterActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/PickupActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/PickupActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/RouteDisplayActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/RouteDisplayActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" afterPath="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/button_item_filter.xml" afterPath="$PROJECT_DIR$/res/layout/button_item_filter.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/shopping_cart_list_footer_layout.xml" afterPath="$PROJECT_DIR$/res/layout/shopping_cart_list_footer_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/filter_controls.xml" afterPath="$PROJECT_DIR$/res/layout/filter_controls.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/pickup_layout.xml" afterPath="$PROJECT_DIR$/res/layout/pickup_layout.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iSimple.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378829670024" ignored="false" />
-    <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378113047152" ignored="false" />
-    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378973700054" ignored="false" />
+    <file path="/fragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1379000004874" ignored="false" />
+    <file path="/AndroidManifest.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378980553259" ignored="false" />
+    <file path="/Dummy.txt" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378978370596" ignored="false" />
     <file path="/BaseActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1375548149210" ignored="false" />
     <file path="/MainActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365598870250" ignored="false" />
     <file path="/Drink.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364205912287" ignored="false" />
@@ -97,7 +98,7 @@
     <file path="/Style.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1366826056487" ignored="false" />
     <file path="/Sweetness.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378550402035" ignored="false" />
     <file path="/DrinkType.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364545396341" ignored="false" />
-    <file path="/DatabaseSqlHelper.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372419276313" ignored="false" />
+    <file path="/DatabaseSqlHelper.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378987526623" ignored="false" />
     <file path="$PROJECT_DIR$/../PackTheSuitcase/src/com/omertex/android/suitcase/service/catalog/CatalogTable.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1364810768036" ignored="false" />
     <file path="/ItemDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378478072994" ignored="false" />
     <file path="/Item.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1372940072746" ignored="false" />
@@ -144,7 +145,7 @@
     <file path="/catalog_list_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373957661445" ignored="false" />
     <file path="/catalog_list_resource.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365677978872" ignored="false" />
     <file path="/CatalogListActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378739037086" ignored="false" />
-    <file path="/ProxyManager.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378470992613" ignored="false" />
+    <file path="/ProxyManager.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378985924781" ignored="false" />
     <file path="/catalog_item_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1374833955219" ignored="false" />
     <file path="/CatalogItem.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1365692210869" ignored="false" />
     <file path="/catalog_list_header_view.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371465992739" ignored="false" />
@@ -831,7 +832,7 @@
     <file path="/LocationTrakingManager1.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1369744326782" ignored="false" />
     <file path="/ChainStoresActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1373383349663" ignored="false" />
     <file path="/ShopChainFragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1370348340618" ignored="false" />
-    <file path="/ExpandableListFilterActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378728348861" ignored="false" />
+    <file path="/ExpandableListFilterActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378998992797" ignored="false" />
     <file path="/IntentIntegrator.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371826018738" ignored="false" />
     <file path="/DefaultListFilterActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378229854048" ignored="false" />
     <file path="/title_filter_item.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1370357774001" ignored="false" />
@@ -1108,7 +1109,7 @@
     <file path="/items_order_dialog.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371629395923" ignored="false" />
     <file path="/dialog_order_phone.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371738487530" ignored="false" />
     <file path="/dialog_order_email.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371731224943" ignored="false" />
-    <file path="/ShoppingCartActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378976034011" ignored="false" />
+    <file path="/ShoppingCartActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378996381990" ignored="false" />
     <file path="/product_info_expandable_group_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371831324133" ignored="false" />
     <file path="/ProductContentAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371828424775" ignored="false" />
     <file path="/DummyFile.xpath" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1371722064583" ignored="false" />
@@ -1232,7 +1233,7 @@
     <file path="/PriceItemFilter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378473917077" ignored="false" />
     <file path="/Test.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378112959466" ignored="false" />
     <file path="/test_layout_test.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378113420185" ignored="false" />
-    <file path="/filter_controls.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378114068217" ignored="false" />
+    <file path="/filter_controls.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378998634085" ignored="false" />
     <file path="/category_filter_seekbar_item_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378115658163" ignored="false" />
     <file path="/water_filter_fragment.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378116878339" ignored="false" />
     <file path="/porto_heres_filter_fragment.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378119267035" ignored="false" />
@@ -1273,10 +1274,13 @@
     <file path="/history_cart_detailed_item.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378807449069" ignored="false" />
     <file path="/HistoryCartDetailedAdapter.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378807404474" ignored="false" />
     <file path="/integer.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378885961349" ignored="false" />
-    <file path="/PickupActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378977249941" ignored="false" />
-    <file path="/pickup_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378973964960" ignored="false" />
+    <file path="/PickupActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378995302143" ignored="false" />
+    <file path="/pickup_layout.xml" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378989964438" ignored="false" />
     <file path="/DeliveryZoneParser.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378977092882" ignored="false" />
-    <file path="/DeliveryZone.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378977063176" ignored="false" />
+    <file path="/DeliveryZone.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378978865416" ignored="false" />
+    <file path="/DeliveryZoneDAO.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378985165627" ignored="false" />
+    <file path="/MapStoreFragment.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378990936194" ignored="false" />
+    <file path="/RouteDisplayActivity.java" changelist="187d5eb5-e7fa-4b65-8bc0-2cfa69e02d6a" time="1378993497182" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1909,6 +1913,21 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/filter/ExpandableListFilterActivity.java" line="267" class="com.treelev.isimple.activities.filter.ExpandableListFilterActivity.CustomExpandableListAdapter" package="com.treelev.isimple.activities.filter">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
     </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
@@ -1919,69 +1938,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ShoppingCartActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java">
+      <file leaf-file-name="ExpandableListFilterActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/filter/ExpandableListFilterActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="8" selection-start="1936" selection-end="1977" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DeliveryZoneDAO.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/DeliveryZoneDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="13" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DefaultActivityItemFilter.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/DefaultActivityItemFilter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="104" selection-start="2865" selection-end="2865" vertical-scroll-proportion="1.5037314">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExpandableActivityItemFilter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ExpandableActivityItemFilter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="104" column="104" selection-start="4257" selection-end="4257" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WaterItemFilter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/WaterItemFilter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="52" selection-start="842" selection-end="842" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="water_filter_layout.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/water_filter_layout.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="61" selection-start="654" selection-end="673" vertical-scroll-proportion="-10.88">
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ItemFilter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ItemFilter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="22" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
+            <state line="268" column="8" selection-start="11664" selection-end="11664" vertical-scroll-proportion="0.37104073">
               <folding />
             </state>
           </provider>
@@ -2011,22 +1971,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/adapters/ShoppingCartCursorAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/CatalogByCategoryActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/fragments/filters/SpiritsFilter.java" />
-        <option value="$PROJECT_DIR$/res/layout/filter_extend_layout.xml" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/fragments/filters/FilterFragment.java" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/res/layout/pickup_layout.xml" />
-        <option value="$PROJECT_DIR$/res/layout/shopping_cart_list_footer_layout.xml" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/DeliveryZone.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/parser/DeliveryZoneParser.java" />
-        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/PickupActivity.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ExpandableActivityItemFilter.java" />
         <option value="$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/DefaultActivityItemFilter.java" />
         <option value="$PROJECT_DIR$/res/layout/button_item_filter.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/domain/db/DeliveryZone.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ClassificationItemFilter.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/DeliveryZoneDAO.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/utils/managers/ProxyManager.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/data/DatabaseSqlHelper.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/RouteDisplayActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/fragments/MapStoreFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/pickup_layout.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/PickupActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/filter_controls.xml" />
+        <option value="$PROJECT_DIR$/src/com/treelev/isimple/activities/filter/ExpandableListFilterActivity.java" />
       </list>
     </option>
   </component>
@@ -2257,96 +2217,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="domain" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iSimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="domain" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iSimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="domain" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="filter_fragment" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iSimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple-project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="isimple" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -2400,6 +2270,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="activities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iSimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="isimple" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="filter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3920,7 +3820,11 @@
       <created>1378913825120</created>
       <updated>1378913825120</updated>
     </task>
-    <option name="localTasksCounter" value="281" />
+    <task id="LOCAL-00281" summary="IS - 309">
+      <created>1378978393122</created>
+      <updated>1378978393122</updated>
+    </task>
+    <option name="localTasksCounter" value="282" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -3945,9 +3849,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1728838" sideWeight="0.78382146" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1728838" sideWeight="0.67085075" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19386332" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3958,17 +3862,17 @@
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775453" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30272597" sideWeight="0.78382146" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21617852" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21377331" sideWeight="0.78382146" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30272597" sideWeight="0.67085075" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21617852" sideWeight="0.8938307" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21377331" sideWeight="0.67085075" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.6736402" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23152022" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34588563" sideWeight="0.73888093" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23672883" sideWeight="0.59693164" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24825662" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45885634" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32914925" sideWeight="0.49928263" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12691772" sideWeight="0.88020086" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23692636" sideWeight="0.54738015" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -4022,7 +3926,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="IS - 308" />
+    <option name="LAST_COMMIT_MESSAGE" value="IS - 309" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -4036,7 +3940,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="IS - 278" />
     <MESSAGE value="IS - 281" />
     <MESSAGE value="IS - 282" />
     <MESSAGE value="IS - 283 &#10;IS - 284&#10; IS - 285" />
@@ -4061,6 +3964,7 @@
     <MESSAGE value="fixed price for shopping cart" />
     <MESSAGE value="fixed scrolling after click &quot;Find&quot; button" />
     <MESSAGE value="IS - 308" />
+    <MESSAGE value="IS - 309" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -4074,83 +3978,16 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/YearItemFilter.java">
+    <entry file="jar://$PROJECT_DIR$/libs/google-play-services.jar!/com/google/android/gms/maps/model/LatLng.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="287" selection-end="287" vertical-scroll-proportion="0.13492064">
+        <state line="6" column="19" selection-start="182" selection-end="182" vertical-scroll-proportion="0.16634052">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/WineColorItemFilter.java">
+    <entry file="file://$PROJECT_DIR$/res/layout/route_display_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="374" selection-end="374" vertical-scroll-proportion="-0.6527778">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/SweetnesItemFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="13" selection-start="342" selection-end="342" vertical-scroll-proportion="-0.24236253">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/PortoHeresTypeItemFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="293" selection-end="293" vertical-scroll-proportion="0.13492064">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/PortoHeresColorItemFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="374" selection-end="374" vertical-scroll-proportion="-0.35619047">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/PickupActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="49" selection-start="416" selection-end="416" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="8" selection-start="1936" selection-end="1977" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/DeliveryZoneDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ItemFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="22" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/WaterItemFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="52" selection-start="842" selection-end="842" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/water_filter_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="61" selection-start="654" selection-end="673" vertical-scroll-proportion="-10.88">
+        <state line="5" column="0" selection-start="259" selection-end="441" vertical-scroll-proportion="0.1734694">
           <folding />
         </state>
       </provider>
@@ -4158,16 +3995,104 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ExpandableActivityItemFilter.java">
+    <entry file="jar://C:/Program Files (x86)/Android/android-sdk/platforms/android-16/android.jar!/android/app/Activity.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="104" selection-start="4257" selection-end="4257" vertical-scroll-proportion="0.0">
+        <state line="347" column="16" selection-start="15450" selection-end="15450" vertical-scroll-proportion="0.332696">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/button_item_filter.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/data/DeliveryZoneDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="171" column="0" selection-start="7977" selection-end="7977" vertical-scroll-proportion="0.46082088">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/db/Shop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="13" selection-start="179" selection-end="179" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShopInfoActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="106" column="29" selection-start="3862" selection-end="3862" vertical-scroll-proportion="0.3227612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/RouteDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="71" selection-start="774" selection-end="774" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/MapStoreFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="87" selection-start="468" selection-end="468" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/pickup_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="40" selection-start="330" selection-end="341" vertical-scroll-proportion="-1.16">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/PickupActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="41" selection-start="2116" selection-end="2116" vertical-scroll-proportion="0.22443181">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/MapFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="0" selection-start="3493" selection-end="3493" vertical-scroll-proportion="0.10227273">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/ShoppingCartActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="292" column="22" selection-start="11928" selection-end="11928" vertical-scroll-proportion="0.20272572">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5125#6057#0" expanded="true" />
+            <element signature="e#6038#6039#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter/FilterItemData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="13" selection-start="441" selection-end="441" vertical-scroll-proportion="0.11333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/fragments/filters/FilterFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="116" column="60" selection-start="3367" selection-end="3367" vertical-scroll-proportion="0.3880597">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/filter_controls.xml">
       <provider editor-type-id="text-editor">
-        <state line="8" column="59" selection-start="419" selection-end="419" vertical-scroll-proportion="0.0">
+        <state line="53" column="49" selection-start="2488" selection-end="2488" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -4175,23 +4100,9 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/CountryRegionItemFilter.java">
+    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/activities/filter/ExpandableListFilterActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="62" selection-start="360" selection-end="360" vertical-scroll-proportion="0.16504854">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/ManufactureItemFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="318" selection-end="318" vertical-scroll-proportion="-0.44402984">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/treelev/isimple/domain/ui/filter_fragment/DefaultActivityItemFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="104" selection-start="2865" selection-end="2865" vertical-scroll-proportion="1.5037314">
+        <state line="268" column="8" selection-start="11664" selection-end="11664" vertical-scroll-proportion="0.37104073">
           <folding />
         </state>
       </provider>

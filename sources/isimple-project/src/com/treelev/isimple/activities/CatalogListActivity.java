@@ -15,6 +15,7 @@ import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.service.DownloadDataService;
+import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import org.holoeverywhere.widget.ExpandableListView;
@@ -39,6 +40,9 @@ public class CatalogListActivity extends BaseExpandableListActivity
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
+//hook location
+        LocationTrackingManager.getInstante().getCurrentLocation(getApplicationContext());
+
         setContentView(R.layout.catalog_list_layout);
         setCurrentCategory(NAVIGATE_CATEGORY_ID);
         createNavigationMenuBar();

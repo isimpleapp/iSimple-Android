@@ -208,12 +208,7 @@ public class SplashActivity extends Activity {
         private void putFileDatesInPref(Object... params) {
             SharedPreferences.Editor prefEditor = ((SharedPreferences) params[1]).edit();
             for (String url : urlList) {
-                prefEditor.putLong(url,
-                        new Date(
-                                getResources().getInteger(R.integer.year),
-                                getResources().getInteger(R.integer.month),
-                                getResources().getInteger(R.integer.day))
-                                .getTime());
+                prefEditor.putLong(url, getDate().getTime());
             }
             SharedPreferencesManager.setFirstStart(getApplication(), false);
             prefEditor.commit();
@@ -229,6 +224,18 @@ public class SplashActivity extends Activity {
             }
             is.close();
             os.close();
+        }
+
+        private Date getDate(){
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, getResources().getInteger(R.integer.year));
+            cal.set(Calendar.MONTH, getResources().getInteger(R.integer.month));
+            cal.set(Calendar.DAY_OF_MONTH, getResources().getInteger(R.integer.day));
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            return cal.getTime();
         }
     }
 

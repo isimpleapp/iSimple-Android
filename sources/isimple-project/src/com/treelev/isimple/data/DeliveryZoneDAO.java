@@ -39,7 +39,7 @@ public class DeliveryZoneDAO extends BaseDAO {
                     DatabaseSqlHelper.DELIVERY_LONGITUDE + ", " +
                     DatabaseSqlHelper.DELIVERY_LATITUDE +
                     ") VALUES " +
-                    "(?, ?, ?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (DeliveryZone deliveryZone : deliveryZones) {
                 insertStatement = bindString(insertStatement, 1, deliveryZone.getName());

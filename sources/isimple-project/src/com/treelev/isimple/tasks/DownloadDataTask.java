@@ -47,6 +47,8 @@ public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
                 for (LoadFileData loadFileData : loadFileDataList) {
                     String fileUrl = loadFileData.getFileUrl();
                     Log.v("Test log fileUrl", fileUrl);
+                    Log.v("Test log time preference", String.valueOf(sharedPreferences.getLong(fileUrl, -1)));
+                    Log.v("Test log time file", String.valueOf(loadFileData.getLoadDate().getTime()));
                     if (sharedPreferences.getLong(fileUrl, -1) < loadFileData.getLoadDate().getTime()) {
                         fileList.add(webServiceManager.downloadFile(fileUrl));
                         SharedPreferences.Editor editor = sharedPreferences.edit();

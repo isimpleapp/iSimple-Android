@@ -1,5 +1,6 @@
 package com.treelev.isimple.parser;
 
+import android.util.Log;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.DeliveryZoneDAO;
 import com.treelev.isimple.domain.db.DeliveryZone;
@@ -45,18 +46,19 @@ public class DeliveryZoneParser implements Parser {
                             } else if (xmlPullParser.getName().equals("pickup_location")) {
                                 xmlPullParser.next();
                                 while(!"pickup_location".equals(xmlPullParser.getName())){
-                                    if(xmlPullParser.getName().equals("address")){
-                                        deliveryZone.setAddress(xmlPullParser.nextText());
-                                    } else if(xmlPullParser.getName().equals("location")) {
-                                        String locationStr = xmlPullParser.getText();
-                                        String locationArray[] = locationStr.split(",");
-                                        deliveryZone.setLatitude(Float.valueOf(locationArray[0]));
-                                        deliveryZone.setLongitude(Float.valueOf(locationArray[1]));
+                                    if (xmlPullParser.getEventType() == XmlPullParser.START_TAG) {
+                                        if(xmlPullParser.getName().equals("address")){
+                                            deliveryZone.setAddress(xmlPullParser.nextText());
+                                        } else if(xmlPullParser.getName().equals("location")) {
+                                            String locationStr = xmlPullParser.nextText();
+                                            String locationArray[] = locationStr.split(",");
+                                            deliveryZone.setLatitude(Float.valueOf(locationArray[0]));
+                                            deliveryZone.setLongitude(Float.valueOf(locationArray[1]));
+                                        }
                                     }
                                     xmlPullParser.next();
                                 }
                             }
-
                         }
                         xmlPullParser.next();
                     }

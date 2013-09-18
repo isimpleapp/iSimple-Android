@@ -69,14 +69,14 @@ public class SplashActivity extends Activity {
         }
         else {
           startApplication(true);
-          if(!Environment.MEDIA_MOUNTED.equals(Environment.MEDIA_MOUNTED)){
+          if(!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
               showWarningNotification(getApplicationContext());
           }
         }
     }
 
     private static boolean isUpdateReady(Context context){
-        return Environment.MEDIA_MOUNTED.equals(Environment.MEDIA_MOUNTED)
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 && SharedPreferencesManager.isUpdateReady(context);
     }
 
@@ -100,21 +100,18 @@ public class SplashActivity extends Activity {
     }
 
     public static void showUpdateNotification(Context context) {
-        if(isUpdateReady(context)){
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification = new Notification(R.drawable.icon, context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
 
-            Intent newIntent = new Intent(context, SplashActivity.class);
-            newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            newIntent.putExtra(SplashActivity.FROM_NOTIFICATION, true);
+        Intent newIntent = new Intent(context, SplashActivity.class);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        newIntent.putExtra(SplashActivity.FROM_NOTIFICATION, true);
 
-            PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
-            notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_content_label), pIntent);
-            notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
+        notification.setLatestEventInfo(context, context.getString(R.string.app_name), context.getString(R.string.update_data_content_label), pIntent);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-            notificationManager.notify(1, notification);
-
-        }
+        notificationManager.notify(1, notification);
     }
 
     @Override

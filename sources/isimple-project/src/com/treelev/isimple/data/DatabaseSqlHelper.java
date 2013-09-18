@@ -292,7 +292,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String dropTableText = "DROP TABLE IF EXISTS ";
+        String dropTableText = "DROP TABLE IF EXISTS %s";
         db.execSQL(String.format(dropTableText, FEATURED_ITEM_TABLE));
         db.execSQL(String.format(dropTableText, ITEM_AVAILABILITY_TABLE));
         db.execSQL(String.format(dropTableText, CHAIN_TABLE));

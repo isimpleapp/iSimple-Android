@@ -14,6 +14,7 @@ import android.view.View;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ShoppingCartCursorAdapter;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.fragments.OrderDialogFragment;
@@ -42,8 +43,6 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private TextView shoppingCartPriceTextView;
     private PriceSlider mPriceSlider;
 
-
-
     private OrderDialogFragment dlgMakeOrder;
 
     @Override
@@ -60,6 +59,13 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null, shoppingCartPriceTextView, shoppingCartFooterTextView, mOnChangePrice);
         getListView().setAdapter(mListCategoriesAdapter);
         new SelectDataShoppingCartTask(this).execute();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics.screen_Basket(this);
     }
 
     private ShoppingCartCursorAdapter.OnChangePrice mOnChangePrice = new ShoppingCartCursorAdapter.OnChangePrice() {
@@ -86,6 +92,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         super.onResume();
         if(mIsSaveInstancceState){
             if(mSendOrders){
+                Analytics.screen_OrderDone(this);
+
                 OrderDialogFragment dialog = new OrderDialogFragment(OrderDialogFragment.SUCCESS_TYPE);
                 dialog.setSuccess(mResultSendOrders);
                 dialog.show(getSupportFragmentManager(), "SUCCESS_TYPE");

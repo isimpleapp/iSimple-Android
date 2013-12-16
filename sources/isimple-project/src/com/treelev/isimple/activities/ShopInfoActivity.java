@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.domain.db.Shop;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
@@ -47,6 +48,13 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
         btn = (Button) findViewById(R.id.category_water_butt);
         btn.setOnClickListener(this);
         new InitButtonCategory(this).execute(mShop);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics.screen_StoreCard(this);
     }
 
     @Override

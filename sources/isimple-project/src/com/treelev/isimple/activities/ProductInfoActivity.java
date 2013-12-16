@@ -27,6 +27,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
@@ -79,6 +80,13 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         String mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
         initProduct(mBarcode);
         organizeHeaderView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics.screen_ProductCard(this);
     }
 
     @Override

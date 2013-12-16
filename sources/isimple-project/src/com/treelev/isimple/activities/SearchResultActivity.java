@@ -14,6 +14,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.itemstreecursoradapter.SearchItemTreeCursorAdapter;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.utils.managers.ProxyManager;
@@ -69,6 +70,13 @@ public class SearchResultActivity extends  BaseExpandableListActivity
             mTreeSearchAdapter.notifyDataSetChanged();
             mEventChangeDataBase = false;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics.screen_Search(this);
     }
 
     @Override

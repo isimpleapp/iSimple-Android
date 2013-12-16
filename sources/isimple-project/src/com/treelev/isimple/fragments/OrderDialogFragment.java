@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
@@ -66,6 +67,9 @@ public class OrderDialogFragment extends DialogFragment
     @Override
     public void onStart() {
         super.onStart();
+
+        Analytics.screen_OrderInfo(getActivity());
+
         mEditContactInfo = (EditText) mDialog.findViewById(R.id.contact_info);
         if(mEditContactInfo != null){
             mEditContactInfo.addTextChangedListener(this);

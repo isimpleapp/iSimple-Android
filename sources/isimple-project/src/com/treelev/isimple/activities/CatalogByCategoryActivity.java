@@ -15,9 +15,11 @@ import android.widget.RelativeLayout;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.itemstreecursoradapter.AbsItemTreeCursorAdapter;
 import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogByCategoryItemTreeCursorAdapter;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
@@ -69,6 +71,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
+
         mContext = this;
         mFooter = getLayoutInflater().inflate(R.layout.not_found_layout, null);
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
@@ -107,6 +110,13 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         initFilter();
         getExpandableListView().setAdapter(mTreeCategoriesAdapter);
         initLoadManager();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        sendAnalytics();
     }
 
     @Override
@@ -225,6 +235,30 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
     @Override
     public void onBackPressed() {
         backOrCollapse();
+    }
+
+    private void sendAnalytics() {
+        DrinkCategory drinkCategory = DrinkCategory.getDrinkCategory(mCategoryID);
+        switch (drinkCategory) {
+            case WINE:
+                Analytics.screen_Wine(this);
+                break;
+            case SPIRITS:
+                Analytics.screen_Spirits(this);
+                break;
+            case SPARKLING:
+                Analytics.screen_Champagne(this);
+                break;
+            case SAKE:
+                Analytics.screen_Sake(this);
+                break;
+            case PORTO:
+                Analytics.screen_PortoJerez(this);
+                break;
+            case WATER:
+                Analytics.screen_Water(this);
+                break;
+        }
     }
 
     private void initFilter() {

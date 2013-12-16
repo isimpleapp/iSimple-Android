@@ -14,6 +14,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.activities.RouteDisplayActivity;
 import com.treelev.isimple.activities.ShopInfoActivity;
 import com.treelev.isimple.activities.ShopsFragmentActivity;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.domain.db.Shop;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
@@ -44,6 +45,13 @@ public class MapFragment extends SupportMapFragment implements GoogleMap.OnInfoW
         } else if (getActivity() instanceof RouteDisplayActivity) {
             showRouteMarkers();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Analytics.screen_StoreMap(getActivity());
     }
 
     @Override

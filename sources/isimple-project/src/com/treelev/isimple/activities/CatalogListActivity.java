@@ -11,6 +11,8 @@ import android.view.View;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
@@ -40,7 +42,8 @@ public class CatalogListActivity extends BaseExpandableListActivity
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
-//hook location
+
+        //hook location
         LocationTrackingManager.getInstante().getCurrentLocation(getApplicationContext());
 
         setContentView(R.layout.catalog_list_layout);
@@ -65,6 +68,13 @@ public class CatalogListActivity extends BaseExpandableListActivity
         super.createNavigationMenuBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(false);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics.screen_Catalog(this);
     }
 
     @Override

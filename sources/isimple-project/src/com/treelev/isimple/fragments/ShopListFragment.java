@@ -12,6 +12,7 @@ import com.treelev.isimple.activities.ProductInfoActivity;
 import com.treelev.isimple.activities.ShopInfoActivity;
 import com.treelev.isimple.activities.ShopsFragmentActivity;
 import com.treelev.isimple.adapters.ShopsAdapter;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShopHeader;
@@ -43,6 +44,13 @@ public class ShopListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         String itemId = getArguments().getString(ProductInfoActivity.ITEM_ID_TAG);
         new SelectDataShopDistance(getActivity(), itemId).execute();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Analytics.screen_StoreList(getActivity());
     }
 
     @Override

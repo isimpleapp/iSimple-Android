@@ -14,6 +14,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.cursorloaders.DeleteFavouriteItems;
 import com.treelev.isimple.cursorloaders.SelectFavouriteItems;
 import com.treelev.isimple.listener.SwipeDismissListViewTouchListener;
@@ -53,6 +54,13 @@ public class FavoritesActivity extends BaseListActivity
         mDeleteItemsId = new ArrayList<String>();
         initListView();
         getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics.screen_Favourites(this);
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.NavigationListAdapter;
+import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.service.UpdateDataService;
@@ -139,6 +140,8 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
                 category = ShoppingCartActivity.class;
                 break;
             case 4: //Scan Code
+                Analytics.screen_Scan(this);
+
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.initiateScan();
                 getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);

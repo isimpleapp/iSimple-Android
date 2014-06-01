@@ -226,7 +226,7 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public List<Order> getOrders(){
         ArrayList<Order> orders = null;
-        String query = "SELECT item_id, item_count FROM shopping_cart_item WHERE NOT(item_id IS NULL)";
+        String query = "SELECT item_id, item_count, price FROM shopping_cart_item WHERE NOT(item_id IS NULL)";
         open();
         Cursor cursor = getDatabase().rawQuery(query, null);
         if(cursor != null){
@@ -234,7 +234,7 @@ public class ShoppingCartDAO extends BaseDAO {
                 orders = new ArrayList<Order>();
                 Order orderItem;
                 do{
-                  orderItem = new Order(cursor.getString(0), cursor.getInt(1));
+                  orderItem = new Order(cursor.getString(0), cursor.getInt(1), cursor.getFloat((cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE))));
                     orders.add(orderItem);
                 } while(cursor.moveToNext());
             }

@@ -508,7 +508,7 @@ public class OrderDialogFragment extends DialogFragment
             sbListOrder.append(String.format("<Order contactInfo = \"%s\">", mContactInfo));
             List<Order> orders =  getProxyManager().getOrders();
             for(Order orderItem : orders){
-                sbListOrder.append(String.format("<OrderItem><ItemID>%s</ItemID><Quantity>%s</Quantity></OrderItem>", orderItem.getItemID(), orderItem.getQuantity()));
+                sbListOrder.append(String.format("<OrderItem><ItemID>%s</ItemID><Quantity>%s</Quantity><Price>%s</Price></OrderItem>", orderItem.getItemID(), orderItem.getQuantity(), orderItem.getPrice()));
             }
             sbListOrder.append("</Order>");
             return sbListOrder.toString();

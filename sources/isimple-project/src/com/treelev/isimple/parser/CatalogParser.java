@@ -19,7 +19,7 @@ import java.util.List;
 public class CatalogParser implements Parser {
 
     public final static int CATALOG_PARSER_ID = 3;
-    public final static String FILE_NAME = "Catalog-Update.xml";
+    public final static String FILE_NAME = "Catalog-Update.xmlz";
 
     private final static String CATALOG_OBJECT_TAG = "Item";
     private final static String CATALOG_ITEM_ID_VALUE_TAG = "ItemID";

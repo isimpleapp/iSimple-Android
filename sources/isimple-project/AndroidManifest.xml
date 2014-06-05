@@ -4,7 +4,7 @@
         android:versionName="2.0"
         package="com.treelev.isimple"
         android:installLocation="internalOnly">
-    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="16"/>
+    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="16"/>
     <uses-feature
             android:glEsVersion="0x00020000"
             android:required="true"/>
@@ -38,7 +38,6 @@
                     android:value=".activities.SearchResultActivity"/>
         </activity>
         <activity android:name=".activities.ProductInfoActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.filter.DefaultListFilterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activities.SearchResultActivity"
                   android:launchMode="singleTop"
                   android:screenOrientation="portrait">

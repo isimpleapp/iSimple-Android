@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 public class DatabaseSqlHelper extends SQLiteOpenHelper {
 
@@ -22,6 +23,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_MANUFACTURER = "manufacturer";
     public final static String ITEM_LOCALIZED_MANUFACTURER = "localized_manufacturer";
     public final static String ITEM_PRICE = "price";
+    public final static String ITEM_OLD_PRICE = "old_price";
     public final static String ITEM_PRICE_MARKUP = "price_markup";
     public final static String ITEM_COUNTRY = "country";
     public final static String ITEM_REGION = "region";
@@ -81,6 +83,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_MANUFACTURER + " text, " +
             ITEM_LOCALIZED_MANUFACTURER + " text, " +
             ITEM_PRICE + " float, " +
+            ITEM_OLD_PRICE + " float, " +
             ITEM_PRICE_MARKUP + " float, " +
             ITEM_COUNTRY + " text, " +
             ITEM_REGION + " text, " +
@@ -123,6 +126,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_MANUFACTURER + " text, " +
             ITEM_LOCALIZED_MANUFACTURER + " text, " +
             ITEM_PRICE + " float, " +
+            ITEM_OLD_PRICE + " float, " +
             ITEM_PRICE_MARKUP + " float, " +
             ITEM_COUNTRY + " text, " +
             ITEM_REGION + " text, " +
@@ -163,6 +167,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_MANUFACTURER + " text, " +
             ITEM_LOCALIZED_MANUFACTURER + " text, " +
             ITEM_PRICE + " float, " +
+            ITEM_OLD_PRICE + " float, " +
             ITEM_PRICE_MARKUP + " float, " +
             ITEM_COUNTRY + " text, " +
             ITEM_REGION + " text, " +
@@ -292,6 +297,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    	Log.i("", "SQLiteDatabase onUpgrade, oldVersion = " + oldVersion + " newVersion = " + newVersion);
         String dropTableText = "DROP TABLE IF EXISTS %s";
         db.execSQL(String.format(dropTableText, FEATURED_ITEM_TABLE));
         db.execSQL(String.format(dropTableText, ITEM_AVAILABILITY_TABLE));

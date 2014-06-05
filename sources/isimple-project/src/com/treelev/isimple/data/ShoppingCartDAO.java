@@ -37,6 +37,7 @@ public class ShoppingCartDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_MANUFACTURER + ", " +
                 DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER + ", " +
                 DatabaseSqlHelper.ITEM_PRICE + ", " +
+                DatabaseSqlHelper.ITEM_OLD_PRICE + ", " +
                 DatabaseSqlHelper.ITEM_PRICE_MARKUP + ", " +
                 DatabaseSqlHelper.ITEM_COUNTRY + ", " +
                 DatabaseSqlHelper.ITEM_REGION + ", " +
@@ -79,38 +80,39 @@ public class ShoppingCartDAO extends BaseDAO {
         insertStatement = bindString(insertStatement, 5, product.getManufacturer());
         insertStatement = bindString(insertStatement, 6, product.getLocalizedManufacturer());
         insertStatement = bindFloat(insertStatement, 7, product.getPrice());
-        insertStatement = bindFloat(insertStatement, 8, product.getPriceMarkup());
-        insertStatement = bindString(insertStatement, 9, product.getCountry());
-        insertStatement = bindString(insertStatement, 10, product.getRegion());
-        insertStatement = bindString(insertStatement, 11, product.getBarcode());
-        insertStatement = bindInteger(insertStatement, 12, product.getDrinkCategory().ordinal());
-        insertStatement = bindInteger(insertStatement, 13, product.getProductType().ordinal());
-        insertStatement = bindString(insertStatement, 14, product.getClassification());
-        insertStatement = bindInteger(insertStatement, 15, product.getColor().ordinal());
-        insertStatement = bindString(insertStatement, 16, product.getStyle());
-        insertStatement = bindInteger(insertStatement, 17, product.getSweetness().ordinal());
-        insertStatement = bindInteger(insertStatement, 18, product.getYear());
-        insertStatement = bindFloat(insertStatement, 19, product.getVolume());
-        insertStatement = bindString(insertStatement, 20, product.getDrinkType());
-        insertStatement = bindString(insertStatement, 21, product.getAlcohol());
-        insertStatement = bindString(insertStatement, 22, product.getBottleHiResolutionImageFilename());
-        insertStatement = bindString(insertStatement, 23, product.getBottleLowResolutionImageFilename());
-        insertStatement = bindString(insertStatement, 24, product.getStyleDescription());
-        insertStatement = bindString(insertStatement, 25, product.getAppelation());
-        insertStatement = bindString(insertStatement, 26, product.getServingTempMin());
-        insertStatement = bindString(insertStatement, 27, product.getServingTempMax());
-        insertStatement = bindString(insertStatement, 28, product.getTasteQualities());
-        insertStatement = bindString(insertStatement, 29, product.getVintageReport());
-        insertStatement = bindString(insertStatement, 30, product.getAgingProcess());
-        insertStatement = bindString(insertStatement, 31, product.getProductionProcess());
-        insertStatement = bindString(insertStatement, 32, product.getInterestingFacts());
-        insertStatement = bindString(insertStatement, 33, product.getLabelHistory());
-        insertStatement = bindString(insertStatement, 34, product.getGastronomy());
-        insertStatement = bindString(insertStatement, 35, product.getVineyard());
-        insertStatement = bindString(insertStatement, 36, product.getGrapesUsed());
-        insertStatement = bindString(insertStatement, 37, product.getRating());
-        insertStatement = bindFloat(insertStatement, 38, product.getQuantity());
-        insertStatement = bindInteger(insertStatement, 39, 1);
+        insertStatement = bindFloat(insertStatement, 8, product.getOldPrice());
+        insertStatement = bindFloat(insertStatement, 9, product.getPriceMarkup());
+        insertStatement = bindString(insertStatement, 10, product.getCountry());
+        insertStatement = bindString(insertStatement, 11, product.getRegion());
+        insertStatement = bindString(insertStatement, 12, product.getBarcode());
+        insertStatement = bindInteger(insertStatement, 13, product.getDrinkCategory().ordinal());
+        insertStatement = bindInteger(insertStatement, 14, product.getProductType().ordinal());
+        insertStatement = bindString(insertStatement, 15, product.getClassification());
+        insertStatement = bindInteger(insertStatement, 16, product.getColor().ordinal());
+        insertStatement = bindString(insertStatement, 17, product.getStyle());
+        insertStatement = bindInteger(insertStatement, 18, product.getSweetness().ordinal());
+        insertStatement = bindInteger(insertStatement, 19, product.getYear());
+        insertStatement = bindFloat(insertStatement, 20, product.getVolume());
+        insertStatement = bindString(insertStatement, 21, product.getDrinkType());
+        insertStatement = bindString(insertStatement, 22, product.getAlcohol());
+        insertStatement = bindString(insertStatement, 23, product.getBottleHiResolutionImageFilename());
+        insertStatement = bindString(insertStatement, 24, product.getBottleLowResolutionImageFilename());
+        insertStatement = bindString(insertStatement, 25, product.getStyleDescription());
+        insertStatement = bindString(insertStatement, 26, product.getAppelation());
+        insertStatement = bindString(insertStatement, 27, product.getServingTempMin());
+        insertStatement = bindString(insertStatement, 28, product.getServingTempMax());
+        insertStatement = bindString(insertStatement, 29, product.getTasteQualities());
+        insertStatement = bindString(insertStatement, 30, product.getVintageReport());
+        insertStatement = bindString(insertStatement, 31, product.getAgingProcess());
+        insertStatement = bindString(insertStatement, 32, product.getProductionProcess());
+        insertStatement = bindString(insertStatement, 33, product.getInterestingFacts());
+        insertStatement = bindString(insertStatement, 34, product.getLabelHistory());
+        insertStatement = bindString(insertStatement, 35, product.getGastronomy());
+        insertStatement = bindString(insertStatement, 36, product.getVineyard());
+        insertStatement = bindString(insertStatement, 37, product.getGrapesUsed());
+        insertStatement = bindString(insertStatement, 38, product.getRating());
+        insertStatement = bindFloat(insertStatement, 39, product.getQuantity());
+        insertStatement = bindInteger(insertStatement, 40, 1);
         long id = insertStatement.executeInsert();
         insertStatement.execute();
         close();

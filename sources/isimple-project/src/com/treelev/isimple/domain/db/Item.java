@@ -22,6 +22,7 @@ public class Item implements Serializable {
     private String manufacturer;
     private String localizedManufacturer;
     private Float price;
+    private Float oldPrice;
     private Float priceMarkup;
     private String country;
     private String region;
@@ -121,7 +122,19 @@ public class Item implements Serializable {
         return price != null;
     }
 
-    public Float getPriceMarkup() {
+    public Float getOldPrice() {
+		return oldPrice;
+	}
+
+	public void setgetOldPrice(Float oldPrice) {
+		this.oldPrice = oldPrice;
+	}
+	
+	public boolean hasDiscount(){
+        return oldPrice != null;
+    }
+
+	public Float getPriceMarkup() {
         return priceMarkup;
     }
 

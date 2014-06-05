@@ -9,6 +9,7 @@ import com.treelev.isimple.domain.db.DeprecatedItem;
 import com.treelev.isimple.domain.db.FeaturedItem;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.ItemPrice;
+import com.treelev.isimple.domain.db.ItemPriceDiscount;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
@@ -53,7 +54,7 @@ public class ItemDAO extends BaseDAO {
                         "FROM " +
                         "(" +
                             "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                           "(case when ifnull(price, '') = '' then (999999) else price end) as price1," +
+                           "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price," +
                             " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1, (SELECT DISTINCT * FROM featured_item ) AS t2 WHERE t1.item_id = t2.item_id AND category_id = %s ORDER BY t1.item_left_overs " +
                         ") " +
                         "AS t0 " +
@@ -74,7 +75,7 @@ public class ItemDAO extends BaseDAO {
                         "FROM " +
                             "(" +
                                 "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                                "(case when ifnull(price, '') = '' then (999999) else price end) as price1," +
+                                "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price," +
                                 " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 WHERE category_id = %s  ORDER BY t1.item_left_overs" +
                             ") AS t0 " +
                         "GROUP BY t0.drink_id " +
@@ -94,7 +95,7 @@ public class ItemDAO extends BaseDAO {
                         "FROM " +
                         "(" +
                             "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category as drink_category, " +
-                                "(case when ifnull(t1.price, '') = '' then (999999) else price end) as price1, " +
+                                "(case when ifnull(t1.price, '') = '' then (999999) else price end) as price1, old_price," +
                                 " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id WHERE t1.drink_category = %s AND location_id = '%s'  ORDER BY t1.item_left_overs" +
                         ") AS t0 " +
                         "GROUP BY t0.drink_id " +
@@ -122,7 +123,7 @@ public class ItemDAO extends BaseDAO {
             orderBy = "ORDER BY " + orderByField + ", year";
         }
         String formatScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                "(case when ifnull(price, '') = '' then (999999) else price end) as price, "  +
+                "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, "  +
                 "year,  quantity, color, drink_id, is_favourite, " +
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
                 "FROM item %s " +
@@ -149,7 +150,7 @@ public class ItemDAO extends BaseDAO {
         }
         String formatSelectScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
                 "drink_category, " +
-                "(case when ifnull(price, '') = '' then (999999) else price end) as price, " +
+                "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, " +
                 "year,  " +
                 "quantity, color, drink_id, is_favourite, " +
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
@@ -178,7 +179,7 @@ public class ItemDAO extends BaseDAO {
             searchWhere = searchWhere = getSearchWhereByDrinkID(query);
         }
         String formatScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                "(case when ifnull(price, '') = '' then (999999) else price end) as price, " +
+                "(case when ifnull(price, '') = '' then (999999) else price end) as price,  old_price, " +
                 "year,  quantity, color, drink_id, is_favourite, " +
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
                 "FROM item %s " +
@@ -205,7 +206,7 @@ public class ItemDAO extends BaseDAO {
         }
         String formatSelectScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
                 "drink_category, " +
-                "(case when ifnull(price, '') = '' then (999999) else price end) as price, " +
+                "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, " +
                 "year,  " +
                 "quantity, color, drink_id, is_favourite, " +
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
@@ -267,7 +268,7 @@ public class ItemDAO extends BaseDAO {
                     "FROM " +
                     "(" +
                     "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
+                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price, " +
                     " year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs "+
                     ") AS t0 GROUP BY t0.drink_id " +
                     ")" +
@@ -275,7 +276,7 @@ public class ItemDAO extends BaseDAO {
                     "ORDER BY %3$s";
         } else {
             return "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                    "(case when ifnull(price, '') = '' then (999999) else price end) as price, year, quantity, color, drink_id, is_favourite, t1.item_left_overs, 0 AS count " +
+                    "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, year, quantity, color, drink_id, is_favourite, t1.item_left_overs, 0 AS count " +
                     "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s AND item_left_overs > 0 ORDER BY  %3$s";
         }
     }
@@ -305,7 +306,7 @@ public class ItemDAO extends BaseDAO {
                     "FROM " +
                     "(" +
                     "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
+                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price, " +
                     "year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs as item_left_overs1 " +
                     "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s " +
                     ") AS t0 GROUP BY t0.drink_id " +
@@ -314,7 +315,7 @@ public class ItemDAO extends BaseDAO {
                     "ORDER BY %3$s";
         } else {
             return "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                   "(case when ifnull(price, '') = '' then (999999) else price end) as price, year, quantity, color, drink_id, is_favourite, item_left_overs, 0 AS count " +
+                   "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, year, quantity, color, drink_id, is_favourite, item_left_overs, 0 AS count " +
                    "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s AND item_left_overs = 0 ORDER BY %3$s";
 //            return "SELECT * FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs ";
         }
@@ -365,7 +366,7 @@ public class ItemDAO extends BaseDAO {
                     "FROM " +
                     "(" +
                         "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
-                        "(case when ifnull(price, '') = '' then (999999) else price end) as price1," +
+                        "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price," +
                         " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
                         "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                 "FROM item  WHERE %s " +
@@ -410,7 +411,7 @@ public class ItemDAO extends BaseDAO {
                     "FROM " +
                     "(" +
                         "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
-                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1," +
+                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1, old_price," +
                         " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
                         "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                 " FROM item AS t1, item_availability AS t2 WHERE %s " +
@@ -456,7 +457,7 @@ public class ItemDAO extends BaseDAO {
                         "FROM " +
                         "(" +
                             "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
-                            "(case when ifnull(price, '') = '' then (999999) else price end) as price1," +
+                            "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price," +
                             " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
                             "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                         "FROM item  WHERE %s " +
@@ -492,7 +493,7 @@ public class ItemDAO extends BaseDAO {
                     "SELECT t0.*, MIN(t0.price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs  " +
                     "FROM " +
                         "(SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
-                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1," +
+                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1, old_price," +
                         " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
                         "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                 "FROM item AS t1, item_availability AS t2 WHERE %s " +
@@ -693,6 +694,7 @@ public class ItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_MANUFACTURER + ", " +
                     DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER + ", " +
                     DatabaseSqlHelper.ITEM_PRICE + ", " +
+                    DatabaseSqlHelper.ITEM_OLD_PRICE + ", " +
                     DatabaseSqlHelper.ITEM_PRICE_MARKUP + ", " +
                     DatabaseSqlHelper.ITEM_COUNTRY + ", " +
                     DatabaseSqlHelper.ITEM_REGION + ", " +
@@ -737,39 +739,40 @@ public class ItemDAO extends BaseDAO {
                 insertStatement = bindString(insertStatement, 5, item.getManufacturer());
                 insertStatement = bindString(insertStatement, 6, item.getLocalizedManufacturer());
                 insertStatement = bindFloat(insertStatement, 7, item.getPrice());
-                insertStatement = bindFloat(insertStatement, 8, item.getPriceMarkup());
-                insertStatement = bindString(insertStatement, 9, item.getCountry());
-                insertStatement = bindString(insertStatement, 10, item.getRegion());
-                insertStatement = bindString(insertStatement, 11, item.getBarcode());
-                insertStatement = bindInteger(insertStatement, 12, item.getDrinkCategory().ordinal());
-                insertStatement = bindInteger(insertStatement, 13, item.getProductType().ordinal());
-                insertStatement = bindString(insertStatement, 14, item.getClassification());
-                insertStatement = bindInteger(insertStatement, 15, item.getColor().ordinal());
-                insertStatement = bindString(insertStatement, 16, item.getStyle());
-                insertStatement = bindInteger(insertStatement, 17, item.getSweetness().ordinal());
-                insertStatement = bindInteger(insertStatement, 18, item.getYear());
-                insertStatement = bindFloat(insertStatement, 19, item.getVolume());
-                insertStatement = bindString(insertStatement, 20, item.getDrinkType());
-                insertStatement = bindString(insertStatement, 21, item.getAlcohol());
-                insertStatement = bindString(insertStatement, 22, item.getBottleHiResolutionImageFilename());
-                insertStatement = bindString(insertStatement, 23, item.getBottleLowResolutionImageFilename());
-                insertStatement = bindString(insertStatement, 24, item.getStyleDescription());
-                insertStatement = bindString(insertStatement, 25, item.getAppelation());
-                insertStatement = bindString(insertStatement, 26, item.getServingTempMin());
-                insertStatement = bindString(insertStatement, 27, item.getServingTempMax());
-                insertStatement = bindString(insertStatement, 28, item.getTasteQualities());
-                insertStatement = bindString(insertStatement, 29, item.getVintageReport());
-                insertStatement = bindString(insertStatement, 30, item.getAgingProcess());
-                insertStatement = bindString(insertStatement, 31, item.getProductionProcess());
-                insertStatement = bindString(insertStatement, 32, item.getInterestingFacts());
-                insertStatement = bindString(insertStatement, 33, item.getLabelHistory());
-                insertStatement = bindString(insertStatement, 34, item.getGastronomy());
-                insertStatement = bindString(insertStatement, 35, item.getVineyard());
-                insertStatement = bindString(insertStatement, 36, item.getGrapesUsed());
-                insertStatement = bindString(insertStatement, 37, item.getRating());
-                insertStatement = bindFloat(insertStatement, 38, item.getQuantity());
-                insertStatement = bindBoolean(insertStatement, 39, item.getFavourite());
-                insertStatement = bindInteger(insertStatement, 40, item.getLeftOvers());
+                insertStatement = bindFloat(insertStatement, 8, item.getOldPrice());
+                insertStatement = bindFloat(insertStatement, 9, item.getPriceMarkup());
+                insertStatement = bindString(insertStatement, 10, item.getCountry());
+                insertStatement = bindString(insertStatement, 11, item.getRegion());
+                insertStatement = bindString(insertStatement, 12, item.getBarcode());
+                insertStatement = bindInteger(insertStatement, 13, item.getDrinkCategory().ordinal());
+                insertStatement = bindInteger(insertStatement, 14, item.getProductType().ordinal());
+                insertStatement = bindString(insertStatement, 15, item.getClassification());
+                insertStatement = bindInteger(insertStatement, 16, item.getColor().ordinal());
+                insertStatement = bindString(insertStatement, 17, item.getStyle());
+                insertStatement = bindInteger(insertStatement, 18, item.getSweetness().ordinal());
+                insertStatement = bindInteger(insertStatement, 19, item.getYear());
+                insertStatement = bindFloat(insertStatement, 20, item.getVolume());
+                insertStatement = bindString(insertStatement, 21, item.getDrinkType());
+                insertStatement = bindString(insertStatement, 22, item.getAlcohol());
+                insertStatement = bindString(insertStatement, 23, item.getBottleHiResolutionImageFilename());
+                insertStatement = bindString(insertStatement, 24, item.getBottleLowResolutionImageFilename());
+                insertStatement = bindString(insertStatement, 25, item.getStyleDescription());
+                insertStatement = bindString(insertStatement, 26, item.getAppelation());
+                insertStatement = bindString(insertStatement, 27, item.getServingTempMin());
+                insertStatement = bindString(insertStatement, 28, item.getServingTempMax());
+                insertStatement = bindString(insertStatement, 29, item.getTasteQualities());
+                insertStatement = bindString(insertStatement, 30, item.getVintageReport());
+                insertStatement = bindString(insertStatement, 31, item.getAgingProcess());
+                insertStatement = bindString(insertStatement, 32, item.getProductionProcess());
+                insertStatement = bindString(insertStatement, 33, item.getInterestingFacts());
+                insertStatement = bindString(insertStatement, 34, item.getLabelHistory());
+                insertStatement = bindString(insertStatement, 35, item.getGastronomy());
+                insertStatement = bindString(insertStatement, 36, item.getVineyard());
+                insertStatement = bindString(insertStatement, 37, item.getGrapesUsed());
+                insertStatement = bindString(insertStatement, 38, item.getRating());
+                insertStatement = bindFloat(insertStatement, 39, item.getQuantity());
+                insertStatement = bindBoolean(insertStatement, 40, item.getFavourite());
+                insertStatement = bindInteger(insertStatement, 41, item.getLeftOvers());
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();
@@ -844,6 +847,26 @@ public class ItemDAO extends BaseDAO {
         }
         close();
     }
+    
+    public void updatePriceDiscountList(List<ItemPriceDiscount> priceList) {
+        open();
+        getDatabase().beginTransaction();
+        try {
+            String updateSqlFormat = "UPDATE item " +
+                    "SET old_price = (SELECT price FROM item WHERE item_id = '%1$s'), price = " +
+                    "(CASE WHEN (SELECT drink_category FROM item WHERE item_id = '%1$s') = 5 THEN %2$s*(SELECT quantity FROM item WHERE item_id = '%1$s') ELSE %2$s END), " +
+                    "WHERE item_id = '%1$s'";
+            String updateSql;
+            for (ItemPriceDiscount price : priceList) {
+                updateSql = String.format(updateSqlFormat, price.getItemID(), price.getPriceDiscount());
+                getDatabase().execSQL(updateSql);
+            }
+            getDatabase().setTransactionSuccessful();
+        } finally {
+            getDatabase().endTransaction();
+        }
+        close();
+    }
 
     public void insertListFeaturedData(List<FeaturedItem> items) {
         open();
@@ -909,7 +932,7 @@ public class ItemDAO extends BaseDAO {
         open();
         String orderBy = String.format(FORMAT_ORDER_BY, orderByFiled);
         String formatScript = "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
-                "drink_category, price, year, " +
+                "drink_category, price, old_price, year, " +
                 "quantity, color, drink_id, is_favourite " +
                 "FROM item " +
                 "WHERE barcode = '%s' %s";
@@ -1034,7 +1057,7 @@ public class ItemDAO extends BaseDAO {
                      "FROM " +
                      "(" +
                         "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1," +
+                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1, old_price," +
                         "year, quantity, color,(case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1  FROM item AS t1, (SELECT DISTINCT *  FROM featured_item ) AS t2 WHERE t1.item_id = t2.item_id AND category_id = -1 ORDER BY t1.item_left_overs" +
                     ") AS t0 " +
                     "GROUP BY t0.drink_id ) " +
@@ -1049,7 +1072,7 @@ public class ItemDAO extends BaseDAO {
                     "SELECT t0.*, MIN(price1) as price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) AS item_left_overs " +
                     "FROM " +
                         "(SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                        "(case when ifnull(price, '') = '' then (999999) else price end) AS price1," +
+                        "(case when ifnull(price, '') = '' then (999999) else price end) AS price1, old_price," +
                         " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 " +
                         "FROM item ) " +
                     " AS t0 " +
@@ -1070,7 +1093,7 @@ public class ItemDAO extends BaseDAO {
                         "FROM " +
                         "(" +
                             "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, " +
-                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) AS price1," +
+                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) AS price1, old_price," +
                         "t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 WHERE t1.drink_category = %s " +
                         ") AS t0 " +
                         "GROUP BY t0.drink_id " +

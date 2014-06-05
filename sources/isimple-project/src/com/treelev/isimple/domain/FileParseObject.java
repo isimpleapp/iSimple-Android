@@ -29,9 +29,10 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
             filePriorityList.add(new FilePriority(ShopAndChainsParser.FILE_NAME, 2));
             filePriorityList.add(new FilePriority(ItemAvailabilityParser.FILE_NAME, 3));
             filePriorityList.add(new FilePriority(ItemPricesParser.FILE_NAME, 4));
-            filePriorityList.add(new FilePriority(FeaturedItemsParser.FILE_NAME, 5));
-            filePriorityList.add(new FilePriority(DeprecatedItemParser.FILE_NAME, 6));
-            filePriorityList.add(new FilePriority(DeliveryZoneParser.FILE_NAME, 7));
+            filePriorityList.add(new FilePriority(ItemPriceDiscountParser.FILE_NAME, 5));
+            filePriorityList.add(new FilePriority(FeaturedItemsParser.FILE_NAME, 6));
+            filePriorityList.add(new FilePriority(DeprecatedItemParser.FILE_NAME, 7));
+            filePriorityList.add(new FilePriority(DeliveryZoneParser.FILE_NAME, 8));
         }
     }
 
@@ -67,6 +68,8 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
         List<BaseDAO> baseDAOList = new ArrayList<BaseDAO>();
         if (fileName.equals(ItemPricesParser.FILE_NAME)) {
             baseDAOList.add(new ItemDAO(context));
+        } if (fileName.equals(ItemPriceDiscountParser.FILE_NAME)) {
+            baseDAOList.add(new ItemDAO(context));
         } else if (fileName.equals(ShopAndChainsParser.FILE_NAME)) {
             baseDAOList.add(new ChainDAO(context));
             baseDAOList.add(new ShopDAO(context));
@@ -99,6 +102,8 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
             return new DeprecatedItemParser();
         } else if (fileName.equals(DeliveryZoneParser.FILE_NAME)) {
             return new DeliveryZoneParser();
+        } else if (fileName.equals(ItemPriceDiscountParser.FILE_NAME)) {
+        	return new ItemPriceDiscountParser();
         } else {
             return null;
         }

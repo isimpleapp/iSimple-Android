@@ -188,6 +188,7 @@ public class SplashActivity extends Activity {
         }
 
         private void importDBFromFile(boolean override, Object... params) {
+        	Log.i("", "importDBFromFile");
             try {
                 AssetManager am = (AssetManager) params[0];
                 File file = new File("/data/data/com.treelev.isimple/databases/");
@@ -200,6 +201,7 @@ public class SplashActivity extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            Log.i("", "importDBFromFile end");
         }
 
         private void putFileDatesInPref(Object... params) {

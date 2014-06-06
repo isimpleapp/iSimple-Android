@@ -25,20 +25,23 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
     static {
         if (filePriorityList == null) {
             filePriorityList = new ArrayList<FilePriority>();
-            filePriorityList.add(new FilePriority(CatalogParser.FILE_NAME, 1));
-            filePriorityList.add(new FilePriority(ShopAndChainsParser.FILE_NAME, 2));
-            filePriorityList.add(new FilePriority(ItemAvailabilityParser.FILE_NAME, 3));
-            filePriorityList.add(new FilePriority(ItemPricesParser.FILE_NAME, 4));
-            filePriorityList.add(new FilePriority(ItemPriceDiscountParser.FILE_NAME, 5));
-            filePriorityList.add(new FilePriority(FeaturedItemsParser.FILE_NAME, 6));
-            filePriorityList.add(new FilePriority(DeprecatedItemParser.FILE_NAME, 7));
-            filePriorityList.add(new FilePriority(DeliveryZoneParser.FILE_NAME, 8));
+            filePriorityList.add(new FilePriority(CatalogParser.FILE_NAME, CatalogParser.FILE_SECOND_NAME, 1));
+            filePriorityList.add(new FilePriority(ShopAndChainsParser.FILE_NAME, ShopAndChainsParser.FILE_SECOND_NAME, 2));
+            filePriorityList.add(new FilePriority(ItemAvailabilityParser.FILE_NAME, ItemAvailabilityParser.FILE_SECOND_NAME, 3));
+            filePriorityList.add(new FilePriority(ItemPricesParser.FILE_NAME, ItemPricesParser.FILE_SECOND_NAME, 4));
+            filePriorityList.add(new FilePriority(ItemPriceDiscountParser.FILE_NAME, ItemPriceDiscountParser.FILE_SECOND_NAME, 5));
+            filePriorityList.add(new FilePriority(FeaturedItemsParser.FILE_NAME, FeaturedItemsParser.FILE_SECOND_NAME, 6));
+            filePriorityList.add(new FilePriority(DeprecatedItemParser.FILE_NAME, DeprecatedItemParser.FILE_SECOND_NAME, 7));
+            filePriorityList.add(new FilePriority(DeliveryZoneParser.FILE_NAME, DeliveryZoneParser.FILE_SECOND_NAME, 8));
         }
     }
 
     public FileParseObject(File file, Context context) {
         this.file = file;
         this.filePriority = getFilePriorityByName(file.getName());
+        if(this.filePriority == null){
+        	this.filePriority = getFilePriorityBySecondName(file.getName());
+        }
         this.parser = getParserByName(file.getName());
         this.daoList = getDaoListByName(file.getName(), context);
     }
@@ -110,6 +113,15 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
     }
 
     private FilePriority getFilePriorityByName(String fileName) {
+        for (FilePriority filePriority : filePriorityList) {
+            if (filePriority.getFileName().equals(fileName)) {
+                return filePriority;
+            }
+        }
+        return null;
+    }
+    
+    private FilePriority getFilePriorityBySecondName(String fileName) {
         for (FilePriority filePriority : filePriorityList) {
             if (filePriority.getFileName().equals(fileName)) {
                 return filePriority;

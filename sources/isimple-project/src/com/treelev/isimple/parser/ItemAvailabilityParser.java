@@ -15,6 +15,7 @@ public class ItemAvailabilityParser implements Parser {
 
     public final static int ITEM_AVAILABILITY_PARSER_ID = 4;
     public final static String FILE_NAME = "Item-Availability.xml";
+    public final static String FILE_SECOND_NAME = "Item-Availability.xmlz";
 
     private final static String ITEM_AVAILABILITY_OBJECT_TAG = "Item";
     private final static String ITEM_AVAILABILITY_ID_VALUE_TAG = "ItemID";

@@ -18,6 +18,7 @@ public class DeprecatedItemParser implements Parser {
 
     public final static int DEPRECATED_ITEMS_PARSER_ID = 6;
     public final static String FILE_NAME = "Deprecated.xml";
+    public final static String FILE_SECOND_NAME = "Deprecated.xmlz";
 
     private final static String DEPRECATED_ITEM_TAG = "Deprecated";
     private final static String DEPRECATED_ITEM_ID_TAG = "ItemID";

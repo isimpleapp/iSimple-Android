@@ -4,11 +4,14 @@ import android.text.TextUtils;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemDAO;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.enumerable.UpdateFile;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
 import com.treelev.isimple.utils.Utils;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -19,8 +22,6 @@ import java.util.List;
 public class CatalogParser implements Parser {
 
     public final static int CATALOG_PARSER_ID = 3;
-    public final static String FILE_NAME = "Catalog-Update.xmlz";
-    public final static String FILE_SECOND_NAME = "Catalog-Update.xml";
 
     private final static String CATALOG_OBJECT_TAG = "Item";
     private final static String CATALOG_ITEM_ID_VALUE_TAG = "ItemID";
@@ -60,7 +61,7 @@ public class CatalogParser implements Parser {
     private final static String CATALOG_GRAPES_USED_VALUE_TAG = "GrapesUsed";
     private final static String CATALOG_RATING_VALUE_TAG = "Rating";
     private final static String CATALOG_QUANTITY_VALUE_TAG = "Quantity";
-
+    
     //TODO lower case
     @Override
     public void parseXmlToDB(XmlPullParser xmlPullParser, BaseDAO... daoList) {
@@ -184,4 +185,8 @@ public class CatalogParser implements Parser {
             e.printStackTrace();
         }
     }
+
+	public static String getFileName() {
+		return SharedPreferencesManager.getUpdateFileName(UpdateFile.CATALOG_UPDATES.getUpdateFileTag());
+	}
 }

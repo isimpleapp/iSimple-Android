@@ -3,6 +3,9 @@ package com.treelev.isimple.parser;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemDAO;
 import com.treelev.isimple.domain.db.FeaturedItem;
+import com.treelev.isimple.enumerable.UpdateFile;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -13,8 +16,6 @@ import java.util.List;
 public class FeaturedItemsParser implements Parser {
 
     public final static int FEATURED_ITEMS_PARSER_ID = 5;
-    public final static String FILE_NAME = "Featured.xml";
-    public final static String FILE_SECOND_NAME = "Featured.xmlz";
 
     public final static String ITEM_ID_TAG = "ItemID";
     private final static String FEATURES_ROOT_TAG = "Features";
@@ -63,5 +64,9 @@ public class FeaturedItemsParser implements Parser {
                 tagName.equalsIgnoreCase(FeaturedItem.SAKE_CATEGORY_TAG) ||
                 tagName.equalsIgnoreCase(FeaturedItem.WATER_CATEGORY_TAG);
     }
+    
+	public static String getFileName() {
+		return SharedPreferencesManager.getUpdateFileName(UpdateFile.FEATURED.getUpdateFileTag());
+	}
 
 }

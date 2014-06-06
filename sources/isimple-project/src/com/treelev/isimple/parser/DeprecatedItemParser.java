@@ -4,9 +4,12 @@ import android.text.TextUtils;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.DeprecatedItemDAO;
 import com.treelev.isimple.domain.db.DeprecatedItem;
+import com.treelev.isimple.enumerable.UpdateFile;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -17,8 +20,6 @@ import java.util.List;
 public class DeprecatedItemParser implements Parser {
 
     public final static int DEPRECATED_ITEMS_PARSER_ID = 6;
-    public final static String FILE_NAME = "Deprecated.xml";
-    public final static String FILE_SECOND_NAME = "Deprecated.xmlz";
 
     private final static String DEPRECATED_ITEM_TAG = "Deprecated";
     private final static String DEPRECATED_ITEM_ID_TAG = "ItemID";
@@ -101,4 +102,8 @@ public class DeprecatedItemParser implements Parser {
             e.printStackTrace();
         }
     }
+    
+	public static String getFileName() {
+		return SharedPreferencesManager.getUpdateFileName(UpdateFile.DEPRECATED.getUpdateFileTag());
+	}
 }

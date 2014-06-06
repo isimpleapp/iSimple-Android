@@ -1,21 +1,21 @@
 package com.treelev.isimple.parser;
 
-import android.util.Log;
-import com.treelev.isimple.data.BaseDAO;
-import com.treelev.isimple.data.DeliveryZoneDAO;
-import com.treelev.isimple.domain.db.DeliveryZone;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import com.treelev.isimple.data.BaseDAO;
+import com.treelev.isimple.data.DeliveryZoneDAO;
+import com.treelev.isimple.domain.db.DeliveryZone;
+import com.treelev.isimple.enumerable.UpdateFile;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+
 public class DeliveryZoneParser implements Parser {
 
     public final static int DELIVERY_ZONE_PARSER_ID = 7;
-    public final static String FILE_NAME = "Delivery.xml";
-    public final static String FILE_SECOND_NAME = "Delivery.xmlz";
 
     @Override
     public void parseXmlToDB(XmlPullParser xmlPullParser, BaseDAO... daoList) {
@@ -76,4 +76,8 @@ public class DeliveryZoneParser implements Parser {
             e.printStackTrace();
         }
     }
+
+	public static String getFileName() {
+		return SharedPreferencesManager.getUpdateFileName(UpdateFile.DELIVERY.getUpdateFileTag());
+	}
 }

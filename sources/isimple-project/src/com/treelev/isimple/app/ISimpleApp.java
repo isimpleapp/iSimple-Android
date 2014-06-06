@@ -24,14 +24,23 @@ public class ISimpleApp extends Application {
 
     private List<AbsDistanceShop> distanceShopList;
     private Location currentLocation;
+    private static ISimpleApp instantce;
 
     @Override
     public void onCreate() {
         super.onCreate();
         ACRA.init(this);
+        
+        if (instantce == null) {
+        	instantce = this;
+        }
     }
 
-    public void reloadShopList() {
+    public static ISimpleApp getInstantce() {
+		return instantce;
+	}
+
+	public void reloadShopList() {
         distanceShopList = new ShopDAO(this).getNearestShops(currentLocation);
     }
 

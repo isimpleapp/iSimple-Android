@@ -1,29 +1,26 @@
 package com.treelev.isimple.service;
 
-import android.app.Notification;
-import android.app.NotificationManager;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
-import com.treelev.isimple.R;
+
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.domain.FileParseObject;
+import com.treelev.isimple.domain.db.ItemPriceDiscount;
 import com.treelev.isimple.parser.CatalogParser;
+import com.treelev.isimple.parser.ItemPriceDiscountParser;
 import com.treelev.isimple.parser.ItemPricesParser;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
 
 public class UpdateDataService extends Service  {
 
@@ -58,16 +55,20 @@ public class UpdateDataService extends Service  {
             SharedPreferencesManager.setStartUpdate(context, true);
             boolean isCatalogUpdate = false;
             boolean isPriceUpdate = false;
+//            boolean isDiscountReady = false;
             File directory = WebServiceManager.getDownloadDirectory();
             List<FileParseObject> fileParseObjectList = createFileList(directory.listFiles());
             for (FileParseObject fileParseObject : fileParseObjectList) {
                 fileParseObject.parseObjectDataToDB();
-                if(fileParseObject.getFileName().equalsIgnoreCase(CatalogParser.FILE_NAME)){
+                if(fileParseObject.getFileName().equalsIgnoreCase(CatalogParser.getFileName())){
                     isCatalogUpdate = true;
                 }
-                if(fileParseObject.getFileName().equalsIgnoreCase(ItemPricesParser.FILE_NAME)){
+                if(fileParseObject.getFileName().equalsIgnoreCase(ItemPricesParser.getFileName())){
                     isPriceUpdate = true;
                 }
+//                if(fileParseObject.getFileName().equalsIgnoreCase(ItemPriceDiscountParser.getFileName())){
+//                	isDiscountReady = true;
+//                }
             }
             SharedPreferencesManager.setStartUpdate(context, false);
             SharedPreferencesManager.setUpdateReady(context, false);

@@ -118,14 +118,14 @@ public class SplashActivity extends Activity {
     public void onBackPressed() {
     }
 
-    private List<FileParseObject> createFileList(File[] fileList) {
-        List<FileParseObject> fileParseObjectList = new ArrayList<FileParseObject>();
-        for (File file : fileList) {
-            fileParseObjectList.add(new FileParseObject(file, this));
-        }
-        Collections.sort(fileParseObjectList);
-        return fileParseObjectList;
-    }
+//    private List<FileParseObject> createFileList(File[] fileList) {
+//        List<FileParseObject> fileParseObjectList = new ArrayList<FileParseObject>();
+//        for (File file : fileList) {
+//            fileParseObjectList.add(new FileParseObject(file, this));
+//        }
+//        Collections.sort(fileParseObjectList);
+//        return fileParseObjectList;
+//    }
 
     @Override
     protected void onDestroy() {

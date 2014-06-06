@@ -3,7 +3,10 @@ package com.treelev.isimple.parser;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemDAO;
 import com.treelev.isimple.domain.db.ItemPrice;
+import com.treelev.isimple.enumerable.UpdateFile;
 import com.treelev.isimple.utils.Utils;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -14,8 +17,6 @@ import java.util.List;
 public class ItemPricesParser implements Parser {
 
     public final static int ITEM_PRICES_PARSER_ID = 1;
-    public final static String FILE_NAME = "Item-Prices.xmlz";
-    public final static String FILE_SECOND_NAME = "Item-Prices.xml";
 
     private final static String ITEM_PRICE_OBJECT_TAG = "ItemPrice";
     private final static String ITEM_ID_VALUE_TAG = "ItemID";
@@ -64,4 +65,8 @@ public class ItemPricesParser implements Parser {
             e.printStackTrace();
         }
     }
+    
+	public static String getFileName() {
+		return SharedPreferencesManager.getUpdateFileName(UpdateFile.ITEM_PRICES.getUpdateFileTag());
+	}
 }

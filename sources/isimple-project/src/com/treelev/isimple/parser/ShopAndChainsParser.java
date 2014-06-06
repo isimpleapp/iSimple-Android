@@ -5,9 +5,12 @@ import com.treelev.isimple.data.ChainDAO;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.db.Chain;
 import com.treelev.isimple.domain.db.Shop;
+import com.treelev.isimple.enumerable.UpdateFile;
 import com.treelev.isimple.enumerable.chain.ChainType;
 import com.treelev.isimple.enumerable.location.LocationType;
 import com.treelev.isimple.utils.Utils;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -18,8 +21,6 @@ import java.util.List;
 public class ShopAndChainsParser implements Parser {
 
     public final static int SHOP_AND_CHAINS_PARSER_ID = 2;
-    public final static String FILE_NAME = "Locations-And-Chains-Update.xml";
-    public final static String FILE_SECOND_NAME = "Locations-And-Chains-Update.xmlz";
 
     private final static String CHAIN_OBJECT_TAG = "Chain";
     private final static String CHAIN_ID_VALUE_TAG = "ChainID";
@@ -117,4 +118,8 @@ public class ShopAndChainsParser implements Parser {
             e.printStackTrace();
         }
     }
+    
+	public static String getFileName() {
+		return SharedPreferencesManager.getUpdateFileName(UpdateFile.LOCATIONS_AND_CHAINS_UPDATES.getUpdateFileTag());
+	}
 }

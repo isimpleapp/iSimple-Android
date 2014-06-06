@@ -3,7 +3,10 @@ package com.treelev.isimple.parser;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemAvailabilityDAO;
 import com.treelev.isimple.domain.db.ItemAvailability;
+import com.treelev.isimple.enumerable.UpdateFile;
 import com.treelev.isimple.utils.Utils;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -14,8 +17,6 @@ import java.util.List;
 public class ItemAvailabilityParser implements Parser {
 
     public final static int ITEM_AVAILABILITY_PARSER_ID = 4;
-    public final static String FILE_NAME = "Item-Availability.xml";
-    public final static String FILE_SECOND_NAME = "Item-Availability.xmlz";
 
     private final static String ITEM_AVAILABILITY_OBJECT_TAG = "Item";
     private final static String ITEM_AVAILABILITY_ID_VALUE_TAG = "ItemID";
@@ -69,5 +70,9 @@ public class ItemAvailabilityParser implements Parser {
             e.printStackTrace();
         }
     }
+    
+	public static String getFileName() {
+		return SharedPreferencesManager.getUpdateFileName(UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag());
+	}
 
 }

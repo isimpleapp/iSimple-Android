@@ -1,14 +1,15 @@
 package com.treelev.isimple.utils.managers;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.*;
-import android.content.res.Resources;
-import com.treelev.isimple.R;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
+import com.treelev.isimple.R;
+import com.treelev.isimple.app.ISimpleApp;
 
 public class SharedPreferencesManager {
 
@@ -33,7 +34,7 @@ public class SharedPreferencesManager {
     }
 
     public  static void setUpdateReady(Context context, boolean state){
-        Editor editor = getEditor(context);
+        Editor editor = getEditor();
         editor.putBoolean(READY_UPDATE, state);
         editor.commit();
     }
@@ -43,7 +44,7 @@ public class SharedPreferencesManager {
     }
 
     public static void setFirstStart(Context context, boolean state){
-        Editor editor = getEditor(context);
+        Editor editor = getEditor();
         editor.putBoolean(FIRST_START, state);
         editor.commit();
     }
@@ -53,13 +54,13 @@ public class SharedPreferencesManager {
     }
 
     public static void refreshDateUpdate(Context context){
-        Editor editor = getEditor(context);
+        Editor editor = getEditor();
         editor.putString(DATE_UPDATE, getFormattedDate());
         editor.commit();
     }
 
     public static void refreshDatePriceUpdate(Context context){
-        Editor editor = getEditor(context);
+        Editor editor = getEditor();
         editor.putString(DATE_PRICE_UPDATE, getFormattedDate());
         editor.commit();
     }
@@ -69,7 +70,7 @@ public class SharedPreferencesManager {
     }
 
     public static void refreshDateCatalogUpdate(Context context){
-        Editor editor = getEditor(context);
+        Editor editor = getEditor();
         editor.putString(DATE_CATALOG_UPDATE, getFormattedDate());
         editor.commit();
     }
@@ -84,7 +85,7 @@ public class SharedPreferencesManager {
     }
 
     public static void setStartUpdate(Context context, boolean state){
-        Editor editor = getEditor(context);
+        Editor editor = getEditor();
         editor.putBoolean(UPDATE_START, state);
         editor.commit();
     }
@@ -94,12 +95,30 @@ public class SharedPreferencesManager {
     }
 
     public static void setPreparationUpdate(Context context, boolean state){
-        Editor editor = getEditor(context);
+        Editor editor = getEditor();
         editor.putBoolean(PREPARATION_UPDATE, state);
         editor.commit();
     }
+    
+    public static String getUpdateFileName(String updateFile) {
+    	Context context = (Context) ISimpleApp.getInstantce();
+        return getSharedPreferences(context).getString(updateFile, "");
+    }
 
-    private static Editor getEditor(Context context){
+    public static void putUpdateFileName(String updateFile, String updateFileName){
+        Editor editor = getEditor();
+        editor.putString(updateFile, updateFileName);
+        editor.commit();
+    }
+    
+    public static void deletePreference(String key){
+        Editor editor = getEditor();
+        editor.remove(key);
+        editor.commit();
+    }
+
+    private static Editor getEditor(){
+    	Context context = (Context) ISimpleApp.getInstantce();
         return context.getSharedPreferences(PREFS, context.MODE_MULTI_PROCESS).edit();
     }
 

@@ -735,7 +735,7 @@ public class ItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_IS_FAVOURITE + ", " +
                     DatabaseSqlHelper.ITEM_LEFT_OVERS +
                     ") VALUES " +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (Item item : items) {
                 insertStatement = bindString(insertStatement, 1, item.getItemID());
@@ -860,7 +860,7 @@ public class ItemDAO extends BaseDAO {
         try {
             String updateSqlFormat = "UPDATE item " +
                     "SET old_price = (SELECT price FROM item WHERE item_id = '%1$s'), price = " +
-                    "(CASE WHEN (SELECT drink_category FROM item WHERE item_id = '%1$s') = 5 THEN %2$s*(SELECT quantity FROM item WHERE item_id = '%1$s') ELSE %2$s END), " +
+                    "(CASE WHEN (SELECT drink_category FROM item WHERE item_id = '%1$s') = 5 THEN %2$s*(SELECT quantity FROM item WHERE item_id = '%1$s') ELSE %2$s END) " +
                     "WHERE item_id = '%1$s'";
             String updateSql;
             for (ItemPriceDiscount price : priceList) {

@@ -48,6 +48,9 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
                     while (zipEntry != null) {
                         String fileName = zipEntry.getName();
                         File newFile = new File(file.getParent() + File.separator + fileName);
+                        String xmlTag = SharedPreferencesManager.getUpdateFileName(file.getName());
+                        SharedPreferencesManager.putUpdateFileName(xmlTag, newFile.getName());
+                        SharedPreferencesManager.deletePreference(file.getName());
                         fileOutputStream = new FileOutputStream(newFile);
                         int len;
                         while ((len = zipInputStream.read(buffer)) > 0) {

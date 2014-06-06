@@ -49,9 +49,7 @@ public class ItemPriceDiscountParser implements Parser {
 				}
 				xmlPullParser.next();
 			}
-			// TODO Uncomment
-			// ((ItemDAO)
-			// daoList[0]).updatePriceDiscountList(itemPriceDiscountsList);
+			((ItemDAO) daoList[0]).updatePriceDiscountList(itemPriceDiscountsList);
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

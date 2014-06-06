@@ -65,6 +65,7 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
                 }
             }
         } catch (Exception e) {
+        	e.printStackTrace();
             error = true;
         }
         finally {

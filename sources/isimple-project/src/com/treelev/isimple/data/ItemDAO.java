@@ -1,10 +1,19 @@
 package com.treelev.isimple.data;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentSkipListMap;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
+import android.util.Log;
+
 import com.treelev.isimple.domain.db.DeprecatedItem;
 import com.treelev.isimple.domain.db.FeaturedItem;
 import com.treelev.isimple.domain.db.Item;
@@ -14,9 +23,6 @@ import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 public class ItemDAO extends BaseDAO {
 
@@ -858,6 +864,7 @@ public class ItemDAO extends BaseDAO {
                     "WHERE item_id = '%1$s'";
             String updateSql;
             for (ItemPriceDiscount price : priceList) {
+            	Log.i("", "Update item discount, price.getItemID() = " + price.getItemID() + " price.getPriceDiscount() = " + price.getPriceDiscount());
                 updateSql = String.format(updateSqlFormat, price.getItemID(), price.getPriceDiscount());
                 getDatabase().execSQL(updateSql);
             }

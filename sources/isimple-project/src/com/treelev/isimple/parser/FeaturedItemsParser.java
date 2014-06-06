@@ -14,6 +14,7 @@ public class FeaturedItemsParser implements Parser {
 
     public final static int FEATURED_ITEMS_PARSER_ID = 5;
     public final static String FILE_NAME = "Featured.xml";
+    public final static String FILE_SECOND_NAME = "Featured.xmlz";
 
     public final static String ITEM_ID_TAG = "ItemID";
     private final static String FEATURES_ROOT_TAG = "Features";

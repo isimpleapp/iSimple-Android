@@ -16,6 +16,7 @@ public class ItemPriceDiscountParser implements Parser {
 
 	public final static int ITEM_PRICES_PARSER_ID = 8;
 	public final static String FILE_NAME = "Item-Price-Discount.xml";
+	public final static String FILE_SECOND_NAME = "Item-Price-Discount.xmlz";
 
 	private final static String ITEM_DISCOUNT_OBJECT_TAG = "ItemPrice";
 	private final static String ITEM_ID_VALUE_TAG = "ItemID";

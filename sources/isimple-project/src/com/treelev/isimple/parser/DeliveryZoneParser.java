@@ -15,6 +15,7 @@ public class DeliveryZoneParser implements Parser {
 
     public final static int DELIVERY_ZONE_PARSER_ID = 7;
     public final static String FILE_NAME = "Delivery.xml";
+    public final static String FILE_SECOND_NAME = "Delivery.xmlz";
 
     @Override
     public void parseXmlToDB(XmlPullParser xmlPullParser, BaseDAO... daoList) {

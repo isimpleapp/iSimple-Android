@@ -19,6 +19,7 @@ public class ShopAndChainsParser implements Parser {
 
     public final static int SHOP_AND_CHAINS_PARSER_ID = 2;
     public final static String FILE_NAME = "Locations-And-Chains-Update.xml";
+    public final static String FILE_SECOND_NAME = "Locations-And-Chains-Update.xmlz";
 
     private final static String CHAIN_OBJECT_TAG = "Chain";
     private final static String CHAIN_ID_VALUE_TAG = "ChainID";

@@ -20,6 +20,7 @@ public class CatalogParser implements Parser {
 
     public final static int CATALOG_PARSER_ID = 3;
     public final static String FILE_NAME = "Catalog-Update.xmlz";
+    public final static String FILE_SECOND_NAME = "Catalog-Update.xml";
 
     private final static String CATALOG_OBJECT_TAG = "Item";
     private final static String CATALOG_ITEM_ID_VALUE_TAG = "ItemID";

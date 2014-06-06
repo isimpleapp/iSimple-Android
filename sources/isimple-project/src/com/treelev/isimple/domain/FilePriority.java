@@ -2,19 +2,30 @@ package com.treelev.isimple.domain;
 
 public class FilePriority {
 
-    private String fileName;
-    private Integer priority;
+	private String fileName;
+	private String fileSecondName;
 
-    public FilePriority(String fileName, Integer priority) {
-        this.fileName = fileName;
-        this.priority = priority;
-    }
+	public String getFileSecondName() {
+		return fileSecondName;
+	}
 
-    public String getFileName() {
-        return fileName;
-    }
+	public void setFileSecondName(String fileSecondName) {
+		this.fileSecondName = fileSecondName;
+	}
 
-    public Integer getPriority() {
-        return priority;
-    }
+	private Integer priority;
+
+	public FilePriority(String fileName, String fileSecondName, Integer priority) {
+		this.fileName = fileName;
+		this.priority = priority;
+		this.fileSecondName = fileSecondName;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public Integer getPriority() {
+		return priority;
+	}
 }

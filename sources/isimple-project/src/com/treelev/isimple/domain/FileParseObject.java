@@ -123,7 +123,7 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
     
     private FilePriority getFilePriorityBySecondName(String fileName) {
         for (FilePriority filePriority : filePriorityList) {
-            if (filePriority.getFileName().equals(fileName)) {
+            if (filePriority.getFileSecondName().equals(fileName)) {
                 return filePriority;
             }
         }

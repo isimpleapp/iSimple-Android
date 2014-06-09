@@ -31,13 +31,6 @@
             </SvnBranchConfiguration>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/../google-play-services_lib">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="trunkUrl" value="" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$">
           <value>
             <SvnBranchConfiguration>

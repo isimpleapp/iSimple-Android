@@ -126,7 +126,7 @@ public class Item implements Serializable {
 		return oldPrice;
 	}
 
-	public void setgetOldPrice(Float oldPrice) {
+	public void setOldPrice(Float oldPrice) {
 		this.oldPrice = oldPrice;
 	}
 	

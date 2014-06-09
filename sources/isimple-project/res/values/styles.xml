@@ -52,4 +52,7 @@
         <item name="android:typeface">monospace</item>
         <item name="android:textSize">10sp</item>
     </style>
+    <style name="OldPrice">
+        <item name="android:textColor">#C6C6C6</item>
+    </style>
 </resources>

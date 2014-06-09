@@ -1184,6 +1184,7 @@ public class ItemDAO extends BaseDAO {
         int indexManufacturer = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_MANUFACTURER);
         int indexLocalizedManufacturer = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER);
         int indexPrice = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE);
+        int indexOldPrice = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_OLD_PRICE);
         int indexPriceMarkup = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE_MARKUP);
         int indexCountry = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_COUNTRY);
         int indexRegion = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_REGION);
@@ -1225,6 +1226,7 @@ public class ItemDAO extends BaseDAO {
             item.setManufacturer(cursor.getString(indexManufacturer));
             item.setLocalizedManufacturer(cursor.getString(indexLocalizedManufacturer));
             item.setPrice(cursor.getFloat(indexPrice));
+            item.setOldPrice(cursor.getFloat(indexOldPrice));
             item.setPriceMarkup(cursor.getFloat(indexPriceMarkup));
             item.setCountry(cursor.getString(indexCountry));
             item.setRegion(cursor.getString(indexRegion));

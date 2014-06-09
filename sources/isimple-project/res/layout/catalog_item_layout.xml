@@ -99,12 +99,12 @@
             
             <org.holoeverywhere.widget.TextView
                 android:id="@+id/item_old_price"
+                style="@style/OldPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123"
                 android:layout_above="@id/item_price"
                 android:layout_alignLeft="@id/item_price"
-                android:textColor="@color/product_price_color"
                 android:textStyle="bold" />
         </RelativeLayout>
 

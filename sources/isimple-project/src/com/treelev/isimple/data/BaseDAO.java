@@ -7,13 +7,11 @@ import android.database.sqlite.SQLiteStatement;
 
 public abstract class BaseDAO {
 
-	private static DatabaseSqlHelper databaseSqlHelper;
+	private DatabaseSqlHelper databaseSqlHelper;
 	private SQLiteDatabase database;
 
 	protected BaseDAO(Context context) {
-		if (databaseSqlHelper == null) {
 			databaseSqlHelper = new DatabaseSqlHelper(context);
-		}
 	}
 
 	public void open() {

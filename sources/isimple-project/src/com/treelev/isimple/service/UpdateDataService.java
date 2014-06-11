@@ -93,6 +93,7 @@ public class UpdateDataService extends Service  {
             List<FileParseObject> fileParseObjectList = new ArrayList<FileParseObject>();
             if(fileList != null){
                 for (File file : fileList) {
+                	Log.i("", "file in directory: " + file.getName());
                     fileParseObjectList.add(new FileParseObject(file, getApplication()));
                 }
                 Collections.sort(fileParseObjectList);

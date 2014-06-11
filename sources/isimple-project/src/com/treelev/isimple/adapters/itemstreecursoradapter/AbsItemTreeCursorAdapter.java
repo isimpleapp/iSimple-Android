@@ -17,6 +17,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -226,7 +227,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
 			}
 		}
 		if (oldPriceLabel != null) {
-			if (oldPriceLabel.equalsIgnoreCase("0")) {
+			if (oldPriceLabel.equalsIgnoreCase("0") || oldPriceLabel.equalsIgnoreCase("999999")) {
 				oldPriceLabel = "";
 			} else {
 				oldPriceLabel = Utils.organizePriceLabel(oldPriceLabel);
@@ -263,6 +264,14 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
 					} else {
 						String formatPrice = "от %s";
 						priceLabel = String.format(formatPrice, priceLabel);
+					}
+				}
+				if (!TextUtils.isEmpty(oldPriceLabel)) {
+					if (oldPriceLabel.equalsIgnoreCase("0") || oldPriceLabel.equalsIgnoreCase("999999")) {
+						oldPriceLabel = "";
+					} else {
+						String formatPrice = "от %s";
+						oldPriceLabel = String.format(formatPrice, oldPriceLabel);
 					}
 				}
 			}

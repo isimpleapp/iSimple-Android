@@ -56,11 +56,12 @@ public class ItemDAO extends BaseDAO {
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
-                        "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs " +
+                        "SELECT t0.*, MIN(price1) AS price, MIN(old_price1) as old_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs " +
                         "FROM " +
                         "(" +
                             "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                           "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price," +
+                           "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " + 
+                            "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price1," +
                             " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1, (SELECT DISTINCT * FROM featured_item ) AS t2 WHERE t1.item_id = t2.item_id AND category_id = %s ORDER BY t1.item_left_overs " +
                         ") " +
                         "AS t0 " +
@@ -77,11 +78,12 @@ public class ItemDAO extends BaseDAO {
         String formatScript = "SELECT * " +
                 "FROM " +
                         "(" +
-                        "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) AS item_left_overs " +
+                        "SELECT t0.*, MIN(price1) AS price, MIN(old_price1) as old_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) AS item_left_overs " +
                         "FROM " +
                             "(" +
                                 "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                                "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price," +
+                                "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
+                                "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price1," +
                                 " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 WHERE category_id = %s  ORDER BY t1.item_left_overs" +
                             ") AS t0 " +
                         "GROUP BY t0.drink_id " +
@@ -97,11 +99,12 @@ public class ItemDAO extends BaseDAO {
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
-                        "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs " +
+                        "SELECT t0.*, MIN(price1) AS price, MIN(old_price1) as old_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs " +
                         "FROM " +
                         "(" +
                             "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category as drink_category, " +
-                                "(case when ifnull(t1.price, '') = '' then (999999) else price end) as price1, old_price," +
+                                "(case when ifnull(t1.price, '') = '' then (999999) else price end) as price1," +
+                                "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price1," +
                                 " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 INNER JOIN (SELECT item_id, location_id FROM item_availability) AS t2 ON t1.item_id = t2.item_id WHERE t1.drink_category = %s AND location_id = '%s'  ORDER BY t1.item_left_overs" +
                         ") AS t0 " +
                         "GROUP BY t0.drink_id " +
@@ -129,7 +132,8 @@ public class ItemDAO extends BaseDAO {
             orderBy = "ORDER BY " + orderByField + ", year";
         }
         String formatScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, "  +
+                "(case when ifnull(price, '') = '' then (999999) else price end) as price, "  +
+                "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price," +
                 "year,  quantity, color, drink_id, is_favourite, " +
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
                 "FROM item %s " +
@@ -156,7 +160,8 @@ public class ItemDAO extends BaseDAO {
         }
         String formatSelectScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
                 "drink_category, " +
-                "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, " +
+                "(case when ifnull(price, '') = '' then (999999) else price end) as price, " +
+                "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price," +
                 "year,  " +
                 "quantity, color, drink_id, is_favourite, " +
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
@@ -185,7 +190,8 @@ public class ItemDAO extends BaseDAO {
             searchWhere = searchWhere = getSearchWhereByDrinkID(query);
         }
         String formatScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                "(case when ifnull(price, '') = '' then (999999) else price end) as price,  old_price, " +
+                "(case when ifnull(price, '') = '' then (999999) else price end) as price, " +
+                "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price," +
                 "year,  quantity, color, drink_id, is_favourite, " +
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
                 "FROM item %s " +
@@ -212,7 +218,8 @@ public class ItemDAO extends BaseDAO {
         }
         String formatSelectScript = "SELECT item.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, " +
                 "drink_category, " +
-                "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, " +
+                "(case when ifnull(price, '') = '' then (999999) else price end) as price, " +
+                "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price," +
                 "year,  " +
                 "quantity, color, drink_id, is_favourite, " +
                 "(case when ifnull(price, '') = '' then (0) else item_left_overs end) as item_left_overs " +
@@ -270,11 +277,12 @@ public class ItemDAO extends BaseDAO {
             return "SELECT * " +
                     "FROM " +
                     "(" +
-                    "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs  " +
+                    "SELECT t0.*, MIN(price1) AS price, MIN(old_price1) as old_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs  " +
                     "FROM " +
                     "(" +
                     "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price, " +
+                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
+                    "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price1," +
                     " year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs "+
                     ") AS t0 GROUP BY t0.drink_id " +
                     ")" +
@@ -282,7 +290,7 @@ public class ItemDAO extends BaseDAO {
                     "ORDER BY %3$s";
         } else {
             return "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                    "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, year, quantity, color, drink_id, is_favourite, t1.item_left_overs, 0 AS count " +
+                    "(case when ifnull(price, '') = '' then (999999) else price end) as price, (case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price, year, quantity, color, drink_id, is_favourite, t1.item_left_overs, 0 AS count " +
                     "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s AND item_left_overs > 0 ORDER BY  %3$s";
         }
     }
@@ -308,11 +316,12 @@ public class ItemDAO extends BaseDAO {
             return "SELECT * " +
                     "FROM " +
                     "(" +
-                    "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs " +
+                    "SELECT t0.*, MIN(price1) AS price, MIN(old_price1) as old_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs " +
                     "FROM " +
                     "(" +
                     "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price, " +
+                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
+                    "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price1," +
                     "year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs as item_left_overs1 " +
                     "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s " +
                     ") AS t0 GROUP BY t0.drink_id " +
@@ -321,7 +330,7 @@ public class ItemDAO extends BaseDAO {
                     "ORDER BY %3$s";
         } else {
             return "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, " +
-                   "(case when ifnull(price, '') = '' then (999999) else price end) as price, old_price, year, quantity, color, drink_id, is_favourite, item_left_overs, 0 AS count " +
+                   "(case when ifnull(price, '') = '' then (999999) else price end) as price, (case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price, year, quantity, color, drink_id, is_favourite, item_left_overs, 0 AS count " +
                    "FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s AND item_left_overs = 0 ORDER BY %3$s";
 //            return "SELECT * FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs ";
         }
@@ -368,11 +377,12 @@ public class ItemDAO extends BaseDAO {
         String formatScript = "SELECT * " +
                 "FROM " +
                 "(" +
-                    "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs  " +
+                    "SELECT t0.*, MIN(price1) AS price, MIN(old_price1) as old_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs  " +
                     "FROM " +
                     "(" +
                         "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
-                        "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price," +
+                        "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
+                        "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price1," +
                         " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
                         "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                 "FROM item  WHERE %s " +
@@ -413,11 +423,12 @@ public class ItemDAO extends BaseDAO {
         String formatWhereScript = String.format("t1.item_id = t2.item_id AND t1.drink_category = %s AND location_id = '%s' AND (%s)", categoryId, locationId, "%s");
         String formatScript = "SELECT * " +
                 "FROM " +
-                    "(SELECT t0.*, MIN(t0.price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) AS item_left_overs " +
+                    "(SELECT t0.*, MIN(t0.price1) AS price, MIN(old_price1) as old_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) AS item_left_overs " +
                     "FROM " +
                     "(" +
                         "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
-                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1, old_price," +
+                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1, " +
+                        "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price1," +
                         " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
                         "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                 " FROM item AS t1, item_availability AS t2 WHERE %s " +
@@ -459,11 +470,12 @@ public class ItemDAO extends BaseDAO {
         String formatScript = "SELECT * " +
                         "FROM " +
                         "(" +
-                        "SELECT t0.*, MIN(price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) AS item_left_overs  " +
+                        "SELECT t0.*, MIN(price1) AS price, MIN(old_price1) as old_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) AS item_left_overs  " +
                         "FROM " +
                         "(" +
                             "SELECT item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
-                            "(case when ifnull(price, '') = '' then (999999) else price end) as price1, old_price," +
+                            "(case when ifnull(price, '') = '' then (999999) else price end) as price1, " +
+                            "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price1," +
                             " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
                             "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                         "FROM item  WHERE %s " +
@@ -496,10 +508,11 @@ public class ItemDAO extends BaseDAO {
         String formatScript = "SELECT * " +
                 "FROM " +
                     "(" +
-                    "SELECT t0.*, MIN(t0.price1) AS price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs  " +
+                    "SELECT t0.*, MIN(t0.price1) AS price, MIN(old_price1) as old_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs  " +
                     "FROM " +
                         "(SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, 0 as image, " +
-                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1, old_price," +
+                        "(case when ifnull(t1.price, '') = '' then (999999) else t1.price end) as price1, " +
+                        "(case when ifnull(old_price, '') = '' then (999999) else old_price end) as old_price1," +
                         " year, quantity, color, (case when ifnull(drink_id, '') = '' then ('e' || t1.item_id) else drink_id end) as drink_id, is_favourite, item_left_overs AS item_left_overs1, " +
                         "country, region, style, drink_type, style_description, grapes_used, taste_qualities, vintage_report, aging_process, label_history, gastronomy, vineyard " +
                 "FROM item AS t1, item_availability AS t2 WHERE %s " +

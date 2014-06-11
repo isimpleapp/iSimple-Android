@@ -18,6 +18,8 @@ import java.util.List;
 public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
 
     private final static String LOAD_FILE_DATA_URL = "http://s1.isimpleapp.ru/xml/ver0/Update-Index.xml";
+//	private final static String LOAD_FILE_DATA_URL = "http://sun.treelev.com/iSimple/Update-Index.xml";
+//    private final static String LOAD_FILE_DATA_URL = "http://10.0.1.10/iSimple/Update-Index.xml";
 
     private Context context;
     private WebServiceManager webServiceManager;

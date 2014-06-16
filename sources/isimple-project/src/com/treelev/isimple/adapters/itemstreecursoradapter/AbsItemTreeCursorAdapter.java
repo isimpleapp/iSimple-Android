@@ -198,6 +198,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
 		viewHolder.itemPrice = (TextView) view.findViewById(R.id.item_price);
 		viewHolder.itemOldPrice = (TextView) view.findViewById(R.id.item_old_price);
 		viewHolder.itemOldPrice.setPaintFlags(viewHolder.itemOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+		viewHolder.imageViewDiscountTriangle = (ImageView) view.findViewById(R.id.discount_triangle);
 		viewHolder.itemProductType = (TextView) view.findViewById(R.id.product_category);
 		viewHolder.colorItem = (LinearLayout) view.findViewById(R.id.color_item);
 		viewHolder.imageViewFavourite = (ImageView) view.findViewById(R.id.item_image_favourite);
@@ -277,6 +278,11 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
 			}
 		}
 		viewHolder.itemVolume.setText(volumeLabel != null ? volumeLabel : "");
+		if (!TextUtils.isEmpty(oldPriceLabel)) {
+			viewHolder.imageViewDiscountTriangle.setVisibility(View.VISIBLE);
+		} else {
+			viewHolder.imageViewDiscountTriangle.setVisibility(View.GONE);
+		}
 		viewHolder.itemOldPrice.setText(oldPriceLabel != null ? oldPriceLabel : "");
 		viewHolder.itemPrice.setText(priceLabel);
 		// TODO:
@@ -379,6 +385,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
 		TextView itemVolume;
 		TextView itemPrice;
 		TextView itemOldPrice;
+		ImageView imageViewDiscountTriangle;
 		TextView itemProductType;
 		LinearLayout colorItem;
 		ImageView imageViewFavourite;

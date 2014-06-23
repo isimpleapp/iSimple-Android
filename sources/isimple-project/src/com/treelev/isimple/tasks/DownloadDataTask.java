@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.treelev.isimple.activities.SplashActivity;
+import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.LoadFileData;
 import com.treelev.isimple.service.DownloadDataService;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
@@ -16,10 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
-
-    private final static String LOAD_FILE_DATA_URL = "http://s1.isimpleapp.ru/xml/ver0/Update-Index.xml";
-//	private final static String LOAD_FILE_DATA_URL = "http://sun.treelev.com/iSimple/Update-Index.xml";
-//    private final static String LOAD_FILE_DATA_URL = "http://10.0.1.10/iSimple/Update-Index.xml";
 
     private Context context;
     private WebServiceManager webServiceManager;
@@ -42,7 +39,7 @@ public class DownloadDataTask extends AsyncTask<Object, Void, List<File>> {
     @Override
     protected List<File> doInBackground(Object... params) {
         try {
-            List<LoadFileData> loadFileDataList = webServiceManager.getLoadFileData(LOAD_FILE_DATA_URL);
+            List<LoadFileData> loadFileDataList = webServiceManager.getLoadFileData(SharedPreferencesManager.getUpdateFileUrl());
             List<File> fileList = null;
             if (loadFileDataList.size() > 0) {
                 fileList = new ArrayList<File>();

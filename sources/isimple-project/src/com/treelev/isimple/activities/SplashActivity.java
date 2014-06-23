@@ -55,6 +55,7 @@ public class SplashActivity extends Activity {
         boolean updateStart = SharedPreferencesManager.isStartUpdate(context);
 
         if (firstStart) {
+        	Log.v("Test log", "SplashActivity firstStart");
             AssetManager assetManager = getApplicationContext().getAssets();
             new ImportDBFromFileTask().execute(assetManager, SharedPreferencesManager.getSharedPreferences(context));
         } else if (fromNotification && updateReady && !updateStart) {

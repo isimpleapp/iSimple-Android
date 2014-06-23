@@ -25,7 +25,7 @@ public class ISimpleApp extends Application {
     private List<AbsDistanceShop> distanceShopList;
     private Location currentLocation;
     private static ISimpleApp instantce;
-
+    
     @Override
     public void onCreate() {
         super.onCreate();
@@ -36,7 +36,7 @@ public class ISimpleApp extends Application {
         }
     }
 
-    public static ISimpleApp getInstantce() {
+	public static ISimpleApp getInstantce() {
 		return instantce;
 	}
 

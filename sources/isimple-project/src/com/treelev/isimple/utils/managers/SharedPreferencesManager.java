@@ -24,6 +24,8 @@ public class SharedPreferencesManager {
     private static final String PREPARATION_UPDATE = "preparation_update";
 
     private static final String FORMAT_DATE = "dd.MM.yyyy";
+    
+    private static final String LOAD_FILE_DATA_URL_KEY = "LOAD_FILE_DATA_URL";
 
     public static  SharedPreferences getSharedPreferences(Context context){
         return context.getSharedPreferences(PREFS, context.MODE_MULTI_PROCESS);
@@ -66,7 +68,7 @@ public class SharedPreferencesManager {
     }
 
     public static String getDatePriceUpdate(Context context){
-        return getSharedPreferences(context).getString(DATE_PRICE_UPDATE, context.getString(R.string.date_update));
+        return getSharedPreferences(context).getString(DATE_PRICE_UPDATE, context.getString(R.string.price_date_update));
     }
 
     public static void refreshDateCatalogUpdate(Context context){
@@ -77,7 +79,7 @@ public class SharedPreferencesManager {
 
     public static String getDateCatalogUpdate(Context context){
         return getSharedPreferences(context).getString(DATE_CATALOG_UPDATE,
-                context.getString(R.string.date_update));
+                context.getString(R.string.catalog_date_update));
     }
 
     public static boolean isStartUpdate(Context context){
@@ -108,6 +110,19 @@ public class SharedPreferencesManager {
     public static void putUpdateFileName(String updateFile, String updateFileName){
         Editor editor = getEditor();
         editor.putString(updateFile, updateFileName);
+        editor.commit();
+    }
+    
+    public static String getUpdateFileUrl() {
+    	Context context = (Context) ISimpleApp.getInstantce();
+//        return getSharedPreferences(context).getString(LOAD_FILE_DATA_URL_KEY, "http://10.0.1.10/iSimple/Update-Index.xml");
+        return getSharedPreferences(context).getString("LOAD_FILE_DATA_URL", "http://s1.isimpleapp.ru/xml/ver0/Update-Index.xml");
+//        return getSharedPreferences(context).getString("LOAD_FILE_DATA_URL", "http://sun.treelev.com/iSimple/Update-Index.xml");
+    }
+    
+    public static void putUpdateFileUrl(String updateFileUrl){
+        Editor editor = getEditor();
+        editor.putString(LOAD_FILE_DATA_URL_KEY, updateFileUrl);
         editor.commit();
     }
     

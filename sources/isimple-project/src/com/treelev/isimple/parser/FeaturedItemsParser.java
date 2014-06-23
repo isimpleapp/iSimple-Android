@@ -1,5 +1,7 @@
 package com.treelev.isimple.parser;
 
+import android.text.TextUtils;
+
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemDAO;
 import com.treelev.isimple.domain.db.FeaturedItem;
@@ -66,7 +68,8 @@ public class FeaturedItemsParser implements Parser {
     }
     
 	public static String getFileName() {
-		return SharedPreferencesManager.getUpdateFileName(UpdateFile.FEATURED.getUpdateFileTag());
+		String name = SharedPreferencesManager.getUpdateFileName(UpdateFile.FEATURED.getUpdateFileTag()); 
+		return TextUtils.isEmpty(name) ? "Featured.xml" : name;
 	}
 
 }

@@ -13,6 +13,7 @@ import android.view.View;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
+import com.treelev.isimple.activities.EnterCatalogUpdateUrlDialogFragment.CatalogUpdateUrlChangeListener;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.service.DownloadDataService;
@@ -27,7 +28,7 @@ import org.holoeverywhere.app.ExpandableListActivity;
 import org.holoeverywhere.widget.ExpandableListView;
 
 public class BaseExpandableListActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener,
-        Observer{
+        Observer, CatalogUpdateUrlChangeListener {
 
     protected boolean mEventChangeDataBase;
     protected final int LENGTH_SEARCH_QUERY = 3;
@@ -128,6 +129,10 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
                 showAbout();
                 getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
+            case 6:
+            	showCatalogUpdateLink();
+                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
+                break;
             default:
                 category = null;
         }
@@ -138,6 +143,11 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
             }
         }
         return intent;
+    }
+    
+    private void showCatalogUpdateLink() {
+    	EnterCatalogUpdateUrlDialogFragment changeCatalogUpdateUrl = new EnterCatalogUpdateUrlDialogFragment();
+		changeCatalogUpdateUrl.show(getFragmentManager(), "sometag");
     }
 
     private void showAbout(){
@@ -268,4 +278,9 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     public void dataChanged() {
         mEventChangeDataBase = true;
     }
+
+	@Override
+	public void onCatalogUpdateUrlChanged(String url) {
+		SharedPreferencesManager.putUpdateFileUrl(url);
+	}
 }

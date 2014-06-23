@@ -1,5 +1,7 @@
 package com.treelev.isimple.parser;
 
+import android.text.TextUtils;
+
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemDAO;
 import com.treelev.isimple.domain.db.ItemPrice;
@@ -65,8 +67,9 @@ public class ItemPricesParser implements Parser {
             e.printStackTrace();
         }
     }
-    
+	
 	public static String getFileName() {
-		return SharedPreferencesManager.getUpdateFileName(UpdateFile.ITEM_PRICES.getUpdateFileTag());
+		String name = SharedPreferencesManager.getUpdateFileName(UpdateFile.ITEM_PRICES.getUpdateFileTag()); 
+		return TextUtils.isEmpty(name) ? "Item-Prices.xml" : name;
 	}
 }

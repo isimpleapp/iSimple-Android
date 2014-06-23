@@ -187,6 +187,7 @@ public class CatalogParser implements Parser {
     }
 
 	public static String getFileName() {
-		return SharedPreferencesManager.getUpdateFileName(UpdateFile.CATALOG_UPDATES.getUpdateFileTag());
+		String name = SharedPreferencesManager.getUpdateFileName(UpdateFile.CATALOG_UPDATES.getUpdateFileTag()); 
+		return TextUtils.isEmpty(name) ? "Catalog-Update.xml" : name;
 	}
 }

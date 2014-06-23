@@ -63,7 +63,9 @@
     <string name="cancel_delete_item">Отмена</string>
 
     <string name="title_about_info">Информация о программе</string>
-    <string name="date_update">11.09.2013</string>
+    <string name="catalog_date_update">01.06.2014</string>
+    <string name="price_date_update">11.06.2014</string>
+    <string name="date_update">01.06.2014</string>
     <string name="about_info" formatted="false"><![CDATA[<p><p>Версия приложения<br><b>Номер версии:</b> %s</p><p>Обновление каталога<br><b>Время:</b> %s</p><p>Обновление цен<br><b>Время:</b> %s</p><p>Последенее обновление<br><b>Время:</b> %s</p></p>]]></string>
 
     <!-- Water filter item -->

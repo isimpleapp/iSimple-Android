@@ -1,5 +1,7 @@
 package com.treelev.isimple.parser;
 
+import android.text.TextUtils;
+
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemAvailabilityDAO;
 import com.treelev.isimple.domain.db.ItemAvailability;
@@ -72,7 +74,8 @@ public class ItemAvailabilityParser implements Parser {
     }
     
 	public static String getFileName() {
-		return SharedPreferencesManager.getUpdateFileName(UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag());
+		String name = SharedPreferencesManager.getUpdateFileName(UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag()); 
+		return TextUtils.isEmpty(name) ? "Item-Availability.xml" : name;
 	}
 
 }

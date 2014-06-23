@@ -12,6 +12,7 @@ import android.text.Html;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
+import com.treelev.isimple.activities.EnterCatalogUpdateUrlDialogFragment.CatalogUpdateUrlChangeListener;
 import com.treelev.isimple.adapters.NavigationListAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.app.ISimpleApp;
@@ -26,7 +27,7 @@ import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 
 public class BaseActivity extends Activity implements ActionBar.OnNavigationListener,
-        Observer {
+        Observer, CatalogUpdateUrlChangeListener {
 
 
     public final static String BARCODE = "barcode";
@@ -150,6 +151,10 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
                 showAbout();
                 getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
+            case 6:
+            	showCatalogUpdateLink();
+                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
+            	break;
             default:
                 category = null;
         }
@@ -184,6 +189,11 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
             });
             adb.show();
         }
+    }
+    
+    private void showCatalogUpdateLink() {
+    	EnterCatalogUpdateUrlDialogFragment changeCatalogUpdateUrl = new EnterCatalogUpdateUrlDialogFragment();
+		changeCatalogUpdateUrl.show(getFragmentManager(), "sometag");
     }
 
     private void checkBarcodeResult(String code) {
@@ -254,4 +264,9 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     public void dataChanged() {
         mEventChangeDataBase = true;
     }
+
+	@Override
+	public void onCatalogUpdateUrlChanged(String url) {
+		SharedPreferencesManager.putUpdateFileUrl(url);
+	}
 }

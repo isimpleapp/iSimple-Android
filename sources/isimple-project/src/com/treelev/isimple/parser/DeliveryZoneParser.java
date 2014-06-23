@@ -7,6 +7,8 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.text.TextUtils;
+
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.DeliveryZoneDAO;
 import com.treelev.isimple.domain.db.DeliveryZone;
@@ -78,6 +80,7 @@ public class DeliveryZoneParser implements Parser {
     }
 
 	public static String getFileName() {
-		return SharedPreferencesManager.getUpdateFileName(UpdateFile.DELIVERY.getUpdateFileTag());
+		String name = SharedPreferencesManager.getUpdateFileName(UpdateFile.DELIVERY.getUpdateFileTag()); 
+		return TextUtils.isEmpty(name) ? "Delivery.xml" : name;
 	}
 }

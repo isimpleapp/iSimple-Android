@@ -7,6 +7,7 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.treelev.isimple.data.BaseDAO;
@@ -69,6 +70,7 @@ public class ItemPriceDiscountParser implements Parser {
 	}
 	
 	public static String getFileName() {
-		return SharedPreferencesManager.getUpdateFileName(UpdateFile.DISCOUNT.getUpdateFileTag());
+		String name = SharedPreferencesManager.getUpdateFileName(UpdateFile.DISCOUNT.getUpdateFileTag()); 
+		return TextUtils.isEmpty(name) ? "Item-Price-Discount.xml" : name;
 	}
 }

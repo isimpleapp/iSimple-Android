@@ -58,8 +58,12 @@ public class UpdateDataService extends Service  {
 //            boolean isDiscountReady = false;
             File directory = WebServiceManager.getDownloadDirectory();
             List<FileParseObject> fileParseObjectList = createFileList(directory.listFiles());
+            Log.v("Test log", "UpdateDataService, fileParseObjectList size = " + fileParseObjectList.size());
             for (FileParseObject fileParseObject : fileParseObjectList) {
                 fileParseObject.parseObjectDataToDB();
+                Log.v("Test log", "UpdateDataService, fileParseObject.getFileName() = " + fileParseObject.getFileName());
+                Log.v("Test log", "UpdateDataService, CatalogParser.getFileName() = " + CatalogParser.getFileName());
+                Log.v("Test log", "UpdateDataService, ItemPricesParser.getFileName() = " + ItemPricesParser.getFileName());
                 if(fileParseObject.getFileName().equalsIgnoreCase(CatalogParser.getFileName())){
                     isCatalogUpdate = true;
                 }

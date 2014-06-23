@@ -136,7 +136,7 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
                 return filePriority;
             }
         }
-        return null;
+        return new FilePriority(fileName, 999);
     }
     
     @Override

@@ -9,7 +9,7 @@ import android.util.Log;
 public class DatabaseSqlHelper extends SQLiteOpenHelper {
 
     public final static String DATABASE_NAME = "iSimple.db";
-    public final static int DATABASE_VERSION = 2;
+    public final static int DATABASE_VERSION = 3;
 
     public final static String ITEM_DEPRECATED_TABLE = "item_deprecated";
     public final static String ITEM_TABLE = "item";
@@ -298,16 +298,22 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     	Log.i("", "SQLiteDatabase onUpgrade, oldVersion = " + oldVersion + " newVersion = " + newVersion);
-        String dropTableText = "DROP TABLE IF EXISTS %s";
-        db.execSQL(String.format(dropTableText, FEATURED_ITEM_TABLE));
-        db.execSQL(String.format(dropTableText, ITEM_AVAILABILITY_TABLE));
-        db.execSQL(String.format(dropTableText, CHAIN_TABLE));
-        db.execSQL(String.format(dropTableText, SHOP_TABLE));
-        db.execSQL(String.format(dropTableText, ITEM_TABLE));
-        db.execSQL(String.format(dropTableText, ITEM_DEPRECATED_TABLE));
-        db.execSQL(String.format(dropTableText, FAVOURITE_ITEM_TABLE));
-        db.execSQL(String.format(dropTableText, SHOPPING_CART_ITEM_TABLE));
-        db.execSQL(String.format(dropTableText, DELIVERY_ITEM_TABLE));
-        onCreate(db);
+//        String dropTableText = "DROP TABLE IF EXISTS %s";
+//        db.execSQL(String.format(dropTableText, FEATURED_ITEM_TABLE));
+//        db.execSQL(String.format(dropTableText, ITEM_AVAILABILITY_TABLE));
+//        db.execSQL(String.format(dropTableText, CHAIN_TABLE));
+//        db.execSQL(String.format(dropTableText, SHOP_TABLE));
+//        db.execSQL(String.format(dropTableText, ITEM_TABLE));
+//        db.execSQL(String.format(dropTableText, ITEM_DEPRECATED_TABLE));
+//        db.execSQL(String.format(dropTableText, FAVOURITE_ITEM_TABLE));
+//        db.execSQL(String.format(dropTableText, SHOPPING_CART_ITEM_TABLE));
+//        db.execSQL(String.format(dropTableText, DELIVERY_ITEM_TABLE));
+//        onCreate(db);
+    	
+    	if (oldVersion < 3 && newVersion == 3) {
+			db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+			db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+			db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+		}
     }
 }

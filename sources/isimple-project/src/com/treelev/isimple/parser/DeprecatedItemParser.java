@@ -104,6 +104,7 @@ public class DeprecatedItemParser implements Parser {
     }
     
 	public static String getFileName() {
-		return SharedPreferencesManager.getUpdateFileName(UpdateFile.DEPRECATED.getUpdateFileTag());
+		String name = SharedPreferencesManager.getUpdateFileName(UpdateFile.DEPRECATED.getUpdateFileTag()); 
+		return TextUtils.isEmpty(name) ? "Deprecated.xml" : name;
 	}
 }

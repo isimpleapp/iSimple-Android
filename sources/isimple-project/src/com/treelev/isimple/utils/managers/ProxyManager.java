@@ -150,10 +150,7 @@ public class ProxyManager {
     }
 
     public Cursor getFeaturedItemsByCategory(int categoryId, int sortType) {
-        String orderByField =
-                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
-                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId, orderByField);
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId);
     }
 
     public Cursor getAllItemsByCategory(int categoryId, int sortType) {

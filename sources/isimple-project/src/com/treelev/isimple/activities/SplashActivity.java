@@ -1,5 +1,19 @@
 package com.treelev.isimple.activities;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.Dialog;
+import org.holoeverywhere.app.ProgressDialog;
+
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,17 +25,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
-import com.treelev.isimple.domain.FileParseObject;
 import com.treelev.isimple.service.UpdateDataService;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.ProgressDialog;
-
-import java.io.*;
-import java.util.*;
 
 public class SplashActivity extends Activity {
 
@@ -53,6 +61,8 @@ public class SplashActivity extends Activity {
         boolean firstStart = SharedPreferencesManager.isFirstStart(context);
         boolean updateReady = isUpdateReady(context);
         boolean updateStart = SharedPreferencesManager.isStartUpdate(context);
+        boolean isServiceUpdateTaskRunning = UpdateDataService.isUpdateDataTaskRunning();
+        Log.v("Test log", "SplashActivity isServiceRunning = " + isServiceUpdateTaskRunning);
 
         if (firstStart) {
         	Log.v("Test log", "SplashActivity firstStart");
@@ -61,6 +71,16 @@ public class SplashActivity extends Activity {
         } else if (fromNotification && updateReady && !updateStart) {
             Log.v("Test log", "SplashActivity start Update");
             startUpdate();
+        } else if (updateReady && !isServiceUpdateTaskRunning && updateStart) {
+			// This means app crashed, was killed or updated when update was in
+			// progress. Thus we should clear all update flags.
+        	Log.v("Test log", "SplashActivity clear update flags");
+			SharedPreferencesManager.setUpdateReady(this, false);
+			SharedPreferencesManager.setStartUpdate(this, false);
+			startApplication(true);
+            if(!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+                showWarningNotification(getApplicationContext());
+            }
         } else if(updateReady) {
             Log.v("Test log", "SplashActivity ");
             showUpdateNotification(getApplicationContext());
@@ -75,7 +95,7 @@ public class SplashActivity extends Activity {
           }
         }
     }
-
+    
     private static boolean isUpdateReady(Context context){
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 && SharedPreferencesManager.isUpdateReady(context);

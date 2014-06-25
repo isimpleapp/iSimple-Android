@@ -311,9 +311,21 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
 //        onCreate(db);
     	
     	if (oldVersion < 3 && newVersion == 3) {
-			db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
-			db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+    		try {
+    			db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+    		} catch (Exception e) {
+    			Log.i("ADD COLUMN old_price", "old_price already exists");
+			}
+			try {
+			 db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+			} catch (Exception e) {
+				Log.i("ADD COLUMN old_price", "old_price already exists");
+			}
+			try {
 			db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+			} catch (Exception e) {
+				Log.i("ADD COLUMN old_price", "old_price already exists");
+			}
 		}
     }
 }

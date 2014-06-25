@@ -15,7 +15,7 @@ import java.util.List;
 
 @ReportsCrashes(
     formKey = "",
-    mailTo = "dkhanevich@gmail.com, dv@treelev.com, dshaplyko@omertex.com",
+    mailTo = "dv@treelev.com, vitalyduong@gmail.com",
     mode = ReportingInteractionMode.DIALOG,
     resDialogTitle = R.string.crash_dialog_title,
     resDialogText = R.string.crash_dialog_text

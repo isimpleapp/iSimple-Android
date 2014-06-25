@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -254,12 +255,17 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 	}
 
 	private void startUpdateService() {
-		if (!SharedPreferencesManager
-				.isPreparationUpdate(getApplicationContext())
-				&& !SharedPreferencesManager
-						.isUpdateReady(getApplicationContext())) {
-			startService(new Intent(getApplicationContext(),
-					DownloadDataService.class));
+		boolean downloadDataTaskRunning = DownloadDataService.isDownloadDataTaskRunning();
+		
+		if (!downloadDataTaskRunning && SharedPreferencesManager.isPreparationUpdate(getApplicationContext())) {
+			// This means app crashed, was killed or updated when update was in
+			// progress. Thus we should clear all download flags.
+			Log.v("Test log", "CatalogListActivity clear download update flags");
+			SharedPreferencesManager.setPreparationUpdate(this, false);
+		}
+		if (!SharedPreferencesManager.isPreparationUpdate(getApplicationContext())
+				&& !SharedPreferencesManager.isUpdateReady(getApplicationContext())) {
+			startService(new Intent(getApplicationContext(), DownloadDataService.class));
 		}
 	}
 

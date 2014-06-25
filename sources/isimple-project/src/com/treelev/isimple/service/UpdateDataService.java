@@ -15,25 +15,24 @@ import android.util.Log;
 
 import com.treelev.isimple.activities.SplashActivity;
 import com.treelev.isimple.domain.FileParseObject;
-import com.treelev.isimple.domain.db.ItemPriceDiscount;
 import com.treelev.isimple.parser.CatalogParser;
-import com.treelev.isimple.parser.ItemPriceDiscountParser;
 import com.treelev.isimple.parser.ItemPricesParser;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
 
 public class UpdateDataService extends Service  {
 
-
     public static final String PARAM_PINTENT = "PENDING_INTENT";
 
     private PendingIntent mPi;
+    private static UpdateDataTask mUpdateDataTask;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent != null){
             mPi = intent.getParcelableExtra(PARAM_PINTENT);
-            new UpdateDataTask().execute();
+            mUpdateDataTask = new UpdateDataTask();
+            mUpdateDataTask.execute();
         } else {
             stopSelf();
         }
@@ -44,9 +43,16 @@ public class UpdateDataService extends Service  {
     public IBinder onBind(Intent intent) {
         return null;
     }
+    
+    public static boolean isUpdateDataTaskRunning() {
+    	if (mUpdateDataTask == null || mUpdateDataTask.getStatus() != AsyncTask.Status.RUNNING) {
+    		return false;
+    	} else {
+    		return true;
+    	}
+    }
 
     private class UpdateDataTask extends AsyncTask<Void, Void, Void> {
-
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -93,7 +99,14 @@ public class UpdateDataService extends Service  {
             return null;
         }
 
-        private List<FileParseObject> createFileList(File[] fileList) {
+        @Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			
+			mUpdateDataTask = null;
+		}
+
+		private List<FileParseObject> createFileList(File[] fileList) {
             List<FileParseObject> fileParseObjectList = new ArrayList<FileParseObject>();
             if(fileList != null){
                 for (File file : fileList) {

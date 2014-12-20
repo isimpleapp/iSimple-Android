@@ -1,5 +1,7 @@
 package com.treelev.isimple.activities;
 
+import org.holoeverywhere.widget.ExpandableListView;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +9,11 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
@@ -18,7 +23,6 @@ import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.widget.ExpandableListView;
 
 public class SearchResultActivity extends  BaseExpandableListActivity
         implements RadioGroup.OnCheckedChangeListener,  LoaderManager.LoaderCallbacks<Cursor>,
@@ -27,12 +31,16 @@ public class SearchResultActivity extends  BaseExpandableListActivity
     public static Integer categoryID;
     public static String locationId;
     public static String SEARCH_QUERY = "search_query";
+
+    private String mLocationId;
+    private String mQuery;
+    
     private SearchItemTreeCursorAdapter mTreeSearchAdapter;
     private SearchView mSearchView;
-    private String mQuery;
+    
     private View darkView;
+    
     private int mSortBy = ProxyManager.SORT_NAME_AZ;
-    private String mLocationId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,11 +64,20 @@ public class SearchResultActivity extends  BaseExpandableListActivity
             }
         });
         handledIntent(getIntent());
+        
         mTreeSearchAdapter = new SearchItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mQuery, categoryID, locationId, mSortBy);
         getExpandableListView().setAdapter(mTreeSearchAdapter);
         getSupportLoaderManager().restartLoader(0, null, this);
         getExpandableListView().setOnChildClickListener(this);
         disableOnGroupClick();
+    }
+    
+    public void showNotFoundView(Cursor cursor){
+    	if (cursor != null && cursor.getCount() == 0){
+    		findViewById(R.id.tv_not_found).setVisibility(View.VISIBLE);
+    	} else {
+    		findViewById(R.id.tv_not_found).setVisibility(View.GONE);
+    	}
     }
 
     @Override

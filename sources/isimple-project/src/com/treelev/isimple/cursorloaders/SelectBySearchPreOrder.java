@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.content.Loader;
 
+import com.treelev.isimple.activities.SearchResultActivity;
+
 public class SelectBySearchPreOrder extends BaseCursorLoader {
 
     private Loader.ForceLoadContentObserver mObserver = new Loader.ForceLoadContentObserver();
@@ -33,5 +35,14 @@ public class SelectBySearchPreOrder extends BaseCursorLoader {
             cursor.registerContentObserver(mObserver);
         }
         return cursor;
+    }
+    
+    @Override
+    public void deliverResult(Cursor cursor) {
+    	try {
+    		((SearchResultActivity) mContext).showNotFoundView(cursor);
+    	} catch (ClassCastException e){
+    	}
+    	super.deliverResult(cursor);
     }
 }

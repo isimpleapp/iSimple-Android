@@ -3,6 +3,8 @@ package com.treelev.isimple.cursorloaders;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.treelev.isimple.activities.SearchResultActivity;
+
 public class SelectBySearch extends BaseCursorLoader {
 
     private ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
@@ -32,5 +34,14 @@ public class SelectBySearch extends BaseCursorLoader {
             cursor.registerContentObserver(mObserver);
         }
         return cursor;
+    }
+    
+    @Override
+    public void deliverResult(Cursor cursor) {
+    	try {
+    		((SearchResultActivity) mContext).showNotFoundView(cursor);
+    	} catch (ClassCastException e){
+    	}
+    	super.deliverResult(cursor);
     }
 }

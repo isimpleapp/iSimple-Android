@@ -1,5 +1,7 @@
 package com.treelev.isimple.activities;
 
+import org.holoeverywhere.widget.ExpandableListView;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +14,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.itemstreecursoradapter.AbsItemTreeCursorAdapter;
 import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogByCategoryItemTreeCursorAdapter;
@@ -26,9 +28,14 @@ import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.Sweetness;
-import com.treelev.isimple.fragments.filters.*;
+import com.treelev.isimple.fragments.filters.FilterFragment;
+import com.treelev.isimple.fragments.filters.PortoHeresFilter;
+import com.treelev.isimple.fragments.filters.SakeFilter;
+import com.treelev.isimple.fragments.filters.SparklingFilter;
+import com.treelev.isimple.fragments.filters.SpiritsFilter;
+import com.treelev.isimple.fragments.filters.WaterFilter;
+import com.treelev.isimple.fragments.filters.WineFilter;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.widget.ExpandableListView;
 
 public class CatalogByCategoryActivity extends BaseExpandableListActivity
         implements  LoaderManager.LoaderCallbacks<Cursor>,
@@ -299,6 +306,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
             public void onChangeFilterState(String whereClause, boolean group, boolean clickFind) {
                 mClickFind = clickFind;
                 mFilterWhereClause = mFilter.getWhereClause();
+//                mFilterWhereClause = whereClause;
                 mSortBy = mFilter.getSortBy();
                 mTreeCategoriesAdapter.setGroup(group);
                 initLoadManager();
@@ -389,12 +397,13 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                 mTypeSection = ProxyManager.TYPE_SECTION_SHOP_MAIN;
             }
             mTreeCategoriesAdapter.resetFilter();
+            mTreeCategoriesAdapter.initFilter("(item.color=1 OR item.color=0 OR item.color=2)", mLocationId, mSortBy);
         } else if(mTypeSection != ProxyManager.TYPE_SECTION_FILTRATION_SEARCH){
             mTreeCategoriesAdapter.initFilter(mFilterWhereClause, mLocationId, mSortBy);
             mTypeSection = ProxyManager.TYPE_SECTION_FILTRATION_SEARCH;
         }
         if(!TextUtils.isEmpty(mFilterWhereClause)) {
-            mTreeCategoriesAdapter.setFilterWhereClause(mFilterWhereClause);
+        	mTreeCategoriesAdapter.setFilterWhereClause(mFilterWhereClause);
         }
         getSupportLoaderManager().restartLoader(mTypeSection, null, this);
     }

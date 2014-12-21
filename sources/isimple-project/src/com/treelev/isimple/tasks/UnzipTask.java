@@ -85,7 +85,7 @@ public class UnzipTask extends AsyncTask<File, Void, File[]> {
     protected void onPostExecute(File[] aVoid) {
         super.onPostExecute(aVoid);
         Log.v("Test log unzip post", "_");
-        Log.v("Test log unzip post", ", errors size = ");
+        Log.v("Test log unzip post", ", errors size = " + errors.size());
         Log.v("Test log unzip post", ", errors.contains(false) = " + errors.contains(false));
         if (errors.contains(false)) {
             SharedPreferencesManager.setUpdateReady(context, true);

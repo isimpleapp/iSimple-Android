@@ -3,8 +3,6 @@ package com.treelev.isimple.domain;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.treelev.isimple.enumerable.UpdateFile;
-
 public class LoadFileData {
 
     public final static String FILE_DATE_TAG_NAME = "UpdateDate";
@@ -25,4 +23,5 @@ public class LoadFileData {
     public String getFileUrl() {
         return fileUrl;
     }
+
 }

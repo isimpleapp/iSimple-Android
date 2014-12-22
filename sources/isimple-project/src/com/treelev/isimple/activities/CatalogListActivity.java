@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
@@ -18,11 +19,16 @@ import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.service.DownloadDataService;
+import com.treelev.isimple.service.SyncServcie;
+import com.treelev.isimple.utils.Constants;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+
 import org.holoeverywhere.widget.ExpandableListView;
+
 import android.widget.RelativeLayout;
+
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogItemTreeCursorAdapter;
 
@@ -64,6 +70,10 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 		expandableView.setOnChildClickListener(this);
 		disableOnGroupClick();
 		getSupportLoaderManager().restartLoader(0, null, this);
+		
+		if (SharedPreferencesManager.isFirstStart(this)) {
+		    sendBroadcast(new Intent(Constants.INTENT_ACTION_SYNC_TRIGGER));
+		}
 	}
 
 	@Override
@@ -82,7 +92,7 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 
 	@Override
 	protected void onResume() {
-		startUpdateService();
+//		startUpdateService();
 		if (mEventChangeDataBase) {
 			mListCategoriesAdapter.refresh();
 			mEventChangeDataBase = false;
@@ -254,19 +264,19 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 	public void onLoaderReset(Loader<Cursor> cursorLoader) {
 	}
 
-	private void startUpdateService() {
-		boolean downloadDataTaskRunning = DownloadDataService.isDownloadDataTaskRunning();
-		
-		if (!downloadDataTaskRunning && SharedPreferencesManager.isPreparationUpdate(getApplicationContext())) {
-			// This means app crashed, was killed or updated when update was in
-			// progress. Thus we should clear all download flags.
-			Log.v("Test log", "CatalogListActivity clear download update flags");
-			SharedPreferencesManager.setPreparationUpdate(this, false);
-		}
-		if (!SharedPreferencesManager.isPreparationUpdate(getApplicationContext())
-				&& !SharedPreferencesManager.isUpdateReady(getApplicationContext())) {
-			startService(new Intent(getApplicationContext(), DownloadDataService.class));
-		}
-	}
-
+//	private void startUpdateService() {
+//		boolean downloadDataTaskRunning = DownloadDataService.isDownloadDataTaskRunning();
+//		
+//		if (!downloadDataTaskRunning && SharedPreferencesManager.isPreparationUpdate(getApplicationContext())) {
+//			// This means app crashed, was killed or updated when update was in
+//			// progress. Thus we should clear all download flags.
+//			Log.v("Test log", "CatalogListActivity clear download update flags");
+//			SharedPreferencesManager.setPreparationUpdate(this, false);
+//		}
+//		if (!SharedPreferencesManager.isPreparationUpdate(getApplicationContext())
+//				&& !SharedPreferencesManager.isUpdateReady(getApplicationContext())) {
+//			startService(new Intent(getApplicationContext(), DownloadDataService.class));
+//		}
+//	}
+	
 }

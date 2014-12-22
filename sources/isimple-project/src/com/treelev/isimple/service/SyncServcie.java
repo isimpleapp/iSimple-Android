@@ -1,10 +1,23 @@
 
 package com.treelev.isimple.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.IBinder;
@@ -14,38 +27,19 @@ import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.ItemDAO;
 import com.treelev.isimple.data.ShoppingCartDAO;
 import com.treelev.isimple.domain.LoadFileData;
-import com.treelev.isimple.domain.db.ItemPrice;
 import com.treelev.isimple.domain.db.ItemPriceWrapper;
 import com.treelev.isimple.enumerable.UpdateFile;
 import com.treelev.isimple.parser.CatalogItemParser;
 import com.treelev.isimple.parser.FeaturedItemsParser;
 import com.treelev.isimple.parser.ItemPriceDiscountParser;
 import com.treelev.isimple.parser.ItemPricesParser;
-import com.treelev.isimple.parser.OffersParser;
-import com.treelev.isimple.utils.Constants;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
-
-import org.holoeverywhere.util.ArrayUtils;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 public class SyncServcie extends Service {
 
     public final static String LAST_UPDATED_DATE = "date_for_last_update";
-    private static SyncDataTask mDownloadDataTask;
+    private static SyncDataTask syncDataTask;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -55,16 +49,16 @@ public class SyncServcie extends Service {
                 Log.v("Test log start update", "start update");
                 SharedPreferencesManager.setUpdateReady(context, false);
                 SharedPreferencesManager.setPreparationUpdate(context, true);
-                mDownloadDataTask = new SyncDataTask(context);
-                mDownloadDataTask.execute();
+                syncDataTask = new SyncDataTask(context);
+                syncDataTask.execute();
             }
         }
         stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public static boolean isDownloadDataTaskRunning() {
-        if (mDownloadDataTask == null || mDownloadDataTask.getStatus() != AsyncTask.Status.RUNNING) {
+    public static boolean isSyncDataTaskRunning() {
+        if (syncDataTask == null || syncDataTask.getStatus() != AsyncTask.Status.RUNNING) {
             return false;
         } else {
             return true;
@@ -452,7 +446,7 @@ public class SyncServcie extends Service {
 
         @Override
         protected void onPostExecute(Void result) {
-            mDownloadDataTask = null;
+            syncDataTask = null;
 
             if (!error) {
 

@@ -1,18 +1,6 @@
 package com.treelev.isimple.domain;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import android.content.Context;
-import android.util.Log;
 
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ChainDAO;
@@ -31,6 +19,17 @@ import com.treelev.isimple.parser.ItemPricesParser;
 import com.treelev.isimple.parser.Parser;
 import com.treelev.isimple.parser.ShopAndChainsParser;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 public class FileParseObject implements Comparable<FileParseObject>, Serializable {
 
     private File file;
@@ -43,10 +42,10 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
         if (filePriorityList == null) {
             filePriorityList = new ArrayList<FilePriority>();
             logFileNameCompareProcess("static", "");
-            filePriorityList.add(new FilePriority(CatalogParser.getFileName(), 1));
-            filePriorityList.add(new FilePriority(ShopAndChainsParser.getFileName(), 2));
+            filePriorityList.add(new FilePriority(ItemPricesParser.getFileName(), 1));
+            filePriorityList.add(new FilePriority(CatalogParser.getFileName(), 2));
             filePriorityList.add(new FilePriority(ItemAvailabilityParser.getFileName(), 3));
-            filePriorityList.add(new FilePriority(ItemPricesParser.getFileName(), 4));
+            filePriorityList.add(new FilePriority(ShopAndChainsParser.getFileName(), 4));
             filePriorityList.add(new FilePriority(ItemPriceDiscountParser.getFileName(), 5));
             filePriorityList.add(new FilePriority(FeaturedItemsParser.getFileName(), 6));
             filePriorityList.add(new FilePriority(DeprecatedItemParser.getFileName(), 7));

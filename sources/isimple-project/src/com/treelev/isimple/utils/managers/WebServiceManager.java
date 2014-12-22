@@ -1,17 +1,9 @@
 package com.treelev.isimple.utils.managers;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import android.os.Environment;
+import android.util.Log;
+
+import com.treelev.isimple.domain.LoadFileData;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,11 +13,20 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
-import android.os.Environment;
-import android.util.Log;
-
-import com.treelev.isimple.domain.LoadFileData;
-import com.treelev.isimple.enumerable.UpdateFile;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WebServiceManager {
 
@@ -93,6 +94,26 @@ public class WebServiceManager {
 		}
 		return loadFileDataList;
 	}
+	
+	public Map<String, LoadFileData> getLoadFileDataMap(String requestString) throws Exception {
+	    Map<String, LoadFileData> loadFileDataList = new HashMap<String, LoadFileData>();
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(requestString);
+        HttpResponse httpResponse = httpClient.execute(httpGet);
+        Document document = new SAXBuilder().build(httpResponse.getEntity().getContent());
+        List<Element> contentList = document.getRootElement().getChildren();
+        for (Element element : contentList) {
+            Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);
+            Element dateElement = element.getChild(LoadFileData.FILE_DATE_TAG_NAME);
+            String url = urlElement.getValue();
+            String zipfileName = url.substring( url.lastIndexOf('/') + 1, url.length());
+            loadFileDataList.put(element.getName(), new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement.getValue()),
+                    urlElement.getValue()));
+            SharedPreferencesManager.putUpdateFileName(zipfileName, element.getName());
+        }
+        return loadFileDataList;
+    }
 
 	private String getFileName(String fileUrl) {
 		Pattern pattern = Pattern.compile(REG_FILENAME_FORMAT);

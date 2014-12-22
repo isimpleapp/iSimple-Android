@@ -1,7 +1,9 @@
+
 package com.treelev.isimple.data;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
 import com.treelev.isimple.domain.db.Item;
@@ -29,48 +31,131 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public long insertItem(Item product) {
         open();
-        String insertSql = "INSERT OR REPLACE INTO " + DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE + " (" +
-                DatabaseSqlHelper.ITEM_ID + ", " +
-                DatabaseSqlHelper.ITEM_DRINK_ID + ", " +
-                DatabaseSqlHelper.ITEM_NAME + ", " +
-                DatabaseSqlHelper.ITEM_LOCALIZED_NAME + ", " +
-                DatabaseSqlHelper.ITEM_MANUFACTURER + ", " +
-                DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER + ", " +
-                DatabaseSqlHelper.ITEM_PRICE + ", " +
-                DatabaseSqlHelper.ITEM_OLD_PRICE + ", " +
-                DatabaseSqlHelper.ITEM_PRICE_MARKUP + ", " +
-                DatabaseSqlHelper.ITEM_COUNTRY + ", " +
-                DatabaseSqlHelper.ITEM_REGION + ", " +
-                DatabaseSqlHelper.ITEM_BARCODE + ", " +
-                DatabaseSqlHelper.ITEM_DRINK_CATEGORY + ", " +
-                DatabaseSqlHelper.ITEM_PRODUCT_TYPE + ", " +
-                DatabaseSqlHelper.ITEM_CLASSIFICATION + ", " +
-                DatabaseSqlHelper.ITEM_COLOR + ", " +
-                DatabaseSqlHelper.ITEM_STYLE + ", " +
-                DatabaseSqlHelper.ITEM_SWEETNESS + ", " +
-                DatabaseSqlHelper.ITEM_YEAR + ", " +
-                DatabaseSqlHelper.ITEM_VOLUME + ", " +
-                DatabaseSqlHelper.ITEM_DRINK_TYPE + ", " +
-                DatabaseSqlHelper.ITEM_ALCOHOL + ", " +
-                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME + ", " +
-                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME + ", " +
-                DatabaseSqlHelper.ITEM_STYLE_DESCRIPTION + ", " +
-                DatabaseSqlHelper.ITEM_APPELATION + ", " +
-                DatabaseSqlHelper.ITEM_SERVING_TEMP_MIN + ", " +
-                DatabaseSqlHelper.ITEM_SERVING_TEMP_MAX + ", " +
-                DatabaseSqlHelper.ITEM_TASTE_QUALITIES + ", " +
-                DatabaseSqlHelper.ITEM_VINTAGE_REPORT + ", " +
-                DatabaseSqlHelper.ITEM_AGING_PROCESS + ", " +
-                DatabaseSqlHelper.ITEM_PRODUCTION_PROCESS + ", " +
-                DatabaseSqlHelper.ITEM_INTERESTING_FACTS + ", " +
-                DatabaseSqlHelper.ITEM_LABEL_HISTORY + ", " +
-                DatabaseSqlHelper.ITEM_GASTRONOMY + ", " +
-                DatabaseSqlHelper.ITEM_VINEYARD + ", " +
-                DatabaseSqlHelper.ITEM_GRAPES_USED + ", " +
-                DatabaseSqlHelper.ITEM_RATING + ", " +
-                DatabaseSqlHelper.ITEM_QUANTITY + ", " +
-                DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT +
-                ") VALUES " +
+        String insertSql = "INSERT OR REPLACE INTO "
+                + DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE
+                + " ("
+                +
+                DatabaseSqlHelper.ITEM_ID
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_DRINK_ID
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_NAME
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_LOCALIZED_NAME
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_MANUFACTURER
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_PRICE
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_OLD_PRICE
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_PRICE_MARKUP
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_COUNTRY
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_REGION
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_BARCODE
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_DRINK_CATEGORY
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_PRODUCT_TYPE
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_CLASSIFICATION
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_COLOR
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_STYLE
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_SWEETNESS
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_YEAR
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_VOLUME
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_DRINK_TYPE
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_ALCOHOL
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_STYLE_DESCRIPTION
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_APPELATION
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_SERVING_TEMP_MIN
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_SERVING_TEMP_MAX
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_TASTE_QUALITIES
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_VINTAGE_REPORT
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_AGING_PROCESS
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_PRODUCTION_PROCESS
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_INTERESTING_FACTS
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_LABEL_HISTORY
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_GASTRONOMY
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_VINEYARD
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_GRAPES_USED
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_RATING
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_QUANTITY
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT
+                +
+                ") VALUES "
+                +
                 "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
         insertStatement = bindString(insertStatement, 1, product.getItemID());
@@ -95,8 +180,10 @@ public class ShoppingCartDAO extends BaseDAO {
         insertStatement = bindFloat(insertStatement, 20, product.getVolume());
         insertStatement = bindString(insertStatement, 21, product.getDrinkType());
         insertStatement = bindString(insertStatement, 22, product.getAlcohol());
-        insertStatement = bindString(insertStatement, 23, product.getBottleHiResolutionImageFilename());
-        insertStatement = bindString(insertStatement, 24, product.getBottleLowResolutionImageFilename());
+        insertStatement = bindString(insertStatement, 23,
+                product.getBottleHiResolutionImageFilename());
+        insertStatement = bindString(insertStatement, 24,
+                product.getBottleLowResolutionImageFilename());
         insertStatement = bindString(insertStatement, 25, product.getStyleDescription());
         insertStatement = bindString(insertStatement, 26, product.getAppelation());
         insertStatement = bindString(insertStatement, 27, product.getServingTempMin());
@@ -123,7 +210,8 @@ public class ShoppingCartDAO extends BaseDAO {
         boolean result = false;
         open();
         String formatSelectScript = "SELECT %1$s FROM %2$s WHERE %1$s = '%3$s'";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, itemId);
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID,
+                DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, itemId);
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         if (cursor != null && cursor.moveToFirst()) {
             result = true;
@@ -135,18 +223,24 @@ public class ShoppingCartDAO extends BaseDAO {
     public Cursor getShoppingCartItems() {
         open();
         String formatSelectScript = "SELECT %s as %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s WHERE NOT(item_id IS NULL)";
-        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID, BaseColumns._ID,
-                DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME, DatabaseSqlHelper.ITEM_VOLUME,
-                DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
-                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME, DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
-                DatabaseSqlHelper.ITEM_DRINK_CATEGORY, DatabaseSqlHelper.ITEM_QUANTITY, DatabaseSqlHelper.ITEM_COLOR,
+        String selectSql = String.format(formatSelectScript, DatabaseSqlHelper.ITEM_ID,
+                BaseColumns._ID,
+                DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+                DatabaseSqlHelper.ITEM_VOLUME,
+                DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
+                DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME,
+                DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+                DatabaseSqlHelper.ITEM_DRINK_CATEGORY, DatabaseSqlHelper.ITEM_QUANTITY,
+                DatabaseSqlHelper.ITEM_COLOR,
                 DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public void increaseItemCount(String itemId) {
         String updateQueryFormat = "UPDATE %1$s SET %2$s = %2$s + 1 WHERE %3$s = '%4$s'";
-        String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
+        String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE,
+                DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
         close();
@@ -154,7 +248,8 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public void decreaseItemCount(String itemId) {
         String updateQueryFormat = "UPDATE %1$s SET %2$s = %2$s - 1 WHERE %3$s = '%4$s'";
-        String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
+        String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE,
+                DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
         close();
@@ -162,13 +257,15 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public int getItemCount(String itemId) {
         String formatQuery = "SELECT %s FROM %s WHERE %s = '%s'";
-        String query = String.format(formatQuery, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_ID, itemId);
+        String query = String.format(formatQuery, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
+                DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         Cursor cursor = getDatabase().rawQuery(query, null);
         int count = -1;
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                count = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
+                count = cursor.getInt(cursor
+                        .getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
             }
             cursor.close();
         }
@@ -178,19 +275,20 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public void deleteItem(String itemId) {
         String formatQuery = "DELETE FROM %s WHERE %s = '%s'";
-        String query = String.format(formatQuery, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE, DatabaseSqlHelper.ITEM_ID, itemId);
+        String query = String.format(formatQuery, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE,
+                DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
         close();
     }
 
-    public int getCountOrder(){
+    public int getCountOrder() {
         int result = 0;
         String query = "SELECT COUNT(*) FROM shopping_cart_item";
         open();
         Cursor cursor = getDatabase().rawQuery(query, null);
-        if(cursor != null){
-            if(cursor.moveToFirst()){
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
                 result = cursor.getInt(0);
             }
         }
@@ -208,15 +306,18 @@ public class ShoppingCartDAO extends BaseDAO {
 
     public int getShoppingCartPrice() {
         String formatQuery = "SELECT %s, %s FROM %s";
-        String query = String.format(formatQuery, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
+        String query = String.format(formatQuery, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
+                DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
         open();
         int shoppingCartPrice = 0;
         Cursor cursor = getDatabase().rawQuery(query, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
-                    int count = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
-                    int itemPrice = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE));
+                    int count = cursor.getInt(cursor
+                            .getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
+                    int itemPrice = cursor.getInt(cursor
+                            .getColumnIndex(DatabaseSqlHelper.ITEM_PRICE));
                     shoppingCartPrice += itemPrice * count;
                 } while (cursor.moveToNext());
             }
@@ -226,22 +327,41 @@ public class ShoppingCartDAO extends BaseDAO {
         return shoppingCartPrice;
     }
 
-    public List<Order> getOrders(){
+    public List<Order> getOrders() {
         ArrayList<Order> orders = null;
         String query = "SELECT item_id, item_count, price FROM shopping_cart_item WHERE NOT(item_id IS NULL)";
         open();
         Cursor cursor = getDatabase().rawQuery(query, null);
-        if(cursor != null){
-            if(cursor.moveToFirst()){
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
                 orders = new ArrayList<Order>();
                 Order orderItem;
-                do{
-                  orderItem = new Order(cursor.getString(0), cursor.getInt(1), cursor.getFloat((cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE))));
+                do {
+                    orderItem = new Order(cursor.getString(0), cursor.getInt(1),
+                            cursor.getFloat((cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE))));
                     orders.add(orderItem);
-                } while(cursor.moveToNext());
+                } while (cursor.moveToNext());
             }
         }
         close();
         return orders;
+    }
+
+    public void deleteItems(List<String> ids) {
+        open();
+        SQLiteDatabase db = getDatabase();
+        db.beginTransaction();
+        try {
+            for (String id : ids) {
+                String deleteSql = " DELETE FROM " + DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE
+                        + " WHERE " + DatabaseSqlHelper.ITEM_ID + " = " + id;
+                db.execSQL(deleteSql);
+            }
+        } finally {
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+
+        close();
     }
 }

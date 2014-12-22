@@ -1,50 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
     <RadioGroup
-            android:layout_width="match_parent"
-            android:id="@+id/sort_group"
-            android:visibility="visible"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-        <org.holoeverywhere.widget.RadioButton
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:id="@+id/alphabet_sort"
-                android:checked="true"
-                android:text="@string/sort_label_alphabet"
-                android:gravity="center"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:background="@drawable/tab_indicator_left"
-                android:button="@android:color/transparent"
-                android:paddingRight="1dip"/>
-
+        android:id="@+id/sort_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible" >
 
         <org.holoeverywhere.widget.RadioButton
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:id="@+id/price_sort"
-                android:text="@string/sort_label_price"
-                android:gravity="center"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:background="@drawable/tab_indicator_right"
-                android:checked="false"
-                android:button="@android:color/transparent"
-                android:paddingLeft="1dip"/>
+            android:id="@+id/alphabet_sort"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_height="50dip"
+            android:layout_weight="1"
+            android:background="@drawable/tab_indicator_left"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:gravity="center"
+            android:paddingRight="1dip"
+            android:text="@string/sort_label_alphabet" />
+
+        <org.holoeverywhere.widget.RadioButton
+            android:id="@+id/price_sort"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_height="50dip"
+            android:layout_weight="1"
+            android:background="@drawable/tab_indicator_right"
+            android:button="@android:color/transparent"
+            android:checked="false"
+            android:gravity="center"
+            android:paddingLeft="1dip"
+            android:text="@string/sort_label_price" />
     </RadioGroup>
+
     <org.holoeverywhere.widget.ExpandableListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:groupIndicator="@null"
-            android:id="@android:id/list"
-            android:layout_below="@+id/sort_group"/>
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sort_group"
+        android:groupIndicator="@null" />
+
     <View
-            android:id="@+id/category_dark_view"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:background="@color/category_filter_text"/>
+        android:id="@+id/category_dark_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/category_filter_text" />
+
+    <TextView
+        android:id="@+id/tv_not_found"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/message_not_found"
+        android:visibility="gone" />
+
 </RelativeLayout>

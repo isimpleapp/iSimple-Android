@@ -70,11 +70,6 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 		expandableView.setOnChildClickListener(this);
 		disableOnGroupClick();
 		getSupportLoaderManager().restartLoader(0, null, this);
-		
-		if (SharedPreferencesManager.isFirstTimeNewSync(this)) {
-		    sendBroadcast(new Intent(Constants.INTENT_ACTION_SYNC_TRIGGER));
-		    SharedPreferencesManager.setFirstTimeNewSync(this, false);
-		}
 	}
 
 	@Override

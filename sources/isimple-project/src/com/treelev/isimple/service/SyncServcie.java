@@ -33,6 +33,7 @@ import com.treelev.isimple.parser.CatalogItemParser;
 import com.treelev.isimple.parser.FeaturedItemsParser;
 import com.treelev.isimple.parser.ItemPriceDiscountParser;
 import com.treelev.isimple.parser.ItemPricesParser;
+import com.treelev.isimple.utils.Constants;
 import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
@@ -106,7 +107,6 @@ public class SyncServcie extends Service {
         @Override
         protected Void doInBackground(Void... params) {
 
-            // TODO Clean temp folder
             for (File file : WebServiceManager.getDownloadDirectory().listFiles()) {
                 file.delete();
             }
@@ -400,6 +400,8 @@ public class SyncServcie extends Service {
             } else {
                 SharedPreferencesManager.setPreparationUpdate(ISimpleApp.getInstantce(), false);
             }
+            
+            sendBroadcast(new Intent(Constants.INTENT_ACTION_SYNC_FINISHED));
         }
 
         private File unzipFile(File archive) {

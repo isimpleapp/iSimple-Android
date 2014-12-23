@@ -9,5 +9,6 @@ public class Constants {
     public static final String URL_FEATURED = "http://s1.isimpleapp.ru/xml/ver0/Featured.xmlz   ";
     
     public static final String INTENT_ACTION_SYNC_TRIGGER = "com.treelev.isimple.action.SYNC_DATA";
+    public static final String INTENT_ACTION_SYNC_FINISHED = "com.treelev.isimple.action.SYNC_FINISHED";
 
 }

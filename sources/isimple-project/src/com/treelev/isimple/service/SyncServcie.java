@@ -33,6 +33,7 @@ import com.treelev.isimple.parser.CatalogItemParser;
 import com.treelev.isimple.parser.FeaturedItemsParser;
 import com.treelev.isimple.parser.ItemPriceDiscountParser;
 import com.treelev.isimple.parser.ItemPricesParser;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
 
@@ -43,6 +44,7 @@ public class SyncServcie extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        LogUtils.i("", "Started sync service");
         if (isExternalStorageAvailable()) {
             Context context = getApplication();
             if (!SharedPreferencesManager.isPreparationUpdate(context)) {
@@ -103,10 +105,13 @@ public class SyncServcie extends Service {
 
         @Override
         protected Void doInBackground(Void... params) {
+            
+            // TODO Clean temp folder
 
             ItemDAO itemDAO = new ItemDAO(ISimpleApp.getInstantce());
             ShoppingCartDAO shoppingCartDAO = new ShoppingCartDAO(ISimpleApp.getInstantce());
 
+            LogUtils.i("", "Downloading update urls file");
             Map<String, LoadFileData> loadFileDataList = null;
             try {
                 loadFileDataList = webServiceManager.getLoadFileDataMap(SharedPreferencesManager
@@ -121,51 +126,20 @@ public class SyncServcie extends Service {
                 return null;
             }
 
+            LogUtils.i("", "DONE Downloading update urls file, size = " + loadFileDataList.size()
+                    + " list = " + loadFileDataList);
+
             // 1. Download ITEMS_PRICE
+            LogUtils.i("", "Downloading ITEMS_PRICE file");
             File itemsPriceArchive = webServiceManager.downloadFile(loadFileDataList.get(
                     UpdateFile.ITEM_PRICES.getUpdateFileTag()).getFileUrl());
 
             // 2. Unzip itemsPriceArchive
-            File unzippedItemsPrice = null;
-            if (itemsPriceArchive != null) {
-                try {
-                    ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(
-                            itemsPriceArchive));
-                    ZipEntry zipEntry = zipInputStream.getNextEntry();
-                    byte[] buffer = new byte[4096];
-                    FileOutputStream fileOutputStream = null;
-                    if (zipEntry == null) {
-                        Log.i(getClass().getName(), "File " + itemsPriceArchive.getPath()
-                                + " don't unpack");
-                    }
-                    while (zipEntry != null) {
-                        String fileName = zipEntry.getName();
-                        unzippedItemsPrice = new File(itemsPriceArchive.getParent()
-                                + File.separator + fileName);
-                        fileOutputStream = new FileOutputStream(unzippedItemsPrice);
-                        int len;
-                        while ((len = zipInputStream.read(buffer)) > 0) {
-                            fileOutputStream.write(buffer, 0, len);
-                        }
-                        fileOutputStream.close();
-                        zipEntry = zipInputStream.getNextEntry();
-                    }
-                    zipInputStream.closeEntry();
-                    zipInputStream.close();
-                    if (fileOutputStream != null) {
-                        fileOutputStream.close();
-                        itemsPriceArchive.delete();
-                        error = true;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    error = true;
-                }
-            } else {
-                error = true;
-            }
+            LogUtils.i("", "Unzipping ITEMS_PRICE file");
+            File unzippedItemsPrice = unzipFile(itemsPriceArchive);
 
             // 3. Parse itemsPrice xml. Get items to be updated
+            LogUtils.i("", "Parsing ITEMS_PRICE file");
             ItemPriceWrapper itemPriceWrapper = null;
             ItemPricesParser itemPricesParser = new ItemPricesParser();
             try {
@@ -181,40 +155,59 @@ public class SyncServcie extends Service {
                 e.printStackTrace();
                 error = true;
             }
+            LogUtils.i("", "DONE Parsing ITEMS_PRICE file, ids list size = "
+                    + itemPriceWrapper.getItemsIds().size() + ", items list size = "
+                    + itemPriceWrapper.getItemsPricesList().size());
 
             // 3.1 Get items ids from db
+            LogUtils.i("", "Getting itemsIds from db");
             List<String> itemsIds = itemDAO.getItemsIds();
+            LogUtils.i("", "DONE Getting itemsIds from db, list size = " + itemsIds.size());
 
             // 3.2 Get new items list
+            LogUtils.i("", "Getting new items ids list");
             List<String> newItemsIds = null;
             if (itemPriceWrapper != null && itemPriceWrapper.getItemsIds() != null) {
                 newItemsIds = new ArrayList<String>(itemPriceWrapper.getItemsIds());
                 newItemsIds.removeAll(itemsIds);
             }
+            LogUtils.i("", "DONE Getting new items ids list, size = " + newItemsIds.size());
 
             // 3.3 Delete missing items
+            LogUtils.i("", "Deleting missing items");
             List<String> deletedItemsIds = null;
             if (itemPriceWrapper != null && itemPriceWrapper.getItemsIds() != null) {
                 itemsIds.removeAll(itemPriceWrapper.getItemsIds());
                 deletedItemsIds = new ArrayList<String>(itemsIds);
             }
+            LogUtils.i("", "Missing items list size = " + deletedItemsIds.size());
+            LogUtils.i("", "Deleting missing items from db items table");
             itemDAO.deleteItems(deletedItemsIds);
+            LogUtils.i("", "Deleting missing items from db shopping cart table");
             shoppingCartDAO.deleteItems(deletedItemsIds);
 
             // 4. Delete unzippedItemsPrize file
+            LogUtils.i("", "Deleting missing items file");
             unzippedItemsPrice.delete();
 
             // 5. Download new items
+            LogUtils.i("", "Downloading new items xml files");
             List<File> catalogItemXmlFilesList = new ArrayList<File>();
             if (newItemsIds != null && !newItemsIds.isEmpty()) {
                 for (String itemId : newItemsIds) {
+                    LogUtils.i("", "file url = " + loadFileDataList
+                            .get(UpdateFile.CATALOG_UPDATES.getUpdateFileTag())
+                            .getFileUrl()
+                            .replace(".xmlz", "/")
+                            + itemId.substring(0, 2) + "/"
+                            + itemId + ".xmlz");
                     File catalogItemXml = webServiceManager
                             .downloadFile(loadFileDataList
                                     .get(UpdateFile.CATALOG_UPDATES.getUpdateFileTag())
                                     .getFileUrl()
                                     .replace(".xmlz", "/")
                                     + itemId.substring(0, 2) + "/"
-                                    + itemId);
+                                    + itemId + ".xmlz");
                     if (catalogItemXml != null) {
                         catalogItemXmlFilesList.add(catalogItemXml);
                     } else {
@@ -222,19 +215,28 @@ public class SyncServcie extends Service {
                     }
                 }
             }
+            LogUtils.i("", "DONE Downloading new items xml files, files list size = " + catalogItemXmlFilesList.size());
+            
+            // 5.1 Unzip new items files
 
             // 6. Parse and update/add items
-            for (File itemPriceXmlFile : catalogItemXmlFilesList) {
+            LogUtils.i("", "Parsing new items xml files to dp");
+            for (File itemPriceXmlArchive : catalogItemXmlFilesList) {
+                LogUtils.i("", "Unzipping file " + itemPriceXmlArchive.getName());
+                File uzippedFile = unzipFile(itemPriceXmlArchive);
+                itemPriceXmlArchive.delete();
+                
+                LogUtils.i("", "Parsing file " + itemPriceXmlArchive.getName());
                 CatalogItemParser catalogParser = new CatalogItemParser();
 
                 try {
                     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                     factory.setNamespaceAware(true);
                     XmlPullParser xmlPullParser = factory.newPullParser();
-                    xmlPullParser.setInput(new FileInputStream(itemPriceXmlFile), null);
+                    xmlPullParser.setInput(new FileInputStream(uzippedFile), null);
                     catalogParser.parseXmlToDB(xmlPullParser, itemDAO);
 
-                    itemPriceXmlFile.delete();
+                    itemPriceXmlArchive.delete();
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();
                     error = true;
@@ -243,8 +245,10 @@ public class SyncServcie extends Service {
                     error = true;
                 }
             }
+            LogUtils.i("", "Done new items xml files to dp");
 
             // 7. Update items prices
+            LogUtils.i("", "Updating items prices in dp");
             if (itemPriceWrapper.getItemsPricesList() != null
                     && !itemPriceWrapper.getItemsPricesList().isEmpty()) {
                 itemDAO.updatePriceList(itemPriceWrapper.getItemsPricesList());
@@ -252,51 +256,17 @@ public class SyncServcie extends Service {
 
             // 8. Update discounts
             // 8.1. Download price discounts
+            LogUtils.i("", "Downloading price discounts");
             File priceDiscountsArchive = webServiceManager
                     .downloadFile(loadFileDataList.get(UpdateFile.DISCOUNT.getUpdateFileTag())
                             .getFileUrl());
 
             // 8.2. Unzip itemsPriceArchive
-            File unzippedPriceDiscounts = null;
-            if (priceDiscountsArchive != null) {
-                try {
-                    ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(
-                            priceDiscountsArchive));
-                    ZipEntry zipEntry = zipInputStream.getNextEntry();
-                    byte[] buffer = new byte[4096];
-                    FileOutputStream fileOutputStream = null;
-                    if (zipEntry == null) {
-                        Log.i(getClass().getName(), "File " + priceDiscountsArchive.getPath()
-                                + " don't unpack");
-                    }
-                    while (zipEntry != null) {
-                        String fileName = zipEntry.getName();
-                        unzippedPriceDiscounts = new File(priceDiscountsArchive.getParent()
-                                + File.separator + fileName);
-                        fileOutputStream = new FileOutputStream(unzippedPriceDiscounts);
-                        int len;
-                        while ((len = zipInputStream.read(buffer)) > 0) {
-                            fileOutputStream.write(buffer, 0, len);
-                        }
-                        fileOutputStream.close();
-                        zipEntry = zipInputStream.getNextEntry();
-                    }
-                    zipInputStream.closeEntry();
-                    zipInputStream.close();
-                    if (fileOutputStream != null) {
-                        fileOutputStream.close();
-                        priceDiscountsArchive.delete();
-                        error = true;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    error = true;
-                }
-            } else {
-                error = true;
-            }
+            LogUtils.i("", "Unzipping price discounts");
+            File unzippedPriceDiscounts = unzipFile(priceDiscountsArchive);
 
             // 8.3 Parse and save price discounts to DB
+            LogUtils.i("", "Parsing price discounts to db");
             ItemPriceDiscountParser discountParser = new ItemPriceDiscountParser();
 
             try {
@@ -380,48 +350,16 @@ public class SyncServcie extends Service {
 
             // 10. Update featured
             // 10.1. Download featured
+            LogUtils.i("", "Downloading featured");
             File featuredArchive = webServiceManager.downloadFile(loadFileDataList.get(
                     UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl());
 
             // 10.2. Unzip featured list
-            File unzippedFeatured = null;
-            if (featuredArchive != null) {
-                try {
-                    ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(
-                            featuredArchive));
-                    ZipEntry zipEntry = zipInputStream.getNextEntry();
-                    byte[] buffer = new byte[4096];
-                    FileOutputStream fileOutputStream = null;
-                    if (zipEntry == null) {
-                        Log.i(getClass().getName(), "File " + featuredArchive.getPath()
-                                + " don't unpack");
-                    }
-                    while (zipEntry != null) {
-                        String fileName = zipEntry.getName();
-                        unzippedFeatured = new File(featuredArchive.getParent()
-                                + File.separator + fileName);
-                        fileOutputStream = new FileOutputStream(unzippedFeatured);
-                        int len;
-                        while ((len = zipInputStream.read(buffer)) > 0) {
-                            fileOutputStream.write(buffer, 0, len);
-                        }
-                        fileOutputStream.close();
-                        zipEntry = zipInputStream.getNextEntry();
-                    }
-                    zipInputStream.closeEntry();
-                    zipInputStream.close();
-                    if (fileOutputStream != null) {
-                        fileOutputStream.close();
-                        featuredArchive.delete();
-                        error = true;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    error = true;
-                }
-            }
+            LogUtils.i("", "Unzipping featured");
+            File unzippedFeatured = unzipFile(featuredArchive);
 
             // 10.3 Parse and save featured list to DB
+            LogUtils.i("", "Parsing featured to db");
             FeaturedItemsParser featuredParser = new FeaturedItemsParser();
 
             try {
@@ -453,6 +391,47 @@ public class SyncServcie extends Service {
             } else {
                 SharedPreferencesManager.setPreparationUpdate(ISimpleApp.getInstantce(), false);
             }
+        }
+        
+        private File unzipFile(File archive) {
+            File unzipped = null;
+            if (archive != null) {
+                try {
+                    ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(
+                            archive));
+                    ZipEntry zipEntry = zipInputStream.getNextEntry();
+                    byte[] buffer = new byte[4096];
+                    FileOutputStream fileOutputStream = null;
+                    if (zipEntry == null) {
+                        Log.i(getClass().getName(), "File " + archive.getPath()
+                                + " don't unpack");
+                    }
+                    while (zipEntry != null) {
+                        String fileName = zipEntry.getName();
+                        unzipped = new File(archive.getParent()
+                                + File.separator + fileName);
+                        fileOutputStream = new FileOutputStream(unzipped);
+                        int len;
+                        while ((len = zipInputStream.read(buffer)) > 0) {
+                            fileOutputStream.write(buffer, 0, len);
+                        }
+                        fileOutputStream.close();
+                        zipEntry = zipInputStream.getNextEntry();
+                    }
+                    zipInputStream.closeEntry();
+                    zipInputStream.close();
+                    if (fileOutputStream != null) {
+                        fileOutputStream.close();
+                        archive.delete();
+                        error = true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    error = true;
+                }
+            }
+            
+            return unzipped;
         }
 
     }

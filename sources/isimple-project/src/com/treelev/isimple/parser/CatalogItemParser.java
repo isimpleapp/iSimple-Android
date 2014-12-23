@@ -9,6 +9,7 @@ import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 
@@ -74,8 +75,13 @@ public class CatalogItemParser implements Parser {
                 if (xmlPullParser.getEventType() == XmlPullParser.START_TAG && xmlPullParser.getName().equals(CATALOG_OBJECT_TAG)) {
                     item = new Item();
                     xmlPullParser.next();
+                    while (xmlPullParser.getEventType() == XmlPullParser.TEXT) {
+                        // Looks like we have new lines in the xml
+                        xmlPullParser.next();
+                    }
                     while (xmlPullParser.getEventType() != XmlPullParser.END_TAG && !xmlPullParser.getName().equals(CATALOG_OBJECT_TAG)) {
                         if (xmlPullParser.getEventType() == XmlPullParser.START_TAG) {
+                            LogUtils.i("", "Parsing tag " + xmlPullParser.getName());
                             if (xmlPullParser.getName().equals(CATALOG_ITEM_ID_VALUE_TAG)) {
                                 item.setItemID(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_DRINK_ID_VALUE_TAG)) {
@@ -167,6 +173,10 @@ public class CatalogItemParser implements Parser {
                             }
                         }
                         xmlPullParser.next();
+                        while (xmlPullParser.getEventType() == XmlPullParser.TEXT) {
+                            // Looks like we have new lines in the xml
+                            xmlPullParser.next();
+                        }
                     }
                     itemList.add(item);
                     if (itemList.size() == MAX_SIZE_DATA_TO_ITEM_LIST) {
@@ -175,6 +185,10 @@ public class CatalogItemParser implements Parser {
                     }
                 }
                 xmlPullParser.next();
+                while (xmlPullParser.getEventType() == XmlPullParser.TEXT) {
+                    // Looks like we have new lines in the xml
+                    xmlPullParser.next();
+                }
             }
             itemDAO.insertListData(itemList);
             itemList.clear();

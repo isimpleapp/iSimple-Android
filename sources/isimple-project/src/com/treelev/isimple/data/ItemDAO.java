@@ -1480,6 +1480,7 @@ public class ItemDAO extends BaseDAO {
         List<String> ids = new ArrayList<String>();
 
         String selectSql = "SELECT " + DatabaseSqlHelper.ITEM_ID + " FROM item";
+        open();
         Cursor c = getDatabase().rawQuery(selectSql, null);
 
         while (c.moveToNext()) {
@@ -1487,6 +1488,7 @@ public class ItemDAO extends BaseDAO {
         }
 
         c.close();
+        close();
         return ids;
     }
 
@@ -1697,7 +1699,7 @@ public class ItemDAO extends BaseDAO {
         try {
             for (String id : ids) {
                 String deleteSql = " DELETE FROM " + DatabaseSqlHelper.ITEM_TABLE + " WHERE "
-                        + DatabaseSqlHelper.ITEM_ID + " = " + id;
+                        + DatabaseSqlHelper.ITEM_ID + " = '" + id + "'";
                 db.execSQL(deleteSql);
             }
         } finally {

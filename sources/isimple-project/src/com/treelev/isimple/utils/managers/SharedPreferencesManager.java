@@ -16,6 +16,7 @@ public class SharedPreferencesManager {
     private final static String PREFS = "iSimple_prefs";
     private final static String READY_UPDATE = "ready_update";
     private final static String FIRST_START = "first_start";
+    private final static String FIRST_TIME_NEW_SYNC = "first_time_new_sync";
 
     private static final String DATE_UPDATE = "date_update";
     private static final String DATE_PRICE_UPDATE = "date_price_update";
@@ -48,6 +49,16 @@ public class SharedPreferencesManager {
     public static void setFirstStart(Context context, boolean state){
         Editor editor = getEditor();
         editor.putBoolean(FIRST_START, state);
+        editor.commit();
+    }
+    
+    public static boolean isFirstTimeNewSync(Context context){
+        return getSharedPreferences(context).getBoolean(FIRST_TIME_NEW_SYNC, true);
+    }
+
+    public static void setFirstTimeNewSync(Context context, boolean state){
+        Editor editor = getEditor();
+        editor.putBoolean(FIRST_TIME_NEW_SYNC, state);
         editor.commit();
     }
 

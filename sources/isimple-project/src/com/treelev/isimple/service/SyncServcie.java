@@ -105,8 +105,11 @@ public class SyncServcie extends Service {
 
         @Override
         protected Void doInBackground(Void... params) {
-            
+
             // TODO Clean temp folder
+            for (File file : WebServiceManager.getDownloadDirectory().listFiles()) {
+                file.delete();
+            }
 
             ItemDAO itemDAO = new ItemDAO(ISimpleApp.getInstantce());
             ShoppingCartDAO shoppingCartDAO = new ShoppingCartDAO(ISimpleApp.getInstantce());
@@ -137,7 +140,7 @@ public class SyncServcie extends Service {
             // 2. Unzip itemsPriceArchive
             LogUtils.i("", "Unzipping ITEMS_PRICE file");
             File unzippedItemsPrice = unzipFile(itemsPriceArchive);
-
+            
             // 3. Parse itemsPrice xml. Get items to be updated
             LogUtils.i("", "Parsing ITEMS_PRICE file");
             ItemPriceWrapper itemPriceWrapper = null;
@@ -215,8 +218,9 @@ public class SyncServcie extends Service {
                     }
                 }
             }
-            LogUtils.i("", "DONE Downloading new items xml files, files list size = " + catalogItemXmlFilesList.size());
-            
+            LogUtils.i("", "DONE Downloading new items xml files, files list size = "
+                    + catalogItemXmlFilesList.size());
+
             // 5.1 Unzip new items files
 
             // 6. Parse and update/add items
@@ -225,7 +229,7 @@ public class SyncServcie extends Service {
                 LogUtils.i("", "Unzipping file " + itemPriceXmlArchive.getName());
                 File uzippedFile = unzipFile(itemPriceXmlArchive);
                 itemPriceXmlArchive.delete();
-                
+
                 LogUtils.i("", "Parsing file " + itemPriceXmlArchive.getName());
                 CatalogItemParser catalogParser = new CatalogItemParser();
 
@@ -244,6 +248,8 @@ public class SyncServcie extends Service {
                     e.printStackTrace();
                     error = true;
                 }
+                
+                uzippedFile.delete();
             }
             LogUtils.i("", "Done new items xml files to dp");
 
@@ -284,6 +290,7 @@ public class SyncServcie extends Service {
                 e.printStackTrace();
                 error = true;
             }
+            unzippedPriceDiscounts.delete();
 
             // // 9. Update offers list
             // // 9.1. Download offers list
@@ -377,6 +384,7 @@ public class SyncServcie extends Service {
                 e.printStackTrace();
                 error = true;
             }
+            unzippedFeatured.delete();
 
             return null;
 
@@ -386,13 +394,14 @@ public class SyncServcie extends Service {
         protected void onPostExecute(Void result) {
             syncDataTask = null;
 
+            LogUtils.i("", "Finished sync, error = " + error);
             if (!error) {
 
             } else {
                 SharedPreferencesManager.setPreparationUpdate(ISimpleApp.getInstantce(), false);
             }
         }
-        
+
         private File unzipFile(File archive) {
             File unzipped = null;
             if (archive != null) {
@@ -430,7 +439,7 @@ public class SyncServcie extends Service {
                     error = true;
                 }
             }
-            
+
             return unzipped;
         }
 

@@ -24,7 +24,7 @@ public class SyncTriggerReceiver extends BroadcastReceiver {
         if (!downloadDataTaskRunning
                 && SharedPreferencesManager.isPreparationUpdate(context)) {
             // This means app crashed, was killed or updated when update was in
-            // progress. Thus we should clear all download flags.
+            // progress, or last sync failed. Thus we should clear all download flags.
             Log.v("Test log", "CatalogListActivity clear download update flags");
             SharedPreferencesManager.setPreparationUpdate(context, false);
         }

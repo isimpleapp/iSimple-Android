@@ -39,7 +39,7 @@ public class SelectBySearch extends BaseCursorLoader {
     @Override
     public void deliverResult(Cursor cursor) {
     	try {
-    		((SearchResultActivity) mContext).showNotFoundView(cursor);
+    		((SearchResultActivity) mContext).showNotFoundView(cursor, 1);
     	} catch (ClassCastException e){
     	}
     	super.deliverResult(cursor);

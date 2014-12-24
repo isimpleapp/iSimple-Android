@@ -40,7 +40,7 @@ public class SelectBySearchPreOrder extends BaseCursorLoader {
     @Override
     public void deliverResult(Cursor cursor) {
     	try {
-    		((SearchResultActivity) mContext).showNotFoundView(cursor);
+    		((SearchResultActivity) mContext).showNotFoundView(cursor, 2);
     	} catch (ClassCastException e){
     	}
     	super.deliverResult(cursor);

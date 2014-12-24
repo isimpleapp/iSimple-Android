@@ -107,8 +107,10 @@ public class SyncServcie extends Service {
         @Override
         protected Void doInBackground(Void... params) {
 
-            for (File file : WebServiceManager.getDownloadDirectory().listFiles()) {
-                file.delete();
+            if (WebServiceManager.getDownloadDirectory() != null) {
+                for (File file : WebServiceManager.getDownloadDirectory().listFiles()) {
+                    file.delete();
+                }
             }
 
             ItemDAO itemDAO = new ItemDAO(ISimpleApp.getInstantce());
@@ -140,7 +142,7 @@ public class SyncServcie extends Service {
             // 2. Unzip itemsPriceArchive
             LogUtils.i("", "Unzipping ITEMS_PRICE file");
             File unzippedItemsPrice = unzipFile(itemsPriceArchive);
-            
+
             // 3. Parse itemsPrice xml. Get items to be updated
             LogUtils.i("", "Parsing ITEMS_PRICE file");
             ItemPriceWrapper itemPriceWrapper = null;
@@ -249,7 +251,7 @@ public class SyncServcie extends Service {
                     LogUtils.i("", "Failed to parse file " + uzippedFile.getName() + e);
                     error = true;
                 }
-                
+
                 uzippedFile.delete();
             }
             LogUtils.i("", "Done new items xml files to dp");
@@ -399,9 +401,9 @@ public class SyncServcie extends Service {
             if (!error) {
                 SharedPreferencesManager.setPreparationUpdate(ISimpleApp.getInstantce(), false);
             } else {
-                
+
             }
-            
+
             sendBroadcast(new Intent(Constants.INTENT_ACTION_SYNC_FINISHED));
         }
 

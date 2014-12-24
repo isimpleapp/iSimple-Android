@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:versionName="2.4"
-        android:versionCode="6"
+        android:versionName="2.5"
+        android:versionCode="7"
         package="com.treelev.isimple"
         android:installLocation="internalOnly">
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="16"/>
@@ -82,8 +82,7 @@
         <!--</activity>-->
         <uses-library android:name="com.google.android.maps"/>
         <service android:name=".service.SyncServcie" android:process=":isimple_update_service" />
-        <service android:name=".service.UpdateDataService" android:process=":isimple_update_service" />
-        <service android:name=".service.UpdateDataService" android:process=":isimple_update_service" />
+<!--         <service android:name=".service.UpdateDataService" android:process=":isimple_update_service" /> -->
         <receiver android:name=".receiver.SyncTriggerReceiver">
             <intent-filter>
                 <action android:name="com.treelev.isimple.action.SYNC_DATA" />

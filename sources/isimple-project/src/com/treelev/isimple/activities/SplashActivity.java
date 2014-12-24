@@ -71,6 +71,8 @@ public class SplashActivity extends Activity {
         } else if (SharedPreferencesManager.isFirstTimeNewSync(ISimpleApp.getInstantce())) {
             LogUtils.i("Test log", "SplashActivity NOT firstStart, but first new sync");
             showDialog();
+            SplashActivity.this.registerReceiver(new SyncFinishedReceiver(), new IntentFilter(
+                    Constants.INTENT_ACTION_SYNC_FINISHED));
             sendBroadcast(new Intent(Constants.INTENT_ACTION_SYNC_TRIGGER));
             SharedPreferencesManager.setFirstTimeNewSync(ISimpleApp.getInstantce(), false);
         } else {

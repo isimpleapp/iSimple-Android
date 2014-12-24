@@ -152,10 +152,10 @@ public class SyncServcie extends Service {
                 xmlPullParser.setInput(new FileInputStream(unzippedItemsPrice), null);
                 itemPriceWrapper = itemPricesParser.parseListItems(xmlPullParser);
             } catch (XmlPullParserException e) {
-                e.printStackTrace();
+                LogUtils.i("", "Failed to parse ITEMS_PRICE file " + e);
                 error = true;
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                LogUtils.i("", "Failed to parse ITEMS_PRICE file " + e);
                 error = true;
             }
             LogUtils.i("", "DONE Parsing ITEMS_PRICE file, ids list size = "
@@ -198,7 +198,7 @@ public class SyncServcie extends Service {
             List<File> catalogItemXmlFilesList = new ArrayList<File>();
             if (newItemsIds != null && !newItemsIds.isEmpty()) {
                 for (String itemId : newItemsIds) {
-                    LogUtils.i("", "file url = " + loadFileDataList
+                    LogUtils.i("", loadFileDataList
                             .get(UpdateFile.CATALOG_UPDATES.getUpdateFileTag())
                             .getFileUrl()
                             .replace(".xmlz", "/")
@@ -214,6 +214,7 @@ public class SyncServcie extends Service {
                     if (catalogItemXml != null) {
                         catalogItemXmlFilesList.add(catalogItemXml);
                     } else {
+                        LogUtils.i("", "Failed to download file ");
                         error = true;
                     }
                 }
@@ -242,10 +243,10 @@ public class SyncServcie extends Service {
 
                     itemPriceXmlArchive.delete();
                 } catch (XmlPullParserException e) {
-                    e.printStackTrace();
+                    LogUtils.i("", "Failed to parse file " + uzippedFile.getName() + e);
                     error = true;
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    LogUtils.i("", "Failed to parse file " + uzippedFile.getName() + e);
                     error = true;
                 }
                 
@@ -284,10 +285,10 @@ public class SyncServcie extends Service {
 
                 unzippedPriceDiscounts.delete();
             } catch (XmlPullParserException e) {
-                e.printStackTrace();
+                LogUtils.i("", "Failed to parse file " + unzippedPriceDiscounts.getName() + e);
                 error = true;
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                LogUtils.i("", "Failed to parse file " + unzippedPriceDiscounts.getName() + e);
                 error = true;
             }
             unzippedPriceDiscounts.delete();
@@ -378,10 +379,10 @@ public class SyncServcie extends Service {
 
                 unzippedFeatured.delete();
             } catch (XmlPullParserException e) {
-                e.printStackTrace();
+                LogUtils.i("", "Failed to parse file " + unzippedFeatured.getName() + e);
                 error = true;
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                LogUtils.i("", "Failed to parse file " + unzippedFeatured.getName() + e);
                 error = true;
             }
             unzippedFeatured.delete();
@@ -396,9 +397,9 @@ public class SyncServcie extends Service {
 
             LogUtils.i("", "Finished sync, error = " + error);
             if (!error) {
-
-            } else {
                 SharedPreferencesManager.setPreparationUpdate(ISimpleApp.getInstantce(), false);
+            } else {
+                
             }
             
             sendBroadcast(new Intent(Constants.INTENT_ACTION_SYNC_FINISHED));
@@ -433,9 +434,8 @@ public class SyncServcie extends Service {
                     zipInputStream.close();
                     if (fileOutputStream != null) {
                         fileOutputStream.close();
-                        archive.delete();
-                        error = true;
                     }
+                    archive.delete();
                 } catch (Exception e) {
                     e.printStackTrace();
                     error = true;

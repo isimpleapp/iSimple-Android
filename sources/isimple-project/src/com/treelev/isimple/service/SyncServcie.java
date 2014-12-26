@@ -208,9 +208,10 @@ public class SyncServcie extends Service {
             LogUtils.i("", "Deleting missing items file");
             unzippedItemsPrice.delete();
 
-            // 5. Download new items
+            // 5. Download, parse and update in db new items
             LogUtils.i("", "Downloading new items xml files");
-            List<File> catalogItemXmlFilesList = new ArrayList<File>();
+            int downloadedFilesCount = 0;
+            File itemArchive = null;
             if (newItemsIds != null && !newItemsIds.isEmpty()) {
                 for (String itemId : newItemsIds) {
                     LogUtils.i("", loadFileDataList
@@ -219,53 +220,108 @@ public class SyncServcie extends Service {
                             .replace(".xmlz", "/")
                             + itemId.substring(0, 2) + "/"
                             + itemId + ".xmlz");
-                    File catalogItemXml = webServiceManager
-                            .downloadFile(loadFileDataList
+                    itemArchive = webServiceManager
+                            .downloadNewCatalogItemFile(loadFileDataList
                                     .get(UpdateFile.CATALOG_UPDATES.getUpdateFileTag())
                                     .getFileUrl()
                                     .replace(".xmlz", "/")
                                     + itemId.substring(0, 2) + "/"
                                     + itemId + ".xmlz");
-                    if (catalogItemXml != null) {
-                        catalogItemXmlFilesList.add(catalogItemXml);
-                    } else {
-                        LogUtils.i("", "Failed to download file ");
+                    if (itemArchive != null) {
+                        downloadedFilesCount++;
+                    }
+                    
+                    LogUtils.i("", "Unzipping file " + itemArchive.getName());
+                    File uzippedFile = unzipFile(itemArchive);
+                    itemArchive.delete();
+
+                    LogUtils.i("", "Parsing file " + itemArchive.getName());
+                    CatalogItemParser catalogParser = new CatalogItemParser();
+
+                    try {
+                        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                        factory.setNamespaceAware(true);
+                        XmlPullParser xmlPullParser = factory.newPullParser();
+                        xmlPullParser.setInput(new FileInputStream(uzippedFile), null);
+                        catalogParser.parseXmlToDB(xmlPullParser, itemDAO);
+
+                        itemArchive.delete();
+                    } catch (XmlPullParserException e) {
+                        LogUtils.i("", "Failed to parse file " + uzippedFile.getName() + e);
+                        error = true;
+                    } catch (FileNotFoundException e) {
+                        LogUtils.i("", "Failed to parse file " + uzippedFile.getName() + e);
                         error = true;
                     }
+
+                    uzippedFile.delete();
                 }
             }
-            LogUtils.i("", "DONE Downloading new items xml files, files list size = "
-                    + catalogItemXmlFilesList.size());
+            LogUtils.i("", "DONE Download, parse and update new items xml files, files list size = "
+                    + downloadedFilesCount);
+            
+            // 12. Update LocationsAndChainsUpdates
+            // 12.1. Download LocationsAndChainsUpdates
+            LogUtils.i("", "Downloading LocationsAndChainsUpdates");
+            File locationsAndChainsUpdatesArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                    UpdateFile.LOCATIONS_AND_CHAINS_UPDATES.getUpdateFileTag()).getFileUrl());
 
-            // 6. Parse and update/add items
-            LogUtils.i("", "Parsing new items xml files to dp");
-            for (File itemPriceXmlArchive : catalogItemXmlFilesList) {
-                LogUtils.i("", "Unzipping file " + itemPriceXmlArchive.getName());
-                File uzippedFile = unzipFile(itemPriceXmlArchive);
-                itemPriceXmlArchive.delete();
+            // 12.2. Unzip LocationsAndChainsUpdates list
+            LogUtils.i("", "Unzipping LocationsAndChainsUpdates");
+            File unzippedLocationsAndChainsUpdates = unzipFile(locationsAndChainsUpdatesArchive);
 
-                LogUtils.i("", "Parsing file " + itemPriceXmlArchive.getName());
-                CatalogItemParser catalogParser = new CatalogItemParser();
+            // 12.3 Parse and save featured list to DB
+            LogUtils.i("", "Parsing LocationsAndChainsUpdates to db");
+            ShopAndChainsParser locationsAndChainsUpdatesParser = new ShopAndChainsParser();
 
-                try {
-                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                    factory.setNamespaceAware(true);
-                    XmlPullParser xmlPullParser = factory.newPullParser();
-                    xmlPullParser.setInput(new FileInputStream(uzippedFile), null);
-                    catalogParser.parseXmlToDB(xmlPullParser, itemDAO);
+            try {
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                XmlPullParser xmlPullParser = factory.newPullParser();
+                xmlPullParser.setInput(new FileInputStream(unzippedLocationsAndChainsUpdates), null);
+                locationsAndChainsUpdatesParser.parseXmlToDB(xmlPullParser, chainDAO, shopDAO);
 
-                    itemPriceXmlArchive.delete();
-                } catch (XmlPullParserException e) {
-                    LogUtils.i("", "Failed to parse file " + uzippedFile.getName() + e);
-                    error = true;
-                } catch (FileNotFoundException e) {
-                    LogUtils.i("", "Failed to parse file " + uzippedFile.getName() + e);
-                    error = true;
-                }
-
-                uzippedFile.delete();
+                unzippedLocationsAndChainsUpdates.delete();
+            } catch (XmlPullParserException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName() + e);
+                error = true;
+            } catch (FileNotFoundException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName() + e);
+                error = true;
             }
-            LogUtils.i("", "Done new items xml files to dp");
+            unzippedLocationsAndChainsUpdates.delete();
+            
+            // 11. Update ItemAvailability
+            // 11.1. Download ItemAvailability
+            LogUtils.i("", "Downloading ItemAvailability");
+            File itemAvailabilityArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                    UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag()).getFileUrl());
+
+            // 11.2. Unzip ItemAvailability list
+            LogUtils.i("", "Unzipping ItemAvailability");
+            File unzippedItemAvailability = unzipFile(itemAvailabilityArchive);
+
+            // 11.3 Parse and save ItemAvailability list to DB
+            LogUtils.i("", "Parsing ItemAvailability to db");
+            ItemAvailabilityParser itemAvailabilityParser = new ItemAvailabilityParser();
+
+            try {
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                XmlPullParser xmlPullParser = factory.newPullParser();
+                xmlPullParser.setInput(new FileInputStream(unzippedItemAvailability), null);
+                itemAvailabilityParser.parseXmlToDB(xmlPullParser, itemAvailabilityDAO);
+
+                unzippedItemAvailability.delete();
+            } catch (XmlPullParserException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
+                error = true;
+            } catch (FileNotFoundException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
+                error = true;
+            }
+            unzippedItemAvailability.delete();
+            
 
             // 7. Update items prices
             LogUtils.i("", "Updating items prices in dp");
@@ -373,7 +429,7 @@ public class SyncServcie extends Service {
             // 10.1. Download featured
             LogUtils.i("", "Downloading featured");
             File featuredArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                    UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl());
+                    UpdateFile.FEATURED.getUpdateFileTag()).getFileUrl());
 
             // 10.2. Unzip featured list
             LogUtils.i("", "Unzipping featured");
@@ -400,79 +456,17 @@ public class SyncServcie extends Service {
             }
             unzippedFeatured.delete();
 
-            // 11. Update ItemAvailability
-            // 11.1. Download ItemAvailability
-            LogUtils.i("", "Downloading ItemAvailability");
-            File itemAvailabilityArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                    UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag()).getFileUrl());
-
-            // 11.2. Unzip ItemAvailability list
-            LogUtils.i("", "Unzipping ItemAvailability");
-            File unzippedItemAvailability = unzipFile(itemAvailabilityArchive);
-
-            // 11.3 Parse and save ItemAvailability list to DB
-            LogUtils.i("", "Parsing ItemAvailability to db");
-            ItemAvailabilityParser itemAvailabilityParser = new ItemAvailabilityParser();
-
-            try {
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(true);
-                XmlPullParser xmlPullParser = factory.newPullParser();
-                xmlPullParser.setInput(new FileInputStream(unzippedItemAvailability), null);
-                itemAvailabilityParser.parseXmlToDB(xmlPullParser, itemAvailabilityDAO);
-
-                unzippedItemAvailability.delete();
-            } catch (XmlPullParserException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
-                error = true;
-            } catch (FileNotFoundException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
-                error = true;
-            }
-            unzippedItemAvailability.delete();
-
-            // 12. Update LocationsAndChainsUpdates
-            // 12.1. Download LocationsAndChainsUpdates
-            LogUtils.i("", "Downloading LocationsAndChainsUpdates");
-            File locationsAndChainsUpdatesArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                    UpdateFile.LOCATIONS_AND_CHAINS_UPDATES.getUpdateFileTag()).getFileUrl());
-
-            // 12.2. Unzip LocationsAndChainsUpdates list
-            LogUtils.i("", "Unzipping LocationsAndChainsUpdates");
-            File unzippedLocationsAndChainsUpdates = unzipFile(locationsAndChainsUpdatesArchive);
-
-            // 12.3 Parse and save featured list to DB
-            LogUtils.i("", "Parsing LocationsAndChainsUpdates to db");
-            ShopAndChainsParser locationsAndChainsUpdatesParser = new ShopAndChainsParser();
-
-            try {
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(true);
-                XmlPullParser xmlPullParser = factory.newPullParser();
-                xmlPullParser.setInput(new FileInputStream(unzippedLocationsAndChainsUpdates), null);
-                locationsAndChainsUpdatesParser.parseXmlToDB(xmlPullParser, chainDAO, shopDAO);
-
-                unzippedLocationsAndChainsUpdates.delete();
-            } catch (XmlPullParserException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName() + e);
-                error = true;
-            } catch (FileNotFoundException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName() + e);
-                error = true;
-            }
-            unzippedLocationsAndChainsUpdates.delete();
-            
             // 13. Update Delivery
             // 13.1. Download Delivery
             LogUtils.i("", "Downloading Delivery");
             File deliveryArchive = webServiceManager.downloadFile(loadFileDataList.get(
                     UpdateFile.DELIVERY.getUpdateFileTag()).getFileUrl());
 
-            // 13.2. Unzip featured list
+            // 13.2. Unzip Delivery list
             LogUtils.i("", "Unzipping Delivery");
             File unzippedDelivery = unzipFile(deliveryArchive);
 
-            // 13.3 Parse and save featured list to DB
+            // 13.3 Parse and save Delivery list to DB
             LogUtils.i("", "Parsing Delivery to db");
             DeliveryZoneParser deliveryParser = new DeliveryZoneParser();
 

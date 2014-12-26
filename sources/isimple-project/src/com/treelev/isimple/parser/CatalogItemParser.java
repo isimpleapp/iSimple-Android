@@ -81,7 +81,6 @@ public class CatalogItemParser implements Parser {
                     }
                     while (xmlPullParser.getEventType() != XmlPullParser.END_TAG && !xmlPullParser.getName().equals(CATALOG_OBJECT_TAG)) {
                         if (xmlPullParser.getEventType() == XmlPullParser.START_TAG) {
-                            LogUtils.i("", "Parsing tag " + xmlPullParser.getName());
                             if (xmlPullParser.getName().equals(CATALOG_ITEM_ID_VALUE_TAG)) {
                                 item.setItemID(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_DRINK_ID_VALUE_TAG)) {

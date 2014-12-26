@@ -1,3 +1,4 @@
+
 package com.treelev.isimple.utils.managers;
 
 import android.os.Environment;
@@ -30,73 +31,66 @@ import java.util.regex.Pattern;
 
 public class WebServiceManager {
 
-	public final static String FILE_URL_FORMAT = "%s/Simple";
-	private final static String REG_FILENAME_FORMAT = ".+/(.+.xmlz)";
-	private final static String DEFAULT_FILENAME = "isimple_data.xmlz";
+    public final static String FILE_URL_FORMAT = "%s/Simple";
+    public final static String NEW_CATALOG_ITEM_FILE_URL_FORMAT = "%s/Simple/new";
+    private final static String REG_FILENAME_FORMAT = ".+/(.+.xmlz)";
+    private final static String DEFAULT_FILENAME = "isimple_data.xmlz";
 
-	public File downloadFile(String fileUrl) {
-		File downloadingFile = null;
-		try {
-			URL downloadUrl = new URL(fileUrl);
-			URLConnection urlConnection = downloadUrl.openConnection();
-			urlConnection.connect();
-			int fileLength = urlConnection.getContentLength();
-			InputStream input = new BufferedInputStream(downloadUrl.openStream());
-			File directory = new File(String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
-			directory.mkdir();
-			downloadingFile = new File(directory.getPath() + File.separator + getFileName(fileUrl));
-			OutputStream output = new FileOutputStream(downloadingFile);
-			byte data[] = new byte[1024];
-			long total = 0;
-			int count;
-			while ((count = input.read(data)) != -1) {
-				total += count;
-				output.write(data, 0, count);
-			}
-			output.close();
-			input.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return downloadingFile;
-	}
+    public File downloadFile(String fileUrl) {
+        return downloadFile(fileUrl,
+                String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
+    }
 
-	public static void deleteDownloadDirectory() {
-		File directory = getDownloadDirectory();
-		if (directory.exists()) {
-			boolean flag = directory.delete();
-			Log.v("Test log delete directory", String.valueOf(flag));
-		}
-	}
+    public File downloadNewCatalogItemFile(String fileUrl) {
+        return downloadFile(
+                fileUrl,
+                String.format(NEW_CATALOG_ITEM_FILE_URL_FORMAT,
+                        Environment.getExternalStorageDirectory()));
+    }
 
-	public static File getDownloadDirectory() {
-		Log.v("Test log getDownloadDirectory",
-				String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
-		return new File(String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
-	}
+    private File downloadFile(String fileUrl, String path) {
+        File downloadingFile = null;
+        try {
+            URL downloadUrl = new URL(fileUrl);
+            URLConnection urlConnection = downloadUrl.openConnection();
+            urlConnection.connect();
+            int fileLength = urlConnection.getContentLength();
+            InputStream input = new BufferedInputStream(downloadUrl.openStream());
+            File directory = new File(path);
+            directory.mkdir();
+            downloadingFile = new File(directory.getPath() + File.separator + getFileName(fileUrl));
+            OutputStream output = new FileOutputStream(downloadingFile);
+            byte data[] = new byte[1024];
+            long total = 0;
+            int count;
+            while ((count = input.read(data)) != -1) {
+                total += count;
+                output.write(data, 0, count);
+            }
+            output.close();
+            input.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return downloadingFile;
+    }
 
-	public List<LoadFileData> getLoadFileData(String requestString) throws Exception {
-		List<LoadFileData> loadFileDataList = new ArrayList<LoadFileData>();
+    public static void deleteDownloadDirectory() {
+        File directory = getDownloadDirectory();
+        if (directory.exists()) {
+            boolean flag = directory.delete();
+            Log.v("Test log delete directory", String.valueOf(flag));
+        }
+    }
 
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(requestString);
-		HttpResponse httpResponse = httpClient.execute(httpGet);
-		Document document = new SAXBuilder().build(httpResponse.getEntity().getContent());
-		List<Element> contentList = document.getRootElement().getChildren();
-		for (Element element : contentList) {
-			Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);
-			Element dateElement = element.getChild(LoadFileData.FILE_DATE_TAG_NAME);
-			String url = urlElement.getValue();
-			String zipfileName = url.substring( url.lastIndexOf('/') + 1, url.length());
-			loadFileDataList.add(new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement.getValue()),
-					urlElement.getValue()));
-			SharedPreferencesManager.putUpdateFileName(zipfileName, element.getName());
-		}
-		return loadFileDataList;
-	}
-	
-	public Map<String, LoadFileData> getLoadFileDataMap(String requestString) throws Exception {
-	    Map<String, LoadFileData> loadFileDataList = new HashMap<String, LoadFileData>();
+    public static File getDownloadDirectory() {
+        Log.v("Test log getDownloadDirectory",
+                String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
+        return new File(String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
+    }
+
+    public List<LoadFileData> getLoadFileData(String requestString) throws Exception {
+        List<LoadFileData> loadFileDataList = new ArrayList<LoadFileData>();
 
         HttpClient httpClient = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(requestString);
@@ -107,21 +101,43 @@ public class WebServiceManager {
             Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);
             Element dateElement = element.getChild(LoadFileData.FILE_DATE_TAG_NAME);
             String url = urlElement.getValue();
-            String zipfileName = url.substring( url.lastIndexOf('/') + 1, url.length());
-            loadFileDataList.put(element.getName(), new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement.getValue()),
+            String zipfileName = url.substring(url.lastIndexOf('/') + 1, url.length());
+            loadFileDataList.add(new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement
+                    .getValue()),
                     urlElement.getValue()));
             SharedPreferencesManager.putUpdateFileName(zipfileName, element.getName());
         }
         return loadFileDataList;
     }
 
-	private String getFileName(String fileUrl) {
-		Pattern pattern = Pattern.compile(REG_FILENAME_FORMAT);
-		Matcher matcher = pattern.matcher(fileUrl);
-		String fileName = DEFAULT_FILENAME;
-		while (matcher.find()) {
-			fileName = matcher.group(1);
-		}
-		return fileName;
-	}
+    public Map<String, LoadFileData> getLoadFileDataMap(String requestString) throws Exception {
+        Map<String, LoadFileData> loadFileDataList = new HashMap<String, LoadFileData>();
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(requestString);
+        HttpResponse httpResponse = httpClient.execute(httpGet);
+        Document document = new SAXBuilder().build(httpResponse.getEntity().getContent());
+        List<Element> contentList = document.getRootElement().getChildren();
+        for (Element element : contentList) {
+            Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);
+            Element dateElement = element.getChild(LoadFileData.FILE_DATE_TAG_NAME);
+            String url = urlElement.getValue();
+            String zipfileName = url.substring(url.lastIndexOf('/') + 1, url.length());
+            loadFileDataList.put(element.getName(),
+                    new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement.getValue()),
+                            urlElement.getValue()));
+            SharedPreferencesManager.putUpdateFileName(zipfileName, element.getName());
+        }
+        return loadFileDataList;
+    }
+
+    private String getFileName(String fileUrl) {
+        Pattern pattern = Pattern.compile(REG_FILENAME_FORMAT);
+        Matcher matcher = pattern.matcher(fileUrl);
+        String fileName = DEFAULT_FILENAME;
+        while (matcher.find()) {
+            fileName = matcher.group(1);
+        }
+        return fileName;
+    }
 }

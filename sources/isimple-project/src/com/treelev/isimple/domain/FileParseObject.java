@@ -42,10 +42,10 @@ public class FileParseObject implements Comparable<FileParseObject>, Serializabl
         if (filePriorityList == null) {
             filePriorityList = new ArrayList<FilePriority>();
             logFileNameCompareProcess("static", "");
-            filePriorityList.add(new FilePriority(ItemPricesParser.getFileName(), 1));
-            filePriorityList.add(new FilePriority(CatalogParser.getFileName(), 2));
+            filePriorityList.add(new FilePriority(CatalogParser.getFileName(), 1));
+            filePriorityList.add(new FilePriority(ShopAndChainsParser.getFileName(), 2));
             filePriorityList.add(new FilePriority(ItemAvailabilityParser.getFileName(), 3));
-            filePriorityList.add(new FilePriority(ShopAndChainsParser.getFileName(), 4));
+            filePriorityList.add(new FilePriority(ItemPricesParser.getFileName(), 4));
             filePriorityList.add(new FilePriority(ItemPriceDiscountParser.getFileName(), 5));
             filePriorityList.add(new FilePriority(FeaturedItemsParser.getFileName(), 6));
             filePriorityList.add(new FilePriority(DeprecatedItemParser.getFileName(), 7));

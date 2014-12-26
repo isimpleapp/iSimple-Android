@@ -12,6 +12,7 @@ import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ProductType;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.Utils;
 
 import java.util.*;
@@ -351,6 +352,7 @@ public class ProxyManager {
     }
 
     public Cursor getSectionsItems(int typeSections) {
+        LogUtils.i("!!!!!!!!!!!!!!!!", "ProxyManager getSectionsItems typeSections = " + typeSections + ", daoId = " + SectionsItemsDAO.ID);
         return ((SectionsItemsDAO) getObjectDAO(SectionsItemsDAO.ID)).getSectionsItems(typeSections);
     }
 

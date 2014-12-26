@@ -1,20 +1,6 @@
 
 package com.treelev.isimple.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -24,19 +10,40 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.treelev.isimple.app.ISimpleApp;
+import com.treelev.isimple.data.ChainDAO;
+import com.treelev.isimple.data.DeliveryZoneDAO;
+import com.treelev.isimple.data.ItemAvailabilityDAO;
 import com.treelev.isimple.data.ItemDAO;
+import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.data.ShoppingCartDAO;
 import com.treelev.isimple.domain.LoadFileData;
 import com.treelev.isimple.domain.db.ItemPriceWrapper;
 import com.treelev.isimple.enumerable.UpdateFile;
 import com.treelev.isimple.parser.CatalogItemParser;
+import com.treelev.isimple.parser.DeliveryZoneParser;
 import com.treelev.isimple.parser.FeaturedItemsParser;
+import com.treelev.isimple.parser.ItemAvailabilityParser;
 import com.treelev.isimple.parser.ItemPriceDiscountParser;
 import com.treelev.isimple.parser.ItemPricesParser;
+import com.treelev.isimple.parser.ShopAndChainsParser;
 import com.treelev.isimple.utils.Constants;
 import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class SyncServcie extends Service {
 
@@ -107,7 +114,9 @@ public class SyncServcie extends Service {
         @Override
         protected Void doInBackground(Void... params) {
 
-            if (WebServiceManager.getDownloadDirectory() != null) {
+            if (WebServiceManager.getDownloadDirectory() != null
+                    && WebServiceManager.getDownloadDirectory().listFiles() != null
+                    && WebServiceManager.getDownloadDirectory().listFiles().length > 0) {
                 for (File file : WebServiceManager.getDownloadDirectory().listFiles()) {
                     file.delete();
                 }
@@ -115,6 +124,10 @@ public class SyncServcie extends Service {
 
             ItemDAO itemDAO = new ItemDAO(ISimpleApp.getInstantce());
             ShoppingCartDAO shoppingCartDAO = new ShoppingCartDAO(ISimpleApp.getInstantce());
+            ItemAvailabilityDAO itemAvailabilityDAO = new ItemAvailabilityDAO(ISimpleApp.getInstantce());
+            ChainDAO chainDAO = new ChainDAO(ISimpleApp.getInstantce());
+            ShopDAO shopDAO = new ShopDAO(ISimpleApp.getInstantce());
+            DeliveryZoneDAO deliveryZoneDAO = new DeliveryZoneDAO(ISimpleApp.getInstantce());
 
             LogUtils.i("", "Downloading update urls file");
             Map<String, LoadFileData> loadFileDataList = null;
@@ -223,8 +236,6 @@ public class SyncServcie extends Service {
             }
             LogUtils.i("", "DONE Downloading new items xml files, files list size = "
                     + catalogItemXmlFilesList.size());
-
-            // 5.1 Unzip new items files
 
             // 6. Parse and update/add items
             LogUtils.i("", "Parsing new items xml files to dp");
@@ -388,6 +399,99 @@ public class SyncServcie extends Service {
                 error = true;
             }
             unzippedFeatured.delete();
+
+            // 11. Update ItemAvailability
+            // 11.1. Download ItemAvailability
+            LogUtils.i("", "Downloading ItemAvailability");
+            File itemAvailabilityArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                    UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag()).getFileUrl());
+
+            // 11.2. Unzip ItemAvailability list
+            LogUtils.i("", "Unzipping ItemAvailability");
+            File unzippedItemAvailability = unzipFile(itemAvailabilityArchive);
+
+            // 11.3 Parse and save ItemAvailability list to DB
+            LogUtils.i("", "Parsing ItemAvailability to db");
+            ItemAvailabilityParser itemAvailabilityParser = new ItemAvailabilityParser();
+
+            try {
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                XmlPullParser xmlPullParser = factory.newPullParser();
+                xmlPullParser.setInput(new FileInputStream(unzippedItemAvailability), null);
+                itemAvailabilityParser.parseXmlToDB(xmlPullParser, itemAvailabilityDAO);
+
+                unzippedItemAvailability.delete();
+            } catch (XmlPullParserException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
+                error = true;
+            } catch (FileNotFoundException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
+                error = true;
+            }
+            unzippedItemAvailability.delete();
+
+            // 12. Update LocationsAndChainsUpdates
+            // 12.1. Download LocationsAndChainsUpdates
+            LogUtils.i("", "Downloading LocationsAndChainsUpdates");
+            File locationsAndChainsUpdatesArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                    UpdateFile.LOCATIONS_AND_CHAINS_UPDATES.getUpdateFileTag()).getFileUrl());
+
+            // 12.2. Unzip LocationsAndChainsUpdates list
+            LogUtils.i("", "Unzipping LocationsAndChainsUpdates");
+            File unzippedLocationsAndChainsUpdates = unzipFile(locationsAndChainsUpdatesArchive);
+
+            // 12.3 Parse and save featured list to DB
+            LogUtils.i("", "Parsing LocationsAndChainsUpdates to db");
+            ShopAndChainsParser locationsAndChainsUpdatesParser = new ShopAndChainsParser();
+
+            try {
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                XmlPullParser xmlPullParser = factory.newPullParser();
+                xmlPullParser.setInput(new FileInputStream(unzippedLocationsAndChainsUpdates), null);
+                locationsAndChainsUpdatesParser.parseXmlToDB(xmlPullParser, chainDAO, shopDAO);
+
+                unzippedLocationsAndChainsUpdates.delete();
+            } catch (XmlPullParserException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName() + e);
+                error = true;
+            } catch (FileNotFoundException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName() + e);
+                error = true;
+            }
+            unzippedLocationsAndChainsUpdates.delete();
+            
+            // 13. Update Delivery
+            // 13.1. Download Delivery
+            LogUtils.i("", "Downloading Delivery");
+            File deliveryArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                    UpdateFile.DELIVERY.getUpdateFileTag()).getFileUrl());
+
+            // 13.2. Unzip featured list
+            LogUtils.i("", "Unzipping Delivery");
+            File unzippedDelivery = unzipFile(deliveryArchive);
+
+            // 13.3 Parse and save featured list to DB
+            LogUtils.i("", "Parsing Delivery to db");
+            DeliveryZoneParser deliveryParser = new DeliveryZoneParser();
+
+            try {
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                XmlPullParser xmlPullParser = factory.newPullParser();
+                xmlPullParser.setInput(new FileInputStream(unzippedDelivery), null);
+                deliveryParser.parseXmlToDB(xmlPullParser, deliveryZoneDAO);
+
+                unzippedDelivery.delete();
+            } catch (XmlPullParserException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
+                error = true;
+            } catch (FileNotFoundException e) {
+                LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
+                error = true;
+            }
+            unzippedDelivery.delete();
 
             return null;
 

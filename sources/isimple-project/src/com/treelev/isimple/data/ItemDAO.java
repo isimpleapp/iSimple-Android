@@ -18,6 +18,9 @@ import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.enumerable.item.Sweetness;
+import com.treelev.isimple.utils.LogUtils;
+
+import org.apache.http.util.LangUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -54,6 +57,7 @@ public class ItemDAO extends BaseDAO {
     }
 
     public Cursor getFeaturedItemsByCategory(int categoryId) {
+        LogUtils.i("!!!", "ItemDao getFeaturedItemsByCategory categoryId = " + categoryId);
         open();
         String formatScript = "SELECT * "
                 +
@@ -89,6 +93,7 @@ public class ItemDAO extends BaseDAO {
     }
 
     public Cursor getAllItemsByCategory(int categoryId, String orderByField) {
+        LogUtils.i("!!!", "ItemDao getAllItemsByCategory categoryId = " + categoryId);
         open();
         String formatScript = "SELECT * "
                 +

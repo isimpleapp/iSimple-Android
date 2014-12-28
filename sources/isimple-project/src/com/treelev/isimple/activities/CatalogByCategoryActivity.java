@@ -397,7 +397,6 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                 mTypeSection = ProxyManager.TYPE_SECTION_SHOP_MAIN;
             }
             mTreeCategoriesAdapter.resetFilter();
-            mTreeCategoriesAdapter.initFilter("(item.color=1 OR item.color=0 OR item.color=2)", mLocationId, mSortBy);
         } else if(mTypeSection != ProxyManager.TYPE_SECTION_FILTRATION_SEARCH){
             mTreeCategoriesAdapter.initFilter(mFilterWhereClause, mLocationId, mSortBy);
             mTypeSection = ProxyManager.TYPE_SECTION_FILTRATION_SEARCH;

@@ -229,6 +229,8 @@ public class SyncServcie extends Service {
                                     + itemId + ".xmlz");
                     if (itemArchive != null) {
                         downloadedFilesCount++;
+                    } else {
+                        continue;
                     }
                     
                     LogUtils.i("", "Unzipping file " + itemArchive.getName());

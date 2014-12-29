@@ -56,7 +56,7 @@ public class ItemDAO extends BaseDAO {
         return getTableDataCount(DatabaseSqlHelper.ITEM_TABLE);
     }
 
-    public Cursor getFeaturedItemsByCategory(int categoryId) {
+    public Cursor getFeaturedItemsByCategory(int categoryId, String orderBy) {
         LogUtils.i("!!!", "ItemDao getFeaturedItemsByCategory categoryId = " + categoryId);
         open();
         String formatScript = "SELECT * "
@@ -84,12 +84,15 @@ public class ItemDAO extends BaseDAO {
                 "GROUP BY t0.drink_id " +
                 ") " +
                 "WHERE item_left_overs > 0 ";
-        String selectSql = String.format(formatScript, categoryId);
+        if (orderBy != null) {
+            formatScript = formatScript + "ORDER BY %s";
+        }
+        String selectSql = String.format(formatScript, categoryId, orderBy);
         return getDatabase().rawQuery(selectSql, null);
     }
 
     public Cursor getFeaturedMainItems() {
-        return getFeaturedItemsByCategory(-1);
+        return getFeaturedItemsByCategory(-1, DatabaseSqlHelper.ITEM_NAME);
     }
 
     public Cursor getAllItemsByCategory(int categoryId, String orderByField) {

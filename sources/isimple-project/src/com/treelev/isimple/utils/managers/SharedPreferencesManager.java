@@ -23,6 +23,7 @@ public class SharedPreferencesManager {
     private static final String DATE_CATALOG_UPDATE = "date_catalog_update";
     private static final String UPDATE_START = "update_start";
     private static final String PREPARATION_UPDATE = "preparation_update";
+    private static final String LAST_SYNC_TIMESTAMP = "last_sync_timestamp";
 
     private static final String FORMAT_DATE = "dd.MM.yyyy";
     
@@ -152,6 +153,16 @@ public class SharedPreferencesManager {
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat formatDate = new SimpleDateFormat(FORMAT_DATE);
         return formatDate.format(date);
+    }
+    
+    public static long getLastSyncTimestamp(Context context){
+        return getSharedPreferences(context).getLong(LAST_SYNC_TIMESTAMP, 0);
+    }
+
+    public static void setLastSyncTimestamp(Context context, long timestamp){
+        Editor editor = getEditor();
+        editor.putLong(LAST_SYNC_TIMESTAMP, timestamp);
+        editor.commit();
     }
 
 }

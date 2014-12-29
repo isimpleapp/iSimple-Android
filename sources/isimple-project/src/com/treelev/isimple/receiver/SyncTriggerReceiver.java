@@ -36,10 +36,12 @@ public class SyncTriggerReceiver extends BroadcastReceiver {
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        cal.roll(Calendar.DAY_OF_YEAR, 1);
+        cal.add(Calendar.DAY_OF_YEAR, 1);
         cal.set(Calendar.HOUR_OF_DAY, 1);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
+        LogUtils.i("", "System.currentTimeMillis() = " + System.currentTimeMillis());
+        LogUtils.i("", "cal.getTimeInMillis() = " + cal.getTimeInMillis());
         alarm.set(
             alarm.RTC_WAKEUP,
             cal.getTimeInMillis(),

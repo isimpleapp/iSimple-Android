@@ -151,7 +151,10 @@ public class ProxyManager {
     }
 
     public Cursor getFeaturedItemsByCategory(int categoryId, int sortType) {
-        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId);
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId, orderByField);
     }
 
     public Cursor getAllItemsByCategory(int categoryId, int sortType) {

@@ -27,6 +27,7 @@ import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.treelev.isimple.R;
@@ -43,6 +44,7 @@ public class SplashActivity extends Activity {
     public static final int STATUS_FINISH = 101;
     public static final int TASK_UPDATE = 305;
     private Dialog mDialog;
+    private SyncStatusReceiver syncStatusReceiver;
 
     private final static String[] urlList = new String[] {
             "http://s1.isimpleapp.ru/xml/ver0/Catalog-Update.xmlz",
@@ -80,11 +82,27 @@ public class SplashActivity extends Activity {
             startApplication(true);
         }
 
+        syncStatusReceiver = new SyncStatusReceiver();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(syncStatusReceiver,
+                new IntentFilter(Constants.INTENT_ACTION_SYNC_STATE_UPDATE));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(syncStatusReceiver);
     }
 
     public void showWarningNotification(Context context) {
@@ -174,6 +192,12 @@ public class SplashActivity extends Activity {
     private void hideDialog() {
         if (mDialog != null) {
             mDialog.dismiss();
+        }
+    }
+
+    private void updateDialog(String message) {
+        if (mDialog != null) {
+            ((ProgressDialog) mDialog).setMessage(message);
         }
     }
 
@@ -283,6 +307,15 @@ public class SplashActivity extends Activity {
             hideDialog();
             startApplication(false);
             SplashActivity.this.unregisterReceiver(this);
+        }
+
+    }
+
+    private class SyncStatusReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateDialog(intent.getStringExtra(Constants.INTENT_EXTRA_SYNC_STATE));
         }
 
     }

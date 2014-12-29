@@ -1,3 +1,4 @@
+
 package com.treelev.isimple.cursorloaders;
 
 import android.content.Context;
@@ -12,7 +13,8 @@ public class SelectFeaturedByCategoryItems extends BaseCursorLoader {
     private String mLocationId;
     private int mSortBy;
 
-    public SelectFeaturedByCategoryItems(Context context, Integer categaryID, String locationId, int sortBy) {
+    public SelectFeaturedByCategoryItems(Context context, Integer categaryID, String locationId,
+            int sortBy) {
         super(context);
         mCategoryID = categaryID;
         mLocationId = locationId;
@@ -23,11 +25,12 @@ public class SelectFeaturedByCategoryItems extends BaseCursorLoader {
     public Cursor loadInBackground() {
         Cursor cursor = null;
         if (TextUtils.isEmpty(mLocationId)) {
-                cursor = getProxyManager().getFeaturedItemsByCategory(mCategoryID, mSortBy);
+            cursor = getProxyManager().getFeaturedItemsByCategory(mCategoryID, mSortBy);
         } else {
-            cursor = getProxyManager().getFeaturedItemsByCategory(mCategoryID, mLocationId, mSortBy);
+            cursor = getProxyManager()
+                    .getFeaturedItemsByCategory(mCategoryID, mLocationId, mSortBy);
         }
-        if(cursor != null){
+        if (cursor != null) {
             cursor.getCount();
             cursor.registerContentObserver(mObserver);
         }

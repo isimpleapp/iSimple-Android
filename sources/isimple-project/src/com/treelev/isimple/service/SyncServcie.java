@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.ChainDAO;
 import com.treelev.isimple.data.DeliveryZoneDAO;
@@ -95,14 +97,16 @@ public class SyncServcie extends Service {
         return null;
     }
 
-    public class SyncDataTask extends AsyncTask<Void, Void, Void> {
+    public class SyncDataTask extends AsyncTask<Void, String, Void> {
 
         private WebServiceManager webServiceManager;
+        private Context context;
 
         private boolean error;
 
         public SyncDataTask(Context context) {
             this.webServiceManager = new WebServiceManager();
+            this.context = context;
         }
 
         @Override
@@ -114,6 +118,8 @@ public class SyncServcie extends Service {
         @Override
         protected Void doInBackground(Void... params) {
 
+            long syncStartTimeStamp = System.currentTimeMillis();
+
             if (WebServiceManager.getDownloadDirectory() != null
                     && WebServiceManager.getDownloadDirectory().listFiles() != null
                     && WebServiceManager.getDownloadDirectory().listFiles().length > 0) {
@@ -124,7 +130,8 @@ public class SyncServcie extends Service {
 
             ItemDAO itemDAO = new ItemDAO(ISimpleApp.getInstantce());
             ShoppingCartDAO shoppingCartDAO = new ShoppingCartDAO(ISimpleApp.getInstantce());
-            ItemAvailabilityDAO itemAvailabilityDAO = new ItemAvailabilityDAO(ISimpleApp.getInstantce());
+            ItemAvailabilityDAO itemAvailabilityDAO = new ItemAvailabilityDAO(
+                    ISimpleApp.getInstantce());
             ChainDAO chainDAO = new ChainDAO(ISimpleApp.getInstantce());
             ShopDAO shopDAO = new ShopDAO(ISimpleApp.getInstantce());
             DeliveryZoneDAO deliveryZoneDAO = new DeliveryZoneDAO(ISimpleApp.getInstantce());
@@ -149,6 +156,7 @@ public class SyncServcie extends Service {
 
             // 1. Download ITEMS_PRICE
             LogUtils.i("", "Downloading ITEMS_PRICE file");
+            publishProgress(context.getString(R.string.sync_state_prices_downloading));
             File itemsPriceArchive = webServiceManager.downloadFile(loadFileDataList.get(
                     UpdateFile.ITEM_PRICES.getUpdateFileTag()).getFileUrl());
 
@@ -189,7 +197,8 @@ public class SyncServcie extends Service {
                 newItemsIds = new ArrayList<String>(itemPriceWrapper.getItemsIds());
                 newItemsIds.removeAll(itemsIds);
             }
-            LogUtils.i("", "DONE Getting new items ids list, size = " + newItemsIds.size());
+            int newItemsSize = newItemsIds.size();
+            LogUtils.i("", "DONE Getting new items ids list, size = " + newItemsSize);
 
             // 3.3 Delete missing items
             LogUtils.i("", "Deleting missing items");
@@ -200,6 +209,7 @@ public class SyncServcie extends Service {
             }
             LogUtils.i("", "Missing items list size = " + deletedItemsIds.size());
             LogUtils.i("", "Deleting missing items from db items table");
+            publishProgress(context.getString(R.string.sync_state_old_items_deleting));
             itemDAO.deleteItems(deletedItemsIds);
             LogUtils.i("", "Deleting missing items from db shopping cart table");
             shoppingCartDAO.deleteItems(deletedItemsIds);
@@ -220,6 +230,9 @@ public class SyncServcie extends Service {
                             .replace(".xmlz", "/")
                             + itemId.substring(0, 2) + "/"
                             + itemId + ".xmlz");
+                    publishProgress(String.format(
+                            context.getString(R.string.sync_state_new_items_downloading),
+                            downloadedFilesCount, newItemsSize));
                     itemArchive = webServiceManager
                             .downloadNewCatalogItemFile(loadFileDataList
                                     .get(UpdateFile.CATALOG_UPDATES.getUpdateFileTag())
@@ -232,7 +245,7 @@ public class SyncServcie extends Service {
                     } else {
                         continue;
                     }
-                    
+
                     LogUtils.i("", "Unzipping file " + itemArchive.getName());
                     File uzippedFile = unzipFile(itemArchive);
                     itemArchive.delete();
@@ -259,74 +272,88 @@ public class SyncServcie extends Service {
                     uzippedFile.delete();
                 }
             }
-            LogUtils.i("", "DONE Download, parse and update new items xml files, files list size = "
-                    + downloadedFilesCount);
-            
-            // 12. Update LocationsAndChainsUpdates
-            // 12.1. Download LocationsAndChainsUpdates
-            LogUtils.i("", "Downloading LocationsAndChainsUpdates");
-            File locationsAndChainsUpdatesArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                    UpdateFile.LOCATIONS_AND_CHAINS_UPDATES.getUpdateFileTag()).getFileUrl());
+            LogUtils.i("",
+                    "DONE Download, parse and update new items xml files, files list size = "
+                            + downloadedFilesCount);
 
-            // 12.2. Unzip LocationsAndChainsUpdates list
-            LogUtils.i("", "Unzipping LocationsAndChainsUpdates");
-            File unzippedLocationsAndChainsUpdates = unzipFile(locationsAndChainsUpdatesArchive);
+            if (syncStartTimeStamp - SharedPreferencesManager.getLastSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
+                // 12. Update LocationsAndChainsUpdates
+                // 12.1. Download LocationsAndChainsUpdates
+                LogUtils.i("", "Downloading LocationsAndChainsUpdates");
+                publishProgress(context.getString(R.string.sync_state_locations_and_chains_update));
+                File locationsAndChainsUpdatesArchive = webServiceManager
+                        .downloadFile(loadFileDataList.get(
+                                UpdateFile.LOCATIONS_AND_CHAINS_UPDATES.getUpdateFileTag())
+                                .getFileUrl());
 
-            // 12.3 Parse and save featured list to DB
-            LogUtils.i("", "Parsing LocationsAndChainsUpdates to db");
-            ShopAndChainsParser locationsAndChainsUpdatesParser = new ShopAndChainsParser();
+                // 12.2. Unzip LocationsAndChainsUpdates list
+                LogUtils.i("", "Unzipping LocationsAndChainsUpdates");
+                File unzippedLocationsAndChainsUpdates = unzipFile(locationsAndChainsUpdatesArchive);
 
-            try {
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(true);
-                XmlPullParser xmlPullParser = factory.newPullParser();
-                xmlPullParser.setInput(new FileInputStream(unzippedLocationsAndChainsUpdates), null);
-                locationsAndChainsUpdatesParser.parseXmlToDB(xmlPullParser, chainDAO, shopDAO);
+                // 12.3 Parse and save featured list to DB
+                LogUtils.i("", "Parsing LocationsAndChainsUpdates to db");
+                ShopAndChainsParser locationsAndChainsUpdatesParser = new ShopAndChainsParser();
 
+                try {
+                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(true);
+                    XmlPullParser xmlPullParser = factory.newPullParser();
+                    xmlPullParser.setInput(new FileInputStream(unzippedLocationsAndChainsUpdates),
+                            null);
+                    locationsAndChainsUpdatesParser.parseXmlToDB(xmlPullParser, chainDAO, shopDAO);
+
+                    unzippedLocationsAndChainsUpdates.delete();
+                } catch (XmlPullParserException e) {
+                    LogUtils.i("",
+                            "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName()
+                                    + e);
+                    error = true;
+                } catch (FileNotFoundException e) {
+                    LogUtils.i("",
+                            "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName()
+                                    + e);
+                    error = true;
+                }
                 unzippedLocationsAndChainsUpdates.delete();
-            } catch (XmlPullParserException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName() + e);
-                error = true;
-            } catch (FileNotFoundException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedLocationsAndChainsUpdates.getName() + e);
-                error = true;
             }
-            unzippedLocationsAndChainsUpdates.delete();
-            
-            // 11. Update ItemAvailability
-            // 11.1. Download ItemAvailability
-            LogUtils.i("", "Downloading ItemAvailability");
-            File itemAvailabilityArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                    UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag()).getFileUrl());
 
-            // 11.2. Unzip ItemAvailability list
-            LogUtils.i("", "Unzipping ItemAvailability");
-            File unzippedItemAvailability = unzipFile(itemAvailabilityArchive);
+            if (syncStartTimeStamp - SharedPreferencesManager.getLastSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
+                // 11. Update ItemAvailability
+                // 11.1. Download ItemAvailability
+                LogUtils.i("", "Downloading ItemAvailability");
+                publishProgress(context.getString(R.string.sync_state_item_availability_update));
+                File itemAvailabilityArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                        UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag()).getFileUrl());
 
-            // 11.3 Parse and save ItemAvailability list to DB
-            LogUtils.i("", "Parsing ItemAvailability to db");
-            ItemAvailabilityParser itemAvailabilityParser = new ItemAvailabilityParser();
+                // 11.2. Unzip ItemAvailability list
+                LogUtils.i("", "Unzipping ItemAvailability");
+                File unzippedItemAvailability = unzipFile(itemAvailabilityArchive);
 
-            try {
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(true);
-                XmlPullParser xmlPullParser = factory.newPullParser();
-                xmlPullParser.setInput(new FileInputStream(unzippedItemAvailability), null);
-                itemAvailabilityParser.parseXmlToDB(xmlPullParser, itemAvailabilityDAO);
+                // 11.3 Parse and save ItemAvailability list to DB
+                LogUtils.i("", "Parsing ItemAvailability to db");
+                ItemAvailabilityParser itemAvailabilityParser = new ItemAvailabilityParser();
 
+                try {
+                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(true);
+                    XmlPullParser xmlPullParser = factory.newPullParser();
+                    xmlPullParser.setInput(new FileInputStream(unzippedItemAvailability), null);
+                    itemAvailabilityParser.parseXmlToDB(xmlPullParser, itemAvailabilityDAO);
+
+                    unzippedItemAvailability.delete();
+                } catch (XmlPullParserException e) {
+                    LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
+                    error = true;
+                } catch (FileNotFoundException e) {
+                    LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
+                    error = true;
+                }
                 unzippedItemAvailability.delete();
-            } catch (XmlPullParserException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
-                error = true;
-            } catch (FileNotFoundException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedItemAvailability.getName() + e);
-                error = true;
             }
-            unzippedItemAvailability.delete();
-            
 
             // 7. Update items prices
             LogUtils.i("", "Updating items prices in dp");
+            publishProgress(context.getString(R.string.sync_state_prices_installing));
             if (itemPriceWrapper.getItemsPricesList() != null
                     && !itemPriceWrapper.getItemsPricesList().isEmpty()) {
                 itemDAO.updatePriceList(itemPriceWrapper.getItemsPricesList());
@@ -335,6 +362,7 @@ public class SyncServcie extends Service {
             // 8. Update discounts
             // 8.1. Download price discounts
             LogUtils.i("", "Downloading price discounts");
+            publishProgress(context.getString(R.string.sync_state_discounts_update));
             File priceDiscountsArchive = webServiceManager
                     .downloadFile(loadFileDataList.get(UpdateFile.DISCOUNT.getUpdateFileTag())
                             .getFileUrl());
@@ -430,6 +458,7 @@ public class SyncServcie extends Service {
             // 10. Update featured
             // 10.1. Download featured
             LogUtils.i("", "Downloading featured");
+            publishProgress(context.getString(R.string.sync_state_featured_update));
             File featuredArchive = webServiceManager.downloadFile(loadFileDataList.get(
                     UpdateFile.FEATURED.getUpdateFileTag()).getFileUrl());
 
@@ -458,39 +487,47 @@ public class SyncServcie extends Service {
             }
             unzippedFeatured.delete();
 
-            // 13. Update Delivery
-            // 13.1. Download Delivery
-            LogUtils.i("", "Downloading Delivery");
-            File deliveryArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                    UpdateFile.DELIVERY.getUpdateFileTag()).getFileUrl());
+            if (syncStartTimeStamp - SharedPreferencesManager.getLastSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
+                // 13. Update Delivery
+                // 13.1. Download Delivery
+                LogUtils.i("", "Downloading Delivery");
+                publishProgress(context.getString(R.string.sync_state_delivery_update));
+                File deliveryArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                        UpdateFile.DELIVERY.getUpdateFileTag()).getFileUrl());
 
-            // 13.2. Unzip Delivery list
-            LogUtils.i("", "Unzipping Delivery");
-            File unzippedDelivery = unzipFile(deliveryArchive);
+                // 13.2. Unzip Delivery list
+                LogUtils.i("", "Unzipping Delivery");
+                File unzippedDelivery = unzipFile(deliveryArchive);
 
-            // 13.3 Parse and save Delivery list to DB
-            LogUtils.i("", "Parsing Delivery to db");
-            DeliveryZoneParser deliveryParser = new DeliveryZoneParser();
+                // 13.3 Parse and save Delivery list to DB
+                LogUtils.i("", "Parsing Delivery to db");
+                DeliveryZoneParser deliveryParser = new DeliveryZoneParser();
 
-            try {
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(true);
-                XmlPullParser xmlPullParser = factory.newPullParser();
-                xmlPullParser.setInput(new FileInputStream(unzippedDelivery), null);
-                deliveryParser.parseXmlToDB(xmlPullParser, deliveryZoneDAO);
+                try {
+                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(true);
+                    XmlPullParser xmlPullParser = factory.newPullParser();
+                    xmlPullParser.setInput(new FileInputStream(unzippedDelivery), null);
+                    deliveryParser.parseXmlToDB(xmlPullParser, deliveryZoneDAO);
 
+                    unzippedDelivery.delete();
+                } catch (XmlPullParserException e) {
+                    LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
+                    error = true;
+                } catch (FileNotFoundException e) {
+                    LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
+                    error = true;
+                }
                 unzippedDelivery.delete();
-            } catch (XmlPullParserException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
-                error = true;
-            } catch (FileNotFoundException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
-                error = true;
             }
-            unzippedDelivery.delete();
 
             return null;
 
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            sendProgressBroadcast(values[0]);
         }
 
         @Override
@@ -499,7 +536,8 @@ public class SyncServcie extends Service {
 
             LogUtils.i("", "Finished sync, error = " + error);
             if (!error) {
-                SharedPreferencesManager.setPreparationUpdate(ISimpleApp.getInstantce(), false);
+                SharedPreferencesManager.setPreparationUpdate(context, false);
+                SharedPreferencesManager.setLastSyncTimestamp(context, System.currentTimeMillis());
             } else {
 
             }
@@ -545,6 +583,12 @@ public class SyncServcie extends Service {
             }
 
             return unzipped;
+        }
+
+        private void sendProgressBroadcast(String text) {
+            Intent intent = new Intent(Constants.INTENT_ACTION_SYNC_STATE_UPDATE);
+            intent.putExtra(Constants.INTENT_EXTRA_SYNC_STATE, text);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         }
 
     }

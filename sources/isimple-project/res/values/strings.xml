@@ -85,6 +85,16 @@
     <string name="lbl_manufacture_item">Производитель</string>
     <string name="lbl_type_drink">Тип напитка</string>
     <string name="lbl_extend_filter">Открыть дополнительные фильтры</string>
+	
+	<string name="sync_state_prices_downloading">Загрузка цен</string>
+    <string name="sync_state_new_items_downloading" formatted="false">Загрузка новых позиций: %s из %s</string>
+    <string name="sync_state_old_items_deleting">Удаление неактуальных позиций</string>
+    <string name="sync_state_prices_installing">Применение новых цен</string>
+    <string name="sync_state_locations_and_chains_update">Обновление адресов магазинов</string>
+    <string name="sync_state_item_availability_update">Обновление наличия позиций</string>
+	<string name="sync_state_discounts_update">Обновление скидок</string>
+	<string name="sync_state_featured_update">Обновление акций</string>
+	<string name="sync_state_delivery_update">Обновление данных доставки</string>
 
 
 </resources>

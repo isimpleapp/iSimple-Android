@@ -1,18 +1,8 @@
 package com.treelev.isimple.utils;
 
-import android.content.Context;
-import android.location.Location;
-import android.net.ConnectivityManager;
-import com.nostra13.universalimageloader.cache.disc.impl.TotalSizeLimitedDiscCache;
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.treelev.isimple.httpclient.DefaultSSLSocketFactory;
-import com.treelev.isimple.parser.*;
+import java.io.File;
+import java.security.KeyStore;
+
 import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
@@ -27,8 +17,27 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
-import java.io.File;
-import java.security.KeyStore;
+import android.content.Context;
+import android.location.Location;
+import android.net.ConnectivityManager;
+import android.telephony.TelephonyManager;
+
+import com.nostra13.universalimageloader.cache.disc.impl.TotalSizeLimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.treelev.isimple.httpclient.DefaultSSLSocketFactory;
+import com.treelev.isimple.parser.CatalogParser;
+import com.treelev.isimple.parser.DeliveryZoneParser;
+import com.treelev.isimple.parser.DeprecatedItemParser;
+import com.treelev.isimple.parser.FeaturedItemsParser;
+import com.treelev.isimple.parser.ItemAvailabilityParser;
+import com.treelev.isimple.parser.ItemPricesParser;
+import com.treelev.isimple.parser.Parser;
+import com.treelev.isimple.parser.ShopAndChainsParser;
 
 public class Utils {
 
@@ -192,4 +201,5 @@ public class Utils {
             return new DefaultHttpClient();
         }
     }
+    
 }

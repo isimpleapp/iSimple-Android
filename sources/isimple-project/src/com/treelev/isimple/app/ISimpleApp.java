@@ -1,46 +1,67 @@
+
 package com.treelev.isimple.app;
 
-import android.content.Context;
-import android.location.Location;
-import com.treelev.isimple.R;
-import com.treelev.isimple.data.ShopDAO;
-import com.treelev.isimple.domain.ui.AbsDistanceShop;
-import com.treelev.isimple.utils.managers.ProxyManager;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.holoeverywhere.app.Application;
 
-import java.util.List;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.location.Location;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
+
+import com.parse.Parse;
+import com.treelev.isimple.R;
+import com.treelev.isimple.data.ShopDAO;
+import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.service.SyncServcie;
+import com.treelev.isimple.utils.managers.ProxyManager;
+import com.treelev.isimple.utils.parse.SyncLogEntity;
+import com.treelev.isimple.utils.parse.SyncLogEntity.SyncPhaseLog;
 
 @ReportsCrashes(
-    formKey = "",
-    mailTo = "dv@treelev.com, vitalyduong@gmail.com",
-    mode = ReportingInteractionMode.DIALOG,
-    resDialogTitle = R.string.crash_dialog_title,
-    resDialogText = R.string.crash_dialog_text
-)
+        formKey = "",
+        mailTo = "dv@treelev.com, vitalyduong@gmail.com",
+        mode = ReportingInteractionMode.DIALOG,
+        resDialogTitle = R.string.crash_dialog_title,
+        resDialogText = R.string.crash_dialog_text)
 public class ISimpleApp extends Application {
 
     private List<AbsDistanceShop> distanceShopList;
     private Location currentLocation;
     private static ISimpleApp instantce;
-    
+
     @Override
     public void onCreate() {
         super.onCreate();
         ACRA.init(this);
-        
+
         if (instantce == null) {
-        	instantce = this;
+            instantce = this;
         }
+
+        Parse.enableLocalDatastore(this);
+
+        Parse.initialize(this, "EOjaTLOWC0dTftQKqLhP1WLKQADQ1Sbu1aJo5av1",
+                "9vrbvgnVmBPnGEhfgFOpyWHoXOvkB2YAd2kEErsL");
+        
+    }
+    
+    public static ISimpleApp getInstantce() {
+        return instantce;
     }
 
-	public static ISimpleApp getInstantce() {
-		return instantce;
-	}
-
-	public void reloadShopList() {
+    public void reloadShopList() {
         distanceShopList = new ShopDAO(this).getNearestShops(currentLocation);
     }
 
@@ -60,37 +81,57 @@ public class ISimpleApp extends Application {
         this.currentLocation = moscowLocation;
     }
 
-//Cart
-    private  Boolean mIsCartActive;
+    // Cart
+    private Boolean mIsCartActive;
 
-    public void updateStateCart(){
+    public void updateStateCart() {
         mIsCartActive = new ProxyManager(this).getCountOrders() > 0;
     }
 
-    public void setActiveCartState(){
+    public void setActiveCartState() {
         mIsCartActive = true;
     }
 
-    public void setDisactiveCartState(){
+    public void setDisactiveCartState() {
         mIsCartActive = false;
     }
 
-    public boolean getStateCart(){
+    public boolean getStateCart() {
         return mIsCartActive != null ? mIsCartActive : false;
     }
 
-//track the status of the application is minimized or closed
+    // track the status of the application is minimized or closed
     private int mCountRefActivity;
 
-    public void incRefActivity(){
+    public void incRefActivity() {
         ++mCountRefActivity;
     }
 
-    public void decRefActivity(){
+    public void decRefActivity() {
         --mCountRefActivity;
     }
 
-    public int getCountRefActivity(){
+    public int getCountRefActivity() {
         return mCountRefActivity;
+    }
+
+    public static String getDeviceId() {
+        TelephonyManager telephonyManager = (TelephonyManager) getInstantce().getSystemService(
+                Context.TELEPHONY_SERVICE);
+        String imeiOrEsn = telephonyManager.getDeviceId();
+
+        WifiManager manager = (WifiManager) getInstantce().getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = manager.getConnectionInfo();
+        String macAddress = info.getMacAddress();
+
+        String uuid = UUID.randomUUID().toString();
+
+        return new StringBuilder(imeiOrEsn).append("_").append(macAddress).append("_")
+                .append(uuid).toString();
+    }
+    
+    public static String getDeviceName() {
+        // TODO Implement
+        return "android";
     }
 }

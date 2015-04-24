@@ -1,15 +1,36 @@
 
 package com.treelev.isimple.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.ChainDAO;
@@ -32,20 +53,9 @@ import com.treelev.isimple.utils.Constants;
 import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import com.treelev.isimple.utils.parse.ParseLogUtils;
+import com.treelev.isimple.utils.parse.SyncLogEntity;
+import com.treelev.isimple.utils.parse.SyncLogEntity.SyncPhaseLog;
 
 public class SyncServcie extends Service {
 
@@ -592,4 +602,50 @@ public class SyncServcie extends Service {
         }
 
     }
+
+    private void testSyncLog() {
+        String version = "";
+        int versionCode = 0;
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            version = pInfo.versionName;
+            versionCode = pInfo.versionCode;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        SyncLogEntity logEntity = new SyncLogEntity();
+        logEntity.meta.build = version;
+        logEntity.meta.deleteCount = 12;
+        logEntity.meta.insertCount = 13;
+        logEntity.meta.startTime = new Date().toString();
+        logEntity.meta.updateCount = 14;
+        logEntity.meta.version = String.valueOf(versionCode);
+
+        logEntity.logs = new ArrayList<SyncLogEntity.SyncPhaseLog>();
+        for (int i = 0; i < 10; i++) {
+            SyncLogEntity.SyncPhaseLog syncPhase = new SyncPhaseLog();
+            syncPhase.log = "Sync phase " + i;
+            if (i % 2 == 0) {
+                syncPhase.object = new HashMap<String, Long>();
+                syncPhase.object.put("93938", 123l);
+                syncPhase.object.put("1111111", 554l);
+                syncPhase.object.put("22", 22200l);
+            }
+            logEntity.logs.add(syncPhase);
+        }
+
+        logEntity.duration = new ArrayList<Object>();
+        logEntity.duration.add(new SyncLogEntity.DailyUpdateDuration(125));
+        logEntity.duration.add(new SyncLogEntity.FeaturedUpdateDuration(11));
+        logEntity.duration.add(new SyncLogEntity.FullUpdateDuration(5));
+        logEntity.duration.add(new SyncLogEntity.OffersUpdateDuration(100));
+        logEntity.duration.add(new SyncLogEntity.PriceDiscountsUpdateDuration(1));
+
+        File syncFile = ParseLogUtils.createSyncLogFile(logEntity);
+
+        ParseLogUtils.logToParse(logEntity.meta.deleteCount, logEntity.meta.insertCount,
+                logEntity.meta.updateCount, syncFile);
+    }
+
 }

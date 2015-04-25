@@ -1,10 +1,14 @@
 
 package com.treelev.isimple.utils.parse;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class SyncLogEntity {
+    
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ");
     
     public MetaData meta = new MetaData();
     public ArrayList<SyncPhaseLog> logs;
@@ -13,15 +17,26 @@ public class SyncLogEntity {
     public class MetaData {
         public int updateCount;
         public int deleteCount;
-        public String startTime;
+        private String startTime;
         public String build;
         public String version;
         public int insertCount;
+        
+        public String getStartTime() {
+            return startTime;
+        }
+        public void setStartTime(long timestamp) {
+            this.startTime = sdf.format(new Date(timestamp));
+        }
     }
     
     public static class SyncPhaseLog {
         public String log;
         public HashMap<String, Long> object;
+        public SyncPhaseLog(String log) {
+            super();
+            this.log = log;
+        }
     }
     
     public static class DailyUpdateDuration {

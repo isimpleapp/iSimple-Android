@@ -54,17 +54,14 @@ public class WebServiceManager {
             URL downloadUrl = new URL(fileUrl);
             URLConnection urlConnection = downloadUrl.openConnection();
             urlConnection.connect();
-            int fileLength = urlConnection.getContentLength();
             InputStream input = new BufferedInputStream(downloadUrl.openStream());
             File directory = new File(path);
             directory.mkdir();
             downloadingFile = new File(directory.getPath() + File.separator + getFileName(fileUrl));
             OutputStream output = new FileOutputStream(downloadingFile);
             byte data[] = new byte[1024];
-            long total = 0;
             int count;
             while ((count = input.read(data)) != -1) {
-                total += count;
                 output.write(data, 0, count);
             }
             output.close();

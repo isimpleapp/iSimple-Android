@@ -95,6 +95,9 @@
 	<string name="sync_state_discounts_update">Обновление скидок</string>
 	<string name="sync_state_featured_update">Обновление акций</string>
 	<string name="sync_state_delivery_update">Обновление данных доставки</string>
+	
+	<string name="sync_error_update_index_error">Невозможно прочитать файл Update-Index</string>
+	<string name="sync_error_item_prices_error">Невозможно прочитать файл {}</string>
 
 
 </resources>

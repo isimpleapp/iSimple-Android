@@ -1,33 +1,33 @@
 
 package com.treelev.isimple.utils.managers;
 
-import android.os.Environment;
-import android.util.Log;
-
-import com.treelev.isimple.domain.LoadFileData;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.input.SAXBuilder;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
+import android.os.Environment;
+import android.util.Log;
+
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import com.treelev.isimple.domain.LoadFileData;
 
 public class WebServiceManager {
 
@@ -36,29 +36,31 @@ public class WebServiceManager {
     private final static String REG_FILENAME_FORMAT = ".+/(.+.xmlz)";
     private final static String DEFAULT_FILENAME = "isimple_data.xmlz";
 
-    public File downloadFile(String fileUrl) {
+    public File downloadFile(String fileUrl) throws IOException {
         return downloadFile(fileUrl,
                 String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
     }
 
-    public File downloadNewCatalogItemFile(String fileUrl) {
+    public File downloadNewCatalogItemFile(String fileUrl) throws IOException {
         return downloadFile(
                 fileUrl,
                 String.format(NEW_CATALOG_ITEM_FILE_URL_FORMAT,
                         Environment.getExternalStorageDirectory()));
     }
 
-    private File downloadFile(String fileUrl, String path) {
+    private File downloadFile(String fileUrl, String path) throws IOException {
         File downloadingFile = null;
-        try {
+        HttpURLConnection urlConnection = null;
             URL downloadUrl = new URL(fileUrl);
-            URLConnection urlConnection = downloadUrl.openConnection();
+            urlConnection = (HttpURLConnection) downloadUrl.openConnection();
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
             urlConnection.connect();
-            InputStream input = new BufferedInputStream(downloadUrl.openStream());
+            InputStream input = new BufferedInputStream(urlConnection.getInputStream());
             File directory = new File(path);
             directory.mkdir();
             downloadingFile = new File(directory.getPath() + File.separator + getFileName(fileUrl));
-            OutputStream output = new FileOutputStream(downloadingFile);
+            FileOutputStream output = new FileOutputStream(downloadingFile);
             byte data[] = new byte[1024];
             int count;
             while ((count = input.read(data)) != -1) {
@@ -66,9 +68,6 @@ public class WebServiceManager {
             }
             output.close();
             input.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return downloadingFile;
     }
 
@@ -89,10 +88,13 @@ public class WebServiceManager {
     public List<LoadFileData> getLoadFileData(String requestString) throws Exception {
         List<LoadFileData> loadFileDataList = new ArrayList<LoadFileData>();
 
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(requestString);
-        HttpResponse httpResponse = httpClient.execute(httpGet);
-        Document document = new SAXBuilder().build(httpResponse.getEntity().getContent());
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(requestString)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        Document document = new SAXBuilder().build(response.body().string());
         List<Element> contentList = document.getRootElement().getChildren();
         for (Element element : contentList) {
             Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);
@@ -110,10 +112,16 @@ public class WebServiceManager {
     public Map<String, LoadFileData> getLoadFileDataMap(String requestString) throws Exception {
         Map<String, LoadFileData> loadFileDataList = new HashMap<String, LoadFileData>();
 
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(requestString);
-        HttpResponse httpResponse = httpClient.execute(httpGet);
-        Document document = new SAXBuilder().build(httpResponse.getEntity().getContent());
+        Document document = null;
+        try {
+            document = new SAXBuilder().build(requestString);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+            throw new Exception();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Exception();
+        }
         List<Element> contentList = document.getRootElement().getChildren();
         for (Element element : contentList) {
             Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);

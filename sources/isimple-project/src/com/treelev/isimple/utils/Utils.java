@@ -20,10 +20,8 @@ import org.apache.http.protocol.HTTP;
 import android.content.Context;
 import android.location.Location;
 import android.net.ConnectivityManager;
-import android.telephony.TelephonyManager;
 
-import com.nostra13.universalimageloader.cache.disc.impl.TotalSizeLimitedDiscCache;
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -169,7 +167,8 @@ public class Utils {
                     .threadPriority(Thread.MIN_PRIORITY + 2)
                     .denyCacheImageMultipleSizesInMemory()
                     .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // 2 Mb
-                    .discCache(new TotalSizeLimitedDiscCache(cacheDir, new HashCodeFileNameGenerator(), 40 * 1024 * 1024))  // 40 Mb
+                    .diskCache(new UnlimitedDiscCache(cacheDir)) // default
+                    .diskCacheSize(40 * 1024 * 1024)
                     .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)
                     .build();
             imageLoader.init(config);

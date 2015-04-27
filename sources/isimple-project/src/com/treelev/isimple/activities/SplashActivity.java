@@ -12,9 +12,8 @@ import java.util.Date;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.Toast;
 
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -32,7 +31,6 @@ import android.util.Log;
 
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
-import com.treelev.isimple.service.UpdateDataService;
 import com.treelev.isimple.utils.Constants;
 import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
@@ -307,6 +305,10 @@ public class SplashActivity extends Activity {
             hideDialog();
             startApplication(false);
             SplashActivity.this.unregisterReceiver(this);
+            
+            if (!intent.getBooleanExtra(Constants.INTENT_ACTION_SYNC_SUCCESSFULL, true)) {
+                Toast.makeText(context, R.string.sync_error_update_index_error, Toast.LENGTH_LONG).show();
+            }
         }
 
     }

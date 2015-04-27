@@ -4,14 +4,17 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.parser.*;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.UnzipManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -47,7 +50,13 @@ public class FirstDataLoadTask extends AsyncTask<String, Integer, Void> {
             XmlPullParser xmlPullParser = new UnzipManager().unZipFile(downloadFile);
             Utils.getXmlParser(getParserIdByIndex(i)).parseXmlToDB(xmlPullParser, getDAOListByIndex(i));
         }*/
-        File downloadFile = new WebServiceManager().downloadFile(params[0]);
+        File downloadFile = null;
+        try {
+            downloadFile = new WebServiceManager().downloadFile(params[0]);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
         XmlPullParser xmlPullParser = new UnzipManager().unZipFile(downloadFile);
         Utils.getXmlParser(getParserIdByIndex(2)).parseXmlToDB(xmlPullParser, getDAOListByIndex(2));
         return null;

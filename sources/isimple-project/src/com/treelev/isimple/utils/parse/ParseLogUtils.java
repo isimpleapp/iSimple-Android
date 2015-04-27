@@ -9,13 +9,15 @@ import android.os.Environment;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.utils.Constants;
+import com.treelev.isimple.utils.LogUtils;
 
 public class ParseLogUtils {
 
-    public static void logToParse(int deleteCount, int insertCount, int updatedCount, File log) {
+    public static void logToParse(int deleteCount, int insertCount, int updatedCount, ParseFile log) {
         ParseObject gameScore = new ParseObject("comsimpleisimpleLOG");
         gameScore.put("UDID", ISimpleApp.getDeviceId());
         gameScore.put("application", "com.simple.isimple");
@@ -35,23 +37,16 @@ public class ParseLogUtils {
 
         return syncLogDir;
     }
-    
-    public static File createSyncLogFile(SyncLogEntity logEntity) {
-      File syncLogFile = new File(ParseLogUtils.getTempLogFilesDirectory(), Constants.SYNC_LOG_FILE_NAME);
-      try {
-          
-          if (!syncLogFile.exists()) {
-              syncLogFile.createNewFile();
-          }
-          FileOutputStream out = new FileOutputStream(syncLogFile);
-          Gson gson = new GsonBuilder().setPrettyPrinting().create();
-          out.write(gson.toJson(logEntity).getBytes());
-          out.close();
-      } catch (IOException e) {
-          throw new RuntimeException(e);
-      }
-      
-      return syncLogFile;
-  }
+
+    public static ParseFile createSyncLogFile(SyncLogEntity logEntity) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(logEntity);
+        byte[] data = json.getBytes();
+
+        ParseFile syncLogFile = new ParseFile(Constants.SYNC_LOG_FILE_NAME, data);
+        syncLogFile.saveInBackground();
+
+        return syncLogFile;
+    }
 
 }

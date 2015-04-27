@@ -1,6 +1,10 @@
 package com.treelev.isimple.parser;
 
+import java.util.List;
+
 import com.treelev.isimple.data.BaseDAO;
+import com.treelev.isimple.domain.db.Item;
+
 import org.xmlpull.v1.XmlPullParser;
 
 public interface Parser {

@@ -1,5 +1,31 @@
 package com.treelev.isimple.fragments;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
+import org.holoeverywhere.app.DialogFragment;
+import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.Button;
+import org.holoeverywhere.widget.EditText;
+import org.holoeverywhere.widget.TextView;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -11,32 +37,17 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
+
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-import org.holoeverywhere.app.*;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.security.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class OrderDialogFragment extends DialogFragment
@@ -444,6 +455,15 @@ public class OrderDialogFragment extends DialogFragment
             } finally {
                 return result;
             }
+            
+//            OkHttpClient client = new OkHttpClient();
+//            RequestBody body = RequestBody.create(JSON, json);
+//            Request request = new Request.Builder()
+//                .url(mContext.getString(R.string.url_send_order).trim())
+//                .post(body)
+//                .build();
+//            Response response = client.newCall(request).execute();
+//            response.body().string();
         }
 
         private int getResponseAnswer(HttpEntity entity){

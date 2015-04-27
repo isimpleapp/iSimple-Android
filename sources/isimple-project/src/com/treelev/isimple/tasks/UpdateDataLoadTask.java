@@ -2,14 +2,17 @@ package com.treelev.isimple.tasks;
 
 import android.os.AsyncTask;
 import android.widget.TextView;
+
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.parser.*;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.UnzipManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -40,7 +43,13 @@ public class UpdateDataLoadTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
         for (int i = 0; i < params.length; i++) {
-            File downloadFile = new WebServiceManager().downloadFile(params[i]);
+            File downloadFile;
+            try {
+                downloadFile = new WebServiceManager().downloadFile(params[i]);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
             XmlPullParser xmlPullParser = new UnzipManager().unZipFile(downloadFile);
             Utils.getXmlParser(getParserIdByIndex(i)).parseXmlToDB(xmlPullParser, getDAOListByIndex(i));
         }

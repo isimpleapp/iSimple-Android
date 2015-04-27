@@ -1,5 +1,17 @@
 package com.treelev.isimple.activities;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import org.holoeverywhere.widget.Button;
+import org.holoeverywhere.widget.TextView;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,12 +31,13 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
 import com.treelev.isimple.analytics.Analytics;
@@ -34,13 +47,6 @@ import com.treelev.isimple.domain.ui.ProductContent;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.TextView;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class ProductInfoActivity extends BaseExpandableListActivity {
 
@@ -583,26 +589,13 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		}
 	};
 
-	private ImageLoadingListener mImageLoadingListener = new ImageLoadingListener() {
-		@Override
-		public void onLoadingStarted(String s, View view) {
-
-		}
-
-		@Override
-		public void onLoadingFailed(String s, View view, FailReason failReason) {
-
-		}
+	private SimpleImageLoadingListener mImageLoadingListener = new SimpleImageLoadingListener() {
 
 		@Override
 		public void onLoadingComplete(String s, View view, Bitmap bitmap) {
 			mBitMap = bitmap;
 		}
 
-		@Override
-		public void onLoadingCancelled(String s, View view) {
-
-		}
 	};
 
 }

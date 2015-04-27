@@ -1,24 +1,24 @@
 package com.treelev.isimple.parser;
 
-import android.text.TextUtils;
-import com.treelev.isimple.data.BaseDAO;
-import com.treelev.isimple.data.ItemDAO;
-import com.treelev.isimple.domain.db.Item;
-import com.treelev.isimple.enumerable.UpdateFile;
-import com.treelev.isimple.enumerable.item.ItemColor;
-import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.enumerable.item.ProductType;
-import com.treelev.isimple.enumerable.item.Sweetness;
-import com.treelev.isimple.utils.LogUtils;
-import com.treelev.isimple.utils.Utils;
-import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import android.text.TextUtils;
+
+import com.treelev.isimple.data.BaseDAO;
+import com.treelev.isimple.data.ItemDAO;
+import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.enumerable.UpdateFile;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.enumerable.item.ItemColor;
+import com.treelev.isimple.enumerable.item.ProductType;
+import com.treelev.isimple.enumerable.item.Sweetness;
+import com.treelev.isimple.utils.Utils;
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 
 public class CatalogItemParser implements Parser {
 
@@ -196,6 +196,133 @@ public class CatalogItemParser implements Parser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public List<Item> parseXml(XmlPullParser xmlPullParser, BaseDAO... daoList) {
+        List<Item> itemList = new ArrayList<Item>();
+        try {
+            Item item;
+            String tempStr;
+            while (xmlPullParser.getEventType() != XmlPullParser.END_DOCUMENT) {
+                if (xmlPullParser.getEventType() == XmlPullParser.START_TAG && xmlPullParser.getName().equals(CATALOG_OBJECT_TAG)) {
+                    item = new Item();
+                    xmlPullParser.next();
+                    while (xmlPullParser.getEventType() == XmlPullParser.TEXT) {
+                        // Looks like we have new lines in the xml
+                        xmlPullParser.next();
+                    }
+                    while (xmlPullParser.getEventType() != XmlPullParser.END_TAG && !xmlPullParser.getName().equals(CATALOG_OBJECT_TAG)) {
+                        if (xmlPullParser.getEventType() == XmlPullParser.START_TAG) {
+                            if (xmlPullParser.getName().equals(CATALOG_ITEM_ID_VALUE_TAG)) {
+                                item.setItemID(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_DRINK_ID_VALUE_TAG)) {
+                                item.setDrinkID(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_NAME_VALUE_TAG)) {
+                                item.setName(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_LOCALIZATED_NAME_VALUE_TAG)) {
+                                item.setLocalizedName(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_MANUFACTURER_VALUE_TAG)) {
+                                item.setManufacturer(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_LOCALIZATED_MANUFACTURER_VALUE_TAG)) {
+                                item.setLocalizedManufacturer(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_PRICE_VALUE_TAG)) {
+                                item.setPrice(Utils.parseFloat(xmlPullParser.nextText()));
+                            } else if (xmlPullParser.getName().equals(CATALOG_COUNTRY_VALUE_TAG)) {
+                                item.setCountry(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_REGION_VALUE_TAG)) {
+                                item.setRegion(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_BARCODE_VALUE_TAG)) {
+                                item.setBarcode(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_PRODUCT_TYPE_VALUE_TAG)) {
+                                item.setProductType(ProductType.getProductType(xmlPullParser.nextText()));
+                            } else if (xmlPullParser.getName().equals(CATALOG_CLASSIFICATION_VALUE_TAG)) {
+                                item.setClassification(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_DRINK_CATEGORY_VALUE_TAG)) {
+                                item.setDrinkCategory(DrinkCategory.getDrinkCategory(xmlPullParser.nextText()));
+                            } else if (xmlPullParser.getName().equals(CATALOG_COLOR_VALUE_TAG)) {
+                                item.setColor(ItemColor.getColor(xmlPullParser.nextText()));
+                            } else if (xmlPullParser.getName().equals(CATALOG_STYLE_VALUE_TAG)) {
+                                item.setStyle(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_SWEETNESS_VALUE_TAG)) {
+                                item.setSweetness(Sweetness.getSweetness(xmlPullParser.nextText()));
+                            } else if (xmlPullParser.getName().equals(CATALOG_YEAR_VALUE_TAG)) {
+                                item.setYear(Utils.parseInteger(xmlPullParser.nextText()));
+                            } else if (xmlPullParser.getName().equals(CATALOG_VOLUME_VALUE_TAG)) {
+                                item.setVolume(Utils.parseFloat(xmlPullParser.nextText()));
+                            } else if (xmlPullParser.getName().equals(CATALOG_DRINK_TYPE_VALUE_TAG)) {
+                                tempStr = xmlPullParser.nextText();
+                                if (!TextUtils.isEmpty(tempStr)) {
+                                    item.setDrinkType(tempStr);
+                                }
+                            } else if (xmlPullParser.getName().equals(CATALOG_ALCOHOL_VALUE_TAG)) {
+                                item.setAlcohol(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_BOTTLE_IMG_HIGR_RES_VALUE_TAG)) {
+                                item.setBottleHiResolutionImageFilename(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_BOTTLE_IMG_LOW_RES_VALUE_TAG)) {
+                                tempStr = xmlPullParser.nextText();
+                                if (!TextUtils.isEmpty(tempStr)) {
+                                    item.setBottleLowResolutionImageFilename(tempStr);
+                                }
+                            } else if (xmlPullParser.getName().equals(CATALOG_STYLE_DESCRIPTION_VALUE_TAG)) {
+                                item.setStyleDescription(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_APPELATION_VALUE_TAG)) {
+                                item.setAppelation(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_SERVING_TEMP_MIN_VALUE_TAG)) {
+                                item.setServingTempMin(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_SERVING_TEMP_MAX_VALUE_TAG)) {
+                                item.setServingTempMax(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_TASTE_QUALITIES_VALUE_TAG)) {
+                                item.setTasteQualities(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_VINTAGE_REPORT_VALUE_TAG)) {
+                                tempStr = xmlPullParser.nextText();
+                                if (!TextUtils.isEmpty(tempStr)) {
+                                    item.setVintageReport(tempStr);
+                                }
+                            } else if (xmlPullParser.getName().equals(CATALOG_AGING_PROCESS_VALUE_TAG)) {
+                                item.setAgingProcess(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_PRODUCTION_PROCESS_VALUE_TAG)) {
+                                item.setProductionProcess(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_INTERESTING_FACTS_VALUE_TAG)) {
+                                item.setInterestingFacts(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_LABEL_HISTORY_VALUE_TAG)) {
+                                tempStr = xmlPullParser.nextText();
+                                if (!TextUtils.isEmpty(tempStr)) {
+                                    item.setLabelHistory(tempStr);
+                                }
+                            } else if (xmlPullParser.getName().equals(CATALOG_GASTRONOMY_VALUE_TAG)) {
+                                item.setGastronomy(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_VINEYARD_VALUE_TAG)) {
+                                item.setVineyard(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_GRAPES_USED_VALUE_TAG)) {
+                                item.setGrapesUsed(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_RATING_VALUE_TAG)) {
+                                item.setRating(xmlPullParser.nextText());
+                            } else if (xmlPullParser.getName().equals(CATALOG_QUANTITY_VALUE_TAG)) {
+                                item.setQuantity(Utils.parseFloat(xmlPullParser.nextText()));
+                            } else {
+                                xmlPullParser.nextText();
+                            }
+                        }
+                        xmlPullParser.next();
+                        while (xmlPullParser.getEventType() == XmlPullParser.TEXT) {
+                            // Looks like we have new lines in the xml
+                            xmlPullParser.next();
+                        }
+                    }
+                    itemList.add(item);
+                }
+                xmlPullParser.next();
+                while (xmlPullParser.getEventType() == XmlPullParser.TEXT) {
+                    // Looks like we have new lines in the xml
+                    xmlPullParser.next();
+                }
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return itemList;
     }
 
 	public static String getFileName() {

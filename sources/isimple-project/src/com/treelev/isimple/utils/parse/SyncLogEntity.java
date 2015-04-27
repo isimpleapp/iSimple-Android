@@ -44,7 +44,7 @@ public class SyncLogEntity {
 
         public DailyUpdateDuration(double dailyUpdateDuration) {
             super();
-            DailyUpdateDuration = dailyUpdateDuration;
+            DailyUpdateDuration = dailyUpdateDuration / 1000;
         }
     }
     
@@ -53,7 +53,7 @@ public class SyncLogEntity {
 
         public PriceDiscountsUpdateDuration(double priceDiscountsUpdateDuration) {
             super();
-            PriceDiscountsUpdateDuration = priceDiscountsUpdateDuration;
+            PriceDiscountsUpdateDuration = priceDiscountsUpdateDuration / 1000;
         }
     }
     
@@ -62,7 +62,7 @@ public class SyncLogEntity {
 
         public FeaturedUpdateDuration(double featuredUpdateDuration) {
             super();
-            FeaturedUpdateDuration = featuredUpdateDuration;
+            FeaturedUpdateDuration = featuredUpdateDuration / 1000;
         }
     }
     
@@ -80,7 +80,7 @@ public class SyncLogEntity {
 
         public FullUpdateDuration(double fullUpdateDuration) {
             super();
-            FullUpdateDuration = fullUpdateDuration;
+            FullUpdateDuration = fullUpdateDuration / 1000;
         }
     }
     

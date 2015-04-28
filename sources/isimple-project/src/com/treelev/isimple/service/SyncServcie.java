@@ -214,6 +214,11 @@ public class SyncServcie extends Service {
             LogUtils.i("", "Unzipping ITEMS_PRICE file");
             syncLogEntity.logs.add(new SyncPhaseLog("Unzipping ITEMS_PRICE file"));
             File unzippedItemsPrice = unzipFile(itemsPriceArchive);
+            if (unzippedItemsPrice.length() == 0) {
+                error = true;
+                failedSyncPhase = SyncPhase.ITEM_PRICES;
+                return null;
+            }
 
             // 3. Parse itemsPrice xml. Get items to be updated
             LogUtils.i("", "Parsing ITEMS_PRICE file");
@@ -317,11 +322,11 @@ public class SyncServcie extends Service {
                             context.getString(R.string.sync_state_new_items_downloading),
                             downloadedFilesCount, newItemsSize));
                     // TODO DEBUG: Remove this if block after tests
-                    if (sb.toString().contains("88253") || sb.toString().contains("93031")
-                            || sb.toString().contains("94822") || sb.toString().contains("94743")
-                            || sb.toString().contains("95120")) {
-                        continue;
-                    }
+//                    if (sb.toString().contains("88253") || sb.toString().contains("93031")
+//                            || sb.toString().contains("94822") || sb.toString().contains("94743")
+//                            || sb.toString().contains("95120")) {
+//                        continue;
+//                    }
                     // -----------------------------------------------------
 
                     try {

@@ -9,7 +9,7 @@ import android.util.Log;
 public class DatabaseSqlHelper extends SQLiteOpenHelper {
 
     public final static String DATABASE_NAME = "iSimple.db";
-    public final static int DATABASE_VERSION = 3;
+    public final static int DATABASE_VERSION = 4;
 
     public final static String ITEM_DEPRECATED_TABLE = "item_deprecated";
     public final static String ITEM_TABLE = "item";
@@ -23,7 +23,9 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_MANUFACTURER = "manufacturer";
     public final static String ITEM_LOCALIZED_MANUFACTURER = "localized_manufacturer";
     public final static String ITEM_PRICE = "price";
-    public final static String ITEM_OLD_PRICE = "old_price";
+    public final static String ITEM_OLD_PRICE = "old_price"; // deprecated
+    public final static String ITEM_DISCOUNT = "discount";
+    public final static String ITEM_ORIGIN_PRICE = "origin_price";
     public final static String ITEM_PRICE_MARKUP = "price_markup";
     public final static String ITEM_COUNTRY = "country";
     public final static String ITEM_REGION = "region";
@@ -58,6 +60,15 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_IS_FAVOURITE = "is_favourite";
     public final static String ITEM_SHOPPING_CART_COUNT = "item_count";
     public final static String ITEM_LEFT_OVERS = "item_left_overs";
+    
+    private static DatabaseSqlHelper instanse;
+    
+    public static DatabaseSqlHelper getInstanse(Context context) {
+        if (instanse == null) {
+            instanse = new DatabaseSqlHelper(context);
+        }
+        return instanse;
+    }
 
     private final static String CREATE_TABLE_ITEM_DEPRECATED = "create table " + ITEM_DEPRECATED_TABLE + "( " +
             ITEM_ID + " text primary key, " +
@@ -83,7 +94,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_MANUFACTURER + " text, " +
             ITEM_LOCALIZED_MANUFACTURER + " text, " +
             ITEM_PRICE + " float, " +
-            ITEM_OLD_PRICE + " float, " +
+            ITEM_DISCOUNT + " float, " +
+            ITEM_ORIGIN_PRICE + " float, " +
             ITEM_PRICE_MARKUP + " float, " +
             ITEM_COUNTRY + " text, " +
             ITEM_REGION + " text, " +
@@ -117,6 +129,49 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_QUANTITY + " float, " +
             ITEM_IS_FAVOURITE + " integer, " +
             ITEM_LEFT_OVERS + " integer);";
+    
+//    private final static String CREATE_TABLE_ITEM = "create table " + ITEM_TABLE + "( " +
+//            ITEM_ID + " text primary key, " +
+//            ITEM_DRINK_ID + " text, " +
+//            ITEM_NAME + " text, " +
+//            ITEM_LOCALIZED_NAME + " text, " +
+//            ITEM_MANUFACTURER + " text, " +
+//            ITEM_LOCALIZED_MANUFACTURER + " text, " +
+//            ITEM_PRICE + " float, " +
+//            ITEM_OLD_PRICE + " float, " +
+//            ITEM_PRICE_MARKUP + " float, " +
+//            ITEM_COUNTRY + " text, " +
+//            ITEM_REGION + " text, " +
+//            ITEM_BARCODE + " text, " +
+//            ITEM_PRODUCT_TYPE + " integer, " +
+//            ITEM_CLASSIFICATION + " text, " +
+//            ITEM_DRINK_CATEGORY + " integer, " +
+//            ITEM_COLOR + " integer, " +
+//            ITEM_STYLE + " text, " +
+//            ITEM_SWEETNESS + " integer, " +
+//            ITEM_YEAR + " integer, " +
+//            ITEM_VOLUME + " float, " +
+//            ITEM_DRINK_TYPE + " text, " +
+//            ITEM_ALCOHOL + " text, " +
+//            ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME + " text, " +
+//            ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME + " text, " +
+//            ITEM_STYLE_DESCRIPTION + " text, " +
+//            ITEM_APPELATION + " text, " +
+//            ITEM_SERVING_TEMP_MIN + " text, " +
+//            ITEM_SERVING_TEMP_MAX + " text, " +
+//            ITEM_TASTE_QUALITIES + " text, " +
+//            ITEM_VINTAGE_REPORT + " text, " +
+//            ITEM_AGING_PROCESS + " text, " +
+//            ITEM_PRODUCTION_PROCESS + " text, " +
+//            ITEM_INTERESTING_FACTS + " text, " +
+//            ITEM_LABEL_HISTORY + " text, " +
+//            ITEM_GASTRONOMY + " text, " +
+//            ITEM_VINEYARD + " text, " +
+//            ITEM_GRAPES_USED + " text, " +
+//            ITEM_RATING + " text, " +
+//            ITEM_QUANTITY + " float, " +
+//            ITEM_IS_FAVOURITE + " integer, " +
+//            ITEM_LEFT_OVERS + " integer);";
 
     private final static String CREATE_TABLE_FAVOURITE_ITEM = "create table " + FAVOURITE_ITEM_TABLE + "( " +
             ITEM_ID + " text primary key, " +
@@ -278,7 +333,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             DELIVERY_LONGITUDE + " float, " +
             DELIVERY_LATITUDE + " float);";
 
-    public DatabaseSqlHelper(Context context) {
+    private DatabaseSqlHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -311,21 +366,51 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
 //        onCreate(db);
     	
     	if (oldVersion < 3 && newVersion == 3) {
-    		try {
-    			db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
-    		} catch (Exception e) {
-    			Log.i("ADD COLUMN old_price", "old_price already exists");
-			}
-			try {
-			 db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
-			} catch (Exception e) {
-				Log.i("ADD COLUMN old_price", "old_price already exists");
-			}
-			try {
-			db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
-			} catch (Exception e) {
-				Log.i("ADD COLUMN old_price", "old_price already exists");
-			}
-		}
+    	    migrate0to3(db, oldVersion, newVersion);
+		} else if (oldVersion == 3 && newVersion == 4) {
+		    migrate3to4(db, oldVersion, newVersion);
+        } else if (oldVersion < 3 && newVersion == 4) {
+            migrate0to3(db, oldVersion, newVersion);
+            migrate3to4(db, oldVersion, newVersion);
+        }
+    }
+    
+    
+    private void migrate0to3(SQLiteDatabase db, int oldVersion, int newVersion) {
+        try {
+            db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+            db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+            db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
+        } catch (Exception e) {
+            Log.i("", "Failed db update, oldVersion = " + oldVersion + ", newVeriosn = " + newVersion);
+        }
+    }
+    
+    private void migrate3to4(SQLiteDatabase db, int oldVersion, int newVersion) {
+        try {
+            db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_DISCOUNT + " FLOAT");
+            db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_DISCOUNT + " FLOAT");
+            db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_DISCOUNT + " FLOAT");
+            
+            db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_ORIGIN_PRICE + " FLOAT");
+            db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_ORIGIN_PRICE + " FLOAT");
+            db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_ORIGIN_PRICE + " FLOAT");
+            
+            db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_PRICE);
+            db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_OLD_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
+            db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_DISCOUNT + " = " + ITEM_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
+            
+            db.execSQL("UPDATE " + FAVOURITE_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_PRICE);
+            db.execSQL("UPDATE " + FAVOURITE_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_OLD_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
+            db.execSQL("UPDATE " + FAVOURITE_ITEM_TABLE + " SET " + ITEM_DISCOUNT + " = " + ITEM_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
+            
+            db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_PRICE);
+            db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_OLD_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
+            db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_DISCOUNT + " = " + ITEM_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
+            
+            Log.i("", "Finished db update, oldVersion = " + oldVersion + ", newVeriosn = " + newVersion);
+        } catch (Exception e) {
+            Log.i("", "Failed db update, oldVersion = " + oldVersion + ", newVeriosn = " + newVersion);
+        }
     }
 }

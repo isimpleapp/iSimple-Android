@@ -11,7 +11,7 @@ public abstract class BaseDAO {
 	private SQLiteDatabase database;
 
 	protected BaseDAO(Context context) {
-			databaseSqlHelper = new DatabaseSqlHelper(context);
+			databaseSqlHelper = DatabaseSqlHelper.getInstanse(context);
 	}
 
 	public void open() {

@@ -45,7 +45,7 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 
 		setContentView(R.layout.catalog_list_layout);
 		setCurrentCategory(NAVIGATE_CATEGORY_ID);
-//		createNavigationMenuBar();
+		createDrawableMenu();
 		darkView = findViewById(R.id.dark_view);
 		darkView.setVisibility(View.GONE);
 		darkView.setOnClickListener(null);
@@ -62,12 +62,12 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 		getSupportLoaderManager().restartLoader(0, null, this);
 	}
 
-//	@Override
-//	protected void createNavigationMenuBar() {
-//		super.createNavigationMenuBar();
-//		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//		getSupportActionBar().setHomeButtonEnabled(false);
-//	}
+	@Override
+	protected void createDrawableMenu() {
+		super.createDrawableMenu();
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setHomeButtonEnabled(false);
+	}
 
 	@Override
 	protected void onStart() {

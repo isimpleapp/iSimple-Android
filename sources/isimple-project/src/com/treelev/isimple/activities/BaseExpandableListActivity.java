@@ -1,33 +1,41 @@
+
 package com.treelev.isimple.activities;
 
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.ExpandableListActivity;
+import org.holoeverywhere.widget.ExpandableListView;
+
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.EnterCatalogUpdateUrlDialogFragment.CatalogUpdateUrlChangeListener;
-import com.treelev.isimple.adapters.NavigationListAdapter;
+import com.treelev.isimple.adapters.NavigationDrawerAdapter;
 import com.treelev.isimple.app.ISimpleApp;
-import com.treelev.isimple.service.DownloadDataService;
-import com.treelev.isimple.service.UpdateDataService;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.observer.Observer;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
-import org.holoeverywhere.app.AlertDialog;
-import org.holoeverywhere.app.ExpandableListActivity;
-import org.holoeverywhere.widget.ExpandableListView;
 
-public class BaseExpandableListActivity extends ExpandableListActivity implements ActionBar.OnNavigationListener,
+public class BaseExpandableListActivity extends ExpandableListActivity implements
+        ActionBar.OnNavigationListener,
         Observer, CatalogUpdateUrlChangeListener {
 
     protected boolean mEventChangeDataBase;
@@ -47,14 +55,14 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     @Override
     protected void onStart() {
         super.onStart();
-        ((ISimpleApp)getApplication()).incRefActivity();
+        ((ISimpleApp) getApplication()).incRefActivity();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        ((ISimpleApp)getApplication()).decRefActivity();
-        if(((ISimpleApp)getApplication()).getCountRefActivity() == 0){
+        ((ISimpleApp) getApplication()).decRefActivity();
+        if (((ISimpleApp) getApplication()).getCountRefActivity() == 0) {
             LocationTrackingManager.getInstante().stopLocationListener();
         }
     }
@@ -70,11 +78,11 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-///        this.supportInvalidateOptionsMenu();
-        if(useBarcodeScaner){
-            if(backAfterBarcodeScaner){
+        // / this.supportInvalidateOptionsMenu();
+        if (useBarcodeScaner) {
+            if (backAfterBarcodeScaner) {
                 finish();
                 startActivity(getIntent());
             }
@@ -96,12 +104,16 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     protected void createDrawableMenu() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Resources resources = getResources();
+
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
         String[] mainMenuLabelsArray = resources.getStringArray(R.array.main_menu_items);
         TypedArray typedIconsArray = resources.obtainTypedArray(R.array.main_menu_icons);
         Drawable[] iconLocation = getIconsList(typedIconsArray, mainMenuLabelsArray.length);
         initDrawerMenuList(iconLocation, mainMenuLabelsArray);
     }
-    
+
     private Drawable[] getIconsList(TypedArray typedIconsArray, int navigationMenuBarLenght) {
         Drawable[] iconLocation = new Drawable[typedIconsArray.length()];
         for (int i = 0; i < navigationMenuBarLenght; ++i) {
@@ -109,9 +121,28 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         }
         return iconLocation;
     }
-    
+
     private void initDrawerMenuList(Drawable[] iconLocation, String[] mainMenuLabelsArray) {
-        // TODO Implement
+        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this, mainMenuLabelsArray,
+                iconLocation);
+        ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View drawerHeader = inflater.inflate(R.layout.drawer_header, drawerList, false);
+        drawerList.addHeaderView(drawerHeader);
+
+        drawerList.setAdapter(adapter);
+        drawerList.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = getStartIntentByItemPosition(position - 1);
+                if (intent != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
 
     private Intent getStartIntentByItemPosition(int itemPosition) {
@@ -119,50 +150,50 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         Intent intent = null;
         int flags = 0;
         switch (itemPosition) {
-            case 0: //Catalog
+            case 0: // Catalog
                 category = CatalogListActivity.class;
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
                 break;
-            case 1: //Shop
+            case 1: // Shop
                 category = ShopsFragmentActivity.class;
                 break;
-            case 2: //FavoritesActivity
+            case 2: // FavoritesActivity
                 category = FavoritesActivity.class;
                 break;
-            case 3: //ShoppingCartActivity
+            case 3: // ShoppingCartActivity
                 category = ShoppingCartActivity.class;
                 break;
-            case 4: //Scan Code
+            case 4: // Scan Code
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.initiateScan();
                 getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
-            case 5: //About
+            case 5: // About
                 showAbout();
                 getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
             case 6:
-            	showCatalogUpdateLink();
+                showCatalogUpdateLink();
                 getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
             default:
                 category = null;
         }
-        if( !this.getClass().equals(category) && category != null){
-            intent =  new Intent(this, category);
-            if(flags != 0 && mCurrentCategory != itemPosition) {
+        if (!this.getClass().equals(category) && category != null) {
+            intent = new Intent(this, category);
+            if (flags != 0 && mCurrentCategory != itemPosition) {
                 intent.setFlags(flags);
             }
         }
         return intent;
     }
-    
+
     private void showCatalogUpdateLink() {
-    	EnterCatalogUpdateUrlDialogFragment changeCatalogUpdateUrl = new EnterCatalogUpdateUrlDialogFragment();
-		changeCatalogUpdateUrl.show(getFragmentManager(), "sometag");
+        EnterCatalogUpdateUrlDialogFragment changeCatalogUpdateUrl = new EnterCatalogUpdateUrlDialogFragment();
+        changeCatalogUpdateUrl.show(getFragmentManager(), "sometag");
     }
 
-    private void showAbout(){
+    private void showAbout() {
         String version = "";
         try {
             version = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
@@ -171,17 +202,20 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         } finally {
             String dateUpdate = SharedPreferencesManager.getDateUpdate(this);
             String dateCatalogUpdate = SharedPreferencesManager.getDateCatalogUpdate(this);
-            String datePriceUpdate = SharedPreferencesManager.getDatePriceUpdate(this);;
+            String datePriceUpdate = SharedPreferencesManager.getDatePriceUpdate(this);
+            ;
             AlertDialog.Builder adb = new AlertDialog.Builder(this);
             adb.setTitle(getString(R.string.title_about_info));
-            String aboutInfo = String.format(getString(R.string.about_info), version, dateCatalogUpdate, datePriceUpdate, dateUpdate);
+            String aboutInfo = String.format(getString(R.string.about_info), version,
+                    dateCatalogUpdate, datePriceUpdate, dateUpdate);
             adb.setMessage(Html.fromHtml(aboutInfo));
-            adb.setNeutralButton(getString(R.string.dialog_button_ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
+            adb.setNeutralButton(getString(R.string.dialog_button_ok),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
             adb.show();
         }
     }
@@ -196,7 +230,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
 
                     typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
                     codeInfo = data.getStringExtra("SCAN_RESULT");
-                    if(codeInfo != null){
+                    if (codeInfo != null) {
                         checkBarcodeResult(codeInfo);
                     }
                     break;
@@ -218,7 +252,8 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
                 intent.putExtra(BARCODE, code);
                 startActivity(intent);
             } else {
-                int countFromItemDeprecatedTable = proxyManager.getCountBarcodeInDeprecatedTable(code);
+                int countFromItemDeprecatedTable = proxyManager
+                        .getCountBarcodeInDeprecatedTable(code);
                 if (countFromItemDeprecatedTable > 1) {
                     Intent intent = new Intent(this, CatalogSubCategory.class);
                     intent.putExtra(BARCODE, code);
@@ -250,22 +285,25 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         adb.show();
     }
 
-    protected void expandAllGroup(){
+    protected void expandAllGroup() {
         ExpandableListView expandView = getExpandableListView();
         int countGroup = expandView.getExpandableListAdapter().getGroupCount();
-// because in the first application Parent invisible and empty. see implemantation SelectSectionsItems, AbsItemTreeCursorAdapter
-        for(int position = 1; position < countGroup; ++position){
+        // because in the first application Parent invisible and empty. see
+        // implemantation SelectSectionsItems, AbsItemTreeCursorAdapter
+        for (int position = 1; position < countGroup; ++position) {
             expandView.expandGroup(position);
         }
     }
 
-    protected  void disableOnGroupClick(){
-        getExpandableListView().setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                return true;
-            }
-        });
+    protected void disableOnGroupClick() {
+        getExpandableListView().setOnGroupClickListener(
+                new ExpandableListView.OnGroupClickListener() {
+                    @Override
+                    public boolean onGroupClick(ExpandableListView parent, View v,
+                            int groupPosition, long id) {
+                        return true;
+                    }
+                });
     }
 
     @Override
@@ -273,8 +311,8 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         mEventChangeDataBase = true;
     }
 
-	@Override
-	public void onCatalogUpdateUrlChanged(String url) {
-		SharedPreferencesManager.putUpdateFileUrl(url);
-	}
+    @Override
+    public void onCatalogUpdateUrlChanged(String url) {
+        SharedPreferencesManager.putUpdateFileUrl(url);
+    }
 }

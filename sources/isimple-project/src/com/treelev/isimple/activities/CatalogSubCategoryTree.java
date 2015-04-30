@@ -33,7 +33,7 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
         } else {
             setCurrentCategory(1); //Shop
         }
-        createNavigationMenuBar();
+//        createNavigationMenuBar();
         mFilterWhereClause = getIntent().getStringExtra(CatalogListActivity.FILTER_WHERE_CLAUSE);
         mDrinkID = getIntent().getStringExtra(CatalogListActivity.DRINK_ID);
         mQuery = getIntent().getStringExtra(SearchResultActivity.SEARCH_QUERY);
@@ -57,13 +57,13 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void createNavigationMenuBar(){
-        super.createNavigationMenuBar();
-        if(mLocationId != null) {
-            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
-        }
-    }
+//    @Override
+//    public void createNavigationMenuBar(){
+//        super.createNavigationMenuBar();
+//        if(mLocationId != null) {
+//            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

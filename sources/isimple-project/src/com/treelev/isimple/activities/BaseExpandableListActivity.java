@@ -93,13 +93,25 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         return false;
     }
 
-    protected void createNavigationMenuBar() {
+    protected void createDrawableMenu() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Resources resources = getResources();
         String[] mainMenuLabelsArray = resources.getStringArray(R.array.main_menu_items);
         TypedArray typedIconsArray = resources.obtainTypedArray(R.array.main_menu_icons);
         Drawable[] iconLocation = getIconsList(typedIconsArray, mainMenuLabelsArray.length);
-        organizeNavigationMenu(iconLocation, mainMenuLabelsArray);
+        initDrawerMenuList(iconLocation, mainMenuLabelsArray);
+    }
+    
+    private Drawable[] getIconsList(TypedArray typedIconsArray, int navigationMenuBarLenght) {
+        Drawable[] iconLocation = new Drawable[typedIconsArray.length()];
+        for (int i = 0; i < navigationMenuBarLenght; ++i) {
+            iconLocation[i] = typedIconsArray.getDrawable(i);
+        }
+        return iconLocation;
+    }
+    
+    private void initDrawerMenuList(Drawable[] iconLocation, String[] mainMenuLabelsArray) {
+        // TODO Implement
     }
 
     private Intent getStartIntentByItemPosition(int itemPosition) {
@@ -236,24 +248,6 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
             }
         });
         adb.show();
-    }
-
-    private Drawable[] getIconsList(TypedArray typedIconsArray, int navigationMenuBarLenght) {
-        Drawable[] iconLocation = new Drawable[typedIconsArray.length()];
-        for (int i = 0; i < navigationMenuBarLenght; ++i) {
-            iconLocation[i] = typedIconsArray.getDrawable(i);
-        }
-        return iconLocation;
-    }
-
-    private void organizeNavigationMenu(Drawable[] iconLocation, String[] mainMenuLabelsArray) {
-        NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, iconLocation, mainMenuLabelsArray);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-        getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
     }
 
     protected void expandAllGroup(){

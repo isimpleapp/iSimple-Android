@@ -79,7 +79,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		initImageLoader();
 		String locationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
 		initCurrentCategory(locationId);
-		createNavigationMenuBar(locationId);
+//		createNavigationMenuBar(locationId);
 		setContentView(R.layout.product_layout);
 		proxyManager = new ProxyManager(this);
 		itemId = getIntent().getStringExtra(ITEM_ID_TAG);
@@ -240,14 +240,14 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		return colorStr;
 	}
 
-	private void createNavigationMenuBar(String locationId) {
-		super.createNavigationMenuBar();
-		if (locationId == null) {
-			getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-		} else if (getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)) {
-			getSupportActionBar().setIcon(R.drawable.menu_ico_fav);
-		}
-	}
+//	private void createNavigationMenuBar(String locationId) {
+//		super.createNavigationMenuBar();
+//		if (locationId == null) {
+//			getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+//		} else if (getIntent().getBooleanExtra(FavoritesActivity.FAVORITES, false)) {
+//			getSupportActionBar().setIcon(R.drawable.menu_ico_fav);
+//		}
+//	}
 
 	private void setFavouritesImage(boolean isFavourite) {
 		ImageView image = (ImageView) headerView.findViewById(R.id.favourite_image);

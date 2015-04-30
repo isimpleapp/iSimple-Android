@@ -1,5 +1,7 @@
 package com.treelev.isimple.activities;
 
+import org.holoeverywhere.widget.ExpandableListView;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -7,43 +9,31 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogItemTreeCursorAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.service.DownloadDataService;
-import com.treelev.isimple.service.SyncServcie;
-import com.treelev.isimple.utils.Constants;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import com.treelev.isimple.utils.managers.SharedPreferencesManager;
-
-import org.holoeverywhere.widget.ExpandableListView;
-
-import android.widget.RelativeLayout;
-
-import com.treelev.isimple.R;
-import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogItemTreeCursorAdapter;
 
 public class CatalogListActivity extends BaseExpandableListActivity implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
 	public final static String CATEGORY_ID = "category_id";
 	private View darkView;
-	private RelativeLayout myLayout;
 	private final static int NAVIGATE_CATEGORY_ID = 0;
 	public final static String DRINK_ID = "drink_id";
 	public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
 	private CatalogItemTreeCursorAdapter mListCategoriesAdapter;
 	private SearchView mSearchView;
-	private android.widget.SearchView mSearchViewV11;
+//	private android.widget.SearchView mSearchViewV11;
 
 	@Override
 	protected void onCreate(Bundle sSavedInstanceState) {
@@ -55,7 +45,7 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 
 		setContentView(R.layout.catalog_list_layout);
 		setCurrentCategory(NAVIGATE_CATEGORY_ID);
-		createNavigationMenuBar();
+//		createNavigationMenuBar();
 		darkView = findViewById(R.id.dark_view);
 		darkView.setVisibility(View.GONE);
 		darkView.setOnClickListener(null);
@@ -72,12 +62,12 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 		getSupportLoaderManager().restartLoader(0, null, this);
 	}
 
-	@Override
-	protected void createNavigationMenuBar() {
-		super.createNavigationMenuBar();
-		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		getSupportActionBar().setHomeButtonEnabled(false);
-	}
+//	@Override
+//	protected void createNavigationMenuBar() {
+//		super.createNavigationMenuBar();
+//		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//		getSupportActionBar().setHomeButtonEnabled(false);
+//	}
 
 	@Override
 	protected void onStart() {
@@ -150,60 +140,60 @@ public class CatalogListActivity extends BaseExpandableListActivity implements
 				});
 	}
 
-	private void initSearchView(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.search_v11, menu);
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		mSearchViewV11 = (android.widget.SearchView) menu.findItem(
-				R.id.menu_search).getActionView();
-		mSearchViewV11.setSearchableInfo(searchManager
-				.getSearchableInfo(getComponentName()));
-		mSearchViewV11.setIconifiedByDefault(false);
-		final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
-		mSearchViewV11
-				.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-					@Override
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus) {
-							darkView.setVisibility(View.VISIBLE);
-							darkView.getBackground().setAlpha(150);
-							mSearchViewV11.setQuery(mSearchView.getQuery(),
-									false);
-						} else {
-							darkView.setVisibility(View.GONE);
-							mItemSearch.collapseActionView();
-							mSearchViewV11.setQuery("", false);
-						}
-					}
-				});
-		MenuItem menuItem = menu.findItem(R.id.menu_search);
-		menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-
-			@Override
-			public boolean onMenuItemActionCollapse(MenuItem item) {
-				darkView.setVisibility(View.GONE);
-				return true; // Return true to collapse action view
-			}
-
-			@Override
-			public boolean onMenuItemActionExpand(MenuItem item) {
-				return true;
-			}
-		});
-		mSearchViewV11
-				.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
-					@Override
-					public boolean onQueryTextSubmit(String query) {
-						SearchResultActivity.categoryID = null;
-						SearchResultActivity.locationId = null;
-						return query.trim().length() < LENGTH_SEARCH_QUERY;
-					}
-
-					@Override
-					public boolean onQueryTextChange(String newText) {
-						return false;
-					}
-				});
-	}
+//	private void initSearchView(Menu menu) {
+//		getSupportMenuInflater().inflate(R.menu.search_v11, menu);
+//		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//		mSearchViewV11 = (android.widget.SearchView) menu.findItem(
+//				R.id.menu_search).getActionView();
+//		mSearchViewV11.setSearchableInfo(searchManager
+//				.getSearchableInfo(getComponentName()));
+//		mSearchViewV11.setIconifiedByDefault(false);
+//		final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
+//		mSearchViewV11
+//				.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+//					@Override
+//					public void onFocusChange(View v, boolean hasFocus) {
+//						if (hasFocus) {
+//							darkView.setVisibility(View.VISIBLE);
+//							darkView.getBackground().setAlpha(150);
+//							mSearchViewV11.setQuery(mSearchView.getQuery(),
+//									false);
+//						} else {
+//							darkView.setVisibility(View.GONE);
+//							mItemSearch.collapseActionView();
+//							mSearchViewV11.setQuery("", false);
+//						}
+//					}
+//				});
+//		MenuItem menuItem = menu.findItem(R.id.menu_search);
+//		menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+//
+//			@Override
+//			public boolean onMenuItemActionCollapse(MenuItem item) {
+//				darkView.setVisibility(View.GONE);
+//				return true; // Return true to collapse action view
+//			}
+//
+//			@Override
+//			public boolean onMenuItemActionExpand(MenuItem item) {
+//				return true;
+//			}
+//		});
+//		mSearchViewV11
+//				.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+//					@Override
+//					public boolean onQueryTextSubmit(String query) {
+//						SearchResultActivity.categoryID = null;
+//						SearchResultActivity.locationId = null;
+//						return query.trim().length() < LENGTH_SEARCH_QUERY;
+//					}
+//
+//					@Override
+//					public boolean onQueryTextChange(String newText) {
+//						return false;
+//					}
+//				});
+//	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {

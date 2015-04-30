@@ -101,7 +101,7 @@ public class CatalogByCategoryActivityDepracated extends BaseExpandableListActiv
             setCurrentCategory(1); //Shop
         }
         disableOnGroupClick();
-        createNavigationMenuBar();
+//        createNavigationMenuBar();
         darkView = findViewById(R.id.category_dark_view_cat);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
@@ -120,13 +120,13 @@ public class CatalogByCategoryActivityDepracated extends BaseExpandableListActiv
         super.onResume();
     }
 
-    @Override
-    public void createNavigationMenuBar() {
-        super.createNavigationMenuBar();
-        if (mLocationId != null) {
-            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
-        }
-    }
+//    @Override
+//    public void createNavigationMenuBar() {
+//        super.createNavigationMenuBar();
+//        if (mLocationId != null) {
+//            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

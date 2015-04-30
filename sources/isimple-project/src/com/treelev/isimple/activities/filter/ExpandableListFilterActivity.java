@@ -39,7 +39,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_expandable_layout);
-        createNavigationMenuBar();
+//        createNavigationMenuBar();
         getExpandableListView().setAdapter(new CustomExpandableListAdapter(
                 getGroupItems(getGroupData()),
                 R.layout.filter_item_view,
@@ -52,34 +52,34 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         hookRemoveArrowGroupItem();
     }
 
-    @Override
-    protected void createNavigationMenuBar() {
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        RelativeLayout relative = new RelativeLayout(getSupportActionBarContext());
-        org.holoeverywhere.widget.TextView title = new org.holoeverywhere.widget.TextView(getSupportActionBarContext());
-        title.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        title.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-        title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 27.0f);
-        title.setTextColor(getResources().getColor(R.color.isimple_pink));
-        title.setPadding(10, 0, 0, 0);
-        relative.addView(title);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setCustomView(relative);
-        int currentCategory = getIntent().getIntExtra(CURRENT_CATEGORY, -1);
-        switch(currentCategory) {
-            case 0:
-                getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-                title.setText("Каталог");
-                break;
-            case 1:
-                getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
-                title.setText("Магазины");
-                break;
-        }
-    }
+//    @Override
+//    protected void createNavigationMenuBar() {
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        RelativeLayout relative = new RelativeLayout(getSupportActionBarContext());
+//        org.holoeverywhere.widget.TextView title = new org.holoeverywhere.widget.TextView(getSupportActionBarContext());
+//        title.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+//        title.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+//        title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 27.0f);
+//        title.setTextColor(getResources().getColor(R.color.isimple_pink));
+//        title.setPadding(10, 0, 0, 0);
+//        relative.addView(title);
+//        getSupportActionBar().setDisplayShowCustomEnabled(true);
+//        getSupportActionBar().setCustomView(relative);
+//        int currentCategory = getIntent().getIntExtra(CURRENT_CATEGORY, -1);
+//        switch(currentCategory) {
+//            case 0:
+//                getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+//                title.setText("Каталог");
+//                break;
+//            case 1:
+//                getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+//                title.setText("Магазины");
+//                break;
+//        }
+//    }
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {

@@ -53,7 +53,7 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
 		} else {
 			setCurrentCategory(1);
 		}
-		createNavigationMenuBar();
+//		createNavigationMenuBar();
 		RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
 		rg.setOnCheckedChangeListener(this);
 		ProxyManager mProxyManager = new ProxyManager(this);
@@ -116,13 +116,13 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
 		Analytics.screen_Search(this);
 	}
 
-	@Override
-	public void createNavigationMenuBar() {
-		super.createNavigationMenuBar();
-		if (locationId != null) {
-			getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
-		}
-	}
+//	@Override
+//	public void createNavigationMenuBar() {
+//		super.createNavigationMenuBar();
+//		if (locationId != null) {
+//			getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+//		}
+//	}
 
 	@Override
 	protected void onNewIntent(Intent newIntent) {

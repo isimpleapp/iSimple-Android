@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawable_item_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:drawableLeft="@drawable/ico_btn_filter_find"
+    android:gravity="left|center_vertical"
+    android:paddingLeft="20dp"
+    android:drawablePadding="30dp"
+    android:text="Button" />

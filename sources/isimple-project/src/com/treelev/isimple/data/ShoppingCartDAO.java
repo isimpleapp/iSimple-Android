@@ -56,7 +56,7 @@ public class ShoppingCartDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_PRICE
                 + ", "
                 +
-                DatabaseSqlHelper.ITEM_OLD_PRICE
+                DatabaseSqlHelper.ITEM_DISCOUNT
                 + ", "
                 +
                 DatabaseSqlHelper.ITEM_PRICE_MARKUP
@@ -153,10 +153,13 @@ public class ShoppingCartDAO extends BaseDAO {
                 + ", "
                 +
                 DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT
+                + ", "
+                +
+                DatabaseSqlHelper.ITEM_ORIGIN_PRICE
                 +
                 ") VALUES "
                 +
-                "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
         insertStatement = bindString(insertStatement, 1, product.getItemID());
         insertStatement = bindString(insertStatement, 2, product.getDrinkID());
@@ -165,7 +168,7 @@ public class ShoppingCartDAO extends BaseDAO {
         insertStatement = bindString(insertStatement, 5, product.getManufacturer());
         insertStatement = bindString(insertStatement, 6, product.getLocalizedManufacturer());
         insertStatement = bindFloat(insertStatement, 7, product.getPrice());
-        insertStatement = bindFloat(insertStatement, 8, product.getOldPrice());
+        insertStatement = bindFloat(insertStatement, 8, product.getDiscount());
         insertStatement = bindFloat(insertStatement, 9, product.getPriceMarkup());
         insertStatement = bindString(insertStatement, 10, product.getCountry());
         insertStatement = bindString(insertStatement, 11, product.getRegion());
@@ -200,9 +203,9 @@ public class ShoppingCartDAO extends BaseDAO {
         insertStatement = bindString(insertStatement, 38, product.getRating());
         insertStatement = bindFloat(insertStatement, 39, product.getQuantity());
         insertStatement = bindInteger(insertStatement, 40, 1);
+        insertStatement = bindFloat(insertStatement, 41, product.getOrigin_price());
         long id = insertStatement.executeInsert();
         insertStatement.execute();
-        close();
         return id;
     }
 
@@ -216,7 +219,6 @@ public class ShoppingCartDAO extends BaseDAO {
         if (cursor != null && cursor.moveToFirst()) {
             result = true;
         }
-        close();
         return result;
     }
 
@@ -243,7 +245,6 @@ public class ShoppingCartDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
-        close();
     }
 
     public void decreaseItemCount(String itemId) {
@@ -252,7 +253,6 @@ public class ShoppingCartDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
-        close();
     }
 
     public int getItemCount(String itemId) {
@@ -269,7 +269,6 @@ public class ShoppingCartDAO extends BaseDAO {
             }
             cursor.close();
         }
-        close();
         return count;
     }
 
@@ -279,7 +278,6 @@ public class ShoppingCartDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
-        close();
     }
 
     public int getCountOrder() {
@@ -292,7 +290,6 @@ public class ShoppingCartDAO extends BaseDAO {
                 result = cursor.getInt(0);
             }
         }
-        close();
         return result;
     }
 
@@ -301,7 +298,6 @@ public class ShoppingCartDAO extends BaseDAO {
         String query = String.format(formatQuery, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
         open();
         getDatabase().execSQL(query);
-        close();
     }
 
     public int getShoppingCartPrice() {
@@ -323,7 +319,6 @@ public class ShoppingCartDAO extends BaseDAO {
             }
             cursor.close();
         }
-        close();
         return shoppingCartPrice;
     }
 
@@ -343,7 +338,6 @@ public class ShoppingCartDAO extends BaseDAO {
                 } while (cursor.moveToNext());
             }
         }
-        close();
         return orders;
     }
 
@@ -362,6 +356,5 @@ public class ShoppingCartDAO extends BaseDAO {
             db.endTransaction();
         }
 
-        close();
     }
 }

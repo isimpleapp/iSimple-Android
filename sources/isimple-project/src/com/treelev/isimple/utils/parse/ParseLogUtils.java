@@ -2,8 +2,6 @@
 package com.treelev.isimple.utils.parse;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import android.os.Environment;
 
@@ -13,7 +11,6 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.utils.Constants;
-import com.treelev.isimple.utils.LogUtils;
 
 public class ParseLogUtils {
 
@@ -43,7 +40,7 @@ public class ParseLogUtils {
         String json = gson.toJson(logEntity);
         byte[] data = json.getBytes();
 
-        ParseFile syncLogFile = new ParseFile(Constants.SYNC_LOG_FILE_NAME, data);
+        ParseFile syncLogFile = new ParseFile(Constants.SYNC_LOG_FILE_NAME, data, "txt");
         syncLogFile.saveInBackground();
 
         return syncLogFile;

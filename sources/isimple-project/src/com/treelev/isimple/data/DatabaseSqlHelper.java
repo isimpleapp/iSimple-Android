@@ -94,6 +94,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_MANUFACTURER + " text, " +
             ITEM_LOCALIZED_MANUFACTURER + " text, " +
             ITEM_PRICE + " float, " +
+            ITEM_OLD_PRICE + " float, " +
             ITEM_DISCOUNT + " float, " +
             ITEM_ORIGIN_PRICE + " float, " +
             ITEM_PRICE_MARKUP + " float, " +
@@ -182,6 +183,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_LOCALIZED_MANUFACTURER + " text, " +
             ITEM_PRICE + " float, " +
             ITEM_OLD_PRICE + " float, " +
+            ITEM_DISCOUNT + " float, " +
+            ITEM_ORIGIN_PRICE + " float, " +
             ITEM_PRICE_MARKUP + " float, " +
             ITEM_COUNTRY + " text, " +
             ITEM_REGION + " text, " +
@@ -223,6 +226,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_LOCALIZED_MANUFACTURER + " text, " +
             ITEM_PRICE + " float, " +
             ITEM_OLD_PRICE + " float, " +
+            ITEM_DISCOUNT + " float, " +
+            ITEM_ORIGIN_PRICE + " float, " +
             ITEM_PRICE_MARKUP + " float, " +
             ITEM_COUNTRY + " text, " +
             ITEM_REGION + " text, " +

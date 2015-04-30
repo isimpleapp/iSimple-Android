@@ -452,9 +452,6 @@ public class ProxyManager {
 
     public void release() {
         if (mdao.size() > 0) {
-            for (BaseDAO dao : mdao.values()) {
-                dao.close();
-            }
             mdao.clear();
         }
     }

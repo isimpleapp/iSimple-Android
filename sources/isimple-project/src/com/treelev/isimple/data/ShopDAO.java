@@ -63,7 +63,6 @@ public class ShopDAO extends BaseDAO {
         } finally {
             getDatabase().endTransaction();
         }
-        close();
     }
 
     //TODO: for IS-108
@@ -82,7 +81,6 @@ public class ShopDAO extends BaseDAO {
             }
             cursor.close();
         }
-        close();
         return winesList;
     }
 
@@ -120,7 +118,6 @@ public class ShopDAO extends BaseDAO {
             Collections.sort(distanceShopList);
             cursor.close();
         }
-        close();
         int limit = SHOP_LIMIT > distanceShopList.size() ? distanceShopList.size() : SHOP_LIMIT;
         return distanceShopList.subList(0, limit);
     }
@@ -154,7 +151,6 @@ public class ShopDAO extends BaseDAO {
             Collections.sort(distanceShopList);
             cursor.close();
         }
-        close();
         int limit = SHOP_LIMIT > distanceShopList.size() ? distanceShopList.size() : SHOP_LIMIT;
         return distanceShopList.subList(0, limit);
     }
@@ -189,7 +185,6 @@ public class ShopDAO extends BaseDAO {
             Collections.sort(distanceShopList);
             cursor.close();
         }
-        close();
 
         return distanceShopList;
     }
@@ -198,7 +193,6 @@ public class ShopDAO extends BaseDAO {
         open();
         String deleteSql = " DELETE FROM shop";
         getDatabase().execSQL(deleteSql);
-        close();
     }
 
 }

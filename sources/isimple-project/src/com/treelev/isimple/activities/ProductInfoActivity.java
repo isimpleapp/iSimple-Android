@@ -472,10 +472,10 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		TextView oldRetailPrice = (TextView) formView.findViewById(R.id.old_price_value);
 		oldRetailPrice.setPaintFlags(oldRetailPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 		LinearLayout oldPriceContainer = (LinearLayout) formView.findViewById(R.id.old_price_container);
-		String oldPriceLabel = Utils.organizePriceLabel(String.valueOf(product.getOldPrice()));
-		if (product.getOldPrice() != null && !TextUtils.isEmpty(oldPriceLabel) && product.getOldPrice() != 0f) {
+		String originPriceLabel = Utils.organizePriceLabel(String.valueOf(product.getOrigin_price()));
+		if (product.getDiscount() != null && !TextUtils.isEmpty(originPriceLabel) && product.getOrigin_price() != 0f) {
 			oldPriceContainer.setVisibility(View.VISIBLE);
-			oldRetailPrice.setText(oldPriceLabel);
+			oldRetailPrice.setText(originPriceLabel);
 		} else {
 			oldPriceContainer.setVisibility(View.GONE);
 		}

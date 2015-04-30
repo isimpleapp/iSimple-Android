@@ -18,13 +18,6 @@ public abstract class BaseDAO {
 		database = databaseSqlHelper.getWritableDatabase();
 	}
 
-	public void close() {
-		if (database.isOpen()) {
-			database.close();
-		}
-		databaseSqlHelper.close();
-	}
-
 	protected SQLiteStatement bindString(SQLiteStatement sqLiteStatement, int index, String value) {
 		if (value != null) {
 			sqLiteStatement.bindString(index, value);
@@ -74,7 +67,6 @@ public abstract class BaseDAO {
 		if (c != null) {
 			count = c.getCount();
 		}
-		close();
 		return count;
 	}
 

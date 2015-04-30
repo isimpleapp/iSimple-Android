@@ -36,7 +36,7 @@ public class FavouriteItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_MANUFACTURER + ", " +
                     DatabaseSqlHelper.ITEM_LOCALIZED_MANUFACTURER + ", " +
                     DatabaseSqlHelper.ITEM_PRICE + ", " +
-                    DatabaseSqlHelper.ITEM_OLD_PRICE + ", " +
+                    DatabaseSqlHelper.ITEM_DISCOUNT + ", " +
                     DatabaseSqlHelper.ITEM_PRICE_MARKUP + ", " +
                     DatabaseSqlHelper.ITEM_COUNTRY + ", " +
                     DatabaseSqlHelper.ITEM_REGION + ", " +
@@ -68,8 +68,9 @@ public class FavouriteItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_GRAPES_USED + ", " +
                     DatabaseSqlHelper.ITEM_RATING + ", " +
                     DatabaseSqlHelper.ITEM_QUANTITY +
+                    DatabaseSqlHelper.ITEM_ORIGIN_PRICE +
                     ") VALUES " +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             insertStatement = bindString(insertStatement, 1, item.getItemID());
             insertStatement = bindString(insertStatement, 2, item.getDrinkID());
@@ -78,7 +79,7 @@ public class FavouriteItemDAO extends BaseDAO {
             insertStatement = bindString(insertStatement, 5, item.getManufacturer());
             insertStatement = bindString(insertStatement, 6, item.getLocalizedManufacturer());
             insertStatement = bindFloat(insertStatement, 7, item.getPrice());
-            insertStatement = bindFloat(insertStatement, 8, item.getOldPrice());
+            insertStatement = bindFloat(insertStatement, 8, item.getDiscount());
             insertStatement = bindFloat(insertStatement, 9, item.getPriceMarkup());
             insertStatement = bindString(insertStatement, 10, item.getCountry());
             insertStatement = bindString(insertStatement, 11, item.getRegion());
@@ -110,11 +111,11 @@ public class FavouriteItemDAO extends BaseDAO {
             insertStatement = bindString(insertStatement, 37, item.getGrapesUsed());
             insertStatement = bindString(insertStatement, 38, item.getRating());
             insertStatement = bindFloat(insertStatement, 39, item.getQuantity());
+            insertStatement = bindFloat(insertStatement, 40, item.getOrigin_price());
             insertStatement.execute();
             getDatabase().setTransactionSuccessful();
         } finally {
             getDatabase().endTransaction();
-            close();
         }
         return false;
     }
@@ -128,7 +129,6 @@ public class FavouriteItemDAO extends BaseDAO {
             whereClause = String.format(formatScript, DatabaseSqlHelper.ITEM_ID, itemId);
             result |= getDatabase().delete(DatabaseSqlHelper.FAVOURITE_ITEM_TABLE, whereClause, null) > 0;
         }
-        close();
         return result;
     }
 
@@ -141,7 +141,6 @@ public class FavouriteItemDAO extends BaseDAO {
         if (cursor != null){
             result = cursor.moveToFirst();
         }
-        close();
         return result;
     }
 

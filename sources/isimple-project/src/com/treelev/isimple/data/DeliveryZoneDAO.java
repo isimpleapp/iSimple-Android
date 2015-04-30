@@ -79,7 +79,6 @@ public class DeliveryZoneDAO extends BaseDAO {
         } finally {
             getDatabase().endTransaction();
         }
-        close();
     }
 
     public String getFirstCountryLabel() {
@@ -94,7 +93,6 @@ public class DeliveryZoneDAO extends BaseDAO {
             }
             cursor.close();
         }
-        close();
         return countryLabel;
     }
 
@@ -113,7 +111,6 @@ public class DeliveryZoneDAO extends BaseDAO {
             }
             cursor.close();
         }
-        close();
         return countries;
     }
 
@@ -130,7 +127,6 @@ public class DeliveryZoneDAO extends BaseDAO {
             }
             cursor.close();
         }
-        close();
         return desc;
     }
 
@@ -138,7 +134,6 @@ public class DeliveryZoneDAO extends BaseDAO {
         open();
         String deleteSql = " DELETE FROM delivery";
         getDatabase().execSQL(deleteSql);
-        close();
     }
 
     public int getMinPriceByCountry(String country) {
@@ -153,7 +148,6 @@ public class DeliveryZoneDAO extends BaseDAO {
             }
             cursor.close();
         }
-        close();
         return minPrice;
     }
 

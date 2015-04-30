@@ -47,13 +47,11 @@ public class ItemAvailabilityDAO extends BaseDAO {
         } finally {
             getDatabase().endTransaction();
         }
-        close();
     }
 
     public void deleteAllData() {
         open();
         String deleteSql = " DELETE FROM item_availability";
         getDatabase().execSQL(deleteSql);
-        close();
     }
 }

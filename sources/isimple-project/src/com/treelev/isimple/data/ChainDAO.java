@@ -43,7 +43,6 @@ public class ChainDAO extends BaseDAO {
         } finally {
             getDatabase().endTransaction();
         }
-        close();
     }
 
     public Cursor getChains() {
@@ -70,6 +69,5 @@ public class ChainDAO extends BaseDAO {
         open();
         String deleteSql = " DELETE FROM chain";
         getDatabase().execSQL(deleteSql);
-        close();
     }
 }

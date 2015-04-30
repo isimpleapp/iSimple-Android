@@ -68,13 +68,11 @@ public class DeprecatedItemDAO extends BaseDAO {
         } finally {
             getDatabase().endTransaction();
         }
-        close();
     }
 
     public void deleteAllData() {
         open();
         String deleteSql = " DELETE FROM item_deprecated";
         getDatabase().execSQL(deleteSql);
-        close();
     }
 }

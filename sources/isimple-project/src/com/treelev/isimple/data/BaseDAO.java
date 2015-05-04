@@ -35,6 +35,15 @@ public abstract class BaseDAO {
 		}
 		return sqLiteStatement;
 	}
+	
+	protected SQLiteStatement bindLong(SQLiteStatement sqLiteStatement, int index, Long value) {
+        if (value != null) {
+            sqLiteStatement.bindDouble(index, value);
+        } else {
+            sqLiteStatement.bindNull(index);
+        }
+        return sqLiteStatement;
+    }
 
 	protected SQLiteStatement bindFloat(SQLiteStatement sqLiteStatement, int index, Float value) {
 		if (value != null) {

@@ -1,5 +1,7 @@
 package com.treelev.isimple.data;
 
+import java.util.List;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -337,6 +339,37 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             DELIVERY_ADDRESS + " text, " +
             DELIVERY_LONGITUDE + " float, " +
             DELIVERY_LATITUDE + " float);";
+    
+    public final static String OFFER_TABLE = "delivery";
+    public final static String OFFER_ID = "_id";
+    public final static String OFFER_NAME = "Name";
+    public final static String OFFER_URL = "Url";
+    public final static String OFFER_EXPIRED = "Expired";
+    public final static String OFFER_IMAGE = "Image";
+    public final static String OFFER_IMAGE1200 = "Image1200";
+    public final static String OFFER_IMAGEHDPI = "ImageHdpi";
+    public final static String OFFER_IMAGE2X = "Image2x";
+    public final static String OFFER_IMAGEIPAD = "ImageIpad";
+    public final static String OFFER_IMAGEIPAD2X = "ImageIpad2x";
+    public final static String OFFER_DESCRIPTION = "Description";
+    public final static String OFFER_PRIORITIZED = "Prioritized";
+    public final static String OFFER_ITEMS_LIST = "Items";
+
+    private final static String CREATE_TABLE_OFFER = "create table " + OFFER_TABLE + " ( " +
+            BaseColumns._ID + " integer primary key, " +
+            OFFER_NAME + " text, " +
+            OFFER_URL + " text, " +
+            OFFER_EXPIRED + " integer, " +
+            OFFER_IMAGE + " text, " +
+            OFFER_IMAGE1200 + " text, " +
+            OFFER_IMAGEHDPI + " text, " +
+            OFFER_IMAGE2X + " text, " +
+            OFFER_IMAGEIPAD + " text, " +
+            OFFER_IMAGEIPAD2X + " text, " +
+            OFFER_DESCRIPTION + " text, " +
+            OFFER_PRIORITIZED + " integer, " +
+            OFFER_NAME + " text, " +
+            OFFER_ITEMS_LIST + " text);";
 
     private DatabaseSqlHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -353,6 +386,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_FAVOURITE_ITEM);
         db.execSQL(CREATE_TABLE_SHOPPING_CART_ITEM);
         db.execSQL(CREATE_TABLE_DELIVERY_ITEM);
+        db.execSQL(CREATE_TABLE_OFFER);
     }
 
     @Override
@@ -412,6 +446,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_PRICE);
             db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_OLD_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
             db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_DISCOUNT + " = " + ITEM_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
+            
+            db.execSQL(CREATE_TABLE_OFFER);
             
             Log.i("", "Finished db update, oldVersion = " + oldVersion + ", newVeriosn = " + newVersion);
         } catch (Exception e) {

@@ -20,8 +20,8 @@ public class ProductImageActivity extends BaseActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createNavigationMenuBar();
         setContentView(R.layout.product_image_layout);
+        createNavigationMenuBar();
         mImageFilename = getIntent().getStringExtra(HI_RESOLUTION_IMAGE_FILE_NAME);
         initImageLoader();
         setImage();
@@ -49,9 +49,8 @@ public class ProductImageActivity extends BaseActivity {
                 .build();
     }
 
-    @Override
     protected void createNavigationMenuBar() {
-        super.createNavigationMenuBar();
+        createDrawableMenu();
         getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
     }
 

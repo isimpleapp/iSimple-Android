@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -53,7 +52,7 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
 		} else {
 			setCurrentCategory(1);
 		}
-//		createNavigationMenuBar();
+		createDrawableMenu();
 		RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
 		rg.setOnCheckedChangeListener(this);
 		ProxyManager mProxyManager = new ProxyManager(this);

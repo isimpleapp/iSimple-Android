@@ -75,6 +75,8 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout_new);
+        
+        createDrawableMenu();
 
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
@@ -110,7 +112,6 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
             setCurrentCategory(1); //Shop
         }
         disableOnGroupClick();
-//        createNavigationMenuBar();
         darkView = findViewById(R.id.category_dark_view_cat);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);

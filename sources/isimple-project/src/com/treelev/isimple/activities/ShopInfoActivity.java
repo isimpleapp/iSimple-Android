@@ -74,9 +74,8 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
-    @Override
     protected void createNavigationMenuBar() {
-        super.createNavigationMenuBar();
+        createDrawableMenu();
         getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
     }
 

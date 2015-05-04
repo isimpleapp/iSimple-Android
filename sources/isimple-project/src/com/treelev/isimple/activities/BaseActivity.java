@@ -1,30 +1,34 @@
 package com.treelev.isimple.activities;
 
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
+
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.EnterCatalogUpdateUrlDialogFragment.CatalogUpdateUrlChangeListener;
-import com.treelev.isimple.adapters.NavigationListAdapter;
+import com.treelev.isimple.adapters.NavigationDrawerAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.app.ISimpleApp;
-import com.treelev.isimple.service.DownloadDataService;
-import com.treelev.isimple.service.UpdateDataService;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.observer.Observer;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
-import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.app.AlertDialog;
 
 public class BaseActivity extends Activity implements ActionBar.OnNavigationListener,
         Observer, CatalogUpdateUrlChangeListener {
@@ -37,6 +41,8 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     private boolean backAfterBarcodeScaner;
     protected final int LENGTH_SEARCH_QUERY = 3;
     protected boolean mEventChangeDataBase;
+    
+    protected DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,13 +119,36 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
         }
     }
 
-    protected void createNavigationMenuBar() {
+    protected void createDrawableMenu() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Resources resources = getResources();
-        String[] mainMenuLabelsArray = resources.getStringArray(R.array.main_menu_items);
-        TypedArray typedIconsArray = resources.obtainTypedArray(R.array.main_menu_icons);
-        Drawable[] iconLocation = getIconsList(typedIconsArray, mainMenuLabelsArray.length);
-        organizeNavigationMenu(iconLocation, mainMenuLabelsArray);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
+        initDrawerMenuList();
+    }
+
+    private void initDrawerMenuList() {
+        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this);
+        ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View drawerHeader = inflater.inflate(R.layout.drawer_header, drawerList, false);
+        drawerList.addHeaderView(drawerHeader);
+
+        drawerList.setAdapter(adapter);
+        drawerList.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                drawerLayout.closeDrawers();
+                Intent intent = getStartIntentByItemPosition(position - 1);
+                if (intent != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
 
     private Intent getStartIntentByItemPosition(int itemPosition) {
@@ -240,24 +269,6 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
             }
         });
         adb.show();
-    }
-
-    private Drawable[] getIconsList(TypedArray typedIconsArray, int navigationMenuBarLenght) {
-        Drawable[] iconLocation = new Drawable[typedIconsArray.length()];
-        for (int i = 0; i < navigationMenuBarLenght; ++i) {
-            iconLocation[i] = typedIconsArray.getDrawable(i);
-        }
-        return iconLocation;
-    }
-
-    private void organizeNavigationMenu(Drawable[] iconLocation, String[] mainMenuLabelsArray) {
-        NavigationListAdapter navigationAdapter = new NavigationListAdapter(this, iconLocation, mainMenuLabelsArray);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(navigationAdapter, this);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
-        getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
     }
 
     @Override

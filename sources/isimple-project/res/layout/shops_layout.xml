@@ -1,53 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:id="@+id/shops_activity_view_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RadioGroup
+                android:id="@+id/shop_layout_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible" >
+
+                <org.holoeverywhere.widget.RadioButton
+                    android:id="@+id/group_shop_list"
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:layout_height="50dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/tab_indicator_left"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:paddingRight="1dip"
+                    android:text="@string/group_list" />
+
+                <org.holoeverywhere.widget.RadioButton
+                    android:id="@+id/group_shop_map"
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:layout_height="50dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/tab_indicator_between"
+                    android:button="@android:color/transparent"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:text="@string/group_map" />
+
+                <org.holoeverywhere.widget.RadioButton
+                    android:id="@+id/group_shop_network"
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:layout_height="50dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/tab_indicator_right"
+                    android:button="@android:color/transparent"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:paddingLeft="1dip"
+                    android:text="@string/group_chain" />
+            </RadioGroup>
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-        android:id="@+id/shops_activity_view_id">
-    <RadioGroup
-            android:layout_width="match_parent"
-            android:id="@+id/shop_layout_radio_group"
-            android:visibility="visible"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-        <org.holoeverywhere.widget.RadioButton
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:id="@+id/group_shop_list"
-                android:checked="true"
-                android:text="@string/group_list"
-                android:gravity="center"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:background="@drawable/tab_indicator_left"
-                android:button="@android:color/transparent"
-                android:paddingRight="1dip"/>
-        <org.holoeverywhere.widget.RadioButton
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:id="@+id/group_shop_map"
-                android:text="@string/group_map"
-                android:gravity="center"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:background="@drawable/tab_indicator_between"
-                android:checked="false"
-                android:button="@android:color/transparent"/>
-        <org.holoeverywhere.widget.RadioButton
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:id="@+id/group_shop_network"
-                android:text="@string/group_chain"
-                android:gravity="center"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:background="@drawable/tab_indicator_right"
-                android:checked="false"
-                android:button="@android:color/transparent"
-                android:paddingLeft="1dip"/>
-    </RadioGroup>
-    <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_below="@id/shop_layout_radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                android:layout_below="@id/shop_layout_radio_group" >
+            </FrameLayout>
+        </RelativeLayout>
     </FrameLayout>
-</RelativeLayout>
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

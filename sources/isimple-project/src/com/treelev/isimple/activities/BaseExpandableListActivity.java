@@ -9,9 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -45,6 +42,8 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     public final static String BARCODE = "barcode";
     private boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;
+    
+    protected DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,28 +102,15 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
 
     protected void createDrawableMenu() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Resources resources = getResources();
 
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        String[] mainMenuLabelsArray = resources.getStringArray(R.array.main_menu_items);
-        TypedArray typedIconsArray = resources.obtainTypedArray(R.array.main_menu_icons);
-        Drawable[] iconLocation = getIconsList(typedIconsArray, mainMenuLabelsArray.length);
-        initDrawerMenuList(iconLocation, mainMenuLabelsArray);
+        initDrawerMenuList();
     }
 
-    private Drawable[] getIconsList(TypedArray typedIconsArray, int navigationMenuBarLenght) {
-        Drawable[] iconLocation = new Drawable[typedIconsArray.length()];
-        for (int i = 0; i < navigationMenuBarLenght; ++i) {
-            iconLocation[i] = typedIconsArray.getDrawable(i);
-        }
-        return iconLocation;
-    }
-
-    private void initDrawerMenuList(Drawable[] iconLocation, String[] mainMenuLabelsArray) {
-        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this, mainMenuLabelsArray,
-                iconLocation);
+    private void initDrawerMenuList() {
+        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -136,6 +122,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                drawerLayout.closeDrawers();
                 Intent intent = getStartIntentByItemPosition(position - 1);
                 if (intent != null) {
                     startActivity(intent);
@@ -166,15 +153,12 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
             case 4: // Scan Code
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.initiateScan();
-                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
             case 5: // About
                 showAbout();
-                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
             case 6:
                 showCatalogUpdateLink();
-                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
             default:
                 category = null;

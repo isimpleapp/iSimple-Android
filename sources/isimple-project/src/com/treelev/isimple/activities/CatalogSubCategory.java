@@ -67,9 +67,8 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
         super.onResume();
     }
 
-    @Override
     public void createNavigationMenuBar(){
-        super.createNavigationMenuBar();
+        createDrawableMenu();
         if(mLocationId != null) {
             getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
         }

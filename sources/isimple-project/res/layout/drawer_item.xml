@@ -7,5 +7,6 @@
     android:gravity="left|center_vertical"
     android:paddingLeft="20dp"
     android:drawablePadding="30dp"
+    android:paddingTop="10dp"
     android:drawableLeft="@drawable/ico_porto"
     android:text="Button" />

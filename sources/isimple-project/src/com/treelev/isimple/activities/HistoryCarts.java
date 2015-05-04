@@ -14,5 +14,6 @@ public class HistoryCarts extends BaseListActivity{
         setContentView(R.layout.history_carts_layout);
         mAdapter = new HistoryCartsAdapter(this, null);
         getListView().setAdapter(mAdapter);
+        createDrawableMenu();
     }
 }

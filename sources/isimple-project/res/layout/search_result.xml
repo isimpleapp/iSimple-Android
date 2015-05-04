@@ -1,73 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <FrameLayout
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
-    <RadioGroup
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:id="@+id/sort_group"
-            android:visibility="visible"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-        <org.holoeverywhere.widget.RadioButton
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:id="@+id/alphabet_sort"
-                android:checked="true"
-                android:text="@string/sort_label_alphabet"
-                android:gravity="center"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:background="@drawable/tab_indicator_left"
-                android:button="@android:color/transparent"
-                android:paddingRight="1dip"/>
-
-
-        <org.holoeverywhere.widget.RadioButton
-                android:layout_weight="1"
-                android:layout_height="50dip"
-                android:id="@+id/price_sort"
-                android:text="@string/sort_label_price"
-                android:gravity="center"
-                style="?android:attr/listSeparatorTextViewStyle"
-                android:background="@drawable/tab_indicator_right"
-                android:checked="false"
-                android:button="@android:color/transparent"
-                android:paddingLeft="1dip"/>
-    </RadioGroup>
-
-    
-    <org.holoeverywhere.widget.ExpandableListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:groupIndicator="@null"
-            android:id="@android:id/list"
-            android:layout_below="@+id/sort_group"/>
-    
-   <ImageView
-        android:id="@+id/img_not_found"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
-        android:src="@drawable/not_found_ico"
-        android:groupIndicator="@null" />
-
-    <TextView
-        android:id="@+id/tv_not_found"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_below="@+id/img_not_found"
-        android:text="@string/lbl_not_found" />
-   
-    <View
-            android:id="@+id/category_dark_view"
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:background="@color/category_filter_text"/>
+            android:orientation="vertical" >
 
-    
-   
+            <RadioGroup
+                android:id="@+id/sort_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible" >
 
-</RelativeLayout>
+                <org.holoeverywhere.widget.RadioButton
+                    android:id="@+id/alphabet_sort"
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:layout_height="50dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/tab_indicator_left"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:paddingRight="1dip"
+                    android:text="@string/sort_label_alphabet" />
+
+                <org.holoeverywhere.widget.RadioButton
+                    android:id="@+id/price_sort"
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:layout_height="50dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/tab_indicator_right"
+                    android:button="@android:color/transparent"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:paddingLeft="1dip"
+                    android:text="@string/sort_label_price" />
+            </RadioGroup>
+
+            <org.holoeverywhere.widget.ExpandableListView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sort_group"
+                android:groupIndicator="@null" />
+
+            <ImageView
+                android:id="@+id/img_not_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:groupIndicator="@null"
+                android:src="@drawable/not_found_ico" />
+
+            <TextView
+                android:id="@+id/tv_not_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_not_found"
+                android:gravity="center"
+                android:text="@string/lbl_not_found" />
+
+            <View
+                android:id="@+id/category_dark_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/category_filter_text" />
+        </RelativeLayout>
+    </FrameLayout>
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

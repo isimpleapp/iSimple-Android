@@ -75,9 +75,8 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
         fragmentTransaction.commit();
     }
 
-    @Override
     protected void createNavigationMenuBar() {
-        super.createNavigationMenuBar();
+        createDrawableMenu();
         getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
     }
 

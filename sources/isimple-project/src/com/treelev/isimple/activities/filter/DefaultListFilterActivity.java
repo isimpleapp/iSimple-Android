@@ -36,8 +36,8 @@ public class DefaultListFilterActivity extends BaseListActivity {
         getListView().setAdapter(new FilterDataAdapter(getFilterData()));
     }
 
-    @Override
     protected void createNavigationMenuBar() {
+        createDrawableMenu();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

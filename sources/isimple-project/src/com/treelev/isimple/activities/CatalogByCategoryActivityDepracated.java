@@ -1,34 +1,43 @@
 package com.treelev.isimple.activities;
 
+import org.holoeverywhere.widget.BaseExpandableListAdapter;
+import org.holoeverywhere.widget.ExpandableListView;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DataSetObserver;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.FilterAdapter;
-import com.treelev.isimple.adapters.itemstreecursoradapter.*;
+import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogByCategoryItemTreeCursorAdapter;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import com.treelev.isimple.filter.*;
 import com.treelev.isimple.filter.Filter;
+import com.treelev.isimple.filter.PortoHeresFilter;
+import com.treelev.isimple.filter.SakeFilter;
+import com.treelev.isimple.filter.SparklingFilter;
+import com.treelev.isimple.filter.SpiritsFilter;
+import com.treelev.isimple.filter.WaterFilter;
+import com.treelev.isimple.filter.WineFilter;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.widget.BaseExpandableListAdapter;
-import org.holoeverywhere.widget.ExpandableListView;
 
 public class CatalogByCategoryActivityDepracated extends BaseExpandableListActivity
         implements RadioGroup.OnCheckedChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
@@ -74,6 +83,7 @@ public class CatalogByCategoryActivityDepracated extends BaseExpandableListActiv
         DIP51_IN_PX = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 51, getResources().getDisplayMetrics());
 
         setContentView(R.layout.catalog_category_layout);
+        createDrawableMenu();
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
         mContext = this;
@@ -101,7 +111,6 @@ public class CatalogByCategoryActivityDepracated extends BaseExpandableListActiv
             setCurrentCategory(1); //Shop
         }
         disableOnGroupClick();
-//        createNavigationMenuBar();
         darkView = findViewById(R.id.category_dark_view_cat);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);

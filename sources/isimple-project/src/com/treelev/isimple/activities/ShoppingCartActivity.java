@@ -125,14 +125,16 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
-    @Override
     protected void createNavigationMenuBar() {
-        super.createNavigationMenuBar();
+        createDrawableMenu();
         getSupportActionBar().setIcon(R.drawable.menu_ico_shopping_cart);
     }
 
     public void clickCatalogButton(View view) {
-        getSupportActionBar().setSelectedNavigationItem(0);
+        Intent intent = getStartIntentByItemPosition(0);
+        if (intent != null) {
+            startActivity(intent);
+        }
     }
 
     @Override

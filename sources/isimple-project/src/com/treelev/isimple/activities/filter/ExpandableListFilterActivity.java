@@ -39,7 +39,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_expandable_layout);
-//        createNavigationMenuBar();
+        createDrawableMenu();
         getExpandableListView().setAdapter(new CustomExpandableListAdapter(
                 getGroupItems(getGroupData()),
                 R.layout.filter_item_view,

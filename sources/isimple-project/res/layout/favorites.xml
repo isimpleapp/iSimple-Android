@@ -1,48 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    <!-- The main content view -->
 
-    <org.holoeverywhere.widget.ListView
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@android:id/list"
-            android:scrollbars="none"
-            android:listSelector="@drawable/product_list_item_selector"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-    <RelativeLayout
-            android:id="@+id/not_favourite_items"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <org.holoeverywhere.widget.ListView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:listSelector="@drawable/product_list_item_selector"
+                android:scrollbars="none" />
 
-            <org.holoeverywhere.widget.Button
+            <RelativeLayout
+                android:id="@+id/not_favourite_items"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <org.holoeverywhere.widget.Button
+                    android:id="@+id/back_catalog"
                     android:layout_width="180dip"
                     android:layout_height="50dip"
-                    android:id="@+id/back_catalog"
-                    android:textSize="15dip"
-                    android:text="@string/button_catalog"
-                    android:textColor="@android:color/black"
-                    android:background="@drawable/category_butt_selector"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="13dip"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_marginTop="10dip"
-                    android:onClick="backCatalog"/>
+                    android:background="@drawable/category_butt_selector"
+                    android:onClick="backCatalog"
+                    android:text="@string/button_catalog"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dip" />
 
-        <org.holoeverywhere.widget.TextView
-                android:id="@+id/favourite_empty"
-                android:layout_width="match_parent"
-                android:text="@string/favourites_empty_items"
-                android:textSize="16dip"
-                android:gravity="center"
-                android:paddingLeft="15dip"
-                android:paddingRight="15dip"
-                android:layout_above="@id/back_catalog"
-                android:layout_centerInParent="true"
-                android:layout_height="match_parent"/>
-    </RelativeLayout>
-</LinearLayout>
+                <org.holoeverywhere.widget.TextView
+                    android:id="@+id/favourite_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/back_catalog"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:text="@string/favourites_empty_items"
+                    android:textSize="16dip" />
+            </RelativeLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

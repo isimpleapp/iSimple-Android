@@ -36,7 +36,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ProductContentAdapter;
@@ -79,8 +78,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		initImageLoader();
 		String locationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
 		initCurrentCategory(locationId);
-//		createNavigationMenuBar(locationId);
 		setContentView(R.layout.product_layout);
+		createDrawableMenu();
 		proxyManager = new ProxyManager(this);
 		itemId = getIntent().getStringExtra(ITEM_ID_TAG);
 		String mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);

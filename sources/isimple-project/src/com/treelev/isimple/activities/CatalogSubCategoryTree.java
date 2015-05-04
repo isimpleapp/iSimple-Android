@@ -1,18 +1,19 @@
 package com.treelev.isimple.activities;
 
+import org.holoeverywhere.widget.ExpandableListView;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.View;
+
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.itemstreecursoradapter.CatalogSubCategoryItemTreeCursorAdapter;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
-import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.widget.ExpandableListView;
 
 public class CatalogSubCategoryTree extends BaseExpandableListActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -33,7 +34,7 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
         } else {
             setCurrentCategory(1); //Shop
         }
-//        createNavigationMenuBar();
+        createDrawableMenu();
         mFilterWhereClause = getIntent().getStringExtra(CatalogListActivity.FILTER_WHERE_CLAUSE);
         mDrinkID = getIntent().getStringExtra(CatalogListActivity.DRINK_ID);
         mQuery = getIntent().getStringExtra(SearchResultActivity.SEARCH_QUERY);

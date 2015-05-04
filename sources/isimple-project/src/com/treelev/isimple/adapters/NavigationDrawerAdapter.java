@@ -1,12 +1,13 @@
 package com.treelev.isimple.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.treelev.isimple.R;
@@ -14,14 +15,15 @@ import com.treelev.isimple.R;
 public class NavigationDrawerAdapter extends BaseAdapter {
     
     private String[] mainMenuLabelsArray;
-    private Drawable[] iconLocation;
+    private TypedArray iconLocation;
     private LayoutInflater inflater;
 
-    public NavigationDrawerAdapter(Context context, String[] mainMenuLabelsArray, Drawable[] iconLocation) {
+    public NavigationDrawerAdapter(Context context) {
         super();
-        this.mainMenuLabelsArray = mainMenuLabelsArray;
-        this.iconLocation = iconLocation;
-        if (mainMenuLabelsArray.length != iconLocation.length) {
+        Resources resources = context.getResources();
+        this.mainMenuLabelsArray = resources.getStringArray(R.array.main_menu_items);
+        iconLocation = context.getResources().obtainTypedArray(R.array.main_menu_icons);
+        if (mainMenuLabelsArray.length != iconLocation.length()) {
             throw new RuntimeException("Names and icons arrays must have same size!");
         }
         
@@ -48,8 +50,8 @@ public class NavigationDrawerAdapter extends BaseAdapter {
         View v = inflater.inflate(R.layout.drawer_item, parent, false);
         TextView drawerItem = (TextView) v.findViewById(R.id.drawable_item_name);
         drawerItem.setText(mainMenuLabelsArray[position]);
-//        drawerItem.setCompoundDrawables(iconLocation[position], null, null, null);
+        drawerItem.setCompoundDrawablesWithIntrinsicBounds(iconLocation.getResourceId(position, -1), 0, 0, 0);
         return v;
     }
-
+    
 }

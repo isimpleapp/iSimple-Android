@@ -20,6 +20,7 @@ import org.apache.http.protocol.HTTP;
 import android.content.Context;
 import android.location.Location;
 import android.net.ConnectivityManager;
+import android.text.TextUtils;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -125,7 +126,7 @@ public class Utils {
     }
 
     public static Float parseFloat(String floatValue) {
-        if (floatValue != null) {
+        if (!TextUtils.isEmpty(floatValue)) {
             if (floatValue.startsWith(".")) {
                 floatValue = "0" + floatValue;
             }
@@ -140,7 +141,7 @@ public class Utils {
     }
 
     public static Integer parseInteger(String integerValue) {
-        if (integerValue != null) {
+        if (!TextUtils.isEmpty(integerValue)) {
             try {
                 return Integer.parseInt(integerValue);
             } catch (NumberFormatException e) {

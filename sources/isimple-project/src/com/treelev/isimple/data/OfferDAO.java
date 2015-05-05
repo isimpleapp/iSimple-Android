@@ -1,7 +1,7 @@
+
 package com.treelev.isimple.data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
@@ -12,7 +12,7 @@ import com.treelev.isimple.domain.db.Offer;
 
 public class OfferDAO extends BaseDAO {
 
-    protected OfferDAO(Context context) {
+    public OfferDAO(Context context) {
         super(context);
     }
 
@@ -20,12 +20,13 @@ public class OfferDAO extends BaseDAO {
     public String getClassName() {
         return getClass().getName();
     }
-    
+
     public List<Offer> getOffers() {
         open();
         List<Offer> offers = new ArrayList<Offer>();
-        Cursor c = getDatabase().query(DatabaseSqlHelper.OFFER_TABLE, null, null, null, null, null, null);
-        
+        Cursor c = getDatabase().query(DatabaseSqlHelper.OFFER_TABLE, null, null, null, null, null,
+                null);
+
         if (c.getCount() != 0) {
             Offer offer = null;
             while (c.moveToNext()) {
@@ -36,7 +37,7 @@ public class OfferDAO extends BaseDAO {
         c.close();
         return offers;
     }
-    
+
     private Offer parseOfferCursor(Cursor c) {
         Offer offer = new Offer();
         offer.setId(c.getLong(c.getColumnIndex(DatabaseSqlHelper.OFFER_ID)));
@@ -51,8 +52,7 @@ public class OfferDAO extends BaseDAO {
         offer.setImageipad2x(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_IMAGEIPAD2X)));
         offer.setDescription(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_DESCRIPTION)));
         offer.setPrioritized(c.getInt(c.getColumnIndex(DatabaseSqlHelper.OFFER_PRIORITIZED)));
-        String itemIdsList = c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_ITEMS_LIST));
-        offer.setItemsList(Arrays.asList(itemIdsList.split(",")));
+        offer.setItemsList(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_ITEMS_LIST)));
         return offer;
     }
 
@@ -104,7 +104,7 @@ public class OfferDAO extends BaseDAO {
                     +
                     ") VALUES "
                     +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (Offer offer : offers) {
                 insertStatement = bindLong(insertStatement, 1, offer.getId());
@@ -120,10 +120,12 @@ public class OfferDAO extends BaseDAO {
                 insertStatement = bindString(insertStatement, 11, offer.getDescription());
                 insertStatement = bindInteger(insertStatement, 12, offer.getPrioritized());
                 StringBuilder sb = new StringBuilder();
-                for (Long itemId : offer.getItemsList()) {
-                    sb.append(itemId).append(',');
+                if (offer.getItemsList() != null && !offer.getItemsList().isEmpty()) {
+                    for (Long itemId : offer.getItemsList()) {
+                        sb.append(itemId).append(',');
+                    }
+                    sb.deleteCharAt(sb.lastIndexOf(","));
                 }
-                sb.deleteCharAt(sb.lastIndexOf(","));
                 insertStatement = bindString(insertStatement, 13, sb.toString());
                 insertStatement.execute();
             }
@@ -131,6 +133,12 @@ public class OfferDAO extends BaseDAO {
         } finally {
             getDatabase().endTransaction();
         }
+    }
+
+    public void deleteAllData() {
+        open();
+        String deleteSql = " DELETE FROM " + DatabaseSqlHelper.OFFER_TABLE;
+        getDatabase().execSQL(deleteSql);
     }
 
 }

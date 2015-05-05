@@ -29,6 +29,8 @@ public enum UpdateFile {
             return LOCATIONS_AND_CHAINS_UPDATES;
         } else if (DELIVERY.getUpdateFileTag().equalsIgnoreCase(tag)) {
             return DELIVERY;
+        } else if (OFFERS.getUpdateFileTag().equalsIgnoreCase(tag)) {
+            return OFFERS;
         } else if (FEATURED.getUpdateFileTag().equalsIgnoreCase(tag)) {
             return FEATURED;
         } else if (DISCOUNT.getUpdateFileTag().equalsIgnoreCase(tag)) {

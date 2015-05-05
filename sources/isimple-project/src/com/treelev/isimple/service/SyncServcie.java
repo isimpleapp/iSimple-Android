@@ -34,6 +34,7 @@ import com.treelev.isimple.data.ChainDAO;
 import com.treelev.isimple.data.DeliveryZoneDAO;
 import com.treelev.isimple.data.ItemAvailabilityDAO;
 import com.treelev.isimple.data.ItemDAO;
+import com.treelev.isimple.data.OfferDAO;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.data.ShoppingCartDAO;
 import com.treelev.isimple.domain.LoadFileData;
@@ -166,6 +167,7 @@ public class SyncServcie extends Service {
             ChainDAO chainDAO = new ChainDAO(ISimpleApp.getInstantce());
             ShopDAO shopDAO = new ShopDAO(ISimpleApp.getInstantce());
             DeliveryZoneDAO deliveryZoneDAO = new DeliveryZoneDAO(ISimpleApp.getInstantce());
+            OfferDAO offerDAO = new OfferDAO(ISimpleApp.getInstantce());
 
             LogUtils.i("", "Downloading update urls file");
             Map<String, LoadFileData> loadFileDataList = null;
@@ -323,11 +325,13 @@ public class SyncServcie extends Service {
                             context.getString(R.string.sync_state_new_items_downloading),
                             downloadedFilesCount, newItemsSize));
                     // TODO DEBUG: Remove this if block after tests
-//                    if (sb.toString().contains("88253") || sb.toString().contains("93031")
-//                            || sb.toString().contains("94822") || sb.toString().contains("94743")
-//                            || sb.toString().contains("95120")) {
-//                        continue;
-//                    }
+                    // if (sb.toString().contains("88253") ||
+                    // sb.toString().contains("93031")
+                    // || sb.toString().contains("94822") ||
+                    // sb.toString().contains("94743")
+                    // || sb.toString().contains("95120")) {
+                    // continue;
+                    // }
                     // -----------------------------------------------------
 
                     try {
@@ -582,9 +586,14 @@ public class SyncServcie extends Service {
 
             // 9. Update offers list
             // 9.1. Download offers list
+            LogUtils.i("", "Downloading offers, url = " + loadFileDataList.get(
+                    UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl());
+            syncLogEntity.logs.add(new SyncPhaseLog("Downloading offers"));
+            publishProgress(context.getString(R.string.sync_state_offers_update));
             File offersArchive = null;
             try {
-                offersArchive = webServiceManager.downloadFile(Constants.URL_OFFERS);
+                offersArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                        UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl());
             } catch (IOException e2) {
                 LogUtils.i("", "Failed downloading file");
                 syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
@@ -594,64 +603,35 @@ public class SyncServcie extends Service {
             // 9.2. Unzip offers list
             File unzippedOffers = null;
             if (offersArchive != null) {
+                LogUtils.i("", "Unzipping offers");
+                syncLogEntity.logs.add(new SyncPhaseLog("Unzipping offers"));
+                unzippedOffers = unzipFile(offersArchive);
+
+                // 9.3 Parse and save offers list to DB
+                OffersParser offersParser = new OffersParser();
+                LogUtils.i("", "Parsing offers to db");
+                syncLogEntity.logs.add(new SyncPhaseLog("Parsing offers to db"));
                 try {
-                    ZipInputStream zipInputStream = new ZipInputStream(new
-                            FileInputStream(
-                                    offersArchive));
-                    ZipEntry zipEntry = zipInputStream.getNextEntry();
-                    byte[] buffer = new byte[4096];
-                    FileOutputStream fileOutputStream = null;
-                    if (zipEntry == null) {
-                        Log.i(getClass().getName(), "File " + offersArchive.getPath()
-                                + " don't unpack");
-                    }
-                    while (zipEntry != null) {
-                        String fileName = zipEntry.getName();
-                        unzippedOffers = new File(offersArchive.getParent()
-                                + File.separator + fileName);
-                        fileOutputStream = new FileOutputStream(unzippedOffers);
-                        int len;
-                        while ((len = zipInputStream.read(buffer)) > 0) {
-                            fileOutputStream.write(buffer, 0, len);
-                        }
-                        fileOutputStream.close();
-                        zipEntry = zipInputStream.getNextEntry();
-                    }
-                    zipInputStream.closeEntry();
-                    zipInputStream.close();
-                    if (fileOutputStream != null) {
-                        fileOutputStream.close();
-                        offersArchive.delete();
-                        error = true;
-                    }
-                } catch (Exception e) {
-                    
+                    XmlPullParserFactory factory =
+                            XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(true);
+                    XmlPullParser xmlPullParser = factory.newPullParser();
+                    xmlPullParser.setInput(new FileInputStream(unzippedOffers),
+                            null);
+                    offersParser.parseXmlToDB(xmlPullParser, offerDAO);
+
+                    unzippedOffers.delete();
+                } catch (XmlPullParserException e) {
+                    LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
+                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                            + unzippedOffers.getName() + e.getMessage()));
+                    error = true;
+                } catch (FileNotFoundException e) {
+                    LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
+                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                            + unzippedOffers.getName() + e.getMessage()));
+                    error = true;
                 }
-            }
-
-            // 9.3 Parse and save offers list to DB
-            OffersParser offersParser = new OffersParser();
-
-            try {
-                XmlPullParserFactory factory =
-                        XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(true);
-                XmlPullParser xmlPullParser = factory.newPullParser();
-                xmlPullParser.setInput(new FileInputStream(unzippedOffers),
-                        null);
-                offersParser.parseXmlToDB(xmlPullParser, itemDAO);
-
-                unzippedOffers.delete();
-            } catch (XmlPullParserException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
-                syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                        + unzippedOffers.getName() + e.getMessage()));
-                error = true;
-            } catch (FileNotFoundException e) {
-                LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
-                syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                        + unzippedOffers.getName() + e.getMessage()));
-                error = true;
             }
 
             featuredUpdateDurationTemp = System.currentTimeMillis();

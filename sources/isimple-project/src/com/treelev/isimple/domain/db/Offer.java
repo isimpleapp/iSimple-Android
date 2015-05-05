@@ -2,6 +2,7 @@
 package com.treelev.isimple.domain.db;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Offer {
@@ -123,10 +124,15 @@ public class Offer {
     public List<Long> getItemsList() {
         return itemsList;
     }
+    
+    public void setItemsList(List<Long> itemsList) {
+        this.itemsList = itemsList;
+    }
 
-    public void setItemsList(List<String> itemsList) {
+    public void setItemsList(String itemsList) {
         this.itemsList = new ArrayList<Long>();
-        for (String itemId : itemsList) {
+        List<String> itemsStringsList = Arrays.asList(itemsList.split(","));
+        for (String itemId : itemsStringsList) {
             this.itemsList.add(Long.valueOf(itemId));
         }
     }

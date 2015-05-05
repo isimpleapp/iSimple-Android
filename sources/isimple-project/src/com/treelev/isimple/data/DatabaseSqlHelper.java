@@ -340,23 +340,23 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             DELIVERY_LONGITUDE + " float, " +
             DELIVERY_LATITUDE + " float);";
     
-    public final static String OFFER_TABLE = "delivery";
+    public final static String OFFER_TABLE = "offers";
     public final static String OFFER_ID = "_id";
-    public final static String OFFER_NAME = "Name";
-    public final static String OFFER_URL = "Url";
-    public final static String OFFER_EXPIRED = "Expired";
-    public final static String OFFER_IMAGE = "Image";
-    public final static String OFFER_IMAGE1200 = "Image1200";
-    public final static String OFFER_IMAGEHDPI = "ImageHdpi";
-    public final static String OFFER_IMAGE2X = "Image2x";
-    public final static String OFFER_IMAGEIPAD = "ImageIpad";
-    public final static String OFFER_IMAGEIPAD2X = "ImageIpad2x";
-    public final static String OFFER_DESCRIPTION = "Description";
-    public final static String OFFER_PRIORITIZED = "Prioritized";
-    public final static String OFFER_ITEMS_LIST = "Items";
+    public final static String OFFER_NAME = "name";
+    public final static String OFFER_URL = "url";
+    public final static String OFFER_EXPIRED = "expired";
+    public final static String OFFER_IMAGE = "image";
+    public final static String OFFER_IMAGE1200 = "image1200";
+    public final static String OFFER_IMAGEHDPI = "imagehdpi";
+    public final static String OFFER_IMAGE2X = "image2x";
+    public final static String OFFER_IMAGEIPAD = "imageipad";
+    public final static String OFFER_IMAGEIPAD2X = "imageipad2x";
+    public final static String OFFER_DESCRIPTION = "description";
+    public final static String OFFER_PRIORITIZED = "prioritized";
+    public final static String OFFER_ITEMS_LIST = "items";
 
     private final static String CREATE_TABLE_OFFER = "create table " + OFFER_TABLE + " ( " +
-            BaseColumns._ID + " integer primary key, " +
+            OFFER_ID + " integer primary key, " +
             OFFER_NAME + " text, " +
             OFFER_URL + " text, " +
             OFFER_EXPIRED + " integer, " +
@@ -368,7 +368,6 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             OFFER_IMAGEIPAD2X + " text, " +
             OFFER_DESCRIPTION + " text, " +
             OFFER_PRIORITIZED + " integer, " +
-            OFFER_NAME + " text, " +
             OFFER_ITEMS_LIST + " text);";
 
     private DatabaseSqlHelper(Context context) {

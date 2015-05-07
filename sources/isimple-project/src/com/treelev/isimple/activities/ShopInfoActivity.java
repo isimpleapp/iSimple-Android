@@ -103,7 +103,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
                 category = 5;
                 break;
         }
-        startIntent.putExtra(CatalogListActivity.CATEGORY_ID, category);
+        startIntent.putExtra(CatalogListActivityNew.CATEGORY_ID, category);
         startIntent.putExtra(LOCATION_ID, mShop.getLocationID());
         startActivity(startIntent);
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);

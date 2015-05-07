@@ -35,8 +35,8 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
             setCurrentCategory(1); //Shop
         }
         createDrawableMenu();
-        mFilterWhereClause = getIntent().getStringExtra(CatalogListActivity.FILTER_WHERE_CLAUSE);
-        mDrinkID = getIntent().getStringExtra(CatalogListActivity.DRINK_ID);
+        mFilterWhereClause = getIntent().getStringExtra(CatalogListActivityNew.FILTER_WHERE_CLAUSE);
+        mDrinkID = getIntent().getStringExtra(CatalogListActivityNew.DRINK_ID);
         mQuery = getIntent().getStringExtra(SearchResultActivity.SEARCH_QUERY);
         mTreeAdapter = new CatalogSubCategoryItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mDrinkID, mFilterWhereClause, mLocationId, mQuery, mSortBy);
         getExpandableListView().setAdapter(mTreeAdapter);

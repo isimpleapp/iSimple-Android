@@ -138,7 +138,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         int flags = 0;
         switch (itemPosition) {
             case 0: // Catalog
-                category = CatalogListActivity.class;
+                category = CatalogListActivityNew.class;
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
                 break;
             case 1: // Shop

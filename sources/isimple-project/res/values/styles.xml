@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="iSimpleStyle" parent="Holo.Theme.Light" >
         <item name="android:actionBarStyle">@style/CustomActionBar</item>
         <item name="android:actionDropDownStyle">@style/CustomSpinner</item>
@@ -36,8 +36,6 @@
 
     <style name="TitleBar">
         <item name="android:background">@drawable/main_menu_background_selector</item>
-        <item name="android:dropDownSelector">@drawable/abs__list_selector_holo_light</item>
-        <item name="android:popupBackground">@drawable/abs__menu_dropdown_panel_holo_light</item>
         <item name="android:dropDownSelector">@drawable/abs__list_selector_holo_dark</item>
         <item name="android:popupBackground">@drawable/abs__menu_dropdown_panel_holo_dark</item>
         <item name="android:dropDownVerticalOffset">0dip</item>
@@ -54,5 +52,16 @@
     </style>
     <style name="OldPrice">
         <item name="android:textColor">#C6C6C6</item>
+    </style>
+    <style name="CatalogSection">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/section_bg</item>
+        <item name="android:textColor">@color/section_textcolor</item>
+        <item name="android:paddingLeft">8dip</item>
+        <item name="android:paddingRight">8dip</item>
+        <item name="android:paddingTop">3dip</item>
+        <item name="android:paddingBottom">2dip</item>
+        <item name="android:ellipsize">end</item>
     </style>
 </resources>

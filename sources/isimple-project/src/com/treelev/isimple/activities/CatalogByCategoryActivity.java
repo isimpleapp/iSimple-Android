@@ -79,7 +79,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         createDrawableMenu();
 
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
-        mCategoryID = getIntent().getIntExtra(CatalogListActivity.CATEGORY_ID, -1);
+        mCategoryID = getIntent().getIntExtra(CatalogListActivityNew.CATEGORY_ID, -1);
 
         mContext = this;
         mFooter = getLayoutInflater().inflate(R.layout.not_found_layout, null);

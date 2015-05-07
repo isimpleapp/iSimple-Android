@@ -290,7 +290,7 @@ public class SplashActivity extends Activity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             finish();
-            Intent newIntent = new Intent(SplashActivity.this, CatalogListActivity.class);
+            Intent newIntent = new Intent(SplashActivity.this, CatalogListActivityNew.class);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(newIntent);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);

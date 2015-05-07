@@ -63,6 +63,9 @@ public class Item implements Serializable {
         return new String[] { UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE, UI_TAG_DRINK_CATEGORY };
     }
 
+    public static String[] getUITagsNew() {
+        return new String[] { UI_TAG_NAME, UI_TAG_VOLUME, UI_TAG_PRICE };
+    }
     public String getItemID() {
         return itemID;
     }

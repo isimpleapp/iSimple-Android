@@ -33,4 +33,6 @@
     <color name="shopping_cart_count_btn_border">#aeaeae</color>
     <color name="shopping_cart_delivery_label_color">#adadad</color>
     <color name="disable_button">#D5D5D5</color>
+    <color name="section_bg">#E6E6E6</color>
+    <color name="section_textcolor">#303232</color>
  </resources>

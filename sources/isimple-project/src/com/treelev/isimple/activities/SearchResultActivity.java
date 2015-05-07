@@ -248,7 +248,7 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
 	private void handledIntent(Intent intent) {
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String mDrinkId = intent
-					.getStringExtra(CatalogListActivity.DRINK_ID);
+					.getStringExtra(CatalogListActivityNew.DRINK_ID);
 			mQuery = intent.getStringExtra(SearchManager.QUERY);
 
 			if (!mQuery.contains("%")) {

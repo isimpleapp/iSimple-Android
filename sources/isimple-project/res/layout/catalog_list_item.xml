@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="135dp" >
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="75dp"
+        android:layout_height="135dp"
+        android:contentDescription="@string/app_name"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp"
+        android:scaleType="fitCenter" />
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/item_image"
+        android:maxLines="3"
+        android:text="Nmaeasdfasfdafhfghdhghds"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_toRightOf="@id/item_image"
+        android:gravity="center_vertical"
+        android:text="1234444"
+        android:textColor="@color/product_price_color"
+        android:textStyle="bold" />
+    
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/item_old_price"
+        style="@style/OldPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/item_price"
+        android:layout_alignLeft="@id/item_price"
+        android:text="123"
+        android:textStyle="bold" />
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/item_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/item_old_price"
+        android:layout_alignLeft="@id/item_price"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/item_image"
+        android:textSize="12sp"
+        android:gravity="center_vertical"
+        android:text="0.75л" />
+
+    <ImageView
+        android:id="@+id/item_image_favourite"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/item_image"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/product_icon_favorite"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/discount_triangle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/triangle"
+        android:visibility="gone" />
+
+</RelativeLayout>

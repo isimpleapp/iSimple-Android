@@ -8,10 +8,16 @@
 
     <!-- The main content view -->
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <android.support.v4.view.BannersViewPager
+            android:id="@+id/banners"
+            android:layout_width="match_parent"
+            android:layout_height="140dp" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -39,10 +45,10 @@
                         android:id="@+id/catalog_wine_two_way_view"
                         android:layout_width="match_parent"
                         android:layout_height="135dp"
-                        android:paddingLeft="10dp"
-                        android:drawSelectorOnTop="false"
                         android:background="@android:color/white"
-                        android:orientation="horizontal" />
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
 
                     <org.holoeverywhere.widget.TextView
                         android:id="@+id/category_spirits_butt"
@@ -57,10 +63,10 @@
                         android:id="@+id/catalog_spirits_two_way_view"
                         android:layout_width="match_parent"
                         android:layout_height="135dp"
-                        android:paddingLeft="10dp"
-                        android:drawSelectorOnTop="false"
                         android:background="@android:color/white"
-                        android:orientation="horizontal" />
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
 
                     <org.holoeverywhere.widget.TextView
                         android:id="@+id/category_sparkling_butt"
@@ -75,10 +81,10 @@
                         android:id="@+id/catalog_sparkling_two_way_view"
                         android:layout_width="match_parent"
                         android:layout_height="135dp"
-                        android:paddingLeft="10dp"
-                        android:drawSelectorOnTop="false"
                         android:background="@android:color/white"
-                        android:orientation="horizontal" />
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
 
                     <org.holoeverywhere.widget.TextView
                         android:id="@+id/category_porto_heres_butt"
@@ -93,10 +99,10 @@
                         android:id="@+id/catalog_porto_heres_two_way_view"
                         android:layout_width="match_parent"
                         android:layout_height="135dp"
-                        android:paddingLeft="10dp"
-                        android:drawSelectorOnTop="false"
                         android:background="@android:color/white"
-                        android:orientation="horizontal" />
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
 
                     <org.holoeverywhere.widget.TextView
                         android:id="@+id/category_sake_butt"
@@ -111,10 +117,10 @@
                         android:id="@+id/catalog_sake_two_way_view"
                         android:layout_width="match_parent"
                         android:layout_height="135dp"
-                        android:paddingLeft="10dp"
-                        android:drawSelectorOnTop="false"
                         android:background="@android:color/white"
-                        android:orientation="horizontal" />
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
 
                     <org.holoeverywhere.widget.TextView
                         android:id="@+id/category_water_butt"
@@ -129,10 +135,10 @@
                         android:id="@+id/catalog_water_two_way_view"
                         android:layout_width="match_parent"
                         android:layout_height="135dp"
-                        android:paddingLeft="10dp"
-                        android:drawSelectorOnTop="false"
                         android:background="@android:color/white"
-                        android:orientation="horizontal" />
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
                 </LinearLayout>
 
                 <View
@@ -142,7 +148,7 @@
                     android:background="@color/category_filter_text" />
             </FrameLayout>
         </ScrollView>
-    </FrameLayout>
+    </LinearLayout>
     <!-- The navigation drawer -->
 
     <ListView

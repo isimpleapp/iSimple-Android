@@ -1,29 +1,46 @@
 
 package com.treelev.isimple.activities;
 
+import java.util.List;
+
 import org.lucasr.twowayview.TwoWayView;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
+import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.BannersPagerAdapter;
 import com.treelev.isimple.adapters.CatalogItemAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.data.DatabaseSqlHelper;
+import com.treelev.isimple.data.OfferDAO;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.fragments.BannerFragment.ImageLoaderProvider;
+import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
-public class CatalogListActivityNew extends BaseActivity implements OnItemClickListener {
+public class CatalogListActivityNew extends BaseActivity implements OnItemClickListener,
+        ImageLoaderProvider {
 
     public final static String CATEGORY_ID = "category_id";
     private View darkView;
@@ -45,6 +62,12 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
     private CatalogItemAdapter portoHeresCatalogItemAdapter;
     private CatalogItemAdapter sakeCatalogItemAdapter;
     private CatalogItemAdapter waterCatalogItemAdapter;
+
+    private ViewPager bannerPager;
+    private ImageLoader bannersImageLoader;
+    private DisplayImageOptions bannersImageLoaderOptions;
+    private final Handler handler = new Handler();
+    private List<String> bannersImagesUrls;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -87,7 +110,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         portoHeresTwoWayView.setAdapter(portoHeresCatalogItemAdapter);
         sakeTwoWayView.setAdapter(sakeCatalogItemAdapter);
         waterTwoWayView.setAdapter(waterCatalogItemAdapter);
-        
+
         wineTwoWayView.setOnItemClickListener(this);
         spiritsTwoWayView.setOnItemClickListener(this);
         sparklingTwoWayView.setOnItemClickListener(this);
@@ -95,6 +118,66 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         sakeTwoWayView.setOnItemClickListener(this);
         waterTwoWayView.setOnItemClickListener(this);
 
+        bannersImageLoader = Utils.getImageLoader(getApplicationContext());
+        bannersImageLoaderOptions = new DisplayImageOptions.Builder()
+                .showImageOnFail(R.drawable.bottle_list_image_default)
+                .showImageOnLoading(R.drawable.bottle_list_image_default)
+                .showImageForEmptyUri(R.drawable.bottle_list_image_default)
+                .showImageOnFail(R.drawable.bottle_list_image_default).cacheInMemory(true)
+                .cacheOnDisk(true)
+                .displayer(new FadeInBitmapDisplayer(300)).resetViewBeforeLoading(false).build();
+        bannerPager = (ViewPager) findViewById(R.id.banners);
+        fixBannerPagerHeightToFitBanner();
+        bannerPager.setOnTouchListener(new OnTouchListener() {
+            
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        handler.removeCallbacks(switchBannerRunnable);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        handler.postDelayed(switchBannerRunnable, 2000);
+                        break;
+                }
+                return false;
+            }
+        });
+        bannersImagesUrls = new OfferDAO(getApplicationContext()).getOffersImagesUrls();
+        BannersPagerAdapter bannersAdapter = new BannersPagerAdapter(getSupportFragmentManager(),
+                bannersImagesUrls);
+        bannerPager.setAdapter(bannersAdapter);
+        handler.postDelayed(switchBannerRunnable, 2000);
+    }
+
+    private void switchBanner() {
+        int nextIndex = bannerPager.getCurrentItem() + 1;
+        if (nextIndex == bannersImagesUrls.size()) {
+            nextIndex = 0;
+        }
+        bannerPager.setCurrentItem(nextIndex, true);
+    }
+
+    private Runnable switchBannerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            if (!bannerPager.isPressed()) {
+                switchBanner();
+            }
+            handler.postDelayed(switchBannerRunnable, 2000);
+        }
+    };
+
+    private void fixBannerPagerHeightToFitBanner() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = 600 * width / 1200; // 1200x600 is banner size
+        LayoutParams lp = bannerPager.getLayoutParams();
+        lp.height = height;
+        bannerPager.setLayoutParams(lp);
     }
 
     @Override
@@ -134,30 +217,6 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         overridePendingTransition(R.anim.start_show_anim,
                 R.anim.start_back_anim);
     }
-
-    // @Override
-    // public boolean onChildClick(ExpandableListView parent, View v,
-    // int groupPosition, int childPosition, long id) {
-    // Cursor product = mListCategoriesAdapter.getChild(groupPosition,
-    // childPosition);
-    // Intent startIntent;
-    // int itemCountIndex = product.getColumnIndex("count");
-    // if (product.getInt(itemCountIndex) > 1) {
-    // int itemDrinkIdIndex = product
-    // .getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
-    // startIntent = new Intent(this, CatalogSubCategoryTree.class);
-    // startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
-    // startActivity(startIntent);
-    // } else {
-    // startIntent = new Intent(this, ProductInfoActivity.class);
-    // startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG,
-    // product.getString(0));
-    // startActivityForResult(startIntent, 0);
-    // }
-    // overridePendingTransition(R.anim.start_show_anim,
-    // R.anim.start_back_anim);
-    // return super.onChildClick(parent, v, groupPosition, childPosition, id);
-    // }
 
     private void initSherlockSaerchView(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.search, menu);
@@ -231,6 +290,16 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         }
         overridePendingTransition(R.anim.start_show_anim,
                 R.anim.start_back_anim);
+    }
+
+    @Override
+    public ImageLoader getInitializedImageLoader() {
+        return bannersImageLoader;
+    }
+
+    @Override
+    public DisplayImageOptions getImageLoaderOptions() {
+        return bannersImageLoaderOptions;
     }
 
 }

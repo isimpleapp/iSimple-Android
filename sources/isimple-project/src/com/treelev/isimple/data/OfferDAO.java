@@ -37,6 +37,21 @@ public class OfferDAO extends BaseDAO {
         c.close();
         return offers;
     }
+    
+    public List<String> getOffersImagesUrls() {
+        open();
+        List<String> offersImagesUrls = new ArrayList<String>();
+        Cursor c = getDatabase().query(DatabaseSqlHelper.OFFER_TABLE, new String[] {DatabaseSqlHelper.OFFER_IMAGE1200}, null, null, null, null,
+                null);
+
+        if (c.getCount() != 0) {
+            while (c.moveToNext()) {
+                offersImagesUrls.add(c.getString(0));
+            }
+        }
+        c.close();
+        return offersImagesUrls;
+    }
 
     private Offer parseOfferCursor(Cursor c) {
         Offer offer = new Offer();

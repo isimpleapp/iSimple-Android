@@ -8,16 +8,11 @@
 
     <!-- The main content view -->
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
-
-        <android.support.v4.view.BannersViewPager
-            android:id="@+id/banners"
-            android:layout_width="match_parent"
-            android:layout_height="140dp" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -31,6 +26,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
+
+                    <android.support.v4.view.BannersViewPager
+                        android:id="@+id/banners"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp" />
 
                     <org.holoeverywhere.widget.TextView
                         android:id="@+id/category_wine_butt"
@@ -148,7 +148,7 @@
                     android:background="@color/category_filter_text" />
             </FrameLayout>
         </ScrollView>
-    </LinearLayout>
+    </FrameLayout>
     <!-- The navigation drawer -->
 
     <ListView

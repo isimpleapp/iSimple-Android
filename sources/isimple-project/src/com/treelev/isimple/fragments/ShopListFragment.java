@@ -65,7 +65,7 @@ public class ShopListFragment extends ListFragment {
 
     private ProxyManager getProxyManager() {
         if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(getActivity());
+            mProxyManager = ProxyManager.getInstanse();
         }
         return mProxyManager;
     }

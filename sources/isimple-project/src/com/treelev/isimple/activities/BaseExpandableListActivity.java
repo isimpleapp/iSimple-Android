@@ -223,7 +223,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     }
 
     private void checkBarcodeResult(String code) {
-        ProxyManager proxyManager = new ProxyManager(this);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         int count = proxyManager.getCountBarcode(code);
         useBarcodeScaner = true;
         if (count > 1) {

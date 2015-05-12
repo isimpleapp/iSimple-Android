@@ -425,7 +425,7 @@ public class OrderDialogFragment extends DialogFragment
 
         private ProxyManager getProxyManager() {
             if (mProxyManager == null) {
-                mProxyManager = new ProxyManager(mContext);
+                mProxyManager = ProxyManager.getInstanse();
             }
             return mProxyManager;
         }

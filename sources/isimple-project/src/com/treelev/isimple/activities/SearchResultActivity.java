@@ -55,7 +55,6 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
 		createDrawableMenu();
 		RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
 		rg.setOnCheckedChangeListener(this);
-		ProxyManager mProxyManager = new ProxyManager(this);
 
 		darkView = findViewById(R.id.category_dark_view);
 		darkView.setVisibility(View.GONE);

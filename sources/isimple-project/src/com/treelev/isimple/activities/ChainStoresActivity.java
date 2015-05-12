@@ -29,7 +29,7 @@ public class ChainStoresActivity extends BaseListActivity {
         setCurrentCategory(1);
         createNavigationMenuBar();
         String itemId = getIntent().getStringExtra(ITEM_CHAIN_ID);
-        ProxyManager proxyManager = new ProxyManager(this);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         Location location = LocationTrackingManager.getInstante().getCurrentLocation(this);
         List<AbsDistanceShop> iShop = proxyManager.getShopByChain(location, itemId);
         ShopsAdapter adapter = new ShopsAdapter(this, iShop);

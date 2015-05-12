@@ -1,9 +1,6 @@
 
 package com.treelev.isimple.app;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,8 +10,6 @@ import org.acra.annotation.ReportsCrashes;
 import org.holoeverywhere.app.Application;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -24,10 +19,7 @@ import com.parse.Parse;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
-import com.treelev.isimple.service.SyncServcie;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import com.treelev.isimple.utils.parse.SyncLogEntity;
-import com.treelev.isimple.utils.parse.SyncLogEntity.SyncPhaseLog;
 
 @ReportsCrashes(
         formKey = "",
@@ -85,7 +77,7 @@ public class ISimpleApp extends Application {
     private Boolean mIsCartActive;
 
     public void updateStateCart() {
-        mIsCartActive = new ProxyManager(this).getCountOrders() > 0;
+        mIsCartActive = ProxyManager.getInstanse().getCountOrders() > 0;
     }
 
     public void setActiveCartState() {

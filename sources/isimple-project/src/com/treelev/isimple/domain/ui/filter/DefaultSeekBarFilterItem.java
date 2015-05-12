@@ -95,7 +95,7 @@ public class DefaultSeekBarFilterItem extends FilterItem {
     }
 
     private int getSeekBarMaxValue() {
-        startMaxValue = new ProxyManager(getContext()).getMaxValuePriceByCategoryId(DrinkCategory.getItemCategoryByFilter(filterObject));
+        startMaxValue = ProxyManager.getInstanse().getMaxValuePriceByCategoryId(DrinkCategory.getItemCategoryByFilter(filterObject));
         return startMaxValue;
     }
 }

@@ -15,7 +15,7 @@ public abstract class BaseCursorLoader extends CursorLoader {
 
     protected ProxyManager getProxyManager() {
         if (mProxyManager == null) {
-            mProxyManager = new ProxyManager(mContext);
+            mProxyManager = ProxyManager.getInstanse();
         }
         return mProxyManager;
     }

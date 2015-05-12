@@ -33,6 +33,7 @@ import com.treelev.isimple.adapters.CatalogItemAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.data.OfferDAO;
+import com.treelev.isimple.domain.db.Offer;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.fragments.BannerFragment.ImageLoaderProvider;
 import com.treelev.isimple.utils.Utils;
@@ -67,7 +68,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
     private ImageLoader bannersImageLoader;
     private DisplayImageOptions bannersImageLoaderOptions;
     private final Handler handler = new Handler();
-    private List<String> bannersImagesUrls;
+    private List<Offer> offersList;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -135,24 +136,24 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         handler.removeCallbacks(switchBannerRunnable);
-                        break;
+                        return true;
                     case MotionEvent.ACTION_UP:
-                        handler.postDelayed(switchBannerRunnable, 2000);
+                        handler.postDelayed(switchBannerRunnable, 4000);
                         break;
                 }
                 return false;
             }
         });
-        bannersImagesUrls = new OfferDAO(getApplicationContext()).getOffersImagesUrls();
+        offersList = new OfferDAO(getApplicationContext()).getOffersForViewPager();
         BannersPagerAdapter bannersAdapter = new BannersPagerAdapter(getSupportFragmentManager(),
-                bannersImagesUrls);
+                offersList);
         bannerPager.setAdapter(bannersAdapter);
-        handler.postDelayed(switchBannerRunnable, 2000);
+        handler.postDelayed(switchBannerRunnable, 4000);
     }
 
     private void switchBanner() {
         int nextIndex = bannerPager.getCurrentItem() + 1;
-        if (nextIndex == bannersImagesUrls.size()) {
+        if (nextIndex == offersList.size()) {
             nextIndex = 0;
         }
         bannerPager.setCurrentItem(nextIndex, true);

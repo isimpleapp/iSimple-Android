@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteStatement;
 import com.treelev.isimple.domain.db.Offer;
 
 public class OfferDAO extends BaseDAO {
+    
+    public final static int ID = 32;
 
     public OfferDAO(Context context) {
         super(context);
@@ -38,10 +40,48 @@ public class OfferDAO extends BaseDAO {
         return offers;
     }
     
+    public List<Offer> getOffersForViewPager() {
+        open();
+        List<Offer> offers = new ArrayList<Offer>();
+        Cursor c = getDatabase().query(DatabaseSqlHelper.OFFER_TABLE, new String[] {
+                DatabaseSqlHelper.OFFER_ID, DatabaseSqlHelper.OFFER_IMAGE1200
+        }, null, null, null, null, null);
+
+        if (c.getCount() != 0) {
+            Offer offer = null;
+            while (c.moveToNext()) {
+                offer = new Offer();
+                offer.setId(c.getLong(c.getColumnIndex(DatabaseSqlHelper.OFFER_ID)));
+                offer.setImage1200(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_IMAGE1200)));
+                offers.add(offer);
+            }
+        }
+        c.close();
+        return offers;
+    }
+
+    public Offer getOfferById(long offerId) {
+        open();
+        Offer offer = null;
+        Cursor c = getDatabase().query(DatabaseSqlHelper.OFFER_TABLE, null,
+                DatabaseSqlHelper.OFFER_ID + " = " + offerId, null, null, null, null);
+
+        if (c.getCount() != 0) {
+            offer = null;
+            if (c.moveToFirst()) {
+                offer = parseOfferCursor(c);
+            }
+        }
+        c.close();
+        return offer;
+    }
+
     public List<String> getOffersImagesUrls() {
         open();
         List<String> offersImagesUrls = new ArrayList<String>();
-        Cursor c = getDatabase().query(DatabaseSqlHelper.OFFER_TABLE, new String[] {DatabaseSqlHelper.OFFER_IMAGE1200}, null, null, null, null,
+        Cursor c = getDatabase().query(DatabaseSqlHelper.OFFER_TABLE, new String[] {
+                DatabaseSqlHelper.OFFER_IMAGE1200
+        }, null, null, null, null,
                 null);
 
         if (c.getCount() != 0) {

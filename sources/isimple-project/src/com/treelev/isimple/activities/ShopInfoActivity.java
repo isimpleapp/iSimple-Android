@@ -186,7 +186,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
 
         protected ProxyManager getProxyManager() {
             if (mProxyManager == null) {
-                mProxyManager = new ProxyManager(mContext);
+                mProxyManager = ProxyManager.getInstanse();
             }
             return mProxyManager;
         }

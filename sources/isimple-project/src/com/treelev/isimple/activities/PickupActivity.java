@@ -34,7 +34,7 @@ public class PickupActivity extends BaseActivity
     private void initView(){
         String name = getIntent().getStringExtra(PLACE_STORE);
         if(!TextUtils.isEmpty(name)) {
-            DeliveryZone deliveryZone = new ProxyManager(this).getDeliveryZone(name);
+            DeliveryZone deliveryZone = ProxyManager.getInstanse().getDeliveryZone(name);
             if(deliveryZone != null) {
                 ((TextView)findViewById(R.id.title_store)).setText(getLabel(deliveryZone.getName()));
                 ((TextView)findViewById(R.id.address_store)).setText(deliveryZone.getAddress());

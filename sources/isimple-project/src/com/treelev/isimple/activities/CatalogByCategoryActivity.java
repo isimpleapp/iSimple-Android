@@ -318,7 +318,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private void initWineFilter(){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
         WineFilter wineFilter = (WineFilter) mFilter;
@@ -330,7 +330,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private void initSpiritsFilter(){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
         SpiritsFilter spiritsFilter = (SpiritsFilter) mFilter;
@@ -341,7 +341,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private void initSparklingFilter(){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
         SparklingFilter sparklingFilter = (SparklingFilter) mFilter;
@@ -354,7 +354,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private void initWaterFilter(View view){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
         WaterFilter waterFilter = (WaterFilter) mFilter;
@@ -363,7 +363,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private void initPortoHeresFilter(View view){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
         PortoHeresFilter portoHeresFilter = (PortoHeresFilter) mFilter;
@@ -375,7 +375,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private void initSakeFilter(){
         mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-        ProxyManager proxyManager = new ProxyManager(this);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
         int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
         SakeFilter sakeFilter = (SakeFilter) mFilter;

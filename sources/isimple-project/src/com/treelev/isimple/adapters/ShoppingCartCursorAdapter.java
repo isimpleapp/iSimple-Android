@@ -68,7 +68,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
                 .build();
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
-        proxyManager = new ProxyManager(context);
+        proxyManager = ProxyManager.getInstanse();
         this.shoppingCartPriceTextView = shoppingCartPriceTextView;
         this.shoppingCartFooterTextView = shoppingCartFooterTextView;
         this.context = context;

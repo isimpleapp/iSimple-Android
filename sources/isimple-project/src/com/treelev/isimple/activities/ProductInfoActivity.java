@@ -80,7 +80,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		initCurrentCategory(locationId);
 		setContentView(R.layout.product_layout);
 		createDrawableMenu();
-		proxyManager = new ProxyManager(this);
+		proxyManager = ProxyManager.getInstanse();
 		itemId = getIntent().getStringExtra(ITEM_ID_TAG);
 		String mBarcode = getIntent().getStringExtra(BaseListActivity.BARCODE);
 		initProduct(mBarcode);
@@ -97,7 +97,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		ProxyManager proxyManager = new ProxyManager(this);
+		ProxyManager proxyManager = ProxyManager.getInstanse();
 		mIsFavourite = proxyManager.isFavourites(itemId);
 		mLastFavourite = mIsFavourite;
 		setFavouritesImage(mIsFavourite);
@@ -129,7 +129,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 			// R.anim.finish_back_anim);
 			return true;
 		case R.id.menu_item_favorite:
-			ProxyManager proxyManager = new ProxyManager(this);
+			ProxyManager proxyManager = ProxyManager.getInstanse();
 			ArrayList listProduct = new ArrayList<String>();
 			listProduct.add(mProduct.getItemID());
 			if (mIsFavourite) {

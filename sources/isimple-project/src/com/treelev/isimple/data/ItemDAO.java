@@ -345,6 +345,26 @@ public class ItemDAO extends BaseDAO {
             boolean group) {
         return getFilteredItemsByCategory(categoryId, null, query, orderByField, group);
     }
+    
+    public Cursor getItemsByIds(List<Long> idsList) {
+        String[] columns = new String[] {
+                DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
+                DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_QUANTITY, DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME,
+                DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
+                "count", DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
+                DatabaseSqlHelper.ITEM_COLOR, DatabaseSqlHelper.ITEM_IS_FAVOURITE
+        };
+        StringBuilder sb = new StringBuilder(DatabaseSqlHelper.ITEM_ID + " IN (");
+        for (Long id : idsList) {
+            sb.append(id).append(",");
+        }
+        sb.deleteCharAt(sb.lastIndexOf(","));
+        sb.append(")");
+        return getDatabase().query(DatabaseSqlHelper.ITEM_TABLE, columns, sb.toString(), null,
+                null, null, null);
+    }
 
     public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId,
             String whereClause, String orderByField, boolean group) {

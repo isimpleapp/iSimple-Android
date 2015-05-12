@@ -1,12 +1,33 @@
 package com.treelev.isimple.utils.managers;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
+
 import com.treelev.isimple.R;
-import com.treelev.isimple.data.*;
+import com.treelev.isimple.app.ISimpleApp;
+import com.treelev.isimple.data.BaseDAO;
+import com.treelev.isimple.data.ChainDAO;
+import com.treelev.isimple.data.DatabaseSqlHelper;
+import com.treelev.isimple.data.DeliveryZoneDAO;
+import com.treelev.isimple.data.FavouriteItemDAO;
+import com.treelev.isimple.data.ItemAvailabilityDAO;
+import com.treelev.isimple.data.ItemDAO;
+import com.treelev.isimple.data.OfferDAO;
+import com.treelev.isimple.data.SectionsItemsDAO;
+import com.treelev.isimple.data.ShopDAO;
+import com.treelev.isimple.data.ShoppingCartDAO;
 import com.treelev.isimple.domain.db.DeliveryZone;
 import com.treelev.isimple.domain.db.Item;
+import com.treelev.isimple.domain.db.Offer;
 import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
@@ -14,8 +35,6 @@ import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.Utils;
-
-import java.util.*;
 
 public class ProxyManager {
 
@@ -31,16 +50,28 @@ public class ProxyManager {
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
     private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
-
+    
+    private static ProxyManager instanse;
 
     private HashMap<Integer, BaseDAO> mdao = new HashMap<Integer, BaseDAO>();
 
-    public ProxyManager(Context context) {
-        this.context = context;
+    public static ProxyManager getInstanse() {
+        if (instanse == null) {
+            instanse = new ProxyManager();
+        }
+        return instanse;
+    }
+    
+    private ProxyManager() {
+        this.context = ISimpleApp.getInstantce();
     }
 
     public Item getItemById(String itemId) {
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemById(itemId);
+    }
+    
+    public Cursor getItemsByIds(List<Long> itemsIds) {
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getItemsByIds(itemsIds);
     }
 
     public Cursor getItemByBarcode(String barcode, int sortType) {
@@ -372,7 +403,8 @@ public class ProxyManager {
                     (id == FavouriteItemDAO.ID) ? new FavouriteItemDAO(context) :
                     (id == ShoppingCartDAO.ID) ? new ShoppingCartDAO(context) :
                     (id == DeliveryZoneDAO.ID) ? new DeliveryZoneDAO(context) :
-                    (id == SectionsItemsDAO.ID) ? new SectionsItemsDAO(context) : null;
+                    (id == SectionsItemsDAO.ID) ? new SectionsItemsDAO(context) :
+                    (id == OfferDAO.ID) ? new OfferDAO(context) : null;
             if (dao != null) {
                 mdao.put(id, dao);
                 return dao;
@@ -448,6 +480,10 @@ public class ProxyManager {
 
     public DeliveryZone getDeliveryZone(String name) {
         return ((DeliveryZoneDAO) getObjectDAO(DeliveryZoneDAO.ID)).getDeliveryZone(name);
+    }
+    
+    public Offer getOfferById(long offerId) {
+        return ((OfferDAO) getObjectDAO(OfferDAO.ID)).getOfferById(offerId);
     }
 
     public void release() {

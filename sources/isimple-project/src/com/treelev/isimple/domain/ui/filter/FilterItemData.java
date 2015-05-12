@@ -118,7 +118,7 @@ public class FilterItemData implements Parcelable {
     }
 
     public static FilterItemData[] getAvailableManufacture(Context context, DrinkCategory category) {
-        ProxyManager proxyManager = new ProxyManager(context);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         List<String> manufactures = proxyManager.getManufactureByCategory(category);
         FilterItemData[] filterList = new FilterItemData[manufactures.size()];
         for (int i = 0; i < manufactures.size(); i++) {
@@ -128,7 +128,7 @@ public class FilterItemData implements Parcelable {
     }
 
     public static FilterItemData[] getAvailableYears(Context context, DrinkCategory category) {
-        ProxyManager proxyManager = new ProxyManager(context);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         List<Integer> years = proxyManager.getYearsByCategory(category);
         FilterItemData[] filterList = new FilterItemData[years.size()];
         for (int i = 0; i < years.size(); i++) {
@@ -138,12 +138,12 @@ public class FilterItemData implements Parcelable {
     }
 
     public static Map<String, FilterItemData[]> getAvailableCountryRegions(Context context, DrinkCategory category) {
-        ProxyManager proxyManager = new ProxyManager(context);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         return proxyManager.getRegionsByCategory(category);
     }
 
     public static Map<String, FilterItemData[]> getAvailableClassifications(Context context, DrinkCategory category) {
-        ProxyManager proxyManager = new ProxyManager(context);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
         Map<ProductType, List<String>> classifications = proxyManager.getClassificationsByCategory(category);
         HashMap<String, FilterItemData[]> result = new HashMap<String, FilterItemData[]>();
         for (ProductType productType : classifications.keySet()) {

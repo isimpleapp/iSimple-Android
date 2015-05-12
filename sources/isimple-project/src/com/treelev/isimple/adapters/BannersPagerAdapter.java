@@ -7,32 +7,33 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.treelev.isimple.domain.db.Offer;
 import com.treelev.isimple.fragments.BannerFragment;
-import com.treelev.isimple.utils.LogUtils;
 
 public class BannersPagerAdapter extends FragmentStatePagerAdapter {
     
-    List<String> bannersUrlsList;
+    List<Offer> offersList;
 
-    public BannersPagerAdapter(FragmentManager fm, List<String> bannersUrlsList) {
+    public BannersPagerAdapter(FragmentManager fm, List<Offer> bannersUrlsList) {
         super(fm);
         
-        this.bannersUrlsList = bannersUrlsList;
+        this.offersList = bannersUrlsList;
     }
 
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = new BannerFragment();
         Bundle args = new Bundle();
-        LogUtils.i("", "BannerUrl = " + bannersUrlsList.get(position));
-        args.putString(BannerFragment.BANNER_FRAGMENT_ARGUMENT_BANNER_IMAGE_URL, bannersUrlsList.get(position));
+        Offer offer = offersList.get(position);
+        args.putString(BannerFragment.BANNER_FRAGMENT_ARGUMENT_BANNER_IMAGE_URL, offer.getImage1200());
+        args.putLong(BannerFragment.BANNER_FRAGMENT_ARGUMENT_OFFER_ID, offer.getId());
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public int getCount() {
-        return bannersUrlsList.size();
+        return offersList.size();
     }
 
 }

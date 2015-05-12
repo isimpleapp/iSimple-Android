@@ -51,7 +51,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         setContentView(R.layout.shopping_cart_layout);
         setCurrentCategory(NAVIGATE_CATEGORY_ID);
         createNavigationMenuBar();
-        proxyManager = new ProxyManager(this);
+        proxyManager = ProxyManager.getInstanse();
         getListView().addFooterView(organizeFooterView());
         dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.SELECT_TYPE);
         shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
@@ -211,7 +211,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
 
         private DeleteDataShoppingCartTask(Context context) {
             mContext = context;
-            proxyManager = new ProxyManager(context);
+            proxyManager = ProxyManager.getInstanse();
         }
 
         @Override
@@ -249,7 +249,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
 
         private SelectDataShoppingCartTask(Context context) {
             mContext = context;
-            proxyManager = new ProxyManager(context);
+            proxyManager = ProxyManager.getInstanse();
         }
 
         @Override

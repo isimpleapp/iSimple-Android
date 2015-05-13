@@ -13,6 +13,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ScrollView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -36,6 +38,7 @@ import com.treelev.isimple.data.OfferDAO;
 import com.treelev.isimple.domain.db.Offer;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.fragments.BannerFragment.ImageLoaderProvider;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
@@ -64,12 +67,13 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
     private CatalogItemAdapter sakeCatalogItemAdapter;
     private CatalogItemAdapter waterCatalogItemAdapter;
 
+    private ScrollView scrollView;
     private ViewPager bannerPager;
     private ImageLoader bannersImageLoader;
     private DisplayImageOptions bannersImageLoaderOptions;
     private final Handler handler = new Handler();
     private List<Offer> offersList;
-
+    
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
@@ -84,7 +88,9 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
-
+        
+        scrollView = (ScrollView) findViewById(R.id.catalog_scroll_view);
+        
         wineTwoWayView = (TwoWayView) findViewById(R.id.catalog_wine_two_way_view);
         spiritsTwoWayView = (TwoWayView) findViewById(R.id.catalog_spirits_two_way_view);
         sparklingTwoWayView = (TwoWayView) findViewById(R.id.catalog_sparkling_two_way_view);
@@ -141,6 +147,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
                         handler.postDelayed(switchBannerRunnable, 4000);
                         break;
                 }
+                scrollView.requestDisallowInterceptTouchEvent(true);
                 return false;
             }
         });
@@ -150,7 +157,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         bannerPager.setAdapter(bannersAdapter);
         handler.postDelayed(switchBannerRunnable, 4000);
     }
-
+    
     private void switchBanner() {
         int nextIndex = bannerPager.getCurrentItem() + 1;
         if (nextIndex == offersList.size()) {
@@ -166,9 +173,17 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
             if (!bannerPager.isPressed()) {
                 switchBanner();
             }
-            handler.postDelayed(switchBannerRunnable, 2000);
+            handler.postDelayed(switchBannerRunnable, 4000);
         }
     };
+    
+    public void removeHandlerCallbacks() {
+        handler.removeCallbacks(switchBannerRunnable);
+    }
+    
+    public void restoreHandlerCallbacks() {
+        handler.postDelayed(switchBannerRunnable, 4000);
+    }
 
     private void fixBannerPagerHeightToFitBanner() {
         Display display = getWindowManager().getDefaultDisplay();

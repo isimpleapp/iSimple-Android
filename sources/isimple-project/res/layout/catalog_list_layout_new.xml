@@ -10,27 +10,28 @@
 
     <FrameLayout
         android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
 
         <ScrollView
+            android:id="@+id/catalog_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <android.support.v4.view.BannersViewPager
+                    android:id="@+id/banners"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
-
-                    <android.support.v4.view.BannersViewPager
-                        android:id="@+id/banners"
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp" />
 
                     <org.holoeverywhere.widget.TextView
                         android:id="@+id/category_wine_butt"
@@ -140,14 +141,14 @@
                         android:orientation="horizontal"
                         android:paddingLeft="10dp" />
                 </LinearLayout>
-
-                <View
-                    android:id="@+id/dark_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/category_filter_text" />
-            </FrameLayout>
+            </LinearLayout>
         </ScrollView>
+
+        <View
+            android:id="@+id/dark_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/category_filter_text" />
     </FrameLayout>
     <!-- The navigation drawer -->
 

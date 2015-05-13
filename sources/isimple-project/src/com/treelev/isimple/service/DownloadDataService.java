@@ -101,7 +101,7 @@ public class DownloadDataService extends Service {
                         Log.v("Test log time preference", String.valueOf(sharedPreferences.getLong(fileUrl, -1)));
                         Log.v("Test log time file", String.valueOf(loadFileData.getLoadDate().getTime()));
                         if (sharedPreferences.getLong(fileUrl, -1) < loadFileData.getLoadDate().getTime()) {
-                            fileList.add(webServiceManager.downloadFile(fileUrl));
+                            fileList.add(webServiceManager.downloadFile(fileUrl).getDownloadedFile());
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putLong(fileUrl, loadFileData.getLoadDate().getTime());
                             editor.commit();

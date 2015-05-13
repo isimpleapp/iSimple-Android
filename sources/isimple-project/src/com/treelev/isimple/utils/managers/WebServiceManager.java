@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +27,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.treelev.isimple.domain.LoadFileData;
+import com.treelev.isimple.utils.DownloadFileResponse;
 
 public class WebServiceManager {
 
@@ -36,19 +36,19 @@ public class WebServiceManager {
     private final static String REG_FILENAME_FORMAT = ".+/(.+.xmlz)";
     private final static String DEFAULT_FILENAME = "isimple_data.xmlz";
 
-    public File downloadFile(String fileUrl) throws IOException {
+    public DownloadFileResponse downloadFile(String fileUrl) throws IOException {
         return downloadFile(fileUrl,
                 String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
     }
 
-    public File downloadNewCatalogItemFile(String fileUrl) throws IOException {
+    public DownloadFileResponse downloadNewCatalogItemFile(String fileUrl) throws IOException {
         return downloadFile(
                 fileUrl,
                 String.format(NEW_CATALOG_ITEM_FILE_URL_FORMAT,
                         Environment.getExternalStorageDirectory()));
     }
 
-    private File downloadFile(String fileUrl, String path) throws IOException {
+    private DownloadFileResponse downloadFile(String fileUrl, String path) throws IOException {
         File downloadingFile = null;
         HttpURLConnection urlConnection = null;
             URL downloadUrl = new URL(fileUrl);
@@ -66,9 +66,14 @@ public class WebServiceManager {
             while ((count = input.read(data)) != -1) {
                 output.write(data, 0, count);
             }
+            Map<String, List<String>> headers = urlConnection.getHeaderFields();
             output.close();
             input.close();
-        return downloadingFile;
+            
+            DownloadFileResponse response = new DownloadFileResponse();
+            response.setDownloadedFile(downloadingFile);
+            response.setHeaders(headers);
+        return response;
     }
 
     public static void deleteDownloadDirectory() {

@@ -52,7 +52,7 @@ public class FirstDataLoadTask extends AsyncTask<String, Integer, Void> {
         }*/
         File downloadFile = null;
         try {
-            downloadFile = new WebServiceManager().downloadFile(params[0]);
+            downloadFile = new WebServiceManager().downloadFile(params[0]).getDownloadedFile();
         } catch (IOException e) {
             e.printStackTrace();
             return null;

@@ -38,7 +38,6 @@ import com.treelev.isimple.data.OfferDAO;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.data.ShoppingCartDAO;
 import com.treelev.isimple.domain.LoadFileData;
-import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.ItemPriceWrapper;
 import com.treelev.isimple.enumerable.SyncPhase;
 import com.treelev.isimple.enumerable.UpdateFile;
@@ -51,6 +50,7 @@ import com.treelev.isimple.parser.ItemPricesParser;
 import com.treelev.isimple.parser.OffersParser;
 import com.treelev.isimple.parser.ShopAndChainsParser;
 import com.treelev.isimple.utils.Constants;
+import com.treelev.isimple.utils.DownloadFileResponse;
 import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.managers.WebServiceManager;
@@ -205,7 +205,7 @@ public class SyncServcie extends Service {
             File itemsPriceArchive;
             try {
                 itemsPriceArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                        UpdateFile.ITEM_PRICES.getUpdateFileTag()).getFileUrl());
+                        UpdateFile.ITEM_PRICES.getUpdateFileTag()).getFileUrl()).getDownloadedFile();
             } catch (IOException e1) {
                 e1.printStackTrace();
                 error = true;
@@ -308,97 +308,184 @@ public class SyncServcie extends Service {
             LogUtils.i("", "Downloading new items xml files");
             syncLogEntity.logs.add(new SyncPhaseLog("Downloading new items xml files"));
             int downloadedFilesCount = 0;
-            File itemArchive = null;
-            StringBuffer sb = new StringBuffer();
+            // Old mechanism
+            
+//            File itemArchive = null;
+//            StringBuffer sb = new StringBuffer();
+//            if (newItemsIds != null && !newItemsIds.isEmpty()) {
+//                ArrayList<Item> items = new ArrayList<Item>();
+//                for (String itemId : newItemsIds) {
+//                    sb = new StringBuffer();
+//                    sb.append(loadFileDataList
+//                            .get(UpdateFile.CATALOG_UPDATES.getUpdateFileTag())
+//                            .getFileUrl()
+//                            .replace(".xmlz", "/")).append(itemId.substring(0,
+//                            2)).append("/")
+//                            .append(itemId).append(".xmlz");
+//                    LogUtils.i("", "Downloading " + sb.toString());
+//                    syncLogEntity.logs.add(new SyncPhaseLog("Downloading " +
+//                            sb.toString()));
+//                    publishProgress(String.format(
+//                            context.getString(R.string.sync_state_new_items_downloading),
+//                            downloadedFilesCount, newItemsSize));
+//                    try {
+//                        itemArchive = webServiceManager
+//                                .downloadNewCatalogItemFile(sb.toString()).getDownloadedFile();
+//                    } catch (IOException e1) {
+//                        LogUtils.i("", "Failed downloading file");
+//                        syncLogEntity.logs.add(new
+//                                SyncPhaseLog("Failed downloading file"));
+//                        e1.printStackTrace();
+//                        continue;
+//                    }
+//                    LogUtils.i("", "Finished downloading file, itemArchive = " +
+//                            itemArchive);
+//                    if (itemArchive != null) {
+//                        downloadedFilesCount++;
+//                    } else {
+//                        continue;
+//                    }
+//
+//                    LogUtils.i("", "Unzipping file " + itemArchive.getName());
+//                    syncLogEntity.logs.add(new SyncPhaseLog("Unzipping file "
+//                            + itemArchive.getName()));
+//                    File uzippedFile = unzipFile(itemArchive);
+//                    itemArchive.delete();
+//
+//                    LogUtils.i("", "Parsing file " + itemArchive.getName());
+//                    syncLogEntity.logs
+//                            .add(new SyncPhaseLog("Parsing file " + itemArchive.getName()));
+//                    CatalogItemParser catalogParser = new CatalogItemParser();
+//
+//                    try {
+//                        XmlPullParserFactory factory =
+//                                XmlPullParserFactory.newInstance();
+//                        factory.setNamespaceAware(true);
+//                        XmlPullParser xmlPullParser = factory.newPullParser();
+//                        xmlPullParser.setInput(new FileInputStream(uzippedFile), null);
+//                        items.addAll(catalogParser.parseXml(xmlPullParser, itemDAO));
+//
+//                    } catch (XmlPullParserException e) {
+//                        LogUtils.i("", "Failed to parse file " + uzippedFile.getName() +
+//                                e);
+//                        syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+//                                + uzippedFile.getName() + e.getMessage()));
+//                        error = true;
+//                    } catch (FileNotFoundException e) {
+//                        LogUtils.i("", "Failed to parse file " + uzippedFile.getName() +
+//                                e);
+//                        syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+//                                + uzippedFile.getName() + e.getMessage()));
+//                        error = true;
+//                    }
+//
+//                    uzippedFile.delete();
+//
+//                    if (items.size() == BUNCH_SIZE) {
+//                        itemDAO.insertListData(items);
+//                        items.clear();
+//                    }
+//                }
+//
+//                if (items.size() != 0) {
+//                    itemDAO.insertListData(items);
+//                    items.clear();
+//                }
+//            }
+
+            // New mechanism
+            int successfullyDownloadedItems = 0;
+            StringBuffer sb = new StringBuffer(Constants.URL_NEW_ITEMS);
+            DownloadFileResponse response;
+            File newItemsFile = null;
             if (newItemsIds != null && !newItemsIds.isEmpty()) {
-                ArrayList<Item> items = new ArrayList<Item>();
+                int n = 0;
+                int handledItems = 0;
                 for (String itemId : newItemsIds) {
-                    sb = new StringBuffer();
-                    sb.append(loadFileDataList
-                            .get(UpdateFile.CATALOG_UPDATES.getUpdateFileTag())
-                            .getFileUrl()
-                            .replace(".xmlz", "/")).append(itemId.substring(0, 2)).append("/")
-                            .append(itemId).append(".xmlz");
-                    LogUtils.i("", "Downloading " + sb.toString());
-                    syncLogEntity.logs.add(new SyncPhaseLog("Downloading " + sb.toString()));
-                    publishProgress(String.format(
-                            context.getString(R.string.sync_state_new_items_downloading),
-                            downloadedFilesCount, newItemsSize));
-                    // TODO DEBUG: Remove this if block after tests
-                    // if (sb.toString().contains("88253") ||
-                    // sb.toString().contains("93031")
-                    // || sb.toString().contains("94822") ||
-                    // sb.toString().contains("94743")
-                    // || sb.toString().contains("95120")) {
-                    // continue;
-                    // }
-                    // -----------------------------------------------------
+                    sb.append(itemId).append(",");
+                    n++;
+                    handledItems++;
+                    if (n == Constants.NEW_ITEMS_BLOCK_SIZE || handledItems == newItemsSize) {
+                        downloadedFilesCount = downloadedFilesCount + n;
+                        successfullyDownloadedItems = successfullyDownloadedItems + n;
+                        n = 0;
+                        sb.deleteCharAt(sb.lastIndexOf(","));
 
-                    try {
-                        itemArchive = webServiceManager
-                                .downloadNewCatalogItemFile(sb.toString());
-                    } catch (IOException e1) {
-                        LogUtils.i("", "Failed downloading file");
-                        syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
-                        e1.printStackTrace();
-                        continue;
+                        LogUtils.i("", "Downloading " + sb.toString());
+                        syncLogEntity.logs.add(new SyncPhaseLog("Downloading " +
+                                sb.toString()));
+                        try {
+                            response = webServiceManager
+                                    .downloadNewCatalogItemFile(sb.toString());
+                            newItemsFile = response.getDownloadedFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            LogUtils.i("", "Failed downloading file");
+                            syncLogEntity.logs.add(new
+                                    SyncPhaseLog("Failed downloading file"));
+                            e.printStackTrace();
+                            continue;
+                        }
+                        
+                        publishProgress(String.format(
+                                context.getString(R.string.sync_state_new_items_downloading),
+                                downloadedFilesCount, newItemsSize));
+                        
+                        Map<String, List<String>> headers = response.getHeaders();
+                        if (headers != null) {
+                            List<String> warningHeaders = headers.get("Warning");
+                            if (warningHeaders != null) {
+                                String failedIds = warningHeaders.get(0);
+                                String[] failedItemsIds = failedIds.split(",");
+                                
+                                LogUtils.i("", "Some items were not found, ids: " + failedIds);
+                                syncLogEntity.logs.add(new
+                                        SyncPhaseLog("Some items were not found, ids: " + failedIds));
+                                successfullyDownloadedItems = successfullyDownloadedItems - failedItemsIds.length;
+                            }
+                        }
+                        
+                        CatalogItemParser catalogParser = new CatalogItemParser();
+                        try {
+                            XmlPullParserFactory factory =
+                                    XmlPullParserFactory.newInstance();
+                            factory.setNamespaceAware(true);
+                            XmlPullParser xmlPullParser = factory.newPullParser();
+                            xmlPullParser.setInput(new FileInputStream(newItemsFile), null);
+                            catalogParser.parseXmlToDB(xmlPullParser, itemDAO);
+
+                        } catch (XmlPullParserException e) {
+                            LogUtils.i("", "Failed to parse file " + newItemsFile.getName() +
+                                    e);
+                            syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                                    + newItemsFile.getName() + e.getMessage()));
+                            error = true;
+                        } catch (FileNotFoundException e) {
+                            LogUtils.i("", "Failed to parse file " + newItemsFile.getName() +
+                                    e);
+                            syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                                    + newItemsFile.getName() + e.getMessage()));
+                            error = true;
+                        }
+                        
+                        sb = new StringBuffer(Constants.URL_NEW_ITEMS);
                     }
-                    LogUtils.i("", "Finished downloading file, itemArchive = " + itemArchive);
-                    if (itemArchive != null) {
-                        downloadedFilesCount++;
-                    } else {
-                        continue;
-                    }
-
-                    LogUtils.i("", "Unzipping file " + itemArchive.getName());
-                    syncLogEntity.logs.add(new SyncPhaseLog("Unzipping file "
-                            + itemArchive.getName()));
-                    File uzippedFile = unzipFile(itemArchive);
-                    itemArchive.delete();
-
-                    LogUtils.i("", "Parsing file " + itemArchive.getName());
-                    syncLogEntity.logs
-                            .add(new SyncPhaseLog("Parsing file " + itemArchive.getName()));
-                    CatalogItemParser catalogParser = new CatalogItemParser();
-
-                    try {
-                        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                        factory.setNamespaceAware(true);
-                        XmlPullParser xmlPullParser = factory.newPullParser();
-                        xmlPullParser.setInput(new FileInputStream(uzippedFile), null);
-                        items.addAll(catalogParser.parseXml(xmlPullParser, itemDAO));
-
-                    } catch (XmlPullParserException e) {
-                        LogUtils.i("", "Failed to parse file " + uzippedFile.getName() + e);
-                        syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                                + uzippedFile.getName() + e.getMessage()));
-                        error = true;
-                    } catch (FileNotFoundException e) {
-                        LogUtils.i("", "Failed to parse file " + uzippedFile.getName() + e);
-                        syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                                + uzippedFile.getName() + e.getMessage()));
-                        error = true;
-                    }
-
-                    uzippedFile.delete();
-
-                    if (items.size() == BUNCH_SIZE) {
-                        itemDAO.insertListData(items);
-                        items.clear();
-                    }
-                }
-
-                if (items.size() != 0) {
-                    itemDAO.insertListData(items);
-                    items.clear();
                 }
             }
+            
             LogUtils.i("",
                     "DONE Download, parse and update new items xml files, files list size = "
-                            + downloadedFilesCount);
+                            + successfullyDownloadedItems);
             syncLogEntity.logs.add(new SyncPhaseLog(
                     "DONE Download, parse and update new items xml files, files list size = "
-                            + downloadedFilesCount));
+                            + successfullyDownloadedItems));
+            
+//            LogUtils.i("",
+//                    "DONE Download, parse and update new items xml files, files list size = "
+//                            + downloadedFilesCount);
+//            syncLogEntity.logs.add(new SyncPhaseLog(
+//                    "DONE Download, parse and update new items xml files, files list size = "
+//                            + downloadedFilesCount));
 
             dailyUpdateDuration = System.currentTimeMillis() - syncStartTimestamp;
             if (syncStartTimestamp - SharedPreferencesManager.getLastSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
@@ -412,7 +499,7 @@ public class SyncServcie extends Service {
                     locationsAndChainsUpdatesArchive = webServiceManager
                             .downloadFile(loadFileDataList.get(
                                     UpdateFile.LOCATIONS_AND_CHAINS_UPDATES.getUpdateFileTag())
-                                    .getFileUrl());
+                                    .getFileUrl()).getDownloadedFile();
                 } catch (IOException e1) {
                     LogUtils.i("", "Failed downloading file");
                     syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
@@ -476,7 +563,7 @@ public class SyncServcie extends Service {
                 File itemAvailabilityArchive = null;
                 try {
                     itemAvailabilityArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                            UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag()).getFileUrl());
+                            UpdateFile.ITEM_AVAILABILITY.getUpdateFileTag()).getFileUrl()).getDownloadedFile();
                 } catch (IOException e1) {
                     LogUtils.i("", "Failed downloading file");
                     syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
@@ -539,7 +626,7 @@ public class SyncServcie extends Service {
             try {
                 priceDiscountsArchive = webServiceManager
                         .downloadFile(loadFileDataList.get(UpdateFile.DISCOUNT.getUpdateFileTag())
-                                .getFileUrl());
+                                .getFileUrl()).getDownloadedFile();
             } catch (IOException e1) {
                 LogUtils.i("", "Failed downloading file");
                 syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
@@ -593,7 +680,7 @@ public class SyncServcie extends Service {
             File offersArchive = null;
             try {
                 offersArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                        UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl());
+                        UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl()).getDownloadedFile();
             } catch (IOException e2) {
                 LogUtils.i("", "Failed downloading file");
                 syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
@@ -643,7 +730,7 @@ public class SyncServcie extends Service {
             File featuredArchive = null;
             try {
                 featuredArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                        UpdateFile.FEATURED.getUpdateFileTag()).getFileUrl());
+                        UpdateFile.FEATURED.getUpdateFileTag()).getFileUrl()).getDownloadedFile();
             } catch (IOException e1) {
                 LogUtils.i("", "Failed downloading file");
                 syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
@@ -699,7 +786,7 @@ public class SyncServcie extends Service {
                 File deliveryArchive = null;
                 try {
                     deliveryArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                            UpdateFile.DELIVERY.getUpdateFileTag()).getFileUrl());
+                            UpdateFile.DELIVERY.getUpdateFileTag()).getFileUrl()).getDownloadedFile();
                 } catch (IOException e1) {
                     LogUtils.i("", "Failed downloading file");
                     syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));

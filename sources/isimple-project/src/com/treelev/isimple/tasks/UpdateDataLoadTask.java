@@ -45,7 +45,7 @@ public class UpdateDataLoadTask extends AsyncTask<String, Void, Void> {
         for (int i = 0; i < params.length; i++) {
             File downloadFile;
             try {
-                downloadFile = new WebServiceManager().downloadFile(params[i]);
+                downloadFile = new WebServiceManager().downloadFile(params[i]).getDownloadedFile();
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;

@@ -2,12 +2,18 @@ package com.treelev.isimple.activities;
 
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
+import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.Toast;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
@@ -24,6 +30,10 @@ import com.treelev.isimple.activities.EnterCatalogUpdateUrlDialogFragment.Catalo
 import com.treelev.isimple.adapters.NavigationDrawerAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.app.ISimpleApp;
+import com.treelev.isimple.service.SyncProgressListener;
+import com.treelev.isimple.service.SyncServcie;
+import com.treelev.isimple.utils.Constants;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
@@ -31,7 +41,7 @@ import com.treelev.isimple.utils.observer.Observer;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
 
 public class BaseActivity extends Activity implements ActionBar.OnNavigationListener,
-        Observer, CatalogUpdateUrlChangeListener {
+        Observer, CatalogUpdateUrlChangeListener, SyncProgressListener {
 
 
     public final static String BARCODE = "barcode";
@@ -43,12 +53,22 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     protected boolean mEventChangeDataBase;
     
     protected DrawerLayout drawerLayout;
+    
+    private Dialog mDialog;
+    private SyncStatusReceiver syncStatusReceiver;
+    private SyncFinishedReceiver syncFinishedReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ObserverDataChanged.getInstant().addObserver(this);
 
+        syncStatusReceiver = new SyncStatusReceiver();
+        syncFinishedReceiver = new SyncFinishedReceiver();
+        
+        if (!SyncServcie.startSyncIfNeeded(this, this)) {
+            SyncServcie.startOffersSyncIfNeeded(this, this);
+        }
     }
 
     @Override
@@ -104,12 +124,10 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String codeInfo;
-        String typeCode;
         if (resultCode == android.app.Activity.RESULT_OK) {
             switch (requestCode) {
                 case IntentIntegrator.REQUEST_CODE:
 
-                    typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
                     codeInfo = data.getStringExtra("SCAN_RESULT");
                     if(codeInfo != null){
                         checkBarcodeResult(codeInfo);
@@ -174,15 +192,13 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
 
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.initiateScan();
-                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
             case 5: //About
                 showAbout();
-                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
             case 6:
-            	showCatalogUpdateLink();
-                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
+                // showCatalogUpdateLink();
+                SyncServcie.startSync(this, this);
             	break;
             default:
                 category = null;
@@ -280,4 +296,58 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
 	public void onCatalogUpdateUrlChanged(String url) {
 		SharedPreferencesManager.putUpdateFileUrl(url);
 	}
+
+    @Override
+    public void startListeningForProgress() {
+        showDialog();
+        LocalBroadcastManager.getInstance(this).registerReceiver(syncStatusReceiver,
+                new IntentFilter(Constants.INTENT_ACTION_SYNC_STATE_UPDATE));
+        registerReceiver(syncFinishedReceiver,
+                new IntentFilter(Constants.INTENT_ACTION_SYNC_FINISHED));
+    }
+    
+    private class SyncStatusReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateDialog(intent.getStringExtra(Constants.INTENT_EXTRA_SYNC_STATE));
+        }
+
+    }
+    
+    private class SyncFinishedReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtils.i("Test log", "SyncFinishedReceiver onReceive");
+            hideDialog();
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(syncStatusReceiver);
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(syncFinishedReceiver);
+            
+            if (!intent.getBooleanExtra(Constants.INTENT_ACTION_SYNC_SUCCESSFULL, true)) {
+                Toast.makeText(context, R.string.sync_error_update_index_error, Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+    
+    private void updateDialog(String message) {
+        if (mDialog != null) {
+            ((ProgressDialog) mDialog).setMessage(message);
+        }
+    }
+    
+    private void showDialog() {
+        if (mDialog == null) {
+            mDialog = ProgressDialog.show(BaseActivity.this,
+                    getString(R.string.update_data_notify_label),
+                    getString(R.string.update_data_wait_label), false, false);
+        }
+    }
+
+    private void hideDialog() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package com.treelev.isimple.activities;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,7 +20,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
@@ -130,7 +128,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 			return true;
 		case R.id.menu_item_favorite:
 			ProxyManager proxyManager = ProxyManager.getInstanse();
-			ArrayList listProduct = new ArrayList<String>();
+			ArrayList<String> listProduct = new ArrayList<String>();
 			listProduct.add(mProduct.getItemID());
 			if (mIsFavourite) {
 				proxyManager.delFavourites(listProduct);
@@ -165,9 +163,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
 	private void initImageLoader() {
 		imageLoader = Utils.getImageLoader(getApplicationContext());
-		options = new DisplayImageOptions.Builder().showStubImage(R.drawable.product_default_image)
-				.showImageForEmptyUri(R.drawable.product_default_image)
-				.showImageOnFail(R.drawable.product_default_image).cacheInMemory(true).cacheOnDisc(true).build();
+        options = new DisplayImageOptions.Builder().showStubImage(R.drawable.product_default_image)
+                .showImageForEmptyUri(R.drawable.product_default_image)
+                .showImageOnFail(R.drawable.product_default_image).cacheInMemory(true).cacheOnDisc(true).build();
 	}
 
 	private void initCurrentCategory(String locationId) {
@@ -266,8 +264,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 	}
 
 	private void initShareIntent() {
-		String type = "mail";
-		boolean found = false;
 		Intent sendMail = new Intent(Intent.ACTION_SEND_MULTIPLE);
 		sendMail.setType("text/html");
 		sendMail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
@@ -327,9 +323,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 				result = Uri.fromFile(tmpImage);
 			}
 		} catch (IOException e) {
-		} finally {
-			return result;
+		    
 		}
+		return result;
 
 	}
 
@@ -358,34 +354,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 				itemId, itemId);
 	}
 
-	@Deprecated
-	private String bmpToBase64String() {
-		String strBitMap = null;
-		if (mBitMap != null) {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			mBitMap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-			byte[] b = baos.toByteArray();
-			strBitMap = Base64.encodeToString(b, Base64.DEFAULT);
-		}
-		return strBitMap;
-	}
-
 	private int widthDisplay() {
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		return display.getWidth();
-	}
-
-	private int getViewsWidth(View view) {
-		DisplayMetrics metrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-		int screenWidth = metrics.widthPixels;
-
-		int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(screenWidth, View.MeasureSpec.EXACTLY);
-		int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-
-		view.measure(widthMeasureSpec, heightMeasureSpec);
-		return view.getMeasuredWidth();
 	}
 
 	private List<ProductContent> createExpandableItems(Item product) {

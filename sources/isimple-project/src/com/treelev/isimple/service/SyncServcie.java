@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -64,31 +65,59 @@ import com.treelev.isimple.utils.parse.SyncLogEntity.PriceDiscountsUpdateDuratio
 import com.treelev.isimple.utils.parse.SyncLogEntity.SyncPhaseLog;
 
 public class SyncServcie extends Service {
+    
+    public static final String INTENT_ACTION_SYNC_TYPE = "INTENT_ACTION_SYNC_TYPE";
+    public static final int SYNC_TYPE_DATA = 1;
+    public static final int SYNC_TYPE_OFFERS = 2;
 
     public final static String LAST_UPDATED_DATE = "date_for_last_update";
     public static final int BUNCH_SIZE = 50;
     private static SyncDataTask syncDataTask;
+    private static SyncOffersTask syncOffersTask;
     private SyncLogEntity syncLogEntity;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtils.i("", "Started sync service");
+        
+        int syncType = intent.getIntExtra(INTENT_ACTION_SYNC_TYPE, 0); 
+        if (syncType == 0) {
+            throw new RuntimeException("You must pass sync type!");
+        }
         if (isExternalStorageAvailable()) {
             Context context = getApplication();
-            if (!SharedPreferencesManager.isPreparationUpdate(context)) {
-                Log.v("Test log start update", "start update");
-                SharedPreferencesManager.setUpdateReady(context, false);
-                SharedPreferencesManager.setPreparationUpdate(context, true);
-                syncDataTask = new SyncDataTask(context);
-                syncDataTask.execute();
+            switch (syncType) {
+                case SYNC_TYPE_DATA:
+                    if (!SharedPreferencesManager.isPreparationUpdate(context)) {
+                        Log.v("Test log start update", "start update");
+                        SharedPreferencesManager.setPreparationUpdate(context, true);
+                        syncDataTask = new SyncDataTask(context);
+                        syncDataTask.execute();
+                    }
+                    break;
+                case SYNC_TYPE_OFFERS:
+                    syncOffersTask = new SyncOffersTask(context);
+                    syncOffersTask.execute();
+                    break;
+
+                default:
+                    break;
             }
-        }
+    }
         stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 
     public static boolean isSyncDataTaskRunning() {
         if (syncDataTask == null || syncDataTask.getStatus() != AsyncTask.Status.RUNNING) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    public static boolean isSyncOffersTaskRunning() {
+        if (syncOffersTask == null || syncOffersTask.getStatus() != AsyncTask.Status.RUNNING) {
             return false;
         } else {
             return true;
@@ -718,6 +747,8 @@ public class SyncServcie extends Service {
                     syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
                             + unzippedOffers.getName() + e.getMessage()));
                     error = true;
+                } finally {
+                    SharedPreferencesManager.setLastOffersSyncTimestamp(System.currentTimeMillis());
                 }
             }
 
@@ -912,6 +943,167 @@ public class SyncServcie extends Service {
         }
 
     }
+    
+    public class SyncOffersTask extends AsyncTask<Void, String, Void> {
+
+        private WebServiceManager webServiceManager;
+        private Context context;
+
+        private boolean error;
+
+        public SyncOffersTask(Context context) {
+            this.webServiceManager = new WebServiceManager();
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            error = false;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            long offersSyncStartTimestamp = System.currentTimeMillis();
+
+            initSyncLogEntity(offersSyncStartTimestamp);
+
+            syncLogEntity.logs.add(new SyncPhaseLog("Started offers sync"));
+            OfferDAO offerDAO = new OfferDAO(ISimpleApp.getInstantce());
+
+            // 9. Update offers list
+            // 9.1. Download offers list
+            LogUtils.i("", "Downloading offers, url = " + SharedPreferencesManager.getLastKnownOffersUrl());
+            syncLogEntity.logs.add(new SyncPhaseLog("Downloading offers"));
+            publishProgress(context.getString(R.string.sync_state_offers_update));
+            File offersArchive = null;
+            try {
+                offersArchive = webServiceManager.downloadFile(
+                        SharedPreferencesManager.getLastKnownOffersUrl()).getDownloadedFile();
+            } catch (IOException e2) {
+                LogUtils.i("", "Failed downloading file");
+                syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
+                e2.printStackTrace();
+            }
+
+            // 9.2. Unzip offers list
+            File unzippedOffers = null;
+            if (offersArchive != null) {
+                LogUtils.i("", "Unzipping offers");
+                syncLogEntity.logs.add(new SyncPhaseLog("Unzipping offers"));
+                unzippedOffers = unzipFile(offersArchive);
+
+                // 9.3 Parse and save offers list to DB
+                OffersParser offersParser = new OffersParser();
+                LogUtils.i("", "Parsing offers to db");
+                syncLogEntity.logs.add(new SyncPhaseLog("Parsing offers to db"));
+                try {
+                    XmlPullParserFactory factory =
+                            XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(true);
+                    XmlPullParser xmlPullParser = factory.newPullParser();
+                    xmlPullParser.setInput(new FileInputStream(unzippedOffers),
+                            null);
+                    offersParser.parseXmlToDB(xmlPullParser, offerDAO);
+
+                    unzippedOffers.delete();
+                } catch (XmlPullParserException e) {
+                    LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
+                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                            + unzippedOffers.getName() + e.getMessage()));
+                    error = true;
+                } catch (FileNotFoundException e) {
+                    LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
+                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                            + unzippedOffers.getName() + e.getMessage()));
+                    error = true;
+                } finally {
+                    SharedPreferencesManager.setLastOffersSyncTimestamp(System.currentTimeMillis());
+                }
+            }
+
+            syncLogEntity.duration.add(new FullUpdateDuration(System.currentTimeMillis()
+                    - offersSyncStartTimestamp));
+
+            return null;
+
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            sendProgressBroadcast(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            syncOffersTask = null;
+
+            LogUtils.i("", "Finished sync, error = " + error);
+            syncLogEntity.logs.add(new SyncPhaseLog("Finished offers sync, error = " + error));
+            if (!error) {
+                SharedPreferencesManager.setLastOffersSyncTimestamp(System.currentTimeMillis());
+            } else {
+
+            }
+
+            ParseFile syncFile = ParseLogUtils.createSyncLogFile(syncLogEntity);
+
+            ParseLogUtils.logToParse(syncLogEntity.meta.deleteCount,
+                    syncLogEntity.meta.insertCount,
+                    syncLogEntity.meta.updateCount, syncFile);
+            Intent intent = new Intent(Constants.INTENT_ACTION_SYNC_FINISHED);
+            intent.putExtra(Constants.INTENT_ACTION_SYNC_SUCCESSFULL, !error);
+            sendBroadcast(intent);
+        }
+
+        private File unzipFile(File archive) {
+            File unzipped = null;
+            if (archive != null) {
+                try {
+                    ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(
+                            archive));
+                    ZipEntry zipEntry = zipInputStream.getNextEntry();
+                    byte[] buffer = new byte[4096];
+                    FileOutputStream fileOutputStream = null;
+                    if (zipEntry == null) {
+                        Log.i(getClass().getName(), "File " + archive.getPath()
+                                + " don't unpack");
+                    }
+                    while (zipEntry != null) {
+                        String fileName = zipEntry.getName();
+                        unzipped = new File(archive.getParent()
+                                + File.separator + fileName);
+                        fileOutputStream = new FileOutputStream(unzipped);
+                        int len;
+                        while ((len = zipInputStream.read(buffer)) > 0) {
+                            fileOutputStream.write(buffer, 0, len);
+                        }
+                        fileOutputStream.close();
+                        zipEntry = zipInputStream.getNextEntry();
+                    }
+                    zipInputStream.closeEntry();
+                    zipInputStream.close();
+                    if (fileOutputStream != null) {
+                        fileOutputStream.close();
+                    }
+                    archive.delete();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    error = true;
+                }
+            }
+
+            return unzipped;
+        }
+
+        private void sendProgressBroadcast(String text) {
+            Intent intent = new Intent(Constants.INTENT_ACTION_SYNC_STATE_UPDATE);
+            intent.putExtra(Constants.INTENT_EXTRA_SYNC_STATE, text);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        }
+
+    }
 
     private void initSyncLogEntity(long syncStartTimestamp) {
         syncLogEntity = new SyncLogEntity();
@@ -933,53 +1125,63 @@ public class SyncServcie extends Service {
         syncLogEntity.logs = new ArrayList<SyncLogEntity.SyncPhaseLog>();
         syncLogEntity.duration = new ArrayList<Object>();
     }
-
-    // private void testSyncLog() {
-    // String version = "";
-    // int versionCode = 0;
-    // try {
-    // PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(),
-    // 0);
-    // version = pInfo.versionName;
-    // versionCode = pInfo.versionCode;
-    // } catch (NameNotFoundException e) {
-    // e.printStackTrace();
-    // }
-    //
-    // SyncLogEntity logEntity = new SyncLogEntity();
-    // logEntity.meta.build = version;
-    // logEntity.meta.deleteCount = 12;
-    // logEntity.meta.insertCount = 13;
-    // logEntity.meta.setStartTime(System.currentTimeMillis());
-    // logEntity.meta.updateCount = 14;
-    // logEntity.meta.version = String.valueOf(versionCode);
-    //
-    // logEntity.logs = new ArrayList<SyncLogEntity.SyncPhaseLog>();
-    // for (int i = 0; i < 10; i++) {
-    // SyncLogEntity.SyncPhaseLog syncPhase = new SyncPhaseLog("Sync phase " +
-    // i);
-    // if (i % 2 == 0) {
-    // syncPhase.object = new HashMap<String, Long>();
-    // syncPhase.object.put("93938", 123l);
-    // syncPhase.object.put("1111111", 554l);
-    // syncPhase.object.put("22", 22200l);
-    // }
-    // logEntity.logs.add(syncPhase);
-    // }
-    //
-    // logEntity.duration = new ArrayList<Object>();
-    // logEntity.duration.add(new SyncLogEntity.DailyUpdateDuration(125));
-    // logEntity.duration.add(new SyncLogEntity.FeaturedUpdateDuration(11));
-    // logEntity.duration.add(new SyncLogEntity.FullUpdateDuration(5));
-    // logEntity.duration.add(new SyncLogEntity.OffersUpdateDuration(100));
-    // logEntity.duration.add(new
-    // SyncLogEntity.PriceDiscountsUpdateDuration(1));
-    //
-    // File syncFile = ParseLogUtils.createSyncLogFile(logEntity);
-    //
-    // ParseLogUtils.logToParse(logEntity.meta.deleteCount,
-    // logEntity.meta.insertCount,
-    // logEntity.meta.updateCount, syncFile);
-    // }
+    
+    public static void startSync(Context context, SyncProgressListener progressListener) {
+        LogUtils.i("", "startSync called");
+        boolean downloadDataTaskRunning = SyncServcie.isSyncDataTaskRunning();
+        if (!downloadDataTaskRunning
+                && SharedPreferencesManager.isPreparationUpdate(context)) {
+            // This means app crashed, was killed or updated when update was in
+            // progress, or last sync failed. Thus we should clear all download flags.
+            Log.v("Test log", "Clear download update flags");
+            SharedPreferencesManager.setPreparationUpdate(context, false);
+        }
+        if (!SharedPreferencesManager.isPreparationUpdate(context)) {
+            LogUtils.i("", "Launcing intent");
+            Intent intent = new Intent(context, SyncServcie.class);
+            intent.putExtra(SyncServcie.INTENT_ACTION_SYNC_TYPE, SyncServcie.SYNC_TYPE_DATA);
+            context.startService(intent);
+            if (progressListener != null) {
+                progressListener.startListeningForProgress();
+            }
+        }
+    }
+    
+    public static void startOffersSync(Context context, SyncProgressListener progressListener) {
+        LogUtils.i("", "startOffersSync called");
+        boolean downloadDataTaskRunning = SyncServcie.isSyncOffersTaskRunning();
+        if (!downloadDataTaskRunning) {
+            LogUtils.i("", "Launcing intent");
+            Intent intent = new Intent(context, SyncServcie.class);
+            intent.putExtra(SyncServcie.INTENT_ACTION_SYNC_TYPE, SyncServcie.SYNC_TYPE_OFFERS);
+            context.startService(intent);
+            if (progressListener != null) {
+                progressListener.startListeningForProgress();
+            }
+        }
+    }
+    
+    public static boolean startSyncIfNeeded(Context context, SyncProgressListener progressListener) {
+        LogUtils.i("", "startSyncIfNeeded called");
+        boolean started = false;
+        int hour = 60 * 60 * 1000;
+        Calendar cal = Calendar.getInstance();
+        while (cal.get(Calendar.HOUR_OF_DAY) != 9) {
+            cal.setTimeInMillis(cal.getTimeInMillis() - hour);
+        }
+        if (SharedPreferencesManager.getLastSyncTimestamp(context) < cal.getTimeInMillis()) {
+            SyncServcie.startSync(context, progressListener);
+            started = true;
+        }
+        return started;
+    }
+    
+    public static void startOffersSyncIfNeeded(Context context, SyncProgressListener progressListener) {
+        LogUtils.i("", "startOffersSyncIfNeeded called");
+        int hour = 60 * 60 * 1000;
+        if (System.currentTimeMillis() - SharedPreferencesManager.getLastSyncTimestamp(context) >= hour) {
+            SyncServcie.startOffersSync(context, progressListener);
+        }
+    }
 
 }

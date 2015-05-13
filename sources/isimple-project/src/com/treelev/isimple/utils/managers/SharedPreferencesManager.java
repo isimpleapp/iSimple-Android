@@ -14,7 +14,6 @@ import com.treelev.isimple.app.ISimpleApp;
 public class SharedPreferencesManager {
 
     private final static String PREFS = "iSimple_prefs";
-    private final static String READY_UPDATE = "ready_update";
     private final static String FIRST_START = "first_start";
     private final static String FIRST_TIME_NEW_SYNC = "first_time_new_sync";
 
@@ -24,23 +23,15 @@ public class SharedPreferencesManager {
     private static final String UPDATE_START = "update_start";
     private static final String PREPARATION_UPDATE = "preparation_update";
     private static final String LAST_SYNC_TIMESTAMP = "last_sync_timestamp";
+    private static final String LAST_OFFERS_SYNC_TIMESTAMP = "last_offers_sync_timestamp";
+    private static final String LAST_KNOWN_OFFERS_URL = "LAST_KNOWN_OFFERS_URL";
 
     private static final String FORMAT_DATE = "dd.MM.yyyy";
     
     private static final String LOAD_FILE_DATA_URL_KEY = "LOAD_FILE_DATA_URL";
 
     public static  SharedPreferences getSharedPreferences(Context context){
-        return context.getSharedPreferences(PREFS, context.MODE_MULTI_PROCESS);
-    }
-
-    public static boolean isUpdateReady(Context context){
-        return getSharedPreferences(context).getBoolean(READY_UPDATE, false);
-    }
-
-    public  static void setUpdateReady(Context context, boolean state){
-        Editor editor = getEditor();
-        editor.putBoolean(READY_UPDATE, state);
-        editor.commit();
+        return context.getSharedPreferences(PREFS, Context.MODE_MULTI_PROCESS);
     }
 
     public static boolean isFirstStart(Context context){
@@ -145,8 +136,8 @@ public class SharedPreferencesManager {
     }
 
     private static Editor getEditor(){
-    	Context context = (Context) ISimpleApp.getInstantce();
-        return context.getSharedPreferences(PREFS, context.MODE_MULTI_PROCESS).edit();
+    	Context context = ISimpleApp.getInstantce();
+        return context.getSharedPreferences(PREFS, Context.MODE_MULTI_PROCESS).edit();
     }
 
     private static String getFormattedDate(){
@@ -162,6 +153,26 @@ public class SharedPreferencesManager {
     public static void setLastSyncTimestamp(Context context, long timestamp){
         Editor editor = getEditor();
         editor.putLong(LAST_SYNC_TIMESTAMP, timestamp);
+        editor.commit();
+    }
+    
+    public static long getLastOffersSyncTimestamp(){
+        return getSharedPreferences(ISimpleApp.getInstantce()).getLong(LAST_OFFERS_SYNC_TIMESTAMP, 0);
+    }
+
+    public static void setLastOffersSyncTimestamp(long timestamp){
+        Editor editor = getEditor();
+        editor.putLong(LAST_OFFERS_SYNC_TIMESTAMP, timestamp);
+        editor.commit();
+    }
+    
+    public static String getLastKnownOffersUrl(){
+        return getSharedPreferences(ISimpleApp.getInstantce()).getString(LAST_KNOWN_OFFERS_URL, "");
+    }
+
+    public static void setLastKnownOffersUrl(String url){
+        Editor editor = getEditor();
+        editor.putString(LAST_KNOWN_OFFERS_URL, url);
         editor.commit();
     }
 

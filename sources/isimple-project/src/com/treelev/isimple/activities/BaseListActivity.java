@@ -1,14 +1,21 @@
+
 package com.treelev.isimple.activities;
 
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListActivity;
+import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.Toast;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
@@ -25,6 +32,10 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.activities.EnterCatalogUpdateUrlDialogFragment.CatalogUpdateUrlChangeListener;
 import com.treelev.isimple.adapters.NavigationDrawerAdapter;
 import com.treelev.isimple.app.ISimpleApp;
+import com.treelev.isimple.service.SyncProgressListener;
+import com.treelev.isimple.service.SyncServcie;
+import com.treelev.isimple.utils.Constants;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
@@ -32,7 +43,7 @@ import com.treelev.isimple.utils.observer.Observer;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
 
 public class BaseListActivity extends ListActivity implements ActionBar.OnNavigationListener,
-        Observer, CatalogUpdateUrlChangeListener {
+        Observer, CatalogUpdateUrlChangeListener, SyncProgressListener {
 
     protected boolean mEventChangeDataBase;
     protected final int LENGTH_SEARCH_QUERY = 3;
@@ -41,27 +52,37 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
     public final static String BARCODE = "barcode";
     private boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;
-    
+
     protected DrawerLayout drawerLayout;
+
+    private Dialog mDialog;
+    private SyncStatusReceiver syncStatusReceiver;
+    private SyncFinishedReceiver syncFinishedReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ObserverDataChanged.getInstant().addObserver(this);
 
+        syncStatusReceiver = new SyncStatusReceiver();
+        syncFinishedReceiver = new SyncFinishedReceiver();
+
+        if (!SyncServcie.startSyncIfNeeded(this, this)) {
+            SyncServcie.startOffersSyncIfNeeded(this, this);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        ((ISimpleApp)getApplication()).incRefActivity();
+        ((ISimpleApp) getApplication()).incRefActivity();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        ((ISimpleApp)getApplication()).decRefActivity();
-        if(((ISimpleApp)getApplication()).getCountRefActivity() == 0){
+        ((ISimpleApp) getApplication()).decRefActivity();
+        if (((ISimpleApp) getApplication()).getCountRefActivity() == 0) {
             LocationTrackingManager.getInstante().stopLocationListener();
         }
     }
@@ -73,11 +94,11 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-//        this.supportInvalidateOptionsMenu();
-        if(useBarcodeScaner){
-            if(backAfterBarcodeScaner){
+        // this.supportInvalidateOptionsMenu();
+        if (useBarcodeScaner) {
+            if (backAfterBarcodeScaner) {
                 finish();
                 startActivity(getIntent());
             }
@@ -105,7 +126,7 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                 case IntentIntegrator.REQUEST_CODE:
                     typeCode = data.getStringExtra("SCAN_RESULT_FORMAT");
                     codeInfo = data.getStringExtra("SCAN_RESULT");
-                    if(codeInfo != null){
+                    if (codeInfo != null) {
                         checkBarcodeResult(codeInfo);
                     }
                     break;
@@ -185,7 +206,8 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                 intent.putExtra(BARCODE, code);
                 startActivity(intent);
             } else {
-                int countFromItemDeprecatedTable = proxyManager.getCountBarcodeInDeprecatedTable(code);
+                int countFromItemDeprecatedTable = proxyManager
+                        .getCountBarcodeInDeprecatedTable(code);
                 if (countFromItemDeprecatedTable > 1) {
                     Intent intent = new Intent(this, CatalogSubCategory.class);
                     intent.putExtra(BARCODE, code);
@@ -209,50 +231,48 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         Intent intent = null;
         int flags = 0;
         switch (itemPosition) {
-            case 0: //Catalog
+            case 0: // Catalog
                 category = CatalogListActivityNew.class;
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
                 break;
-            case 1: //Shop
+            case 1: // Shop
                 category = ShopsFragmentActivity.class;
                 break;
-            case 2: //FavoritesActivity
+            case 2: // FavoritesActivity
                 category = FavoritesActivity.class;
                 break;
-            case 3: //Shopping cart
+            case 3: // Shopping cart
                 category = ShoppingCartActivity.class;
                 break;
-            case 4: //Scan Code
+            case 4: // Scan Code
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.initiateScan();
-                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
-            case 5: //About
+            case 5: // About
                 showAbout();
-                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
                 break;
             case 6:
-            	showCatalogUpdateLink();
-                getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
-            	break;
+                // showCatalogUpdateLink();
+                SyncServcie.startSync(this, this);
+                break;
             default:
                 category = null;
         }
-        if( !this.getClass().equals(category) && category != null){
-            intent =  new Intent(this, category);
-            if(flags != 0 && mCurrentCategory != itemPosition) {
+        if (!this.getClass().equals(category) && category != null) {
+            intent = new Intent(this, category);
+            if (flags != 0 && mCurrentCategory != itemPosition) {
                 intent.setFlags(flags);
             }
         }
         return intent;
     }
-    
+
     private void showCatalogUpdateLink() {
-    	EnterCatalogUpdateUrlDialogFragment changeCatalogUpdateUrl = new EnterCatalogUpdateUrlDialogFragment();
-		changeCatalogUpdateUrl.show(getFragmentManager(), "sometag");
+        EnterCatalogUpdateUrlDialogFragment changeCatalogUpdateUrl = new EnterCatalogUpdateUrlDialogFragment();
+        changeCatalogUpdateUrl.show(getFragmentManager(), "sometag");
     }
 
-    private void showAbout(){
+    private void showAbout() {
         String version = "";
         try {
             version = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
@@ -264,14 +284,16 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
             String datePriceUpdate = SharedPreferencesManager.getDatePriceUpdate(this);
             AlertDialog.Builder adb = new AlertDialog.Builder(this);
             adb.setTitle(getString(R.string.title_about_info));
-            String aboutInfo = String.format(getString(R.string.about_info), version, dateCatalogUpdate, datePriceUpdate, dateUpdate);
+            String aboutInfo = String.format(getString(R.string.about_info), version,
+                    dateCatalogUpdate, datePriceUpdate, dateUpdate);
             adb.setMessage(Html.fromHtml(aboutInfo));
-            adb.setNeutralButton(getString(R.string.dialog_button_ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
+            adb.setNeutralButton(getString(R.string.dialog_button_ok),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
             adb.show();
         }
     }
@@ -280,9 +302,64 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
     public void dataChanged() {
         mEventChangeDataBase = true;
     }
-    
+
     @Override
-	public void onCatalogUpdateUrlChanged(String url) {
-		SharedPreferencesManager.putUpdateFileUrl(url);
-	}
+    public void onCatalogUpdateUrlChanged(String url) {
+        SharedPreferencesManager.putUpdateFileUrl(url);
+    }
+
+    @Override
+    public void startListeningForProgress() {
+        showDialog();
+        LocalBroadcastManager.getInstance(this).registerReceiver(syncStatusReceiver,
+                new IntentFilter(Constants.INTENT_ACTION_SYNC_STATE_UPDATE));
+        registerReceiver(syncFinishedReceiver,
+                new IntentFilter(Constants.INTENT_ACTION_SYNC_FINISHED));
+    }
+
+    private class SyncStatusReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateDialog(intent.getStringExtra(Constants.INTENT_EXTRA_SYNC_STATE));
+        }
+
+    }
+
+    private class SyncFinishedReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtils.i("Test log", "SyncFinishedReceiver onReceive");
+            hideDialog();
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(syncStatusReceiver);
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(syncFinishedReceiver);
+
+            if (!intent.getBooleanExtra(Constants.INTENT_ACTION_SYNC_SUCCESSFULL, true)) {
+                Toast.makeText(context, R.string.sync_error_update_index_error, Toast.LENGTH_LONG)
+                        .show();
+            }
+        }
+
+    }
+
+    private void updateDialog(String message) {
+        if (mDialog != null) {
+            ((ProgressDialog) mDialog).setMessage(message);
+        }
+    }
+
+    private void showDialog() {
+        if (mDialog == null) {
+            mDialog = ProgressDialog.show(BaseListActivity.this,
+                    getString(R.string.update_data_notify_label),
+                    getString(R.string.update_data_wait_label), false, false);
+        }
+    }
+
+    private void hideDialog() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+    }
 }

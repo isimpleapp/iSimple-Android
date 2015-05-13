@@ -31,6 +31,7 @@ import android.util.Log;
 
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
+import com.treelev.isimple.service.SyncServcie;
 import com.treelev.isimple.utils.Constants;
 import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
@@ -214,7 +215,8 @@ public class SplashActivity extends Activity {
                 showDialog();
                 SplashActivity.this.registerReceiver(new SyncFinishedReceiver(), new IntentFilter(
                         Constants.INTENT_ACTION_SYNC_FINISHED));
-                sendBroadcast(new Intent(Constants.INTENT_ACTION_SYNC_TRIGGER));
+//                sendBroadcast(new Intent(Constants.INTENT_ACTION_SYNC_TRIGGER));
+                SyncServcie.startSync(ISimpleApp.getInstantce(), null);
                 SharedPreferencesManager.setFirstTimeNewSync(ISimpleApp.getInstantce(), false);
             } else {
                 startApplication(false);

@@ -7,6 +7,7 @@
         <item>Корзина</item>
         <item>Штрих-код</item>
         <item>О программе</item>
+        <item>Обновить</item>
 <!--         <item>Catalog Update Url</item> -->
     </string-array>
     <array name="main_menu_icons">
@@ -16,6 +17,7 @@
         <item>@drawable/menu_ico_shopping_cart</item>
         <item>@drawable/menu_ico_scan</item>
         <item>@drawable/icon_about</item>
+        <item>@drawable/ic_popup_sync_1</item>
 <!--         <item>@drawable/icon_about</item> -->
     </array>
 </resources>

@@ -76,19 +76,12 @@
                   android:excludeFromRecents="true"
                   android:finishOnTaskLaunch="true" />
         <activity android:name=".activities.ProductImageActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
-        <!--<activity android:name=".activities.TestParsingActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
         <uses-library android:name="com.google.android.maps"/>
         <service android:name=".service.SyncServcie" />
-<!--         <service android:name=".service.UpdateDataService" android:process=":isimple_update_service" /> -->
-        <receiver android:name=".receiver.SyncTriggerReceiver">
-            <intent-filter>
-                <action android:name="com.treelev.isimple.action.SYNC_DATA" />
-            </intent-filter>
-        </receiver>
+<!--         <receiver android:name=".receiver.SyncTriggerReceiver"> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="com.treelev.isimple.action.SYNC_DATA" /> -->
+<!--             </intent-filter> -->
+<!--         </receiver> -->
     </application>
 </manifest>

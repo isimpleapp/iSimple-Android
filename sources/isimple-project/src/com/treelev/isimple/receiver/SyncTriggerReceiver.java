@@ -1,37 +1,23 @@
 package com.treelev.isimple.receiver;
 
+import java.util.Calendar;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.treelev.isimple.service.SyncServcie;
 import com.treelev.isimple.utils.Constants;
 import com.treelev.isimple.utils.LogUtils;
-import com.treelev.isimple.utils.managers.SharedPreferencesManager;
-
-import java.util.Calendar;
 
 public class SyncTriggerReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
         
-        LogUtils.i("", "SyncTriggerReceiver onReceive");
-        boolean downloadDataTaskRunning = SyncServcie.isSyncDataTaskRunning();
-        if (!downloadDataTaskRunning
-                && SharedPreferencesManager.isPreparationUpdate(context)) {
-            // This means app crashed, was killed or updated when update was in
-            // progress, or last sync failed. Thus we should clear all download flags.
-            Log.v("Test log", "CatalogListActivity clear download update flags");
-            SharedPreferencesManager.setPreparationUpdate(context, false);
-        }
-        if (!SharedPreferencesManager.isPreparationUpdate(context)
-                && !SharedPreferencesManager.isUpdateReady(context)) {
-            context.startService(new Intent(context, SyncServcie.class));
-        }
+        SyncServcie.startSync(context, null);
         
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar cal = Calendar.getInstance();

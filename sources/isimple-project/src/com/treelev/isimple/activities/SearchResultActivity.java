@@ -229,7 +229,7 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
 					.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
 			startIntent = new Intent(this, CatalogSubCategoryTree.class);
 			startIntent.putExtra(SEARCH_QUERY, mQuery);
-			startIntent.putExtra(CatalogByCategoryActivityDepracated.DRINK_ID,
+			startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID,
 					product.getString(itemDrinkIdIndex));
 			startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
 			startActivity(startIntent);

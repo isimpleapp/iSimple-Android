@@ -2,14 +2,20 @@
 package com.treelev.isimple.activities;
 
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ExpandableListActivity;
+import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ExpandableListView;
+import org.holoeverywhere.widget.Toast;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
@@ -25,6 +31,10 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.activities.EnterCatalogUpdateUrlDialogFragment.CatalogUpdateUrlChangeListener;
 import com.treelev.isimple.adapters.NavigationDrawerAdapter;
 import com.treelev.isimple.app.ISimpleApp;
+import com.treelev.isimple.service.SyncProgressListener;
+import com.treelev.isimple.service.SyncServcie;
+import com.treelev.isimple.utils.Constants;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
@@ -33,7 +43,7 @@ import com.treelev.isimple.utils.observer.ObserverDataChanged;
 
 public class BaseExpandableListActivity extends ExpandableListActivity implements
         ActionBar.OnNavigationListener,
-        Observer, CatalogUpdateUrlChangeListener {
+        Observer, CatalogUpdateUrlChangeListener, SyncProgressListener {
 
     protected boolean mEventChangeDataBase;
     protected final int LENGTH_SEARCH_QUERY = 3;
@@ -42,13 +52,24 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     public final static String BARCODE = "barcode";
     private boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;
-    
+
     protected DrawerLayout drawerLayout;
+
+    private Dialog mDialog;
+    private SyncStatusReceiver syncStatusReceiver;
+    private SyncFinishedReceiver syncFinishedReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ObserverDataChanged.getInstant().addObserver(this);
+
+        syncStatusReceiver = new SyncStatusReceiver();
+        syncFinishedReceiver = new SyncFinishedReceiver();
+
+        if (!SyncServcie.startSyncIfNeeded(this, this)) {
+            SyncServcie.startOffersSyncIfNeeded(this, this);
+        }
     }
 
     @Override
@@ -158,7 +179,8 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
                 showAbout();
                 break;
             case 6:
-                showCatalogUpdateLink();
+                // showCatalogUpdateLink();
+                SyncServcie.startSync(this, this);
                 break;
             default:
                 category = null;
@@ -298,5 +320,60 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
     @Override
     public void onCatalogUpdateUrlChanged(String url) {
         SharedPreferencesManager.putUpdateFileUrl(url);
+    }
+
+    @Override
+    public void startListeningForProgress() {
+        showDialog();
+        LocalBroadcastManager.getInstance(this).registerReceiver(syncStatusReceiver,
+                new IntentFilter(Constants.INTENT_ACTION_SYNC_STATE_UPDATE));
+        registerReceiver(syncFinishedReceiver,
+                new IntentFilter(Constants.INTENT_ACTION_SYNC_FINISHED));
+    }
+
+    private class SyncStatusReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateDialog(intent.getStringExtra(Constants.INTENT_EXTRA_SYNC_STATE));
+        }
+
+    }
+
+    private class SyncFinishedReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtils.i("Test log", "SyncFinishedReceiver onReceive");
+            hideDialog();
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(syncStatusReceiver);
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(syncFinishedReceiver);
+
+            if (!intent.getBooleanExtra(Constants.INTENT_ACTION_SYNC_SUCCESSFULL, true)) {
+                Toast.makeText(context, R.string.sync_error_update_index_error, Toast.LENGTH_LONG)
+                        .show();
+            }
+        }
+
+    }
+
+    private void updateDialog(String message) {
+        if (mDialog != null) {
+            ((ProgressDialog) mDialog).setMessage(message);
+        }
+    }
+
+    private void showDialog() {
+        if (mDialog == null) {
+            mDialog = ProgressDialog.show(BaseExpandableListActivity.this,
+                    getString(R.string.update_data_notify_label),
+                    getString(R.string.update_data_wait_label), false, false);
+        }
+    }
+
+    private void hideDialog() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
     }
 }

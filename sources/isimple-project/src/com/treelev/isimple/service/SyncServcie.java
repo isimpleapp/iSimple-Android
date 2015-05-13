@@ -881,6 +881,9 @@ public class SyncServcie extends Service {
             if (!error) {
                 SharedPreferencesManager.setPreparationUpdate(context, false);
                 SharedPreferencesManager.setLastSyncTimestamp(context, System.currentTimeMillis());
+                SharedPreferencesManager.refreshDateCatalogUpdate(context);
+                SharedPreferencesManager.refreshDatePriceUpdate(context);
+                SharedPreferencesManager.refreshDateUpdate(context);
             } else {
 
             }

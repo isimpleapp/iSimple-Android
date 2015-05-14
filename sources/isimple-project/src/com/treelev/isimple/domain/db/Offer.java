@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.treelev.isimple.utils.LogUtils;
+
 public class Offer {
 
     private long id;

@@ -5,26 +5,39 @@ import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.ListView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.text.Html;
+import android.text.TextUtils;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.cursorloaders.LoadBannerItems;
 import com.treelev.isimple.domain.db.Offer;
 import com.treelev.isimple.listener.SwipeDismissListViewTouchListener;
+import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
 public class BannerInfoActivity extends BaseListActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
-    
+
     public static final String OFFER_ID = "OFFER_ID";
 
     private long bannerId;
@@ -33,6 +46,10 @@ public class BannerInfoActivity extends BaseListActivity
     private Dialog mDialog;
     private SwipeDismissListViewTouchListener mTouchListener;
     private ProxyManager mProxyManager;
+    private ImageView bannerImageView;
+    private TextView bannerDescView;
+    private ImageLoader bannersImageLoader;
+    private DisplayImageOptions bannersImageLoaderOptions;
 
     private final int LOAD_BANNER_ITEMS = 1;
 
@@ -41,15 +58,53 @@ public class BannerInfoActivity extends BaseListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner_info);
         createNavigationMenuBar();
-        
+
         bannerId = getIntent().getLongExtra(OFFER_ID, -1);
         if (bannerId == -1) {
             throw new RuntimeException("You must pass banner id as intent argument");
         }
         mProxyManager = ProxyManager.getInstanse();
         offer = mProxyManager.getOfferById(bannerId);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View headerView = inflater.inflate(R.layout.banner_list_header, getListView(), false);
+        bannerImageView = (ImageView) headerView.findViewById(R.id.banner_image);
+        bannerImageView.setLayoutParams(getBannerLayoutParams());
+        bannerDescView = (TextView) headerView.findViewById(R.id.offer_desc);
+        if (!TextUtils.isEmpty(offer.getDescription())) {
+            bannerDescView.setText(Html.fromHtml(offer.getDescription()));
+        } else {
+            bannerDescView.setVisibility(View.GONE);
+        }
+        getListView().addHeaderView(headerView);
         initListView();
+
         getSupportLoaderManager().restartLoader(LOAD_BANNER_ITEMS, null, this);
+
+        if (!TextUtils.isEmpty(offer.getImage1200())) {
+            bannersImageLoader = Utils.getImageLoader(getApplicationContext());
+            bannersImageLoaderOptions = new DisplayImageOptions.Builder()
+                    .showImageOnFail(R.drawable.bottle_list_image_default)
+                    .showImageOnLoading(R.drawable.bottle_list_image_default)
+                    .showImageForEmptyUri(R.drawable.bottle_list_image_default)
+                    .showImageOnFail(R.drawable.bottle_list_image_default).cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .displayer(new FadeInBitmapDisplayer(300)).resetViewBeforeLoading(false)
+                    .build();
+            bannersImageLoader.displayImage(offer.getImage1200(), bannerImageView,
+                    bannersImageLoaderOptions);
+        }
+    }
+
+    private LayoutParams getBannerLayoutParams() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = 600 * width / 1200; // 1200x600 is banner size
+        LayoutParams lp = bannerImageView.getLayoutParams();
+        lp.height = height;
+        return lp;
     }
 
     @Override

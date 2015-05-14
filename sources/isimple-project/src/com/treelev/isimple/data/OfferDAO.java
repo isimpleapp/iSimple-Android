@@ -100,7 +100,7 @@ public class OfferDAO extends BaseDAO {
         offer.setUrl(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_URL)));
         offer.setExpired(c.getInt(c.getColumnIndex(DatabaseSqlHelper.OFFER_EXPIRED)));
         offer.setImage(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_IMAGE)));
-        offer.setImage(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_IMAGE1200)));
+        offer.setImage1200(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_IMAGE1200)));
         offer.setImagehdpi(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_IMAGEHDPI)));
         offer.setImage2x(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_IMAGE2X)));
         offer.setImageipad(c.getString(c.getColumnIndex(DatabaseSqlHelper.OFFER_IMAGEIPAD)));

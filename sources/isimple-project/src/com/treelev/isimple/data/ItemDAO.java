@@ -352,7 +352,7 @@ public class ItemDAO extends BaseDAO {
                 DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
                 DatabaseSqlHelper.ITEM_QUANTITY, DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME,
                 DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
-                "count", DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
                 DatabaseSqlHelper.ITEM_YEAR, DatabaseSqlHelper.ITEM_PRODUCT_TYPE,
                 DatabaseSqlHelper.ITEM_COLOR, DatabaseSqlHelper.ITEM_IS_FAVOURITE
         };
@@ -362,8 +362,15 @@ public class ItemDAO extends BaseDAO {
         }
         sb.deleteCharAt(sb.lastIndexOf(","));
         sb.append(")");
-        return getDatabase().query(DatabaseSqlHelper.ITEM_TABLE, columns, sb.toString(), null,
-                null, null, null);
+        StringBuilder querySB = new StringBuilder();
+        for (int i = 0; i < columns.length; i++) {
+            querySB.append(columns[i]).append(", ");
+        }
+        querySB.delete(querySB.length() - 2, querySB.length());
+        String query = "SELECT " + DatabaseSqlHelper.ITEM_ID + " AS _id, " + querySB.toString() + ", 1 AS count FROM " + DatabaseSqlHelper.ITEM_TABLE + " WHERE " + sb.toString();
+        LogUtils.i("", "query = " + query);
+        open();
+        return getDatabase().rawQuery(query, null);
     }
 
     public Cursor getFilteredItemsByCategory(Integer categoryId, String locationId,

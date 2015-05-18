@@ -415,8 +415,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
 			ImageView mProductImage = (ImageView) formView.findViewById(R.id.product_image);
 			DisplayMetrics metrics = getResources().getDisplayMetrics();
-			String sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi"
-					: metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
+            String sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi"
+                    : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH
+                            || metrics.densityDpi == DisplayMetrics.DENSITY_XXHIGH ? "_xhdpi" : "";
 			imageLoader.displayImage(String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product
 					.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix), mProductImage, options,
 					mImageLoadingListener);
@@ -443,7 +444,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		oldRetailPrice.setPaintFlags(oldRetailPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 		LinearLayout oldPriceContainer = (LinearLayout) formView.findViewById(R.id.old_price_container);
 		String originPriceLabel = Utils.organizePriceLabel(String.valueOf(product.getOrigin_price()));
-		if (product.getDiscount() != null && !TextUtils.isEmpty(originPriceLabel) && product.getOrigin_price() != 0f) {
+		if (product.getDiscount() != null && !TextUtils.isEmpty(originPriceLabel) && product.getDiscount() != 0f) {
 			oldPriceContainer.setVisibility(View.VISIBLE);
 			oldRetailPrice.setText(originPriceLabel);
 		} else {

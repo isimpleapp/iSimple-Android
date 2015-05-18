@@ -453,6 +453,10 @@ public class SyncServcie extends Service {
                             syncLogEntity.logs.add(new
                                     SyncPhaseLog("Failed downloading file"));
                             e.printStackTrace();
+                            sb = new StringBuffer(Constants.URL_NEW_ITEMS);
+                            publishProgress(String.format(
+                                    context.getString(R.string.sync_state_new_items_downloading),
+                                    downloadedFilesCount, newItemsSize));
                             continue;
                         }
                         
@@ -640,10 +644,12 @@ public class SyncServcie extends Service {
             LogUtils.i("", "Updating items prices in dp");
             syncLogEntity.logs.add(new SyncPhaseLog("Updating items prices in dp"));
             publishProgress(context.getString(R.string.sync_state_prices_installing));
+            int updatedItemsCount = 0;
             if (itemPriceWrapper.getItemsPricesList() != null
                     && !itemPriceWrapper.getItemsPricesList().isEmpty()) {
-                itemDAO.updatePriceList(itemPriceWrapper.getItemsPricesList());
+                updatedItemsCount = itemDAO.updatePriceList(itemPriceWrapper.getItemsPricesList());
             }
+            syncLogEntity.meta.updateCount = updatedItemsCount;
 
             priceDiscountsUpdateDurationTemp = System.currentTimeMillis();
             // 8. Update discounts

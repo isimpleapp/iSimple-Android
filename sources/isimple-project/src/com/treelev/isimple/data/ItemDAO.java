@@ -1157,28 +1157,40 @@ public class ItemDAO extends BaseDAO {
         }
     }
 
-    public void updatePriceList(List<ItemPrice> priceList) {
+    public int updatePriceList(List<ItemPrice> priceList) {
         open();
         getDatabase().beginTransaction();
+        Cursor cursor = null;
+        int updatedItemsCount = 0;
         try {
             String updateSqlFormat = "UPDATE item "
                     +
                     "SET price = "
                     +
                     "(CASE WHEN (SELECT drink_category FROM item WHERE item_id = '%1$s') = 5 THEN %2$s*(SELECT quantity FROM item WHERE item_id = '%1$s') ELSE %2$s END), "
-                    +
-                    "price_markup = %3$s, item_left_overs = %4$s " +
-                    "WHERE item_id = '%1$s'";
+                    + DatabaseSqlHelper.ITEM_ORIGIN_PRICE + " = " +
+                    "(CASE WHEN (SELECT drink_category FROM item WHERE item_id = '%1$s') = 5 THEN %2$s*(SELECT quantity FROM item WHERE item_id = '%1$s') ELSE %2$s END), "
+                    + "price_markup = %3$s, item_left_overs = %4$s " +
+                    "WHERE item_id = '%1$s'"
+                    + " AND " + DatabaseSqlHelper.ITEM_ORIGIN_PRICE + " <> %2$s";
             String updateSql;
             for (ItemPrice price : priceList) {
                 updateSql = String.format(updateSqlFormat, price.getItemID(), price.getPrice(),
                         price.getPriceMarkup(), price.getLeftOvers());
                 getDatabase().execSQL(updateSql);
+                
+                cursor = getDatabase().rawQuery("SELECT changes() AS affected_row_count", null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    int affectedRowCount = cursor.getInt(0);
+                    updatedItemsCount = updatedItemsCount + affectedRowCount;
+                    cursor.close();
+                }
             }
             getDatabase().setTransactionSuccessful();
         } finally {
             getDatabase().endTransaction();
         }
+        return updatedItemsCount;
     }
 
     public void updatePriceDiscountList(List<ItemPriceDiscount> priceList) {

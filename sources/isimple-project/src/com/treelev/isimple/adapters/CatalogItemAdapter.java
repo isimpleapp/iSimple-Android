@@ -155,9 +155,9 @@ public class CatalogItemAdapter extends BaseAdapter implements
         viewHolder.nameView.setText(organizeItemNameLabel(cursor.getString(itemNameIndex)));
         String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor
                 .getString(itemVolumeIndex)));
-        String priceLabel = String.valueOf(cursor.getInt(itemPriceIndex));
-        String discountLabel = String.valueOf(cursor.getInt(itemDiscountIndex));
-        String originPriceLabel = String.valueOf(cursor.getInt(itemOriginPriceIndex));
+        String priceLabel = String.valueOf(cursor.getFloat(itemPriceIndex));
+        String discountLabel = String.valueOf(cursor.getFloat(itemDiscountIndex));
+        String originPriceLabel = String.valueOf(cursor.getFloat(itemOriginPriceIndex));
         if (priceLabel != null) {
             if (priceLabel.equalsIgnoreCase("0") || priceLabel.equalsIgnoreCase("999999")) {
                 priceLabel = "";
@@ -166,15 +166,15 @@ public class CatalogItemAdapter extends BaseAdapter implements
             }
         }
         if (discountLabel != null) {
-            if (discountLabel.equalsIgnoreCase("0") || discountLabel.equalsIgnoreCase("999999")) {
+            if (discountLabel.equalsIgnoreCase("0.0") || discountLabel.equalsIgnoreCase("999999.0")) {
                 discountLabel = "";
             } else {
                 discountLabel = Utils.organizePriceLabel(discountLabel);
             }
         }
         if (originPriceLabel != null) {
-            if (originPriceLabel.equalsIgnoreCase("0")
-                    || originPriceLabel.equalsIgnoreCase("999999")) {
+            if (originPriceLabel.equalsIgnoreCase("0.0")
+                    || originPriceLabel.equalsIgnoreCase("999999.0")) {
                 originPriceLabel = "";
             } else {
                 originPriceLabel = Utils.organizePriceLabel(discountLabel);

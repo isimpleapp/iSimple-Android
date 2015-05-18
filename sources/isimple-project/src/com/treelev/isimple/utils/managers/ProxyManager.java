@@ -1,6 +1,5 @@
 package com.treelev.isimple.utils.managers;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +11,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.location.Location;
 
-import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ChainDAO;
@@ -34,7 +32,6 @@ import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.LogUtils;
-import com.treelev.isimple.utils.Utils;
 
 public class ProxyManager {
 
@@ -47,10 +44,6 @@ public class ProxyManager {
     public static final int TYPE_SECTION_FILTRATION_SEARCH = 13;
     public static final int TYPE_SECTION_SUB_CATEGORY = 14;
 
-    private final static String FORMAT_TEXT_LABEL = "%s...";
-    private final static int FORMAT_NAME_MAX_LENGTH = 41;
-    private final static int FORMAT_LOC_NAME_MAX_LENGTH = 30;
-    
     private static ProxyManager instanse;
 
     private HashMap<Integer, BaseDAO> mdao = new HashMap<Integer, BaseDAO>();
@@ -296,41 +289,6 @@ public class ProxyManager {
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : null;
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getAllItemsByCategory(categoryId, orderByField);
-    }
-
-    private List<Map<String, ?>> convertItemsToUI(List<Item> itemList) {
-        List<Map<String, ?>> uiDataList = new ArrayList<Map<String, ?>>();
-        for (Item item : itemList) {
-            Map<String, Object> uiDataItem = new HashMap<String, Object>();
-            uiDataItem.put(Item.UI_TAG_ID, item.getItemID());
-            uiDataItem.put(Item.UI_TAG_IMAGE, R.drawable.bottle_list_image_default);
-            uiDataItem.put(Item.UI_TAG_NAME, organizeItemNameLabel(item.getName()));
-            uiDataItem.put(Item.UI_TAG_LOCALIZATION_NAME, organizeLocItemNameLabel(item.getLocalizedName()));
-            String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(item.getVolume().toString()));
-            uiDataItem.put(Item.UI_TAG_VOLUME, volumeLabel != null ? volumeLabel : "");
-            String priceLabel = Utils.organizePriceLabel(item.getPrice().toString());
-            uiDataItem.put(Item.UI_TAG_PRICE, priceLabel != null ? priceLabel : "");
-            uiDataItem.put(Item.UI_TAG_DRINK_CATEGORY, item.getDrinkCategory().getDescription());
-            uiDataItem.put(Item.UI_TAG_DRINK_ID, item.getDrinkID());
-            uiDataList.add(uiDataItem);
-        }
-        return uiDataList;
-    }
-
-    private String organizeItemNameLabel(String itemName) {
-        return organizeTextLabel(itemName, FORMAT_NAME_MAX_LENGTH);
-    }
-
-    private String organizeLocItemNameLabel(String locItemName) {
-        return organizeTextLabel(locItemName, FORMAT_LOC_NAME_MAX_LENGTH);
-    }
-
-    private String organizeTextLabel(String itemName, int maxLength) {
-        String result = itemName;
-        if (result.length() > maxLength) {
-            result = String.format(FORMAT_TEXT_LABEL, result.substring(0, maxLength));
-        }
-        return result;
     }
 
     public Cursor getChains() {

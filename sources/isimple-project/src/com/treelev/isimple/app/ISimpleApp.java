@@ -10,21 +10,16 @@ import org.acra.annotation.ReportsCrashes;
 import org.holoeverywhere.app.Application;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.parse.Parse;
 import com.treelev.isimple.R;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
-import com.treelev.isimple.service.SyncServcie;
-import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 
 @ReportsCrashes(
         formKey = "",
@@ -128,8 +123,7 @@ public class ISimpleApp extends Application {
     }
     
     public static String getDeviceName() {
-        // TODO Implement
-        return "android";
+        return android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
     }
     
 }

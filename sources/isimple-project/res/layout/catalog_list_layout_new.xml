@@ -33,14 +33,30 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
-                    <org.holoeverywhere.widget.TextView
+                    <LinearLayout
                         android:id="@+id/category_wine_butt"
-                        style="@style/CatalogSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:onClick="onClickCategoryButt"
-                        android:text="@string/category_name_wine_single_line" >
-                    </org.holoeverywhere.widget.TextView>
+                        android:orientation="horizontal" >
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_wine_single_line" />
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
 
                     <org.lucasr.twowayview.TwoWayView
                         android:id="@+id/catalog_wine_two_way_view"
@@ -51,32 +67,30 @@
                         android:orientation="horizontal"
                         android:paddingLeft="10dp" />
 
-                    <org.holoeverywhere.widget.TextView
-                        android:id="@+id/category_spirits_butt"
-                        style="@style/CatalogSection"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="onClickCategoryButt"
-                        android:text="@string/category_name_spirits_single_line" >
-                    </org.holoeverywhere.widget.TextView>
-
-                    <org.lucasr.twowayview.TwoWayView
-                        android:id="@+id/catalog_spirits_two_way_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="135dp"
-                        android:background="@android:color/white"
-                        android:drawSelectorOnTop="false"
-                        android:orientation="horizontal"
-                        android:paddingLeft="10dp" />
-
-                    <org.holoeverywhere.widget.TextView
+                    <LinearLayout
                         android:id="@+id/category_sparkling_butt"
-                        style="@style/CatalogSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:onClick="onClickCategoryButt"
-                        android:text="@string/category_name_sparkling_single_line" >
-                    </org.holoeverywhere.widget.TextView>
+                        android:orientation="horizontal" >
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_sparkling_single_line" />
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
 
                     <org.lucasr.twowayview.TwoWayView
                         android:id="@+id/catalog_sparkling_two_way_view"
@@ -87,14 +101,64 @@
                         android:orientation="horizontal"
                         android:paddingLeft="10dp" />
 
-                    <org.holoeverywhere.widget.TextView
-                        android:id="@+id/category_porto_heres_butt"
-                        style="@style/CatalogSection"
+                    <LinearLayout
+                        android:id="@+id/category_spirits_butt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:onClick="onClickCategoryButt"
-                        android:text="@string/category_name_porto_heres_single_line" >
-                    </org.holoeverywhere.widget.TextView>
+                        android:orientation="horizontal" >
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_spirits_single_line" />
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
+
+                    <org.lucasr.twowayview.TwoWayView
+                        android:id="@+id/catalog_spirits_two_way_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="135dp"
+                        android:background="@android:color/white"
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/category_porto_heres_butt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClickCategoryButt"
+                        android:orientation="horizontal" >
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_porto_heres_single_line" />
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
 
                     <org.lucasr.twowayview.TwoWayView
                         android:id="@+id/catalog_porto_heres_two_way_view"
@@ -105,14 +169,30 @@
                         android:orientation="horizontal"
                         android:paddingLeft="10dp" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <LinearLayout
                         android:id="@+id/category_sake_butt"
-                        style="@style/CatalogSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:onClick="onClickCategoryButt"
-                        android:text="@string/category_name_sake_single_line" >
-                    </org.holoeverywhere.widget.TextView>
+                        android:orientation="horizontal" >
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_sake_single_line" />
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
 
                     <org.lucasr.twowayview.TwoWayView
                         android:id="@+id/catalog_sake_two_way_view"
@@ -123,14 +203,30 @@
                         android:orientation="horizontal"
                         android:paddingLeft="10dp" />
 
-                    <org.holoeverywhere.widget.TextView
+                    <LinearLayout
                         android:id="@+id/category_water_butt"
-                        style="@style/CatalogSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:onClick="onClickCategoryButt"
-                        android:text="@string/category_name_water_single_line" >
-                    </org.holoeverywhere.widget.TextView>
+                        android:orientation="horizontal" >
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_water_single_line" />
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
 
                     <org.lucasr.twowayview.TwoWayView
                         android:id="@+id/catalog_water_two_way_view"

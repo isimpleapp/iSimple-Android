@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +47,8 @@ import com.treelev.isimple.utils.managers.ProxyManager;
 public class CatalogListActivityNew extends BaseActivity implements OnItemClickListener,
         ImageLoaderProvider {
 
+	private static final String TAG = CatalogListActivityNew.class.getSimpleName();
+	
     public final static String CATEGORY_ID = "category_id";
     private View darkView;
     private final static int NAVIGATE_CATEGORY_ID = 0;
@@ -98,18 +101,12 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         sakeTwoWayView = (TwoWayView) findViewById(R.id.catalog_sake_two_way_view);
         waterTwoWayView = (TwoWayView) findViewById(R.id.catalog_water_two_way_view);
 
-        wineCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WINE.ordinal(), this, null,
-                getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
-        spiritsCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SPIRITS.ordinal(), this,
-                null, getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
-        sparklingCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SPARKLING.ordinal(),
-                this, null, getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
-        portoHeresCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.PORTO.ordinal(), this,
-                null, getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
-        sakeCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SAKE.ordinal(), this, null,
-                getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
-        waterCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WATER.ordinal(), this, null,
-                getSupportLoaderManager(), ProxyManager.SORT_NAME_AZ);
+        wineCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WINE.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
+        spiritsCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SPIRITS.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
+        sparklingCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SPARKLING.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
+        portoHeresCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.PORTO.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
+        sakeCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SAKE.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
+        waterCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WATER.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
 
         wineTwoWayView.setAdapter(wineCatalogItemAdapter);
         spiritsTwoWayView.setAdapter(spiritsCatalogItemAdapter);
@@ -156,6 +153,10 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
                 offersList);
         bannerPager.setAdapter(bannersAdapter);
         handler.postDelayed(switchBannerRunnable, 4000);
+        
+        
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setHomeButtonEnabled(false);
     }
     
     private void switchBanner() {
@@ -225,13 +226,13 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
     }
 
     public void onClickCategoryButt(View v) {
+    	Log.d(TAG, "onClickCategoryButt");
         Intent startIntent = new Intent(getApplicationContext(),
                 CatalogByCategoryActivity.class);
         Integer category = DrinkCategory.getItemCategoryByButtonId(v.getId());
         startIntent.putExtra(CATEGORY_ID, category);
         startActivity(startIntent);
-        overridePendingTransition(R.anim.start_show_anim,
-                R.anim.start_back_anim);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     private void initSherlockSaerchView(Menu menu) {
@@ -271,8 +272,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
                 return true;
             }
         });
-        mSearchView
-                .setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
                         SearchResultActivity.categoryID = null;
@@ -293,8 +293,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         Intent startIntent;
         int itemCountIndex = product.getColumnIndex("count");
         if (product.getInt(itemCountIndex) > 1) {
-            int itemDrinkIdIndex = product
-                    .getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
+            int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategoryTree.class);
             startIntent.putExtra(DRINK_ID, product.getString(itemDrinkIdIndex));
             startActivity(startIntent);
@@ -304,8 +303,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
                     product.getString(0));
             startActivityForResult(startIntent, 0);
         }
-        overridePendingTransition(R.anim.start_show_anim,
-                R.anim.start_back_anim);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     @Override

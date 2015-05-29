@@ -70,6 +70,9 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         if (!SyncServcie.startSyncIfNeeded(this, this)) {
             SyncServcie.startOffersSyncIfNeeded(this, this);
         }
+        
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override

@@ -1,87 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:versionName="2.7"
-        android:versionCode="9"
-        package="com.treelev.isimple"
-        android:installLocation="internalOnly">
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="16"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.treelev.isimple"
+    android:installLocation="internalOnly"
+    android:versionCode="9"
+    android:versionName="2.7" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="16" />
+
     <uses-feature
-            android:glEsVersion="0x00020000"
-            android:required="true"/>
-    <permission android:name="com.treelev.map.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="com.treelev.map.permission.MAPS_RECEIVE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name=".app.ISimpleApp"
-                 android:theme="@style/iSimpleStyle">
-        <activity android:name=".activities.CatalogListActivityNew" android:screenOrientation="portrait">
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <permission
+        android:name="com.treelev.map.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.treelev.map.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="com.treelev.isimple.gcm.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.treelev.isimple.gcm.permission.C2D_MESSAGE" />
+
+    <application
+        android:name=".app.ISimpleApp"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/iSimpleStyle" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.treelev.isimple.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.treelev.isimple.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.treelev.isimple.gcm" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GcmIntentService" />
+
+        <activity
+            android:name=".activities.CatalogListActivityNew"
+            android:screenOrientation="portrait" >
             <meta-data
-                    android:name="android.app.default_searchable"
-                    android:value=".activities.SearchResultActivity"/>
+                android:name="android.app.default_searchable"
+                android:value=".activities.SearchResultActivity" />
         </activity>
         <!-- Delete after New CatalogByCategory final -->
-        <activity android:name=".activities.CatalogByCategoryActivityDepracated" android:screenOrientation="portrait">
+        <activity
+            android:name=".activities.CatalogByCategoryActivityDepracated"
+            android:screenOrientation="portrait" >
             <meta-data
-                    android:name="android.app.default_searchable"
-                    android:value=".activities.SearchResultActivity"/>
+                android:name="android.app.default_searchable"
+                android:value=".activities.SearchResultActivity" />
         </activity>
-        <!--New CatalogByCategory  NOT FINAL-->
-        <activity android:name=".activities.CatalogByCategoryActivity" android:screenOrientation="portrait">
+        <!-- New CatalogByCategory  NOT FINAL -->
+        <activity
+            android:name=".activities.CatalogByCategoryActivity"
+            android:screenOrientation="portrait" >
             <meta-data
-                    android:name="android.app.default_searchable"
-                    android:value=".activities.SearchResultActivity"/>
+                android:name="android.app.default_searchable"
+                android:value=".activities.SearchResultActivity" />
         </activity>
-        <activity android:name=".activities.ProductInfoActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.SearchResultActivity"
-                  android:launchMode="singleTop"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".activities.ProductInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SearchResultActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
-                    android:name="android.app.searchable"
-                    android:resource="@xml/searchable"/>
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".activities.filter.DefaultListFilterActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.CatalogSubCategory" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.CatalogSubCategoryTree" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.filter.ExpandableListFilterActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.ShopsFragmentActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.ShopInfoActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.ChainStoresActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.PickupActivity" android:screenOrientation="portrait"/>
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
-                   android:value="AIzaSyBQrOUV3EyWZ8wgT23_IUO-Z6u3hCq8G3A"/>
-        <activity android:name=".activities.FavoritesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.BannerInfoActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.RouteDisplayActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.ShoppingCartActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".activities.SplashActivity" android:launchMode="singleTop" android:screenOrientation="portrait">
+        <activity
+            android:name=".activities.filter.DefaultListFilterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.CatalogSubCategory"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.CatalogSubCategoryTree"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.filter.ExpandableListFilterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ShopsFragmentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ShopInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ChainStoresActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PickupActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBQrOUV3EyWZ8wgT23_IUO-Z6u3hCq8G3A" />
+
+        <activity
+            android:name=".activities.FavoritesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.BannerInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RouteDisplayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ShoppingCartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SplashActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.acra.CrashReportDialog"
-                  android:theme="@android:style/Theme.Dialog"
-                  android:launchMode="singleInstance"
-                  android:excludeFromRecents="true"
-                  android:finishOnTaskLaunch="true" />
-        <activity android:name=".activities.ProductImageActivity" android:launchMode="singleTop" android:screenOrientation="portrait"/>
-        <uses-library android:name="com.google.android.maps"/>
+        <activity
+            android:name="org.acra.CrashReportDialog"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".activities.ProductImageActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <uses-library android:name="com.google.android.maps" />
+
         <service android:name=".service.SyncServcie" />
-<!--         <receiver android:name=".receiver.SyncTriggerReceiver"> -->
-<!--             <intent-filter> -->
-<!--                 <action android:name="com.treelev.isimple.action.SYNC_DATA" /> -->
-<!--             </intent-filter> -->
-<!--         </receiver> -->
+        <!-- <receiver android:name=".receiver.SyncTriggerReceiver"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.treelev.isimple.action.SYNC_DATA" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9fe8f4f3c401a5d84457a0cb810b275914bb8f2c" />
     </application>
+
 </manifest>

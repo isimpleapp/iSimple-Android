@@ -39,6 +39,7 @@ public class ProxyManager {
 
     public static final int SORT_NAME_AZ = 1;
     public static final int SORT_PRICE_UP = 2;
+    public static final int SORT_DEFAULT = 3;
     public static final int TYPE_SECTION_MAIN = 10;
     public static final int TYPE_SECTION_SHOP_MAIN = 11;
     public static final int TYPE_SECTION_FILTRATION_SEARCH = 13;

@@ -17,6 +17,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
@@ -35,6 +36,7 @@ import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
 
@@ -430,6 +432,7 @@ public class OrderDialogFragment extends DialogFragment
             return mProxyManager;
         }
 
+        @SuppressWarnings("deprecation")
         private boolean postData() {
             boolean result = false;
             HttpPost httppost = new HttpPost(mContext.getString(R.string.url_send_order).trim());
@@ -443,9 +446,10 @@ public class OrderDialogFragment extends DialogFragment
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 // Execute HTTP Post Request
 
-                HttpClient httpclient = Utils.newHttpClient();
-
-                HttpResponse response = httpclient.execute(httppost);
+				HttpClient httpclient = Utils.newHttpClient();
+				
+				HttpResponse response = httpclient.execute(httppost);
+				
                 if(getResponseAnswer(response.getEntity()) > 0 ){
                     result = true;
                 }

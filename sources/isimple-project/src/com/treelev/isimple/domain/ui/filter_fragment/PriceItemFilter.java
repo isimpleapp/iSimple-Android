@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import com.treelev.isimple.R;
 import com.treelev.isimple.views.RangeSeekBar;
+import com.treelev.isimple.views.RangeSeekBarBlue;
 
 public class PriceItemFilter extends ItemFilter{
 
@@ -16,7 +18,9 @@ public class PriceItemFilter extends ItemFilter{
     private int mMaxCurrent;
     private boolean mEnable;
     RangeSeekBar<Integer> mRangeSeekBarr;
+    RangeSeekBarBlue<Integer> mRangeSeekBarBlue;
     private boolean mReset;
+    private boolean isWater = false;
 
     public PriceItemFilter(LayoutInflater inflater, int min, int max) {
         super(inflater);
@@ -24,6 +28,16 @@ public class PriceItemFilter extends ItemFilter{
         mMax = max;
         mMaxCurrent = mMax;
         mMinCurrent = mMin;
+        initControl();
+    }
+    
+    public PriceItemFilter(LayoutInflater inflater, int min, int max, boolean isWater) {
+        super(inflater);
+        mMin = min;
+        mMax = max;
+        mMaxCurrent = mMax;
+        mMinCurrent = mMin;
+        this.isWater = isWater;
         initControl();
     }
 
@@ -34,27 +48,51 @@ public class PriceItemFilter extends ItemFilter{
         mRangeSeekBarr.invalidate();
         mReset = true;
     }
-
-    @Override
-    protected View createView() {
-        return mInflater.inflate(R.layout.category_filter_seekbar_item_layout, null);
+    
+    public void setIsWater(boolean isWater){
+    	this.isWater = isWater;
     }
 
     @Override
+    protected View createView() {
+    	if (isWater){
+    		return mInflater.inflate(R.layout.category_filter_seekbar_item_water_layout, null);
+    	} else {
+    		return mInflater.inflate(R.layout.category_filter_seekbar_item_layout, null);
+    	}
+    }
+    
+    @Override
     protected void initControl() {
-        mRangeSeekBarr = new RangeSeekBar(mMin, mMax, mInflater.getContext());
-        mRangeSeekBarr.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
-            @Override
-            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-                mMinCurrent = minValue;
-                mMaxCurrent = maxValue;
-                mReset = false;
-            }
-        });
-        ((LinearLayout)mView).addView(mRangeSeekBarr, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
-                        mInflater.getContext().getResources().getDisplayMetrics())));
-        mReset = true;
+    	if (isWater){
+        	mRangeSeekBarBlue = new RangeSeekBarBlue<Integer>(mMin, mMax, mInflater.getContext());
+        	mRangeSeekBarBlue.setOnRangeSeekBarChangeListener(new RangeSeekBarBlue.OnRangeSeekBarChangeListener<Integer>() {
+                @Override
+                public void onRangeSeekBarValuesChanged(RangeSeekBarBlue<?> bar, Integer minValue, Integer maxValue) {
+                    mMinCurrent = minValue;
+                    mMaxCurrent = maxValue;
+                    mReset = false;
+                }
+            });
+            ((LinearLayout)mView).addView(mRangeSeekBarBlue, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
+                            mInflater.getContext().getResources().getDisplayMetrics())));
+            mReset = true;
+    	} else {
+    		mRangeSeekBarr = new RangeSeekBar(mMin, mMax, mInflater.getContext());
+    		mRangeSeekBarr.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+    			@Override
+    			public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+    				mMinCurrent = minValue;
+    				mMaxCurrent = maxValue;
+    				mReset = false;
+    			}
+    		});
+    		((LinearLayout)mView).addView(mRangeSeekBarr, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+    				(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
+    						mInflater.getContext().getResources().getDisplayMetrics())));
+    		mReset = true;
+    	}
     }
 
     @Override

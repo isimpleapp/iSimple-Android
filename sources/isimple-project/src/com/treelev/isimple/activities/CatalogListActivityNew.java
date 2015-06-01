@@ -227,8 +227,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
 
     public void onClickCategoryButt(View v) {
     	Log.d(TAG, "onClickCategoryButt");
-        Intent startIntent = new Intent(getApplicationContext(),
-                CatalogByCategoryActivity.class);
+        Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
         Integer category = DrinkCategory.getItemCategoryByButtonId(v.getId());
         startIntent.putExtra(CATEGORY_ID, category);
         startActivity(startIntent);

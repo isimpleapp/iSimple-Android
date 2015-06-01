@@ -1,6 +1,7 @@
 package com.treelev.isimple.activities;
 
 import org.holoeverywhere.widget.ExpandableListView;
+import org.holoeverywhere.widget.Toast;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -80,7 +81,11 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mCategoryID = getIntent().getIntExtra(CatalogListActivityNew.CATEGORY_ID, -1);
-
+        
+        if (mCategoryID == DrinkCategory.WATER.ordinal()){
+        	
+        }
+        
         mContext = this;
         mFooter = getLayoutInflater().inflate(R.layout.not_found_layout, null);
         mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
@@ -135,7 +140,8 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         }
         super.onResume();
     }
-
+    
+    
 //    @Override
 //    public void createNavigationMenuBar() {
 //        super.createNavigationMenuBar();

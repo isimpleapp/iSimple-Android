@@ -3,6 +3,6 @@
     android:id="@+id/seek_bar_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_navigation_selector"
+    android:background="@drawable/list_water_navigation_selector"
     android:gravity="center_vertical"
     android:orientation="vertical" />

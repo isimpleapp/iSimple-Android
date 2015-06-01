@@ -14,12 +14,15 @@ public class WaterFilter extends FilterFragment {
         WaterItemFilter waterItem = new WaterItemFilter(inflater, this);
         addItemFilter(waterItem);
         addHorizontalSeparator();
-        PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max);
+        PriceItemFilter priceItem = new PriceItemFilter(inflater, min, max, true);
+        priceItem.setIsWater(true);
         addItemFilter(priceItem);
         mPriceItemFilter = priceItem;
         mPriceItemFilter.setEnable(true);
-        addControlView();
-        addSortControl();
+//        addControlView();
+        addWaterControlView();
+//        addSortControl();
+        addWaterSortControl();
     }
 
     @Override

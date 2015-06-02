@@ -35,10 +35,8 @@ public class ItemPriceDiscountParser implements Parser {
 					xmlPullParser.nextTag();
 					String itemID = null;
 					float priceDiscount = -1f;
-					Log.i("", "xmlPullParser.getName() = " + xmlPullParser.getName());
 					while (xmlPullParser.getEventType() != XmlPullParser.END_TAG
 							&& !xmlPullParser.getName().equals(ITEM_DISCOUNT_OBJECT_TAG)) {
-						Log.i("", "xmlPullParser.getName() = " + xmlPullParser.getName());
 						if (xmlPullParser.getEventType() == XmlPullParser.START_TAG) {
 							if (xmlPullParser.getName().equals(ITEM_ID_VALUE_TAG)) {
 								itemID = xmlPullParser.nextText();

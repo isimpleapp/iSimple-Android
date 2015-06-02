@@ -7,6 +7,7 @@ import com.treelev.isimple.data.ItemDAO;
 import com.treelev.isimple.domain.db.ItemPrice;
 import com.treelev.isimple.domain.db.ItemPriceWrapper;
 import com.treelev.isimple.enumerable.UpdateFile;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 

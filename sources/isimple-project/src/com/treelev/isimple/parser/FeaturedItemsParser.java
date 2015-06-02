@@ -6,6 +6,7 @@ import com.treelev.isimple.data.BaseDAO;
 import com.treelev.isimple.data.ItemDAO;
 import com.treelev.isimple.domain.db.FeaturedItem;
 import com.treelev.isimple.enumerable.UpdateFile;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 
 import org.xmlpull.v1.XmlPullParser;

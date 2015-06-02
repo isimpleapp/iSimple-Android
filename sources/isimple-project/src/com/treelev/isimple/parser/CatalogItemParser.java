@@ -95,6 +95,7 @@ public class CatalogItemParser implements Parser {
                                 item.setLocalizedManufacturer(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_PRICE_VALUE_TAG)) {
                                 item.setPrice(Utils.parseFloat(xmlPullParser.nextText()));
+                                item.setOrigin_price(item.getPrice());
                             } else if (xmlPullParser.getName().equals(CATALOG_COUNTRY_VALUE_TAG)) {
                                 item.setCountry(xmlPullParser.nextText());
                             } else if (xmlPullParser.getName().equals(CATALOG_REGION_VALUE_TAG)) {

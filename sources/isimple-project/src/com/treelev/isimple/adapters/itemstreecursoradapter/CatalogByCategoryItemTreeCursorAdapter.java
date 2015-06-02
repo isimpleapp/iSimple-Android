@@ -20,6 +20,10 @@ public class CatalogByCategoryItemTreeCursorAdapter extends AbsItemTreeCursorAda
     public CatalogByCategoryItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
         super(context, cursor, manager, sortBy);
     }
+    
+    public CatalogByCategoryItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy, boolean isWater) {
+        super(context, cursor, manager, sortBy, isWater);
+    }
 
     public void initCategory(Integer categoryID){
         mCategoryID = categoryID;

@@ -82,13 +82,15 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
         mCategoryID = getIntent().getIntExtra(CatalogListActivityNew.CATEGORY_ID, -1);
         
-        if (mCategoryID == DrinkCategory.WATER.ordinal()){
-        	
-        }
-        
         mContext = this;
         mFooter = getLayoutInflater().inflate(R.layout.not_found_layout, null);
-        mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
+        
+        if (mCategoryID == DrinkCategory.WATER.ordinal()){
+            mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy, true);
+        } else {
+            mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
+        }
+
         mTreeCategoriesAdapter.setFinishListener(new AbsItemTreeCursorAdapter.FinishListener() {
             @Override
             public void onFinish() {

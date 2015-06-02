@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="135dip"
+    android:background="@drawable/product_list_item_water_selector"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/color_item"
+        android:layout_width="7dip"
+        android:layout_height="match_parent"
+        android:background="@color/product_wine_color"
+        android:orientation="vertical" />
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="75dip"
+        android:layout_height="135dip"
+        android:contentDescription="@string/app_name"
+        android:paddingBottom="7dip"
+        android:paddingTop="7dip"
+        android:scaleType="fitCenter" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/discount_triangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/triangle"
+            android:layout_alignParentRight="true"
+            android:visibility="gone" />
+
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="14dip"
+            android:layout_marginRight="5dip"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/item_loc_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_name"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="2dip"
+            android:layout_marginRight="5dip"
+            android:textColor="@color/product_text_color"
+            android:textSize="12sp" />
+
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/product_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_loc_name"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="3dip"
+            android:layout_marginRight="5dip"
+            android:textColor="@color/product_category_color"
+            android:textSize="11sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="13dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginLeft="20dip" >
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/item_volume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center_vertical"
+                android:textColor="@color/product_volume_color" />
+
+            <org.holoeverywhere.internal._View
+                android:id="@+id/item_price_divider"
+                android:layout_width="1px"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/item_price"
+                android:layout_alignParentBottom="true"
+                android:layout_alignTop="@+id/item_price"
+                android:layout_marginBottom="-2dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginRight="15dip"
+                android:layout_marginTop="-2dip"
+                android:layout_toRightOf="@id/item_volume"
+                android:background="@color/product_separator_color" />
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/item_price_divider"
+                android:gravity="center_vertical"
+                android:text="1234444"
+                android:textColor="@color/abs__holo_blue_light"
+                android:textStyle="bold" />
+
+            <org.holoeverywhere.widget.TextView
+                android:id="@+id/item_old_price"
+                style="@style/OldPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/item_price"
+                android:layout_alignLeft="@id/item_price"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/item_image_favourite"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dip"
+            android:layout_marginRight="5dip"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/product_icon_favorite"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/item_image_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="25dip"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/content_discard"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</org.holoeverywhere.widget.LinearLayout>

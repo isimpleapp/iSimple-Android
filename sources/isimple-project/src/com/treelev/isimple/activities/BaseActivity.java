@@ -69,6 +69,9 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
         if (!SyncServcie.startSyncIfNeeded(this, this)) {
             SyncServcie.startOffersSyncIfNeeded(this, this);
         }
+        
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override

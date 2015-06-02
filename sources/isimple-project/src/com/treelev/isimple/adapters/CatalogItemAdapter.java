@@ -311,8 +311,7 @@ public class CatalogItemAdapter extends BaseAdapter implements
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_list_item, parent,
-                    false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_list_item, parent, false);
             viewHolder = getViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {

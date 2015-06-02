@@ -131,10 +131,50 @@ public abstract class FilterFragment extends Fragment {
         });
         return viewControl;
     }
+    
+    private View getWaterControlView(){
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View viewControl = inflater.inflate(R.layout.filter_controls_water, null);
+        viewControl.findViewById(R.id.reset_butt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetFilter();
+            }
+        });
+        viewControl.findViewById(R.id.search_butt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mFind = true;
+                onChangeFilterState();
+                mFind = false;
+            }
+        });
+        return viewControl;
+    }
 
     private View getSortControl(){
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View viewSort = inflater.inflate(R.layout.sort_controls_layout, null);
+        ((RadioGroup) viewSort.findViewById(R.id.sort_group)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
+                switch (rgb) {
+                    case R.id.alphabet_sort:
+                        mSortBy = ProxyManager.SORT_NAME_AZ;
+                        break;
+                    case R.id.price_sort:
+                        mSortBy = ProxyManager.SORT_PRICE_UP;
+                        break;
+                }
+                onChangeFilterState();
+            }
+        });
+        return viewSort;
+    }
+    
+    private View getWaterSortControl(){
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View viewSort = inflater.inflate(R.layout.sort_water_controls_layout, null);
         ((RadioGroup) viewSort.findViewById(R.id.sort_group)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int rgb) {
@@ -159,13 +199,26 @@ public abstract class FilterFragment extends Fragment {
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
                         getActivity().getResources().getDisplayMetrics())));
     }
+    
+    protected void addWaterSortControl(){
+        mSortControl = getWaterSortControl();
+        mSortBy = ProxyManager.SORT_NAME_AZ;
+        mLayout.addView(mSortControl, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
+                        getActivity().getResources().getDisplayMetrics())));
+    }
 
     protected void addControlView(){
         mLayout.addView(getControlView(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
                         getActivity().getResources().getDisplayMetrics())));
     }
-
+    
+    protected void addWaterControlView(){
+        mLayout.addView(getWaterControlView(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50,
+                        getActivity().getResources().getDisplayMetrics())));
+    }
 
     protected void addControlViewExtendFilter(){
         mLayoutExtend.addView(getControlView(), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

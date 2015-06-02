@@ -39,16 +39,11 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_expandable_layout);
-        createDrawableMenu();
-        getExpandableListView().setAdapter(new CustomExpandableListAdapter(
-                getGroupItems(getGroupData()),
-                R.layout.filter_item_view,
-                new String[] { GROUP_NAME },
-                new int[] { R.id.filter_data_name },
-                getChildItems(getGroupData(), getChildData()),
-                R.layout.filter_item_view,
-                new String[] { ITEM_NAME },
-                new int[] { R.id.filter_data_name }));
+//        createDrawableMenu();
+        getExpandableListView().setAdapter(new CustomExpandableListAdapter( getGroupItems(getGroupData()), R.layout.filter_item_view,
+                new String[] { GROUP_NAME }, new int[] { R.id.filter_data_name },
+                getChildItems(getGroupData(), getChildData()), R.layout.filter_item_view,
+                new String[] { ITEM_NAME }, new int[] { R.id.filter_data_name }));
         hookRemoveArrowGroupItem();
     }
 

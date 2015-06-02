@@ -2,12 +2,11 @@
 package com.treelev.isimple.app;
 
 import java.net.InetAddress;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import java.util.List;
 import java.util.UUID;
 
-import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
 import org.holoeverywhere.app.Application;
 
 import android.content.Context;
@@ -22,12 +21,6 @@ import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
-@ReportsCrashes(
-        formKey = "",
-        mailTo = "dv@treelev.com, vitalyduong@gmail.com",
-        mode = ReportingInteractionMode.DIALOG,
-        resDialogTitle = R.string.crash_dialog_title,
-        resDialogText = R.string.crash_dialog_text)
 public class ISimpleApp extends Application {
 
     private List<AbsDistanceShop> distanceShopList;
@@ -37,7 +30,7 @@ public class ISimpleApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ACRA.init(this);
+		Fabric.with(this, new Crashlytics());
 
         if (instantce == null) {
             instantce = this;

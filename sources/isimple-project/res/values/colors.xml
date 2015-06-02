@@ -35,4 +35,7 @@
     <color name="disable_button">#D5D5D5</color>
     <color name="section_bg">#E6E6E6</color>
     <color name="section_textcolor">#303232</color>
+    <color name="filter_blue_dark">#3380a1</color>
+    <color name="filter_blue">#4bbbeb</color>
+    <color name="filter_blue_light">#94dfff</color>
  </resources>

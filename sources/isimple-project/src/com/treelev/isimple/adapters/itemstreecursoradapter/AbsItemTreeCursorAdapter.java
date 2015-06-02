@@ -75,45 +75,52 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
     private int itemFavouriteIndex;
 
     private boolean mEmpty;
+    private boolean isWater = false;
     private FinishListener mListener;
 
     public interface FinishListener {
         void onFinish();
     }
 
-    public AbsItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager,
-            int sortBy) {
-        super(context, cursor, R.layout.section_items, R.layout.section_items, new String[] {
-                "name"
-        },
-                new int[] {
-                        R.id.section_name
-                }, R.layout.catalog_item_layout, Item.getUITags(), new int[] {
-                        R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price,
-                        R.id.product_category
-                });
+    public AbsItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
+        super(context, cursor, R.layout.section_items, R.layout.section_items, new String[] {"name"}, new int[] {R.id.section_name}, 
+        		R.layout.catalog_item_layout, Item.getUITags(),
+        		new int[] {R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category });
+        init(context, cursor, manager, sortBy);
+    }
+    
+    public AbsItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy, boolean isWater) {
+        super(context, cursor, R.layout.section_items, R.layout.section_items, new String[] {"name"}, new int[] {R.id.section_name}, 
+        		R.layout.catalog_item_layout_water, Item.getUITags(),
+        		new int[] {R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category });
+        this.isWater = isWater;
+        init(context, cursor, manager, sortBy);
+    }
+    
+    
+    
+    private void init(Context context, Cursor cursor, LoaderManager manager, int sortBy){
+    	  mContext = context;
+          mManager = manager;
+          mGroup = true;
+          mYearEnable = false;
+          mSortBy = sortBy;
 
-        mContext = context;
-        mManager = manager;
-        mGroup = true;
-        mYearEnable = false;
-        mSortBy = sortBy;
+          mCountCallBack = 0;
 
-        mCountCallBack = 0;
+          mEmptyGroupView = new HashSet<Integer>();
 
-        mEmptyGroupView = new HashSet<Integer>();
+          imageLoader = Utils.getImageLoader(mContext.getApplicationContext());
+          options = new DisplayImageOptions.Builder()
+                  .showStubImage(R.drawable.bottle_list_image_default)
+                  .showImageForEmptyUri(R.drawable.bottle_list_image_default)
+                  .showImageOnFail(R.drawable.bottle_list_image_default).cacheInMemory(true)
+                  .cacheOnDisc(true)
+                  .displayer(new FadeInBitmapDisplayer(300)).resetViewBeforeLoading(false).build();
 
-        imageLoader = Utils.getImageLoader(mContext.getApplicationContext());
-        options = new DisplayImageOptions.Builder()
-                .showStubImage(R.drawable.bottle_list_image_default)
-                .showImageForEmptyUri(R.drawable.bottle_list_image_default)
-                .showImageOnFail(R.drawable.bottle_list_image_default).cacheInMemory(true)
-                .cacheOnDisc(true)
-                .displayer(new FadeInBitmapDisplayer(300)).resetViewBeforeLoading(false).build();
-
-        DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
-        sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi"
-                : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
+          DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
+          sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi"
+                  : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
     }
 
     public void setFinishListener(FinishListener listener) {
@@ -173,7 +180,11 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
         ViewHolder viewHolder;
         Cursor cursor = getChild(groupPosition, childPosition);
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_item_layout, null);
+        	if (isWater){
+        		convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_item_layout_water, null);
+        	} else {
+        		convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_item_layout, null);
+        	}
             viewHolder = getViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {

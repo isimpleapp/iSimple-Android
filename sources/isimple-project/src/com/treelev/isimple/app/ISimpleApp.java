@@ -1,6 +1,7 @@
 
 package com.treelev.isimple.app;
 
+import java.net.InetAddress;
 import java.util.List;
 import java.util.UUID;
 
@@ -105,6 +106,22 @@ public class ISimpleApp extends Application {
 
     public int getCountRefActivity() {
         return mCountRefActivity;
+    }
+    
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com"); //You can replace it with your name
+
+            if (ipAddr.equals("")) {
+                return false;
+            } else {
+                return true;
+            }
+
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
     public static String getDeviceId() {

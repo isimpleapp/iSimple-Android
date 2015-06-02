@@ -150,7 +150,9 @@ public class SyncServcie extends Service {
         private Context context;
 
         private boolean error;
-        private SyncPhase failedSyncPhase;
+        private boolean monthSyncPerformed;
+        private boolean internetConnectionLost;
+        private SyncPhase failedSyncPhase = SyncPhase.NONE;
 
         public SyncDataTask(Context context) {
             this.webServiceManager = new WebServiceManager();
@@ -165,7 +167,13 @@ public class SyncServcie extends Service {
 
         @Override
         protected Void doInBackground(Void... params) {
-
+            
+            if (!ISimpleApp.getInstantce().isInternetAvailable()) {
+                error = true;
+                failedSyncPhase = SyncPhase.START;
+                return null;
+            }
+            
             long dailyUpdateDuration = 0;
             long priceDiscountsUpdateDuration = 0;
             long featuredUpdateDuration = 0;
@@ -431,6 +439,12 @@ public class SyncServcie extends Service {
                 int n = 0;
                 int handledItems = 0;
                 for (String itemId : newItemsIds) {
+                    if (!ISimpleApp.getInstantce().isInternetAvailable()) {
+                        error = true;
+                        failedSyncPhase = SyncPhase.CATALOG_UPDATE;
+                        internetConnectionLost = true;
+                        break;
+                    }
                     sb.append(itemId).append(",");
                     n++;
                     handledItems++;
@@ -521,7 +535,8 @@ public class SyncServcie extends Service {
 //                            + downloadedFilesCount));
 
             dailyUpdateDuration = System.currentTimeMillis() - syncStartTimestamp;
-            if (syncStartTimestamp - SharedPreferencesManager.getLastSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
+            if (!internetConnectionLost && syncStartTimestamp - SharedPreferencesManager.getLastMonthSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
+                monthSyncPerformed = true;
                 // 12. Update LocationsAndChainsUpdates
                 // 12.1. Download LocationsAndChainsUpdates
                 LogUtils.i("", "Downloading LocationsAndChainsUpdates");
@@ -587,7 +602,8 @@ public class SyncServcie extends Service {
                 }
             }
 
-            if (syncStartTimestamp - SharedPreferencesManager.getLastSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
+            if (!internetConnectionLost && syncStartTimestamp - SharedPreferencesManager.getLastMonthSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
+                monthSyncPerformed = true;
                 // 11. Update ItemAvailability
                 // 11.1. Download ItemAvailability
                 LogUtils.i("", "Downloading ItemAvailability");
@@ -654,216 +670,235 @@ public class SyncServcie extends Service {
             priceDiscountsUpdateDurationTemp = System.currentTimeMillis();
             // 8. Update discounts
             // 8.1. Download price discounts
-            LogUtils.i("", "Downloading price discounts");
-            syncLogEntity.logs.add(new SyncPhaseLog("Downloading price discounts"));
-            publishProgress(context.getString(R.string.sync_state_discounts_update));
-            File priceDiscountsArchive = null;
-            try {
-                priceDiscountsArchive = webServiceManager
-                        .downloadFile(loadFileDataList.get(UpdateFile.DISCOUNT.getUpdateFileTag())
-                                .getFileUrl()).getDownloadedFile();
-            } catch (IOException e1) {
-                LogUtils.i("", "Failed downloading file");
-                syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
-                e1.printStackTrace();
-            }
-
-            // 8.2. Unzip price discounts
-            if (priceDiscountsArchive != null) {
-                LogUtils.i("", "Unzipping price discounts");
-                syncLogEntity.logs.add(new SyncPhaseLog("Unzipping price discounts"));
-                File unzippedPriceDiscounts = unzipFile(priceDiscountsArchive);
-
-                // 8.3 Parse and save price discounts to DB
-                LogUtils.i("", "Parsing price discounts to db");
-                syncLogEntity.logs.add(new SyncPhaseLog("Parsing price discounts to db"));
-                ItemPriceDiscountParser discountParser = new ItemPriceDiscountParser();
-
+            if (!internetConnectionLost) {
+                LogUtils.i("", "Downloading price discounts");
+                syncLogEntity.logs.add(new SyncPhaseLog("Downloading price discounts"));
+                publishProgress(context.getString(R.string.sync_state_discounts_update));
+                File priceDiscountsArchive = null;
                 try {
-                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                    factory.setNamespaceAware(true);
-                    XmlPullParser xmlPullParser = factory.newPullParser();
-                    xmlPullParser.setInput(new FileInputStream(unzippedPriceDiscounts), null);
-                    discountParser.parseXmlToDB(xmlPullParser, itemDAO);
-
-                    unzippedPriceDiscounts.delete();
-                } catch (XmlPullParserException e) {
-                    LogUtils.i("", "Failed to parse file " + unzippedPriceDiscounts.getName() + e);
-                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                            + unzippedPriceDiscounts.getName() + e.getMessage()));
-                    error = true;
-                } catch (FileNotFoundException e) {
-                    LogUtils.i("", "Failed to parse file " + unzippedPriceDiscounts.getName() + e);
-                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                            + unzippedPriceDiscounts.getName() + e.getMessage()));
-                    error = true;
-                }
-                unzippedPriceDiscounts.delete();
-            }
-
-            priceDiscountsUpdateDuration = System.currentTimeMillis()
-                    - priceDiscountsUpdateDurationTemp;
-            syncLogEntity.duration.add(new PriceDiscountsUpdateDuration(
-                    priceDiscountsUpdateDuration));
-
-            // 9. Update offers list
-            // 9.1. Download offers list
-            LogUtils.i("", "Downloading offers, url = " + loadFileDataList.get(
-                    UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl());
-            syncLogEntity.logs.add(new SyncPhaseLog("Downloading offers"));
-            publishProgress(context.getString(R.string.sync_state_offers_update));
-            File offersArchive = null;
-            try {
-                offersArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                        UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl()).getDownloadedFile();
-            } catch (IOException e2) {
-                LogUtils.i("", "Failed downloading file");
-                syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
-                e2.printStackTrace();
-            }
-
-            // 9.2. Unzip offers list
-            File unzippedOffers = null;
-            if (offersArchive != null) {
-                LogUtils.i("", "Unzipping offers");
-                syncLogEntity.logs.add(new SyncPhaseLog("Unzipping offers"));
-                unzippedOffers = unzipFile(offersArchive);
-
-                // 9.3 Parse and save offers list to DB
-                OffersParser offersParser = new OffersParser();
-                LogUtils.i("", "Parsing offers to db");
-                syncLogEntity.logs.add(new SyncPhaseLog("Parsing offers to db"));
-                try {
-                    XmlPullParserFactory factory =
-                            XmlPullParserFactory.newInstance();
-                    factory.setNamespaceAware(true);
-                    XmlPullParser xmlPullParser = factory.newPullParser();
-                    xmlPullParser.setInput(new FileInputStream(unzippedOffers),
-                            null);
-                    offersParser.parseXmlToDB(xmlPullParser, offerDAO);
-
-                    unzippedOffers.delete();
-                } catch (XmlPullParserException e) {
-                    LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
-                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                            + unzippedOffers.getName() + e.getMessage()));
-                    error = true;
-                } catch (FileNotFoundException e) {
-                    LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
-                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                            + unzippedOffers.getName() + e.getMessage()));
-                    error = true;
-                } finally {
-                    SharedPreferencesManager.setLastOffersSyncTimestamp(System.currentTimeMillis());
-                }
-            }
-
-            featuredUpdateDurationTemp = System.currentTimeMillis();
-            // 10. Update featured
-            // 10.1. Download featured
-            LogUtils.i("", "Downloading featured");
-            syncLogEntity.logs.add(new SyncPhaseLog("Downloading featured"));
-            publishProgress(context.getString(R.string.sync_state_featured_update));
-            File featuredArchive = null;
-            try {
-                featuredArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                        UpdateFile.FEATURED.getUpdateFileTag()).getFileUrl()).getDownloadedFile();
-            } catch (IOException e1) {
-                LogUtils.i("", "Failed downloading file");
-                syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
-                e1.printStackTrace();
-            }
-
-            // 10.2. Unzip featured list
-            if (featuredArchive != null) {
-                LogUtils.i("", "Unzipping featured");
-                syncLogEntity.logs.add(new SyncPhaseLog("Unzipping featured"));
-                File unzippedFeatured = unzipFile(featuredArchive);
-
-                // 10.3 Parse and save featured list to DB
-                LogUtils.i("", "Parsing featured to db");
-                syncLogEntity.logs.add(new SyncPhaseLog("Parsing featured to db"));
-                FeaturedItemsParser featuredParser = new FeaturedItemsParser();
-
-                try {
-                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                    factory.setNamespaceAware(true);
-                    XmlPullParser xmlPullParser = factory.newPullParser();
-                    xmlPullParser.setInput(new FileInputStream(unzippedFeatured), null);
-                    featuredParser.parseXmlToDB(xmlPullParser, itemDAO);
-
-                    unzippedFeatured.delete();
-                } catch (XmlPullParserException e) {
-                    LogUtils.i("", "Failed to parse file " + unzippedFeatured.getName() + e);
-                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                            + unzippedFeatured.getName() + e.getMessage()));
-                    error = true;
-                } catch (FileNotFoundException e) {
-                    LogUtils.i("", "Failed to parse file " + unzippedFeatured.getName() + e);
-                    syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                            + unzippedFeatured.getName() + e.getMessage()));
-                    error = true;
-                }
-                unzippedFeatured.delete();
-            }
-
-            featuredUpdateDuration = System.currentTimeMillis() - featuredUpdateDurationTemp;
-            syncLogEntity.duration.add(new FeaturedUpdateDuration(featuredUpdateDuration));
-
-            dailyUpdateDuration = dailyUpdateDuration + System.currentTimeMillis()
-                    - dailyUpdateDurationTemp;
-            syncLogEntity.duration.add(new DailyUpdateDuration(dailyUpdateDuration));
-            if (syncStartTimestamp - SharedPreferencesManager.getLastSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
-                offersUpdateDurationTemp = System.currentTimeMillis();
-                // 13. Update Delivery
-                // 13.1. Download Delivery
-                LogUtils.i("", "Downloading Delivery");
-                syncLogEntity.logs.add(new SyncPhaseLog("Downloading Delivery"));
-                publishProgress(context.getString(R.string.sync_state_delivery_update));
-                File deliveryArchive = null;
-                try {
-                    deliveryArchive = webServiceManager.downloadFile(loadFileDataList.get(
-                            UpdateFile.DELIVERY.getUpdateFileTag()).getFileUrl()).getDownloadedFile();
+                    priceDiscountsArchive = webServiceManager
+                            .downloadFile(
+                                    loadFileDataList.get(UpdateFile.DISCOUNT.getUpdateFileTag())
+                                            .getFileUrl()).getDownloadedFile();
                 } catch (IOException e1) {
                     LogUtils.i("", "Failed downloading file");
                     syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
                     e1.printStackTrace();
                 }
 
-                // 13.2. Unzip Delivery list
-                if (deliveryArchive != null) {
-                    LogUtils.i("", "Unzipping Delivery");
-                    syncLogEntity.logs.add(new SyncPhaseLog("Unzipping Delivery"));
-                    File unzippedDelivery = unzipFile(deliveryArchive);
+                // 8.2. Unzip price discounts
+                if (priceDiscountsArchive != null) {
+                    LogUtils.i("", "Unzipping price discounts");
+                    syncLogEntity.logs.add(new SyncPhaseLog("Unzipping price discounts"));
+                    File unzippedPriceDiscounts = unzipFile(priceDiscountsArchive);
 
-                    // 13.3 Parse and save Delivery list to DB
-                    LogUtils.i("", "Parsing Delivery to db");
-                    syncLogEntity.logs.add(new SyncPhaseLog("Parsing Delivery to db"));
-                    DeliveryZoneParser deliveryParser = new DeliveryZoneParser();
+                    // 8.3 Parse and save price discounts to DB
+                    LogUtils.i("", "Parsing price discounts to db");
+                    syncLogEntity.logs.add(new SyncPhaseLog("Parsing price discounts to db"));
+                    ItemPriceDiscountParser discountParser = new ItemPriceDiscountParser();
 
                     try {
                         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                         factory.setNamespaceAware(true);
                         XmlPullParser xmlPullParser = factory.newPullParser();
-                        xmlPullParser.setInput(new FileInputStream(unzippedDelivery), null);
-                        deliveryParser.parseXmlToDB(xmlPullParser, deliveryZoneDAO);
+                        xmlPullParser.setInput(new FileInputStream(unzippedPriceDiscounts), null);
+                        discountParser.parseXmlToDB(xmlPullParser, itemDAO);
 
-                        unzippedDelivery.delete();
+                        unzippedPriceDiscounts.delete();
                     } catch (XmlPullParserException e) {
-                        LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
+                        LogUtils.i("", "Failed to parse file " + unzippedPriceDiscounts.getName()
+                                + e);
                         syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                                + unzippedDelivery.getName() + e.getMessage()));
+                                + unzippedPriceDiscounts.getName() + e.getMessage()));
                         error = true;
                     } catch (FileNotFoundException e) {
-                        LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
+                        LogUtils.i("", "Failed to parse file " + unzippedPriceDiscounts.getName()
+                                + e);
                         syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
-                                + unzippedDelivery.getName() + e.getMessage()));
+                                + unzippedPriceDiscounts.getName() + e.getMessage()));
                         error = true;
                     }
-                    unzippedDelivery.delete();
+                    unzippedPriceDiscounts.delete();
+                }
+
+                priceDiscountsUpdateDuration = System.currentTimeMillis()
+                        - priceDiscountsUpdateDurationTemp;
+                syncLogEntity.duration.add(new PriceDiscountsUpdateDuration(
+                        priceDiscountsUpdateDuration));
+            }
+
+            // 9. Update offers list
+            // 9.1. Download offers list
+            if (!internetConnectionLost) {
+                LogUtils.i("", "Downloading offers, url = " + loadFileDataList.get(
+                        UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl());
+                syncLogEntity.logs.add(new SyncPhaseLog("Downloading offers"));
+                publishProgress(context.getString(R.string.sync_state_offers_update));
+                File offersArchive = null;
+                try {
+                    offersArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                            UpdateFile.OFFERS.getUpdateFileTag()).getFileUrl()).getDownloadedFile();
+                } catch (IOException e2) {
+                    LogUtils.i("", "Failed downloading file");
+                    syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
+                    e2.printStackTrace();
+                }
+
+                // 9.2. Unzip offers list
+                File unzippedOffers = null;
+                if (offersArchive != null) {
+                    LogUtils.i("", "Unzipping offers");
+                    syncLogEntity.logs.add(new SyncPhaseLog("Unzipping offers"));
+                    unzippedOffers = unzipFile(offersArchive);
+
+                    // 9.3 Parse and save offers list to DB
+                    OffersParser offersParser = new OffersParser();
+                    LogUtils.i("", "Parsing offers to db");
+                    syncLogEntity.logs.add(new SyncPhaseLog("Parsing offers to db"));
+                    try {
+                        XmlPullParserFactory factory =
+                                XmlPullParserFactory.newInstance();
+                        factory.setNamespaceAware(true);
+                        XmlPullParser xmlPullParser = factory.newPullParser();
+                        xmlPullParser.setInput(new FileInputStream(unzippedOffers),
+                                null);
+                        offersParser.parseXmlToDB(xmlPullParser, offerDAO);
+
+                        unzippedOffers.delete();
+                    } catch (XmlPullParserException e) {
+                        LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
+                        syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                                + unzippedOffers.getName() + e.getMessage()));
+                        error = true;
+                    } catch (FileNotFoundException e) {
+                        LogUtils.i("", "Failed to parse file " + unzippedOffers.getName() + e);
+                        syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                                + unzippedOffers.getName() + e.getMessage()));
+                        error = true;
+                    } finally {
+                        SharedPreferencesManager.setLastOffersSyncTimestamp(System
+                                .currentTimeMillis());
+                    }
                 }
                 offersUpdateDuration = System.currentTimeMillis() - offersUpdateDurationTemp;
                 syncLogEntity.duration.add(new OffersUpdateDuration(offersUpdateDuration));
+            }
+
+            if (!internetConnectionLost) {
+                featuredUpdateDurationTemp = System.currentTimeMillis();
+                // 10. Update featured
+                // 10.1. Download featured
+                LogUtils.i("", "Downloading featured");
+                syncLogEntity.logs.add(new SyncPhaseLog("Downloading featured"));
+                publishProgress(context.getString(R.string.sync_state_featured_update));
+                File featuredArchive = null;
+                try {
+                    featuredArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                            UpdateFile.FEATURED.getUpdateFileTag()).getFileUrl())
+                            .getDownloadedFile();
+                } catch (IOException e1) {
+                    LogUtils.i("", "Failed downloading file");
+                    syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
+                    e1.printStackTrace();
+                }
+
+                // 10.2. Unzip featured list
+                if (featuredArchive != null) {
+                    LogUtils.i("", "Unzipping featured");
+                    syncLogEntity.logs.add(new SyncPhaseLog("Unzipping featured"));
+                    File unzippedFeatured = unzipFile(featuredArchive);
+
+                    // 10.3 Parse and save featured list to DB
+                    LogUtils.i("", "Parsing featured to db");
+                    syncLogEntity.logs.add(new SyncPhaseLog("Parsing featured to db"));
+                    FeaturedItemsParser featuredParser = new FeaturedItemsParser();
+
+                    try {
+                        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                        factory.setNamespaceAware(true);
+                        XmlPullParser xmlPullParser = factory.newPullParser();
+                        xmlPullParser.setInput(new FileInputStream(unzippedFeatured), null);
+                        featuredParser.parseXmlToDB(xmlPullParser, itemDAO);
+
+                        unzippedFeatured.delete();
+                    } catch (XmlPullParserException e) {
+                        LogUtils.i("", "Failed to parse file " + unzippedFeatured.getName() + e);
+                        syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                                + unzippedFeatured.getName() + e.getMessage()));
+                        error = true;
+                    } catch (FileNotFoundException e) {
+                        LogUtils.i("", "Failed to parse file " + unzippedFeatured.getName() + e);
+                        syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                                + unzippedFeatured.getName() + e.getMessage()));
+                        error = true;
+                    }
+                    unzippedFeatured.delete();
+                }
+
+                featuredUpdateDuration = System.currentTimeMillis() - featuredUpdateDurationTemp;
+                syncLogEntity.duration.add(new FeaturedUpdateDuration(featuredUpdateDuration));
+            }
+            
+            dailyUpdateDuration = dailyUpdateDuration + System.currentTimeMillis()
+                    - dailyUpdateDurationTemp;
+            
+            if (!internetConnectionLost) {
+                syncLogEntity.duration.add(new DailyUpdateDuration(dailyUpdateDuration));
+                if (loadFileDataList.get(UpdateFile.DELIVERY.getUpdateFileTag()).getLoadDate()
+                        .getTime() > SharedPreferencesManager.getLastDeliveryUpdateTimestamp()) {
+                    offersUpdateDurationTemp = System.currentTimeMillis();
+                    // 13. Update Delivery
+                    // 13.1. Download Delivery
+                    LogUtils.i("", "Downloading Delivery");
+                    syncLogEntity.logs.add(new SyncPhaseLog("Downloading Delivery"));
+                    publishProgress(context.getString(R.string.sync_state_delivery_update));
+                    File deliveryArchive = null;
+                    try {
+                        deliveryArchive = webServiceManager.downloadFile(loadFileDataList.get(
+                                UpdateFile.DELIVERY.getUpdateFileTag()).getFileUrl())
+                                .getDownloadedFile();
+                    } catch (IOException e1) {
+                        LogUtils.i("", "Failed downloading file");
+                        syncLogEntity.logs.add(new SyncPhaseLog("Failed downloading file"));
+                        e1.printStackTrace();
+                    }
+
+                    // 13.2. Unzip Delivery list
+                    if (deliveryArchive != null) {
+                        LogUtils.i("", "Unzipping Delivery");
+                        syncLogEntity.logs.add(new SyncPhaseLog("Unzipping Delivery"));
+                        File unzippedDelivery = unzipFile(deliveryArchive);
+
+                        // 13.3 Parse and save Delivery list to DB
+                        LogUtils.i("", "Parsing Delivery to db");
+                        syncLogEntity.logs.add(new SyncPhaseLog("Parsing Delivery to db"));
+                        DeliveryZoneParser deliveryParser = new DeliveryZoneParser();
+
+                        try {
+                            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                            factory.setNamespaceAware(true);
+                            XmlPullParser xmlPullParser = factory.newPullParser();
+                            xmlPullParser.setInput(new FileInputStream(unzippedDelivery), null);
+                            deliveryParser.parseXmlToDB(xmlPullParser, deliveryZoneDAO);
+
+                            unzippedDelivery.delete();
+                        } catch (XmlPullParserException e) {
+                            LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
+                            syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                                    + unzippedDelivery.getName() + e.getMessage()));
+                            error = true;
+                        } catch (FileNotFoundException e) {
+                            LogUtils.i("", "Failed to parse file " + unzippedDelivery.getName() + e);
+                            syncLogEntity.logs.add(new SyncPhaseLog("Failed to parse file "
+                                    + unzippedDelivery.getName() + e.getMessage()));
+                            error = true;
+                        }
+                        unzippedDelivery.delete();
+                    }
+                    SharedPreferencesManager.setLastDeliveryUpdateTimestamp(loadFileDataList
+                            .get(UpdateFile.DELIVERY.getUpdateFileTag()).getLoadDate()
+                            .getTime());
+                }
             }
 
             syncLogEntity.duration.add(new FullUpdateDuration(System.currentTimeMillis()
@@ -890,6 +925,9 @@ public class SyncServcie extends Service {
                 SharedPreferencesManager.refreshDateCatalogUpdate(context);
                 SharedPreferencesManager.refreshDatePriceUpdate(context);
                 SharedPreferencesManager.refreshDateUpdate(context);
+                if (monthSyncPerformed) {
+                    SharedPreferencesManager.setLastMonthSyncTimestamp(context, System.currentTimeMillis());
+                }
             } else {
 
             }
@@ -1192,5 +1230,5 @@ public class SyncServcie extends Service {
             SyncServcie.startOffersSync(context, progressListener);
         }
     }
-
+    
 }

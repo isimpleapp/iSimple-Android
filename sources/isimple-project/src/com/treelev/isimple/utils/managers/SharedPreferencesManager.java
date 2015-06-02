@@ -23,6 +23,8 @@ public class SharedPreferencesManager {
     private static final String UPDATE_START = "update_start";
     private static final String PREPARATION_UPDATE = "preparation_update";
     private static final String LAST_SYNC_TIMESTAMP = "last_sync_timestamp";
+    private static final String LAST_MONTH_SYNC_TIMESTAMP = "last_month_sync_timestamp";
+    private static final String LAST_DELIVERY_UPDATE_TIMESTAMP = "last_delivery_update_timestamp";
     private static final String LAST_OFFERS_SYNC_TIMESTAMP = "last_offers_sync_timestamp";
     private static final String LAST_KNOWN_OFFERS_URL = "LAST_KNOWN_OFFERS_URL";
 
@@ -153,6 +155,26 @@ public class SharedPreferencesManager {
     public static void setLastSyncTimestamp(Context context, long timestamp){
         Editor editor = getEditor();
         editor.putLong(LAST_SYNC_TIMESTAMP, timestamp);
+        editor.commit();
+    }
+    
+    public static long getLastMonthSyncTimestamp(Context context){
+        return getSharedPreferences(context).getLong(LAST_MONTH_SYNC_TIMESTAMP, 0);
+    }
+
+    public static void setLastMonthSyncTimestamp(Context context, long timestamp){
+        Editor editor = getEditor();
+        editor.putLong(LAST_MONTH_SYNC_TIMESTAMP, timestamp);
+        editor.commit();
+    }
+    
+    public static long getLastDeliveryUpdateTimestamp(){
+        return getSharedPreferences(ISimpleApp.getInstantce()).getLong(LAST_DELIVERY_UPDATE_TIMESTAMP, 0);
+    }
+
+    public static void setLastDeliveryUpdateTimestamp(long timestamp){
+        Editor editor = getEditor();
+        editor.putLong(LAST_DELIVERY_UPDATE_TIMESTAMP, timestamp);
         editor.commit();
     }
     

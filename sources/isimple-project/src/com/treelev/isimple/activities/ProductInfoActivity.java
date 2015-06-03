@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.Toast;
 
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +42,7 @@ import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.ui.ProductContent;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
@@ -213,6 +215,9 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		Float price = mProduct.getPrice();
 		Button btWhereToBuy = (Button) headerView.findViewById(R.id.shops_butt);
 		Button btAddToShoppingCart = (Button) headerView.findViewById(R.id.add_to_shopping_cart_butt);
+		if (mProduct.getProductType() == ProductType.WATER){
+			btAddToShoppingCart.setTextColor(getResources().getColor(R.color.filter_blue));
+		}
 		if (price != null && price != 0.0f) {
 			btWhereToBuy.setOnClickListener(whereToBuyBtnClick);
 			btAddToShoppingCart.setOnClickListener(addToShoppingCartBtnClick);
@@ -228,6 +233,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 	private void organizeHeaderTitle(View headerView) {
 		TextView itemTitle = (TextView) headerView.findViewById(R.id.title_item);
 		itemTitle.setText(mProduct.getProductType().getLabel());
+
 		if (mProduct.getColor() == ItemColor.WHITE){
 			itemTitle.setTextColor(getResources().getColor(android.R.color.black));
 		}

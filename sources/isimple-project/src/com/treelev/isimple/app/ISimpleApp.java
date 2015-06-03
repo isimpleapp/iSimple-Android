@@ -1,9 +1,9 @@
 
 package com.treelev.isimple.app;
 
-import java.net.InetAddress;
-import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
+
+import java.net.InetAddress;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,8 +15,10 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 
+import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
-import com.treelev.isimple.R;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.utils.managers.ProxyManager;
@@ -26,6 +28,9 @@ public class ISimpleApp extends Application {
     private List<AbsDistanceShop> distanceShopList;
     private Location currentLocation;
     private static ISimpleApp instantce;
+    
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
 
     @Override
     public void onCreate() {
@@ -40,6 +45,14 @@ public class ISimpleApp extends Application {
 
         Parse.initialize(this, "EOjaTLOWC0dTftQKqLhP1WLKQADQ1Sbu1aJo5av1",
                 "9vrbvgnVmBPnGEhfgFOpyWHoXOvkB2YAd2kEErsL");
+        
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+
+        tracker = analytics.newTracker("UA-XXXXX-Y"); // Replace with actual tracker/property Id
+        tracker.enableExceptionReporting(true);
+        tracker.enableAdvertisingIdCollection(true);
+        tracker.enableAutoActivityTracking(true);
         
     }
     
@@ -134,6 +147,10 @@ public class ISimpleApp extends Application {
     
     public static String getDeviceName() {
         return android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
+    }
+    
+    public static Tracker getAnalyticsTracker() {
+        return tracker;
     }
     
 }

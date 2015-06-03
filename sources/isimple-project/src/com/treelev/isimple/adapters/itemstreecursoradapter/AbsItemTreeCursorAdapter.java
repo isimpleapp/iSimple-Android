@@ -264,16 +264,17 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
         if (discountLabel != null) {
             if (discountLabel.equalsIgnoreCase("0") || discountLabel.equalsIgnoreCase("999999")) {
                 discountLabel = "";
-            } else {
-                discountLabel = Utils.organizePriceLabel(discountLabel);
             }
+//            else {
+//                discountLabel = Utils.organizePriceLabel(discountLabel);
+//            }
         }
         if (originPriceLabel != null) {
             if (originPriceLabel.equalsIgnoreCase("0")
                     || originPriceLabel.equalsIgnoreCase("999999")) {
                 originPriceLabel = "";
             } else {
-                originPriceLabel = Utils.organizePriceLabel(discountLabel);
+                originPriceLabel = Utils.organizePriceLabel(originPriceLabel);
             }
         }
         Float quantity = cursor.getFloat(itemQuantityIndex);

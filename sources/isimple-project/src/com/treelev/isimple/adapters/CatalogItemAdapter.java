@@ -2,7 +2,6 @@
 package com.treelev.isimple.adapters;
 
 import java.util.HashSet;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.holoeverywhere.LayoutInflater;
@@ -133,8 +132,8 @@ public class CatalogItemAdapter extends BaseAdapter implements
         viewHolder.itemOldPrice = (TextView) view.findViewById(R.id.item_old_price);
         viewHolder.itemOldPrice.setPaintFlags(viewHolder.itemOldPrice.getPaintFlags()
                 | Paint.STRIKE_THRU_TEXT_FLAG);
-        viewHolder.imageViewDiscountTriangle = (ImageView) view
-                .findViewById(R.id.discount_triangle);
+        // viewHolder.imageViewDiscountTriangle = (ImageView) view
+        // .findViewById(R.id.discount_triangle);
         viewHolder.imageViewFavourite = (ImageView) view.findViewById(R.id.item_image_favourite);
 
         return viewHolder;
@@ -158,6 +157,7 @@ public class CatalogItemAdapter extends BaseAdapter implements
         String priceLabel = String.valueOf(cursor.getFloat(itemPriceIndex));
         String discountLabel = String.valueOf(cursor.getFloat(itemDiscountIndex));
         String originPriceLabel = String.valueOf(cursor.getFloat(itemOriginPriceIndex));
+        LogUtils.i("", "originPriceLabel from cursor = " + originPriceLabel);
         if (priceLabel != null) {
             if (priceLabel.equalsIgnoreCase("0") || priceLabel.equalsIgnoreCase("999999")) {
                 priceLabel = "";
@@ -168,24 +168,26 @@ public class CatalogItemAdapter extends BaseAdapter implements
         if (discountLabel != null) {
             if (discountLabel.equalsIgnoreCase("0.0") || discountLabel.equalsIgnoreCase("999999.0")) {
                 discountLabel = "";
-            } else {
-                discountLabel = Utils.organizePriceLabel(discountLabel);
             }
+            // else {
+            // discountLabel = Utils.organizePriceLabel(discountLabel);
+            // }
         }
         if (originPriceLabel != null) {
             if (originPriceLabel.equalsIgnoreCase("0.0")
                     || originPriceLabel.equalsIgnoreCase("999999.0")) {
                 originPriceLabel = "";
             } else {
-                originPriceLabel = Utils.organizePriceLabel(discountLabel);
+                originPriceLabel = Utils.organizePriceLabel(originPriceLabel);
             }
         }
+        LogUtils.i("", "originPriceLabel after Utils.organizePriceLabel = " + originPriceLabel);
         viewHolder.itemVolume.setText(volumeLabel != null ? volumeLabel : "");
         if (!TextUtils.isEmpty(discountLabel)) {
-            viewHolder.imageViewDiscountTriangle.setVisibility(View.VISIBLE);
+            // viewHolder.imageViewDiscountTriangle.setVisibility(View.VISIBLE);
             viewHolder.itemOldPrice.setText(originPriceLabel);
         } else {
-            viewHolder.imageViewDiscountTriangle.setVisibility(View.GONE);
+            // viewHolder.imageViewDiscountTriangle.setVisibility(View.GONE);
             viewHolder.itemOldPrice.setText("");
         }
         viewHolder.itemPrice.setText(priceLabel);
@@ -230,6 +232,11 @@ public class CatalogItemAdapter extends BaseAdapter implements
         notifyDataSetChanged();
     }
 
+    public void reload() {
+        LogUtils.i("", "getCursor restartLoader");
+        mManager.restartLoader(groupId, null, this);
+    }
+
     private void startDialog() {
         if (mCountCallBack == 0 && mDialog == null) {
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
@@ -272,7 +279,7 @@ public class CatalogItemAdapter extends BaseAdapter implements
         TextView itemVolume;
         TextView itemPrice;
         TextView itemOldPrice;
-        ImageView imageViewDiscountTriangle;
+        // ImageView imageViewDiscountTriangle;
         ImageView imageViewFavourite;
     }
 
@@ -291,7 +298,7 @@ public class CatalogItemAdapter extends BaseAdapter implements
         ContentValues cv = new ContentValues();
         cursor.moveToPosition(position);
         DatabaseUtils.cursorRowToContentValues(cursor, cv);
-        
+
         MatrixCursor matrixCursor = new MatrixCursor(columnNames);
         Object[] values = new Object[columnNames.length];
         for (int i = 0; i < columnNames.length; i++) {
@@ -311,7 +318,8 @@ public class CatalogItemAdapter extends BaseAdapter implements
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_list_item, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_list_item, parent,
+                    false);
             viewHolder = getViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {

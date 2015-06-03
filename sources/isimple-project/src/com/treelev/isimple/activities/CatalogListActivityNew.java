@@ -216,6 +216,12 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         if (mEventChangeDataBase) {
             mEventChangeDataBase = false;
         }
+        wineCatalogItemAdapter.reload();
+        spiritsCatalogItemAdapter.reload();
+        sparklingCatalogItemAdapter.reload();
+        portoHeresCatalogItemAdapter.reload();
+        sakeCatalogItemAdapter.reload();
+        waterCatalogItemAdapter.reload();
         super.onResume();
     }
 

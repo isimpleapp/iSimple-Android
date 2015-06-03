@@ -1,10 +1,11 @@
+
 package com.treelev.isimple.analytics;
 
 import android.content.Context;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
-import com.google.analytics.tracking.android.Tracker;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.treelev.isimple.app.ISimpleApp;
 
 /**
  * Created by grigorij on 16/12/13.
@@ -63,9 +64,10 @@ public class Analytics {
     // ****************************** Screens ******************************
 
     static private void sendScreen(Context c, String screen) {
-        Tracker easyTracker = EasyTracker.getInstance(c);
-        easyTracker.set(Fields.SCREEN_NAME, screen);
-        easyTracker.send(MapBuilder.createAppView().build());
+        Tracker easyTracker = ISimpleApp.getAnalyticsTracker();
+        easyTracker.setScreenName(screen);
+        easyTracker.send(new HitBuilders.EventBuilder()
+                .build());
     }
 
     public static void screen_Catalog(Context c) {
@@ -154,13 +156,18 @@ public class Analytics {
             Context c,
             String category,
             String action,
-            String label /*nullable*/,
-            Long value /*nullable*/) {
+            String label /* nullable */,
+            Long value /* nullable */) {
 
-        EasyTracker easyTracker = EasyTracker.getInstance(c);
+        Tracker easyTracker = ISimpleApp.getAnalyticsTracker();
 
         easyTracker.send(
-                MapBuilder.createEvent(category, action, label, value).build());
+                new HitBuilders.EventBuilder()
+                .setCategory(category)
+                .setAction(action)
+                .setLabel(label)
+                .setValue(value)
+                .build());
     }
 
     public static void event_FirstRun(Context c) {
@@ -195,7 +202,8 @@ public class Analytics {
         sendEvent(c, EVENT_CATEGORY_UI_ACTION, EVENT_STARTED_TO_ORDER, null, null);
     }
 
-    public static void event_OrderDone(Context c, int summ, int amount, String region, String transport, String preferred) {
+    public static void event_OrderDone(Context c, int summ, int amount, String region,
+            String transport, String preferred) {
         sendEvent(c, EVENT_CATEGORY_UI_ACTION, EVENT_ORDER_DONE, null, null);
     }
 
@@ -211,11 +219,11 @@ public class Analytics {
         sendEvent(c, EVENT_CATEGORY_UI_ACTION, EVENT_DELETED_FROM_FAVORITES, null, null);
     }
 
-    public static void event_Filter(Context c) { //<<
+    public static void event_Filter(Context c) { // <<
         sendEvent(c, EVENT_CATEGORY_FILTER, EVENT_CATEGORY_FILTER, null, null);
     }
 
-    public static void event_NothingFoundAfterFilter(Context c) { //<<
+    public static void event_NothingFoundAfterFilter(Context c) { // <<
         sendEvent(c, EVENT_CATEGORY_FILTER, EVENT_NOTHING_FOUND, null, null);
     }
 

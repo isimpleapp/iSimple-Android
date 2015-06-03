@@ -23,6 +23,7 @@
         android:maxLines="3"
         android:text="Nmaeasdfasfdafhfghdhghds"
         android:textColor="@android:color/black"
+        android:textStyle="bold"
         android:textSize="12sp" />
 
     <org.holoeverywhere.widget.TextView
@@ -72,12 +73,12 @@
         android:src="@drawable/product_icon_favorite"
         android:visibility="gone" />
 
-    <ImageView
-        android:id="@+id/discount_triangle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/triangle"
-        android:visibility="gone" />
+<!--     <ImageView -->
+<!--         android:id="@+id/discount_triangle" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_alignParentRight="true" -->
+<!--         android:src="@drawable/triangle" -->
+<!--         android:visibility="gone" /> -->
 
 </RelativeLayout>

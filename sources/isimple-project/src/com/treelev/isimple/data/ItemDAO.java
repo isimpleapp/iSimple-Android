@@ -71,7 +71,7 @@ public class ItemDAO extends BaseDAO {
                 +
                 "("
                 +
-                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, "
+                "SELECT t1.item_id as _id, t2._id as featured_item_id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, "
                 +
                 "(case when ifnull(price, '') = '' then (999999) else price end) as price1, "
                 +
@@ -145,7 +145,7 @@ public class ItemDAO extends BaseDAO {
                 +
                 "("
                 +
-                "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category as drink_category, "
+                "SELECT t1.item_id as _id, t2._id as featured_item_id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, t1.drink_category as drink_category, "
                 +
                 "(case when ifnull(price, '') = '' then (999999) else price end) as price1, "
                 +

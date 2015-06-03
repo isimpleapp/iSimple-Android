@@ -2,32 +2,39 @@
 package com.treelev.isimple.utils.managers;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
+import org.apache.http.HttpStatus;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.os.Environment;
+import android.provider.DocumentsContract.Document;
+import android.sax.Element;
 import android.util.Log;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.treelev.isimple.domain.LoadFileData;
+import com.treelev.isimple.enumerable.SyncPhase;
+import com.treelev.isimple.parser.UpdateFileParser;
 import com.treelev.isimple.utils.DownloadFileResponse;
+import com.treelev.isimple.utils.LogUtils;
+import com.treelev.isimple.utils.parse.SyncLogEntity.SyncPhaseLog;
 
 public class WebServiceManager {
 
@@ -51,28 +58,28 @@ public class WebServiceManager {
     private DownloadFileResponse downloadFile(String fileUrl, String path) throws IOException {
         File downloadingFile = null;
         HttpURLConnection urlConnection = null;
-            URL downloadUrl = new URL(fileUrl);
-            urlConnection = (HttpURLConnection) downloadUrl.openConnection();
-            urlConnection.setConnectTimeout(5000);
-            urlConnection.setReadTimeout(5000);
-            urlConnection.connect();
-            InputStream input = new BufferedInputStream(urlConnection.getInputStream());
-            File directory = new File(path);
-            directory.mkdir();
-            downloadingFile = new File(directory.getPath() + File.separator + getFileName(fileUrl));
-            FileOutputStream output = new FileOutputStream(downloadingFile);
-            byte data[] = new byte[1024];
-            int count;
-            while ((count = input.read(data)) != -1) {
-                output.write(data, 0, count);
-            }
-            Map<String, List<String>> headers = urlConnection.getHeaderFields();
-            output.close();
-            input.close();
-            
-            DownloadFileResponse response = new DownloadFileResponse();
-            response.setDownloadedFile(downloadingFile);
-            response.setHeaders(headers);
+        URL downloadUrl = new URL(fileUrl);
+        urlConnection = (HttpURLConnection) downloadUrl.openConnection();
+        urlConnection.setConnectTimeout(5000);
+        urlConnection.setReadTimeout(5000);
+        urlConnection.connect();
+        InputStream input = new BufferedInputStream(urlConnection.getInputStream());
+        File directory = new File(path);
+        directory.mkdir();
+        downloadingFile = new File(directory.getPath() + File.separator + getFileName(fileUrl));
+        FileOutputStream output = new FileOutputStream(downloadingFile);
+        byte data[] = new byte[1024];
+        int count;
+        while ((count = input.read(data)) != -1) {
+            output.write(data, 0, count);
+        }
+        Map<String, List<String>> headers = urlConnection.getHeaderFields();
+        output.close();
+        input.close();
+
+        DownloadFileResponse response = new DownloadFileResponse();
+        response.setDownloadedFile(downloadingFile);
+        response.setHeaders(headers);
         return response;
     }
 
@@ -90,55 +97,67 @@ public class WebServiceManager {
         return new File(String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
     }
 
-    public List<LoadFileData> getLoadFileData(String requestString) throws Exception {
-        List<LoadFileData> loadFileDataList = new ArrayList<LoadFileData>();
+    public Map<String, LoadFileData> getLoadFileDataMap(String requestString) throws Exception {
+        Map<String, LoadFileData> loadFileDataList = null;
 
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(requestString)
-                .build();
+        URL url;
+        HttpURLConnection urlConnection = null;
 
-        Response response = client.newCall(request).execute();
-        Document document = new SAXBuilder().build(response.body().string());
-        List<Element> contentList = document.getRootElement().getChildren();
-        for (Element element : contentList) {
-            Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);
-            Element dateElement = element.getChild(LoadFileData.FILE_DATE_TAG_NAME);
-            String url = urlElement.getValue();
-            String zipfileName = url.substring(url.lastIndexOf('/') + 1, url.length());
-            loadFileDataList.add(new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement
-                    .getValue()),
-                    urlElement.getValue()));
-            SharedPreferencesManager.putUpdateFileName(zipfileName, element.getName());
+        String response = null;
+        try {
+            url = new URL(requestString);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            int responseCode = urlConnection.getResponseCode();
+
+            if (responseCode == HttpStatus.SC_OK) {
+                response = readStream(urlConnection.getInputStream());
+                Log.v("", "getLoadFileDataMap = " + response);
+            } else {
+                Log.v("", "Response code:" + responseCode);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null)
+                urlConnection.disconnect();
         }
+        
+        UpdateFileParser updateFileParser = new UpdateFileParser();
+        try {
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser xmlPullParser = factory.newPullParser();
+            xmlPullParser.setInput(new ByteArrayInputStream(response.getBytes()), null);
+            loadFileDataList = updateFileParser.parseXml(xmlPullParser);
+        } catch (XmlPullParserException e) {
+            LogUtils.i("", "Failed to parse UPDATE file " + e);
+        }
+
         return loadFileDataList;
     }
 
-    public Map<String, LoadFileData> getLoadFileDataMap(String requestString) throws Exception {
-        Map<String, LoadFileData> loadFileDataList = new HashMap<String, LoadFileData>();
-
-        Document document = null;
+    private String readStream(InputStream in) {
+        BufferedReader reader = null;
+        StringBuffer response = new StringBuffer();
         try {
-            document = new SAXBuilder().build(requestString);
-        } catch (JDOMException e) {
-            e.printStackTrace();
-            throw new Exception();
+            reader = new BufferedReader(new InputStreamReader(in));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new Exception();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        List<Element> contentList = document.getRootElement().getChildren();
-        for (Element element : contentList) {
-            Element urlElement = element.getChild(LoadFileData.FILE_URL_TAG_NAME);
-            Element dateElement = element.getChild(LoadFileData.FILE_DATE_TAG_NAME);
-            String url = urlElement.getValue();
-            String zipfileName = url.substring(url.lastIndexOf('/') + 1, url.length());
-            loadFileDataList.put(element.getName(),
-                    new LoadFileData(LoadFileData.FILE_DATE_FORMAT.parse(dateElement.getValue()),
-                            urlElement.getValue()));
-            SharedPreferencesManager.putUpdateFileName(zipfileName, element.getName());
-        }
-        return loadFileDataList;
+        return response.toString();
     }
 
     private String getFileName(String fileUrl) {

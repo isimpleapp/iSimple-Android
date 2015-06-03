@@ -11,6 +11,10 @@ public class LoadFileData {
     private String fileUrl;
     public final static SimpleDateFormat FILE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
+    public LoadFileData() {
+        
+    }
+    
     public LoadFileData(Date loadDate, String fileUrl) {
         this.loadDate = loadDate;
         this.fileUrl = fileUrl;
@@ -22,6 +26,14 @@ public class LoadFileData {
 
     public String getFileUrl() {
         return fileUrl;
+    }
+
+    public void setLoadDate(Date loadDate) {
+        this.loadDate = loadDate;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
 }

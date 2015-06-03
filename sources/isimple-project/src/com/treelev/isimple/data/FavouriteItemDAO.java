@@ -67,7 +67,7 @@ public class FavouriteItemDAO extends BaseDAO {
                     DatabaseSqlHelper.ITEM_VINEYARD + ", " +
                     DatabaseSqlHelper.ITEM_GRAPES_USED + ", " +
                     DatabaseSqlHelper.ITEM_RATING + ", " +
-                    DatabaseSqlHelper.ITEM_QUANTITY +
+                    DatabaseSqlHelper.ITEM_QUANTITY + ", " +
                     DatabaseSqlHelper.ITEM_ORIGIN_PRICE +
                     ") VALUES " +
                     "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

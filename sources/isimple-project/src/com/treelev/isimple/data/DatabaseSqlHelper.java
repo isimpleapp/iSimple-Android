@@ -314,10 +314,12 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             CHAIN_TYPE + " integer);";
 
     public final static String FEATURED_ITEM_TABLE = "featured_item";
+    public final static String FEATURED_ITEM_BASE_ID = "_id";
     public final static String FEATURED_ITEM_ID = "item_id";
     public final static String FEATURED_ITEM_CATEGORY_ID = "category_id";
 
     private final static String CREATE_TABLE_FEATURED_ITEM = "create table " + FEATURED_ITEM_TABLE + " ( " +
+            FEATURED_ITEM_BASE_ID + " integer primary key, " + 
             FEATURED_ITEM_ID + " text, " +
             FEATURED_ITEM_CATEGORY_ID + " integer);";
 
@@ -447,6 +449,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_DISCOUNT + " = " + ITEM_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
             
             db.execSQL(CREATE_TABLE_OFFER);
+            db.execSQL("DROP TABLE IF EXISTS " + FEATURED_ITEM_TABLE);
+            db.execSQL(CREATE_TABLE_FEATURED_ITEM);
             
             Log.i("", "Finished db update, oldVersion = " + oldVersion + ", newVeriosn = " + newVersion);
         } catch (Exception e) {

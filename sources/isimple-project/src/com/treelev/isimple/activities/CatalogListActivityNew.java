@@ -3,6 +3,7 @@ package com.treelev.isimple.activities;
 
 import java.util.List;
 
+import org.holoeverywhere.widget.Toast;
 import org.lucasr.twowayview.TwoWayView;
 
 import android.app.SearchManager;
@@ -13,14 +14,16 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ScrollView;
 
@@ -39,7 +42,6 @@ import com.treelev.isimple.data.OfferDAO;
 import com.treelev.isimple.domain.db.Offer;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.fragments.BannerFragment.ImageLoaderProvider;
-import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
@@ -80,7 +82,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
-
+        
         // hook location
         LocationTrackingManager.getInstante().getCurrentLocation(
                 getApplicationContext());
@@ -154,9 +156,38 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         bannerPager.setAdapter(bannersAdapter);
         handler.postDelayed(switchBannerRunnable, 4000);
         
+        final ImageView iv = new ImageView(this);
+        iv.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (drawerLayout.isDrawerOpen(Gravity.LEFT)){
+					drawerLayout.closeDrawer(Gravity.LEFT);
+				} else {
+					new Handler().postDelayed(openDrawerRunnable(), 200);
+				}
+			}
+		});
         
-		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		getSupportActionBar().setHomeButtonEnabled(false);
+        iv.setImageResource(R.drawable.ic_menu_pink);
+        iv.setBackgroundResource(R.drawable.selector_default);
+        iv.setPadding(25, 25, 25, 25);
+        
+//		getSupportActionBar().setIcon(R.drawable.ic_menu_pink);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setCustomView(iv);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+    }
+    
+    private Runnable openDrawerRunnable() {
+        return new Runnable() {
+
+            @Override
+            public void run() {
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        };
     }
     
     private void switchBanner() {
@@ -200,8 +231,6 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
     @Override
     protected void createDrawableMenu() {
         super.createDrawableMenu();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(false);
     }
 
     @Override

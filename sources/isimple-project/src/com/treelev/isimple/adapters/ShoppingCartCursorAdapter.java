@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.support.v4.widget.SimpleCursorAdapter;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -20,8 +21,10 @@ import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
+
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.LinearLayout;
 import org.holoeverywhere.widget.TextView;
@@ -139,7 +142,9 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     private void decreaseItemCount(final View view) {
         ShopCardItemHolder itemHolder = (ShopCardItemHolder)view.getTag();
         int count = proxyManager.getItemCount(itemHolder.itemID);
-        if (count <= 1) {
+        LogUtils.i("", "decreaseItemCount count = " + count);
+        int newCount = proxyManager.decreaseShopCardItemCount(itemHolder.itemID);
+        if (newCount == 0) {
             proxyManager.removeShopCardItem(itemHolder.itemID);
             refresh();
             notifyDataSetChanged();
@@ -149,7 +154,6 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
                 ((ISimpleApp)(((Activity) context).getApplication())).setDisactiveCartState();
             }
         } else {
-            int newCount = proxyManager.decreaseShopCardItemCount(itemHolder.itemID);
             itemHolder.textView.setText(newCount + "");
         }
     }
@@ -185,8 +189,8 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         textView.setText(locName.length() < LOC_NAME_MAX_SYMBOLS ? locName : locName.substring(0, LOC_NAME_MAX_SYMBOLS));
         textView = (TextView) view.findViewById(R.id.product_id);
         textView.setText(String.format(ITEM_ID_FORMAT, cursor.getString(cursor.getColumnIndex(BaseColumns._ID))));
-        int drinkCategory = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY));
         textView = (TextView) view.findViewById(R.id.product_volume);
+        int drinkCategory = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY));
         if (drinkCategory != DrinkCategory.WATER.ordinal()) {
             textView.setText(cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VOLUME)));
             organizeYearLabel(cursor, view);
@@ -197,7 +201,15 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
             view.findViewById(R.id.shopping_cart_vol_year_separator).setVisibility(View.GONE);
         }
         textView = (TextView) view.findViewById(R.id.product_price);
-        textView.setText(String.format(PRICE_LABEL_FORMAT, cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE))));
+        int productCategory = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY));
+        if (productCategory == DrinkCategory.WATER.ordinal()) {
+            textView.setText(String.format(PRICE_LABEL_FORMAT,
+                    cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE))
+                            / cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_QUANTITY))));
+        } else {
+            textView.setText(String.format(PRICE_LABEL_FORMAT,
+                    cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE))));
+        }
         textView = (TextView) view.findViewById(R.id.multiply_symbol);
         textView.setText("\u00D7");
     }

@@ -400,7 +400,22 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		((TextView) formView.findViewById(R.id.product_name)).setText(product.getName());
 		((TextView) formView.findViewById(R.id.product_localizated_manufacturer)).setText(product
 				.getLocalizedManufacturer());
-		((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product.getLocalizedName());
+		if (product.getDrinkCategory() == DrinkCategory.WATER) {
+		    if ("ГАЗ".equals(product.getClassification())) {
+		        ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(getString(R.string.aerated));
+		    } else if ("НЕ_ГАЗ".equals(product.getClassification())) {
+		        ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(getString(R.string.non_aerated));
+		    }
+		    
+		    String singleItemPriceLabel = Utils.organizePriceLabel(String.valueOf(product.getPrice() / product.getQuantity()));
+		    TextView singleItemPriceTextView = (TextView) formView.findViewById(R.id.product_single_itme_price);
+		    singleItemPriceTextView.setVisibility(View.VISIBLE);
+		    singleItemPriceTextView.setText(String.format(getString(R.string.single_item_price), singleItemPriceLabel));
+		} else {
+            ((TextView) formView.findViewById(R.id.product_localizated_name)).setText(product
+                    .getLocalizedName());
+        }
+		
 		((TextView) formView.findViewById(R.id.product_item_id)).setText(product.getItemID());
 		organizeTextView((TextView) formView.findViewById(R.id.product_region),
 				!product.getRegion().equals("-") ? product.getRegion() : "");
@@ -412,15 +427,21 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 				(TextView) formView.findViewById(R.id.product_alcohol),
 				product.hasAlcohol() ? Utils.organizeProductLabel(FORMAT_ALCOHOL,
 						trimTrailingZeros(product.getAlcohol())) : "");
-		String volumeLabel = "";
-		String formatVolume = "%.0f x %s л.";
-		if (product.getQuantity() != null && product.getQuantity() > 1) {
-			volumeLabel = String.format(formatVolume, product.getQuantity(),
-					trimTrailingZeros(product.getVolume() + ""));
-		} else {
-			volumeLabel = Utils.organizeProductLabel(FORMAT_VOLUME, trimTrailingZeros(product.getVolume() + ""));
-		}
-		organizeTextView((TextView) formView.findViewById(R.id.product_volume), volumeLabel);
+        if (product.getDrinkCategory() == DrinkCategory.WATER) {
+            String volumeLabel = String.format(getString(R.string.water_volume), trimTrailingZeros(String.valueOf(product.getQuantity())));
+            organizeTextView((TextView) formView.findViewById(R.id.product_volume), volumeLabel);
+        } else {
+            String volumeLabel = "";
+            String formatVolume = "%.0f x %s л.";
+            if (product.getQuantity() != null && product.getQuantity() > 1) {
+                volumeLabel = String.format(formatVolume, product.getQuantity(),
+                        trimTrailingZeros(product.getVolume() + ""));
+            } else {
+                volumeLabel = Utils.organizeProductLabel(FORMAT_VOLUME,
+                        trimTrailingZeros(product.getVolume() + ""));
+            }
+            organizeTextView((TextView) formView.findViewById(R.id.product_volume), volumeLabel);
+        }
 		organizeTextView((TextView) formView.findViewById(R.id.product_year),
 				product.hasYear() ? String.valueOf(product.getYear()) : "");
 		if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {

@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
+
 import com.treelev.isimple.domain.db.Item;
 import com.treelev.isimple.domain.db.Order;
+import com.treelev.isimple.enumerable.item.DrinkCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -202,7 +204,11 @@ public class ShoppingCartDAO extends BaseDAO {
         insertStatement = bindString(insertStatement, 37, product.getGrapesUsed());
         insertStatement = bindString(insertStatement, 38, product.getRating());
         insertStatement = bindFloat(insertStatement, 39, product.getQuantity());
-        insertStatement = bindInteger(insertStatement, 40, 1);
+        if (product.getDrinkCategory() == DrinkCategory.WATER) {
+            insertStatement = bindInteger(insertStatement, 40, (int) product.getQuantity().floatValue());
+        } else {
+            insertStatement = bindInteger(insertStatement, 40, 1);
+        }
         insertStatement = bindFloat(insertStatement, 41, product.getOrigin_price());
         long id = insertStatement.executeInsert();
         insertStatement.execute();
@@ -240,7 +246,8 @@ public class ShoppingCartDAO extends BaseDAO {
     }
 
     public void increaseItemCount(String itemId) {
-        String updateQueryFormat = "UPDATE %1$s SET %2$s = %2$s + 1 WHERE %3$s = '%4$s'";
+//        String updateQueryFormat = "UPDATE %1$s SET %2$s = %2$s + 1 WHERE %3$s = '%4$s'";
+        String updateQueryFormat = "UPDATE shopping_cart_item SET item_count = (CASE WHEN (SELECT drink_category from shopping_cart_item WHERE  item_id = '%4$s') = 5 THEN (item_count + (SELECT quantity FROM shopping_cart_item WHERE item_id = '%4$s')) ELSE (item_count + 1) END) WHERE item_id = '%4$s'";
         String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE,
                 DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
@@ -248,13 +255,14 @@ public class ShoppingCartDAO extends BaseDAO {
     }
 
     public void decreaseItemCount(String itemId) {
-        String updateQueryFormat = "UPDATE %1$s SET %2$s = %2$s - 1 WHERE %3$s = '%4$s'";
+//        String updateQueryFormat = "UPDATE %1$s SET %2$s = %2$s - 1 WHERE %3$s = '%4$s'";
+        String updateQueryFormat = "UPDATE shopping_cart_item SET item_count = (CASE WHEN (SELECT drink_category from shopping_cart_item WHERE  item_id = '%4$s') = 5 THEN (item_count - (SELECT quantity FROM shopping_cart_item WHERE item_id = '%4$s')) ELSE (item_count - 1) END) WHERE item_id = '%4$s'";
         String query = String.format(updateQueryFormat, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE,
                 DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT, DatabaseSqlHelper.ITEM_ID, itemId);
         open();
         getDatabase().execSQL(query);
     }
-
+    
     public int getItemCount(String itemId) {
         String formatQuery = "SELECT %s FROM %s WHERE %s = '%s'";
         String query = String.format(formatQuery, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
@@ -301,20 +309,27 @@ public class ShoppingCartDAO extends BaseDAO {
     }
 
     public int getShoppingCartPrice() {
-        String formatQuery = "SELECT %s, %s FROM %s";
+        String formatQuery = "SELECT %s, %s, %s, %s FROM %s";
         String query = String.format(formatQuery, DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT,
-                DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
+                DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_DRINK_CATEGORY,
+                DatabaseSqlHelper.ITEM_QUANTITY, DatabaseSqlHelper.SHOPPING_CART_ITEM_TABLE);
         open();
         int shoppingCartPrice = 0;
         Cursor cursor = getDatabase().rawQuery(query, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
+                    int drinkCategory = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY));
+                    int quantity = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_QUANTITY));
                     int count = cursor.getInt(cursor
                             .getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
                     int itemPrice = cursor.getInt(cursor
                             .getColumnIndex(DatabaseSqlHelper.ITEM_PRICE));
-                    shoppingCartPrice += itemPrice * count;
+                    if (drinkCategory == DrinkCategory.WATER.ordinal()) {
+                        shoppingCartPrice += itemPrice * count / quantity;
+                    } else {
+                        shoppingCartPrice += itemPrice * count;
+                    }
                 } while (cursor.moveToNext());
             }
             cursor.close();

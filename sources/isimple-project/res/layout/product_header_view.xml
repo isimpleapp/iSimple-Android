@@ -119,6 +119,16 @@
                             android:layout_height="1dip"
                             android:layout_marginLeft="20dip"
                             android:background="@android:color/black" />
+                        
+                        <org.holoeverywhere.widget.TextView
+                            android:id="@+id/product_single_itme_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dip"
+                            android:layout_marginTop="7dip"
+                            android:textColor="@color/product_text_color4"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
                         <org.holoeverywhere.widget.TextView
                             android:id="@+id/product_region"

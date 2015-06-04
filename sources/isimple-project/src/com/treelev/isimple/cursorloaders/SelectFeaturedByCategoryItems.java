@@ -1,6 +1,8 @@
 
 package com.treelev.isimple.cursorloaders;
 
+import com.treelev.isimple.enumerable.item.DrinkCategory;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
@@ -25,10 +27,18 @@ public class SelectFeaturedByCategoryItems extends BaseCursorLoader {
     public Cursor loadInBackground() {
         Cursor cursor = null;
         if (TextUtils.isEmpty(mLocationId)) {
-            cursor = getProxyManager().getFeaturedItemsByCategory(mCategoryID, mSortBy);
+            if (mCategoryID == DrinkCategory.WATER.ordinal()) {
+                cursor = getProxyManager().getWaterFeaturedItems(mSortBy);
+            } else {
+                cursor = getProxyManager().getFeaturedItemsByCategory(mCategoryID, mSortBy);
+            }
         } else {
-            cursor = getProxyManager()
-                    .getFeaturedItemsByCategory(mCategoryID, mLocationId, mSortBy);
+            if (mCategoryID == DrinkCategory.WATER.ordinal()) {
+                cursor = getProxyManager().getWaterFeaturedItems(mLocationId, mSortBy);
+            } else {
+                cursor = getProxyManager()
+                        .getFeaturedItemsByCategory(mCategoryID, mLocationId, mSortBy);
+            }
         }
         if (cursor != null) {
             cursor.getCount();

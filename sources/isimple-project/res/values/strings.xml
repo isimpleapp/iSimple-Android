@@ -99,6 +99,10 @@
 	
 	<string name="sync_error_update_index_error">Невозможно прочитать файл Update-Index</string>
 	<string name="sync_error_item_prices_error">Невозможно прочитать файл {}</string>
-
+	
+	<string name="aerated">газированная</string>
+	<string name="non_aerated">негазированная</string>
+	<string name="single_item_price">%s за бутылку</string>
+	<string name="water_volume">Продается упаковкой по %sшт.</string>
 
 </resources>

@@ -273,17 +273,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             startManagingCursor(cItems);
 //            String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
             mListCategoriesAdapter.swapCursor(cItems);
-            int shoppingCartPrice = 0;
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    do {
-                        int count = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_SHOPPING_CART_COUNT));
-                        int itemPrice = cursor.getInt(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE));
-                        shoppingCartPrice += itemPrice * count;
-                    } while (cursor.moveToNext());
-                }
-                cursor.moveToFirst();
-            }
+            int shoppingCartPrice = proxyManager.getShoppingCartPrice();
 //            shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
             shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(mCountry, shoppingCartPrice));
             shoppingCartPriceTextView.setText(String.format(PRICE_LABEL_FORMAT, shoppingCartPrice));

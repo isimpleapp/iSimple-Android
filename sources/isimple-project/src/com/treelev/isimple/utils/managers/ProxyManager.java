@@ -181,6 +181,13 @@ public class ProxyManager {
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : "featured_item_id";
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId, orderByField);
     }
+    
+    public Cursor getWaterFeaturedItems(int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : "featured_item_id";
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getWaterFeaturedItems(orderByField);
+    }
 
     public Cursor getAllItemsByCategory(int categoryId, int sortType) {
         String orderByField =
@@ -194,6 +201,13 @@ public class ProxyManager {
                 (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
                         (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : "featured_item_id";
         return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getFeaturedItemsByCategory(categoryId, locationId, orderByField);
+    }
+    
+    public Cursor getWaterFeaturedItems(String locationId, int sortType) {
+        String orderByField =
+                (sortType == SORT_NAME_AZ) ? DatabaseSqlHelper.ITEM_NAME :
+                        (sortType == SORT_PRICE_UP) ? DatabaseSqlHelper.ITEM_PRICE : "featured_item_id";
+        return ((ItemDAO) getObjectDAO(ItemDAO.ID)).getWaterFeaturedItems(locationId, orderByField);
     }
 
     public Cursor getItemsByDrinkId(String drinkId, String locationID, String query, boolean search, int sortType) {

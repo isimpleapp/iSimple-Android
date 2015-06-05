@@ -4,9 +4,11 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+
 import com.treelev.isimple.R;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.fragments.filters.FilterFragment;
+import com.treelev.isimple.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public class WaterItemFilter extends ItemFilter {
     @Override
     public void reset() {
         for(Item item : mItems){
+            LogUtils.i("", "WaterItemFilter reset item");
             item.setChecked(false);
         }
     }

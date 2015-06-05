@@ -10,7 +10,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.views.RangeSeekBar;
 import com.treelev.isimple.views.RangeSeekBarBlue;
 
-public class PriceItemFilter extends ItemFilter{
+public class PriceItemFilter extends ItemFilter {
 
     private int mMin;
     private int mMax;
@@ -43,9 +43,15 @@ public class PriceItemFilter extends ItemFilter{
 
     @Override
     public void reset() {
-        mRangeSeekBarr.setSelectedMinValue(mMin);
-        mRangeSeekBarr.setSelectedMaxValue(mMax);
-        mRangeSeekBarr.invalidate();
+        if (isWater) {
+            mRangeSeekBarBlue.setSelectedMinValue(mMin);
+            mRangeSeekBarBlue.setSelectedMaxValue(mMax);
+            mRangeSeekBarBlue.invalidate();
+        } else {
+            mRangeSeekBarr.setSelectedMinValue(mMin);
+            mRangeSeekBarr.setSelectedMaxValue(mMax);
+            mRangeSeekBarr.invalidate();
+        }
         mReset = true;
     }
     
@@ -79,7 +85,7 @@ public class PriceItemFilter extends ItemFilter{
                             mInflater.getContext().getResources().getDisplayMetrics())));
             mReset = true;
     	} else {
-    		mRangeSeekBarr = new RangeSeekBar(mMin, mMax, mInflater.getContext());
+    		mRangeSeekBarr = new RangeSeekBar<Integer>(mMin, mMax, mInflater.getContext());
     		mRangeSeekBarr.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
     			@Override
     			public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
@@ -97,7 +103,13 @@ public class PriceItemFilter extends ItemFilter{
 
     @Override
     public String getWhereClause() {
-        return mEnable && !mReset ? String.format("(item.price >= %d AND item.price <= %d)", mMinCurrent, mMaxCurrent) : "";
+        if (isWater) {
+            return mEnable && !mReset ? String.format("(item.price/item.quantity >= %d AND item.price/item.quantity <= %d)",
+                    mMinCurrent, mMaxCurrent) : "";
+        } else {
+            return mEnable && !mReset ? String.format("(item.price >= %d AND item.price <= %d)",
+                    mMinCurrent, mMaxCurrent) : "";
+        }
     }
 
     public boolean isReset(){

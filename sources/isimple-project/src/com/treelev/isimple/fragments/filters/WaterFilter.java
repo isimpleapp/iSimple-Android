@@ -27,6 +27,6 @@ public class WaterFilter extends FilterFragment {
 
     @Override
     protected boolean isGroup() {
-        return mPriceItemFilter.isReset();
+        return true;
     }
 }

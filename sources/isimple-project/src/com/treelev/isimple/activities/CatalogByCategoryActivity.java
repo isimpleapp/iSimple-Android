@@ -1,7 +1,6 @@
 package com.treelev.isimple.activities;
 
 import org.holoeverywhere.widget.ExpandableListView;
-import org.holoeverywhere.widget.Toast;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -399,14 +398,14 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
 
     private void initLoadManager() {
         mTreeCategoriesAdapter.setSortBy(mSortBy);
-        if(TextUtils.isEmpty(mFilterWhereClause)){
+        if(TextUtils.isEmpty(mFilterWhereClause)) {
             if(mLocationId == null){
                 mTypeSection = ProxyManager.TYPE_SECTION_MAIN;
             } else {
                 mTypeSection = ProxyManager.TYPE_SECTION_SHOP_MAIN;
             }
             mTreeCategoriesAdapter.resetFilter();
-        } else if(mTypeSection != ProxyManager.TYPE_SECTION_FILTRATION_SEARCH){
+        } else if(mTypeSection != ProxyManager.TYPE_SECTION_FILTRATION_SEARCH) {
             mTreeCategoriesAdapter.initFilter(mFilterWhereClause, mLocationId, mSortBy);
             mTypeSection = ProxyManager.TYPE_SECTION_FILTRATION_SEARCH;
         }

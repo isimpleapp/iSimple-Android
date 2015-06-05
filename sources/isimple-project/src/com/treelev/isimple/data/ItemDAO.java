@@ -475,11 +475,11 @@ public class ItemDAO extends BaseDAO {
                     +
                     "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, "
                     +
-                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, "
+                    "(case when ifnull(price, '') = '' then (999999) else price/quantity end) as price1, "
                     +
-                    "(case when ifnull(discount, '') = '' then (999999) else discount end) as discount1,"
+                    "(case when ifnull(discount, '') = '' then (999999) else discount/quantity end) as discount1,"
                     +
-                    "(case when ifnull(origin_price, '') = '' then (999999) else origin_price end) as origin_price1,"
+                    "(case when ifnull(origin_price, '') = '' then (999999) else origin_price/quantity end) as origin_price1,"
                     +
                     " year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 %4$s WHERE t1.drink_category=%1$s %2$s %5$s  ORDER BY t1.item_left_overs "
                     +
@@ -529,11 +529,11 @@ public class ItemDAO extends BaseDAO {
                     +
                     "SELECT t1.item_id as _id, name, localized_name, volume, bottle_high_res, bottle_low_resolution, product_type, drink_category, "
                     +
-                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, "
+                    "(case when ifnull(price, '') = '' then (999999) else price/quantity end) as price1, "
                     +
-                    "(case when ifnull(discount, '') = '' then (999999) else discount end) as discount1,"
+                    "(case when ifnull(discount, '') = '' then (999999) else discount/quantity end) as discount1,"
                     +
-                    "(case when ifnull(origin_price, '') = '' then (999999) else origin_price end) as origin_price1,"
+                    "(case when ifnull(origin_price, '') = '' then (999999) else origin_price/quantity end) as origin_price1,"
                     +
                     "year, quantity, color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) AS drink_id, is_favourite, item_left_overs as item_left_overs1 "
                     +
@@ -554,8 +554,14 @@ public class ItemDAO extends BaseDAO {
     }
 
     public Integer getItemMaxPriceByCategory(Integer categoryId) {
-        String selectSql = String.format(
-                "SELECT MAX(price) FROM item WHERE drink_category = %s", categoryId);
+        String selectSql = null;
+        if (categoryId == DrinkCategory.WATER.ordinal()) {
+            selectSql = String.format(
+                    "SELECT MAX(price/quantity) FROM item WHERE drink_category = %s", categoryId);
+        } else {
+            selectSql = String.format(
+                    "SELECT MAX(price) FROM item WHERE drink_category = %s", categoryId);
+        }
         open();
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         Integer maxValuePrice = null;
@@ -569,9 +575,14 @@ public class ItemDAO extends BaseDAO {
     }
 
     public Integer getItemMinPriceByCategory(Integer categoryId) {
-        String selectSql = String.format(
-                "SELECT MIN(price) FROM item WHERE drink_category = %s",
-                categoryId);
+        String selectSql = null;
+        if (categoryId == DrinkCategory.WATER.ordinal()) {
+            selectSql = String.format(
+                    "SELECT MIN(price/quantity) FROM item WHERE drink_category = %s", categoryId);
+        } else {
+            selectSql = String.format(
+                    "SELECT MIN(price) FROM item WHERE drink_category = %s", categoryId);
+        }
         open();
         Cursor cursor = getDatabase().rawQuery(selectSql, null);
         Integer maxValuePrice = null;
@@ -1514,33 +1525,64 @@ public class ItemDAO extends BaseDAO {
     }
 
     public Cursor getAllItemsByCategory(Integer categoryId, String orderByField) {
-        String formatScript = "SELECT * "
-                +
-                "FROM "
-                +
-                "("
-                +
-                "SELECT t0.*, MIN(price1) AS price, MIN(discount1) as discount, MIN(origin_price1) AS origin_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs "
-                +
-                "FROM "
-                +
-                "("
-                +
-                "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, "
-                +
-                "(case when ifnull(price, '') = '' then (999999) else price end) as price1, "
-                +
-                "(case when ifnull(discount, '') = '' then (999999) else discount end) as discount1,"
-                +
-                "(case when ifnull(origin_price, '') = '' then (999999) else origin_price end) as origin_price1,"
-                +
-                "t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 WHERE t1.drink_category = %s "
-                +
-                ") AS t0 " +
-                "GROUP BY t0.drink_id " +
-                ") " +
-                "WHERE item_left_overs > 0 " +
-                "ORDER BY %s";
+        String formatScript = null;
+        if (categoryId == DrinkCategory.WATER.ordinal()) {
+            formatScript = "SELECT * "
+                    +
+                    "FROM "
+                    +
+                    "("
+                    +
+                    "SELECT t0.*, MIN(price1) AS price, MIN(discount1) as discount, MIN(origin_price1) AS origin_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs "
+                    +
+                    "FROM "
+                    +
+                    "("
+                    +
+                    "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, "
+                    +
+                    "(case when ifnull(price, '') = '' then (999999) else price/quantity end) as price1, "
+                    +
+                    "(case when ifnull(discount, '') = '' then (999999) else discount/quantity end) as discount1,"
+                    +
+                    "(case when ifnull(origin_price, '') = '' then (999999) else origin_price/quantity end) as origin_price1,"
+                    +
+                    "t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 WHERE t1.drink_category = %s "
+                    +
+                    ") AS t0 " +
+                    "GROUP BY t0.drink_id " +
+                    ") " +
+                    "WHERE item_left_overs > 0 " +
+                    "ORDER BY %s";
+        } else {
+            formatScript = "SELECT * "
+                    +
+                    "FROM "
+                    +
+                    "("
+                    +
+                    "SELECT t0.*, MIN(price1) AS price, MIN(discount1) as discount, MIN(origin_price1) AS origin_price, COUNT(t0.drink_id) AS count, MAX(item_left_overs1) as item_left_overs "
+                    +
+                    "FROM "
+                    +
+                    "("
+                    +
+                    "SELECT t1.item_id as _id, t1.name, t1.localized_name, t1.volume, t1.bottle_high_res, t1.bottle_low_resolution, t1.product_type, t1.drink_category, "
+                    +
+                    "(case when ifnull(price, '') = '' then (999999) else price end) as price1, "
+                    +
+                    "(case when ifnull(discount, '') = '' then (999999) else discount end) as discount1,"
+                    +
+                    "(case when ifnull(origin_price, '') = '' then (999999) else origin_price end) as origin_price1,"
+                    +
+                    "t1.year, t1.quantity, t1.color, (case when ifnull(t1.drink_id, '') = '' then ('e' || t1.item_id) else t1.drink_id end) as drink_id, t1.is_favourite, item_left_overs AS item_left_overs1 FROM item AS t1 WHERE t1.drink_category = %s "
+                    +
+                    ") AS t0 " +
+                    "GROUP BY t0.drink_id " +
+                    ") " +
+                    "WHERE item_left_overs > 0 " +
+                    "ORDER BY %s";
+        }
         open();
         String selectSql = String.format(formatScript, categoryId, orderByField);
         return getDatabase().rawQuery(selectSql, null);

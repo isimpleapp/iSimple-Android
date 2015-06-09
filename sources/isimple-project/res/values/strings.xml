@@ -28,6 +28,7 @@
 
     <string name="not_found_barcode">По данному штрихкоду ничего не найдено.</string>
 
+    <string name="title_contact_data_order_dialog">Введите контактные данные</string>
     <string name="title_first_step_order_dialog">Выберите способ связи</string>
     <string name="title_contact_phone_order_dialog">Контактный номер</string>
     <string name="title_contact_email_order_dialog">Контактный электронный адрес</string>

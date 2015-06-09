@@ -322,6 +322,9 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
             viewHolder.imageViewDiscountTriangle.setVisibility(View.GONE);
             viewHolder.itemOldPrice.setText("");
         }
+        if (cursor.getInt(itemDrinkCategoryIndex) == DrinkCategory.WATER.ordinal()) {
+            viewHolder.itemPrice.setTextColor(mContext.getResources().getColor(R.color.product_water_text_color1));
+        }
         viewHolder.itemPrice.setText(priceLabel);
         // TODO:
         String strDrinkCategory = DrinkCategory.getDrinkCategory(

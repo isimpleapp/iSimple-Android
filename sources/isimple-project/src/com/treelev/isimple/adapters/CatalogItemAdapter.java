@@ -144,9 +144,10 @@ public class CatalogItemAdapter extends BaseAdapter implements
         cursor.moveToPosition(position);
         String imageName = cursor.getString(itemHiImageIndex);
         if (!TextUtils.isEmpty(imageName)) {
-            imageLoader.displayImage(
-                    String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_listing.jpg",
-                            imageName.replace('\\', '/'), sizePrefix), viewHolder.imageView,
+            String url = String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_listing.jpg",
+                    imageName.replace('\\', '/'), sizePrefix);
+            LogUtils.i("", "imageLoader displayImage url = " + url);
+            imageLoader.displayImage(url, viewHolder.imageView,
                     options);
         } else {
             viewHolder.imageView.setImageResource(R.drawable.bottle_list_image_default);

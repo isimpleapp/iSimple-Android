@@ -1,5 +1,11 @@
 package com.treelev.isimple.activities;
 
+import org.holoeverywhere.app.Dialog;
+import org.holoeverywhere.app.ProgressDialog;
+import org.holoeverywhere.widget.Button;
+import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.Toast;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,20 +17,15 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ShoppingCartCursorAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.app.ISimpleApp;
-import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.fragments.OrderDialogFragment;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.views.PriceSlider;
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.TextView;
-import org.holoeverywhere.widget.Toast;
 
 public class ShoppingCartActivity extends BaseListActivity implements View.OnClickListener {
 
@@ -53,7 +54,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         createNavigationMenuBar();
         proxyManager = ProxyManager.getInstanse();
         getListView().addFooterView(organizeFooterView());
-        dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.SELECT_TYPE);
+        dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.FILL_CONTACT_DATA_TYPE, getCountry());
         shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
         shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
         mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null, shoppingCartPriceTextView, shoppingCartFooterTextView, mOnChangePrice);
@@ -94,7 +95,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             if(mSendOrders){
                 Analytics.screen_OrderDone(this);
 
-                OrderDialogFragment dialog = new OrderDialogFragment(OrderDialogFragment.SUCCESS_TYPE);
+                OrderDialogFragment dialog = new OrderDialogFragment(OrderDialogFragment.SUCCESS_TYPE, getCountry());
                 dialog.setSuccess(mResultSendOrders);
                 dialog.show(getSupportFragmentManager(), "SUCCESS_TYPE");
                 updateList();
@@ -192,6 +193,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         SharedPreferences.Editor editor = sharedPreference.edit();
         editor.putString(COUNTRY_LABEL, country);
         editor.commit();
+        dlgMakeOrder.setRegion(country);
     }
 
     private String getCountry(){

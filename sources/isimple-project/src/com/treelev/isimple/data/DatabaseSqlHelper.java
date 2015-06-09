@@ -62,6 +62,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_IS_FAVOURITE = "is_favourite";
     public final static String ITEM_SHOPPING_CART_COUNT = "item_count";
     public final static String ITEM_LEFT_OVERS = "item_left_overs";
+    public final static String ITEM_CREATION_TIMESTAMP = "item_creation_timestamp";
     
     private static DatabaseSqlHelper instanse;
     
@@ -131,7 +132,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_RATING + " text, " +
             ITEM_QUANTITY + " float, " +
             ITEM_IS_FAVOURITE + " integer, " +
-            ITEM_LEFT_OVERS + " integer);";
+            ITEM_LEFT_OVERS + " integer, " +
+            ITEM_CREATION_TIMESTAMP + " integer);";
     
 //    private final static String CREATE_TABLE_ITEM = "create table " + ITEM_TABLE + "( " +
 //            ITEM_ID + " text primary key, " +
@@ -428,6 +430,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     
     private void migrate3to4(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
+            db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_CREATION_TIMESTAMP + " INTEGER");
+            
             db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_DISCOUNT + " FLOAT");
             db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_DISCOUNT + " FLOAT");
             db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_DISCOUNT + " FLOAT");
@@ -435,6 +439,8 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_ORIGIN_PRICE + " FLOAT");
             db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_ORIGIN_PRICE + " FLOAT");
             db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_ORIGIN_PRICE + " FLOAT");
+            
+            db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_CREATION_TIMESTAMP + " = " + System.currentTimeMillis());
             
             db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_PRICE);
             db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_OLD_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");

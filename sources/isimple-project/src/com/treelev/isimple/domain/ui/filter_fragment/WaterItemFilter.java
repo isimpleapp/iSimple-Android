@@ -86,7 +86,7 @@ public class WaterItemFilter extends ItemFilter {
         public void setChecked(boolean checked){
             isChecked = checked;
             if(isChecked){
-                button.setTextColor(Color.MAGENTA);
+                button.setTextColor(mFilter.getResources().getColor(R.color.product_water_text_color1));
             } else {
                 button.setTextColor(mFilter.getResources().getColor(R.color.product_text_color1));
             }

@@ -1,3 +1,4 @@
+
 package com.treelev.isimple.fragments;
 
 import java.io.BufferedReader;
@@ -28,12 +29,15 @@ import org.holoeverywhere.widget.TextView;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
@@ -42,33 +46,42 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.domain.db.Order;
+import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
-
+import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 
 public class OrderDialogFragment extends DialogFragment
-        implements DialogInterface.OnClickListener,
-        TextWatcher{
+        implements DialogInterface.OnClickListener {
 
-    public static final int SELECT_TYPE = 2;
-    public static final int PHONE_TYPE = 0;   //id item list
-    public static final int EMAIL_TYPE = 1;   // id item list
-    public static final int SUCCESS_TYPE = 3;
+    public static final int FILL_CONTACT_DATA_TYPE = 1;
+    public static final int SUCCESS_TYPE = 2;
 
     private OrderDialogFragment mDialogFragment;
     private int mType;
+    private String region;
     private String mContactInfo;
-    private EditText mEditContactInfo;
+    private EditText mNameField;
+    private EditText mEmailField;
+    private EditText mPhoneField;
     private Button mBtnPositive;
     private Dialog mDialog;
     private boolean mSuccess;
 
+    private boolean isEmailValid;
+    private boolean isPhoneValid;
 
-    public OrderDialogFragment(int typeDialog){
+    public OrderDialogFragment(int typeDialog, String region) {
         mType = typeDialog;
+        this.region = region;
     }
-    public void setSuccess(boolean success){
+
+    public void setSuccess(boolean success) {
         mSuccess = success;
+    }
+    
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     @Override
@@ -77,25 +90,90 @@ public class OrderDialogFragment extends DialogFragment
 
         Analytics.screen_OrderInfo(getActivity());
 
-        mEditContactInfo = (EditText) mDialog.findViewById(R.id.contact_info);
-        if(mEditContactInfo != null){
-            mEditContactInfo.addTextChangedListener(this);
-            if(mType == PHONE_TYPE){
-                String start = "+7 ";
-                mEditContactInfo.setText(start);
-                mEditContactInfo.setSelection(start.length());
-            }
-        }
         mBtnPositive = ((AlertDialog) (mDialog)).getButton(AlertDialog.BUTTON_POSITIVE);
-        if(mBtnPositive != null) {
+        if (mBtnPositive != null) {
             mBtnPositive.setEnabled(false);
         }
-        TextView tvSuccess = (TextView)mDialog.findViewById(R.id.message_success);
-        if( tvSuccess != null ){
-            if(mSuccess){
+
+        mNameField = (EditText) mDialog.findViewById(R.id.contact_info_name);
+        mNameField.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateFields();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mEmailField = (EditText) mDialog.findViewById(R.id.contact_info_email);
+        mEmailField.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches();
+                validateFields();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mPhoneField = (EditText) mDialog.findViewById(R.id.contact_info_phone);
+        mPhoneField.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!mFormatting) {
+                    mPositionCursor = start;
+                    mBefore = before;
+                }
+                isPhoneValid = s.length() == 16;
+                validateFields();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!mFormatting) {
+                    mFormatting = true;
+                    mContactInfo = formatPhone(s.toString());
+                    mPhoneField.setText(mContactInfo);
+                    mPhoneField.setSelection(getFormattedCursorPosition());
+                    mFormatting = false;
+                }
+            }
+        });
+        String start = "+7 ";
+        mPhoneField.setText(start);
+        mPhoneField.setSelection(start.length());
+
+        TextView tvSuccess = (TextView) mDialog.findViewById(R.id.message_success);
+        if (tvSuccess != null) {
+            if (mSuccess) {
                 tvSuccess.setText(Html.fromHtml(getString(R.string.message_success_send_orders)));
             } else {
-                tvSuccess.setText(Html.fromHtml(getString(R.string.message_not_success_send_orders)));
+                tvSuccess.setText(Html
+                        .fromHtml(getString(R.string.message_not_success_send_orders)));
             }
         }
     }
@@ -107,46 +185,31 @@ public class OrderDialogFragment extends DialogFragment
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
-        switch (i){
+        switch (i) {
             case Dialog.BUTTON_POSITIVE:
-                new SendOrders(getActivity(), mContactInfo).execute();
-                break;
-            case Dialog.BUTTON_NEGATIVE:
-                mDialogFragment = new OrderDialogFragment(SELECT_TYPE);
-                mDialogFragment.show(getActivity().getSupportFragmentManager(), "SELECT_TYPE");
-                break;
-            case PHONE_TYPE:
-                mDialogFragment = new OrderDialogFragment(PHONE_TYPE);
-                mDialogFragment.show(getActivity().getSupportFragmentManager(), "PHONE_TYPE");
-                break;
-            case EMAIL_TYPE:
-                mDialogFragment = new OrderDialogFragment(EMAIL_TYPE);
-                mDialogFragment.show(getActivity().getSupportFragmentManager(), "EMAIL_TYPE");
+                new SendOrders(getActivity(), mNameField.getText().toString(), mEmailField.getText().toString(), mPhoneField.getText().toString()).execute();
                 break;
         }
     }
 
-    private Dialog createDialog(){
+    private void validateFields() {
+        if (!TextUtils.isEmpty(mNameField.getText().toString()) && (isEmailValid
+                || isPhoneValid)) {
+            mBtnPositive.setEnabled(true);
+        } else {
+            mBtnPositive.setEnabled(false);
+        }
+    }
+
+    private Dialog createDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
-        switch(mType){
-            case SELECT_TYPE:
-                adb.setTitle(getString(R.string.title_first_step_order_dialog));
-                adb.setItems(getResources().getStringArray(R.array.type_order_items), this);
-                break;
-            case PHONE_TYPE:
-                adb.setTitle(getString(R.string.title_contact_phone_order_dialog));
-                adb.setView(inflater.inflate(R.layout.dialog_order_phone, null));
+        switch (mType) {
+            case FILL_CONTACT_DATA_TYPE:
+                adb.setTitle(getString(R.string.title_contact_data_order_dialog));
+                adb.setView(inflater.inflate(R.layout.dialog_order_contact_data, null));
                 adb.setPositiveButton(R.string.dialog_order_button_complite, this);
-                adb.setNegativeButton(R.string.dialog_order_button_cancel, this);
-                adb.setCancelable(false);
-                break;
-            case EMAIL_TYPE:
-                adb.setTitle(getString(R.string.title_contact_email_order_dialog));
-                adb.setView(inflater.inflate(R.layout.dialog_order_email, null));
-                adb.setPositiveButton(R.string.dialog_order_button_complite, this);
-                adb.setNegativeButton(R.string.dialog_order_button_cancel, this);
-                adb.setCancelable(false);
+                adb.setCancelable(true);
                 break;
             case SUCCESS_TYPE:
                 adb.setView(inflater.inflate(R.layout.dialog_success_send_orders, null));
@@ -163,62 +226,22 @@ public class OrderDialogFragment extends DialogFragment
     private int mPositionCursor = 3;
     private int mBefore = 0;
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        boolean enable = false;
-        switch(mType){
-            case PHONE_TYPE:
-                if(!mFormatting){
-                    mPositionCursor = start;
-                    mBefore = before;
-                }
-                enable = s.length() == 16;
-                break;
-            case EMAIL_TYPE:
-                enable = android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches();
-                break;
-        }
-        if(mBtnPositive != null ){
-            mBtnPositive.setEnabled(enable);
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        switch (mType){
-            case PHONE_TYPE:
-                if(!mFormatting){
-                    mFormatting = true;
-                    mContactInfo = formatPhone(editable.toString());
-                    mEditContactInfo.setText(mContactInfo);
-                    mEditContactInfo.setSelection(getFormattedCursorPosition());
-                    mFormatting = false;
-                }
-                break;
-        }
-    }
-
-
-    private int getFormattedCursorPosition(){
+    private int getFormattedCursorPosition() {
         int cursorPosition = 3;
         int offset;
         int length = mContactInfo.length();
-        if(mPositionCursor > 15){
+        if (mPositionCursor > 15) {
             cursorPosition = 16;
-        } else if(mBefore == 0 && mPositionCursor > 1) { //insert char
+        } else if (mBefore == 0 && mPositionCursor > 1) { // insert char
             offset = 1;
-            if((length == 4 || length == 7 || length == 8 || length == 11 || length == 12 || length == 14 || length == 15)
-                    && mPositionCursor < length - 1){
+            if ((length == 4 || length == 7 || length == 8 || length == 11 || length == 12
+                    || length == 14 || length == 15)
+                    && mPositionCursor < length - 1) {
                 offset = 2;
             }
             cursorPosition = mPositionCursor + offset;
-        } else if(length > 3 && mPositionCursor > 3){//delete char
-            if(length == 6 || length == 10 || length == 13){
+        } else if (length > 3 && mPositionCursor > 3) {// delete char
+            if (length == 6 || length == 10 || length == 13) {
                 cursorPosition = length;
             } else {
                 cursorPosition = mPositionCursor;
@@ -230,159 +253,170 @@ public class OrderDialogFragment extends DialogFragment
     private int mLengthOld = 3;
     private String mOldPhoneNumber = "+7 ";
 
-    private String formatPhone(String s){
+    private String formatPhone(String s) {
         String newPhoneNumber = "";
         int lengthNew = s.length();
-        if(lengthNew < 17 && lengthNew > 2){
-            if(mBefore  == 0 ){ //insert
+        if (lengthNew < 17 && lengthNew > 2) {
+            if (mBefore == 0) { // insert
                 newPhoneNumber = getFormattedAfterInsertChar(s);
-            } else if(mBefore == 1) {// delete 1 char
+            } else if (mBefore == 1) {// delete 1 char
                 newPhoneNumber = getFormattedAfterDeleteChar(s);
             }
         }
-        if(newPhoneNumber.length() > 0){
+        if (newPhoneNumber.length() > 0) {
             mOldPhoneNumber = newPhoneNumber;
         }
         return mOldPhoneNumber;
     }
 
-    private String getFormattedAfterInsertChar(String s){
+    private String getFormattedAfterInsertChar(String s) {
         String newPhoneNumber = "";
-        if (Character.isDigit(s.charAt(mPositionCursor)) && mPositionCursor > 1){
+        if (Character.isDigit(s.charAt(mPositionCursor)) && mPositionCursor > 1) {
             String str = new String(s);
             str = str.replace("+", "").replace(" ", "").replace("-", "");
             int length = str.length();
-            if(length > 1 && length < 4){
+            if (length > 1 && length < 4) {
                 newPhoneNumber = String.format("+7 %s",
                         str.substring(1));
-            } else if(length == 4){
+            } else if (length == 4) {
                 newPhoneNumber = String.format("+7 %s ",
-                        str.substring(1) );
+                        str.substring(1));
             }
-            else if(length > 4 && length < 7){
+            else if (length > 4 && length < 7) {
                 newPhoneNumber = String.format("+7 %s %s",
-                        str.substring(1,4), str.substring(4));
-            } else if(length == 7){
+                        str.substring(1, 4), str.substring(4));
+            } else if (length == 7) {
                 newPhoneNumber = String.format("+7 %s %s-",
-                        str.substring(1,4), str.substring(4));
-            } else if(length > 7 && length < 9){
+                        str.substring(1, 4), str.substring(4));
+            } else if (length > 7 && length < 9) {
                 newPhoneNumber = String.format("+7 %s %s-%s",
-                        str.substring(1,4), str.substring(4, 7), str.substring(7));
-            } else if(length == 9){
+                        str.substring(1, 4), str.substring(4, 7), str.substring(7));
+            } else if (length == 9) {
                 newPhoneNumber = String.format("+7 %s %s-%s-",
-                        str.substring(1,4), str.substring(4, 7), str.substring(7));
-            } else if(length > 9) {
+                        str.substring(1, 4), str.substring(4, 7), str.substring(7));
+            } else if (length > 9) {
                 newPhoneNumber = String.format("+7 %s %s-%s-%s",
-                        str.substring(1,4), str.substring(4, 7), str.substring(7, 9), str.substring(9));
+                        str.substring(1, 4), str.substring(4, 7), str.substring(7, 9),
+                        str.substring(9));
             }
         }
         return newPhoneNumber;
     }
 
-    private String getFormattedAfterDeleteChar(String s){
+    private String getFormattedAfterDeleteChar(String s) {
         String newPhoneNumber = "";
-        if (mPositionCursor > 2){
+        if (mPositionCursor > 2) {
             String str = new StringBuffer(s).toString();
-            if(mPositionCursor == 6 || mPositionCursor == 10 || mPositionCursor == 13){
-                if(mPositionCursor != str.length()){
-                    str = str.substring(0, mPositionCursor-1) + str.substring(mPositionCursor);
+            if (mPositionCursor == 6 || mPositionCursor == 10 || mPositionCursor == 13) {
+                if (mPositionCursor != str.length()) {
+                    str = str.substring(0, mPositionCursor - 1) + str.substring(mPositionCursor);
                 }
             }
             str = str.replace("+", "").replace(" ", "").replace("-", "");
             String newStr = new StringBuilder(str).toString();
             int length = newStr.length();
-            if(length == 1){
+            if (length == 1) {
                 newPhoneNumber = "+7 ";
-            } if(length > 1 && length <= 4){
+            }
+            if (length > 1 && length <= 4) {
                 newPhoneNumber = String.format("+7 %s",
                         str.substring(1));
             }
-            else if(length > 4 && length <= 7){
+            else if (length > 4 && length <= 7) {
                 newPhoneNumber = String.format("+7 %s %s",
-                        str.substring(1,4), str.substring(4));
-            } else if(length > 7 && length <= 9){
+                        str.substring(1, 4), str.substring(4));
+            } else if (length > 7 && length <= 9) {
                 newPhoneNumber = String.format("+7 %s %s-%s",
-                        str.substring(1,4), str.substring(4, 7), str.substring(7));
-            } else if(length > 9) {
+                        str.substring(1, 4), str.substring(4, 7), str.substring(7));
+            } else if (length > 9) {
                 newPhoneNumber = String.format("+7 %s %s-%s-%s",
-                        str.substring(1,4), str.substring(4, 7), str.substring(7, 9), str.substring(9));
+                        str.substring(1, 4), str.substring(4, 7), str.substring(7, 9),
+                        str.substring(9));
             }
         }
         return newPhoneNumber;
     }
 
-//    private String getFormattedPhoneNumber(CharSequence s){
-//        String newPhoneNumber = "";
-//        if (Character.isDigit(s.charAt(mPositionCursor)) && mPositionCursor > 2){
-//            String str = s.toString();
-//            str = str.replace("+", "").replace(" ", "").replace("-", "");
-//            int length = s.length();
-//            if(length > 2 && length < 5){
-//                newPhoneNumber = String.format("+7 %s",
-//                        str.substring(1));
-//            } else if(length > 4 && length < 8){
-//                newPhoneNumber = String.format("+7 %s %s",
-//                        str.substring(1,4), str.substring(4));
-//            } else if(length > 7 && length < 10){
-//                newPhoneNumber = String.format("+7 %s %s-%s",
-//                        str.substring(1,3), str.substring(4, 7),str.substring(8));
-//            } else {
-//                newPhoneNumber = String.format("+7 %s %s-%s-%s",
-//                        str.substring(1,3), str.substring(4, 7), str.substring(8, 9), str.substring(10));
-//            }
-//        }
-//        return newPhoneNumber;
-//    }
+    // private String getFormattedPhoneNumber(CharSequence s){
+    // String newPhoneNumber = "";
+    // if (Character.isDigit(s.charAt(mPositionCursor)) && mPositionCursor > 2){
+    // String str = s.toString();
+    // str = str.replace("+", "").replace(" ", "").replace("-", "");
+    // int length = s.length();
+    // if(length > 2 && length < 5){
+    // newPhoneNumber = String.format("+7 %s",
+    // str.substring(1));
+    // } else if(length > 4 && length < 8){
+    // newPhoneNumber = String.format("+7 %s %s",
+    // str.substring(1,4), str.substring(4));
+    // } else if(length > 7 && length < 10){
+    // newPhoneNumber = String.format("+7 %s %s-%s",
+    // str.substring(1,3), str.substring(4, 7),str.substring(8));
+    // } else {
+    // newPhoneNumber = String.format("+7 %s %s-%s-%s",
+    // str.substring(1,3), str.substring(4, 7), str.substring(8, 9),
+    // str.substring(10));
+    // }
+    // }
+    // return newPhoneNumber;
+    // }
 
-//    private String getFormattedAfterDelete(CharSequence s){
-//        StringBuilder formatted = new StringBuilder("+7 ");
-//        return formatted.toString();
-//    }
-//    private String formatPhone(CharSequence s){
-//        StringBuilder formatted = new StringBuilder();
-//        int positionEnd = s.length()-1;
-//        formatted.append("+7 ");
-//        if (Character.isDigit(s.charAt(positionEnd)) && mLengthOld < (positionEnd+1)){
-//            if(positionEnd > 2 && positionEnd < 16){
-//                formatted.append(s.subSequence(3, positionEnd+1));
-//                if(positionEnd == 5){
-//                    formatted.append(" ");
-//                } else if(positionEnd == 9 || positionEnd == 12){
-//                    formatted.append("-");
-//                }
-//            } else {
-//                formatted.append(s.subSequence(3, 16));
-//            }
-//        } else {
-//            if(positionEnd > 2 && positionEnd < 16 ) {
-//                if(positionEnd == 6 || positionEnd == 10 || positionEnd == 13){
-//                    formatted.append(s.subSequence(3, positionEnd));
-//                } else {
-//                    if(!isSpecialCharacters(s.charAt(positionEnd))){
-//                        formatted.append(s.subSequence(3, positionEnd+1));
-//                    }
-//                }
-//            }
-//        }
-//        mLengthOld = formatted.length();
-//        return formatted.toString();
-//    }
+    // private String getFormattedAfterDelete(CharSequence s){
+    // StringBuilder formatted = new StringBuilder("+7 ");
+    // return formatted.toString();
+    // }
+    // private String formatPhone(CharSequence s){
+    // StringBuilder formatted = new StringBuilder();
+    // int positionEnd = s.length()-1;
+    // formatted.append("+7 ");
+    // if (Character.isDigit(s.charAt(positionEnd)) && mLengthOld <
+    // (positionEnd+1)){
+    // if(positionEnd > 2 && positionEnd < 16){
+    // formatted.append(s.subSequence(3, positionEnd+1));
+    // if(positionEnd == 5){
+    // formatted.append(" ");
+    // } else if(positionEnd == 9 || positionEnd == 12){
+    // formatted.append("-");
+    // }
+    // } else {
+    // formatted.append(s.subSequence(3, 16));
+    // }
+    // } else {
+    // if(positionEnd > 2 && positionEnd < 16 ) {
+    // if(positionEnd == 6 || positionEnd == 10 || positionEnd == 13){
+    // formatted.append(s.subSequence(3, positionEnd));
+    // } else {
+    // if(!isSpecialCharacters(s.charAt(positionEnd))){
+    // formatted.append(s.subSequence(3, positionEnd+1));
+    // }
+    // }
+    // }
+    // }
+    // mLengthOld = formatted.length();
+    // return formatted.toString();
+    // }
 
-    private boolean isSpecialCharacters(char c){
-        return c == ' ' || c == '+' || c == '-' || c == '.' || c == '(' || c == ')' || c == '/' || c == ',' || c == '*' || c == '#'
+    private boolean isSpecialCharacters(char c) {
+        return c == ' ' || c == '+' || c == '-' || c == '.' || c == '(' || c == ')' || c == '/'
+                || c == ',' || c == '*' || c == '#'
                 || c == 'N';
     }
 
-    private class SendOrders extends AsyncTask<Void, Void, Boolean>{
+    private class SendOrders extends AsyncTask<Void, Void, Boolean> {
 
         private Context mContext;
-        private String mContactInfo;
         private Dialog mDialog;
         private ProxyManager mProxyManager;
+        private String contacInfoName;
+        private String contacInfoEmail;
+        private String contacInfoPhone;
 
-        public SendOrders(Context context, String contacInfo){
+        public SendOrders(Context context, String contacInfoName, String contacInfoEmail,
+                String contacInfoPhone) {
             mContext = context;
-            mContactInfo = contacInfo;
+            this.contacInfoName = contacInfoName;
+            this.contacInfoEmail = contacInfoEmail;
+            this.contacInfoPhone = contacInfoPhone;
         }
 
         @Override
@@ -391,14 +425,14 @@ public class OrderDialogFragment extends DialogFragment
             hideKeyBoard();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.registration_orders), false, false);
-            ((ShoppingCartActivity)mContext).setResultSendOrders(true);
+            ((ShoppingCartActivity) mContext).setResultSendOrders(true);
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
             Boolean result = postData();
-            if(result){
-               getProxyManager().deleteAllShoppingCartData();
+            if (result) {
+                getProxyManager().deleteAllShoppingCartData();
             }
             return result;
         }
@@ -407,15 +441,15 @@ public class OrderDialogFragment extends DialogFragment
         protected void onPostExecute(final Boolean result) {
             super.onPostExecute(result);
             mDialog.dismiss();
-            if(((ShoppingCartActivity)mContext).isSaveInstancceState()){
-                ((ShoppingCartActivity)mContext).setResultSendOrders(result);
-                ((ShoppingCartActivity)mContext).sendOrderSetFlag(true);
+            if (((ShoppingCartActivity) mContext).isSaveInstancceState()) {
+                ((ShoppingCartActivity) mContext).setResultSendOrders(result);
+                ((ShoppingCartActivity) mContext).sendOrderSetFlag(true);
             } else {
-                OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE);
+                OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE, null);
                 dialog.setSuccess(result);
                 dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
-                ((ShoppingCartActivity)mContext).setResultSendOrders(result);
-                ((ShoppingCartActivity)mContext).updateList();
+                ((ShoppingCartActivity) mContext).setResultSendOrders(result);
+                ((ShoppingCartActivity) mContext).updateList();
             }
         }
 
@@ -440,11 +474,11 @@ public class OrderDialogFragment extends DialogFragment
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 // Execute HTTP Post Request
 
-				HttpClient httpclient = Utils.newHttpClient();
-				
-				HttpResponse response = httpclient.execute(httppost);
-				
-                if(getResponseAnswer(response.getEntity()) > 0 ){
+                HttpClient httpclient = Utils.newHttpClient();
+
+                HttpResponse response = httpclient.execute(httppost);
+
+                if (getResponseAnswer(response.getEntity()) > 0) {
                     result = true;
                 }
 
@@ -453,25 +487,16 @@ public class OrderDialogFragment extends DialogFragment
             } finally {
                 return result;
             }
-            
-//            OkHttpClient client = new OkHttpClient();
-//            RequestBody body = RequestBody.create(JSON, json);
-//            Request request = new Request.Builder()
-//                .url(mContext.getString(R.string.url_send_order).trim())
-//                .post(body)
-//                .build();
-//            Response response = client.newCall(request).execute();
-//            response.body().string();
+
         }
 
-        private int getResponseAnswer(HttpEntity entity){
+        private int getResponseAnswer(HttpEntity entity) {
             int result = 0;
             try {
                 String answer = parserResponseAnswer(entity.getContent());
                 result = Integer.valueOf(answer);
             } catch (Exception e) {
-            }
-            finally {
+            } finally {
                 return result;
             }
         }
@@ -481,25 +506,28 @@ public class OrderDialogFragment extends DialogFragment
             BufferedReader br = new BufferedReader(is);
             StringBuilder stringBuilder = new StringBuilder();
             String read = br.readLine();
-            while(read != null){
+            while (read != null) {
                 stringBuilder.append(read);
                 read = br.readLine();
             }
             return stringBuilder.toString();
         }
 
-        private String getDeviceID(){
-            TelephonyManager telephonyManager = (TelephonyManager)mContext.getSystemService(mContext.TELEPHONY_SERVICE);
+        private String getDeviceID() {
+            TelephonyManager telephonyManager = (TelephonyManager) mContext
+                    .getSystemService(mContext.TELEPHONY_SERVICE);
             String itemiID = telephonyManager.getDeviceId();
-            if( itemiID == null){
-                itemiID = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            if (itemiID == null) {
+                itemiID = Settings.Secure.getString(mContext.getApplicationContext()
+                        .getContentResolver(), Settings.Secure.ANDROID_ID);
             }
             return itemiID;
         }
 
         private String getMD5() {
             try {
-                String s = String.format("%s%s", mContext.getString(R.string.shared_secret).trim(), getDeviceID());
+                String s = String.format("%s%s", mContext.getString(R.string.shared_secret).trim(),
+                        getDeviceID());
                 // Create MD5 Hash
                 MessageDigest digest = java.security.MessageDigest
                         .getInstance("MD5");
@@ -520,19 +548,49 @@ public class OrderDialogFragment extends DialogFragment
             return "";
         }
 
-        private String getListOrder(){
+        private String getListOrder() {
+            PackageInfo pInfo;
+            String version = "";
+            try {
+                pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+                version = pInfo.versionName;
+            } catch (NameNotFoundException e) {
+                e.printStackTrace();
+            }
             StringBuffer sbListOrder = new StringBuffer();
             sbListOrder.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-            sbListOrder.append(String.format("<Order contactInfo = \"%s\">", mContactInfo));
-            List<Order> orders =  getProxyManager().getOrders();
-            for(Order orderItem : orders){
-                sbListOrder.append(String.format("<OrderItem><ItemID>%s</ItemID><Quantity>%s</Quantity><Price>%s</Price></OrderItem>", orderItem.getItemID(), orderItem.getQuantity(), orderItem.getPrice()));
+            sbListOrder.append(String.format(
+                    "<Order contactName = \"%s\" "
+                    + "contactMail = \"%s\" "
+                    + "contactPhone = \"%s\" "
+                    + "delivery = \"%s\" "
+                    + "region = \"%s\" "
+                    + "version = \"%s\" "
+                    + "date = \"%s\" "
+                    + "device_token = \"%s\" >",
+                    contacInfoName, 
+                    contacInfoEmail, 
+                    contacInfoPhone, 
+                    "", // TODO add delivery type
+                    region, 
+                    version, 
+                    SharedPreferencesManager.getDatePriceUpdate(getActivity()), 
+                    ""// TODO add device gcm token
+                    ));
+            List<Order> orders = getProxyManager().getOrders();
+            for (Order orderItem : orders) {
+                sbListOrder
+                        .append(String
+                                .format("<OrderItem><ItemID>%s</ItemID><Quantity>%s</Quantity><Price>%s</Price></OrderItem>",
+                                        orderItem.getItemID(), orderItem.getQuantity(),
+                                        orderItem.getPrice()));
             }
             sbListOrder.append("</Order>");
+            LogUtils.i("", "sbListOrder = " + sbListOrder);
             return sbListOrder.toString();
         }
 
-        private void hideKeyBoard(){
+        private void hideKeyBoard() {
             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }

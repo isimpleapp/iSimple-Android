@@ -74,6 +74,7 @@ public class CatalogItemParser implements Parser {
             while (xmlPullParser.getEventType() != XmlPullParser.END_DOCUMENT) {
                 if (xmlPullParser.getEventType() == XmlPullParser.START_TAG && xmlPullParser.getName().equals(CATALOG_OBJECT_TAG)) {
                     item = new Item();
+                    item.setCreationTimestamp(System.currentTimeMillis());
                     xmlPullParser.next();
                     while (xmlPullParser.getEventType() == XmlPullParser.TEXT) {
                         // Looks like we have new lines in the xml

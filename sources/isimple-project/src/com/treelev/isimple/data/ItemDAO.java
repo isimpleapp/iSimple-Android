@@ -1132,10 +1132,13 @@ public class ItemDAO extends BaseDAO {
                     + ", "
                     +
                     DatabaseSqlHelper.ITEM_DISCOUNT
+                    + ", "
+                    +
+                    DatabaseSqlHelper.ITEM_CREATION_TIMESTAMP
                     +
                     ") VALUES "
                     +
-                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             SQLiteStatement insertStatement = getDatabase().compileStatement(insertSql);
             for (Item item : items) {
                 insertStatement = bindString(insertStatement, 1, item.getItemID());
@@ -1183,6 +1186,7 @@ public class ItemDAO extends BaseDAO {
                 insertStatement = bindBoolean(insertStatement, 40, item.getFavourite());
                 insertStatement = bindInteger(insertStatement, 41, item.getLeftOvers());
                 insertStatement = bindFloat(insertStatement, 42, item.getDiscount());
+                insertStatement = bindLong(insertStatement, 43, item.getCreationTimestamp());
                 insertStatement.execute();
             }
             getDatabase().setTransactionSuccessful();
@@ -1730,6 +1734,7 @@ public class ItemDAO extends BaseDAO {
         int indexQuantity = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_QUANTITY);
         int indexFavourite = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_IS_FAVOURITE);
         int indexDiscount = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DISCOUNT);
+        int indexCreationTimestamp = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_CREATION_TIMESTAMP);
         if (cursor != null && cursor.moveToFirst()) {
             item = new Item();
             item.setItemID(cursor.getString(indexItemID));
@@ -1775,6 +1780,7 @@ public class ItemDAO extends BaseDAO {
             item.setQuantity(cursor.getFloat(indexQuantity));
             item.setFavourite(cursor.getInt(indexFavourite) == 1);
             item.setDiscount(cursor.getFloat(indexDiscount));
+            item.setCreationTimestamp(cursor.getLong(indexCreationTimestamp));
             cursor.close();
         }
         return item;

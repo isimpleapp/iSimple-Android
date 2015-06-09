@@ -58,6 +58,7 @@ public class Item implements Serializable {
     private Float quantity;
     private Integer leftOvers;
     private Boolean isFavourite = false;
+    private long creationTimestamp;
 
     public static String[] getUITags() {
         return new String[] { UI_TAG_NAME, UI_TAG_LOCALIZATION_NAME, UI_TAG_VOLUME, UI_TAG_PRICE, UI_TAG_DRINK_CATEGORY };
@@ -433,5 +434,13 @@ public class Item implements Serializable {
 
     public int getLeftOvers(){
         return leftOvers != null ? leftOvers : 0;
+    }
+
+    public long getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public void setCreationTimestamp(long creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
     }
 }

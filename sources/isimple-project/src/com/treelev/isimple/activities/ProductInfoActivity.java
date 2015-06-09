@@ -215,7 +215,10 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		Float price = mProduct.getPrice();
 		Button btWhereToBuy = (Button) headerView.findViewById(R.id.shops_butt);
 		Button btAddToShoppingCart = (Button) headerView.findViewById(R.id.add_to_shopping_cart_butt);
-		if (mProduct.getProductType() == ProductType.WATER){
+		if (mProduct.getProductType() == ProductType.WATER || 
+		        mProduct.getProductType() == ProductType.ENERGY ||
+		        mProduct.getProductType() == ProductType.JUICE ||
+		        mProduct.getProductType() == ProductType.SYRUP){
 			btAddToShoppingCart.setTextColor(getResources().getColor(R.color.filter_blue));
 		}
 		if (price != null && price != 0.0f) {

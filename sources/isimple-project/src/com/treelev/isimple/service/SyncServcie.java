@@ -168,6 +168,9 @@ public class SyncServcie extends Service {
         @Override
         protected Void doInBackground(Void... params) {
             
+            long syncStartTimestamp = System.currentTimeMillis();
+            initSyncLogEntity(syncStartTimestamp);
+            
             if (!ISimpleApp.getInstantce().isInternetAvailable()) {
                 error = true;
                 failedSyncPhase = SyncPhase.START;
@@ -183,9 +186,6 @@ public class SyncServcie extends Service {
             long priceDiscountsUpdateDurationTemp = 0;
             long featuredUpdateDurationTemp = 0;
             long offersUpdateDurationTemp = 0;
-
-            long syncStartTimestamp = System.currentTimeMillis();
-            initSyncLogEntity(syncStartTimestamp);
 
             syncLogEntity.logs.add(new SyncPhaseLog("Started sync"));
             if (WebServiceManager.getDownloadDirectory() != null
@@ -223,8 +223,9 @@ public class SyncServcie extends Service {
                                 + e1.getMessage()));
             }
 
-            if (loadFileDataList == null) {
+            if (loadFileDataList == null || loadFileDataList.isEmpty()) {
                 // TODO Handle download exception
+                failedSyncPhase = SyncPhase.CATALOG_UPDATE;
                 error = true;
                 return null;
             }

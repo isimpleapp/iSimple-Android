@@ -30,7 +30,7 @@
             android:id="@+id/discount_triangle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/triangle"
+            android:src="@drawable/sale_sign_blue"
             android:layout_alignParentRight="true"
             android:visibility="gone" />
 

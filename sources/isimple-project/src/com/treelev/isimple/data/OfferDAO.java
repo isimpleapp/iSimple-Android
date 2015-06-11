@@ -45,7 +45,7 @@ public class OfferDAO extends BaseDAO {
         List<Offer> offers = new ArrayList<Offer>();
         Cursor c = getDatabase().query(DatabaseSqlHelper.OFFER_TABLE, new String[] {
                 DatabaseSqlHelper.OFFER_ID, DatabaseSqlHelper.OFFER_IMAGE1200
-        }, null, null, null, null, null);
+        }, null, null, null, null, DatabaseSqlHelper.OFFER_ID + " DESC");
 
         if (c.getCount() != 0) {
             Offer offer = null;

@@ -302,6 +302,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
 
     @Override
     public void startListeningForProgress() {
+        LogUtils.i("Test log", "startListeningForProgress");
         showDialog();
         LocalBroadcastManager.getInstance(this).registerReceiver(syncStatusReceiver,
                 new IntentFilter(Constants.INTENT_ACTION_SYNC_STATE_UPDATE));
@@ -341,6 +342,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     }
     
     private void showDialog() {
+        LogUtils.i("Test log", "mDialog = " + mDialog);
         if (mDialog == null) {
             mDialog = ProgressDialog.show(BaseActivity.this,
                     getString(R.string.update_data_notify_label),
@@ -351,6 +353,7 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
     private void hideDialog() {
         if (mDialog != null) {
             mDialog.dismiss();
+            mDialog = null;
         }
     }
 }

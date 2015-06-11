@@ -571,7 +571,7 @@ public class OrderDialogFragment extends DialogFragment
                     contacInfoName, 
                     contacInfoEmail, 
                     contacInfoPhone, 
-                    "", // TODO add delivery type
+                    "самовывоз",
                     region, 
                     version, 
                     SharedPreferencesManager.getDatePriceUpdate(getActivity()), 

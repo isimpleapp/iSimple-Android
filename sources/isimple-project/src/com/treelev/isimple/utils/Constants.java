@@ -16,7 +16,7 @@ public class Constants {
     public static final String INTENT_ACTION_SYNC_STATE_UPDATE = "com.treelev.isimple.action.SYNC_STATE_UPDATE";
     public static final String INTENT_EXTRA_SYNC_STATE = "sync_state";
     
-    public static long SYNC_LONG_PERIOD = 30 * 24 * 60 * 60 * 1000; // 30 days
+    public static long SYNC_LONG_PERIOD = 30L * 24L * 60L * 60L * 1000L; // 30 days
     
     public static final String SYNC_LOG_FILE_NAME = "sync_log";
     

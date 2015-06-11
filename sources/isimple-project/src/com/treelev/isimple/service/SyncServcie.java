@@ -1189,6 +1189,7 @@ public class SyncServcie extends Service {
             Intent intent = new Intent(context, SyncServcie.class);
             intent.putExtra(SyncServcie.INTENT_ACTION_SYNC_TYPE, SyncServcie.SYNC_TYPE_DATA);
             context.startService(intent);
+            LogUtils.i("", "progressListener = " + progressListener);
             if (progressListener != null) {
                 progressListener.startListeningForProgress();
             }

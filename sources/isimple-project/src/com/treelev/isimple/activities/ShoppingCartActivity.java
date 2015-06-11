@@ -1,3 +1,4 @@
+
 package com.treelev.isimple.activities;
 
 import org.holoeverywhere.app.Dialog;
@@ -16,7 +17,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
@@ -52,12 +57,37 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         setContentView(R.layout.shopping_cart_layout);
         setCurrentCategory(NAVIGATE_CATEGORY_ID);
         createNavigationMenuBar();
+        
+        final ImageView iv = new ImageView(this);
+        iv.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)){
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    new Handler().postDelayed(openDrawerRunnable(), 200);
+                }
+            }
+        });
+        
+        iv.setImageResource(R.drawable.ic_menu_pink);
+        iv.setBackgroundResource(R.drawable.selector_default);
+        iv.setPadding(25, 25, 25, 25);
+        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setCustomView(iv);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        
         proxyManager = ProxyManager.getInstanse();
         getListView().addFooterView(organizeFooterView());
-        dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.FILL_CONTACT_DATA_TYPE, getCountry());
+        dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.FILL_CONTACT_DATA_TYPE,
+                getCountry());
         shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
         shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
-        mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null, shoppingCartPriceTextView, shoppingCartFooterTextView, mOnChangePrice);
+        mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null,
+                shoppingCartPriceTextView, shoppingCartFooterTextView, mOnChangePrice);
         getListView().setAdapter(mListCategoriesAdapter);
         new SelectDataShoppingCartTask(this).execute();
     }
@@ -72,7 +102,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private ShoppingCartCursorAdapter.OnChangePrice mOnChangePrice = new ShoppingCartCursorAdapter.OnChangePrice() {
         @Override
         public void changePrice(double price) {
-            if(mPriceSlider != null){
+            if (mPriceSlider != null) {
                 mPriceSlider.setValue(price);
             }
         }
@@ -91,11 +121,12 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        if(mIsSaveInstancceState){
-            if(mSendOrders){
+        if (mIsSaveInstancceState) {
+            if (mSendOrders) {
                 Analytics.screen_OrderDone(this);
 
-                OrderDialogFragment dialog = new OrderDialogFragment(OrderDialogFragment.SUCCESS_TYPE, getCountry());
+                OrderDialogFragment dialog = new OrderDialogFragment(
+                        OrderDialogFragment.SUCCESS_TYPE, getCountry());
                 dialog.setSuccess(mResultSendOrders);
                 dialog.show(getSupportFragmentManager(), "SUCCESS_TYPE");
                 updateList();
@@ -103,19 +134,19 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             }
             mIsSaveInstancceState = false;
         }
-        if(cItems != null){
+        if (cItems != null) {
             startManagingCursor(cItems);
         }
     }
 
-    public void setResultSendOrders(boolean resultSendOrders){
+    public void setResultSendOrders(boolean resultSendOrders) {
         mResultSendOrders = resultSendOrders;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(cItems != null){
+        if (cItems != null) {
             stopManagingCursor(cItems);
         }
     }
@@ -124,6 +155,16 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
+    }
+    
+    private Runnable openDrawerRunnable() {
+        return new Runnable() {
+
+            @Override
+            public void run() {
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        };
     }
 
     protected void createNavigationMenuBar() {
@@ -145,17 +186,21 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                 new DeleteDataShoppingCartTask(this).execute();
                 break;
             case R.id.delivery_btn:
-                org.holoeverywhere.app.AlertDialog.Builder builder = new org.holoeverywhere.app.AlertDialog.Builder(this);
+                org.holoeverywhere.app.AlertDialog.Builder builder = new org.holoeverywhere.app.AlertDialog.Builder(
+                        this);
                 builder.setTitle(getString(R.string.delivery_dialog_title));
-//                builder.setItems(proxyManager.getCountries(), new DialogInterface.OnClickListener() {
+                // builder.setItems(proxyManager.getCountries(), new
+                // DialogInterface.OnClickListener() {
                 builder.setItems(countries, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String country = countries[which];
                         putCountryInPref(country);
-                        TextView shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
+                        TextView shoppingCartFooterTextView = (TextView) footerView
+                                .findViewById(R.id.footer_view_label);
                         int shoppingCartPrice = proxyManager.getShoppingCartPrice();
-                        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
+                        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country,
+                                shoppingCartPrice));
                         organizeCreateOrderButton(shoppingCartPrice);
                         Button button = (Button) footerView.findViewById(R.id.delivery_btn);
                         button.setText(country);
@@ -175,7 +220,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     }
 
     private View organizeFooterView() {
-        footerView = getLayoutInflater().inflate(R.layout.shopping_cart_list_footer_layout, null, false);
+        footerView = getLayoutInflater().inflate(R.layout.shopping_cart_list_footer_layout, null,
+                false);
         Button button = (Button) footerView.findViewById(R.id.delete_all_btn);
         button.setOnClickListener(this);
         button = (Button) footerView.findViewById(R.id.delivery_btn);
@@ -193,10 +239,12 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         SharedPreferences.Editor editor = sharedPreference.edit();
         editor.putString(COUNTRY_LABEL, country);
         editor.commit();
-        dlgMakeOrder.setRegion(country);
+        if (dlgMakeOrder != null) {
+            dlgMakeOrder.setRegion(country);
+        }
     }
 
-    private String getCountry(){
+    private String getCountry() {
         String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, null);
         if (country == null) {
             country = proxyManager.getDeliveryFirstCountry();
@@ -205,7 +253,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         return country;
     }
 
-    private class DeleteDataShoppingCartTask extends AsyncTask<Void, Void, Void>{
+    private class DeleteDataShoppingCartTask extends AsyncTask<Void, Void, Void> {
 
         private Dialog mDialog;
         private Context mContext;
@@ -235,9 +283,9 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             if (mListCategoriesAdapter.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);
                 findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
-                ((ISimpleApp)getApplication()).setDisactiveCartState();
+                ((ISimpleApp) getApplication()).setDisactiveCartState();
             } else {
-                ((ISimpleApp)getApplication()).setActiveCartState();
+                ((ISimpleApp) getApplication()).setActiveCartState();
             }
             mDialog.dismiss();
         }
@@ -264,7 +312,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         @Override
         protected Cursor doInBackground(Void... params) {
             countries = proxyManager.getCountries();
-            mMinPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
+            mMinPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(
+                    COUNTRY_LABEL, ""));
             mCountry = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
             return proxyManager.getShoppingCartItems();
         }
@@ -273,20 +322,23 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         protected void onPostExecute(Cursor cursor) {
             cItems = cursor;
             startManagingCursor(cItems);
-//            String country = getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
+            // String country =
+            // getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, "");
             mListCategoriesAdapter.swapCursor(cItems);
             int shoppingCartPrice = proxyManager.getShoppingCartPrice();
-//            shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country, shoppingCartPrice));
-            shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(mCountry, shoppingCartPrice));
+            // shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country,
+            // shoppingCartPrice));
+            shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(mCountry,
+                    shoppingCartPrice));
             shoppingCartPriceTextView.setText(String.format(PRICE_LABEL_FORMAT, shoppingCartPrice));
             mPriceSlider.setValue(shoppingCartPrice);
             organizeCreateOrderButton(shoppingCartPrice);
             if (cursor != null && cursor.getCount() == 0) {
                 findViewById(R.id.content_layout).setVisibility(View.GONE);
                 findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
-                ((ISimpleApp)getApplication()).setDisactiveCartState();
+                ((ISimpleApp) getApplication()).setDisactiveCartState();
             } else {
-                ((ISimpleApp)getApplication()).setActiveCartState();
+                ((ISimpleApp) getApplication()).setActiveCartState();
             }
             mDialog.dismiss();
         }
@@ -296,7 +348,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private String mCountry;
 
     public void organizeCreateOrderButton(int shoppingCartPrice) {
-        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
+        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(
+                COUNTRY_LABEL, ""));
         Button button = (Button) findViewById(R.id.create_order_btn);
         Button btnStore = (Button) footerView.findViewById(R.id.btn_where_store);
         if (shoppingCartPrice >= minPrice) {
@@ -310,28 +363,31 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         }
     }
 
-    public void updateList(){
+    public void updateList() {
         stopManagingCursor(cItems);
         new SelectDataShoppingCartTask(this).execute();
     }
 
     public void onMakeOrder(View v) {
         int count = getListView().getCount();
-        if( count > 0){
+        if (count > 0) {
             String cs = Context.CONNECTIVITY_SERVICE;
-            ConnectivityManager cm = (ConnectivityManager)this.getSystemService(cs);
+            ConnectivityManager cm = (ConnectivityManager) this.getSystemService(cs);
             NetworkInfo nInfoMobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
             NetworkInfo nIfoWIFI = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            boolean mobile = nInfoMobile != null ? nInfoMobile.getState() == NetworkInfo.State.CONNECTED : false;
-            boolean wifi = nIfoWIFI != null ?  nIfoWIFI.getState() == NetworkInfo.State.CONNECTED : false;
-            if( mobile || wifi) {
+            boolean mobile = nInfoMobile != null ? nInfoMobile.getState() == NetworkInfo.State.CONNECTED
+                    : false;
+            boolean wifi = nIfoWIFI != null ? nIfoWIFI.getState() == NetworkInfo.State.CONNECTED
+                    : false;
+            if (mobile || wifi) {
                 dlgMakeOrder.setArguments(new Bundle());
                 dlgMakeOrder.show(getSupportFragmentManager(), "SELECT_TYPE");
             } else {
                 Toast.makeText(this, getString(R.string.message_offline), Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(this, getString(R.string.message_empty_orders), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.message_empty_orders), Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -342,10 +398,11 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         stopManagingCursor(cItems);
     }
 
-    public void sendOrderSetFlag(boolean flag){
+    public void sendOrderSetFlag(boolean flag) {
         mSendOrders = flag;
     }
-    public boolean isSaveInstancceState(){
-        return  mIsSaveInstancceState;
+
+    public boolean isSaveInstancceState() {
+        return mIsSaveInstancceState;
     }
 }

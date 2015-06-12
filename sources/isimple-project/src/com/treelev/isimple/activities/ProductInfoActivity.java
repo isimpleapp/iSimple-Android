@@ -220,6 +220,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		        mProduct.getProductType() == ProductType.JUICE ||
 		        mProduct.getProductType() == ProductType.SYRUP){
 			btAddToShoppingCart.setTextColor(getResources().getColor(R.color.filter_blue));
+			btAddToShoppingCart.setCompoundDrawablesWithIntrinsicBounds(R.drawable.add_to_shopping_cart_blue, 0, 0, 0);
 		}
 		if (price != null && price != 0.0f) {
 			btWhereToBuy.setOnClickListener(whereToBuyBtnClick);

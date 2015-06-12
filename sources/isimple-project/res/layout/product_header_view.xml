@@ -292,7 +292,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@drawable/product_info_shopping_cart_butt_selector"
-                                android:drawableLeft="@drawable/shopping_cart_add_ico"
+                                android:drawableLeft="@drawable/add_to_shopping_cart"
                                 android:textColor="@color/product_price_color"
                                 android:textStyle="bold" />
 

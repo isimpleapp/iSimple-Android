@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
@@ -202,6 +203,9 @@ public class BaseActivity extends Activity implements ActionBar.OnNavigationList
             case 6:
                 // showCatalogUpdateLink();
                 SyncServcie.startSync(this, this);
+            case 7:
+                intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + Constants.ISIMPLE_PHONE));
             	break;
             default:
                 category = null;

@@ -8,6 +8,7 @@
         <item>Штрих-код</item>
         <item>О программе</item>
         <item>Обновить</item>
+        <item>Позвонить</item>
 <!--         <item>Catalog Update Url</item> -->
     </string-array>
     <array name="main_menu_icons">
@@ -18,6 +19,7 @@
         <item>@drawable/menu_ico_scan</item>
         <item>@drawable/icon_about</item>
         <item>@drawable/ic_popup_sync_1</item>
+        <item>@android:drawable/ic_menu_call</item>
 <!--         <item>@drawable/icon_about</item> -->
     </array>
 </resources>

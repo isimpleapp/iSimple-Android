@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import android.text.TextUtils;
+
 import com.treelev.isimple.utils.LogUtils;
 
 public class Offer {
@@ -126,16 +128,18 @@ public class Offer {
     public List<Long> getItemsList() {
         return itemsList;
     }
-    
+
     public void setItemsList(List<Long> itemsList) {
         this.itemsList = itemsList;
     }
 
     public void setItemsList(String itemsList) {
         this.itemsList = new ArrayList<Long>();
-        List<String> itemsStringsList = Arrays.asList(itemsList.split(","));
-        for (String itemId : itemsStringsList) {
-            this.itemsList.add(Long.valueOf(itemId));
+        if (!TextUtils.isEmpty(itemsList)) {
+            List<String> itemsStringsList = Arrays.asList(itemsList.split(","));
+            for (String itemId : itemsStringsList) {
+                this.itemsList.add(Long.valueOf(itemId));
+            }
         }
     }
 

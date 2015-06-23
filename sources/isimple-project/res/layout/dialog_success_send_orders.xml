@@ -11,7 +11,6 @@
             android:id="@+id/message_success"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/message_success_send_orders"
             android:textSize="16dip"
             android:gravity="center"
             android:layout_centerInParent="true"

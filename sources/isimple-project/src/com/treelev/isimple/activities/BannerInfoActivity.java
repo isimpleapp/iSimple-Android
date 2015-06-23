@@ -76,7 +76,7 @@ public class BannerInfoActivity extends BaseListActivity
         } else {
             bannerDescView.setVisibility(View.GONE);
         }
-        getListView().addHeaderView(headerView);
+        getListView().addHeaderView(headerView, null, false);
         initListView();
 
         getSupportLoaderManager().restartLoader(LOAD_BANNER_ITEMS, null, this);
@@ -174,13 +174,17 @@ public class BannerInfoActivity extends BaseListActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        mDialog = ProgressDialog.show(this, this.getString(R.string.dialog_title),
-                this.getString(R.string.dialog_select_data_message), false, false);
-        switch (i) {
-            case LOAD_BANNER_ITEMS:
-                return new LoadBannerItems(this, offer.getItemsList());
-            default:
-                return null;
+        if (!offer.getItemsList().isEmpty()) {
+            mDialog = ProgressDialog.show(this, this.getString(R.string.dialog_title),
+                    this.getString(R.string.dialog_select_data_message), false, false);
+            switch (i) {
+                case LOAD_BANNER_ITEMS:
+                    return new LoadBannerItems(this, offer.getItemsList());
+                default:
+                    return null;
+            }
+        } else {
+            return null;
         }
     }
 

@@ -100,6 +100,40 @@
                         android:drawSelectorOnTop="false"
                         android:orientation="horizontal"
                         android:paddingLeft="10dp" />
+                    
+                    <LinearLayout
+                        android:id="@+id/category_porto_heres_butt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClickCategoryButt"
+                        android:orientation="horizontal" >
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_porto_heres_single_line" />
+
+                        <org.holoeverywhere.widget.TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
+
+                    <org.lucasr.twowayview.TwoWayView
+                        android:id="@+id/catalog_porto_heres_two_way_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="135dp"
+                        android:background="@android:color/white"
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
 
                     <LinearLayout
                         android:id="@+id/category_spirits_butt"
@@ -128,40 +162,6 @@
 
                     <org.lucasr.twowayview.TwoWayView
                         android:id="@+id/catalog_spirits_two_way_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="135dp"
-                        android:background="@android:color/white"
-                        android:drawSelectorOnTop="false"
-                        android:orientation="horizontal"
-                        android:paddingLeft="10dp" />
-
-                    <LinearLayout
-                        android:id="@+id/category_porto_heres_butt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:onClick="onClickCategoryButt"
-                        android:orientation="horizontal" >
-
-                        <org.holoeverywhere.widget.TextView
-                            style="@style/CatalogSection"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/category_name_porto_heres_single_line" />
-
-                        <org.holoeverywhere.widget.TextView
-                            style="@style/CatalogSection"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="@string/category_see_all" />
-                    </LinearLayout>
-
-                    <org.lucasr.twowayview.TwoWayView
-                        android:id="@+id/catalog_porto_heres_two_way_view"
                         android:layout_width="match_parent"
                         android:layout_height="135dp"
                         android:background="@android:color/white"

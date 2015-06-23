@@ -40,7 +40,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private View footerView;
     private String[] countries;
     public final static String COUNTRY_LABEL = "country";
-    private boolean mResultSendOrders;
+    private int mResultCodeSendOrders;
     private boolean mIsSaveInstancceState;
     private boolean mSendOrders;
     private Cursor cItems;
@@ -127,7 +127,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
 
                 OrderDialogFragment dialog = new OrderDialogFragment(
                         OrderDialogFragment.SUCCESS_TYPE, getCountry());
-                dialog.setSuccess(mResultSendOrders);
+                dialog.setResultCode(mResultCodeSendOrders);
                 dialog.show(getSupportFragmentManager(), "SUCCESS_TYPE");
                 updateList();
                 mSendOrders = false;
@@ -139,8 +139,8 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         }
     }
 
-    public void setResultSendOrders(boolean resultSendOrders) {
-        mResultSendOrders = resultSendOrders;
+    public void setResultSendOrders(int resultCodeSendOrders) {
+        mResultCodeSendOrders = resultCodeSendOrders;
     }
 
     @Override

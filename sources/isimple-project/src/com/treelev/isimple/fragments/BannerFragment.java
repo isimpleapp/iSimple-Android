@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.BannerInfoActivity;
 import com.treelev.isimple.activities.CatalogListActivityNew;
-import com.treelev.isimple.utils.LogUtils;
 
 public class BannerFragment extends Fragment {
 
@@ -27,7 +25,6 @@ public class BannerFragment extends Fragment {
     public static final String BANNER_FRAGMENT_ARGUMENT_OFFER_ID = "BANNER_FRAGMENT_ARGUMENT_OFFER_ID";
 
     private ImageLoaderProvider imageLoaderProvider;
-    private GestureDetector gestureDetector;
     
     private CatalogListActivityNew activity;
 
@@ -112,12 +109,9 @@ public class BannerFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        LogUtils.i("",
-                                "bannerPager ACTION_DOWN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         activity.removeHandlerCallbacks();
                         break;
                     case MotionEvent.ACTION_UP:
-                        LogUtils.i("", "ACTION_UP");
                         activity.restoreHandlerCallbacks();
                         break;
                 }

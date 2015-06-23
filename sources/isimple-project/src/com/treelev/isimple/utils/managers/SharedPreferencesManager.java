@@ -27,6 +27,9 @@ public class SharedPreferencesManager {
     private static final String LAST_DELIVERY_UPDATE_TIMESTAMP = "last_delivery_update_timestamp";
     private static final String LAST_OFFERS_SYNC_TIMESTAMP = "last_offers_sync_timestamp";
     private static final String LAST_KNOWN_OFFERS_URL = "LAST_KNOWN_OFFERS_URL";
+    private static final String CONTACT_DATA_NAME = "CONTACT_DATA_NAME";
+    private static final String CONTACT_DATA_EMAIL = "CONTACT_DATA_EMAIL";
+    private static final String CONTACT_DATA_PHONE = "CONTACT_DATA_PHONE";
 
     private static final String FORMAT_DATE = "dd.MM.yyyy";
     
@@ -196,6 +199,36 @@ public class SharedPreferencesManager {
         Editor editor = getEditor();
         editor.putString(LAST_KNOWN_OFFERS_URL, url);
         editor.commit();
+    }
+    
+    public static void setContactDataName(Context context, String name){
+        Editor editor = getEditor();
+        editor.putString(CONTACT_DATA_NAME, name);
+        editor.commit();
+    }
+    
+    public static String getContactDataName(Context context){
+        return getSharedPreferences(context).getString(CONTACT_DATA_NAME, null);
+    }
+    
+    public static void setContactDataEmail(Context context, String email){
+        Editor editor = getEditor();
+        editor.putString(CONTACT_DATA_EMAIL, email);
+        editor.commit();
+    }
+    
+    public static String getContactDataEmail(Context context){
+        return getSharedPreferences(context).getString(CONTACT_DATA_EMAIL, null);
+    }
+    
+    public static void setContactDataPhone(Context context, String phone){
+        Editor editor = getEditor();
+        editor.putString(CONTACT_DATA_PHONE, phone);
+        editor.commit();
+    }
+    
+    public static String getContactDataPhone(Context context){
+        return getSharedPreferences(context).getString(CONTACT_DATA_PHONE, null);
     }
 
 }

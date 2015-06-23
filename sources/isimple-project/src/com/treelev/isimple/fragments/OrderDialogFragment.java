@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -40,8 +42,12 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.analytics.Analytics;
@@ -57,7 +63,6 @@ public class OrderDialogFragment extends DialogFragment
     public static final int FILL_CONTACT_DATA_TYPE = 1;
     public static final int SUCCESS_TYPE = 2;
 
-    private OrderDialogFragment mDialogFragment;
     private int mType;
     private String region;
     private String mContactInfo;
@@ -66,7 +71,7 @@ public class OrderDialogFragment extends DialogFragment
     private EditText mPhoneField;
     private Button mBtnPositive;
     private Dialog mDialog;
-    private boolean mSuccess;
+    private int mResultCode;
 
     private boolean isEmailValid;
     private boolean isPhoneValid;
@@ -76,10 +81,10 @@ public class OrderDialogFragment extends DialogFragment
         this.region = region;
     }
 
-    public void setSuccess(boolean success) {
-        mSuccess = success;
+    public void setResultCode(int resultCode) {
+        mResultCode = resultCode;
     }
-    
+
     public void setRegion(String region) {
         this.region = region;
     }
@@ -95,87 +100,108 @@ public class OrderDialogFragment extends DialogFragment
             mBtnPositive.setEnabled(false);
         }
 
-        mNameField = (EditText) mDialog.findViewById(R.id.contact_info_name);
-        mNameField.addTextChangedListener(new TextWatcher() {
+        switch (mType) {
+            case FILL_CONTACT_DATA_TYPE:
+                mNameField = (EditText) mDialog.findViewById(R.id.contact_info_name);
+                mNameField.addTextChangedListener(new TextWatcher() {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateFields();
-            }
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        validateFields();
+                    }
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+                    }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                    @Override
+                    public void afterTextChanged(Editable s) {
 
-            }
-        });
-
-        mEmailField = (EditText) mDialog.findViewById(R.id.contact_info_email);
-        mEmailField.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches();
-                validateFields();
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        mPhoneField = (EditText) mDialog.findViewById(R.id.contact_info_phone);
-        mPhoneField.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!mFormatting) {
-                    mPositionCursor = start;
-                    mBefore = before;
+                    }
+                });
+                String name = SharedPreferencesManager.getContactDataName(getActivity());
+                if (name != null) {
+                    mNameField.setText(name);
                 }
-                isPhoneValid = s.length() == 16;
-                validateFields();
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mEmailField = (EditText) mDialog.findViewById(R.id.contact_info_email);
+                mEmailField.addTextChangedListener(new TextWatcher() {
 
-            }
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        isEmailValid = android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches();
+                        validateFields();
+                    }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!mFormatting) {
-                    mFormatting = true;
-                    mContactInfo = formatPhone(s.toString());
-                    mPhoneField.setText(mContactInfo);
-                    mPhoneField.setSelection(getFormattedCursorPosition());
-                    mFormatting = false;
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+                String email = SharedPreferencesManager.getContactDataEmail(getActivity());
+                if (email != null) {
+                    mEmailField.setText(email);
                 }
-            }
-        });
-        String start = "+7 ";
-        mPhoneField.setText(start);
-        mPhoneField.setSelection(start.length());
 
-        TextView tvSuccess = (TextView) mDialog.findViewById(R.id.message_success);
-        if (tvSuccess != null) {
-            if (mSuccess) {
-                tvSuccess.setText(Html.fromHtml(getString(R.string.message_success_send_orders)));
-            } else {
-                tvSuccess.setText(Html
-                        .fromHtml(getString(R.string.message_not_success_send_orders)));
-            }
+                mPhoneField = (EditText) mDialog.findViewById(R.id.contact_info_phone);
+                mPhoneField.addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (!mFormatting) {
+                            mPositionCursor = start;
+                            mBefore = before;
+                        }
+                        isPhoneValid = s.length() == 16;
+                        validateFields();
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (!mFormatting) {
+                            mFormatting = true;
+                            mContactInfo = formatPhone(s.toString());
+                            mPhoneField.setText(mContactInfo);
+                            mPhoneField.setSelection(getFormattedCursorPosition());
+                            mFormatting = false;
+                        }
+                    }
+                });
+                String phone = SharedPreferencesManager.getContactDataPhone(getActivity());
+                if (phone != null) {
+                    mPhoneField.setText(phone);
+                } else {
+                    String start = "+7 ";
+                    mPhoneField.setText(start);
+                    mPhoneField.setSelection(start.length());
+                }
+                break;
+            case SUCCESS_TYPE:
+                TextView tvSuccess = (TextView) mDialog.findViewById(R.id.message_success);
+                if (tvSuccess != null) {
+                    if (mResultCode > 0) {
+                        tvSuccess.setText(Html
+                                .fromHtml(String.format(getString(R.string.message_success_send_orders), mResultCode)));
+                    } else {
+                        tvSuccess.setText(Html
+                                .fromHtml(getString(R.string.message_not_success_send_orders)));
+                    }
+                }
+                break;
+            default:
         }
+
     }
 
     @Override
@@ -187,7 +213,14 @@ public class OrderDialogFragment extends DialogFragment
     public void onClick(DialogInterface dialogInterface, int i) {
         switch (i) {
             case Dialog.BUTTON_POSITIVE:
-                new SendOrders(getActivity(), mNameField.getText().toString(), mEmailField.getText().toString(), mPhoneField.getText().toString()).execute();
+                SharedPreferencesManager.setContactDataName(getActivity(), mNameField.getText()
+                        .toString());
+                SharedPreferencesManager.setContactDataEmail(getActivity(), mEmailField.getText()
+                        .toString());
+                SharedPreferencesManager.setContactDataPhone(getActivity(), mPhoneField.getText()
+                        .toString());
+                new SendOrders(getActivity(), mNameField.getText().toString(), mEmailField
+                        .getText().toString(), mPhoneField.getText().toString()).execute();
                 break;
         }
     }
@@ -402,7 +435,7 @@ public class OrderDialogFragment extends DialogFragment
                 || c == 'N';
     }
 
-    private class SendOrders extends AsyncTask<Void, Void, Boolean> {
+    private class SendOrders extends AsyncTask<Void, Void, Integer> {
 
         private Context mContext;
         private Dialog mDialog;
@@ -425,20 +458,20 @@ public class OrderDialogFragment extends DialogFragment
             hideKeyBoard();
             mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
                     mContext.getString(R.string.registration_orders), false, false);
-            ((ShoppingCartActivity) mContext).setResultSendOrders(true);
+            ((ShoppingCartActivity) mContext).setResultSendOrders(0);
         }
 
         @Override
-        protected Boolean doInBackground(Void... voids) {
-            Boolean result = postData();
-            if (result) {
+        protected Integer doInBackground(Void... voids) {
+            int resultCode = postData();
+            if (resultCode > 0) {
                 getProxyManager().deleteAllShoppingCartData();
             }
-            return result;
+            return resultCode;
         }
 
         @Override
-        protected void onPostExecute(final Boolean result) {
+        protected void onPostExecute(final Integer result) {
             super.onPostExecute(result);
             mDialog.dismiss();
             if (((ShoppingCartActivity) mContext).isSaveInstancceState()) {
@@ -446,7 +479,7 @@ public class OrderDialogFragment extends DialogFragment
                 ((ShoppingCartActivity) mContext).sendOrderSetFlag(true);
             } else {
                 OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE, null);
-                dialog.setSuccess(result);
+                dialog.setResultCode(result);
                 dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
                 ((ShoppingCartActivity) mContext).setResultSendOrders(result);
                 ((ShoppingCartActivity) mContext).updateList();
@@ -461,10 +494,9 @@ public class OrderDialogFragment extends DialogFragment
         }
 
         @SuppressWarnings("deprecation")
-        private boolean postData() {
-            boolean result = false;
+        private int postData() {
             HttpPost httppost = new HttpPost(mContext.getString(R.string.url_send_order).trim());
-
+            int resultCode = 0;
             try {
                 // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
@@ -477,28 +509,30 @@ public class OrderDialogFragment extends DialogFragment
                 HttpClient httpclient = Utils.newHttpClient();
 
                 HttpResponse response = httpclient.execute(httppost);
-
-                if (getResponseAnswer(response.getEntity()) > 0) {
-                    result = true;
-                }
-
+                resultCode = getResponseAnswer(response.getEntity());
             } catch (ClientProtocolException e) {
             } catch (IOException e) {
-            } finally {
-                return result;
             }
+
+            return resultCode;
 
         }
 
         private int getResponseAnswer(HttpEntity entity) {
             int result = 0;
+            JsonObject jobj;
             try {
-                String answer = parserResponseAnswer(entity.getContent());
-                result = Integer.valueOf(answer);
-            } catch (Exception e) {
-            } finally {
-                return result;
+                jobj = new Gson().fromJson(parserResponseAnswer(entity.getContent()),
+                        JsonObject.class);
+                result = jobj.get("orderId").getAsInt();
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            return result;
         }
 
         private String parserResponseAnswer(InputStream inputStream) throws IOException {
@@ -552,31 +586,39 @@ public class OrderDialogFragment extends DialogFragment
             PackageInfo pInfo;
             String version = "";
             try {
-                pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+                pInfo = getActivity().getPackageManager().getPackageInfo(
+                        getActivity().getPackageName(), 0);
                 version = pInfo.versionName;
             } catch (NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            String delivery = "";
+            try {
+                delivery = URLEncoder.encode("самовывоз", "UTF-8");
+                region = URLEncoder.encode(region, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
             StringBuffer sbListOrder = new StringBuffer();
             sbListOrder.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
             sbListOrder.append(String.format(
                     "<Order contactName = \"%s\" "
-                    + "contactMail = \"%s\" "
-                    + "contactPhone = \"%s\" "
-                    + "delivery = \"%s\" "
-                    + "region = \"%s\" "
-                    + "version = \"%s\" "
-                    + "date = \"%s\" "
-                    + "device_token = \"%s\" >",
-                    contacInfoName, 
-                    contacInfoEmail, 
-                    contacInfoPhone, 
-                    "самовывоз",
-                    region, 
-                    version, 
-                    SharedPreferencesManager.getDatePriceUpdate(getActivity()), 
+                            + "contactMail = \"%s\" "
+                            + "contactPhone = \"%s\" "
+                            + "delivery = \"%s\" "
+                            + "region = \"%s\" "
+                            + "version = \"%s\" "
+                            + "date = \"%s\" "
+                            + "device_token = \"%s\" >",
+                    contacInfoName,
+                    contacInfoEmail,
+                    contacInfoPhone,
+                    delivery,
+                    region,
+                    version,
+                    SharedPreferencesManager.getDatePriceUpdate(getActivity()),
                     ""// TODO add device gcm token
-                    ));
+            ));
             List<Order> orders = getProxyManager().getOrders();
             for (Order orderItem : orders) {
                 sbListOrder
@@ -586,7 +628,7 @@ public class OrderDialogFragment extends DialogFragment
                                         orderItem.getPrice()));
             }
             sbListOrder.append("</Order>");
-            LogUtils.i("", "sbListOrder = " + sbListOrder);
+            LogUtils.i("", "sbListOrder.toString() = " + sbListOrder.toString());
             return sbListOrder.toString();
         }
 

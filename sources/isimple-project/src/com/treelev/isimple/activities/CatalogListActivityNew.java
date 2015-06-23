@@ -3,7 +3,6 @@ package com.treelev.isimple.activities;
 
 import java.util.List;
 
-import org.holoeverywhere.widget.Toast;
 import org.lucasr.twowayview.TwoWayView;
 
 import android.app.SearchManager;
@@ -23,8 +22,8 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 
 import com.actionbarsherlock.view.Menu;

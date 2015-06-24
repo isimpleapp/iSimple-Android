@@ -13,6 +13,7 @@ import android.content.Context;
 import android.location.Location;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 
 import com.crashlytics.android.Crashlytics;

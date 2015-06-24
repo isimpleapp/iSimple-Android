@@ -1,25 +1,18 @@
 
 package com.treelev.isimple.fragments;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
@@ -41,8 +34,8 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.google.gson.Gson;
@@ -53,9 +46,9 @@ import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.domain.db.Order;
 import com.treelev.isimple.utils.LogUtils;
-import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
+import com.treelev.isimple.utils.managers.WebServiceManager;
 
 public class OrderDialogFragment extends DialogFragment
         implements DialogInterface.OnClickListener {
@@ -192,7 +185,9 @@ public class OrderDialogFragment extends DialogFragment
                 if (tvSuccess != null) {
                     if (mResultCode > 0) {
                         tvSuccess.setText(Html
-                                .fromHtml(String.format(getString(R.string.message_success_send_orders), mResultCode)));
+                                .fromHtml(String.format(
+                                        getString(R.string.message_success_send_orders),
+                                        mResultCode)));
                     } else {
                         tvSuccess.setText(Html
                                 .fromHtml(getString(R.string.message_not_success_send_orders)));
@@ -283,7 +278,7 @@ public class OrderDialogFragment extends DialogFragment
         return cursorPosition < length ? cursorPosition : length;
     }
 
-    private int mLengthOld = 3;
+    // private int mLengthOld = 3;
     private String mOldPhoneNumber = "+7 ";
 
     private String formatPhone(String s) {
@@ -429,11 +424,12 @@ public class OrderDialogFragment extends DialogFragment
     // return formatted.toString();
     // }
 
-    private boolean isSpecialCharacters(char c) {
-        return c == ' ' || c == '+' || c == '-' || c == '.' || c == '(' || c == ')' || c == '/'
-                || c == ',' || c == '*' || c == '#'
-                || c == 'N';
-    }
+    // private boolean isSpecialCharacters(char c) {
+    // return c == ' ' || c == '+' || c == '-' || c == '.' || c == '(' || c ==
+    // ')' || c == '/'
+    // || c == ',' || c == '*' || c == '#'
+    // || c == 'N';
+    // }
 
     private class SendOrders extends AsyncTask<Void, Void, Integer> {
 
@@ -492,64 +488,111 @@ public class OrderDialogFragment extends DialogFragment
             }
             return mProxyManager;
         }
+        
+        private String getQuery(List<Pair<String, String>> params) {
+            StringBuilder result = new StringBuilder();
+            boolean first = true;
 
-        @SuppressWarnings("deprecation")
-        private int postData() {
-            HttpPost httppost = new HttpPost(mContext.getString(R.string.url_send_order).trim());
-            int resultCode = 0;
-            try {
-                // Add your data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-                nameValuePairs.add(new BasicNameValuePair("Device-ID", getDeviceID()));
-                nameValuePairs.add(new BasicNameValuePair("MD5", getMD5()));
-                nameValuePairs.add(new BasicNameValuePair("Order-Info", getListOrder()));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                // Execute HTTP Post Request
+            for (Pair<String, String> pair : params) {
+                if (first) {
+                    first = false;
+                } else {
+                    result.append("&");
+                }
 
-                HttpClient httpclient = Utils.newHttpClient();
-
-                HttpResponse response = httpclient.execute(httppost);
-                resultCode = getResponseAnswer(response.getEntity());
-            } catch (ClientProtocolException e) {
-            } catch (IOException e) {
+                result.append(pair.first);
+                result.append("=");
+                result.append(pair.second);
             }
+
+            return result.toString();
+        }
+
+        private int postData() {
+            int resultCode = 0;
+
+            HttpURLConnection urlConnection = null;
+            URL downloadUrl;
+            try {
+                downloadUrl = new URL(mContext.getString(R.string.url_send_order).trim());
+                urlConnection = (HttpURLConnection) downloadUrl.openConnection();
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.setReadTimeout(5000);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+                urlConnection.addRequestProperty("Accept-Charset", "UTF-8");
+
+                List<Pair<String, String>> nameValuePairs = new ArrayList<Pair<String, String>>(3);
+                nameValuePairs.add(new Pair<String, String>("Device-ID", getDeviceID()));
+                nameValuePairs.add(new Pair<String, String>("MD5", getMD5()));
+                nameValuePairs.add(new Pair<String, String>("Order-Info", getListOrder()));
+                
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getQuery(nameValuePairs));
+                writer.flush();
+                writer.close();
+                os.close();
+
+                urlConnection.connect();
+
+                resultCode = getResponseAnswer(WebServiceManager.readStream(urlConnection
+                        .getInputStream()));
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                urlConnection.disconnect();
+            }
+
+            // HttpPost httppost = new
+            // HttpPost(mContext.getString(R.string.url_send_order).trim());
+            // int resultCode = 0;
+            // try {
+            // // Add your data
+            // List<NameValuePair> nameValuePairs = new
+            // ArrayList<NameValuePair>(3);
+            // nameValuePairs.add(new BasicNameValuePair("Device-ID",
+            // getDeviceID()));
+            // nameValuePairs.add(new BasicNameValuePair("MD5", getMD5()));
+            // nameValuePairs.add(new BasicNameValuePair("Order-Info",
+            // getListOrder()));
+            // httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            // // Execute HTTP Post Request
+            //
+            // HttpClient httpclient = Utils.newHttpClient();
+            //
+            // HttpResponse response = httpclient.execute(httppost);
+            // resultCode = getResponseAnswer(response.getEntity());
+            // } catch (ClientProtocolException e) {
+            // } catch (IOException e) {
+            // }
 
             return resultCode;
 
         }
 
-        private int getResponseAnswer(HttpEntity entity) {
+        private int getResponseAnswer(String response) {
+            LogUtils.i("", "getResponseAnswer response = " + response);
             int result = 0;
             JsonObject jobj;
             try {
-                jobj = new Gson().fromJson(parserResponseAnswer(entity.getContent()),
-                        JsonObject.class);
+                jobj = new Gson().fromJson(response, JsonObject.class);
                 result = jobj.get("orderId").getAsInt();
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();
             } catch (IllegalStateException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
             return result;
         }
 
-        private String parserResponseAnswer(InputStream inputStream) throws IOException {
-            InputStreamReader is = new InputStreamReader(inputStream);
-            BufferedReader br = new BufferedReader(is);
-            StringBuilder stringBuilder = new StringBuilder();
-            String read = br.readLine();
-            while (read != null) {
-                stringBuilder.append(read);
-                read = br.readLine();
-            }
-            return stringBuilder.toString();
-        }
-
         private String getDeviceID() {
             TelephonyManager telephonyManager = (TelephonyManager) mContext
-                    .getSystemService(mContext.TELEPHONY_SERVICE);
+                    .getSystemService(Context.TELEPHONY_SERVICE);
             String itemiID = telephonyManager.getDeviceId();
             if (itemiID == null) {
                 itemiID = Settings.Secure.getString(mContext.getApplicationContext()
@@ -592,13 +635,13 @@ public class OrderDialogFragment extends DialogFragment
             } catch (NameNotFoundException e) {
                 e.printStackTrace();
             }
-            String delivery = "";
-            try {
-                delivery = URLEncoder.encode("самовывоз", "UTF-8");
-                region = URLEncoder.encode(region, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            String delivery = "самовывоз";
+            // try {
+            // delivery = URLEncoder.encode(delivery, "UTF-8");
+            // region = URLEncoder.encode(region, "UTF-8");
+            // } catch (UnsupportedEncodingException e) {
+            // e.printStackTrace();
+            // }
             StringBuffer sbListOrder = new StringBuffer();
             sbListOrder.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
             sbListOrder.append(String.format(

@@ -5,36 +5,28 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.http.HttpStatus;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.os.Environment;
-import android.provider.DocumentsContract.Document;
-import android.sax.Element;
 import android.util.Log;
 
 import com.treelev.isimple.domain.LoadFileData;
-import com.treelev.isimple.enumerable.SyncPhase;
 import com.treelev.isimple.parser.UpdateFileParser;
 import com.treelev.isimple.utils.DownloadFileResponse;
 import com.treelev.isimple.utils.LogUtils;
-import com.treelev.isimple.utils.parse.SyncLogEntity.SyncPhaseLog;
 
 public class WebServiceManager {
 
@@ -42,17 +34,36 @@ public class WebServiceManager {
     public final static String NEW_CATALOG_ITEM_FILE_URL_FORMAT = "%s/Simple/new";
     private final static String REG_FILENAME_FORMAT = ".+/(.+.xmlz)";
     private final static String DEFAULT_FILENAME = "isimple_data.xmlz";
+    
+    public static File getTempFilesPath() {
+        String state = Environment.getExternalStorageState();
+        boolean externalStorageAvailable = false;
+        boolean externalStorageWriteable = false;
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            externalStorageAvailable = externalStorageWriteable = true;
+        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            externalStorageAvailable = true;
+            externalStorageWriteable = false;
+        } else {
+            externalStorageAvailable = externalStorageWriteable = false;
+        }
+        
+        if (externalStorageAvailable && externalStorageWriteable) {
+            return Environment.getExternalStorageDirectory();
+        } else {
+            return Environment.getDownloadCacheDirectory();
+        }
+    }
 
     public DownloadFileResponse downloadFile(String fileUrl) throws IOException {
         return downloadFile(fileUrl,
-                String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
+                String.format(FILE_URL_FORMAT, getTempFilesPath()));
     }
 
     public DownloadFileResponse downloadNewCatalogItemFile(String fileUrl) throws IOException {
         return downloadFile(
                 fileUrl,
-                String.format(NEW_CATALOG_ITEM_FILE_URL_FORMAT,
-                        Environment.getExternalStorageDirectory()));
+                String.format(NEW_CATALOG_ITEM_FILE_URL_FORMAT, getTempFilesPath()));
     }
 
     private DownloadFileResponse downloadFile(String fileUrl, String path) throws IOException {
@@ -93,8 +104,8 @@ public class WebServiceManager {
 
     public static File getDownloadDirectory() {
         Log.v("Test log getDownloadDirectory",
-                String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
-        return new File(String.format(FILE_URL_FORMAT, Environment.getExternalStorageDirectory()));
+                String.format(FILE_URL_FORMAT, getTempFilesPath()));
+        return new File(String.format(FILE_URL_FORMAT, getTempFilesPath()));
     }
 
     public Map<String, LoadFileData> getLoadFileDataMap(String requestString) throws Exception {
@@ -107,9 +118,10 @@ public class WebServiceManager {
         try {
             url = new URL(requestString);
             urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setConnectTimeout(30 * 1000);
             int responseCode = urlConnection.getResponseCode();
 
-            if (responseCode == HttpStatus.SC_OK) {
+            if (responseCode == 200) {
                 response = readStream(urlConnection.getInputStream());
                 Log.v("", "getLoadFileDataMap = " + response);
             } else {
@@ -137,7 +149,7 @@ public class WebServiceManager {
         return loadFileDataList;
     }
 
-    private String readStream(InputStream in) {
+    public static String readStream(InputStream in) {
         BufferedReader reader = null;
         StringBuffer response = new StringBuffer();
         try {

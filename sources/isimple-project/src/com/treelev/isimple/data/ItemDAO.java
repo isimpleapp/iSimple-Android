@@ -1827,6 +1827,10 @@ public class ItemDAO extends BaseDAO {
     }
 
     private String getWhereBySearchFirst(String query) {
+        if (query.matches("[0-9]+") && query.length() > 5 && query.length() < 7) {
+            return String.format("item.item_id LIKE '%1$s'", query);
+        }
+        
         String queryLowCase = getLowerCaseQuery(query);
         String queryUpFirstChar = getUpperCaseQuery(query);
         return String
@@ -1834,7 +1838,9 @@ public class ItemDAO extends BaseDAO {
                         +
                         "OR item.localized_name LIKE '%1$s' OR item.localized_name LIKE '%2$s' "
                         +
-                        "OR item.localized_manufacturer LIKE '%1$s' OR item.localized_manufacturer LIKE '%2$s'",
+                        "OR item.localized_manufacturer LIKE '%1$s' OR item.localized_manufacturer LIKE '%2$s' " 
+                        + 
+                        "OR item.item_id LIKE '%1$s'",
                         queryLowCase,
                         queryUpFirstChar);
     }

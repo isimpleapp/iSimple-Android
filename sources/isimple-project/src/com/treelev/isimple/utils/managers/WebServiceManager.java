@@ -23,6 +23,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import android.os.Environment;
 import android.util.Log;
 
+import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.domain.LoadFileData;
 import com.treelev.isimple.parser.UpdateFileParser;
 import com.treelev.isimple.utils.DownloadFileResponse;
@@ -51,7 +52,7 @@ public class WebServiceManager {
         if (externalStorageAvailable && externalStorageWriteable) {
             return Environment.getExternalStorageDirectory();
         } else {
-            return Environment.getDownloadCacheDirectory();
+            return ISimpleApp.getInstantce().getCacheDir();
         }
     }
 

@@ -14,9 +14,6 @@ import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.Toast;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +24,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -140,42 +136,6 @@ public class SplashActivity extends Activity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(syncStatusReceiver);
     }
 
-    public void showWarningNotification(Context context) {
-        NotificationManager notificationManager = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.icon,
-                context.getString(R.string.update_data_notify_warning_label),
-                System.currentTimeMillis());
-
-        Intent newIntent = new Intent(context, SplashActivity.class);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
-        notification.setLatestEventInfo(context, context.getString(R.string.app_name),
-                context.getString(R.string.update_data_notify_content_warning), pIntent);
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-        notificationManager.notify(1, notification);
-    }
-
-    public static void showUpdateNotification(Context context) {
-        NotificationManager notificationManager = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.icon,
-                context.getString(R.string.update_data_notify_label), System.currentTimeMillis());
-
-        Intent newIntent = new Intent(context, SplashActivity.class);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        newIntent.putExtra(SplashActivity.FROM_NOTIFICATION, true);
-
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
-        notification.setLatestEventInfo(context, context.getString(R.string.app_name),
-                context.getString(R.string.update_data_content_label), pIntent);
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-        notificationManager.notify(1, notification);
-    }
-
     @Override
     public void onBackPressed() {
     }
@@ -210,9 +170,6 @@ public class SplashActivity extends Activity {
     }
 
     private void startApplication(boolean sleep) {
-        if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            showWarningNotification(getApplicationContext());
-        }
         new StartApplication().execute(sleep);
     }
 

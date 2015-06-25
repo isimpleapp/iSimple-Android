@@ -70,7 +70,9 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
                 .cacheOnDisc(true)
                 .build();
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
+        sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi_listing.jpg"
+                : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi_listing.jpg"
+                : metrics.densityDpi == DisplayMetrics.DENSITY_XXHIGH ? "_product.jpg" : "_listing.jpg";
         proxyManager = ProxyManager.getInstanse();
         this.shoppingCartPriceTextView = shoppingCartPriceTextView;
         this.shoppingCartFooterTextView = shoppingCartFooterTextView;
@@ -173,7 +175,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
         String imageName = cursor.getString(cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME));
         if (!TextUtils.isEmpty(imageName)) {
             imageLoader.displayImage(
-                    String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_listing.jpg", imageName.replace('\\', '/'), sizePrefix),
+                    String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s", imageName.replace('\\', '/'), sizePrefix),
                     imageView, options);
         } else {
             imageView.setImageResource(R.drawable.bottle_list_image_default);

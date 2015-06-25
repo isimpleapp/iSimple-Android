@@ -94,8 +94,9 @@ public class CatalogItemAdapter extends BaseAdapter implements
                 .displayer(new FadeInBitmapDisplayer(300)).resetViewBeforeLoading(false).build();
 
         DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
-        sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi"
-                : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
+        sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi_listing.jpg"
+                : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi_listing.jpg"
+                : metrics.densityDpi == DisplayMetrics.DENSITY_XXHIGH ? "_product.jpg" : "_listing.jpg";
 
         if (mManager.getLoader(groupId) != null && !mManager.getLoader(groupId).isReset()) {
             LogUtils.i("", "getCursor restartLoader");
@@ -144,7 +145,7 @@ public class CatalogItemAdapter extends BaseAdapter implements
         cursor.moveToPosition(position);
         String imageName = cursor.getString(itemHiImageIndex);
         if (!TextUtils.isEmpty(imageName)) {
-            String url = String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_listing.jpg",
+            String url = String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s",
                     imageName.replace('\\', '/'), sizePrefix);
             LogUtils.i("", "imageLoader displayImage url = " + url);
             imageLoader.displayImage(url, viewHolder.imageView,

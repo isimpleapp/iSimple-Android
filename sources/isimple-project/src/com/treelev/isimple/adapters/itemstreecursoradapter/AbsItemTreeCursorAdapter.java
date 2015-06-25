@@ -119,8 +119,9 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
                   .displayer(new FadeInBitmapDisplayer(300)).resetViewBeforeLoading(false).build();
 
           DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
-          sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi"
-                  : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
+          sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi_listing.jpg"
+                  : metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi_listing.jpg" 
+                  : metrics.densityDpi == DisplayMetrics.DENSITY_XXHIGH ? "_product.jpg" : "_listing.jpg";
     }
 
     public void setFinishListener(FinishListener listener) {
@@ -240,7 +241,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
         String imageName = cursor.getString(itemHiImageIndex);
         if (!TextUtils.isEmpty(imageName)) {
             imageLoader.displayImage(
-                    String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_listing.jpg",
+                    String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s",
                             imageName.replace('\\', '/'), sizePrefix), viewHolder.imageView,
                     options);
         } else {

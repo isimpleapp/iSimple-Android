@@ -66,8 +66,9 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
 
         DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
         sizePrefix =
-                metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
-                metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH? "_xhdpi" : "";
+                metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi_listing.jpg" :
+                metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi_listing.jpg" : 
+                metrics.densityDpi == DisplayMetrics.DENSITY_XXHIGH ? "_product.jpg" : "_listing.jpg";
     }
 
     public List<String> getDeleteItemsId(){
@@ -168,7 +169,7 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         String imageName = cursor.getString(itemHiImageIndex);
         if (!TextUtils.isEmpty(imageName)) {
             imageLoader.displayImage(
-                    String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_listing.jpg", imageName.replace('\\', '/'), sizePrefix),
+                    String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s", imageName.replace('\\', '/'), sizePrefix),
                     imageView, options);
         }
         else {

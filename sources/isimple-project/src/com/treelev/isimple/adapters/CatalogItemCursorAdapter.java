@@ -2,6 +2,7 @@ package com.treelev.isimple.adapters;
 
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -19,6 +21,7 @@ import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
+
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.Button;
@@ -149,6 +152,10 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         TextView itemLocName = (TextView) view.findViewById(R.id.item_loc_name);
         TextView itemVolume = (TextView) view.findViewById(R.id.item_volume);
         TextView itemPrice = (TextView) view.findViewById(R.id.item_price);
+        ImageView discountTriangleImageView = (ImageView) view.findViewById(R.id.discount_triangle);
+        TextView itemOldPrice = (TextView) view.findViewById(R.id.item_old_price);
+        itemOldPrice.setPaintFlags(itemOldPrice.getPaintFlags()
+                | Paint.STRIKE_THRU_TEXT_FLAG);
         TextView itemProductType = (TextView) view.findViewById(R.id.product_category);
         LinearLayout colorItem = (LinearLayout) view.findViewById(R.id.color_item);
 
@@ -156,9 +163,10 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         int itemLocNameIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_LOCALIZED_NAME);
         int itemVolumeIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_VOLUME);
         int itemPriceIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_PRICE);
+        int itemDiscountIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DISCOUNT);
+        int itemOriginPriceIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_ORIGIN_PRICE);
         int itemQuantityIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_QUANTITY);
         int itemHiImageIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME);
-        int itemLowImageIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME);
         int itemCountIndex = cursor.getColumnIndex("count");
         int itemDrinkCategoryIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_CATEGORY);
         int itemYearIndex = cursor.getColumnIndex(DatabaseSqlHelper.ITEM_YEAR);
@@ -179,11 +187,29 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         itemLocName.setText(organizeLocItemNameLabel(cursor.getString(itemLocNameIndex)));
         String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(itemVolumeIndex)));
         String priceLabel = cursor.getString(itemPriceIndex);
+        String discountLabel = String.valueOf(cursor.getInt(itemDiscountIndex));
+        String originPriceLabel = String.valueOf(cursor.getInt(itemOriginPriceIndex));
         if(priceLabel != null ) {
             if( priceLabel.equalsIgnoreCase("0") || priceLabel.equalsIgnoreCase("999999")) {
                 priceLabel = "";
             } else {
                 priceLabel = Utils.organizePriceLabel(priceLabel);
+            }
+        }
+        if (discountLabel != null) {
+            if (discountLabel.equalsIgnoreCase("0") || discountLabel.equalsIgnoreCase("999999")) {
+                discountLabel = "";
+            }
+//            else {
+//                discountLabel = Utils.organizePriceLabel(discountLabel);
+//            }
+        }
+        if (originPriceLabel != null) {
+            if (originPriceLabel.equalsIgnoreCase("0")
+                    || originPriceLabel.equalsIgnoreCase("999999")) {
+                originPriceLabel = "";
+            } else {
+                originPriceLabel = Utils.organizePriceLabel(originPriceLabel);
             }
         }
         Float quantity = cursor.getFloat(itemQuantityIndex);
@@ -219,10 +245,21 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
                         priceLabel = String.format(formatPrice, priceLabel);
                     }
                 }
+                if (!TextUtils.isEmpty(originPriceLabel)) {
+                    String formatPrice = "от %s";
+                    originPriceLabel = String.format(formatPrice, originPriceLabel);
+                }
             }
         }
         itemVolume.setText(volumeLabel != null ? volumeLabel : "");
         itemPrice.setText(priceLabel != null ? priceLabel : "");
+        if (!TextUtils.isEmpty(discountLabel)) {
+            discountTriangleImageView.setVisibility(View.VISIBLE);
+            itemOldPrice.setText(originPriceLabel);
+        } else {
+            discountTriangleImageView.setVisibility(View.GONE);
+            itemOldPrice.setText("");
+        }
 //TODO:
         String strDrinkCategory = DrinkCategory.getDrinkCategory(cursor.getInt(itemDrinkCategoryIndex)).getDescription();
         if( mYearEnable ) {

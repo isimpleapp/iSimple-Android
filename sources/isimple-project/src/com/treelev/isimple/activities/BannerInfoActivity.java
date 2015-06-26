@@ -18,6 +18,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,7 +48,7 @@ public class BannerInfoActivity extends BaseListActivity
     private SwipeDismissListViewTouchListener mTouchListener;
     private ProxyManager mProxyManager;
     private ImageView bannerImageView;
-    private TextView bannerDescView;
+    private WebView bannerDescView;
     private ImageLoader bannersImageLoader;
     private DisplayImageOptions bannersImageLoaderOptions;
 
@@ -70,9 +71,9 @@ public class BannerInfoActivity extends BaseListActivity
         View headerView = inflater.inflate(R.layout.banner_list_header, getListView(), false);
         bannerImageView = (ImageView) headerView.findViewById(R.id.banner_image);
         bannerImageView.setLayoutParams(getBannerLayoutParams());
-        bannerDescView = (TextView) headerView.findViewById(R.id.offer_desc);
+        bannerDescView = (WebView) headerView.findViewById(R.id.offer_desc);
         if (!TextUtils.isEmpty(offer.getDescription())) {
-            bannerDescView.setText(Html.fromHtml(offer.getDescription()));
+            bannerDescView.loadDataWithBaseURL(null, offer.getDescription(), "text/html", "utf-8", null);
         } else {
             bannerDescView.setVisibility(View.GONE);
         }

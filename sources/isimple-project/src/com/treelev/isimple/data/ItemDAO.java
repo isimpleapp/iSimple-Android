@@ -418,7 +418,8 @@ public class ItemDAO extends BaseDAO {
     public Cursor getItemsByIds(List<Long> idsList) {
         String[] columns = new String[] {
                 DatabaseSqlHelper.ITEM_NAME, DatabaseSqlHelper.ITEM_LOCALIZED_NAME,
-                DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE,
+                DatabaseSqlHelper.ITEM_VOLUME, DatabaseSqlHelper.ITEM_PRICE, DatabaseSqlHelper.ITEM_ORIGIN_PRICE,
+                DatabaseSqlHelper.ITEM_DISCOUNT,
                 DatabaseSqlHelper.ITEM_QUANTITY, DatabaseSqlHelper.ITEM_BOTTLE_HI_RESOLUTION_IMAGE_FILENAME,
                 DatabaseSqlHelper.ITEM_BOTTLE_LOW_RESOLUTION_IMAGE_FILENAME,
                 DatabaseSqlHelper.ITEM_DRINK_CATEGORY,

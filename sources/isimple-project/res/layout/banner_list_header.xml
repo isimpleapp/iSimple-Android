@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="140dp" />
 
-    <TextView
+    <WebView
         android:id="@+id/offer_desc"
         android:padding="10dp"
         android:layout_width="match_parent"

@@ -115,8 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/item_price"
                 android:layout_alignLeft="@id/item_price"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <ImageView

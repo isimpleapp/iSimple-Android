@@ -14,7 +14,8 @@ import com.treelev.isimple.app.ISimpleApp;
 public class SharedPreferencesManager {
 
     private final static String PREFS = "iSimple_prefs";
-    private final static String FIRST_START = "first_start";
+    // TODO In order to update db from assets on app market update change FIRST_START value
+    private final static String FIRST_START = "first_start_3.0";
     private final static String FIRST_TIME_NEW_SYNC = "first_time_new_sync";
 
     private static final String DATE_UPDATE = "date_update";

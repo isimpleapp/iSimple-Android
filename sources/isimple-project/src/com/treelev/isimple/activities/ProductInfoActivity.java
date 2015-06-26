@@ -382,8 +382,8 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		addExpandableItem(items, itemsNames[2], product.getTasteQualities());
 		addExpandableItem(items, itemsNames[3], product.getInterestingFacts());
 		addExpandableItem(items, itemsNames[4], product.getProductionProcess());
-		addExpandableItem(items, itemsNames[5], product.getDrinkCategory().getDescription());
-		addExpandableItem(items, itemsNames[6], product.getVineyard());
+//		addExpandableItem(items, itemsNames[5], product.getDrinkCategory().getDescription());
+		addExpandableItem(items, itemsNames[5], product.getVineyard());
 		return items;
 	}
 

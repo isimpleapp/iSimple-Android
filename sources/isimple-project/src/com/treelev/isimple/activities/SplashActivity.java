@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -76,6 +77,8 @@ public class SplashActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
+        
+        AppsFlyerLib.sendTracking(getApplicationContext()); 
         
         // Check device for Play Services APK. If check succeeds, proceed with
         //  GCM registration.
@@ -197,7 +200,7 @@ public class SplashActivity extends Activity {
 
         @Override
         protected Object doInBackground(Object... params) {
-            importDBFromFile(false, params);
+            importDBFromFile(true, params);
             return null;
         }
 

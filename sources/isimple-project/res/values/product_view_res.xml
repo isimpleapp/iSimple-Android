@@ -6,7 +6,7 @@
         <item>Дегустационные \n характеристики</item>
         <item>Это интересно</item>
         <item>Способ производства</item>
-        <item>Категория</item>
+<!--         <item>Категория</item> -->
         <item>Виноградник</item>
     </string-array>
 </resources>

@@ -13,9 +13,9 @@ import android.content.Context;
 import android.location.Location;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Environment;
 import android.telephony.TelephonyManager;
 
+import com.appsflyer.AppsFlyerLib;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -50,10 +50,12 @@ public class ISimpleApp extends Application {
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
 
-        tracker = analytics.newTracker("UA-XXXXX-Y"); // Replace with actual tracker/property Id
+        tracker = analytics.newTracker("UA-46477195-1"); // Replace with actual tracker/property Id
         tracker.enableExceptionReporting(true);
         tracker.enableAdvertisingIdCollection(true);
         tracker.enableAutoActivityTracking(true);
+        
+        AppsFlyerLib.setAppsFlyerKey("pB8K2yFWS3RMGsfg5QuUfe"); 
         
     }
     

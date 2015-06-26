@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.treelev.isimple"
     android:installLocation="internalOnly"
-    android:versionCode="10"
-    android:versionName="2.8" >
+    android:versionCode="11"
+    android:versionName="3.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -53,6 +53,13 @@
                 <action android:name="com.treelev.isimple.android.c2dm.intent.RECEIVE" />
 
                 <category android:name="com.treelev.isimple.gcm" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 

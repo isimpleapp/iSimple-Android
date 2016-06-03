@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:id="@+id/button_item_filter"
+              android:layout_height="53dip"
+              android:textSize="20sp"
+              android:background="@drawable/list_navigation_selector"
+              android:textColor="@color/product_text_color1"
+              android:paddingLeft="10dip"
+              android:paddingRight="10dip"
+              android:paddingBottom="13dip"
+              android:paddingTop="10dip"
+              android:gravity="center_vertical"
+              android:ellipsize="end"
+              android:maxLines="1"/>
+

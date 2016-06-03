@@ -9,7 +9,6 @@ import android.widget.RadioGroup;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
-import com.treelev.isimple.fragments.MapFragment;
 import com.treelev.isimple.fragments.ShopChainFragment;
 import com.treelev.isimple.fragments.ShopListFragment;
 
@@ -81,7 +80,8 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
     }
 
     public void setShopMapFragmentArguments(List<AbsDistanceShop> shopList) {
-        ((MapFragment) shopMapFragment).setNearestShopList(shopList);
+        //ANALYTICS
+//        ((MapFragment) shopMapFragment).setNearestShopList(shopList);
     }
 
     private void organizeFragments() {
@@ -92,9 +92,10 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
     }
 
     private void initFragments(Bundle bundle) {
+        //ANALYTICS
         shopListFragment = new ShopListFragment();
         shopListFragment.setArguments(bundle);
-        shopMapFragment = new MapFragment();
+//        shopMapFragment = new MapFragment();
         shopChainFragment = new ShopChainFragment();
         shopChainFragment.setArguments(bundle);
     }

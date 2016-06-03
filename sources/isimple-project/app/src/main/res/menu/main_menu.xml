@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/menu_item_shops" android:icon="@drawable/menu_ico_shop"/>
+    <item android:title="@string/menu_item_favorites" android:icon="@drawable/menu_ico_fav"/>
+    <item android:title="@string/menu_item_chif" android:icon="@drawable/menu_ico_shopping_cart"/>
+    <item android:title="@string/menu_item_scan" android:icon="@drawable/menu_ico_scan"/>
+</menu>

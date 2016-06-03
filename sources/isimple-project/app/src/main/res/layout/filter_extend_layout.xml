@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:id="@+id/show_extend_filter"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@drawable/category_reset_butt_selector">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dip"
+                    android:text="@string/lbl_extend_filter"
+                    android:textColor="@color/product_text_color2"
+                    android:textSize="14sp"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="10dip"
+                    android:lines="1"
+                    android:ellipsize="end"/>
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dip"
+                    android:paddingLeft="5dip"
+                    android:src="@drawable/filter_label_arrow_down"/>
+
+            </LinearLayout>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="25dip"
+                android:id="@+id/separator_extend_filter"
+                android:background="@drawable/category_reset_butt_selector"
+                android:visibility="gone"/>
+
+
+        <LinearLayout
+            android:id="@+id/content_extend_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+        </LinearLayout>
+
+</LinearLayout>

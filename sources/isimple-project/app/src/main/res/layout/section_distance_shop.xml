@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<org.holoeverywhere.widget.TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/section_distance_shop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:background="@android:color/white"
+        android:textColor="@color/product_text_color"
+        android:paddingLeft="8dip"
+        android:paddingRight="8dip"
+        android:paddingTop="3dip"
+        android:paddingBottom="2dip">
+</org.holoeverywhere.widget.TextView>

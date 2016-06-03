@@ -4,7 +4,6 @@ import android.os.Bundle;
 import com.actionbarsherlock.view.MenuItem;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Shop;
-import com.treelev.isimple.fragments.MapFragment;
 
 public class RouteDisplayActivity extends BaseActivity {
 
@@ -43,13 +42,14 @@ public class RouteDisplayActivity extends BaseActivity {
     }
 
     private void organizeMapFragment(Shop shop) {
-        MapFragment mapFragment = new MapFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(ShopInfoActivity.SHOP, shop);
-        mapFragment.setArguments(bundle);
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, mapFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        //ANALYTICS
+//        MapFragment mapFragment = new MapFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(ShopInfoActivity.SHOP, shop);
+//        mapFragment.setArguments(bundle);
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.fragment_container, mapFragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="iSimpleStyle" parent="Holo.Theme.Light" >
+    <style name="iSimpleStyle" parent="Theme.Base.Light" >
         <item name="android:actionBarStyle">@style/CustomActionBar</item>
         <item name="android:actionDropDownStyle">@style/CustomSpinner</item>
         <item name="android:itemTextAppearance">@style/CustomMenuTextApearance</item>

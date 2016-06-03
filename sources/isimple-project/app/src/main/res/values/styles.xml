@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="iSimpleStyle" parent="Theme.AppCompat.Light" >
+        <item name="android:actionBarStyle">@style/CustomActionBar</item>
+        <item name="android:actionDropDownStyle">@style/CustomSpinner</item>
+        <item name="android:itemTextAppearance">@style/CustomMenuTextApearance</item>
+        <item name="android:actionBarItemBackground">@drawable/item_background</item>
+    </style>
+
+    <style name="CustomActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/category_butt_back</item>
+    </style>
+
+    <style name="CustomSpinner" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_selector</item>
+    </style>
+
+    <style name="CustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="CategoryButtStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/category_butt_text_color</item>
+        <item name="android:background">@drawable/category_butt_selector</item>
+        <item name="android:layout_margin">1dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="CategoryButtUndoStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/category_butt_text_color</item>
+        <item name="android:background">@drawable/undo_button_style_selector</item>
+        <item name="android:layout_margin">1dip</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="TitleBar">
+        <item name="android:background">@drawable/main_menu_background_selector</item>
+        <item name="android:dropDownVerticalOffset">0dip</item>
+        <item name="android:dropDownHorizontalOffset">0dip</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:clickable">true</item>
+    </style>
+    <style name="AlertDialogCustom">
+        <item name="android:textColor">#fc0fc0</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="OldPrice">
+        <item name="android:textColor">#C6C6C6</item>
+    </style>
+    <style name="CatalogSection">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/section_bg</item>
+        <item name="android:textColor">@color/section_textcolor</item>
+        <item name="android:paddingLeft">8dip</item>
+        <item name="android:paddingRight">8dip</item>
+        <item name="android:paddingTop">3dip</item>
+        <item name="android:paddingBottom">2dip</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+</resources>

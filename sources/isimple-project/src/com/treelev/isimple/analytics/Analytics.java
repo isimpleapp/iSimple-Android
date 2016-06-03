@@ -3,8 +3,6 @@ package com.treelev.isimple.analytics;
 
 import android.content.Context;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.treelev.isimple.app.ISimpleApp;
 
 /**
@@ -63,11 +61,12 @@ public class Analytics {
 
     // ****************************** Screens ******************************
 
+    //ANALYTICS
     static private void sendScreen(Context c, String screen) {
-        Tracker easyTracker = ISimpleApp.getAnalyticsTracker();
-        easyTracker.setScreenName(screen);
-        easyTracker.send(new HitBuilders.EventBuilder()
-                .build());
+//        Tracker easyTracker = ISimpleApp.getAnalyticsTracker();
+//        easyTracker.setScreenName(screen);
+//        easyTracker.send(new HitBuilders.EventBuilder()
+//                .build());
     }
 
     public static void screen_Catalog(Context c) {
@@ -151,7 +150,7 @@ public class Analytics {
     }
 
     // ****************************** Events ******************************
-
+    //ANALYTICS
     private static void sendEvent(
             Context c,
             String category,
@@ -159,15 +158,15 @@ public class Analytics {
             String label /* nullable */,
             Long value /* nullable */) {
 
-        Tracker easyTracker = ISimpleApp.getAnalyticsTracker();
-
-        easyTracker.send(
-                new HitBuilders.EventBuilder()
-                .setCategory(category)
-                .setAction(action)
-                .setLabel(label)
-                .setValue(value)
-                .build());
+//        Tracker easyTracker = ISimpleApp.getAnalyticsTracker();
+//
+//        easyTracker.send(
+//                new HitBuilders.EventBuilder()
+//                .setCategory(category)
+//                .setAction(action)
+//                .setLabel(label)
+//                .setValue(value)
+//                .build());
     }
 
     public static void event_FirstRun(Context c) {

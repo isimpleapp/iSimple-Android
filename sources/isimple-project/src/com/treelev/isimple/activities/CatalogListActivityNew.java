@@ -3,7 +3,6 @@ package com.treelev.isimple.activities;
 
 import java.util.List;
 
-import org.lucasr.twowayview.TwoWayView;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -57,12 +56,12 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
     public final static String FILTER_WHERE_CLAUSE = "filter_where_clauses";
     private SearchView mSearchView;
 
-    private TwoWayView wineTwoWayView;
-    private TwoWayView spiritsTwoWayView;
-    private TwoWayView sparklingTwoWayView;
-    private TwoWayView portoHeresTwoWayView;
-    private TwoWayView sakeTwoWayView;
-    private TwoWayView waterTwoWayView;
+//    private TwoWayView wineTwoWayView;
+//    private TwoWayView spiritsTwoWayView;
+//    private TwoWayView sparklingTwoWayView;
+//    private TwoWayView portoHeresTwoWayView;
+//    private TwoWayView sakeTwoWayView;
+//    private TwoWayView waterTwoWayView;
 
     private CatalogItemAdapter wineCatalogItemAdapter;
     private CatalogItemAdapter spiritsCatalogItemAdapter;
@@ -95,12 +94,12 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         
         scrollView = (ScrollView) findViewById(R.id.catalog_scroll_view);
         
-        wineTwoWayView = (TwoWayView) findViewById(R.id.catalog_wine_two_way_view);
-        spiritsTwoWayView = (TwoWayView) findViewById(R.id.catalog_spirits_two_way_view);
-        sparklingTwoWayView = (TwoWayView) findViewById(R.id.catalog_sparkling_two_way_view);
-        portoHeresTwoWayView = (TwoWayView) findViewById(R.id.catalog_porto_heres_two_way_view);
-        sakeTwoWayView = (TwoWayView) findViewById(R.id.catalog_sake_two_way_view);
-        waterTwoWayView = (TwoWayView) findViewById(R.id.catalog_water_two_way_view);
+//        wineTwoWayView = (TwoWayView) findViewById(R.id.catalog_wine_two_way_view);
+//        spiritsTwoWayView = (TwoWayView) findViewById(R.id.catalog_spirits_two_way_view);
+//        sparklingTwoWayView = (TwoWayView) findViewById(R.id.catalog_sparkling_two_way_view);
+//        portoHeresTwoWayView = (TwoWayView) findViewById(R.id.catalog_porto_heres_two_way_view);
+//        sakeTwoWayView = (TwoWayView) findViewById(R.id.catalog_sake_two_way_view);
+//        waterTwoWayView = (TwoWayView) findViewById(R.id.catalog_water_two_way_view);
 
         wineCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WINE.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
         spiritsCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SPIRITS.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
@@ -109,19 +108,19 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         sakeCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SAKE.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
         waterCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WATER.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
 
-        wineTwoWayView.setAdapter(wineCatalogItemAdapter);
-        spiritsTwoWayView.setAdapter(spiritsCatalogItemAdapter);
-        sparklingTwoWayView.setAdapter(sparklingCatalogItemAdapter);
-        portoHeresTwoWayView.setAdapter(portoHeresCatalogItemAdapter);
-        sakeTwoWayView.setAdapter(sakeCatalogItemAdapter);
-        waterTwoWayView.setAdapter(waterCatalogItemAdapter);
-
-        wineTwoWayView.setOnItemClickListener(this);
-        spiritsTwoWayView.setOnItemClickListener(this);
-        sparklingTwoWayView.setOnItemClickListener(this);
-        portoHeresTwoWayView.setOnItemClickListener(this);
-        sakeTwoWayView.setOnItemClickListener(this);
-        waterTwoWayView.setOnItemClickListener(this);
+//        wineTwoWayView.setAdapter(wineCatalogItemAdapter);
+//        spiritsTwoWayView.setAdapter(spiritsCatalogItemAdapter);
+//        sparklingTwoWayView.setAdapter(sparklingCatalogItemAdapter);
+//        portoHeresTwoWayView.setAdapter(portoHeresCatalogItemAdapter);
+//        sakeTwoWayView.setAdapter(sakeCatalogItemAdapter);
+//        waterTwoWayView.setAdapter(waterCatalogItemAdapter);
+//
+//        wineTwoWayView.setOnItemClickListener(this);
+//        spiritsTwoWayView.setOnItemClickListener(this);
+//        sparklingTwoWayView.setOnItemClickListener(this);
+//        portoHeresTwoWayView.setOnItemClickListener(this);
+//        sakeTwoWayView.setOnItemClickListener(this);
+//        waterTwoWayView.setOnItemClickListener(this);
 
         bannersImageLoader = Utils.getImageLoader(getApplicationContext());
         bannersImageLoaderOptions = new DisplayImageOptions.Builder()

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="expandable_groups_names">
+        <item>Стилистика</item>
+        <item>Гастрономия</item>
+        <item>Дегустационные \n характеристики</item>
+        <item>Это интересно</item>
+        <item>Способ производства</item>
+        <item>Виноградник</item>
+    </string-array>
+</resources>

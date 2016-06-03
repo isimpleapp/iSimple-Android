@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="@color/product_expandable_item_back">
+    <ImageView
+            android:id="@+id/group_arrow"
+            android:contentDescription="@string/app_name"
+            android:layout_width="60dip"
+            android:layout_height="wrap_content"
+            android:paddingLeft="11dip"
+            android:scaleType="center"
+            android:layout_gravity="center_vertical"/>
+    <org.holoeverywhere.widget.TextView
+            android:id="@+id/group_name"
+            android:layout_width="1000dip"
+            android:layout_height="50dip"
+            android:textSize="20dip"
+            android:textColor="@color/product_expandable_item_text"
+
+            android:paddingLeft="10dip"
+            android:gravity="center_vertical"/>
+</LinearLayout>

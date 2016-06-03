@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- The main content view -->
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/catalog_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v4.view.BannersViewPager
+                    android:id="@+id/banners"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/category_wine_butt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClickCategoryButt"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_wine_single_line" />
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
+
+                    <com.treelev.isimple.views.TwoWayView
+                        android:id="@+id/catalog_wine_two_way_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="135dp"
+                        android:background="@android:color/white"
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/category_sparkling_butt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClickCategoryButt"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_sparkling_single_line" />
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
+
+                    <com.treelev.isimple.views.TwoWayView
+                        android:id="@+id/catalog_sparkling_two_way_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="135dp"
+                        android:background="@android:color/white"
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/category_porto_heres_butt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClickCategoryButt"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_porto_heres_single_line" />
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
+
+                    <com.treelev.isimple.views.TwoWayView
+                        android:id="@+id/catalog_porto_heres_two_way_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="135dp"
+                        android:background="@android:color/white"
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/category_spirits_butt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClickCategoryButt"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_spirits_single_line" />
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
+
+                    <com.treelev.isimple.views.TwoWayView
+                        android:id="@+id/catalog_spirits_two_way_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="135dp"
+                        android:background="@android:color/white"
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/category_sake_butt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClickCategoryButt"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_sake_single_line" />
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
+
+                    <com.treelev.isimple.views.TwoWayView
+                        android:id="@+id/catalog_sake_two_way_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="135dp"
+                        android:background="@android:color/white"
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/category_water_butt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="onClickCategoryButt"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/category_name_water_single_line" />
+
+                        <TextView
+                            style="@style/CatalogSection"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="@string/category_see_all" />
+                    </LinearLayout>
+
+                    <com.treelev.isimple.views.TwoWayView
+                        android:id="@+id/catalog_water_two_way_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="135dp"
+                        android:background="@android:color/white"
+                        android:drawSelectorOnTop="false"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <View
+            android:id="@+id/dark_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/category_filter_text" />
+    </FrameLayout>
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

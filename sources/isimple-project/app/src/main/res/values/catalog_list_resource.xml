@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_name_wine">Вино</string>
+    <string name="category_name_sake">Сакэ</string>
+    <string name="category_name_water">Вода и соки</string>
+    <string name="category_name_spirits">Крепкий\nалкоголь</string>
+    <string name="category_name_sparkling">Шампанское\nи игристое</string>
+    <string name="category_name_porto_heres">Порто\nи Херес</string>
+    
+    <string name="category_see_all">См. все ></string>
+    <string name="category_name_wine_single_line">Вино</string>
+    <string name="category_name_sake_single_line">Сакэ</string>
+    <string name="category_name_water_single_line">Вода и соки</string>
+    <string name="category_name_spirits_single_line">Крепкий алкоголь</string>
+    <string name="category_name_sparkling_single_line">Шампанское и игристое</string>
+    <string name="category_name_porto_heres_single_line">Порто и Херес</string>
+</resources>

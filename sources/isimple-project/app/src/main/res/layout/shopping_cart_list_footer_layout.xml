@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/catalog_header_background" >
+
+        <org.holoeverywhere.widget.Button
+            android:id="@+id/delete_all_btn"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_margin="7dip"
+            android:layout_weight="1"
+            android:background="@drawable/category_butt_selector"
+            android:drawableLeft="@drawable/shopping_cart_recycle_bin"
+            android:text="@string/shopping_cart_delete_all_btn_label"
+            android:textSize="15sp" />
+
+        <org.holoeverywhere.widget.Button
+            android:id="@+id/delivery_btn"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_margin="7dip"
+            android:layout_weight="1"
+            android:background="@drawable/category_butt_selector"
+            android:drawableLeft="@drawable/shopping_cart_change_city"
+            android:text="Санкт-Петербург"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <com.treelev.isimple.views.PriceSlider
+        android:id="@+id/price_slider"
+        android:layout_width="match_parent"
+        android:layout_height="50dip" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical" >
+
+        <org.holoeverywhere.widget.TextView
+            android:id="@+id/footer_view_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="5dip"
+            android:gravity="center"
+            android:text="Вы можете провести самовывоз или заказать доставку курьером за 300 р."
+            android:textColor="@color/shopping_cart_delivery_label_color"
+            android:textSize="12sp" />
+
+        <org.holoeverywhere.widget.Button
+            android:id="@+id/btn_where_store"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="7dip"
+            android:background="@drawable/category_butt_selector"
+            android:text="@string/lbl_where_place_cart"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

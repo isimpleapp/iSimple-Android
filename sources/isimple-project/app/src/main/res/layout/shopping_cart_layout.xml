@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <RelativeLayout
+                android:id="@+id/content_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:visibility="visible" >
+
+                <RelativeLayout
+                    android:id="@+id/shopping_cart_make_order_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dip"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/shopping_cart_make_order_background_layout" >
+
+                    <TextView
+                        android:id="@+id/shopping_cart_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dip"
+                        android:text="0 р."
+                        android:textColor="@android:color/white"
+                        android:textSize="33dip"
+                        android:textStyle="normal" />
+
+                    <org.holoeverywhere.widget.Button
+                        android:id="@+id/create_order_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dip"
+                        android:layout_marginTop="20dip"
+                        android:background="@color/product_price_color"
+                        android:onClick="onMakeOrder"
+                        android:paddingLeft="18dip"
+                        android:paddingRight="18dip"
+                        android:text="@string/create_order_btn_label"
+                        android:textColor="@android:color/white"
+                        android:textSize="16dip"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <org.holoeverywhere.widget.ListView
+                    android:id="@android:id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/shopping_cart_make_order_layout"
+                    android:layout_alignParentTop="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/empty_shopping_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <org.holoeverywhere.widget.Button
+                    android:id="@+id/catalog_button"
+                    android:layout_width="180dip"
+                    android:layout_height="50dip"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="13dip"
+                    android:layout_marginTop="10dip"
+                    android:background="@drawable/category_butt_selector"
+                    android:onClick="clickCatalogButton"
+                    android:text="@string/button_catalog"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dip" />
+
+                <org.holoeverywhere.widget.TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/catalog_button"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:text="@string/empty_shopping_list"
+                    android:textSize="16dip" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </FrameLayout>
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

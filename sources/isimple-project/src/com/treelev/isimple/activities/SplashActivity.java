@@ -28,9 +28,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.appsflyer.AppsFlyerLib;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.service.SyncServcie;
@@ -52,7 +49,8 @@ public class SplashActivity extends Activity {
      * from the API Console, as described in "Getting Started."
      */
     private String SENDER_ID = "Your-Sender-ID";
-    private GoogleCloudMessaging gcm;
+    //ANALYTICS
+//    private GoogleCloudMessaging gcm;
     private int messageId;
     private String registrationId;
 	
@@ -83,7 +81,8 @@ public class SplashActivity extends Activity {
         // Check device for Play Services APK. If check succeeds, proceed with
         //  GCM registration.
         if (checkPlayServices()) {
-            gcm = GoogleCloudMessaging.getInstance(this);
+            //ANALYTICS
+//            gcm = GoogleCloudMessaging.getInstance(this);
             registrationId = getRegistrationId(this);
 
             if (registrationId.isEmpty()) {
@@ -321,17 +320,18 @@ public class SplashActivity extends Activity {
     }
     
     private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                finish();
-            }
+        //ANALYTICS
+//        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+//        if (resultCode != ConnectionResult.SUCCESS) {
+//            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+//                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+//            } else {
+//                finish();
+//            }
             return false;
-        }
-        return true;
+//        }
+//        return true;
     }
     
     /**
@@ -419,37 +419,38 @@ public class SplashActivity extends Activity {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	private void registerInBackground() {
-        new AsyncTask() {
-
-			protected Object doInBackground(Object... params) {
-				String msg = "";
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(SplashActivity.this);
-                    }
-                    registrationId = gcm.register(SENDER_ID);
-                    msg = "Device registered, registration ID=" + registrationId;
-
-                    // You should send the registration ID to your server over HTTP,
-                    // so it can use GCM/HTTP or CCS to send messages to your app.
-                    // The request to your server should be authenticated if your app
-                    // is using accounts.
-                    sendRegistrationIdToBackend();
-
-                    // For this demo: we don't need to send it because the device
-                    // will send upstream messages to a server that echo back the
-                    // message using the 'from' address in the message.
-
-                    // Persist the registration ID - no need to register again.
-                    storeRegistrationId(SplashActivity.this, registrationId);
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                    // If there is an error, don't just keep trying to register.
-                    // Require the user to click a button again, or perform
-                    // exponential back-off.
-                }
-                return msg;
-			}
-        }.execute(null, null, null);
+        //ANALYTICS
+//        new AsyncTask() {
+//
+//			protected Object doInBackground(Object... params) {
+//				String msg = "";
+//                try {
+//                    if (gcm == null) {
+//                        gcm = GoogleCloudMessaging.getInstance(SplashActivity.this);
+//                    }
+//                    registrationId = gcm.register(SENDER_ID);
+//                    msg = "Device registered, registration ID=" + registrationId;
+//
+//                    // You should send the registration ID to your server over HTTP,
+//                    // so it can use GCM/HTTP or CCS to send messages to your app.
+//                    // The request to your server should be authenticated if your app
+//                    // is using accounts.
+//                    sendRegistrationIdToBackend();
+//
+//                    // For this demo: we don't need to send it because the device
+//                    // will send upstream messages to a server that echo back the
+//                    // message using the 'from' address in the message.
+//
+//                    // Persist the registration ID - no need to register again.
+//                    storeRegistrationId(SplashActivity.this, registrationId);
+//                } catch (IOException ex) {
+//                    msg = "Error :" + ex.getMessage();
+//                    // If there is an error, don't just keep trying to register.
+//                    // Require the user to click a button again, or perform
+//                    // exponential back-off.
+//                }
+//                return msg;
+//			}
+//        }.execute(null, null, null);
     }
 }

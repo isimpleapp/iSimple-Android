@@ -1,0 +1,18 @@
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+    <org.holoeverywhere.widget.TextView
+            android:id="@+id/item_content"
+            android:layout_width="match_parent"
+            android:layout_height="53dip"
+            android:textSize="20sp"
+            android:background="@drawable/list_navigation_selector"
+            android:textColor="@color/filter_item_text_color"
+            android:paddingLeft="10dip"
+            android:paddingBottom="13dip"
+            android:paddingTop="10dip"
+            android:gravity="center_vertical"/>
+</LinearLayout>

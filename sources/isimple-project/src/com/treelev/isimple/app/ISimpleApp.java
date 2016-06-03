@@ -1,8 +1,6 @@
 
 package com.treelev.isimple.app;
 
-import io.fabric.sdk.android.Fabric;
-
 import java.net.InetAddress;
 import java.util.List;
 import java.util.UUID;
@@ -16,9 +14,6 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 
 import com.appsflyer.AppsFlyerLib;
-import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
 import com.treelev.isimple.data.ShopDAO;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
@@ -30,13 +25,13 @@ public class ISimpleApp extends Application {
     private Location currentLocation;
     private static ISimpleApp instantce;
     
-    public static GoogleAnalytics analytics;
-    public static Tracker tracker;
+//    public static GoogleAnalytics analytics;
+//    public static Tracker tracker;
 
     @Override
     public void onCreate() {
         super.onCreate();
-		Fabric.with(this, new Crashlytics());
+//		Fabric.with(this, new Crashlytics());
 
         if (instantce == null) {
             instantce = this;
@@ -47,13 +42,13 @@ public class ISimpleApp extends Application {
         Parse.initialize(this, "EOjaTLOWC0dTftQKqLhP1WLKQADQ1Sbu1aJo5av1",
                 "9vrbvgnVmBPnGEhfgFOpyWHoXOvkB2YAd2kEErsL");
         
-        analytics = GoogleAnalytics.getInstance(this);
-        analytics.setLocalDispatchPeriod(1800);
+//        analytics = GoogleAnalytics.getInstance(this);
+//        analytics.setLocalDispatchPeriod(1800);
 
-        tracker = analytics.newTracker("UA-46477195-1"); // Replace with actual tracker/property Id
-        tracker.enableExceptionReporting(true);
-        tracker.enableAdvertisingIdCollection(true);
-        tracker.enableAutoActivityTracking(true);
+//        tracker = analytics.newTracker("UA-46477195-1"); // Replace with actual tracker/property Id
+//        tracker.enableExceptionReporting(true);
+//        tracker.enableAdvertisingIdCollection(true);
+//        tracker.enableAutoActivityTracking(true);
         
         AppsFlyerLib.setAppsFlyerKey("pB8K2yFWS3RMGsfg5QuUfe"); 
         
@@ -152,8 +147,8 @@ public class ISimpleApp extends Application {
         return android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
     }
     
-    public static Tracker getAnalyticsTracker() {
-        return tracker;
-    }
+//    public static Tracker getAnalyticsTracker() {
+//        return tracker;
+//    }
     
 }

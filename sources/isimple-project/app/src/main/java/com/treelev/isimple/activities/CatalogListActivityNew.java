@@ -1,17 +1,21 @@
 
 package com.treelev.isimple.activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +30,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.treelev.isimple.R;
+import com.treelev.isimple.adapters.BannersPagerAdapter;
 import com.treelev.isimple.adapters.CatalogItemAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.data.DatabaseSqlHelper;
@@ -43,8 +48,8 @@ import java.util.List;
 public class CatalogListActivityNew extends BaseActivity implements OnItemClickListener,
         ImageLoaderProvider {
 
-	private static final String TAG = CatalogListActivityNew.class.getSimpleName();
-	
+    private static final String TAG = CatalogListActivityNew.class.getSimpleName();
+
     public final static String CATEGORY_ID = "category_id";
     private View darkView;
     private final static int NAVIGATE_CATEGORY_ID = 0;
@@ -72,11 +77,11 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
     private DisplayImageOptions bannersImageLoaderOptions;
     private final Handler handler = new Handler();
     private List<Offer> offersList;
-    
+
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
         super.onCreate(sSavedInstanceState);
-        
+
         // hook location
         LocationTrackingManager.getInstante(this).getCurrentLocation(this);
 
@@ -86,9 +91,9 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
-        
+
         scrollView = (ScrollView) findViewById(R.id.catalog_scroll_view);
-        
+
         wineTwoWayView = (TwoWayView) findViewById(R.id.catalog_wine_two_way_view);
         spiritsTwoWayView = (TwoWayView) findViewById(R.id.catalog_spirits_two_way_view);
         sparklingTwoWayView = (TwoWayView) findViewById(R.id.catalog_sparkling_two_way_view);
@@ -110,13 +115,6 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         sakeTwoWayView.setAdapter(sakeCatalogItemAdapter);
         waterTwoWayView.setAdapter(waterCatalogItemAdapter);
 
-//        wineTwoWayView.setSelector(android.R.color.transparent);
-//        spiritsTwoWayView.setSelector(android.R.color.transparent);
-//        sparklingTwoWayView.setSelector(android.R.color.transparent);
-//        portoHeresTwoWayView.setSelector(android.R.color.transparent);
-//        sakeTwoWayView.setSelector(android.R.color.transparent);
-//        waterTwoWayView.setSelector(android.R.color.transparent);
-
         wineTwoWayView.setOnItemClickListener(this);
         spiritsTwoWayView.setOnItemClickListener(this);
         sparklingTwoWayView.setOnItemClickListener(this);
@@ -135,7 +133,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         bannerPager = (ViewPager) findViewById(R.id.banners);
         fixBannerPagerHeightToFitBanner();
         bannerPager.setOnTouchListener(new OnTouchListener() {
-            
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -151,34 +149,35 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
             }
         });
         offersList = new OfferDAO(getApplicationContext()).getOffersForViewPager();
-//        BannersPagerAdapter bannersAdapter = new BannersPagerAdapter(getSupportFragmentManager(), offersList);
-//        bannerPager.setAdapter(bannersAdapter);
+        BannersPagerAdapter bannersAdapter = new BannersPagerAdapter(getSupportFragmentManager(), offersList);
+        bannerPager.setAdapter(bannersAdapter);
         handler.postDelayed(switchBannerRunnable, 4000);
-        
+
         final ImageView iv = new ImageView(this);
         iv.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if (drawerLayout.isDrawerOpen(Gravity.LEFT)){
-					drawerLayout.closeDrawer(Gravity.LEFT);
-				} else {
-					new Handler().postDelayed(openDrawerRunnable(), 200);
-				}
-			}
-		});
-        
+
+            @Override
+            public void onClick(View v) {
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    new Handler().postDelayed(openDrawerRunnable(), 200);
+                }
+            }
+        });
+
         iv.setImageResource(R.drawable.ic_menu_pink);
         iv.setBackgroundResource(R.drawable.selector_default);
         iv.setPadding(25, 25, 25, 25);
-        
-//		getSupportActionBar().setIcon(R.drawable.ic_menu_pink);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//        getSupportActionBar().setDisplayShowHomeEnabled(false);
-//        getSupportActionBar().setCustomView(iv);
-//        getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+        getSupportActionBar().setIcon(R.drawable.ic_menu_pink);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setCustomView(iv);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setTitle("");
     }
-    
+
     private Runnable openDrawerRunnable() {
         return new Runnable() {
 
@@ -188,7 +187,7 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
             }
         };
     }
-    
+
     private void switchBanner() {
         int nextIndex = bannerPager.getCurrentItem() + 1;
         if (nextIndex == offersList.size()) {
@@ -207,11 +206,11 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
             handler.postDelayed(switchBannerRunnable, 4000);
         }
     };
-    
+
     public void removeHandlerCallbacks() {
         handler.removeCallbacks(switchBannerRunnable);
     }
-    
+
     public void restoreHandlerCallbacks() {
         handler.postDelayed(switchBannerRunnable, 4000);
     }
@@ -255,12 +254,12 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        initSherlockSaerchView(menu);
+        initSearchView(menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     public void onClickCategoryButt(View v) {
-    	Log.d(TAG, "onClickCategoryButt");
+        Log.d(TAG, "onClickCategoryButt");
         Intent startIntent = new Intent(getApplicationContext(), CatalogByCategoryActivity.class);
         Integer category = DrinkCategory.getItemCategoryByButtonId(v.getId());
         startIntent.putExtra(CATEGORY_ID, category);
@@ -268,54 +267,52 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
-    private void initSherlockSaerchView(Menu menu) {
-//        getMenuInflater().inflate(R.menu.search, menu);
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        mSearchView.setIconifiedByDefault(false);
-//        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
-//        mSearchView
-//                .setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-//                    @Override
-//                    public void onFocusChange(View v, boolean hasFocus) {
-//                        if (hasFocus) {
-//                            darkView.setVisibility(View.VISIBLE);
-//                            darkView.getBackground().setAlpha(150);
-//                            mSearchView.setQuery(mSearchView.getQuery(), false);
-//                        } else {
-//                            darkView.setVisibility(View.GONE);
-//                            mItemSearch.collapseActionView();
-//                            mSearchView.setQuery("", false);
-//                        }
-//                    }
-//                });
-//        mItemSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                darkView.setVisibility(View.GONE);
-//                return true; // Return true to collapse action view
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                return true;
-//            }
-//        });
-//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//                    @Override
-//                    public boolean onQueryTextSubmit(String query) {
-//                        SearchResultActivity.categoryID = null;
-//                        SearchResultActivity.locationId = null;
-//                        return query.trim().length() < LENGTH_SEARCH_QUERY;
-//                    }
-//
-//                    @Override
-//                    public boolean onQueryTextChange(String newText) {
-//                        return false;
-//                    }
-//                });
+    private void initSearchView(Menu menu) {
+        getMenuInflater().inflate(R.menu.search, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mItemSearch);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    darkView.setVisibility(View.VISIBLE);
+                    darkView.getBackground().setAlpha(150);
+                    mSearchView.setQuery(mSearchView.getQuery(), false);
+                } else {
+                    darkView.setVisibility(View.GONE);
+                    mItemSearch.collapseActionView();
+                    mSearchView.setQuery("", false);
+                }
+            }
+        });
+        MenuItemCompat.setOnActionExpandListener(mItemSearch, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                darkView.setVisibility(View.GONE);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return true;
+            }
+        });
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SearchResultActivity.categoryID = null;
+                SearchResultActivity.locationId = null;
+                return query.trim().length() < LENGTH_SEARCH_QUERY;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
     @Override

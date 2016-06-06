@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/filter_button_bar"
               android:orientation="horizontal"
@@ -21,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ico_btn_filter_reset"
                 android:layout_marginRight="7dip"/>
-        <org.holoeverywhere.widget.TextView
+        <TextView
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:text="@string/filtration_butt_reset"
@@ -44,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ico_btn_filter_find"
                 android:layout_marginRight="7dip"/>
-        <org.holoeverywhere.widget.TextView
+        <TextView
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:text="@string/filtration_butt_find"

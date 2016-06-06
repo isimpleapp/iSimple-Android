@@ -5,6 +5,10 @@
         <item name="android:actionDropDownStyle">@style/CustomSpinner</item>
         <item name="android:itemTextAppearance">@style/CustomMenuTextApearance</item>
         <item name="android:actionBarItemBackground">@drawable/item_background</item>
+
+        <item name="colorPrimary">#F5F5F5</item>
+        <item name="colorPrimaryDark">#FF4081</item>
+        <item name="colorAccent">#e91e63</item>
     </style>
 
     <style name="CustomActionBar" parent="Widget.AppCompat.ActionBar">

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="135dip"
-    android:background="@drawable/product_list_item_water_selector"
+    android:background="?attr/selectableItemBackground"
     android:orientation="horizontal" >
 
     <LinearLayout
@@ -34,7 +34,7 @@
             android:layout_alignParentRight="true"
             android:visibility="gone" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/item_loc_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             android:textColor="@color/product_text_color"
             android:textSize="12sp" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/product_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:layout_marginRight="5dip"
             android:layout_marginLeft="20dip" >
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/item_volume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                 android:gravity="center_vertical"
                 android:textColor="@color/product_volume_color" />
 
-            <org.holoeverywhere.internal._View
+            <View
                 android:id="@+id/item_price_divider"
                 android:layout_width="1px"
                 android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                 android:layout_toRightOf="@id/item_volume"
                 android:background="@color/product_separator_color" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 android:textColor="@color/abs__holo_blue_light"
                 android:textStyle="bold" />
 
-            <org.holoeverywhere.widget.TextView
+            <TextView
                 android:id="@+id/item_old_price"
                 style="@style/OldPrice"
                 android:layout_width="wrap_content"
@@ -142,4 +142,4 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-</org.holoeverywhere.widget.LinearLayout>
+</LinearLayout>

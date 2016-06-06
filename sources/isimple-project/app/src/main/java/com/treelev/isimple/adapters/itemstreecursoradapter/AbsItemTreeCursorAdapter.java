@@ -30,11 +30,11 @@ import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.enumerable.item.ItemColor;
 import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
@@ -80,8 +80,7 @@ public abstract class AbsItemTreeCursorAdapter extends SimpleCursorTreeAdapter i
     }
 
     public AbsItemTreeCursorAdapter(Context context, Cursor cursor, LoaderManager manager, int sortBy) {
-        super(context, cursor, R.layout.section_items, R.layout.section_items, new String[] {"name"}, new int[] {R.id.section_name}, 
-        		R.layout.catalog_item_layout, Item.getUITags(),
+        super(context, cursor, R.layout.section_items, R.layout.section_items, new String[] {"name"}, new int[] {R.id.section_name}, R.layout.catalog_item_layout, Item.getUITags(),
         		new int[] {R.id.item_name, R.id.item_loc_name, R.id.item_volume, R.id.item_price, R.id.product_category });
         init(context, cursor, manager, sortBy);
     }

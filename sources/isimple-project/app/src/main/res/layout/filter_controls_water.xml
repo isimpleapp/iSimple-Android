@@ -22,7 +22,7 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/ico_btn_filter_reset" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"
@@ -48,7 +48,7 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/ico_btn_filter_find" />
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"

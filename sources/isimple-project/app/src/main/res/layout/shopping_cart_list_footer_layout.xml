@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@color/catalog_header_background" >
 
-        <org.holoeverywhere.widget.Button
+        <Button
             android:id="@+id/delete_all_btn"
             android:layout_width="0dip"
             android:layout_height="match_parent"
@@ -20,7 +20,7 @@
             android:text="@string/shopping_cart_delete_all_btn_label"
             android:textSize="15sp" />
 
-        <org.holoeverywhere.widget.Button
+        <Button
             android:id="@+id/delivery_btn"
             android:layout_width="0dip"
             android:layout_height="match_parent"
@@ -43,7 +43,7 @@
         android:background="@android:color/white"
         android:orientation="vertical" >
 
-        <org.holoeverywhere.widget.TextView
+        <TextView
             android:id="@+id/footer_view_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
             android:textColor="@color/shopping_cart_delivery_label_color"
             android:textSize="12sp" />
 
-        <org.holoeverywhere.widget.Button
+        <Button
             android:id="@+id/btn_where_store"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

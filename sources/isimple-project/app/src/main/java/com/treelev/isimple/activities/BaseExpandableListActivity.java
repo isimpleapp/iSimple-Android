@@ -2,7 +2,6 @@
 package com.treelev.isimple.activities;
 
 import android.app.Dialog;
-import android.app.ExpandableListActivity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +16,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,9 +42,7 @@ import com.treelev.isimple.utils.observer.Observer;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
 
 
-public class BaseExpandableListActivity extends ExpandableListActivity implements
-        ActionBar.OnNavigationListener,
-        Observer, CatalogUpdateUrlChangeListener, SyncProgressListener {
+public class BaseExpandableListActivity extends AppCompatActivity implements ActionBar.OnNavigationListener, Observer, CatalogUpdateUrlChangeListener, SyncProgressListener, ExpandableListView.OnChildClickListener {
 
     protected boolean mEventChangeDataBase;
     protected final int LENGTH_SEARCH_QUERY = 3;
@@ -71,9 +69,9 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         if (!SyncServcie.startSyncIfNeeded(this, this)) {
             SyncServcie.startOffersSyncIfNeeded(this, this);
         }
-        
-//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//		getSupportActionBar().setHomeButtonEnabled(true);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -120,13 +118,13 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         if (newIntent != null && mCurrentCategory != itemPosition) {
             startActivity(newIntent);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-//            getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
+            getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
         }
         return false;
     }
 
     protected void createDrawableMenu() {
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -309,12 +307,16 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
         }
     }
 
+    public ExpandableListView getExpandableListView() {
+        return (ExpandableListView) findViewById(android.R.id.list);
+    }
+
     protected void disableOnGroupClick() {
         getExpandableListView().setOnGroupClickListener(
                 new ExpandableListView.OnGroupClickListener() {
                     @Override
                     public boolean onGroupClick(ExpandableListView parent, View v,
-                            int groupPosition, long id) {
+                                                int groupPosition, long id) {
                         return true;
                     }
                 });
@@ -339,6 +341,11 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
                 new IntentFilter(Constants.INTENT_ACTION_SYNC_FINISHED));
     }
 
+    @Override
+    public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+        return false;
+    }
+
     private class SyncStatusReceiver extends BroadcastReceiver {
 
         @Override
@@ -358,8 +365,7 @@ public class BaseExpandableListActivity extends ExpandableListActivity implement
             LocalBroadcastManager.getInstance(context).unregisterReceiver(syncFinishedReceiver);
 
             if (!intent.getBooleanExtra(Constants.INTENT_ACTION_SYNC_SUCCESSFULL, true)) {
-                Toast.makeText(context, R.string.sync_error_update_index_error, Toast.LENGTH_LONG)
-                        .show();
+                Toast.makeText(context, R.string.sync_error_update_index_error, Toast.LENGTH_LONG).show();
             }
         }
 

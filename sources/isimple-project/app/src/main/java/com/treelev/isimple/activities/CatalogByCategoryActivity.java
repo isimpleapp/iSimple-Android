@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -24,14 +25,20 @@ import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.animation.AnimationWithMargins;
 import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.data.DatabaseSqlHelper;
+import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
+import com.treelev.isimple.enumerable.item.Sweetness;
 import com.treelev.isimple.fragments.filters.FilterFragment;
+import com.treelev.isimple.fragments.filters.PortoHeresFilter;
+import com.treelev.isimple.fragments.filters.SakeFilter;
+import com.treelev.isimple.fragments.filters.SparklingFilter;
+import com.treelev.isimple.fragments.filters.SpiritsFilter;
+import com.treelev.isimple.fragments.filters.WaterFilter;
+import com.treelev.isimple.fragments.filters.WineFilter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
 
-public class CatalogByCategoryActivity extends BaseExpandableListActivity
-        implements LoaderManager.LoaderCallbacks<Cursor>,
-        SearchView.OnQueryTextListener {
+public class CatalogByCategoryActivity extends BaseExpandableListActivity implements LoaderManager.LoaderCallbacks<Cursor>, SearchView.OnQueryTextListener, ExpandableListView.OnChildClickListener {
 
     private final static String FIELD_TAG = "field_tag";
     public final static String FILTER_DATA_TAG = "filter_data";
@@ -68,6 +75,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_category_layout_new);
 
+        getExpandableListView().setOnChildClickListener(this);
         createDrawableMenu();
 
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
@@ -77,9 +85,9 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         mFooter = getLayoutInflater().inflate(R.layout.not_found_layout, null);
 
         if (mCategoryID == DrinkCategory.WATER.ordinal()) {
-//            mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy, true);
+            mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy, true);
         } else {
-//            mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
+            mTreeCategoriesAdapter = new CatalogByCategoryItemTreeCursorAdapter(mContext, null, getSupportLoaderManager(), mSortBy);
         }
 
         if (mTreeCategoriesAdapter == null) {
@@ -184,13 +192,16 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
+
+        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mItemSearch);
+
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+//        mSearchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
-        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -205,16 +216,16 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
                 }
             }
         });
-        MenuItem menuItem = menu.findItem(R.id.menu_search);
-        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+
+        MenuItemCompat.setOnActionExpandListener(mItemSearch, new MenuItemCompat.OnActionExpandListener() {
             @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
+            public boolean onMenuItemActionExpand(MenuItem item) {
                 darkView.setVisibility(View.GONE);
-                return true; // Return true to collapse action view
+                return true;
             }
 
             @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
+            public boolean onMenuItemActionCollapse(MenuItem item) {
                 return true;
             }
         });
@@ -320,69 +331,69 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
     }
 
     private void initWineFilter() {
-//        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        ProxyManager proxyManager = ProxyManager.getInstanse();
-//        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-//        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-//        WineFilter wineFilter = (WineFilter) mFilter;
-//        wineFilter.initFilterItems(min, max,
-//                FilterItemData.createFromPresentable(Sweetness.getWineSweetness()),
-//                FilterItemData.getAvailableYears(this, DrinkCategory.WINE),
-//                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.WINE));
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        WineFilter wineFilter = (WineFilter) mFilter;
+        wineFilter.initFilterItems(min, max,
+                FilterItemData.createFromPresentable(Sweetness.getWineSweetness()),
+                FilterItemData.getAvailableYears(this, DrinkCategory.WINE),
+                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.WINE));
     }
 
     private void initSpiritsFilter() {
-//        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        ProxyManager proxyManager = ProxyManager.getInstanse();
-//        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-//        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-//        SpiritsFilter spiritsFilter = (SpiritsFilter) mFilter;
-//        spiritsFilter.initFilterItems(min, max,
-//                FilterItemData.getAvailableClassifications(this, DrinkCategory.SPIRITS),
-//                FilterItemData.getAvailableYears(this, DrinkCategory.SPIRITS));
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        SpiritsFilter spiritsFilter = (SpiritsFilter) mFilter;
+        spiritsFilter.initFilterItems(min, max,
+                FilterItemData.getAvailableClassifications(this, DrinkCategory.SPIRITS),
+                FilterItemData.getAvailableYears(this, DrinkCategory.SPIRITS));
     }
 
     private void initSparklingFilter() {
-//        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        ProxyManager proxyManager = ProxyManager.getInstanse();
-//        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-//        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-//        SparklingFilter sparklingFilter = (SparklingFilter) mFilter;
-//        sparklingFilter.initFilterItems(min, max,
-//                FilterItemData.getAvailableManufacture(this, DrinkCategory.SPARKLING),
-//                FilterItemData.createFromPresentable(Sweetness.getSparklingSweetness()),
-//                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.SPARKLING),
-//                FilterItemData.getAvailableYears(this, DrinkCategory.SPARKLING));
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        SparklingFilter sparklingFilter = (SparklingFilter) mFilter;
+        sparklingFilter.initFilterItems(min, max,
+                FilterItemData.getAvailableManufacture(this, DrinkCategory.SPARKLING),
+                FilterItemData.createFromPresentable(Sweetness.getSparklingSweetness()),
+                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.SPARKLING),
+                FilterItemData.getAvailableYears(this, DrinkCategory.SPARKLING));
     }
 
     private void initWaterFilter(View view) {
-//        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        ProxyManager proxyManager = ProxyManager.getInstanse();
-//        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-//        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-//        WaterFilter waterFilter = (WaterFilter) mFilter;
-//        waterFilter.initFilterItems(min, max);
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        WaterFilter waterFilter = (WaterFilter) mFilter;
+        waterFilter.initFilterItems(min, max);
     }
 
     private void initPortoHeresFilter(View view) {
-//        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        ProxyManager proxyManager = ProxyManager.getInstanse();
-//        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-//        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-//        PortoHeresFilter portoHeresFilter = (PortoHeresFilter) mFilter;
-//        portoHeresFilter.initFilterItems(min, max,
-//                FilterItemData.createFromPresentable(Sweetness.getPortoSweetness()),
-//                FilterItemData.getAvailableYears(this, DrinkCategory.PORTO),
-//                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.PORTO));
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        PortoHeresFilter portoHeresFilter = (PortoHeresFilter) mFilter;
+        portoHeresFilter.initFilterItems(min, max,
+                FilterItemData.createFromPresentable(Sweetness.getPortoSweetness()),
+                FilterItemData.getAvailableYears(this, DrinkCategory.PORTO),
+                FilterItemData.getAvailableCountryRegions(this, DrinkCategory.PORTO));
     }
 
     private void initSakeFilter() {
-//        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
-//        ProxyManager proxyManager = ProxyManager.getInstanse();
-//        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
-//        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
-//        SakeFilter sakeFilter = (SakeFilter) mFilter;
-//        sakeFilter.initFilterItems(min, max, FilterItemData.getAvailableClassifications(this, DrinkCategory.SAKE));
+        mFilter = (FilterFragment) getSupportFragmentManager().findFragmentById(R.id.filter_fragment);
+        ProxyManager proxyManager = ProxyManager.getInstanse();
+        int max = proxyManager.getMaxValuePriceByCategoryId(mCategoryID);
+        int min = proxyManager.getMinValuePriceByCategoryId(mCategoryID);
+        SakeFilter sakeFilter = (SakeFilter) mFilter;
+        sakeFilter.initFilterItems(min, max, FilterItemData.getAvailableClassifications(this, DrinkCategory.SAKE));
     }
 
 
@@ -407,7 +418,7 @@ public class CatalogByCategoryActivity extends BaseExpandableListActivity
         if (!TextUtils.isEmpty(mFilterWhereClause)) {
             mTreeCategoriesAdapter.setFilterWhereClause(mFilterWhereClause);
         }
-//        getSupportLoaderManager().restartLoader(mTypeSection, null, this);
+        getSupportLoaderManager().restartLoader(mTypeSection, null, this);
     }
 
     @Override

@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
         >
 
-    <org.holoeverywhere.widget.EditText
+    <EditText
             android:id="@+id/contact_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
         android:background="@color/category_filter_back"
         android:gravity="center"
         android:id="@+id/group_name">
-    <org.holoeverywhere.widget.TextView
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="27dip"

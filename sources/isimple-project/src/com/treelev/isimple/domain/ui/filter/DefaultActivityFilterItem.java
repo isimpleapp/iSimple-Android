@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.filter.DefaultListFilterActivity;
-import org.holoeverywhere.widget.TextView;
+import TextView;
 
 public class DefaultActivityFilterItem extends FilterItem {
     private LayoutInflater layoutInflater;

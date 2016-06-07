@@ -111,14 +111,20 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (mDeleteMode) {
             if (mDeleteItemsId.contains(getItemID(position)) && android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.HONEYCOMB) {
-                convertView = View.inflate(mContext, R.layout.catalog_category_layout, null);
+//                convertView = View.inflate(mContext, R.layout.catalog_category_layout, null);
+                convertView = View.inflate(mContext, R.layout.catalog_item_layout, null);
+
                 initButtonCancel(convertView, position);
             } else {
-                convertView = View.inflate(mContext, R.layout.catalog_category_layout, null);
+//                convertView = View.inflate(mContext, R.layout.catalog_category_layout, null);
+                convertView = View.inflate(mContext, R.layout.catalog_item_layout, null);
+
                 bindInfo(convertView, (Cursor) getItem(position));
             }
         } else {
-            convertView = View.inflate(mContext, R.layout.catalog_category_layout, null);
+//            convertView = View.inflate(mContext, R.layout.catalog_category_layout, null);
+            convertView = View.inflate(mContext, R.layout.catalog_item_layout, null);
+
             bindInfo(convertView, (Cursor) getItem(position));
         }
         return convertView;

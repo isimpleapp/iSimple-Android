@@ -10,7 +10,7 @@
             android:orientation="horizontal"
             android:layout_height="wrap_content"
             android:layout_weight="1">
-        <org.holoeverywhere.widget.Button
+        <Button
                 android:layout_width="fill_parent"
                 android:drawableLeft="@drawable/category_wine_selector"
                 android:layout_weight="1"
@@ -23,7 +23,7 @@
                 android:paddingLeft="6dip"
                 android:drawablePadding="3dip"
                 android:paddingRight="2dip"/>
-        <org.holoeverywhere.widget.Button
+        <Button
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -41,7 +41,7 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:layout_weight="1">
-        <org.holoeverywhere.widget.Button
+        <Button
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:layout_height="56dip"
@@ -54,7 +54,7 @@
                 android:paddingLeft="4dip"
                 android:drawablePadding="5dip"
                 android:paddingRight="2dip"/>
-        <org.holoeverywhere.widget.Button
+        <Button
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:layout_height="56dip"
@@ -72,7 +72,7 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:layout_weight="1">
-        <org.holoeverywhere.widget.Button
+        <Button
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:layout_height="56dip"
@@ -85,7 +85,7 @@
                 android:paddingLeft="6dip"
                 android:drawablePadding="3dip"
                 android:paddingRight="2dip"/>
-        <org.holoeverywhere.widget.Button
+        <Button
                 android:layout_width="fill_parent"
                 android:layout_weight="1"
                 android:layout_height="56dip"

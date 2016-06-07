@@ -16,8 +16,8 @@ import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.domain.ui.filter.FilterItemData;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.TextView;
+import CheckBox;
+import TextView;
 
 import java.util.Arrays;
 

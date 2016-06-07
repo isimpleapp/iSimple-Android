@@ -23,7 +23,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ico_btn_filter_reset"
                     android:layout_marginRight="7dip"/>
-            <org.holoeverywhere.widget.Button
+            <Button
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:id="@+id/reset_butt"
@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ico_btn_filter_find"
                     android:layout_marginRight="7dip"/>
-            <org.holoeverywhere.widget.Button
+            <Button
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:id="@+id/search_butt"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
-        <org.holoeverywhere.widget.RadioButton
+        <RadioButton
                 android:layout_weight="1"
                 android:layout_height="50dip"
                 android:id="@+id/alphabet_sort"
@@ -73,7 +73,7 @@
                 android:background="@drawable/tab_indicator_left"
                 android:button="@android:color/transparent"
                 android:paddingRight="1dip"/>
-        <org.holoeverywhere.widget.RadioButton
+        <RadioButton
                 android:layout_weight="1"
                 android:layout_height="50dip"
                 android:id="@+id/price_sort"

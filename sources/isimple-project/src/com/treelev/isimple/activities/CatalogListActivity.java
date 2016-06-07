@@ -1,6 +1,6 @@
 package com.treelev.isimple.activities;
 
-import org.holoeverywhere.widget.ExpandableListView;
+import ExpandableListView;
 
 import android.app.SearchManager;
 import android.content.Context;

@@ -43,13 +43,13 @@
                         android:onClick="onClickCategoryButt"
                         android:orientation="horizontal" >
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/category_name_wine_single_line" />
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -77,13 +77,13 @@
                         android:onClick="onClickCategoryButt"
                         android:orientation="horizontal" >
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/category_name_sparkling_single_line" />
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -111,13 +111,13 @@
                         android:onClick="onClickCategoryButt"
                         android:orientation="horizontal" >
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/category_name_porto_heres_single_line" />
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -145,13 +145,13 @@
                         android:onClick="onClickCategoryButt"
                         android:orientation="horizontal" >
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/category_name_spirits_single_line" />
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -179,13 +179,13 @@
                         android:onClick="onClickCategoryButt"
                         android:orientation="horizontal" >
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/category_name_sake_single_line" />
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -213,13 +213,13 @@
                         android:onClick="onClickCategoryButt"
                         android:orientation="horizontal" >
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/category_name_water_single_line" />
 
-                        <org.holoeverywhere.widget.TextView
+                        <TextView
                             style="@style/CatalogSection"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

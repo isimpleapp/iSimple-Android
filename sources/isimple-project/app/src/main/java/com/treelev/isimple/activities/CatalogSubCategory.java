@@ -9,7 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.AdapterView;
 
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.CatalogItemCursorAdapter;
@@ -17,7 +17,7 @@ import com.treelev.isimple.cursorloaders.SelectItemsBySubCategory;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
 
-public class CatalogSubCategory extends BaseListActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class CatalogSubCategory extends BaseListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static Class backActivity;
     public static Integer categoryID;
@@ -37,14 +37,26 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_sub_category);
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor product = (Cursor) mListSubCategoriesAdapter.getItem(position);
+                Intent startIntent = new Intent(CatalogSubCategory.this, ProductInfoActivity.class);
+                startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+                startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
+                startIntent.putExtra(BaseListActivity.BARCODE, mBarcode);
+                startActivityForResult(startIntent, 0);
+                overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+            }
+        });
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
-        if(mLocationId == null ){
+        if (mLocationId == null) {
             setCurrentCategory(0); //Catalog
         } else {
             setCurrentCategory(1); //Shop
         }
         createNavigationMenuBar();
-        View mDarkView = findViewById(R.id.category_dark_view);
+        View mDarkView = findViewById(R.id.dark_view);
         mDarkView.setVisibility(View.GONE);
         mDarkView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,19 +74,20 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
 
     @Override
     protected void onResume() {
-        if(mEventChangeDataBase){
+        if (mEventChangeDataBase) {
 //            getSupportLoaderManager().restartLoader(0, null, this);
             mEventChangeDataBase = false;
         }
         super.onResume();
     }
 
-    public void createNavigationMenuBar(){
+    public void createNavigationMenuBar() {
         createDrawableMenu();
-        if(mLocationId != null) {
+        if (mLocationId != null) {
 //            getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -90,18 +103,6 @@ public class CatalogSubCategory extends BaseListActivity implements LoaderManage
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
-    }
-
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        Cursor product = (Cursor) l.getAdapter().getItem(position);
-        Intent startIntent = new Intent(this, ProductInfoActivity.class);
-        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
-        startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
-        startIntent.putExtra(BaseListActivity.BARCODE, mBarcode);
-        startActivityForResult(startIntent, 0);
-        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
 
     @Override

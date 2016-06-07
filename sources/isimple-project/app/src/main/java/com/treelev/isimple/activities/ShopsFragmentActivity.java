@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.fragments.ShopListFragment;
 
 import java.util.List;
 
@@ -75,7 +76,9 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
 
     protected void createNavigationMenuBar() {
         createDrawableMenu();
-//        getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+        getSupportActionBar().setIcon(R.drawable.menu_ico_shop);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     public void setShopMapFragmentArguments(List<AbsDistanceShop> shopList) {
@@ -84,16 +87,16 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
     }
 
     private void organizeFragments() {
-//        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.add(R.id.fragment_container, shopListFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, shopListFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     private void initFragments(Bundle bundle) {
         //ANALYTICS
-//        shopListFragment = new ShopListFragment();
-//        shopListFragment.setArguments(bundle);
+        shopListFragment = new ShopListFragment();
+        shopListFragment.setArguments(bundle);
 //        shopMapFragment = new MapFragment();
 //        shopChainFragment = new ShopChainFragment();
 //        shopChainFragment.setArguments(bundle);

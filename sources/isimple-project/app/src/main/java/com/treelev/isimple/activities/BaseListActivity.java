@@ -2,17 +2,12 @@
 package com.treelev.isimple.activities;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,91 +19,27 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.EnterCatalogUpdateUrlDialogFragment.CatalogUpdateUrlChangeListener;
 import com.treelev.isimple.adapters.NavigationDrawerAdapter;
-import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.service.SyncProgressListener;
 import com.treelev.isimple.service.SyncServcie;
 import com.treelev.isimple.utils.Constants;
-import com.treelev.isimple.utils.LogUtils;
-import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.managers.SharedPreferencesManager;
 import com.treelev.isimple.utils.observer.Observer;
-import com.treelev.isimple.utils.observer.ObserverDataChanged;
 
-public class BaseListActivity extends ListActivity implements ActionBar.OnNavigationListener,
+public class BaseListActivity extends BaseActivity implements ActionBar.OnNavigationListener,
         Observer, CatalogUpdateUrlChangeListener, SyncProgressListener {
 
-    protected boolean mEventChangeDataBase;
-    protected final int LENGTH_SEARCH_QUERY = 3;
-
-    protected int mCurrentCategory;
-    public final static String BARCODE = "barcode";
-    private boolean useBarcodeScaner;
-    private boolean backAfterBarcodeScaner;
-
-    protected DrawerLayout drawerLayout;
-
-    private Dialog mDialog;
-    private SyncStatusReceiver syncStatusReceiver;
-    private SyncFinishedReceiver syncFinishedReceiver;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ObserverDataChanged.getInstant().addObserver(this);
-
-        syncStatusReceiver = new SyncStatusReceiver();
-        syncFinishedReceiver = new SyncFinishedReceiver();
-
-        if (!SyncServcie.startSyncIfNeeded(this, this)) {
-            SyncServcie.startOffersSyncIfNeeded(this, this);
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        ((ISimpleApp) getApplication()).incRefActivity();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        ((ISimpleApp) getApplication()).decRefActivity();
-        if (((ISimpleApp) getApplication()).getCountRefActivity() == 0) {
-            LocationTrackingManager.getInstante(this).stopLocationListener();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ObserverDataChanged.getInstant().removeObserver(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // this.supportInvalidateOptionsMenu();
-        if (useBarcodeScaner) {
-            if (backAfterBarcodeScaner) {
-                finish();
-                startActivity(getIntent());
-            }
-            backAfterBarcodeScaner = true;
-        }
-    }
+    private ListView listView;
 
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Intent newIntent = getStartIntentByItemPosition(itemPosition);
-        if (newIntent != null && mCurrentCategory != itemPosition) {
+        if (newIntent != null && getmCurrentCategory() != itemPosition) {
             startActivity(newIntent);
             overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
 //            getSupportActionBar().setSelectedNavigationItem(mCurrentCategory);
@@ -139,17 +70,10 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
-    public void setCurrentCategory(int currentCategory) {
-        mCurrentCategory = currentCategory;
-
-    }
-
     protected void createDrawableMenu() {
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
         initDrawerMenuList();
     }
 
@@ -263,7 +187,7 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
         }
         if (!this.getClass().equals(category) && category != null) {
             intent = new Intent(this, category);
-            if (flags != 0 && mCurrentCategory != itemPosition) {
+            if (flags != 0 && getmCurrentCategory() != itemPosition) {
                 intent.setFlags(flags);
             }
         }
@@ -320,49 +244,10 @@ public class BaseListActivity extends ListActivity implements ActionBar.OnNaviga
                 new IntentFilter(Constants.INTENT_ACTION_SYNC_FINISHED));
     }
 
-    private class SyncStatusReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateDialog(intent.getStringExtra(Constants.INTENT_EXTRA_SYNC_STATE));
+    public ListView getListView() {
+        if (listView == null) {
+            listView = (ListView) findViewById(R.id.list);
         }
-
-    }
-
-    private class SyncFinishedReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            LogUtils.i("Test log", "SyncFinishedReceiver onReceive");
-            hideDialog();
-            LocalBroadcastManager.getInstance(context).unregisterReceiver(syncStatusReceiver);
-            LocalBroadcastManager.getInstance(context).unregisterReceiver(syncFinishedReceiver);
-
-            if (!intent.getBooleanExtra(Constants.INTENT_ACTION_SYNC_SUCCESSFULL, true)) {
-                Toast.makeText(context, R.string.sync_error_update_index_error, Toast.LENGTH_LONG)
-                        .show();
-            }
-        }
-
-    }
-
-    private void updateDialog(String message) {
-        if (mDialog != null) {
-            ((ProgressDialog) mDialog).setMessage(message);
-        }
-    }
-
-    private void showDialog() {
-        if (mDialog == null) {
-            mDialog = ProgressDialog.show(BaseListActivity.this,
-                    getString(R.string.update_data_notify_label),
-                    getString(R.string.update_data_wait_label), false, false);
-        }
-    }
-
-    private void hideDialog() {
-        if (mDialog != null) {
-            mDialog.dismiss();
-        }
+        return listView;
     }
 }

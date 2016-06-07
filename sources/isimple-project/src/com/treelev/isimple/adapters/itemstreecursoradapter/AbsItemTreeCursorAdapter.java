@@ -7,7 +7,7 @@ import java.util.Set;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.LinearLayout;
+import LinearLayout;
 
 import android.content.Context;
 import android.database.Cursor;

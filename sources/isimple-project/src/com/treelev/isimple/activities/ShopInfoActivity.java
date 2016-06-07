@@ -13,7 +13,7 @@ import com.treelev.isimple.domain.db.Shop;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.TextView;
+import TextView;
 
 import java.util.List;
 

@@ -2,6 +2,7 @@ package com.treelev.isimple.activities;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,12 +13,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -44,11 +49,10 @@ import com.treelev.isimple.utils.observer.ObserverDataChanged;
 public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavigationListener,
         Observer, CatalogUpdateUrlChangeListener, SyncProgressListener {
 
-
     public final static String BARCODE = "barcode";
 
     private int mCurrentCategory;
-    private boolean useBarcodeScaner;
+    public boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;
     protected final int LENGTH_SEARCH_QUERY = 3;
     protected boolean mEventChangeDataBase;
@@ -56,8 +60,8 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
     protected DrawerLayout drawerLayout;
 
     private Dialog mDialog;
-    private SyncStatusReceiver syncStatusReceiver;
-    private SyncFinishedReceiver syncFinishedReceiver;
+    public SyncStatusReceiver syncStatusReceiver;
+    public SyncFinishedReceiver syncFinishedReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +118,10 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
         mCurrentCategory = currentCategory;
     }
 
+    public int getmCurrentCategory() {
+        return mCurrentCategory;
+    }
+
     @Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         Intent newIntent = getStartIntentByItemPosition(itemPosition);
@@ -142,22 +150,18 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
     }
 
     protected void createDrawableMenu() {
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
         initDrawerMenuList();
     }
 
     private void initDrawerMenuList() {
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
-
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View drawerHeader = inflater.inflate(R.layout.drawer_header, drawerList, false);
         drawerList.addHeaderView(drawerHeader);
-
         drawerList.setAdapter(adapter);
         drawerList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -339,13 +343,13 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
 
     }
 
-    private void updateDialog(String message) {
+    public void updateDialog(String message) {
         if (mDialog != null) {
             ((ProgressDialog) mDialog).setMessage(message);
         }
     }
 
-    private void showDialog() {
+    public void showDialog() {
         LogUtils.i("Test log", "mDialog = " + mDialog);
         if (mDialog == null) {
             mDialog = ProgressDialog.show(BaseActivity.this,
@@ -354,10 +358,63 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
         }
     }
 
-    private void hideDialog() {
+    public void hideDialog() {
         if (mDialog != null) {
             mDialog.dismiss();
             mDialog = null;
         }
+    }
+
+    public void initSearchMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search, menu);
+
+        final View darkView = findViewById(R.id.dark_view);
+        darkView.setVisibility(View.GONE);
+        darkView.setOnClickListener(null);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
+        final SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(mItemSearch);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    darkView.setVisibility(View.VISIBLE);
+                    darkView.getBackground().setAlpha(150);
+                    mSearchView.setQuery(mSearchView.getQuery(), false);
+                } else {
+                    darkView.setVisibility(View.GONE);
+                    mItemSearch.collapseActionView();
+                    mSearchView.setQuery("", false);
+                }
+            }
+        });
+        MenuItemCompat.setOnActionExpandListener(mItemSearch, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                darkView.setVisibility(View.GONE);
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return true;
+            }
+        });
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SearchResultActivity.categoryID = null;
+                SearchResultActivity.locationId = null;
+                return query.trim().length() < LENGTH_SEARCH_QUERY;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 }

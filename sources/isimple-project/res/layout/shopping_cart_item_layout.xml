@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="20dip"
             android:layout_marginRight="5dip">
-        <org.holoeverywhere.widget.TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_name"
@@ -33,7 +33,7 @@
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:layout_marginTop="3dip" android:text="Baron Philippe de Rothschild Bordeaux R"/>
-        <org.holoeverywhere.widget.TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_loc_name"
@@ -47,21 +47,21 @@
                 android:id="@+id/product_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:layout_marginTop="3dip">
-            <org.holoeverywhere.widget.TextView
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/product_id"
                     android:textColor="@color/product_category_color"
                     android:textSize="11sp"
                     android:text="Артикул 76333"/>
-            <org.holoeverywhere.widget.TextView
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/product_category_color"
                     android:textSize="11sp"
                     android:text="|"
                     android:layout_marginLeft="7dip"/>
-            <org.holoeverywhere.widget.TextView
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/product_volume"
@@ -71,14 +71,14 @@
                     android:gravity="center_horizontal"
                     android:layout_marginLeft="7dip"
                     android:layout_marginRight="7dip"/>
-            <org.holoeverywhere.widget.TextView
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/product_category_color"
                     android:textSize="11sp"
                     android:text="|"
                     android:layout_marginRight="7dip" android:id="@+id/shopping_cart_vol_year_separator"/>
-            <org.holoeverywhere.widget.TextView
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/product_year"
@@ -94,7 +94,7 @@
                 android:layout_marginBottom="4dip"
                 android:layout_marginTop="4dip"
                 android:orientation="horizontal" android:gravity="center_vertical">
-            <org.holoeverywhere.widget.TextView
+            <TextView
                     android:gravity="center_vertical"
                     android:layout_height="match_parent"
                     android:layout_width="80dip"
@@ -102,19 +102,19 @@
                     android:textColor="@color/product_price_color"
                     android:id="@+id/product_price"
                     android:textSize="18sp"/>
-            <org.holoeverywhere.widget.TextView
+            <TextView
                     android:gravity="center_vertical"
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:id="@+id/multiply_symbol" android:layout_marginRight="15dip"
                     android:layout_gravity="center_vertical" android:text="x"/>
-            <org.holoeverywhere.widget.Button
+            <Button
                     android:layout_width="35dip"
                     android:layout_height="35dip"
                     android:background="@drawable/shopping_cart_item_butt_selector"
                     android:id="@+id/decrease_butt"
                     />
-            <org.holoeverywhere.widget.TextView
+            <TextView
                     android:layout_height="match_parent"
                     android:layout_width="32dip"
                     android:text="2"
@@ -122,7 +122,7 @@
                     android:textStyle="bold"
                     android:id="@+id/product_count"
                     />
-            <org.holoeverywhere.widget.Button
+            <Button
                     android:layout_width="35dip"
                     android:layout_height="35dip"
                     android:text="+"

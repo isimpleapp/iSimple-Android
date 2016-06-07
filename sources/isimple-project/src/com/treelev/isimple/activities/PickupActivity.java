@@ -9,7 +9,7 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.DeliveryZone;
 import com.treelev.isimple.domain.db.Shop;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.widget.TextView;
+import TextView;
 
 public class PickupActivity extends BaseActivity
         implements View.OnClickListener{

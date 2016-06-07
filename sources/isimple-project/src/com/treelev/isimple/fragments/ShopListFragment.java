@@ -22,8 +22,8 @@ import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.Toast;
+import ListView;
+import Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;

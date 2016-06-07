@@ -8,8 +8,8 @@ import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.filter.FilterItem;
 import com.treelev.isimple.filter.Filter;
 import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.widget.BaseExpandableListAdapter;
-import org.holoeverywhere.widget.TextView;
+import BaseExpandableListAdapter;
+import TextView;
 
 import java.util.List;
 

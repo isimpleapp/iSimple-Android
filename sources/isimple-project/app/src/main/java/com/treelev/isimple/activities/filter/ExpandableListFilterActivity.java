@@ -53,7 +53,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //
 //        RelativeLayout relative = new RelativeLayout(getSupportActionBarContext());
-//        org.holoeverywhere.widget.TextView title = new org.holoeverywhere.widget.TextView(getSupportActionBarContext());
+//        TextView title = new TextView(getSupportActionBarContext());
 //        title.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
 //        title.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 //        title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 27.0f);

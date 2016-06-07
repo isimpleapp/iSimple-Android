@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.filter.ExpandableListFilterActivity;
-import org.holoeverywhere.widget.TextView;
+import TextView;
 
 import java.util.Map;
 

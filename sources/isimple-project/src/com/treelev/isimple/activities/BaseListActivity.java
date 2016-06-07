@@ -5,7 +5,7 @@ import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ListActivity;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.Toast;
+import Toast;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:gravity="center_vertical">
-    <org.holoeverywhere.widget.TextView
+    <TextView
             android:layout_width="match_parent"
             android:layout_height="53dip"
             android:textSize="20sp"

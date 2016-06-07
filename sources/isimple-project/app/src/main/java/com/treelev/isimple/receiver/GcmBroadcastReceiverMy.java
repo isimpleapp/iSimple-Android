@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.WakefulBroadcastReceiver;
+import android.support.v4.content.MyWakefulBroadcastReceiver;
 
 import com.treelev.isimple.service.GcmIntentService;
 
-public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
+public class GcmBroadcastReceiverMy extends MyWakefulBroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {

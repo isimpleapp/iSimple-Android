@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.TextView;
-import org.holoeverywhere.widget.Toast;
+import Button;
+import TextView;
+import Toast;
 
 import android.content.Context;
 import android.content.Intent;

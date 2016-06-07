@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               >
 
-    <org.holoeverywhere.widget.TextView
+    <TextView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/item_title_shop"
             android:layout_width="fill_parent"
@@ -16,9 +16,9 @@
             android:textStyle="bold"
             android:paddingLeft="8dip" android:paddingRight="8dip"
             android:paddingTop="3dip" android:paddingBottom="2dip">
-    </org.holoeverywhere.widget.TextView>
+    </TextView>
 
-    <org.holoeverywhere.widget.TextView
+    <TextView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/item_adress_shop"
             android:layout_width="fill_parent"
@@ -29,6 +29,6 @@
             android:paddingRight="8dip"
             android:paddingTop="3dip"
             android:paddingBottom="2dip">
-    </org.holoeverywhere.widget.TextView>
+    </TextView>
 
 </LinearLayout>

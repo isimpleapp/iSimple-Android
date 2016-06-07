@@ -2,19 +2,25 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <!-- The main content view -->
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize">
+        
+    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RadioGroup
                 android:id="@+id/sort_group"
@@ -22,9 +28,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="visible" >
+                android:visibility="visible">
 
-                <org.holoeverywhere.widget.RadioButton
+                <RadioButton
                     android:id="@+id/alphabet_sort"
                     style="?android:attr/listSeparatorTextViewStyle"
                     android:layout_height="50dip"
@@ -36,7 +42,7 @@
                     android:paddingRight="1dip"
                     android:text="@string/sort_label_alphabet" />
 
-                <org.holoeverywhere.widget.RadioButton
+                <RadioButton
                     android:id="@+id/price_sort"
                     style="?android:attr/listSeparatorTextViewStyle"
                     android:layout_height="50dip"
@@ -49,7 +55,7 @@
                     android:text="@string/sort_label_price" />
             </RadioGroup>
 
-            <org.holoeverywhere.widget.ExpandableListView
+            <ExpandableListView
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,7 +79,7 @@
                 android:text="@string/lbl_not_found" />
 
             <View
-                android:id="@+id/category_dark_view"
+                android:id="@+id/dark_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/category_filter_text" />

@@ -5,8 +5,8 @@ import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ExpandableListActivity;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.ExpandableListView;
-import org.holoeverywhere.widget.Toast;
+import ExpandableListView;
+import Toast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

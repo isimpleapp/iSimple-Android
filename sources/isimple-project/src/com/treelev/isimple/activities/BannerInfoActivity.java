@@ -3,7 +3,7 @@ package com.treelev.isimple.activities;
 
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.ListView;
+import ListView;
 
 import android.content.Context;
 import android.content.Intent;

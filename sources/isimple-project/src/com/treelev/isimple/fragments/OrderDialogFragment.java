@@ -18,9 +18,9 @@ import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.DialogFragment;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
+import Button;
+import EditText;
+import TextView;
 
 import android.content.Context;
 import android.content.DialogInterface;

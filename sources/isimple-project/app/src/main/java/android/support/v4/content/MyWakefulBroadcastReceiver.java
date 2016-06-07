@@ -8,7 +8,7 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.util.SparseArray;
 
-public abstract class WakefulBroadcastReceiver extends BroadcastReceiver {
+public abstract class MyWakefulBroadcastReceiver extends BroadcastReceiver {
 
 	private static final String EXTRA_WAKE_LOCK_ID = "android.support.content.wakelockid";
 
@@ -82,7 +82,7 @@ public abstract class WakefulBroadcastReceiver extends BroadcastReceiver {
 				mActiveWakeLocks.remove(id);
 				return true;
 			}
-			Log.w("WakefulBroadcastReceiver", "No active wake lock id #" + id);
+			Log.w("MyWakefulBroadcastReceiver", "No active wake lock id #" + id);
 			return true;
 		}
 	}

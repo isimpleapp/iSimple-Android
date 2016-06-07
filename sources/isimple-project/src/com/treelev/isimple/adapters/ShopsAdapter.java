@@ -8,7 +8,7 @@ import com.treelev.isimple.domain.ui.AbsDistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShop;
 import org.holoeverywhere.ArrayAdapter;
 import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.widget.TextView;
+import TextView;
 
 import java.util.List;
 

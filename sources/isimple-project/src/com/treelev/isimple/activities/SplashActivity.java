@@ -12,7 +12,7 @@ import java.util.Date;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.Toast;
+import Toast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

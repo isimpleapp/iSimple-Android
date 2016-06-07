@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.treelev.isimple.R;
 import com.treelev.isimple.activities.ProductInfoActivity;
 import com.treelev.isimple.activities.ShopInfoActivity;
+import com.treelev.isimple.activities.ShopsFragmentActivity;
 import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.analytics.Analytics;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
@@ -112,7 +113,7 @@ public class ShopListFragment extends ListFragment {
         @Override
         protected void onPostExecute(List<AbsDistanceShop> items) {
             if (items != null) {
-//                ((ShopsFragmentActivity) getActivity()).setShopMapFragmentArguments(shopListForMap);
+                ((ShopsFragmentActivity) getActivity()).setShopMapFragmentArguments(shopListForMap);
                 ShopsAdapter adapter = new ShopsAdapter(getActivity(), items);
                 getListView().setAdapter(adapter);
             }

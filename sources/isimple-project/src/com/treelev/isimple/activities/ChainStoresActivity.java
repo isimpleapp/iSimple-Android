@@ -12,7 +12,7 @@ import com.treelev.isimple.domain.ui.DistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShopHeader;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
-import org.holoeverywhere.widget.ListView;
+import ListView;
 
 import java.util.Collections;
 import java.util.List;

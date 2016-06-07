@@ -1,19 +1,16 @@
 package com.treelev.isimple.activities;
 
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 
 import com.treelev.isimple.R;
 import com.treelev.isimple.adapters.ShopsAdapter;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
-import com.treelev.isimple.domain.ui.DistanceShop;
 import com.treelev.isimple.domain.ui.DistanceShopHeader;
 import com.treelev.isimple.utils.managers.LocationTrackingManager;
 import com.treelev.isimple.utils.managers.ProxyManager;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -34,18 +31,18 @@ public class ChainStoresActivity extends BaseListActivity {
         List<AbsDistanceShop> iShop = proxyManager.getShopByChain(location, itemId);
         ShopsAdapter adapter = new ShopsAdapter(this, iShop);
         addHeader(iShop);
-//        getListView().setAdapter(adapter);
+        getListView().setAdapter(adapter);
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        DistanceShop item = (DistanceShop) l.getAdapter().getItem(position);
-        Intent startIntent = new Intent(this, ShopInfoActivity.class);
-        startIntent.putExtra(ShopInfoActivity.SHOP, item.getShop());
-        startActivity(startIntent);
-        this.overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-    }
+//    @Override
+//    public void onListItemClick(ListView l, View v, int position, long id) {
+//        super.onListItemClick(l, v, position, id);
+//        DistanceShop item = (DistanceShop) l.getAdapter().getItem(position);
+//        Intent startIntent = new Intent(this, ShopInfoActivity.class);
+//        startIntent.putExtra(ShopInfoActivity.SHOP, item.getShop());
+//        startActivity(startIntent);
+//        this.overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+//    }
 
     private void addHeader(List<AbsDistanceShop> items) {
         DistanceShopHeader header1 = new DistanceShopHeader(0.0f, "НЕ ДАЛЕЕ 1 КМ");

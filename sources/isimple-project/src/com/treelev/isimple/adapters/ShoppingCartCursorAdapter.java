@@ -25,9 +25,9 @@ import com.treelev.isimple.utils.LogUtils;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.LinearLayout;
-import org.holoeverywhere.widget.TextView;
+import Button;
+import LinearLayout;
+import TextView;
 
 public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements View.OnClickListener {
 

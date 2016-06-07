@@ -23,7 +23,7 @@ import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.ListView;
+import ListView;
 
 import java.util.ArrayList;
 import java.util.List;

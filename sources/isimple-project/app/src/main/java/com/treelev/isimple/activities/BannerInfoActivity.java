@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -47,6 +48,7 @@ public class BannerInfoActivity extends BaseListActivity implements LoaderManage
     private WebView bannerDescView;
     private ImageLoader bannersImageLoader;
     private DisplayImageOptions bannersImageLoaderOptions;
+    private ListView listView;
 
     private final int LOAD_BANNER_ITEMS = 1;
 
@@ -55,7 +57,17 @@ public class BannerInfoActivity extends BaseListActivity implements LoaderManage
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner_info);
         createNavigationMenuBar();
-
+        listView = (ListView) findViewById(R.id.list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor product = (Cursor) mListAdapter.getItem(position);
+                Intent startIntent = new Intent(BannerInfoActivity.this, ProductInfoActivity.class);
+                startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+                startActivityForResult(startIntent, 0);
+                overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+            }
+        });
         bannerId = getIntent().getLongExtra(OFFER_ID, -1);
         if (bannerId == -1) {
             throw new RuntimeException("You must pass banner id as intent argument");
@@ -64,7 +76,7 @@ public class BannerInfoActivity extends BaseListActivity implements LoaderManage
         offer = mProxyManager.getOfferById(bannerId);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View headerView = inflater.inflate(R.layout.banner_list_header, getListView(), false);
+        View headerView = inflater.inflate(R.layout.banner_list_header, listView, false);
         bannerImageView = (ImageView) headerView.findViewById(R.id.banner_image);
         bannerImageView.setLayoutParams(getBannerLayoutParams());
         bannerDescView = (WebView) headerView.findViewById(R.id.offer_desc);
@@ -73,10 +85,10 @@ public class BannerInfoActivity extends BaseListActivity implements LoaderManage
         } else {
             bannerDescView.setVisibility(View.GONE);
         }
-        getListView().addHeaderView(headerView, null, false);
+        listView.addHeaderView(headerView, null, false);
         initListView();
 
-//        getSupportLoaderManager().restartLoader(LOAD_BANNER_ITEMS, null, this);
+        getSupportLoaderManager().restartLoader(LOAD_BANNER_ITEMS, null, this);
 
         if (!TextUtils.isEmpty(offer.getImage1200())) {
             bannersImageLoader = Utils.getImageLoader(getApplicationContext());
@@ -107,14 +119,13 @@ public class BannerInfoActivity extends BaseListActivity implements LoaderManage
     @Override
     protected void onStart() {
         super.onStart();
-
         Analytics.screen_Favourites(this);
     }
 
     @Override
     protected void onResume() {
         if (mEventChangeDataBase) {
-//            getSupportLoaderManager().restartLoader(LOAD_BANNER_ITEMS, null, this);
+            getSupportLoaderManager().restartLoader(LOAD_BANNER_ITEMS, null, this);
             mEventChangeDataBase = false;
         }
         super.onResume();
@@ -152,15 +163,6 @@ public class BannerInfoActivity extends BaseListActivity implements LoaderManage
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        Cursor product = (Cursor) l.getAdapter().getItem(position);
-        Intent startIntent = new Intent(this, ProductInfoActivity.class);
-        startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
-        startActivityForResult(startIntent, 0);
-        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-    }
 
     public void backCatalog(View view) {
         Intent intent = getStartIntentByItemPosition(0);
@@ -202,7 +204,6 @@ public class BannerInfoActivity extends BaseListActivity implements LoaderManage
     }
 
     private void initListView() {
-        ListView listView = getListView();
         mListAdapter = new CatalogItemCursorAdapter(null, this, false, true);
         mListAdapter.setOnCancelDismiss(new CatalogItemCursorAdapter.OnCancelDismis() {
             @Override
@@ -211,19 +212,14 @@ public class BannerInfoActivity extends BaseListActivity implements LoaderManage
             }
         });
         listView.setAdapter(mListAdapter);
-        mTouchListener =
-                new SwipeDismissListViewTouchListener(
-                        getListView(),
-                        new SwipeDismissListViewTouchListener.OnDismissCallback() {
-                            @Override
-                            public void onDismiss(android.widget.ListView listView,
-                                    int[] reverseSortedPositions) {
-                                Cursor cursor = (Cursor) mListAdapter
-                                        .getItem(reverseSortedPositions[0]);
-                                mListAdapter.addDeleteItem(cursor.getString(0));
-                                mListAdapter.notifyDataSetChanged();
-                            }
-                        });
+        mTouchListener = new SwipeDismissListViewTouchListener(listView, new SwipeDismissListViewTouchListener.OnDismissCallback() {
+            @Override
+            public void onDismiss(android.widget.ListView listView, int[] reverseSortedPositions) {
+                Cursor cursor = (Cursor) mListAdapter.getItem(reverseSortedPositions[0]);
+                mListAdapter.addDeleteItem(cursor.getString(0));
+                mListAdapter.notifyDataSetChanged();
+            }
+        });
         listView.setOnTouchListener(mTouchListener);
         mTouchListener.setEnabled(false);
     }

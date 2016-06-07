@@ -11,7 +11,7 @@ import com.treelev.isimple.enumerable.item.DrinkCategory;
 import com.treelev.isimple.filter.Filter;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.views.RangeSeekBar;
-import org.holoeverywhere.widget.LinearLayout;
+import LinearLayout;
 
 public class DefaultSeekBarFilterItem extends FilterItem {
     private static final int DEFAULT_MIN_VALUE = 0;

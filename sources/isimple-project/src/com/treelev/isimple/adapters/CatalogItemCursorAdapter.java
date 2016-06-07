@@ -24,8 +24,8 @@ import com.treelev.isimple.utils.Utils;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.LinearLayout;
+import Button;
+import LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -29,8 +30,7 @@ import com.treelev.isimple.utils.observer.ObserverDataChanged;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoritesActivity extends BaseListActivity
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+public class FavoritesActivity extends BaseListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String FAVORITES = "favorites";
 
@@ -42,6 +42,7 @@ public class FavoritesActivity extends BaseListActivity
     private SwipeDismissListViewTouchListener mTouchListener;
     private Context mContext;
     private ArrayList<String> mDeleteItemsId;
+    private ListView listView;
 
     private final int LOAD_FAVOURITE_ITEMS = 1;
     private final int DELETE_FAVOURITE_ITEMS = 2;
@@ -52,10 +53,32 @@ public class FavoritesActivity extends BaseListActivity
         setContentView(R.layout.favorites);
         setCurrentCategory(2);
         createNavigationMenuBar();
-        ListView listView = getListView();
+        listView = getListView();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor product = (Cursor) mListAdapter.getItem(position);
+                if (mActionMode == null) {
+                    Intent startIntent = new Intent(FavoritesActivity.this, ProductInfoActivity.class);
+                    startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
+                    startIntent.putExtra(FAVORITES, true);
+                    startActivityForResult(startIntent, 0);
+                    overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+                } else if (mListAdapter != null) {
+                    if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+                        if (!mListAdapter.containsDeleteItemID(product.getString(0))) {
+                            mListAdapter.addDeleteItem(product.getString(0));
+                        } else {
+                            mListAdapter.removeDeleteItemsID(product.getString(0));
+                        }
+                        mListAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
         mDeleteItemsId = new ArrayList<String>();
         initListView();
-//        getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
+        getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
     }
 
     @Override
@@ -114,28 +137,6 @@ public class FavoritesActivity extends BaseListActivity
 //        getSupportActionBar().setIcon(R.drawable.menu_ico_fav);
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        Cursor product = (Cursor) l.getAdapter().getItem(position);
-        if (mActionMode == null) {
-            Intent startIntent = new Intent(this, ProductInfoActivity.class);
-            startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
-            startIntent.putExtra(FAVORITES, true);
-            startActivityForResult(startIntent, 0);
-            overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-        } else if (mListAdapter != null) {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-                if (!mListAdapter.containsDeleteItemID(product.getString(0))) {
-                    mListAdapter.addDeleteItem(product.getString(0));
-                } else {
-                    mListAdapter.removeDeleteItemsID(product.getString(0));
-                }
-                mListAdapter.notifyDataSetChanged();
-            }
-        }
-    }
-
     public void backCatalog(View view) {
         Intent intent = getStartIntentByItemPosition(0);
         if (intent != null) {
@@ -175,7 +176,7 @@ public class FavoritesActivity extends BaseListActivity
 
     private void updateActivity() {
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.not_favourite_items);
-        if (getListView().getCount() > 0) {
+        if (listView.getCount() > 0) {
             layout.setVisibility(View.GONE);
         } else {
             layout.setVisibility(View.VISIBLE);
@@ -226,7 +227,6 @@ public class FavoritesActivity extends BaseListActivity
     };
 
     private void initListView() {
-        ListView listView = getListView();
         mListAdapter = new CatalogItemCursorAdapter(null, this, false, true);
         mListAdapter.setOnCancelDismiss(new CatalogItemCursorAdapter.OnCancelDismis() {
             @Override
@@ -237,11 +237,11 @@ public class FavoritesActivity extends BaseListActivity
         listView.setAdapter(mListAdapter);
         mTouchListener =
                 new SwipeDismissListViewTouchListener(
-                        getListView(),
+                        listView,
                         new SwipeDismissListViewTouchListener.OnDismissCallback() {
                             @Override
                             public void onDismiss(android.widget.ListView listView,
-                                    int[] reverseSortedPositions) {
+                                                  int[] reverseSortedPositions) {
                                 Cursor cursor = (Cursor) mListAdapter
                                         .getItem(reverseSortedPositions[0]);
                                 mListAdapter.addDeleteItem(cursor.getString(0));

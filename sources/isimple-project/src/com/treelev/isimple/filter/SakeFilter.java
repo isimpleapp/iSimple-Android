@@ -5,7 +5,7 @@ import android.view.View;
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.filter.*;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
-import org.holoeverywhere.widget.CheckBox;
+import CheckBox;
 
 import java.util.ArrayList;
 import java.util.List;

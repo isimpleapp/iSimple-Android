@@ -15,13 +15,11 @@ import java.util.List;
 
 public class ShopsAdapter extends ArrayAdapter {
 
-    private Context context;
     private List<AbsDistanceShop> items;
     private LayoutInflater inflater;
 
     public ShopsAdapter(Context context, List<AbsDistanceShop> items) {
         super(context, 0, items);
-        this.context = context;
         this.items = items;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

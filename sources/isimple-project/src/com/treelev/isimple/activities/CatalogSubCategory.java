@@ -13,7 +13,7 @@ import com.treelev.isimple.cursorloaders.SelectItemsBySubCategory;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import org.holoeverywhere.app.Dialog;
 import org.holoeverywhere.app.ProgressDialog;
-import org.holoeverywhere.widget.ListView;
+import ListView;
 
 public class CatalogSubCategory extends BaseListActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 

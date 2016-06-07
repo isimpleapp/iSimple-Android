@@ -15,7 +15,7 @@ import com.treelev.isimple.cursorloaders.SelectSectionsItems;
 import com.treelev.isimple.utils.managers.ProxyManager;
 
 
-public class CatalogSubCategoryTree extends BaseExpandableListActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class CatalogSubCategoryTree extends BaseExpandableListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private CatalogSubCategoryItemTreeCursorAdapter mTreeAdapter;
     private String mLocationId;
@@ -29,7 +29,7 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
         super.onCreate(savedInstanceState);
         setContentView(R.layout.catalog_sub_category_tree);
         mLocationId = getIntent().getStringExtra(ShopInfoActivity.LOCATION_ID);
-        if(mLocationId == null ){
+        if (mLocationId == null) {
             setCurrentCategory(0); //Catalog
         } else {
             setCurrentCategory(1); //Shop
@@ -46,7 +46,7 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
 
     @Override
     protected void onResume() {
-        if(mEventChangeDataBase){
+        if (mEventChangeDataBase) {
             mTreeAdapter.refresh();
             mEventChangeDataBase = false;
         }

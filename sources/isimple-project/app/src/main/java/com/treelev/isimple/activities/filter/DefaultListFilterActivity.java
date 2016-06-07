@@ -36,7 +36,7 @@ public class DefaultListFilterActivity extends BaseListActivity {
 //        createDrawableMenu();
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        getSupportActionBar().setHomeButtonEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //
 //        RelativeLayout relative = new RelativeLayout(getSupportActionBarContext());
 //        TextView title = new TextView(getSupportActionBarContext());

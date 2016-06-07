@@ -160,7 +160,7 @@ public class BannerInfoActivity extends BaseListActivity implements LoaderManage
 
     public void createNavigationMenuBar() {
         createDrawableMenu();
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

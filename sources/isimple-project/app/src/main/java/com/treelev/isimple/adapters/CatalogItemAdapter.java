@@ -33,8 +33,7 @@ import com.treelev.isimple.utils.Utils;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CatalogItemAdapter extends BaseAdapter implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+public class CatalogItemAdapter extends BaseAdapter implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static String FORMAT_TEXT_LABEL = "%s...";
     private final static int FORMAT_NAME_MAX_LENGTH = 41;
@@ -67,12 +66,14 @@ public class CatalogItemAdapter extends BaseAdapter implements
     private boolean mEmpty;
     private FinishListener mListener;
 
+    private View.OnClickListener clickListener;
+
     public interface FinishListener {
         void onFinish();
     }
 
-    public CatalogItemAdapter(int groupId, Context context, Cursor c, LoaderManager manager, int sortBy) {
-
+    public CatalogItemAdapter(int groupId, Context context, Cursor c, LoaderManager manager, int sortBy, View.OnClickListener listener) {
+        clickListener = listener;
         this.groupId = groupId;
         mContext = context;
         mManager = manager;
@@ -202,8 +203,7 @@ public class CatalogItemAdapter extends BaseAdapter implements
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         LogUtils.i("", "onCreateLoader");
-        SelectFeaturedByCategoryItems cursorLoader = new SelectFeaturedByCategoryItems(mContext,
-                groupId, null, sortBy);
+        SelectFeaturedByCategoryItems cursorLoader = new SelectFeaturedByCategoryItems(mContext, groupId, null, sortBy);
         return cursorLoader;
     }
 
@@ -321,10 +321,13 @@ public class CatalogItemAdapter extends BaseAdapter implements
             convertView = LayoutInflater.from(mContext).inflate(R.layout.catalog_list_item, parent,
                     false);
             viewHolder = getViewHolder(convertView);
-            convertView.setTag(viewHolder);
+            convertView.setTag(R.string.view_holder, viewHolder);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag(R.string.view_holder);
         }
+
+        convertView.setOnClickListener(clickListener);
+        convertView.setTag(R.string.tag_cursor, getItem(position));
 
         bindItemView(convertView, cursor, viewHolder, position);
         return convertView;

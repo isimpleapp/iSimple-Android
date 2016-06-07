@@ -108,5 +108,7 @@
 	
 	<string name="name">Имя</string>
 	<string name="email">Email</string>
+    <string name="view_holder">View Holder</string>
+    <string name="tag_cursor">Tag cursor</string>
 
 </resources>

@@ -46,7 +46,7 @@ import com.treelev.isimple.views.TwoWayView;
 import java.util.List;
 
 public class CatalogListActivityNew extends BaseActivity implements OnItemClickListener,
-        ImageLoaderProvider {
+        ImageLoaderProvider, OnClickListener {
 
     private static final String TAG = CatalogListActivityNew.class.getSimpleName();
 
@@ -101,12 +101,12 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         sakeTwoWayView = (TwoWayView) findViewById(R.id.catalog_sake_two_way_view);
         waterTwoWayView = (TwoWayView) findViewById(R.id.catalog_water_two_way_view);
 
-        wineCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WINE.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
-        spiritsCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SPIRITS.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
-        sparklingCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SPARKLING.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
-        portoHeresCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.PORTO.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
-        sakeCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SAKE.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
-        waterCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WATER.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT);
+        wineCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WINE.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT, this);
+        spiritsCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SPIRITS.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT, this);
+        sparklingCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SPARKLING.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT, this);
+        portoHeresCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.PORTO.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT, this);
+        sakeCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.SAKE.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT, this);
+        waterCatalogItemAdapter = new CatalogItemAdapter(DrinkCategory.WATER.ordinal(), this, null, getSupportLoaderManager(), ProxyManager.SORT_DEFAULT, this);
 
         wineTwoWayView.setAdapter(wineCatalogItemAdapter);
         spiritsTwoWayView.setAdapter(spiritsCatalogItemAdapter);
@@ -318,6 +318,27 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Cursor product = (Cursor) parent.getAdapter().getItem(position);
+        performClick(product);
+    }
+
+    @Override
+    public ImageLoader getInitializedImageLoader() {
+        return bannersImageLoader;
+    }
+
+    @Override
+    public DisplayImageOptions getImageLoaderOptions() {
+        return bannersImageLoaderOptions;
+    }
+
+    @Override
+    public void onClick(View view) {
+        // THIS IS ON ITEM CLICK FOR LISTVIEW
+        // NOTE R.string.tag_cursor is used just as key (view.setTag(key, value))
+        performClick((Cursor) view.getTag(R.string.tag_cursor));
+    }
+
+    private void performClick(Cursor product) {
         Intent startIntent;
         int itemCountIndex = product.getColumnIndex("count");
         if (product.getInt(itemCountIndex) > 1) {
@@ -333,15 +354,4 @@ public class CatalogListActivityNew extends BaseActivity implements OnItemClickL
         }
         overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
     }
-
-    @Override
-    public ImageLoader getInitializedImageLoader() {
-        return bannersImageLoader;
-    }
-
-    @Override
-    public DisplayImageOptions getImageLoaderOptions() {
-        return bannersImageLoaderOptions;
-    }
-
 }

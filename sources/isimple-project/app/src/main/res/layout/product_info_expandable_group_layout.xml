@@ -13,7 +13,7 @@
             android:paddingLeft="11dip"
             android:scaleType="center"
             android:layout_gravity="center_vertical"/>
-    <org.holoeverywhere.widget.TextView
+    <TextView
             android:id="@+id/group_name"
             android:layout_width="1000dip"
             android:layout_height="50dip"

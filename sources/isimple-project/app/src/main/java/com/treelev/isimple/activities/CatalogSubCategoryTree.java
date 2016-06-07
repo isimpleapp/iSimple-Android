@@ -38,10 +38,10 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
         mFilterWhereClause = getIntent().getStringExtra(CatalogListActivityNew.FILTER_WHERE_CLAUSE);
         mDrinkID = getIntent().getStringExtra(CatalogListActivityNew.DRINK_ID);
         mQuery = getIntent().getStringExtra(SearchResultActivity.SEARCH_QUERY);
-//        mTreeAdapter = new CatalogSubCategoryItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mDrinkID, mFilterWhereClause, mLocationId, mQuery, mSortBy);
-//        getExpandableListView().setAdapter(mTreeAdapter);
-//        disableOnGroupClick();
-//        getSupportLoaderManager().restartLoader(0, null, this);
+        mTreeAdapter = new CatalogSubCategoryItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mDrinkID, mFilterWhereClause, mLocationId, mQuery, mSortBy);
+        getExpandableListView().setAdapter(mTreeAdapter);
+        disableOnGroupClick();
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     @Override

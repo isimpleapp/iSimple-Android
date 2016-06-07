@@ -203,7 +203,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 		getExpandableListView().addHeaderView(headerView, null, false);
 		List<ProductContent> productContentList = createExpandableItems(mProduct);
 		ProductContentAdapter mListAdapter = new ProductContentAdapter(this, productContentList);
-//		getExpandableListView().setAdapter(mListAdapter);
+		getExpandableListView().setAdapter(mListAdapter);
 		populateFormsFields(headerView, mProduct);
 		LinearLayout list_layout = (LinearLayout) headerView.findViewById(R.id.list_layout);
 		((RelativeLayout.LayoutParams) list_layout.getLayoutParams()).width = widthDisplay() - (widthDisplay() / 3);

@@ -89,8 +89,7 @@ import java.util.List;
  * A view that shows items in a vertical or horizontal scrolling list.
  * The items come from the {@link ListAdapter} associated with this view.
  */
-public class TwoWayView extends AdapterView<ListAdapter> implements
-        ViewTreeObserver.OnTouchModeChangeListener {
+public class TwoWayView extends AdapterView<ListAdapter> implements ViewTreeObserver.OnTouchModeChangeListener {
     private static final String LOGTAG = "TwoWayView";
 
     private static final int NO_POSITION = -1;

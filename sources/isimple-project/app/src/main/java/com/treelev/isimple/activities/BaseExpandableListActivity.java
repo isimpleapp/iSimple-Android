@@ -78,24 +78,19 @@ public class BaseExpandableListActivity extends BaseActivity implements Expandab
 
     protected void createDrawableMenu() {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
         initDrawerMenuList();
     }
 
     private void initDrawerMenuList() {
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
-
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View drawerHeader = inflater.inflate(R.layout.drawer_header, drawerList, false);
         drawerList.addHeaderView(drawerHeader);
-
         drawerList.setAdapter(adapter);
         drawerList.setOnItemClickListener(new OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 drawerLayout.closeDrawers();
@@ -307,14 +302,12 @@ public class BaseExpandableListActivity extends BaseActivity implements Expandab
     }
 
     private class SyncFinishedReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             LogUtils.i("Test log", "SyncFinishedReceiver onReceive");
             hideDialog();
             LocalBroadcastManager.getInstance(context).unregisterReceiver(syncStatusReceiver);
             LocalBroadcastManager.getInstance(context).unregisterReceiver(syncFinishedReceiver);
-
             if (!intent.getBooleanExtra(Constants.INTENT_ACTION_SYNC_SUCCESSFULL, true)) {
                 Toast.makeText(context, R.string.sync_error_update_index_error, Toast.LENGTH_LONG).show();
             }

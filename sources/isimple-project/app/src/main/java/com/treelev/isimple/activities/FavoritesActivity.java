@@ -84,14 +84,13 @@ public class FavoritesActivity extends BaseListActivity implements LoaderManager
     @Override
     protected void onStart() {
         super.onStart();
-
         Analytics.screen_Favourites(this);
     }
 
     @Override
     protected void onResume() {
         if (mEventChangeDataBase) {
-//            getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
+            getSupportLoaderManager().restartLoader(LOAD_FAVOURITE_ITEMS, null, this);
             mEventChangeDataBase = false;
         }
         super.onResume();
@@ -104,7 +103,7 @@ public class FavoritesActivity extends BaseListActivity implements LoaderManager
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getSupportMenuInflater().inflate(R.menu.action_mode_favourites, menu);
+        getMenuInflater().inflate(R.menu.action_mode_favourites, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -134,6 +133,7 @@ public class FavoritesActivity extends BaseListActivity implements LoaderManager
 
     public void createNavigationMenuBar() {
         createDrawableMenu();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setIcon(R.drawable.menu_ico_fav);
     }
 

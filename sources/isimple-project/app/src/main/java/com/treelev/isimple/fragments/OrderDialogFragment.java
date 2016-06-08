@@ -64,7 +64,10 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
     private boolean isEmailValid;
     private boolean isPhoneValid;
 
-    public OrderDialogFragment(int typeDialog, String region) {
+    public OrderDialogFragment() {
+    }
+
+    public void setData(int typeDialog, String region) {
         mType = typeDialog;
         this.region = region;
     }
@@ -80,14 +83,11 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
     @Override
     public void onStart() {
         super.onStart();
-
         Analytics.screen_OrderInfo(getActivity());
-
 //        mBtnPositive = ((AlertDialog) (mDialog)).getButton(AlertDialog.BUTTON_POSITIVE);
         if (mBtnPositive != null) {
             mBtnPositive.setEnabled(false);
         }
-
         switch (mType) {
             case FILL_CONTACT_DATA_TYPE:
                 mNameField = (EditText) mDialog.findViewById(R.id.contact_info_name);
@@ -112,7 +112,6 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
                 if (name != null) {
                     mNameField.setText(name);
                 }
-
                 mEmailField = (EditText) mDialog.findViewById(R.id.contact_info_email);
                 mEmailField.addTextChangedListener(new TextWatcher() {
 
@@ -136,10 +135,8 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
                 if (email != null) {
                     mEmailField.setText(email);
                 }
-
                 mPhoneField = (EditText) mDialog.findViewById(R.id.contact_info_phone);
                 mPhoneField.addTextChangedListener(new TextWatcher() {
-
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         if (!mFormatting) {
@@ -179,13 +176,9 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
                 TextView tvSuccess = (TextView) mDialog.findViewById(R.id.message_success);
                 if (tvSuccess != null) {
                     if (mResultCode > 0) {
-                        tvSuccess.setText(Html
-                                .fromHtml(String.format(
-                                        getString(R.string.message_success_send_orders),
-                                        mResultCode)));
+                        tvSuccess.setText(Html.fromHtml(String.format(getString(R.string.message_success_send_orders), mResultCode)));
                     } else {
-                        tvSuccess.setText(Html
-                                .fromHtml(getString(R.string.message_not_success_send_orders)));
+                        tvSuccess.setText(Html.fromHtml(getString(R.string.message_not_success_send_orders)));
                     }
                 }
                 break;
@@ -203,21 +196,16 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
     public void onClick(DialogInterface dialogInterface, int i) {
         switch (i) {
             case Dialog.BUTTON_POSITIVE:
-                SharedPreferencesManager.setContactDataName(getActivity(), mNameField.getText()
-                        .toString());
-                SharedPreferencesManager.setContactDataEmail(getActivity(), mEmailField.getText()
-                        .toString());
-                SharedPreferencesManager.setContactDataPhone(getActivity(), mPhoneField.getText()
-                        .toString());
-                new SendOrders(getActivity(), mNameField.getText().toString(), mEmailField
-                        .getText().toString(), mPhoneField.getText().toString()).execute();
+                SharedPreferencesManager.setContactDataName(getActivity(), mNameField.getText().toString());
+                SharedPreferencesManager.setContactDataEmail(getActivity(), mEmailField.getText().toString());
+                SharedPreferencesManager.setContactDataPhone(getActivity(), mPhoneField.getText().toString());
+                new SendOrders(getActivity(), mNameField.getText().toString(), mEmailField.getText().toString(), mPhoneField.getText().toString()).execute();
                 break;
         }
     }
 
     private void validateFields() {
-        if (!TextUtils.isEmpty(mNameField.getText().toString()) && (isEmailValid
-                || isPhoneValid)) {
+        if (!TextUtils.isEmpty(mNameField.getText().toString()) && (isEmailValid || isPhoneValid)) {
             mBtnPositive.setEnabled(true);
         } else {
             mBtnPositive.setEnabled(false);
@@ -257,9 +245,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
             cursorPosition = 16;
         } else if (mBefore == 0 && mPositionCursor > 1) { // insert char
             offset = 1;
-            if ((length == 4 || length == 7 || length == 8 || length == 11 || length == 12
-                    || length == 14 || length == 15)
-                    && mPositionCursor < length - 1) {
+            if ((length == 4 || length == 7 || length == 8 || length == 11 || length == 12 || length == 14 || length == 15) && mPositionCursor < length - 1) {
                 offset = 2;
             }
             cursorPosition = mPositionCursor + offset;
@@ -304,8 +290,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
             } else if (length == 4) {
                 newPhoneNumber = String.format("+7 %s ",
                         str.substring(1));
-            }
-            else if (length > 4 && length < 7) {
+            } else if (length > 4 && length < 7) {
                 newPhoneNumber = String.format("+7 %s %s",
                         str.substring(1, 4), str.substring(4));
             } else if (length == 7) {
@@ -344,8 +329,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
             if (length > 1 && length <= 4) {
                 newPhoneNumber = String.format("+7 %s",
                         str.substring(1));
-            }
-            else if (length > 4 && length <= 7) {
+            } else if (length > 4 && length <= 7) {
                 newPhoneNumber = String.format("+7 %s %s",
                         str.substring(1, 4), str.substring(4));
             } else if (length > 7 && length <= 9) {
@@ -435,8 +419,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
         private String contacInfoEmail;
         private String contacInfoPhone;
 
-        public SendOrders(Context context, String contacInfoName, String contacInfoEmail,
-                String contacInfoPhone) {
+        public SendOrders(Context context, String contacInfoName, String contacInfoEmail, String contacInfoPhone) {
             mContext = context;
             this.contacInfoName = contacInfoName;
             this.contacInfoEmail = contacInfoEmail;
@@ -469,7 +452,8 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
                 ((ShoppingCartActivity) mContext).setResultSendOrders(result);
                 ((ShoppingCartActivity) mContext).sendOrderSetFlag(true);
             } else {
-                OrderDialogFragment dialog = new OrderDialogFragment(SUCCESS_TYPE, null);
+                OrderDialogFragment dialog = new OrderDialogFragment();
+                dialog.setData(SUCCESS_TYPE, null);
                 dialog.setResultCode(result);
 //                dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
                 ((ShoppingCartActivity) mContext).setResultSendOrders(result);
@@ -483,7 +467,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
             }
             return mProxyManager;
         }
-        
+
         private String getQuery(List<Pair<String, String>> params) {
             StringBuilder result = new StringBuilder();
             boolean first = true;
@@ -517,24 +501,18 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
                 urlConnection.setDoOutput(true);
                 urlConnection.setDoInput(true);
                 urlConnection.addRequestProperty("Accept-Charset", "UTF-8");
-
                 List<Pair<String, String>> nameValuePairs = new ArrayList<Pair<String, String>>(3);
                 nameValuePairs.add(new Pair<String, String>("Device-ID", getDeviceID()));
                 nameValuePairs.add(new Pair<String, String>("MD5", getMD5()));
                 nameValuePairs.add(new Pair<String, String>("Order-Info", getListOrder()));
-                
                 OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
                 writer.write(getQuery(nameValuePairs));
                 writer.flush();
                 writer.close();
                 os.close();
-
                 urlConnection.connect();
-
-                resultCode = getResponseAnswer(WebServiceManager.readStream(urlConnection
-                        .getInputStream()));
+                resultCode = getResponseAnswer(WebServiceManager.readStream(urlConnection.getInputStream()));
             } catch (MalformedURLException e1) {
                 e1.printStackTrace();
             } catch (IOException e) {
@@ -586,23 +564,19 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
         }
 
         private String getDeviceID() {
-            TelephonyManager telephonyManager = (TelephonyManager) mContext
-                    .getSystemService(Context.TELEPHONY_SERVICE);
+            TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
             String itemiID = telephonyManager.getDeviceId();
             if (itemiID == null) {
-                itemiID = Settings.Secure.getString(mContext.getApplicationContext()
-                        .getContentResolver(), Settings.Secure.ANDROID_ID);
+                itemiID = Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
             }
             return itemiID;
         }
 
         private String getMD5() {
             try {
-                String s = String.format("%s%s", mContext.getString(R.string.shared_secret).trim(),
-                        getDeviceID());
+                String s = String.format("%s%s", mContext.getString(R.string.shared_secret).trim(), getDeviceID());
                 // Create MD5 Hash
-                MessageDigest digest = java.security.MessageDigest
-                        .getInstance("MD5");
+                MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
                 digest.update(s.getBytes());
                 byte messageDigest[] = digest.digest();
                 // Create Hex String
@@ -624,8 +598,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
             PackageInfo pInfo;
             String version = "";
             try {
-                pInfo = getActivity().getPackageManager().getPackageInfo(
-                        getActivity().getPackageName(), 0);
+                pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
                 version = pInfo.versionName;
             } catch (NameNotFoundException e) {
                 e.printStackTrace();
@@ -659,11 +632,8 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
             ));
             List<Order> orders = getProxyManager().getOrders();
             for (Order orderItem : orders) {
-                sbListOrder
-                        .append(String
-                                .format("<OrderItem><ItemID>%s</ItemID><Quantity>%s</Quantity><Price>%s</Price></OrderItem>",
-                                        orderItem.getItemID(), orderItem.getQuantity(),
-                                        orderItem.getPrice()));
+                sbListOrder.append(String.format("<OrderItem><ItemID>%s</ItemID><Quantity>%s</Quantity><Price>%s</Price></OrderItem>",
+                        orderItem.getItemID(), orderItem.getQuantity(), orderItem.getPrice()));
             }
             sbListOrder.append("</Order>");
             LogUtils.i("", "sbListOrder.toString() = " + sbListOrder.toString());

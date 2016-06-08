@@ -39,10 +39,10 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_expandable_layout);
 //        createDrawableMenu();
-        getExpandableListView().setAdapter(new CustomExpandableListAdapter( getGroupItems(getGroupData()), R.layout.filter_item_view,
-                new String[] { GROUP_NAME }, new int[] { R.id.filter_data_name },
+        getExpandableListView().setAdapter(new CustomExpandableListAdapter(getGroupItems(getGroupData()), R.layout.filter_item_view,
+                new String[]{GROUP_NAME}, new int[]{R.id.filter_data_name},
                 getChildItems(getGroupData(), getChildData()), R.layout.filter_item_view,
-                new String[] { ITEM_NAME }, new int[] { R.id.filter_data_name }));
+                new String[]{ITEM_NAME}, new int[]{R.id.filter_data_name}));
         hookRemoveArrowGroupItem();
     }
 
@@ -130,8 +130,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             return (parcelableItems != null) ?
                     Arrays.copyOf(parcelableItems, parcelableItems.length, FilterItemData[].class) :
                     new FilterItemData[0];
-        }
-        else {
+        } else {
             return new FilterItemData[0];
         }
     }
@@ -153,8 +152,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
                 }
             }
             return childData;
-        }
-        else {
+        } else {
             return childData;
         }
     }
@@ -197,37 +195,29 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         return childData;
     }
 
-    private void hookRemoveArrowGroupItem(){
+    private void hookRemoveArrowGroupItem() {
         ExpandableListView expandView = getExpandableListView();
-        CustomExpandableListAdapter adapter = (CustomExpandableListAdapter)expandView.getExpandableListAdapter();
+        CustomExpandableListAdapter adapter = (CustomExpandableListAdapter) expandView.getExpandableListAdapter();
         int countGroup = adapter.getGroupCount();
-        for(int position = 0; position < countGroup; ++position){
+        for (int position = 0; position < countGroup; ++position) {
             expandView.expandGroup(position);
-            if(adapter.hasChildren(position)){
+            if (adapter.hasChildren(position)) {
                 expandView.collapseGroup(position);
             }
         }
     }
 
     private class CustomExpandableListAdapter extends SimpleExpandableListAdapter implements View.OnClickListener {
-
         private List<View> mGroupViews;
 
-
-        public CustomExpandableListAdapter(List<? extends Map<String, ?>> groupData,
-                                           int groupLayout,
-                                           String[] groupFrom,
-                                           int[] groupTo,
-                                           List<? extends List<? extends Map<String, ?>>> childData,
-                                           int childLayout,
-                                           String[] childFrom,
-                                           int[] childTo) {
-            super(ExpandableListFilterActivity.this, groupData, groupLayout,
-                    groupFrom, groupTo, childData, childLayout, childFrom, childTo);
+        public CustomExpandableListAdapter(List<? extends Map<String, ?>> groupData, int groupLayout, String[] groupFrom,
+                                           int[] groupTo, List<? extends List<? extends Map<String, ?>>> childData,
+                                           int childLayout, String[] childFrom, int[] childTo) {
+            super(ExpandableListFilterActivity.this, groupData, groupLayout, groupFrom, groupTo, childData, childLayout, childFrom, childTo);
             mGroupViews = new ArrayList<View>();
         }
 
-        public View getGroupView(int position){
+        public View getGroupView(int position) {
             return mGroupViews.get(position);
         }
 
@@ -235,12 +225,12 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         public View newGroupView(boolean isExpanded, ViewGroup parent) {
             View groupView = super.newGroupView(isExpanded, parent);
             CheckBox checkBox = (CheckBox) groupView.findViewById(R.id.filter_data_check);
-            TextView textView = (TextView)groupView.findViewById(R.id.filter_data_name);
+            TextView textView = (TextView) groupView.findViewById(R.id.filter_data_name);
             textView.setPadding(30, textView.getPaddingTop(), textView.getPaddingRight(), textView.getPaddingBottom());
             groupView.setOnClickListener(this);
             checkBox.setOnClickListener(this);
             GroupViewHolder viewHolder = new GroupViewHolder();
-            viewHolder.listView = (ExpandableListView)parent;
+            viewHolder.listView = (ExpandableListView) parent;
             viewHolder.textView = textView;
             viewHolder.checkBox = checkBox;
             groupView.setTag(viewHolder);
@@ -251,7 +241,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
             View groupView = super.getGroupView(groupPosition, isExpanded, convertView, parent);
-            GroupViewHolder viewHolder = (GroupViewHolder)groupView.getTag();
+            GroupViewHolder viewHolder = (GroupViewHolder) groupView.getTag();
             FilterItemData[] filters = getFilterItems(groupPosition);
             viewHolder.groupPosition = groupPosition;
             viewHolder.textView.setText(Utils.ellipseString(viewHolder.textView.getText().toString(), 24));
@@ -265,7 +255,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             return groupView;
         }
 
-        public boolean hasChildren(int groupPosition){
+        public boolean hasChildren(int groupPosition) {
             return getFilterItems(groupPosition).length > 0;
         }
 
@@ -277,7 +267,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             view.setOnClickListener(this);
             checkBox.setOnClickListener(this);
             ChildViewHolder viewHolder = new ChildViewHolder();
-            viewHolder.listView = (ExpandableListView)parent;
+            viewHolder.listView = (ExpandableListView) parent;
             viewHolder.textView = textView;
             viewHolder.checkBox = checkBox;
             view.setTag(viewHolder);
@@ -287,7 +277,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         @Override
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             View childView = super.getChildView(groupPosition, childPosition, isLastChild, convertView, parent);
-            ChildViewHolder viewHolder = (ChildViewHolder)childView.getTag();
+            ChildViewHolder viewHolder = (ChildViewHolder) childView.getTag();
             viewHolder.groupPosition = groupPosition;
             viewHolder.childPosition = childPosition;
             FilterItemData filterData = getFilterItemData(groupPosition, childPosition);
@@ -301,10 +291,10 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
             int originalEventSourceId = v.getId();
 
             if (originalEventSourceId == R.id.filter_data_check) {
-                v = (View)v.getParent();
+                v = (View) v.getParent();
             }
             Object tag = v.getTag();
-            if (tag instanceof GroupViewHolder)  {
+            if (tag instanceof GroupViewHolder) {
                 processGroupViewClick(v, originalEventSourceId);
             } else if (tag instanceof ChildViewHolder) {
                 processChildViewClick(v);
@@ -369,7 +359,7 @@ public class ExpandableListFilterActivity extends BaseExpandableListActivity {
         }
 
         private FilterItemData[] getFilterItems(int groupPosition) {
-            Map<String, Object> group = (Map<String, Object>)getGroup(groupPosition);
+            Map<String, Object> group = (Map<String, Object>) getGroup(groupPosition);
             return getChildData().get(group.get(GROUP_NAME));
         }
 

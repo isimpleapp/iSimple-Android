@@ -3,7 +3,7 @@
     package="com.treelev.isimple"
     android:installLocation="internalOnly"
     android:versionCode="11"
-    android:versionName="3.0" >
+    android:versionName="3.0">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -41,14 +41,11 @@
         android:name=".app.ISimpleApp"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/iSimpleStyle" >
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+        android:theme="@style/iSimpleStyle">
 
         <receiver
-            android:name=".GcmBroadcastReceiver"
-            android:permission="com.treelev.isimple.android.c2dm.permission.SEND" >
+            android:name=".receiver.GcmBroadcastReceiverMy"
+            android:permission="com.treelev.isimple.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.treelev.isimple.android.c2dm.intent.RECEIVE" />
 
@@ -57,25 +54,17 @@
         </receiver>
         <receiver
             android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".GcmIntentService" />
+        <service android:name=".service.GcmIntentService" />
 
         <activity
             android:name=".activities.CatalogListActivityNew"
-            android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".activities.SearchResultActivity" />
-        </activity>
-        <!-- Delete after New CatalogByCategory final -->
-        <activity
-            android:name=".activities.CatalogByCategoryActivityDepracated"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".activities.SearchResultActivity" />
@@ -83,7 +72,7 @@
         <!-- New CatalogByCategory  NOT FINAL -->
         <activity
             android:name=".activities.CatalogByCategoryActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".activities.SearchResultActivity" />
@@ -94,7 +83,7 @@
         <activity
             android:name=".activities.SearchResultActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -147,19 +136,19 @@
         <activity
             android:name=".activities.SplashActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="org.acra.CrashReportDialog"
-            android:excludeFromRecents="true"
-            android:finishOnTaskLaunch="true"
-            android:launchMode="singleInstance"
-            android:theme="@android:style/Theme.Dialog" />
+        <!--<activity-->
+        <!--android:name="org.acra.CrashReportDialog"-->
+        <!--android:excludeFromRecents="true"-->
+        <!--android:finishOnTaskLaunch="true"-->
+        <!--android:launchMode="singleInstance"-->
+        <!--android:theme="@android:style/Theme.Dialog" />-->
         <activity
             android:name=".activities.ProductImageActivity"
             android:launchMode="singleTop"
@@ -176,6 +165,11 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="9fe8f4f3c401a5d84457a0cb810b275914bb8f2c" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
     </application>
 
 </manifest>

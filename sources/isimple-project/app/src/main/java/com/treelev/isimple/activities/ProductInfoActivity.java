@@ -90,7 +90,6 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-
 		Analytics.screen_ProductCard(this);
 	}
 
@@ -112,7 +111,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-//		getSupportMenuInflater().inflate(R.menu.menu_shared, menu);
+		getMenuInflater().inflate(R.menu.menu_shared, menu);
 		mItemFavourite = menu.findItem(R.id.menu_item_favorite);
 		if (mIsFavourite) {
 			mItemFavourite.setIcon(R.drawable.product_icon_not_favorite);

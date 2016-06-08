@@ -113,18 +113,15 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
             if (mDeleteItemsId.contains(getItemID(position)) && android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.HONEYCOMB) {
 //                convertView = View.inflate(mContext, R.layout.catalog_category_layout, null);
                 convertView = View.inflate(mContext, R.layout.catalog_item_layout, null);
-
                 initButtonCancel(convertView, position);
             } else {
 //                convertView = View.inflate(mContext, R.layout.catalog_category_layout, null);
                 convertView = View.inflate(mContext, R.layout.catalog_item_layout, null);
-
                 bindInfo(convertView, (Cursor) getItem(position));
             }
         } else {
 //            convertView = View.inflate(mContext, R.layout.catalog_category_layout, null);
             convertView = View.inflate(mContext, R.layout.catalog_item_layout, null);
-
             bindInfo(convertView, (Cursor) getItem(position));
         }
         return convertView;
@@ -190,8 +187,14 @@ public class CatalogItemCursorAdapter extends SimpleCursorAdapter {
         itemLocName.setText(organizeLocItemNameLabel(cursor.getString(itemLocNameIndex)));
         String volumeLabel = Utils.organizeProductLabel(Utils.removeZeros(cursor.getString(itemVolumeIndex)));
         String priceLabel = cursor.getString(itemPriceIndex);
-        String discountLabel = String.valueOf(cursor.getInt(itemDiscountIndex));
-        String originPriceLabel = String.valueOf(cursor.getInt(itemOriginPriceIndex));
+        String discountLabel = new String();
+        if (itemDiscountIndex != -1) {
+            discountLabel = String.valueOf(cursor.getInt(itemDiscountIndex));
+        }
+        String originPriceLabel = new String();
+        if (itemOriginPriceIndex != -1) {
+            originPriceLabel = String.valueOf(cursor.getInt(itemOriginPriceIndex));
+        }
         if (priceLabel != null) {
             if (priceLabel.equalsIgnoreCase("0") || priceLabel.equalsIgnoreCase("999999")) {
                 priceLabel = "";

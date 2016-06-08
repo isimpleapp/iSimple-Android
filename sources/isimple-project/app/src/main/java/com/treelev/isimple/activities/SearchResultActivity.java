@@ -27,17 +27,12 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
     public static Integer categoryID;
     public static String locationId;
     public static String SEARCH_QUERY = "search_query";
-
     private String mLocationId;
     private String mQuery;
-
     private SearchItemTreeCursorAdapter mTreeSearchAdapter;
     private SearchView mSearchView;
-
     private View darkView;
-
     private int mSortBy = ProxyManager.SORT_NAME_AZ;
-
     int i = 0;
 
     @Override
@@ -53,7 +48,6 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
         createDrawableMenu();
         RadioGroup rg = (RadioGroup) findViewById(R.id.sort_group);
         rg.setOnCheckedChangeListener(this);
-
         darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(new View.OnClickListener() {
@@ -61,9 +55,7 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
             public void onClick(View v) {
             }
         });
-
         handledIntent(getIntent());
-
         mTreeSearchAdapter = new SearchItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mQuery, categoryID, locationId, mSortBy);
         getExpandableListView().setAdapter(mTreeSearchAdapter);
         getSupportLoaderManager().restartLoader(0, null, this);
@@ -211,57 +203,44 @@ public class SearchResultActivity extends BaseExpandableListActivity implements
     }
 
     @Override
-    public boolean onChildClick(ExpandableListView parent, View v,
-                                int groupPosition, int childPosition, long id) {
-        Cursor product = mTreeSearchAdapter.getChild(groupPosition,
-                childPosition);
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        Cursor product = mTreeSearchAdapter.getChild(groupPosition, childPosition);
         Intent startIntent;
         int itemCountIndex = product.getColumnIndex("count");
         if (product.getInt(itemCountIndex) > 1) {
-            int itemDrinkIdIndex = product
-                    .getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
+            int itemDrinkIdIndex = product.getColumnIndex(DatabaseSqlHelper.ITEM_DRINK_ID);
             startIntent = new Intent(this, CatalogSubCategoryTree.class);
             startIntent.putExtra(SEARCH_QUERY, mQuery);
-            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID,
-                    product.getString(itemDrinkIdIndex));
+            startIntent.putExtra(CatalogByCategoryActivity.DRINK_ID, product.getString(itemDrinkIdIndex));
             startIntent.putExtra(ShopInfoActivity.LOCATION_ID, mLocationId);
             startActivity(startIntent);
         } else {
             startIntent = new Intent(this, ProductInfoActivity.class);
-            startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG,
-                    product.getString(0));
+            startIntent.putExtra(ProductInfoActivity.ITEM_ID_TAG, product.getString(0));
             startActivityForResult(startIntent, 0);
         }
-        overridePendingTransition(R.anim.start_show_anim,
-                R.anim.start_back_anim);
+        overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
         return super.onChildClick(parent, v, groupPosition, childPosition, id);
     }
 
     private void handledIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String mDrinkId = intent
-                    .getStringExtra(CatalogListActivityNew.DRINK_ID);
+            String mDrinkId = intent.getStringExtra(CatalogListActivityNew.DRINK_ID);
             mQuery = intent.getStringExtra(SearchManager.QUERY);
-
             if (!mQuery.contains("%")) {
-
-                mQuery = mQuery.trim().replace("_", "").replace("%", "")
-                        .replace('\\', '_');
+                mQuery = mQuery.trim().replace("_", "").replace("%", "").replace('\\', '_');
             }
-
         }
     }
 
     private void back() {
         finish();
-        overridePendingTransition(R.anim.finish_show_anim,
-                R.anim.finish_back_anim);
+        overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new SelectSectionsItems(this,
-                ProxyManager.TYPE_SECTION_FILTRATION_SEARCH);
+        return new SelectSectionsItems(this, ProxyManager.TYPE_SECTION_FILTRATION_SEARCH);
     }
 
     @Override

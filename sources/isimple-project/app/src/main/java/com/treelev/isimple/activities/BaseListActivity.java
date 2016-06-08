@@ -72,6 +72,7 @@ public class BaseListActivity extends BaseActivity implements ActionBar.OnNaviga
 
     protected void createDrawableMenu() {
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         initDrawerMenuList();

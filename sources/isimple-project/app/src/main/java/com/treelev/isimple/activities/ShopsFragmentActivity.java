@@ -10,6 +10,8 @@ import android.widget.RadioGroup;
 
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.ui.AbsDistanceShop;
+import com.treelev.isimple.fragments.MapFragment;
+import com.treelev.isimple.fragments.ShopChainFragment;
 import com.treelev.isimple.fragments.ShopListFragment;
 
 import java.util.List;
@@ -58,20 +60,20 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-//        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        Fragment mapFragment;
-//        switch (checkedId) {
-//            case R.id.group_shop_list:
-//                fragmentTransaction.replace(R.id.fragment_container, shopListFragment);
-//                break;
-//            case R.id.group_shop_map:
-//                fragmentTransaction.replace(R.id.fragment_container, shopMapFragment);
-//                break;
-//            case R.id.group_shop_network:
-//                fragmentTransaction.replace(R.id.fragment_container, shopChainFragment);
-//                break;
-//        }
-//        fragmentTransaction.commit();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Fragment mapFragment;
+        switch (checkedId) {
+            case R.id.group_shop_list:
+                fragmentTransaction.replace(R.id.fragment_container, shopListFragment);
+                break;
+            case R.id.group_shop_map:
+                fragmentTransaction.replace(R.id.fragment_container, shopMapFragment);
+                break;
+            case R.id.group_shop_network:
+                fragmentTransaction.replace(R.id.fragment_container, shopChainFragment);
+                break;
+        }
+        fragmentTransaction.commit();
     }
 
     protected void createNavigationMenuBar() {
@@ -83,7 +85,7 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
 
     public void setShopMapFragmentArguments(List<AbsDistanceShop> shopList) {
         //ANALYTICS
-//        ((MapFragment) shopMapFragment).setNearestShopList(shopList);
+        ((MapFragment) shopMapFragment).setNearestShopList(shopList);
     }
 
     private void organizeFragments() {
@@ -97,9 +99,9 @@ public class ShopsFragmentActivity extends BaseActivity implements RadioGroup.On
         //ANALYTICS
         shopListFragment = new ShopListFragment();
         shopListFragment.setArguments(bundle);
-//        shopMapFragment = new MapFragment();
-//        shopChainFragment = new ShopChainFragment();
-//        shopChainFragment.setArguments(bundle);
+        shopMapFragment = new MapFragment();
+        shopChainFragment = new ShopChainFragment();
+        shopChainFragment.setArguments(bundle);
     }
 
     private void organizeFrameLayout() {

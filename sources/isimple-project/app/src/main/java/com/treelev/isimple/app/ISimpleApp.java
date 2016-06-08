@@ -114,7 +114,6 @@ public class ISimpleApp extends Application {
     public boolean isInternetAvailable() {
         try {
             InetAddress ipAddr = InetAddress.getByName("google.com"); //You can replace it with your name
-
             if (ipAddr.equals("")) {
                 return false;
             } else {
@@ -128,18 +127,13 @@ public class ISimpleApp extends Application {
     }
 
     public static String getDeviceId() {
-        TelephonyManager telephonyManager = (TelephonyManager) getInstantce().getSystemService(
-                Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) getInstantce().getSystemService(Context.TELEPHONY_SERVICE);
         String imeiOrEsn = telephonyManager.getDeviceId();
-
         WifiManager manager = (WifiManager) getInstantce().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         String macAddress = info.getMacAddress();
-
         String uuid = UUID.randomUUID().toString();
-
-        return new StringBuilder(imeiOrEsn).append("_").append(macAddress).append("_")
-                .append(uuid).toString();
+        return new StringBuilder(imeiOrEsn).append("_").append(macAddress).append("_").append(uuid).toString();
     }
     
     public static String getDeviceName() {

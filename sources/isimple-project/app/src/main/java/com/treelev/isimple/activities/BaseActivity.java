@@ -46,19 +46,14 @@ import com.treelev.isimple.utils.observer.Observer;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
 
 
-public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavigationListener,
-        Observer, CatalogUpdateUrlChangeListener, SyncProgressListener {
-
+public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavigationListener, Observer, CatalogUpdateUrlChangeListener, SyncProgressListener {
     public final static String BARCODE = "barcode";
-
     private int mCurrentCategory;
     public boolean useBarcodeScaner;
     private boolean backAfterBarcodeScaner;
     protected final int LENGTH_SEARCH_QUERY = 3;
     protected boolean mEventChangeDataBase;
-
     protected DrawerLayout drawerLayout;
-
     private Dialog mDialog;
     public SyncStatusReceiver syncStatusReceiver;
     public SyncFinishedReceiver syncFinishedReceiver;
@@ -67,16 +62,11 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ObserverDataChanged.getInstant().addObserver(this);
-
         syncStatusReceiver = new SyncStatusReceiver();
         syncFinishedReceiver = new SyncFinishedReceiver();
-
         if (!SyncServcie.startSyncIfNeeded(this, this)) {
             SyncServcie.startOffersSyncIfNeeded(this, this);
         }
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -139,7 +129,6 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
         if (resultCode == android.app.Activity.RESULT_OK) {
             switch (requestCode) {
                 case IntentIntegrator.REQUEST_CODE:
-
                     codeInfo = data.getStringExtra("SCAN_RESULT");
                     if (codeInfo != null) {
                         checkBarcodeResult(codeInfo);
@@ -150,6 +139,7 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
     }
 
     protected void createDrawableMenu() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -164,7 +154,6 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
         drawerList.addHeaderView(drawerHeader);
         drawerList.setAdapter(adapter);
         drawerList.setOnItemClickListener(new OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 drawerLayout.closeDrawers();
@@ -174,7 +163,6 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
                 }
             }
         });
-
     }
 
     private Intent getStartIntentByItemPosition(int itemPosition) {
@@ -197,7 +185,6 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
                 break;
             case 4: //Scan Code
                 Analytics.screen_Scan(this);
-
                 IntentIntegrator integrator = new IntentIntegrator(this);
                 integrator.initiateScan();
                 break;
@@ -312,14 +299,11 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
     public void startListeningForProgress() {
         LogUtils.i("Test log", "startListeningForProgress");
         showDialog();
-        LocalBroadcastManager.getInstance(this).registerReceiver(syncStatusReceiver,
-                new IntentFilter(Constants.INTENT_ACTION_SYNC_STATE_UPDATE));
-        registerReceiver(syncFinishedReceiver,
-                new IntentFilter(Constants.INTENT_ACTION_SYNC_FINISHED));
+        LocalBroadcastManager.getInstance(this).registerReceiver(syncStatusReceiver, new IntentFilter(Constants.INTENT_ACTION_SYNC_STATE_UPDATE));
+        registerReceiver(syncFinishedReceiver, new IntentFilter(Constants.INTENT_ACTION_SYNC_FINISHED));
     }
 
     private class SyncStatusReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             updateDialog(intent.getStringExtra(Constants.INTENT_EXTRA_SYNC_STATE));
@@ -340,7 +324,6 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
                 Toast.makeText(context, R.string.sync_error_update_index_error, Toast.LENGTH_LONG).show();
             }
         }
-
     }
 
     public void updateDialog(String message) {
@@ -352,9 +335,7 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
     public void showDialog() {
         LogUtils.i("Test log", "mDialog = " + mDialog);
         if (mDialog == null) {
-            mDialog = ProgressDialog.show(BaseActivity.this,
-                    getString(R.string.update_data_notify_label),
-                    getString(R.string.update_data_wait_label), false, false);
+            mDialog = ProgressDialog.show(BaseActivity.this, getString(R.string.update_data_notify_label), getString(R.string.update_data_wait_label), false, false);
         }
     }
 
@@ -367,11 +348,9 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
 
     public void initSearchMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
-
         final View darkView = findViewById(R.id.dark_view);
         darkView.setVisibility(View.GONE);
         darkView.setOnClickListener(null);
-
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         final MenuItem mItemSearch = menu.findItem(R.id.menu_search);
         final SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(mItemSearch);

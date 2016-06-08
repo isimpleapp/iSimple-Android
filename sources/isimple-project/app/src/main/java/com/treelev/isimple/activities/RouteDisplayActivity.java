@@ -5,6 +5,7 @@ import android.view.MenuItem;
 
 import com.treelev.isimple.R;
 import com.treelev.isimple.domain.db.Shop;
+import com.treelev.isimple.fragments.MapFragment;
 
 public class RouteDisplayActivity extends BaseActivity {
 
@@ -12,10 +13,8 @@ public class RouteDisplayActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.route_display_layout);
-        boolean flag = getIntent().getBooleanExtra(PickupActivity.PLACE_STORE , false);
-        setCurrentCategory(flag ?
-                ShoppingCartActivity.NAVIGATE_CATEGORY_ID :
-                ShopsFragmentActivity.NAVIGATE_CATEGORY_ID);
+        boolean flag = getIntent().getBooleanExtra(PickupActivity.PLACE_STORE, false);
+        setCurrentCategory(flag ? ShoppingCartActivity.NAVIGATE_CATEGORY_ID : ShopsFragmentActivity.NAVIGATE_CATEGORY_ID);
         Shop shop = (Shop) getIntent().getSerializableExtra(ShopInfoActivity.SHOP);
         createNavigationMenuBar();
         organizeMapFragment(shop);
@@ -44,13 +43,13 @@ public class RouteDisplayActivity extends BaseActivity {
 
     private void organizeMapFragment(Shop shop) {
         //ANALYTICS
-//        MapFragment mapFragment = new MapFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(ShopInfoActivity.SHOP, shop);
-//        mapFragment.setArguments(bundle);
-//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.add(R.id.fragment_container, mapFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
+        MapFragment mapFragment = new MapFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ShopInfoActivity.SHOP, shop);
+        mapFragment.setArguments(bundle);
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, mapFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

@@ -28,8 +28,8 @@ public class ProductImageActivity extends BaseActivity {
         setImage();
     }
 
-    private void setImage(){
-        ImageView imageView = (ImageView)findViewById(R.id.view_product_image);
+    private void setImage() {
+        ImageView imageView = (ImageView) findViewById(R.id.view_product_image);
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         String sizePrefix = "_xhdpi";
 //        String sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
@@ -52,7 +52,8 @@ public class ProductImageActivity extends BaseActivity {
 
     protected void createNavigationMenuBar() {
         createDrawableMenu();
-//        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+        getSupportActionBar().setIcon(R.drawable.menu_ico_catalog);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

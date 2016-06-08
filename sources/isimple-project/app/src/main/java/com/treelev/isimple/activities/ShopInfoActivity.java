@@ -22,7 +22,6 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
 
     public static final String SHOP = "SHOP";
     public static final String LOCATION_ID = "LOCATION_ID";
-
     private Shop mShop;
 
     @Override
@@ -54,7 +53,6 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onStart() {
         super.onStart();
-
         Analytics.screen_StoreCard(this);
     }
 
@@ -151,7 +149,6 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
     private class InitButtonCategory extends AsyncTask<Shop, Void, List<Boolean>>{
-
         private Context mContext;
         private Dialog mDialog;
         private ProxyManager mProxyManager;
@@ -163,8 +160,7 @@ public class ShopInfoActivity extends BaseActivity implements View.OnClickListen
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.dialog_select_data_message), false, false);
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),mContext.getString(R.string.dialog_select_data_message), false, false);
         }
 
         @Override

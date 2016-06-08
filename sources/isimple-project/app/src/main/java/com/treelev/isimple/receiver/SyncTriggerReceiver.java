@@ -16,9 +16,9 @@ public class SyncTriggerReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        
+
         SyncServcie.startSync(context, null);
-        
+
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
@@ -28,10 +28,7 @@ public class SyncTriggerReceiver extends BroadcastReceiver {
         cal.set(Calendar.SECOND, 0);
         LogUtils.i("", "System.currentTimeMillis() = " + System.currentTimeMillis());
         LogUtils.i("", "cal.getTimeInMillis() = " + cal.getTimeInMillis());
-        alarm.set(
-            alarm.RTC_WAKEUP,
-            cal.getTimeInMillis(),
-            PendingIntent.getBroadcast(context, 0, new Intent(Constants.INTENT_ACTION_SYNC_TRIGGER), 0)
+        alarm.set(alarm.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(context, 0, new Intent(Constants.INTENT_ACTION_SYNC_TRIGGER), 0)
         );
     }
 

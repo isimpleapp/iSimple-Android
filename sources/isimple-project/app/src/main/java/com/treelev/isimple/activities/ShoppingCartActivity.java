@@ -4,6 +4,7 @@ package com.treelev.isimple.activities;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,39 +57,35 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         setContentView(R.layout.shopping_cart_layout);
         setCurrentCategory(NAVIGATE_CATEGORY_ID);
         createNavigationMenuBar();
-        
         final ImageView iv = new ImageView(this);
         iv.setOnClickListener(new OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
-                if (drawerLayout.isDrawerOpen(Gravity.LEFT)){
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
                     drawerLayout.closeDrawer(Gravity.LEFT);
                 } else {
                     new Handler().postDelayed(openDrawerRunnable(), 200);
                 }
             }
         });
-        
         iv.setImageResource(R.drawable.ic_menu_pink);
         iv.setBackgroundResource(R.drawable.selector_default);
         iv.setPadding(25, 25, 25, 25);
-        
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//        getSupportActionBar().setDisplayShowHomeEnabled(false);
-//        getSupportActionBar().setCustomView(iv);
-//        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setCustomView(iv);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
         proxyManager = ProxyManager.getInstanse();
         getListView().addFooterView(organizeFooterView());
-        dlgMakeOrder = new OrderDialogFragment(OrderDialogFragment.FILL_CONTACT_DATA_TYPE,
-                getCountry());
+        dlgMakeOrder = new OrderDialogFragment();
+        dlgMakeOrder.setData(OrderDialogFragment.FILL_CONTACT_DATA_TYPE, getCountry());
         shoppingCartPriceTextView = (TextView) findViewById(R.id.shopping_cart_price);
         shoppingCartFooterTextView = (TextView) footerView.findViewById(R.id.footer_view_label);
-//        mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null,
-//                shoppingCartPriceTextView, shoppingCartFooterTextView, mOnChangePrice);
-//        getListView().setAdapter(mListCategoriesAdapter);
-//        new SelectDataShoppingCartTask(this).execute();
+        mListCategoriesAdapter = new ShoppingCartCursorAdapter(this, null,
+                shoppingCartPriceTextView, shoppingCartFooterTextView, mOnChangePrice);
+        getListView().setAdapter(mListCategoriesAdapter);
+        new SelectDataShoppingCartTask(this).execute();
     }
 
     @Override
@@ -123,10 +121,10 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             if (mSendOrders) {
                 Analytics.screen_OrderDone(this);
 
-                OrderDialogFragment dialog = new OrderDialogFragment(
-                        OrderDialogFragment.SUCCESS_TYPE, getCountry());
+                OrderDialogFragment dialog = new OrderDialogFragment();
+                dialog.setData(OrderDialogFragment.SUCCESS_TYPE, getCountry());
                 dialog.setResultCode(mResultCodeSendOrders);
-//                dialog.show(getSupportFragmentManager(), "SUCCESS_TYPE");
+                dialog.show(getFragmentManager(), "SUCCESS_TYPE");
                 updateList();
                 mSendOrders = false;
             }
@@ -154,7 +152,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
         finish();
         overridePendingTransition(R.anim.finish_show_anim, R.anim.finish_back_anim);
     }
-    
+
     private Runnable openDrawerRunnable() {
         return new Runnable() {
 
@@ -167,7 +165,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
 
     protected void createNavigationMenuBar() {
         createDrawableMenu();
-//        getSupportActionBar().setIcon(R.drawable.menu_ico_shopping_cart);
+        getSupportActionBar().setIcon(R.drawable.menu_ico_shopping_cart);
     }
 
     public void clickCatalogButton(View view) {
@@ -184,29 +182,28 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
                 new DeleteDataShoppingCartTask(this).execute();
                 break;
             case R.id.delivery_btn:
-//                org.holoeverywhere.app.AlertDialog.Builder builder = new org.holoeverywhere.app.AlertDialog.Builder(
-//                        this);
-//                builder.setTitle(getString(R.string.delivery_dialog_title));
-//                // builder.setItems(proxyManager.getCountries(), new
-//                // DialogInterface.OnClickListener() {
-//                builder.setItems(countries, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        String country = countries[which];
-//                        putCountryInPref(country);
-//                        TextView shoppingCartFooterTextView = (TextView) footerView
-//                                .findViewById(R.id.footer_view_label);
-//                        int shoppingCartPrice = proxyManager.getShoppingCartPrice();
-//                        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country,
-//                                shoppingCartPrice));
-//                        organizeCreateOrderButton(shoppingCartPrice);
-//                        Button button = (Button) footerView.findViewById(R.id.delivery_btn);
-//                        button.setText(country);
-//                        mPriceSlider.setRegion(PriceSlider.Region.fromString(country.trim()));
-//
-//                    }
-//                });
-//                builder.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.delivery_dialog_title));
+                // builder.setItems(proxyManager.getCountries(), new
+                // DialogInterface.OnClickListener() {
+                builder.setItems(countries, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String country = countries[which];
+                        putCountryInPref(country);
+                        TextView shoppingCartFooterTextView = (TextView) footerView
+                                .findViewById(R.id.footer_view_label);
+                        int shoppingCartPrice = proxyManager.getShoppingCartPrice();
+                        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(country,
+                                shoppingCartPrice));
+                        organizeCreateOrderButton(shoppingCartPrice);
+                        Button button = (Button) footerView.findViewById(R.id.delivery_btn);
+                        button.setText(country);
+                        mPriceSlider.setRegion(PriceSlider.Region.fromString(country.trim()));
+
+                    }
+                });
+                builder.show();
                 break;
             case R.id.btn_where_store:
                 Intent intent = new Intent(this, PickupActivity.class);

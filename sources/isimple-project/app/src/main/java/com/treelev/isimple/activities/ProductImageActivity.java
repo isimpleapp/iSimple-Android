@@ -34,9 +34,7 @@ public class ProductImageActivity extends BaseActivity {
         String sizePrefix = "_xhdpi";
 //        String sizePrefix = metrics.densityDpi == DisplayMetrics.DENSITY_HIGH ? "_hdpi" :
 //                        metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? "_xhdpi" : "";
-        imageLoader.displayImage(
-                String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", mImageFilename.replace('\\', '/'), sizePrefix),
-                imageView, options);
+        imageLoader.displayImage(String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", mImageFilename.replace('\\', '/'), sizePrefix), imageView, options);
     }
 
     private void initImageLoader() {

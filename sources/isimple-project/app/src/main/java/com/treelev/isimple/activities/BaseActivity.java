@@ -194,6 +194,7 @@ public class BaseActivity extends AppCompatActivity implements ActionBar.OnNavig
             case 6:
                 // showCatalogUpdateLink();
                 SyncServcie.startSync(this, this);
+                break;
             case 7:
                 intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + Constants.ISIMPLE_PHONE));

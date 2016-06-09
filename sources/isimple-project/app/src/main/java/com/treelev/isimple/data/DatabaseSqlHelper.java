@@ -3,13 +3,19 @@ package com.treelev.isimple.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Environment;
 import android.provider.BaseColumns;
 import android.util.Log;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 public class DatabaseSqlHelper extends SQLiteOpenHelper {
 
     public final static String DATABASE_NAME = "iSimple.db";
-    public final static int DATABASE_VERSION = 4;
+    public final static int DATABASE_VERSION = 5;
 
     public final static String ITEM_DEPRECATED_TABLE = "item_deprecated";
     public final static String ITEM_TABLE = "item";
@@ -61,9 +67,9 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String ITEM_SHOPPING_CART_COUNT = "item_count";
     public final static String ITEM_LEFT_OVERS = "item_left_overs";
     public final static String ITEM_CREATION_TIMESTAMP = "item_creation_timestamp";
-    
+
     private static DatabaseSqlHelper instanse;
-    
+
     public static DatabaseSqlHelper getInstanse(Context context) {
         if (instanse == null) {
             instanse = new DatabaseSqlHelper(context);
@@ -132,7 +138,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             ITEM_IS_FAVOURITE + " integer, " +
             ITEM_LEFT_OVERS + " integer, " +
             ITEM_CREATION_TIMESTAMP + " integer);";
-    
+
 //    private final static String CREATE_TABLE_ITEM = "create table " + ITEM_TABLE + "( " +
 //            ITEM_ID + " text primary key, " +
 //            ITEM_DRINK_ID + " text, " +
@@ -319,7 +325,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
     public final static String FEATURED_ITEM_CATEGORY_ID = "category_id";
 
     private final static String CREATE_TABLE_FEATURED_ITEM = "create table " + FEATURED_ITEM_TABLE + " ( " +
-            FEATURED_ITEM_BASE_ID + " integer primary key, " + 
+            FEATURED_ITEM_BASE_ID + " integer primary key, " +
             FEATURED_ITEM_ID + " text, " +
             FEATURED_ITEM_CATEGORY_ID + " integer);";
 
@@ -341,7 +347,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             DELIVERY_ADDRESS + " text, " +
             DELIVERY_LONGITUDE + " float, " +
             DELIVERY_LATITUDE + " float);";
-    
+
     public final static String OFFER_TABLE = "offers";
     public final static String OFFER_ID = "_id";
     public final static String OFFER_NAME = "name";
@@ -392,7 +398,7 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-    	Log.i("", "SQLiteDatabase onUpgrade, oldVersion = " + oldVersion + " newVersion = " + newVersion);
+        Log.i("", "SQLiteDatabase onUpgrade, oldVersion = " + oldVersion + " newVersion = " + newVersion);
 //        String dropTableText = "DROP TABLE IF EXISTS %s";
 //        db.execSQL(String.format(dropTableText, FEATURED_ITEM_TABLE));
 //        db.execSQL(String.format(dropTableText, ITEM_AVAILABILITY_TABLE));
@@ -404,18 +410,18 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
 //        db.execSQL(String.format(dropTableText, SHOPPING_CART_ITEM_TABLE));
 //        db.execSQL(String.format(dropTableText, DELIVERY_ITEM_TABLE));
 //        onCreate(db);
-    	
-    	if (oldVersion < 3 && newVersion == 3) {
-    	    migrate0to3(db, oldVersion, newVersion);
-		} else if (oldVersion == 3 && newVersion == 4) {
-		    migrate3to4(db, oldVersion, newVersion);
+
+        if (oldVersion < 3 && newVersion == 3) {
+            migrate0to3(db, oldVersion, newVersion);
+        } else if (oldVersion == 3 && newVersion == 4) {
+            migrate3to4(db, oldVersion, newVersion);
         } else if (oldVersion < 3 && newVersion == 4) {
             migrate0to3(db, oldVersion, newVersion);
             migrate3to4(db, oldVersion, newVersion);
         }
     }
-    
-    
+
+
     private void migrate0to3(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
             db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_OLD_PRICE + " FLOAT");
@@ -425,40 +431,70 @@ public class DatabaseSqlHelper extends SQLiteOpenHelper {
             Log.i("", "Failed db update, oldVersion = " + oldVersion + ", newVeriosn = " + newVersion);
         }
     }
-    
+
     private void migrate3to4(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
             db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_CREATION_TIMESTAMP + " INTEGER");
-            
+
             db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_DISCOUNT + " FLOAT");
             db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_DISCOUNT + " FLOAT");
             db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_DISCOUNT + " FLOAT");
-            
+
             db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD COLUMN " + ITEM_ORIGIN_PRICE + " FLOAT");
             db.execSQL("ALTER TABLE " + FAVOURITE_ITEM_TABLE + " ADD COLUMN " + ITEM_ORIGIN_PRICE + " FLOAT");
             db.execSQL("ALTER TABLE " + SHOPPING_CART_ITEM_TABLE + " ADD COLUMN " + ITEM_ORIGIN_PRICE + " FLOAT");
-            
+
             db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_CREATION_TIMESTAMP + " = " + System.currentTimeMillis());
-            
+
             db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_PRICE);
             db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_OLD_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
             db.execSQL("UPDATE " + ITEM_TABLE + " SET " + ITEM_DISCOUNT + " = " + ITEM_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
-            
+
             db.execSQL("UPDATE " + FAVOURITE_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_PRICE);
             db.execSQL("UPDATE " + FAVOURITE_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_OLD_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
             db.execSQL("UPDATE " + FAVOURITE_ITEM_TABLE + " SET " + ITEM_DISCOUNT + " = " + ITEM_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
-            
+
             db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_PRICE);
             db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_ORIGIN_PRICE + " = " + ITEM_OLD_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
             db.execSQL("UPDATE " + SHOPPING_CART_ITEM_TABLE + " SET " + ITEM_DISCOUNT + " = " + ITEM_PRICE + " WHERE " + ITEM_OLD_PRICE + " IS NOT NULL");
-            
+
             db.execSQL(CREATE_TABLE_OFFER);
             db.execSQL("DROP TABLE IF EXISTS " + FEATURED_ITEM_TABLE);
             db.execSQL(CREATE_TABLE_FEATURED_ITEM);
-            
+
             Log.i("", "Finished db update, oldVersion = " + oldVersion + ", newVeriosn = " + newVersion);
         } catch (Exception e) {
             Log.i("", "Failed db update, oldVersion = " + oldVersion + ", newVeriosn = " + newVersion);
+        }
+    }
+
+
+
+    /**
+     * Copies the database file at the specified location over the current
+     * internal application database.
+     */
+    public void exportDatabse(Context ctx, String databaseName) {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//" + ctx.getPackageName() + "//databases//" + databaseName + "";
+                String backupDBPath = "backup.db";
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

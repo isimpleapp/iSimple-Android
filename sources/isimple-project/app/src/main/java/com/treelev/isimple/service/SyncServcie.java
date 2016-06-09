@@ -15,6 +15,7 @@ import com.parse.ParseFile;
 import com.treelev.isimple.R;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.ChainDAO;
+import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.data.DeliveryZoneDAO;
 import com.treelev.isimple.data.ItemAvailabilityDAO;
 import com.treelev.isimple.data.ItemDAO;
@@ -74,6 +75,7 @@ public class SyncServcie extends Service {
     private static SyncDataTask syncDataTask;
     private static SyncOffersTask syncOffersTask;
     private SyncLogEntity syncLogEntity;
+    private static boolean CREATE_DUMP = false;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -194,7 +196,7 @@ public class SyncServcie extends Service {
                 syncLogEntity.logs.add(new SyncPhaseLog(
                         "Downloading and parsing update urls file - "
                                 + SharedPreferencesManager
-                                        .getUpdateFileUrl()));
+                                .getUpdateFileUrl()));
                 loadFileDataList = webServiceManager.getLoadFileDataMap(SharedPreferencesManager
                         .getUpdateFileUrl());
             } catch (Exception e1) {
@@ -472,7 +474,7 @@ public class SyncServcie extends Service {
                                 LogUtils.i("", "Some items were not found, ids: " + failedIds);
                                 syncLogEntity.logs
                                         .add(new
-                                        SyncPhaseLog("Some items were not found, ids: " + failedIds));
+                                                SyncPhaseLog("Some items were not found, ids: " + failedIds));
                                 successfullyDownloadedItems = successfullyDownloadedItems
                                         - failedItemsIds.length;
                             }
@@ -523,7 +525,7 @@ public class SyncServcie extends Service {
             dailyUpdateDuration = System.currentTimeMillis() - syncStartTimestamp;
             if (!internetConnectionLost
                     && syncStartTimestamp
-                            - SharedPreferencesManager.getLastMonthSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
+                    - SharedPreferencesManager.getLastMonthSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
                 monthSyncPerformed = true;
                 // 12. Update LocationsAndChainsUpdates
                 // 12.1. Download LocationsAndChainsUpdates
@@ -559,7 +561,7 @@ public class SyncServcie extends Service {
                         factory.setNamespaceAware(true);
                         XmlPullParser xmlPullParser = factory.newPullParser();
                         xmlPullParser.setInput(new FileInputStream(
-                                unzippedLocationsAndChainsUpdates),
+                                        unzippedLocationsAndChainsUpdates),
                                 null);
                         locationsAndChainsUpdatesParser.parseXmlToDB(xmlPullParser, chainDAO,
                                 shopDAO);
@@ -592,7 +594,7 @@ public class SyncServcie extends Service {
 
             if (!internetConnectionLost
                     && syncStartTimestamp
-                            - SharedPreferencesManager.getLastMonthSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
+                    - SharedPreferencesManager.getLastMonthSyncTimestamp(context) >= Constants.SYNC_LONG_PERIOD) {
                 monthSyncPerformed = true;
                 // 11. Update ItemAvailability
                 // 11.1. Download ItemAvailability
@@ -920,6 +922,9 @@ public class SyncServcie extends Service {
                     SharedPreferencesManager.setLastMonthSyncTimestamp(context,
                             System.currentTimeMillis());
                 }
+                if (CREATE_DUMP) {
+                    DatabaseSqlHelper.getInstanse(context).exportDatabse(context, "iSimple.db");
+                }
             } else {
 
             }
@@ -1219,7 +1224,7 @@ public class SyncServcie extends Service {
     }
 
     public static void startOffersSyncIfNeeded(Context context,
-            SyncProgressListener progressListener) {
+                                               SyncProgressListener progressListener) {
         LogUtils.i("", "startOffersSyncIfNeeded called");
         int hour = 60 * 60 * 1000;
         if (System.currentTimeMillis() - SharedPreferencesManager.getLastSyncTimestamp(context) >= hour) {

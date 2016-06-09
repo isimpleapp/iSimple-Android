@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.treelev.isimple.R;
+import com.treelev.isimple.activities.ShoppingCartActivity;
 import com.treelev.isimple.app.ISimpleApp;
 import com.treelev.isimple.data.DatabaseSqlHelper;
 import com.treelev.isimple.enumerable.item.DrinkCategory;
@@ -122,25 +123,24 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
     }
 
     private void updatePriceLabel() {
-//        int shoppingCartPrice = proxyManager.getShoppingCartPrice();
-//        String priceStr = String.format(ShoppingCartActivity.PRICE_LABEL_FORMAT, shoppingCartPrice);
-//        shoppingCartPriceTextView.setText(priceStr);
-//        ((ShoppingCartActivity) context).organizeCreateOrderButton(shoppingCartPrice);
-//        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(
-//                ((org.holoeverywhere.app.Activity) context).getPreferences(Context.MODE_PRIVATE).getString(ShoppingCartActivity.COUNTRY_LABEL, ""), shoppingCartPrice));
-//        if(mOnChangePrice != null){
-//            mOnChangePrice.changePrice(shoppingCartPrice);
-//        }
+        int shoppingCartPrice = proxyManager.getShoppingCartPrice();
+        String priceStr = String.format(ShoppingCartActivity.PRICE_LABEL_FORMAT, shoppingCartPrice);
+        shoppingCartPriceTextView.setText(priceStr);
+        ((ShoppingCartActivity) context).organizeCreateOrderButton(shoppingCartPrice);
+        shoppingCartFooterTextView.setText(proxyManager.getDeliveryMessage(((Activity) context).getPreferences(Context.MODE_PRIVATE).getString(ShoppingCartActivity.COUNTRY_LABEL, ""), shoppingCartPrice));
+        if (mOnChangePrice != null) {
+            mOnChangePrice.changePrice(shoppingCartPrice);
+        }
     }
 
     private void increaseItemCount(final View view) {
-        ShopCardItemHolder itemHolder = (ShopCardItemHolder)view.getTag();
+        ShopCardItemHolder itemHolder = (ShopCardItemHolder) view.getTag();
         int newCount = proxyManager.increaseShopCardItemCount(itemHolder.itemID);
         itemHolder.textView.setText(newCount + "");
     }
 
     private void decreaseItemCount(final View view) {
-        ShopCardItemHolder itemHolder = (ShopCardItemHolder)view.getTag();
+        ShopCardItemHolder itemHolder = (ShopCardItemHolder) view.getTag();
         int count = proxyManager.getItemCount(itemHolder.itemID);
         LogUtils.i("", "decreaseItemCount count = " + count);
         int newCount = proxyManager.decreaseShopCardItemCount(itemHolder.itemID);
@@ -151,7 +151,7 @@ public class ShoppingCartCursorAdapter extends SimpleCursorAdapter implements Vi
             if (getCursor().getCount() == 0) {
                 ((Activity) context).findViewById(R.id.content_layout).setVisibility(View.GONE);
                 ((Activity) context).findViewById(R.id.empty_shopping_list_view).setVisibility(View.VISIBLE);
-                ((ISimpleApp)(((Activity) context).getApplication())).setDisactiveCartState();
+                ((ISimpleApp) (((Activity) context).getApplication())).setDisactiveCartState();
             }
         } else {
             itemHolder.textView.setText(newCount + "");

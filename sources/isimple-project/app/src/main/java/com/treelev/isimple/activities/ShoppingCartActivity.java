@@ -343,8 +343,7 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
     private String mCountry;
 
     public void organizeCreateOrderButton(int shoppingCartPrice) {
-        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(
-                COUNTRY_LABEL, ""));
+        int minPrice = proxyManager.getMinPriceByCountry(getPreferences(MODE_PRIVATE).getString(COUNTRY_LABEL, ""));
         Button button = (Button) findViewById(R.id.create_order_btn);
         Button btnStore = (Button) footerView.findViewById(R.id.btn_where_store);
         if (shoppingCartPrice >= minPrice) {
@@ -370,13 +369,11 @@ public class ShoppingCartActivity extends BaseListActivity implements View.OnCli
             ConnectivityManager cm = (ConnectivityManager) this.getSystemService(cs);
             NetworkInfo nInfoMobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
             NetworkInfo nIfoWIFI = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            boolean mobile = nInfoMobile != null ? nInfoMobile.getState() == NetworkInfo.State.CONNECTED
-                    : false;
-            boolean wifi = nIfoWIFI != null ? nIfoWIFI.getState() == NetworkInfo.State.CONNECTED
-                    : false;
+            boolean mobile = nInfoMobile != null ? nInfoMobile.getState() == NetworkInfo.State.CONNECTED : false;
+            boolean wifi = nIfoWIFI != null ? nIfoWIFI.getState() == NetworkInfo.State.CONNECTED : false;
             if (mobile || wifi) {
-//                dlgMakeOrder.setArguments(new Bundle());
-//                dlgMakeOrder.show(getSupportFragmentManager(), "SELECT_TYPE");
+                dlgMakeOrder.setArguments(new Bundle());
+                dlgMakeOrder.show(getFragmentManager(), "SELECT_TYPE");
             } else {
                 Toast.makeText(this, getString(R.string.message_offline), Toast.LENGTH_LONG).show();
             }

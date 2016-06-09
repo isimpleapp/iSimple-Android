@@ -1,6 +1,7 @@
 
 package com.treelev.isimple.fragments;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
@@ -11,6 +12,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
@@ -50,7 +52,6 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
 
     public static final int FILL_CONTACT_DATA_TYPE = 1;
     public static final int SUCCESS_TYPE = 2;
-
     private int mType;
     private String region;
     private String mContactInfo;
@@ -60,7 +61,6 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
     private Button mBtnPositive;
     private Dialog mDialog;
     private int mResultCode;
-
     private boolean isEmailValid;
     private boolean isPhoneValid;
 
@@ -84,7 +84,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
     public void onStart() {
         super.onStart();
         Analytics.screen_OrderInfo(getActivity());
-//        mBtnPositive = ((AlertDialog) (mDialog)).getButton(AlertDialog.BUTTON_POSITIVE);
+        mBtnPositive = ((AlertDialog) (mDialog)).getButton(AlertDialog.BUTTON_POSITIVE);
         if (mBtnPositive != null) {
             mBtnPositive.setEnabled(false);
         }
@@ -214,22 +214,22 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
 
     private Dialog createDialog() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
-//        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
-//        switch (mType) {
-//            case FILL_CONTACT_DATA_TYPE:
-//                adb.setTitle(getString(R.string.title_contact_data_order_dialog));
-//                adb.setView(inflater.inflate(R.layout.dialog_order_contact_data, null));
-//                adb.setPositiveButton(R.string.dialog_order_button_complite, this);
-//                adb.setCancelable(true);
-//                break;
-//            case SUCCESS_TYPE:
-//                adb.setView(inflater.inflate(R.layout.dialog_success_send_orders, null));
-//                break;
-//            default:
-//                adb = null;
-//        }
-//
-//        mDialog = adb.create();
+        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
+        switch (mType) {
+            case FILL_CONTACT_DATA_TYPE:
+                adb.setTitle(getString(R.string.title_contact_data_order_dialog));
+                adb.setView(inflater.inflate(R.layout.dialog_order_contact_data, null));
+                adb.setPositiveButton(R.string.dialog_order_button_complite, this);
+                adb.setCancelable(true);
+                break;
+            case SUCCESS_TYPE:
+                adb.setView(inflater.inflate(R.layout.dialog_success_send_orders, null));
+                break;
+            default:
+                adb = null;
+        }
+
+        mDialog = adb.create();
         return mDialog;
     }
 
@@ -430,8 +430,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
         protected void onPreExecute() {
             super.onPreExecute();
             hideKeyBoard();
-            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title),
-                    mContext.getString(R.string.registration_orders), false, false);
+            mDialog = ProgressDialog.show(mContext, mContext.getString(R.string.dialog_title), mContext.getString(R.string.registration_orders), false, false);
             ((ShoppingCartActivity) mContext).setResultSendOrders(0);
         }
 
@@ -455,7 +454,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
                 OrderDialogFragment dialog = new OrderDialogFragment();
                 dialog.setData(SUCCESS_TYPE, null);
                 dialog.setResultCode(result);
-//                dialog.show(((Activity) mContext).getSupportFragmentManager(), "SUCCESS_TYPE");
+                dialog.show(((Activity) mContext).getFragmentManager(), "SUCCESS_TYPE");
                 ((ShoppingCartActivity) mContext).setResultSendOrders(result);
                 ((ShoppingCartActivity) mContext).updateList();
             }
@@ -471,25 +470,21 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
         private String getQuery(List<Pair<String, String>> params) {
             StringBuilder result = new StringBuilder();
             boolean first = true;
-
             for (Pair<String, String> pair : params) {
                 if (first) {
                     first = false;
                 } else {
                     result.append("&");
                 }
-
                 result.append(pair.first);
                 result.append("=");
                 result.append(pair.second);
             }
-
             return result.toString();
         }
 
         private int postData() {
             int resultCode = 0;
-
             HttpURLConnection urlConnection = null;
             URL downloadUrl;
             try {

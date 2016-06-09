@@ -593,7 +593,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
             PackageInfo pInfo;
             String version = "";
             try {
-                pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+                pInfo = mContext.getPackageManager().getPackageInfo( mContext.getPackageName(), 0);
                 version = pInfo.versionName;
             } catch (NameNotFoundException e) {
                 e.printStackTrace();
@@ -622,7 +622,7 @@ public class OrderDialogFragment extends DialogFragment implements DialogInterfa
                     delivery,
                     region,
                     version,
-                    SharedPreferencesManager.getDatePriceUpdate(getActivity()),
+                    SharedPreferencesManager.getDatePriceUpdate(mContext),
                     ""// TODO add device gcm token
             ));
             List<Order> orders = getProxyManager().getOrders();

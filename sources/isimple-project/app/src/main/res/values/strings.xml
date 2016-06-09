@@ -35,7 +35,7 @@
     <string name="dialog_order_button_complite">Готово</string>
     <string name="dialog_order_button_cancel">Отмена</string>
     <string name="shared_secret">a338b2e5aa433f461398e4d5ccf64e33195dc4f4fc29f23086f8048de677216aaf5e27f868b74b3501605981997bb0620f047c3ecf2508b9bbf1eed12d07de27</string>
-    <string name="url_send_order">https://www.simple.ru/isimple_service/order.php</string>
+    <string name="url_send_order">http://api.simplewine.ru/isimple/add_order.php</string>
     <string name="registration_orders">Регистрация заказа</string>
     <string name="message_success_send_orders"><![CDATA[<br><br>Спасибо за заказ!<br><br>Заказ %1$s отправлен. Наши менеджеры скоро<br/>свяжутся с вами.<br><br>]]></string>
     <string name="message_not_success_send_orders"><![CDATA[<br><br>Извините!<br><br>Сервер перегружен<br>попробуйте позже.<br><br>]]></string>

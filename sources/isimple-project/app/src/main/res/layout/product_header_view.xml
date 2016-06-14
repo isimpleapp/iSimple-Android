@@ -315,18 +315,18 @@
                     android:visibility="invisible"></TextView>
             </RelativeLayout>
 
-            <ImageView
+            <com.treelev.isimple.views.ProportionalImageView
                 android:id="@+id/product_image"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/price_box"
-                android:layout_gravity="center_vertical"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="3dp"
-                android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/list_content"
-                android:adjustViewBounds="false"
+
+                android:scaleType="fitXY"
+
                 android:contentDescription="@string/app_name"
-                android:scaleType="centerCrop"
                 android:src="@drawable/product_default_image" />
 
         </RelativeLayout>

@@ -38,6 +38,7 @@ import com.treelev.isimple.enumerable.item.ProductType;
 import com.treelev.isimple.utils.Utils;
 import com.treelev.isimple.utils.managers.ProxyManager;
 import com.treelev.isimple.utils.observer.ObserverDataChanged;
+import com.treelev.isimple.views.ProportionalImageView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -446,7 +447,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         organizeTextView((TextView) formView.findViewById(R.id.product_year),
                 product.hasYear() ? String.valueOf(product.getYear()) : "");
         if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
-            ImageView mProductImage = (ImageView) formView.findViewById(R.id.product_image);
+            ImageView mProductImage = (ProportionalImageView) formView.findViewById(R.id.product_image);
             DisplayMetrics metrics = getResources().getDisplayMetrics();
             String sizePrefix = null;
             switch (metrics.densityDpi) {
@@ -622,8 +623,13 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         @Override
         public void onLoadingComplete(String s, View view, Bitmap bitmap) {
             mBitMap = bitmap;
+            int viewW = view.getWidth();
+            int viewH = view.getHeight();
+            if (viewH != 0 && viewW != 0) {
+                double coef = (double) viewH / bitmap.getHeight();
+                view.setMinimumWidth((int) (bitmap.getWidth() * coef));
+            }
         }
-
     };
 
 }

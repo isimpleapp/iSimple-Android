@@ -41,3 +41,5 @@ build-number.txt
 
 /settings.gradle
 
+sources/isimple-project/assets/crashlytics-build.properties
+sources/isimple-project/res/values/com_crashlytics_export_strings.xml

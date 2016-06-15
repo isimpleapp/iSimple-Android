@@ -419,8 +419,7 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         }
 
         ((TextView) formView.findViewById(R.id.product_item_id)).setText(product.getItemID());
-        organizeTextView((TextView) formView.findViewById(R.id.product_region),
-                !product.getRegion().equals("-") ? product.getRegion() : "");
+        organizeTextView((TextView) formView.findViewById(R.id.product_region), !product.getRegion().equals("-") ? product.getRegion() : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_sweetness), !product.getSweetness()
                 .getDescription().isEmpty() ? product.getSweetness().getDescription() : "");
         organizeTextView((TextView) formView.findViewById(R.id.product_style), product.getStyle());
@@ -444,57 +443,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             }
             organizeTextView((TextView) formView.findViewById(R.id.product_volume), volumeLabel);
         }
-        organizeTextView((TextView) formView.findViewById(R.id.product_year),
-                product.hasYear() ? String.valueOf(product.getYear()) : "");
-        if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
-            ImageView mProductImage = (ProportionalImageView) formView.findViewById(R.id.product_image);
-            DisplayMetrics metrics = getResources().getDisplayMetrics();
-            String sizePrefix = null;
-            switch (metrics.densityDpi) {
-                case DisplayMetrics.DENSITY_MEDIUM: {
-                    sizePrefix = "_mdpi";
-                    break;
-                }
-                case DisplayMetrics.DENSITY_HIGH: {
-                    sizePrefix = "_hdpi";
-                    break;
-                }
-                case DisplayMetrics.DENSITY_XHIGH: {
-                    sizePrefix = "_xhdpi";
-                    break;
-                }
-                case DisplayMetrics.DENSITY_XXHIGH: {
-                    sizePrefix = "_xxhdpi";
-                    break;
-                }
-                case DisplayMetrics.DENSITY_XXXHIGH: {
-                    sizePrefix = "_xxhdpi";
-                    break;
-                }
-                default: {
-                    sizePrefix = "";
-                    break;
-                }
-            }
-            imageLoader.displayImage(String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg", product
-                            .getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix), mProductImage, options,
-                    mImageLoadingListener);
-            mProductImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent imageIntent = new Intent(ProductInfoActivity.this, ProductImageActivity.class);
-                    imageIntent.putExtra(ProductImageActivity.HI_RESOLUTION_IMAGE_FILE_NAME,
-                            product.getBottleHiResolutionImageFilename());
-                    startActivity(imageIntent);
-                    overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
-                }
-            });
-        }
+        organizeTextView((TextView) formView.findViewById(R.id.product_year), product.hasYear() ? String.valueOf(product.getYear()) : "");
+
         String strPriceLabel = takeRetailPrice(product) != null ? takeRetailPrice(product).toString() : "";
         TextView retailPrice = (TextView) formView.findViewById(R.id.retail_price);
         if (!TextUtils.isEmpty(strPriceLabel)) {
-            retailPrice.setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price,
-                    strPriceLabel)));
+            retailPrice.setText(Utils.organizePriceLabel(getResources().getString(R.string.text_for_retail_price, strPriceLabel)));
         } else {
             retailPrice.setText(strPriceLabel);
         }
@@ -512,6 +466,74 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
             retailPrice.setVisibility(View.VISIBLE);
         } else {
             retailPrice.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(product.getBottleHiResolutionImageFilename())) {
+            ImageView mProductImage = (ProportionalImageView) formView.findViewById(R.id.product_image);
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+            String sizePrefix = null;
+//            Toast.makeText(this, "dpi:" + metrics.densityDpi, Toast.LENGTH_LONG).show();
+            switch (metrics.densityDpi) {
+                case DisplayMetrics.DENSITY_MEDIUM: {
+                    sizePrefix = "_mdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_TV: {
+                    sizePrefix = "_mdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_HIGH: {
+                    sizePrefix = "_hdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_280: {
+                    sizePrefix = "_hdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_XHIGH: {
+                    sizePrefix = "_xhdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_360: {
+                    sizePrefix = "_xhdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_400: {
+                    sizePrefix = "_xhdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_420: {
+                    sizePrefix = "_xhdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_XXHIGH: {
+                    sizePrefix = "_xxhdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_560: {
+                    sizePrefix = "_xxhdpi";
+                    break;
+                }
+                case DisplayMetrics.DENSITY_XXXHIGH: {
+                    sizePrefix = "_xxhdpi";
+                    break;
+                }
+                default: {
+                    sizePrefix = "_hdpi";
+                    break;
+                }
+            }
+            imageLoader.displayImage(String.format("http://s1.isimpleapp.ru/img/ver0/%1$s%2$s_product.jpg",
+                    product.getBottleHiResolutionImageFilename().replace('\\', '/'), sizePrefix), mProductImage, options, mImageLoadingListener);
+            mProductImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent imageIntent = new Intent(ProductInfoActivity.this, ProductImageActivity.class);
+                    imageIntent.putExtra(ProductImageActivity.HI_RESOLUTION_IMAGE_FILE_NAME, product.getBottleHiResolutionImageFilename());
+                    startActivity(imageIntent);
+                    overridePendingTransition(R.anim.start_show_anim, R.anim.start_back_anim);
+                }
+            });
         }
     }
 
@@ -623,12 +645,12 @@ public class ProductInfoActivity extends BaseExpandableListActivity {
         @Override
         public void onLoadingComplete(String s, View view, Bitmap bitmap) {
             mBitMap = bitmap;
-            int viewW = view.getWidth();
-            int viewH = view.getHeight();
-            if (viewH != 0 && viewW != 0) {
-                double coef = (double) viewH / bitmap.getHeight();
-                view.setMinimumWidth((int) (bitmap.getWidth() * coef));
-            }
+//            int viewW = view.getWidth();
+//            int viewH = view.getHeight();
+//            if (viewH != 0 && viewW != 0) {
+//                double coef = (double) viewH / bitmap.getHeight();
+//                view.setMinimumWidth((int) (bitmap.getWidth() * coef));
+//            }
         }
     };
 

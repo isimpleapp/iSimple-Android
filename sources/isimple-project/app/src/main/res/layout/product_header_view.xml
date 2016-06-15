@@ -323,10 +323,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="3dp"
                 android:layout_toRightOf="@id/list_content"
-
-                android:scaleType="fitXY"
-
                 android:contentDescription="@string/app_name"
+
+                android:scaleType="matrix"
                 android:src="@drawable/product_default_image" />
 
         </RelativeLayout>

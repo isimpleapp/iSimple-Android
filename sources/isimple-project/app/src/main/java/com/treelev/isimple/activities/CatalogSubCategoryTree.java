@@ -40,6 +40,7 @@ public class CatalogSubCategoryTree extends BaseExpandableListActivity implement
         mQuery = getIntent().getStringExtra(SearchResultActivity.SEARCH_QUERY);
         mTreeAdapter = new CatalogSubCategoryItemTreeCursorAdapter(this, null, getSupportLoaderManager(), mDrinkID, mFilterWhereClause, mLocationId, mQuery, mSortBy);
         getExpandableListView().setAdapter(mTreeAdapter);
+        getExpandableListView().setOnChildClickListener(this);
         disableOnGroupClick();
         getSupportLoaderManager().restartLoader(0, null, this);
     }
